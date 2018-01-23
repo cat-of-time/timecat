@@ -25,10 +25,11 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.KeepAliveActivity;
+import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.copy.CopyActivity;
 import com.time.cat.component.activity.copy.CopyNode;
 import com.time.cat.component.activity.setting.SettingActivity;
@@ -40,7 +41,6 @@ import com.time.cat.util.LogUtil;
 import com.time.cat.util.RunningTaskUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -121,18 +121,18 @@ public class TimeCatMonitorService extends AccessibilityService {
                 readFloatWhiteList();
             } else if (intent.getAction().equals(ConstantUtil.UNIVERSAL_COPY_BROADCAST)) {
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        UniversalCopy();
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    UniversalCopy();
+                }
 
             } else if (intent.getAction().equals(ConstantUtil.UNIVERSAL_COPY_BROADCAST_DELAY)) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                UniversalCopy();
-                            }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            UniversalCopy();
+                        }
 
                     }
                 }, 500);

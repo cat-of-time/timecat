@@ -20,21 +20,21 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.shang.commonjar.contentProvider.SPHelper;
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.base.baseCard.DividerItemDecoration;
-import com.time.cat.util.cropper.CropFileUtils;
-import com.time.cat.util.cropper.CropHelper;
-import com.time.cat.util.cropper.handler.CropImage;
-import com.time.cat.util.cropper.handler.CropImageView;
 import com.time.cat.util.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.IOUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
+import com.time.cat.util.cropper.CropFileUtils;
+import com.time.cat.util.cropper.CropHelper;
+import com.time.cat.util.cropper.handler.CropImage;
+import com.time.cat.util.cropper.handler.CropImageView;
 
 import java.io.File;
 
@@ -218,7 +218,7 @@ public class SettingFloatViewActivity extends BaseActivity {
 
         int padding = (int) SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE, 100.0f);
         alpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#ffffa5"));
         boolean isStick = SPHelper.getBoolean(ConstantUtil.FLOATVIEW_IS_STICK, false);
 
         isStickView.setChecked(isStick);
@@ -244,7 +244,6 @@ public class SettingFloatViewActivity extends BaseActivity {
 
     private void applyColor(int color) {
     }
-
 
     private void applyColor(int color, int alpha) {
     }

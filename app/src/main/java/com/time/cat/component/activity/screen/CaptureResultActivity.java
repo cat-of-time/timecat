@@ -22,9 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.microsoft.projectoxford.vision.contract.OCR;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.DiyOcrKeyActivity;
+import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.WebActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.model.entity.ImageUpload;
@@ -37,8 +39,6 @@ import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
 import com.time.cat.view.DialogFragment;
 import com.time.cat.view.SimpleDialog;
-import com.microsoft.projectoxford.vision.contract.OCR;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,7 +49,6 @@ import java.util.Date;
 /**
  * Created by penglu on 2016/10/27.
  */
-
 public class CaptureResultActivity extends BaseActivity {
     public static final String HTTP_IMAGE_BAIDU_COM = "http://image.baidu.com/wiseshitu?rn=30&appid=0&tag=1&isMobile=1&";
     int alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
