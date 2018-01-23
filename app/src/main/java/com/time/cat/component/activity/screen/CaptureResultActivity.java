@@ -39,7 +39,6 @@ import com.time.cat.view.DialogFragment;
 import com.time.cat.view.SimpleDialog;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.shang.commonjar.contentProvider.SPHelper;
-import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -87,7 +86,6 @@ public class CaptureResultActivity extends BaseActivity {
     }
 
     private void init() {
-        OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
 
@@ -364,7 +362,6 @@ public class CaptureResultActivity extends BaseActivity {
     /**
      * 分享功能
      *
-     * @param context       上下文
      * @param activityTitle Activity的名字
      * @param msgTitle      消息标题
      * @param msgText       消息内容
@@ -374,7 +371,8 @@ public class CaptureResultActivity extends BaseActivity {
                          String imgPath) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         if (imgPath == null || imgPath.equals("")) {
-            intent.setType("text/plain"); // 纯文本
+            intent.setType("text/plain");
+            // 纯文本
         } else {
             File f = new File(imgPath);
             if (f != null && f.exists() && f.isFile()) {
@@ -391,12 +389,7 @@ public class CaptureResultActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-//        if (timeCatLayoutWrapper.getVisibility() == View.GONE) {
-//            timeCatLayoutWrapper.setVisibility(View.VISIBLE);
-//            transRl.setVisibility(View.GONE);
-//        } else {
         super.onBackPressed();
-//        }
     }
 
 }

@@ -19,11 +19,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.model.network.RetrofitHelper;
-import com.time.cat.util.onestep.AppsAdapter;
-import com.time.cat.util.onestep.ResolveInfoWrap;
 import com.time.cat.util.ClipboardUtils;
 import com.time.cat.util.ColorUtil;
 import com.time.cat.util.ConstantUtil;
@@ -34,10 +33,10 @@ import com.time.cat.util.SharedIntentHelper;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
+import com.time.cat.util.onestep.AppsAdapter;
+import com.time.cat.util.onestep.ResolveInfoWrap;
 import com.time.cat.view.TimeCatLayout;
 import com.time.cat.view.TimeCatLayoutWrapper;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yanzhenjie.recyclerview.swipe.touch.OnItemMoveListener;
 
@@ -96,8 +95,9 @@ public class TimeCatActivity extends BaseActivity {
                     isUrl = false;
                 } else {
                     uri = Uri.parse(text);
-                    if (!text.startsWith("http"))
+                    if (!text.startsWith("http")) {
                         text = "http://" + text;
+                    }
                     isUrl = true;
                 }
 
@@ -164,14 +164,14 @@ public class TimeCatActivity extends BaseActivity {
 
         @Override
         public void onTrans(String text) {
-            if (mAppsRecyclerView != null)
+            if (mAppsRecyclerView != null) {
                 mAppsRecyclerViewLL.setVisibility(View.GONE);
+            }
             if (TextUtils.isEmpty(text)) {
                 text = originString;
             }
             UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_TRANSLATE);
 
-//                loading.show();
             if (transRl == null) {
                 ViewStub viewStub = (ViewStub) findViewById(R.id.trans_view_stub);
                 viewStub.inflate();
@@ -235,7 +235,6 @@ public class TimeCatActivity extends BaseActivity {
     }
 
     private void init() {
-        OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         boolean fullScreen = SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN, false);
         boolean stickHeader = SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER, false);
         alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);

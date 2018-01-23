@@ -12,7 +12,6 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.util.concurrent.TimeUnit;
 
@@ -56,7 +55,6 @@ public class SplashActivity extends BaseActivity {
         }
 
         setContentView(R.layout.activity_splash);
-        OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         setUpSplash();
     }
 
@@ -68,10 +66,11 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public Observable<String> call(Long aLong) {
                         boolean isShowIntro = SPHelper.getBoolean(KEY, false);
-                        if (isShowIntro)
+                        if (isShowIntro) {
                             return Observable.just(GOTO_HOME);
-                        else
+                        } else {
                             return Observable.just(GOTO_INTRO);
+                        }
                     }
                 })
                 .subscribe(s -> {
