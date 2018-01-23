@@ -18,7 +18,7 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.time.cat.component.activity.setting.SettingActivity">
 
-        <com.time.cat.view.ColorTextView
+        <com.time.cat.mvp.view.ColorTextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
@@ -28,7 +28,7 @@
             android:textSize="@dimen/text_size_huge"
             android:layout_height="wrap_content" />
 
-        <com.time.cat.view.ColorTextView
+        <com.time.cat.mvp.view.ColorTextView
             android:id="@+id/control_setting_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_normal" />
 
-        <com.time.cat.view.ColorTextView
+        <com.time.cat.mvp.view.ColorTextView
             android:id="@+id/introduction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

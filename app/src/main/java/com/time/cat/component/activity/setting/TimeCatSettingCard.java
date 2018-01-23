@@ -13,7 +13,7 @@ import com.time.cat.component.activity.searchengine.SearchEngineActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.view.HintTextView;
+import com.time.cat.mvp.view.HintTextView;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 /**

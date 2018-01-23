@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
-import com.time.cat.view.KeyRelativeLayout;
+import com.time.cat.mvp.view.KeyRelativeLayout;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 

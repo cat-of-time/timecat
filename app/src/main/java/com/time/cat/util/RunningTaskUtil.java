@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.view.Dialog;
-import com.time.cat.view.DialogFragment;
-import com.time.cat.view.SimpleDialog;
+import com.time.cat.mvp.view.Dialog;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;

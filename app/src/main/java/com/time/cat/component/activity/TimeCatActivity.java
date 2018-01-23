@@ -35,8 +35,8 @@ import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
 import com.time.cat.util.onestep.AppsAdapter;
 import com.time.cat.util.onestep.ResolveInfoWrap;
-import com.time.cat.view.TimeCatLayout;
-import com.time.cat.view.TimeCatLayoutWrapper;
+import com.time.cat.mvp.view.TimeCatLayout;
+import com.time.cat.mvp.view.TimeCatLayoutWrapper;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yanzhenjie.recyclerview.swipe.touch.OnItemMoveListener;
 

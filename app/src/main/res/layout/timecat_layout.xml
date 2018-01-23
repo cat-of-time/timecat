@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.time.cat.view.TimeCatHeader
+    <com.time.cat.mvp.view.TimeCatHeader
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_alignParentTop="true"
@@ -28,7 +28,7 @@
             android:clipToPadding="false"
             android:layout_height="match_parent">
 
-            <com.time.cat.view.TimeCatLayout
+            <com.time.cat.mvp.view.TimeCatLayout
                 android:id="@+id/timecat"
                 android:padding="10dp"
                 app:textSize="@dimen/text_size_tiny"
@@ -41,7 +41,7 @@
 
     </ScrollView>
 
-    <com.time.cat.view.TimeCatBottom
+    <com.time.cat.mvp.view.TimeCatBottom
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"

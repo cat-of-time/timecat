@@ -31,7 +31,7 @@
         android:duplicateParentState="false">
 
 
-        <com.time.cat.view.HintTextView
+        <com.time.cat.mvp.view.HintTextView
             android:id="@+id/show_float_view_tv"
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/show_float_view_request"
@@ -70,7 +70,7 @@
         style="@style/hintTextViewRelativeLayoutSelector"
         android:duplicateParentState="false">
 
-        <com.time.cat.view.HintTextView
+        <com.time.cat.mvp.view.HintTextView
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/setting_float_intro"
             app:msg="@string/setting_floatview" />
@@ -88,7 +88,7 @@
         android:duplicateParentState="false">
 
 
-        <com.time.cat.view.HintTextView
+        <com.time.cat.mvp.view.HintTextView
             android:id="@+id/show_notify_tv"
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/show_notify_request"
@@ -111,7 +111,7 @@
         android:duplicateParentState="false">
 
 
-        <com.time.cat.view.HintTextView
+        <com.time.cat.mvp.view.HintTextView
             android:id="@+id/long_press_tv"
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/long_press_request"

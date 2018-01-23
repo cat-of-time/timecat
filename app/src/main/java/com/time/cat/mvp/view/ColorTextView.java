@@ -1,4 +1,4 @@
-package com.time.cat.view;
+package com.time.cat.mvp.view;
 
 import android.content.Context;
 import android.content.res.Resources;

@@ -37,8 +37,8 @@ import com.time.cat.util.OcrAnalsyser;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.time.cat.view.DialogFragment;
-import com.time.cat.view.SimpleDialog;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;

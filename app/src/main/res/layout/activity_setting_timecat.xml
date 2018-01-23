@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.time.cat.view.TimeCatLayoutWrapper
+            <com.time.cat.mvp.view.TimeCatLayoutWrapper
                 android:id="@+id/timecat_wrap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

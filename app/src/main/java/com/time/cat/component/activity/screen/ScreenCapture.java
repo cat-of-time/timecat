@@ -29,7 +29,7 @@ import com.time.cat.R;
 import com.time.cat.util.LogUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.ViewUtil;
-import com.time.cat.view.MarkSizeView;
+import com.time.cat.mvp.view.MarkSizeView;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -23,9 +23,9 @@ import com.time.cat.util.IOUtil;
 import com.time.cat.util.LogUtil;
 import com.time.cat.util.NativeHelper;
 import com.time.cat.util.ToastUtil;
-import com.time.cat.view.Dialog;
-import com.time.cat.view.DialogFragment;
-import com.time.cat.view.SimpleDialog;
+import com.time.cat.mvp.view.Dialog;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.ByteArrayInputStream;

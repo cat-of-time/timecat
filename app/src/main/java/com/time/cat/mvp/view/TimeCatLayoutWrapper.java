@@ -1,4 +1,4 @@
-package com.time.cat.view;
+package com.time.cat.mvp.view;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

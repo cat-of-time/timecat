@@ -1,4 +1,4 @@
-package com.time.cat.view;
+package com.time.cat.mvp.view;
 
 /**
  * Created by wangyan-pd on 2016/12/11.

@@ -160,7 +160,7 @@ public static final int *;
 -keep class com.shang.* { *; }
 -keep class com.shang.** { *; }
 
--keep class com.time.cat.view.TimeCatHeader$BoundWrapper{*;}
+-keep class com.time.cat.mvp.view.TimeCatHeader$BoundWrapper{*;}
 
 
 

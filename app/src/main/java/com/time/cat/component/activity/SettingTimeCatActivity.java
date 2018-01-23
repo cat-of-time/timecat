@@ -28,8 +28,8 @@ import com.time.cat.component.base.baseCard.DividerItemDecoration;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.time.cat.view.TimeCatLayout;
-import com.time.cat.view.TimeCatLayoutWrapper;
+import com.time.cat.mvp.view.TimeCatLayout;
+import com.time.cat.mvp.view.TimeCatLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 

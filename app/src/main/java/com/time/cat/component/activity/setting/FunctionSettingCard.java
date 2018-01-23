@@ -21,9 +21,9 @@ import com.time.cat.component.service.ListenClipboardService;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.view.DialogFragment;
-import com.time.cat.view.HintTextView;
-import com.time.cat.view.SimpleDialog;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.HintTextView;
+import com.time.cat.mvp.view.SimpleDialog;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;

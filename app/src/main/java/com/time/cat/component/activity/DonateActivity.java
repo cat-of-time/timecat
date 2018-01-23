@@ -10,13 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.CountLinkMovementMethod;
 import com.time.cat.util.IOUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.shang.utils.StatusBarCompat;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,6 @@ import java.io.InputStream;
 /**
  * Created by wangyan-pd on 2016/11/19.
  */
-
 public class DonateActivity extends BaseActivity {
     private static final String SAVE_PIC_PATH = Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED) ? Environment.getExternalStorageDirectory().getAbsolutePath() : "/mnt/sdcard";//保存到SD卡
     private static final String SAVE_REAL_PATH = SAVE_PIC_PATH + "/Pictures";//保存的确切位置

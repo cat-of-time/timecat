@@ -17,9 +17,9 @@ import com.time.cat.component.activity.DonateActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.util.CountLinkMovementMethod;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.view.Dialog;
-import com.time.cat.view.DialogFragment;
-import com.time.cat.view.SimpleDialog;
+import com.time.cat.mvp.view.Dialog;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
 
 /**
  * Created by penglu on 2015/11/23.

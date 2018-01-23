@@ -21,8 +21,8 @@ import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.ClipboardUtils;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.ToastUtil;
-import com.time.cat.view.TimeCatLayoutWrapper;
-import com.time.cat.view.GuideView;
+import com.time.cat.mvp.view.TimeCatLayoutWrapper;
+import com.time.cat.mvp.view.GuideView;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.UnsupportedEncodingException;

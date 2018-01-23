@@ -31,8 +31,8 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.SettingFloatViewActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
-import com.time.cat.view.ArcMenu;
-import com.time.cat.view.PathMenu;
+import com.time.cat.mvp.view.ArcMenu;
+import com.time.cat.mvp.view.PathMenu;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.File;
