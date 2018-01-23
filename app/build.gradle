@@ -1,0 +1,157 @@
+apply plugin: 'com.android.application'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+    }
+}
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+def keystoreFilepath = ''
+def keystorePSW = ''
+def keystoreAlias = ''
+def keystoreAliasPSW = ''
+// default keystore file, PLZ config file path in local.properties
+def keyfile = file('C:/Users/dlink/Application/key/dlinking.jks')
+
+Properties properties = new Properties()
+// local.properties file in the root director
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+keystoreFilepath = properties.getProperty("keystore.path")
+
+if (keystoreFilepath) {
+    keystorePSW = properties.getProperty("keystore.password")
+    keystoreAlias = properties.getProperty("keystore.alias")
+    keystoreAliasPSW = properties.getProperty("keystore.alias_password")
+    keyfile = file(keystoreFilepath)
+}
+
+android {
+    signingConfigs {
+        config {
+            storeFile keyfile
+            storePassword keystorePSW
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPSW
+            println("====== signingConfigs.debug ======")
+        }
+    }
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    defaultConfig {
+        applicationId "com.time.cat"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 31
+        versionName "2.6.5"
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.config
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def apkName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${releaseTime()}"
+                    outputFileName = apkName
+                }
+            }
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
+        }
+    }
+    // Specifies two flavor dimensions.
+    flavorDimensions "mode"
+    // 友盟多渠道打包
+    productFlavors {
+        for_test {
+            dimension "mode"
+        }
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    sourceSets{
+        for_test{
+            java.srcDirs += ['src/Normal/java']
+        }
+        xposed{
+            resources.srcDirs += ['src/xposed/res']
+            res.srcDirs += ['src/xposed/res']
+            java.srcDirs += ['src/xposed/java']
+        }
+        coolapk{
+            resources.srcDirs += ['src/coolapk/res']
+            res.srcDirs += ['src/coolapk/res']
+            java.srcDirs += ['src/Normal/java']
+        }
+    }
+}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:cardview-v7:25.4.0'
+    compile 'com.android.support:recyclerview-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.3'
+    //Okhttp3
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    //Retrofit2
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //RxLifecycle
+    compile 'com.trello:rxlifecycle-components:0.6.1'
+    //tabLayout
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    compile files('libs/AndroidScreenCap.jar')
+    compile project(':lib')
+    compile project(':commonjar')
+    compile project(':colorpicker')
+    compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
+    compile files('libs/securityguard-3.1.27.jar')
+    compile files('libs/utdid4all-1.0.4.jar')
+}

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.time.cat">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+                     tools:ignore="ProtectedPermissions"/>
+
+    <application
+        android:name="com.time.cat.TimeCatApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
+        <activity
+            android:name="com.qihoo.updatesdk.lib.UpdateTipDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <service
+            android:name="com.qihoo.appstore.updatelib.CheckUpdateService"
+            android:exported="false"/>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a669093a40fa335210000fe"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}"/>
+
+        <activity
+            android:name="com.time.cat.component.activity.setting.SettingActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.time.cat.component.activity.PreSettingActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/PreSettingTheme"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name="com.time.cat.test.TestActivity">
+
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.time.cat.component.activity.screen.CaptureResultActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:process=":monitor"
+            android:theme="@style/TimeCatTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.TimeCatActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/TimeCatTheme">
+
+            <!-- android:autoRemoveFromRecents="true" -->
+            <!-- android:excludeFromRecents="true" -->
+            <!-- android:noHistory="true" -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.time.cat.component.activity.copy.CopyActivity"
+            android:autoRemoveFromRecents="true"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:process=":monitor"
+            android:theme="@style/OverlayTheme"/>
+        <service
+            android:name="com.time.cat.component.service.TimeCatMonitorService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:process=":monitor">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility"/>
+        </service>
+        <service
+            android:name="com.time.cat.component.service.ListenClipboardService"
+            android:process=":monitor"/>
+        <service
+            android:name="com.time.cat.component.service.ListenClipboardService$GrayInnerService"
+            android:process=":monitor"/>
+        <service
+            android:name="com.time.cat.component.service.ListenClipboardService"
+            android:process=":monitor"/>
+        <service
+            android:name="com.time.cat.component.service.JobService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":monitor"/>
+        <service
+            android:name="com.time.cat.component.service.GetAwayNotificationListenerService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:process=":monitor">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="com.time.cat.component.activity.SplashActivity"
+            android:theme="@style/ColorTranslucentTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="notify_universal_copy_broadcast"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.time.cat.component.activity.IntroActivity"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/ColorTranslucentTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.OcrActivity"
+            android:theme="@style/BaseAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="application/*"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="multipart/*"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.time.cat.component.activity.MainActivity"
+            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.SettingTimeCatActivity"
+            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.SettingFloatViewActivity"
+            android:process=":monitor"
+            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.searchengine.SearchEngineActivity"
+            android:theme="@style/SearchEngineAppTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.WebActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/WebActivityTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.whitelist.WhiteListActivity"
+            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.floatviewwhitelist.FloatViewWhiteListActivity"
+            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.screen.ScreenCaptureActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:process=":monitor"
+            android:theme="@style/ScreenCaptureTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.DonateActivity"
+            android:theme="@style/BaseAppTheme"/>
+
+        <receiver android:name="com.time.cat.component.WakeUpBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.shang.timecat.wake"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.time.cat.component.activity.DiyOcrKeyActivity"
+            android:theme="@style/DiyOcrKeyAppTheme"/>
+        <activity
+            android:name=".util.cropper.handler.CropImageActivity"
+            android:theme="@style/BaseAppTheme"/>
+
+        <service
+            android:name="com.time.cat.component.service.voiceInteraction.BBVoiceInteractionService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION"
+            android:process=":monitor">
+            <meta-data
+                android:name="android.voice_interaction"
+                android:resource="@xml/assist_service"/>
+
+            <intent-filter>
+                <action android:name="android.service.voice.VoiceInteractionService"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.time.cat.component.service.voiceInteraction.BBVoiceInteractionSessionService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION"
+            android:process=":monitor"/>
+
+        <activity
+            android:name="com.time.cat.component.activity.howtouse.HowToUseActivity"
+            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.share.ShareAppManagerActivity"
+            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.FeedbackActivity"
+            android:theme="@style/BaseAppTheme"/>
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity
+            android:name="com.time.cat.component.activity.UniversalCopyActivity"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:theme="@style/ScreenCaptureTheme"/>
+        <activity
+            android:name="com.time.cat.component.activity.TotalSwitchActivity"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:theme="@style/ScreenCaptureTheme"/>
+
+        <service
+            android:name=".util.quicksetting.GlobalCopyTile"
+            android:icon="@drawable/notify_copy"
+            android:label="@string/notify_copy_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".util.quicksetting.ScreenCaptureTile"
+            android:icon="@drawable/notify_screen"
+            android:label="@string/notify_srceen_cap"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".util.quicksetting.TotleSwitchTile"
+            android:icon="@drawable/notify_on"
+            android:label="@string/notify_total_switch_on"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
+
+        <activity
+            android:name="com.time.cat.component.activity.KeepAliveActivity"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:process=":monitor"
+            android:theme="@style/KeepAliveActivtyTheme"/>
+    </application>
+
+</manifest>

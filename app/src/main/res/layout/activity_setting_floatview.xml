@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:subtitleTextColor="@color/white"
+        app:title="@string/title_white_list"
+        app:titleTextColor="@color/white" />
+
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="false"
+        android:clipChildren="false">
+
+        <LinearLayout
+            android:id="@+id/activity_intro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/del_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_double"
+                android:background="@drawable/button_white_stroke_green"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_timecat_activity_text_height"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:text="@string/del_floatview_image"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/select_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_double"
+                android:background="@drawable/button_white_stroke_green"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_timecat_activity_text_height"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:text="@string/set_floatview_image"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_double"
+                android:background="@drawable/button_white_stroke_green"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_timecat_activity_line_height"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:text="@string/set_floatview_background"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/timecat_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_double"
+                android:background="@drawable/button_white_stroke_green"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timecat_alpha"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_timecat_activity_text_height"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:id="@+id/set_timecat_alpha"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_timecat_activity_line_height"
+                    android:max="100"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:paddingRight="@dimen/margin_double" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_double"
+                android:background="@drawable/button_white_stroke_green"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_timecat_activity_text_height"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:id="@+id/set_item_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_timecat_activity_line_height"
+                    android:max="100"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:paddingRight="@dimen/margin_double" />
+
+            </LinearLayout>
+
+
+
+            <android.support.v7.widget.AppCompatCheckBox
+                app:theme="@style/CheckBoxTheme"
+                android:id="@+id/is_stick_view"
+                android:layout_width="match_parent"
+                android:gravity="left|center_vertical"
+                android:layout_height="@dimen/setting_timecat_activity_line_height"
+                android:layout_marginLeft="@dimen/margin_double"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/secondary_text"
+                android:text="@string/is_stick_view"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

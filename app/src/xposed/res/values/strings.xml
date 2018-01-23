@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">时光猫</string>
+    <string name="open_access_hint">使用全局复制，需要开启辅助服务</string>
+    <string name="ali_feedback_key">23589273</string>
+</resources>

@@ -1,0 +1,256 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!--按钮选中或者点击获得焦点后的颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--控制searchView的icon颜色的设置-->
+        <!--<item name="colorControlNormal">@color/colorControlNormal</item>-->
+        <item name="colorControlNormal">@color/white</item>
+        <!--Button按钮正常状态颜色-->
+        <item name="colorButtonNormal">@color/accent_material_light</item>
+        <!--EditText 输入框中字体的颜色-->
+        <item name="editTextColor">@android:color/white</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--导航栏上的标题颜色-->
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <item name="android:listDivider">@drawable/card_list_divider</item>
+        <item name="textAppearanceLargePopupMenu">@style/PopUpMenuStyle</item>
+        <item name="textAppearanceSmallPopupMenu">@style/PopUpMenuStyle</item>
+        <item name="android:spinnerItemStyle">@style/MonthDropTheme</item>
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+
+    <style name="PopUpMenuStyle" parent="@style/Base.TextAppearance.AppCompat.Menu">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme" parent="@style/AppBaseTheme" />
+
+
+    <style name="OverlayTheme" parent="@style/AppBaseTheme" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="SearchEngineAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+
+    <style name="DiyOcrKeyAppTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <!-- 启动页 引导页设置StatusBar为透明色 -->
+    <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme" />
+
+    <style name="PreSettingTheme" parent="@style/ColorTranslucentTheme">
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+
+    <style name="TimeCatTheme" parent="Theme.AppCompat.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@style/fade</item>
+
+        <item name="android:windowBackground">@drawable/timecat_activity_window_bg</item>
+        <item name="listPreferredItemPaddingLeft">0dp</item>
+        <item name="listPreferredItemPaddingRight">0dp</item>
+    </style>
+    <style name="ScreenCaptureTheme" parent="OverlayTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="WebActivityTheme" parent="TimeCatTheme">
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="KeepAliveActivtyTheme" parent="TimeCatTheme">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- 淡入淡出动画 -->
+    <!-- 第一个表示新的activity创建进入效果， 第2个表示activity还没有finish()下退出效果， 第3个表示上一个activity返回进入效果，
+    第4个表示的是activity finish()之后退出效果 比如有两个activity A和B, A上面有个按钮可以打开
+    B, 点击按钮后，此时A执行第二个动画（android:activityOpenExitAnimation） B执行第一个动画(android:activityOpenEnterAnimation) 如此此时按下返回键,
+    B退出，A显示，则此时A执行动画3（android:activityCloseEnterAnimation） B执行动画4（android:activityCloseExitAnimation） -->
+    <style name="fade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/zoomin</item>
+        <item name="android:activityCloseExitAnimation">@anim/zoomout</item>
+    </style>
+
+
+    <style name="selectableItemBackgrond">
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+
+    <style name="cardViewTextView" parent="selectableItemBackgrond">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/card_line_height</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:paddingLeft">@dimen/card_padding_width</item>
+        <item name="android:paddingRight">@dimen/card_padding_width_double</item>
+    </style>
+
+    <style name="cardViewTextViewInLayoutLeft">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/card_line_height</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <style name="cardViewRelativeLayoutSelector" parent="selectableItemBackgrond">
+        <item name="android:paddingLeft">@dimen/card_padding_width</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/card_line_height</item>
+    </style>
+
+    <style name="switchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/height_normal</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:layout_marginRight">@dimen/card_padding_width</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
+    <style name="spinnerStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/height_normal</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:entries">@array/click_or_long_click</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:dropDownWidth">@dimen/spinner_drop_down_width</item>
+    </style>
+
+    <style name="spinnerBrowserStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/height_normal</item>
+        <item name="android:entries">@array/browser_list</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:dropDownWidth">@dimen/spinner_drop_down_width</item>
+
+    </style>
+
+
+    <style name="MonthDropTheme" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/black</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="BrowserMonthDropTheme" >
+        <item name="android:textColor">@color/black</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="CheckBoxTheme" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+
+    </style>
+
+
+    <style name="hintTextViewRelativeLayoutSelector" parent="cardViewRelativeLayoutSelector">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+    </style>
+
+
+    <style name="hintTextViewInLayoutLeft"  parent="cardViewTextViewInLayoutLeft">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+        <item name="android:layout_width">220dp</item>
+    </style>
+
+
+    <style name="hintTextViewswitchStyle" parent="switchStyle">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+    </style>
+
+    <style name="diyOcrKeyTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_double</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="fabTheme">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="tab_text_apparence" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/text_color_half_trans</item>
+        <item name="android:textSize">@dimen/text_size_title</item>
+    </style>
+
+</resources>

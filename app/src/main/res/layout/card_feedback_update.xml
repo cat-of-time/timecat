@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/introduction"
+
+        style="@style/cardViewTextView"
+        android:textColor="@color/text_color_import"
+
+        android:text="@string/introduction" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_below="@id/introduction"
+        android:layout_height="1px"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/feedback"
+        style="@style/cardViewTextView"
+        android:layout_below="@id/divider1"
+        android:text="@string/feed_back" />
+
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_below="@id/feedback"
+        android:layout_height="1px"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/check_update"
+        android:layout_below="@id/divider3"
+        style="@style/cardViewTextView"
+        android:text="@string/check_update"/>
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">时光猫</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="cancel">取消</string>
+    <string name="about">关于</string>
+    <string name="feed_back">反馈</string>
+    <string name="setting">设置</string>
+    <string name="copyed">已复制</string>
+    <string name="toast_tip_content">如果触发Time Cat异常，可以切换"增强型监控"设置查看效果。</string>
+    <string name="no_internet_for_fenci">网络异常，使用本地分词</string>
+    <string name="try_long_click_text">请试着长按上方文字</string>
+    <string name="request_accessibility_confirm">前往设置</string>
+    <string name="timecat_open">Time Cat 功能已打开</string>
+    <string name="timecat_close">Time Cat 功能已关闭</string>
+    <string name="open_bang_for_translate">翻译功能开启Time Cat即可体验</string>
+    <string name="sort_mode_help">排序模式\n通过拖动改变词句的排列\n再次点击则返回选词模式</string>
+    <string name="click_to_see_function">选择文本后\n请点击功能按钮查看介绍\n请确保您掌握了每个功能</string>
+    <string name="share_request_confirm_dislike">当然！</string>
+    <string name="only_text">增强型监控(可能误触)</string>
+    <string name="white_list">设置触发方式</string>
+    <string name="share_mode_help">分享\n将选择的词句分享到其他APP</string>
+    <string name="monitor_clipboard">监控剪贴板</string>
+    <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者悬浮球或通知栏经常消失，程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。</string>
+    <string name="stringValue1">Time Cat 是您的快捷助手，您可以在任意app中对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
+    <string name="copy_mode_help">复制\n将选择的词句复制到剪贴板</string>
+    <string name="remain_symbol">显示符号</string>
+    <string name="choose_sentences_mode">选词模式\n通过滑动和点击来选择词句进行操作</string>
+    <string name="stringValue2">开启Time Cat之旅</string>
+    <string name="stringValue3">从图库中选取图片识别</string>
+    <string name="stringValue4">拍照识别</string>
+    <string name="stringValue5">重新识别</string>
+    <string name="stringValue6">一触即达，便捷你的生活！</string>
+    <string name="stringValue7">Copyright ©2018 Time Cat. All Rights  Reserved</string>
+    <string name="share_request_confirm_like">当然！</string>
+    <string name="stringValue9">翻译结果：</string>
+    <string name="sorry_for_parse_fail">抱歉，解析失败</string>
+    <string name="ocr_picture">从图片中识别</string>
+    <string name="problems">程序工作不正常？</string>
+    <string name="perm_tip">缺少运行所需权限。\n请点击"设置"-"权限"-打开权限。\n再点击两次后退按钮返回本页。</string>
+    <string name="monitor_click">监控点击/长按</string>
+    <string name="monitor_click_into">需要开启辅助服务，在一些比较奇葩的应用中可能无法使用</string>
+    <string name="setting_timecat">设置Time Cat样式</string>
+    <string name="setting_timecat_intro">您可以调节爆炸出的文字的间距，大小，背景等</string>
+    <string name="setting_search_engine">设置默认搜索引擎</string>
+    <string name="setting_search_engine_into">您可以设置，添加内置浏览器使用的默认搜索引擎</string>
+    <string name="share_request_cancel">无感…</string>
+    <string name="share_request_msg">您喜欢本应用吗？</string>
+    <string name="search_mode_help">搜索\n将选中的词句通过默认浏览器进行搜索</string>
+    <string name="try_click_text">请点击或滑动上方文字</string>
+    <string name="share_request_cancel_like">算了吧…</string>
+    <string name="accessibility_des">打开右上角开关，在弹出的对话框中点击 `确认`。\n\n开启后，即可在微信，QQ等应用聊天页面中点击或长按文字聊天气泡，然后就会打开 Time Cat 页面。\n\n 此功能完全不需要root您的手机。只需您打开服务，弹窗提示您的授权时，点击确认便可。</string>
+    <string name="ok">我知道了</string>
+    <string name="translate_mode_help">翻译\n使用有道词典进行中英互译</string>
+    <string name="introduction">如何使用</string>
+    <string name="double_click_intercal">双击间隔#毫秒\t\t\t\t\t\t\t\t\t点击修改</string>
+    <string name="double_click_intercal_hint">太长易误触，太短会与微信自身冲突</string>
+    <string name="share_request_confirm">喜欢！</string>
+    <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
+    <string name="share_request_msg_dislike">愿意给我们一些建议吗？</string>
+    <string name="share_request_msg_like">愿意分享给您的朋友吗？</string>
+    <string name="about_content">\t\t\t本产品是根据老罗的Big Bang进行设计开发的，旨在让更多用户体验到这种高效的操作方式！如果您觉得勉强好用，可以购买Smartisan M1体验更好的情怀！\n\t\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n\n版本号：%1$s</string>
+    <string name="donate">我请作者吃辣条</string>
+    <string name="donate_now">点击跳转支付宝</string>
+    <string name="join_qq">点击加入内测群（607702452）</string>
+    <string name="confirm">确认</string>
+    <string name="share_request_cancel_dislike">算了吧...</string>
+    <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
+    <string name="check_update">检测更新</string>
+    <string name="show_float_view">悬浮球常驻(自动靠边隐藏)</string>
+    <string name="show_float_view_request">悬浮球包含多个功能入口，建议开启！</string>
+    <string name="check_update_close">已是最新版本</string>
+    <string name="default_setting">恢复默认设置</string>
+
+
+    <string name="punish_float_problem">悬浮球功能已开启!</string>
+    <string name="punish_float_action">悬浮球不显示？点击设置</string>
+
+    <string name="open_setting_failed_diy">无法打开系统设置，请手动设置</string>
+
+    <string name="setting_text_size">字体大小：</string>
+    <string name="setting_line_margin">行间距：</string>
+    <string name="setting_item_margin">块间距：</string>
+    <string name="setting_item_padding">块内边距：</string>
+    <string name="setting_alpha_percent">不透明度：</string>
+
+
+    <string name="use_app_browser">使用内置浏览器</string>
+
+
+    <string name="title_white_list">白名单</string>
+    <string name="system_app">系统应用</string>
+    <string name="user_app">第三方应用</string>
+    <string name="search">搜索</string>
+
+    <string name="white_list_tip">此处设置不影响复制触发功能</string>
+    <string name="ocr_recognize">Ocr识别中</string>
+
+    <string name="action_copy">"复制"</string>
+    <string name="action_full_screen">"全屏选择"</string>
+    <string name="action_select_mode">"查看已选"</string>
+
+    <string name="error_in_copy">出现错误，请重试</string>
+    <string name="error_in_permission">请给开启辅助模式，可长按悬浮球设置</string>
+    <string name="copy_title">全局复制</string>
+    <string name="copy_subtitle">请点击想要复制的区域</string>
+    <string name="not_foud_qq">未找到QQ</string>
+    <string name="my_zhifubao">我的支付宝二维码</string>
+    <string name="my_weixin">我的微信二维码</string>
+    <string name="thinks_for_donate">有您的支持，我们会越做越好的，欢迎加群(290017771或607702452)，给我们提建议</string>
+    <string name="picture_saved">二维码已保存到本地相册</string>
+    <string name="click_to_save_qrcord">点击二维码保存到相册</string>
+
+
+    <string name="share">分享到朋友圈</string>
+    <string name="share_">分享</string>
+    <string name="save_">保存</string>
+    <string name="ocr_">识别</string>
+    <string name="copy_">复制</string>
+    <string name="timecat_">炸词</string>
+    <string name="translate">翻译</string>
+    <string name="drag_select_mode">框选模式</string>
+    <string name="drag_select_mode_done">非框选模式</string>
+    <string name="drag_mode">拖动排序</string>
+    <string name="drag_mode_done">退出拖动排序</string>
+    <string name="online_segment">在线分词</string>
+    <string name="offline_segment">离线分词</string>
+    <string name="no_symbol">不显示符号</string>
+    <string name="select_other">反选</string>
+    <string name="remain_section">保留分段</string>
+    <string name="no_section">不保留分段</string>
+
+
+
+    <string name="open_timecat">关闭分词</string>
+    <string name="close_timecat">开启分词</string>
+
+
+    <string name="float_view_hide">时光猫悬浮窗（隐藏状态）</string>
+    <string name="float_view">展开悬浮窗功能</string>
+    <string name="float_view_to_hide">收起悬浮窗</string>
+
+
+
+    <string name="share_content">Time Cat，不止是分词！更是您的高效助手！单击、双击、长按、复制等多种触发方式随心选！更有全局复制，图片识别等黑科技加持，给你的手机插上翅膀！</string>
+    <string name="share_no_wechat">你还没有安装微信</string>
+    <string name="share_error">分享失败</string>
+
+    <string name="screen_capture_fail">抱歉，截屏失败</string>
+
+    <string name="word_type_cloud">云端分词\n把常见的词字组合在一起，有网络时默认启用</string>
+    <string name="word_type_local">本地分词\n把每一个字都拆分开，无网络时备选</string>
+
+    <string name="show_symbol">是否显示符号</string>
+    <string name="show_section">是否保持原段落\n开启时，段首的文字颜色加深，复制时保持分段状态</string>
+    <string name="show_drag_selection">框选模式\n选框内的词的选中状态由第一个选中的词决定</string>
+
+
+    <string name="recognize">识别中...</string>
+    <string name="click_show_timecat">点击炸开文字</string>
+
+    <string name="monitor_setting_card">点击触发相关设置</string>
+    <string name="donate_title">一分也是情</string>
+
+
+    <string name="total_switch">使用服务</string>
+
+    <string name="too_short_to_split">文字长度小于2，不分词</string>
+
+    <string name="float_tips">单击悬浮球切换开关，长按悬浮打开设置页。</string>
+    <string name="access_open_tips">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
+    <string name="ocr_quote_beyond_time">\t\t非常抱歉，由于我们使用的是第三方付费OCR服务，作者每月需要为此支付数千元的费用。\n\t\t为了用户体验，本应用一直不愿接入广告，而热心用户的捐赠也有限，现已无力承担此费用.\n\t\t为了您的使用体验，麻烦您花几分钟时间进行设置，以继续免费使用OCR服务！</string>
+    <string name="free_use">如何免费使用OCR</string>
+    <string name="ocr_useup_toast">"我们的OCR限额即将耗尽，请查看设置页“免费设置OCR秘钥”"</string>
+
+
+    <string name="notify_total_switch_on">启用\n服务</string>
+    <string name="notify_total_switch_off">停用\n\n服务</string>
+    <string name="notify_monitor_click_on">监控点击</string>
+    <string name="notify_monitor_click_off">停用\n点击</string>
+    <string name="notify_monitor_clipboard_on">监控\n复制</string>
+    <string name="notify_monitor_clipboard_off">停用\n复制</string>
+    <string name="notify_copy_title">全局\n复制</string>
+    <string name="notify_srceen_cap">截屏\nOCR</string>
+
+
+    <string name="open_total_switch_first">请先点击第一项"使用服务"</string>
+
+    <string name="monitor_click_open">开始监控点击</string>
+    <string name="monitor_click_close">停止监控点击</string>
+
+
+    <string name="monitor_clipboard_open">开始监控复制</string>
+    <string name="monitor_clipboard_close">停止监控复制</string>
+
+
+    <string name="show_notify">显示通知栏</string>
+    <string name="show_notify_request">通知栏包含悬浮球的所有功能，可作为替代方案。</string>
+
+
+    <string name="can_not_capture_under_5_0">Screenshots 5.0以下系统暂不支持截屏</string>
+
+    <string name="control_by_float">使用悬浮球控制</string>
+    <string name="control_by_notify">使用通知栏控制</string>
+    <string name="trigger_by_float">点击悬浮球触发</string>
+    <string name="pre_setting_title">请先设置 &lt;控制和触发&gt;方式</string>
+    <string name="pre_setting_intro1">通过&lt;悬浮球常驻或通知栏&gt;可以方便控制\n程序中还提供了更多控制方式\n\n如果您选择&lt;点击悬浮球触发&gt;\n在触发分词功能时会先弹出悬浮球\n您需要&lt;点击悬浮球&gt;才能激活分词</string>
+    <string name="pre_setting_intro2">&lt;点击上面的文字&gt;可以验证设置的效果。\n您也可以随时在设置页面中更改</string>
+    <string name="pre_setting_intro3">已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改， 或者从“如何使用”中进入本页面</string>
+    <string name="pre_setting_cancel">再看看效果</string>
+
+    <string name="capture_tips">在屏幕上划取区域截图</string>
+    <string name="capture_all">点我截取全屏</string>
+    <string name="capture_type_rect">矩形选取</string>
+    <string name="capture_type_free">曲线选取</string>
+
+    <string name="save_sd_card">已保存sd卡 Pictures 目录下</string>
+    <string name="save_sd_card_fail">保存失败</string>
+
+
+    <string name="float_trigger">点击悬浮球触发时光猫</string>
+    <string name="float_trigger_request">在复制或点击以后，需要先点击悬浮球才会触发时光猫，多一步操作，减少误触发</string>
+
+
+    <string name="float_setting_card">控制界面相关设置</string>
+
+
+    <string name="confirm_setting">我选好了</string>
+
+    <string name="notify_enable">通知栏已开启</string>
+    <string name="notify_disabled_title">通知不显示?</string>
+
+    <string name="goto_setting">进入设置</string>
+
+    <string name="set_background_myself">自定义</string>
+    <string name="set_background">设置Time Cat背景颜色</string>
+
+
+    <string name="set_diy_ocr_key">免费设置OCR秘钥</string>
+    <string name="set_diy_ocr_key_ok">设置OCR秘钥成功</string>
+    <string name="set_diy_ocr_key_hint">请输入OCR秘钥(不能包含空格)</string>
+    <string name="ocr_step1">通过下面几步，您就可以免费使用每个月5000次的图片OCR功能。\n您也可以给我们捐赠10元，我们给您提供我们付费的KEY，不过请不要传播，以防KEY过快失效。</string>
+    <string name="ocr_step2">第一步：使用浏览器打开网址： https://www.microsoft.com/cognitive-services/  \n（点击复制网址）</string>
+    <string name="ocr_step3">第二步：点击网页右上角的“My account（我的账户）”，如下图。</string>
+    <string name="ocr_step4">第三步：选择一种适合的方式注册/登录网站，下面以微软账户登录为例。</string>
+    <string name="ocr_step5">第四步：如果您没有微软账户，需要先使用邮箱注册微软账户。然后授权使用微软账户登录本网站，如下图。</string>
+    <string name="ocr_step6">第五步：登录以后，点击下图中的红框内的按钮发送验证邮件。</string>
+    <string name="ocr_step7">第六步：到邮箱中找到验证邮件，点击通过验证。（如果收不到验证邮件，可以反复刷新第五步中的页面，重发邮件）</string>
+    <string name="ocr_step8">第七步：邮件验证成功以后，会自动跳转到下图中的页面，点击红框中的按钮。</string>
+    <string name="ocr_step9">第八步：在产品列表中勾选下图中所示的功能，大概在第四排的位置。</string>
+    <string name="ocr_step10">第九步：勾选“同意协议”，然后点击提交，如下图。</string>
+    <string name="ocr_step11">第十步：将你的KEY复制(其中任何一个即可)，如下图，并填写到本页面最后的输入框中，并确认。</string>
+    <string name="ocr_step12">第十一步：使用OCR验证是否成功，如果出现401错误，可能是填写的KEY包含空格，或者第八步操作不正确，也可能是微软服务器需要同步，可以稍等一段时间再试。</string>
+    <string name="save_search_engine_fail">名字或网址不能为空</string>
+    <string name="add">添加</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="set_search_pre">已将</string>
+    <string name="set_search_end">设置为默认搜索引擎</string>
+    <string name="can_not_delete"><![CDATA[不能再删啦，%>_<%]]></string>
+    <string name="xiugai">修改</string>
+    <string name="search_name_hint">名字(不超过5个字)</string>
+    <string name="search_url_hint">地址(最后会拼接上 搜索词 )</string>
+    <string name="move_edit_hint">左滑编辑或删除，长按调整位置</string>
+
+
+    <string name="setting_search_engine_web">设置搜索引擎</string>
+
+    <string name="treat_blanks_symbol">将空格当做普通符号\n(在分词界面控制显示/隐藏，否则当做文字)</string>
+    <string name="auto_add_blanks">自动在选中的单词和数字后添加空格\n(可能导致复制的网址中添加空格)</string>
+    <string name="is_default_local">默认使用本地分词</string>
+    <string name="is_full_screen">全屏显示分词</string>
+    <string name="is_stick_header">功能键保持在顶部</string>
+
+
+    <string name="select_all">全选</string>
+    <string name="select_mode">多选</string>
+    <string name="set_selection">设置为</string>
+    <string name="select_cancel">取消选择</string>
+
+    <string name="fragment_other">其他</string>
+    <string name="fragment_display">界面</string>
+    <string name="fragment_segment">分词</string>
+
+    <string name="open_access_setting">进入系统辅助服务设置</string>
+    <string name="open_access_hint">进程被杀或手机重启以后，需要重新开启辅助服务，建议您将该应用放到清理白名单</string>
+
+    <string name="save_setting">保存设置到SD卡</string>
+    <string name="load_setting">从SD卡恢复设置</string>
+
+    <string name="default_setting_tips">本操作会将所有设置项恢复默认，不过OCR秘钥将会保留。确认恢复吗？</string>
+
+    <string name="load_setting_tips">如果备份文件被修改过，可能会导致一些异常，确认恢复吗？</string>
+    <string name="effect_after_reboot">重启生效!</string>
+
+    <string name="save_setting_tips">普通备份不会备份OCR秘钥。\nOCR秘钥需要单独备份，备份后只能在本机上恢复。</string>
+    <string name="only_save_ocr">备份OCR</string>
+    <string name="save_other">普通备份</string>
+
+    <string name="restore_ocr_origin">OCR秘钥保持不变，</string>
+    <string name="restore_ocr_back">已恢复OCR秘钥，</string>
+    <string name="restore_failed">恢复设置失败，</string>
+    <string name="restore_success">已恢复设置，</string>
+
+    <string name="save_success">保存成功</string>
+    <string name="save_fail">保存失败</string>
+    <string name="setting_float_intro">您可以更改悬浮球的样式，满足您的个性化需求</string>
+    <string name="setting_floatview">设置悬浮球样式</string>
+    <string name="crop_image_menu_rotate_left">左旋转</string>
+    <string name="crop_image_menu_rotate_right">右旋转</string>
+    <string name="crop_image_menu_crop">剪裁</string>
+    <string name="pick_image_intent_chooser_title">选择来源</string>
+    <string name="title_cropper">剪裁图片</string>
+    <string name="setting_floatview_size">悬浮球大小：</string>
+    <string name="set_floatview_image">自定义悬浮球图片</string>
+    <string name="del_floatview_image">恢复默认悬浮球图片</string>
+    <string name="set_floatview_background">设置展开时按键背景</string>
+    <string name="setting_floatview_alpha_percent">悬浮球不透明度:</string>
+
+
+    <string name="open_voice_setting">设置辅助应用程序</string>
+    <string name="open_voice_hint">设置完成后，请尝试能否通过长按Home键呼出菜单，如果不能，则该功能在您的手机上无效，请关闭该项设置。</string>
+
+
+    <string name="long_press">设置组合键打开菜单</string>
+    <string name="long_press_request">需开启辅助服务和悬浮窗权限，在有些手机上可能会与系统自带功能冲突</string>
+    <string name="long_press_toast">如果Home键无法触发，请“设置辅助应用程序”</string>
+
+
+    <string name="timecat_setting_card_title">分词界面相关设置</string>
+    <string name="no_query">无搜索词</string>
+    <string name="is_stick_sharebar">显示侧边分享栏(非全屏状态下不显示)</string>
+
+
+    <string name="show_introduction">显示介绍页面</string>
+
+    <string name="how_to_set">如何设置和使用(请先看上面的介绍)</string>
+    <string name="how_to_set_title">如何设置和使用</string>
+    <string name="how_to_set_msg">\t\t\t\t阅读完之前的介绍，你应该对这款应用的应用场景和不足之处有所了解了。\n\t\t\t\t
+        因为我们不具有系统权限，所以只能通过其他方式来提供给你相对更便捷的分词体验，不足之处，请谅解。\n\t\t\t\t
+        除了之前给出的使用建议，我们还有以下建议：\n\t\t\t\t
+        1.在微信、QQ等聊天应用中，使用监控点击触发分词更方便，至于是单击、双击还是长按，则是各有优劣，由你自己判断。\n\t\t\t\t
+        2.在浏览类应用中，使用复制触发分词，对于有些浏览器，可能得退出界面才能触发分词，多一步操作，也还是很方便的。\n\t\t\t\t
+        3.能够使用全局复制的地方用全局复制，比用系统复制方便，不过哪里能用，就得你自己多试试了，我们也没法统计所有应用。\n\t\t\t\t
+        4.在其他功能都不管用的时候，截图OCR作为最后的武器，也能起到不少作用，不过如果文字不清晰完整，识别率可能有待提高。\n\t\t\t\t
+        5.也可以开启“点击悬浮球触发时光猫”，减少误触发。\n\t\t\t\t
+        \n\n\t\t\t\t
+        当然你在使用过程也会有自己的体会，我们提供了最大的空间，
+        你可以定制自己的功能和分词界面。如果有其他定制需求，可以联系我们，对于好的建议，我们从来都是从善如流的！\n\t\t\t\t
+    </string>
+
+
+    <string name="about_control">为什么要使用悬浮球或通知栏</string>
+    <string name="about_control_msg">\t\t\t\t本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮球、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
+    如果你都不喜欢，也不需要使用全局复制和截图OCR，也可以选择开启“点击悬浮球触发时光猫”，这样在监控点击和复制的时候，不至于误触发分词，影响使用体验。\n\t\t\t\t
+    PS: 在有些手机上，开启悬浮球会导致应用申请权限失败，可以在安装新应用时关闭悬浮球，也可以使用通知栏代替。</string>
+
+
+    <string name="about_accessibility">关于辅助模式的权限</string>
+    <string name="about_accessibility_msg">\t\t\t\t本应用可以通过监控点击触发分词，但是需要授予辅助模式的权限，但是辅助模式权限在进程被清理以后可能会被系统回收，所以请将本应用添加到自启动白名单和清理白名单中。</string>
+
+    <string name="about_click">为什么有时候点击触发分词不起作用</string>
+    <string name="about_click_msg">\t\t\t\t因为我们是通过监测用户的点击操作来判断是否触发分词的，这部分功能是通过辅助服务实现的。而以下情况就会导致无法检测到点击：\n\t\t\t\t
+1.有些应用不支持辅助服务对点击的捕获，点击发生以后，没有通知到辅助服务，比如微信朋友圈。\n\t\t\t\t
+2.有些应用屏蔽了一些点击事件，比如设置了一些位置不可点击，比如系统设置页面无法用长按触发分词。\n\t\t\t\t
+3.有些看似是文字的地方，其实是使用图片绘制的，比如一些阅读器：iReader等。\n\t\t\t\t
+而有时一些应用又会滥用点击事件，比如网易云音乐的评论界面，会把滑动误认为是长按。\n\t\t\t\t
+碰到以上情况，则可以尝试使用复制触发、全局复制或者截图OCR来触发分词。</string>
+
+    <string name="how_to_use_copy">为什么有些浏览器中复制不触发分词</string>
+    <string name="how_to_use_copy_msg">\t\t\t\t在一些浏览器中（比如微信自带浏览器，QQ浏览器，UC浏览器等），复制文字的时候无法触发分词。\n\t\t\t\t
+这是因为这些浏览器接管了系统的复制功能，用户点击的复制，要在退出浏览器页面的时候才真正被设置到系统的剪贴板中，所以我们也会到那能收到通知，然后才触发分词。\n\t\t\t\t
+解决办法是，在这些浏览器中，复制完成以后，暂时退出浏览器页面（Home键退到桌面，或者进入多任务界面，或者按返回键彻底退出），就可以触发分词了。或者使用我们提供的截图OCR识别、全局复制（只在Chrome内核的浏览器中才有用）。</string>
+
+    <string name="about_ocr">关于截图OCR</string>
+    <string name="about_ocr_msg">\t\t\t\t截图ORC我们使用的是微软的服务，收费颇高，因为我们本应用不产生收入，所以难以承受，但是你可以按照应用中的引导申请自己的key，每个月有5000次免费额度，相信足以满足你的需求。\n\t\t\t\t当然你也可以给我们捐赠10元以上，由我们给你提供key。</string>
+
+    <string name="about_universal_copy">为什么全局复制在有些页面没有用</string>
+    <string name="about_universal_copy_msg">\t\t\t\t全局复制的原理是通过辅助服务去抓取当前页面中的文字信息，而这些信息是需要应用来提供给复制服务的，所以以下情况可能会导致全局复制抓不到文字：\n\t\t\t\t
+1.如果应用没有提供文字信息给辅助服务，则无法抓取文字，比如浏览器（Chrome内核浏览器例外）和QQ消息界面等，此时可以考虑使用普通复制。\n\t\t\t\t
+2.一些看似是文字的内容，其实是当成图片绘制的，所以也抓不到文字信息，比如锤子桌面、iReader，此时可以使用截图OCR功能。</string>
+    <string name="share_app">设置侧边栏分享应用</string>
+    <string name="share_long_click_move">分享侧边栏长按图标可调整顺序</string>
+
+    <string name="overall_intro">软件功能介绍</string>
+    <string name="overall_intro_msg">\t\t\t\t本应用主要功能是分词、选词，是为了让更多用户使用到“锤子手机时光猫”的便捷功能。\n\t\t\t\t
+        所谓分词，就是将一句话按照词组拆分开来，用户可以对拆开的词进行自由排序，组合，快速形成新的句子。\n\t\t\t\t
+        因为本应用不具备操作系统底层的权限，所以无法完全做到锤子手机中的使用体验，但是本应用可以监控点击和系统复制来触发分词，也提供了全局复制和截图OCR的功能，能够覆盖大部分的取词情况。\n\t\t\t\t
+        分词界面不但支持锤子手机中的操作，还加入了长按词语拆分成字、拖动排序、保留分段结构等独创功能，最大程度上改进你的选词体验。\n\t\t\t\t
+        软件的设置可能比较复杂，阅读本页的介绍将会对您有所帮助，感谢您使用！
+    </string>
+
+    <string name="about_xposed">关于XP版多种触发方式的设置</string>
+    <string name="about_xposed_msg">\t\t\t\tXP版本跟普通版本一样，提供了单击、双击、长按，三种触发方式。\n\t\t\t\t
+触发的原理是在你点击的时候取点击到的文字，所以有些不可点击的区域也是可以触发的，比如QQ左上角的返回。有些点击区域，如果你点击到了文字上，也是能单独取出这些文字的。\n\t\t\t\t
+但是如果使用单击触发，就可能出现一些误触的情况，当然如果配合“点击悬浮球触发”会好一些，所以到底如何设置，还是看各位的使用习惯。\n\t\t\t\t
+已知bug：\n\t\t\t\t
+1.在qq中，如果用长按触发，会与默认长按有点冲突，导致长按菜单显示不出来，\n\t\t\t\t
+2.qq空间无法触发，\n\t\t\t\t
+3.全局复制目前还是依靠辅助服务做的。\n\t\t\t\t
+目前还不够完善，如果有使用问题欢迎反馈。\n\t\t\t\t
+PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会尽量优化的。</string>
+
+
+    <string name="open_from_outside">如何通过外部应用触发功能</string>
+    <string name="open_from_outside_msg">我们提供了悬浮窗、通知栏、快捷键等方式来控制和触发功能，如果你对这几种方法仍然不满意，或者你使用了第三方的自定义开关(比如悬浮菜单)，可以将我们的功能集成进去，方法如下：\n
+    包名：\n
+        \t\t*普通版：com.time.cat\n
+        \t\t*Xposed版：com.time.cat.coolapk\n\n
+    类名：\n
+        \t*功能总开关(包含复制和点击)：
+        \tcom.time.cat.component.activity.TotalSwitchActivity\n\n
+        \t*全局复制：
+        \tcom.time.cat.component.activity.UniversalCopyActivity\n\n
+        \t*区域截屏OCR：
+        \tcom.time.cat.component.activity.screen.ScreenCaptureActivity\n\n
+        提示：本页面可以通过全局复制来复制包名和类名。
+    </string>
+
+
+    <string name="intro_card_msg">看看应用的介绍和设置说明吗？</string>
+    <string name="intro_card_msg_2">如果使用中遇到了问题\n也可以在“其他”设置的“如何使用”中查看</string>
+
+    <string name="intro_card_go">现在查看</string>
+    <string name="intro_card_cancel">下次再说</string>
+
+
+    <string name="bb_long_press_toast">试试长按一个词组</string>
+    <string name="xp_monitor_click_hint">需要对每个应用单独设置合适的点击方式</string>
+    <string name="xp_monitor_click_msg">Xposed点击炸词</string>
+
+
+    <string name="is_stick_view">固定悬浮球位置</string>
+
+    <string name="auto_open">自动开启辅助服务</string>
+    <string name="auto_open_hint">需要Root权限，如果频繁提示权限，可以到SuperSU中设置</string>
+
+
+    <string name="click_to_edit">修改内容后，长按或点击炸词开始分词</string>
+
+    <string name="jump_introduction">跳过</string>
+    <string name="jump_toast">如果遇到问题，你可以重新查看此页</string>
+    <string name="search_">以图搜图</string>
+    <string name="upload_img">开始上传图片</string>
+    <string name="upload_img_fail">抱歉，图片上传失败</string>
+
+    <string name="request_usage_setting_msg">需要开启使用量权限，请在打开的设置页面中授权！</string>
+    <string name="float_white_list">不显示悬浮球的应用</string>
+    <string name="float_white_list_nagetive">不开启使用量权限，无法获取前台应用程序,设置将不会起作用</string>
+</resources>

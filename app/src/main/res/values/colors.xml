@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_color">@color/white</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="text_color_grey">#dddddd</color>
+    <color name="text_color_notify">#cdcdcd</color>
+    <color name="text_color_import">#E64A19</color>
+    <color name="text_color_half_trans">#80FFFFFF</color>
+
+    <color name="trans">#00000000</color>
+    <color name="primary">#FF03A9F4</color>
+    <color name="primary_dark">#FF0288D1</color>
+    <color name="colorPrimaryDarkTransparent">@color/primary</color>
+    <color name="divider">#cee9e9e9</color>
+    <color name="quarter_transparent">#40000000</color>
+    <color name="shadow">#aa000000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="intro_bg">#3d85c0</color>
+
+    //timecatBackgroundColor
+    <color name="back_black">#000000</color>
+    <color name="back_green">#dcedc8</color>
+    <color name="back_cyan">#b2ebf2</color>
+    <color name="back_pink">#f8bbd0</color>
+    <color name="back_ingo">#c5cae9</color>
+    <color name="back_blue">#d0d9ff</color>
+    <color name="back_bluegreen">#b2dfdb</color>
+    <color name="back_oringe">#ffccbc</color>
+    <color name="back_purple">#e1bee7</color>
+    <color name="back_brown">#d7ccc8</color>
+    <color name="back_grey">#cfd8dc</color>
+
+
+</resources>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_diy_ocr_key"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.time.cat.component.activity.DiyOcrKeyActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:subtitleTextColor="@color/white"
+        app:title="@string/title_white_list"
+        app:titleTextColor="@color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/toolbar"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                style="@style/diyOcrKeyTextStyle"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/button_white_stroke_green"
+                android:padding="@dimen/margin_normal"
+                android:text="@string/ocr_step1" />
+
+            <TextView
+                android:id="@+id/copy_url"
+                android:layout_width="match_parent"
+                 style="@style/diyOcrKeyTextStyle"
+                android:padding="@dimen/margin_normal"
+                android:background="@drawable/button_white_stroke_green"
+                android:text="@string/ocr_step2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                     style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step3" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/diy_ocr_key_1" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                 style="@style/diyOcrKeyTextStyle"
+                android:text="@string/ocr_step4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                     style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step5" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/diy_ocr_key_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                     style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step6" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/diy_ocr_key_3" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                 style="@style/diyOcrKeyTextStyle"
+                android:text="@string/ocr_step7" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                     style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step8" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/diy_ocr_key_4" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                     style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step9" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/diy_ocr_key_5" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                     style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step10" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/diy_ocr_key_6" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                     style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step11" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/diy_ocr_key_7" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_double"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step12" />
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/ocr_diy_key_rl"
+                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/margin_normal"
+                android:paddingRight="@dimen/margin_normal"
+                android:background="@drawable/button_white_stroke_green"
+                android:layout_marginBottom="@dimen/height_normal"
+                android:layout_height="@dimen/card_detail_line_height">
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/ocr_diy_key_confirm"
+                    android:layout_width="wrap_content"
+                    android:text="@string/confirm"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="@dimen/margin_normal"
+                    android:paddingRight="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    android:layout_height="wrap_content" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/ocr_diy_key"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_toLeftOf="@id/ocr_diy_key_confirm"
+                    android:hint="@string/set_diy_ocr_key_hint"
+                    >
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/ocr_diy_key_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:textSize="@dimen/text_size_normal"
+                        android:textColor="@color/secondary_text" />
+                </android.support.design.widget.TextInputLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="click_or_long_click">
+        <item>单击</item>
+        <item>长按</item>
+        <item>双击</item>
+        <item>不使用</item>
+    </string-array>
+    <string-array name="browser_list">
+        <item>百度</item>
+        <item>谷歌</item>
+        <item>必应</item>
+        <item>淘宝</item>
+    </string-array>
+
+
+    <integer-array name="timecat_background_color">
+        <item >@color/back_black</item>
+        <item >@color/back_green</item>
+        <item >@color/back_cyan</item>
+        <item >@color/back_pink</item>
+        <item >@color/back_ingo</item>
+        <item >@color/back_blue</item>
+        <item >@color/back_bluegreen</item>
+        <item >@color/back_oringe</item>
+        <item >@color/back_purple</item>
+        <item >@color/back_brown</item>
+        <item >@color/back_grey</item>
+    </integer-array>
+
+    <string-array name="long_press_key">
+        <item>不使用</item>
+        <item>长按返回键</item>
+        <item>长按HOME键</item>
+        <item>长按多任务键</item>
+        <item>长按菜单键</item>
+        <item>长按音量增键</item>
+        <item>长按音量减键</item>
+        <item>音量增+音量减</item>
+    </string-array>
+</resources>

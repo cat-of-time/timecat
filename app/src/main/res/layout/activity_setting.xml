@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<android.support.design.widget.AppBarLayout-->
+    <!--android:id="@+id/appBarLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_toolbar_height"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        android:title=""
+        android:titleTextColor="@color/text_color"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <ViewStub
+        android:id="@+id/share_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout="@layout/share_card_viewstub" />
+
+
+    <ViewStub
+        android:id="@+id/intro_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout="@layout/intro_card_viewstub" />
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tablayout_height"
+        android:layout_below="@id/share_card"
+        app:tabBackground="?attr/colorPrimary"
+        app:tabIndicatorColor="@color/text_color"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@color/text_color"
+        app:tabTextAppearance="@style/tab_text_apparence"
+        app:tabTextColor="@color/text_color_half_trans" />
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@drawable/tab_shadow"
+        android:layout_height="@dimen/margin_normal"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tablayout" />
+
+
+</LinearLayout>
