@@ -1,0 +1,188 @@
+ok 1.文字过多的情况下，要可以滑动，同时要处理好滑动选择的功能
+ok 2.能让用户调整字体大小，背景等等，调整的时候显示预览
+ok 3.拖动的时候，可以显示全选，反选等功能按钮
+ok 6.本地bigbang
+ok 7.本地webview
+
+
+ok 1.launcher应用加白名单
+ok 4.优化bigbang界面
+ok 3.如果选中的是网址，则直接打开网页
+
+
+
+ok 10.添加了捐赠链接，在关于中
+ok 2.webview使用本地还是外部的设置
+ok 3.webview返回的bug
+ok 5.把拖动，全选，反选按钮放到底部,或者调整位置
+ok 6.横屏的时候自动移动到一边
+ok 7.添加搜索的链接选择（百度、谷歌...）
+ok 9.白名单功能
+ok 10.双击检测,双击间隔时间设置
+ok 11.添加权限检查
+
+
+
+
+ok 8.添加打点记录
+9.加入xposed框架
+
+
+ok 3.加入图片ocr功能
+ok 4.加入全局复制
+ok 4.悬浮窗的功能可以再丰富一些
+
+
+
+ok 4.加入本地和云端分词的切换
+ok 6.悬浮窗在平时可以隐藏，参考fooview
+ok 1.悬浮球中的开关在重启后会重置为开启
+ok 2.bigbang超时的时候使用本地分词
+ok 3.悬浮窗动画只播放3秒
+ok 4.第一次截图提醒权限
+
+
+
+ok 添加bigbang界面打点
+ok 7.通知栏显示开关
+11.ocr页面优化
+
+
+ok 10.不长期显示悬浮窗的情况下，给用户选择是否弹出悬浮窗来触发还是直接触发bigbang,要告诉用户有这个交互，或者给用户选择
+ok 4.用户建议：保留分段的格式，方便多段复制
+ok 9.记录悬浮球位置，重启后还在那里
+ok 10.引导页相关的对按钮的说明
+ok 5.是否保留标点的开关放到bigbang中
+ok 11.长度在2一下的不分词
+
+
+
+ok 1.截屏ocr
+ok 2.默认不显示悬浮窗和通知栏，在引导页让用户选择是否开启，并提示用户在设置页修改，强制所有覆盖安装的用户都走一次引导页
+ok 11.给用户背景颜色选择，activity大小选择
+ok 12.bigbang设置页面美化
+
+
+ok 2.监控点击，可以对每个应用进行单独设置，就替代原来的白名单界面就行，默认全关
+ok 4.通知栏替换图标，用颜色进行开关标识。
+ok 5.考虑要不要给横竖屏都能用
+6.给多个翻译api让用户选择
+
+
+ok 6.有些手机，隐藏悬浮窗的时候会导致触摸失效
+ok 7.将使用悬浮窗触发bigbang的设置简化，不再考虑是否开启了悬浮窗和通知栏，而是以设置为准
+
+ok 16.研究google now的全局复制
+ok 18.自定义搜索
+ok 11.给用户提供设置页的入口，让用户一键进入设置
+ok 5.使用问题的帮助方面可以更全面一些
+ok 13.悬浮窗显示样式、隐藏样式
+ok 4.显示底栏的时候，要考虑底栏高度，不然截图会错位，但是很多手机是可以隐藏底栏的，所以又要考虑底栏是否隐藏。。。似乎有些手机上还是有bug，会导致左边被截掉少许
+
+
+ok 7.bibang界面，如果不是back退出，则会导致下次进来还是之前的文字
+ok 8.在分词界面对个别分词做修改，可否通过长按某一个分词来编辑它，就像鼠标选中某一个电子表格可编辑一样，只不过这里是长按来实现
+ok 17.全局复制界面优化
+ok 1.界面设置中，添加颜色、背景等设置，
+
+
+0.理一理设置界面
+3.悬浮窗自定义，大小，样式，是否隐藏
+3.改名字，把所有出现bigbang的地方都改掉
+5.翻译接口也改成可以自定义，或者给几个让选
+6.空格归类到符号中,英语单词中的空格也可以考虑这么处理
+
+4.悬浮窗的功能可以再丰富一些
+14.微信qq中只隔离“发送”
+
+15.统计打点上传到友盟
+
+
+
+
+
+
+
+经济学人无法分段选
+
+
+
+=DV v2.7.9===New features ==*"Reverse Orientation "setting *Restored "Show Title "option which was removed previously *EPUB supports hyperlinks ==Bug fixes ==*Fix for "Configure Keys "and "Configure Taps "binding the wrong action *Fix "Configure Taps "screen not saving changes *Fix "Positive images in night mode "*Color picker renders properly ==Changes ==*Updated bookshelf search UI *Slow CMYK option no longer supported (patch incompatible with recent MuPDF )
+这段话翻译不了
+
+
+
+ //自设搜索引擎推荐
+//    1)	搜索页类
+//    #搜狗(手机版)
+//    http空:空//m点sogou点com/web/searchList点jsp?keyword=@
+//    #搜狗(PC版)
+//    https空:空//www点sogou点com/web?query=@
+//    #GOOGLE
+//    https空:空//www点google点com/search?q=@
+//    #百度
+//    http空:空//www点baidu点com点cn/s?wd=@
+//    #BING
+//    https空:空//www点bing点com/search?q=@
+//    #知乎(搜狗版)
+//    http空:空//zhihu点sogou点com/zhihuwap?query=@
+//    #知乎
+//    http空:空//www点zhihu点com/search?q=@
+//    2)	网购引擎
+//    #淘宝
+//    https空:空//s点m点taobao点com/h5?q=@
+//    #天猫
+//    https空:空//list点tmall点com/search_product点htm?q=@
+//    #京东
+//    https空:空//search点jd点com/Search?keyword=@
+//    #京东(手机版)
+//    http空:空//so点m点jd点com/ware/search点action?keyword=@
+//    #亚马逊
+//    https空:空//www点amazon点cn/s/ref=nb_sb_noss?field-keywords=@
+//    3)	地图
+//    #搜狗地图
+//    http空:空//map点sogou点com/#lq=@
+//    #百度地图
+//    http空:空//map点baidu点com/mobile/webapp/search/search/qt=s&wd=@
+//    #谷歌地图
+//    https空:空//www点google点com点hk/maps/place/@
+//    4)	字典引擎
+//    #有道查词
+//    http空:空//m点youdao点com/dict?q=@
+//    #金山词霸
+//    http空:空//www点iciba点com/@
+//    #汉典(中文字典)
+//    http空:空//wap点zdic点net/s?q=@
+//    5)	翻译引擎
+//    #谷哥翻译 自动检测 > 转英文
+//    http空:空//translate点google点cn/m/translate#auto/en/@
+//    #谷哥翻译 自动检测 > 转简体中文
+//    http空:空//translate点google点cn/m/translate#auto/zh-CN/@
+//    #谷哥翻译 英文 > 转简体中文
+//    http空:空//translate点google点cn/m/translate#en/zh-CN/@
+//    #谷哥翻译 自动检测 > 转繁体中文
+//    http空:空//translate点google点cn/m/translate#auto/zh-TW/@
+
+ok 闪屏页的英文
+ok 点击外部时将悬浮菜单收起来
+ok 底部三个按钮的位置
+ok 黑色背景可能需要自定义
+ok 分词 分单词
+
+
+
+ok 炸图 时包换状态栏
+ok 内置浏览器预设 更改
+ok 分享到拨号盘 链接 微信朋友圈
+ok 全局复制时复制文字颜色过深
+ok 添加在线ocr的key
+
+添加andres
+
+替换有道api为google
+分享到微信时为文件的问题
+截图时使用cropper
+xposed完善
+按压面积引导
+双击间隔设置
+长按触发
