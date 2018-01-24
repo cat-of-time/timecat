@@ -1,1 +1,1 @@
-include ':app', ':lib',  ':commonjar', ':colorpicker'
+include ':app', ':lib',  ':commonjar', ':colorpicker', ':calendar'

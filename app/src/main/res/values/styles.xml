@@ -252,5 +252,12 @@
         <item name="android:textColor">@color/text_color_half_trans</item>
         <item name="android:textSize">@dimen/text_size_title</item>
     </style>
-
+    <style name="weekIndicatorStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#ff25adff</item>
+    </style>
 </resources>

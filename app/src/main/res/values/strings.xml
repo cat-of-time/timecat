@@ -451,4 +451,5 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="request_usage_setting_msg">需要开启使用量权限，请在打开的设置页面中授权！</string>
     <string name="float_white_list">不显示悬浮球的应用</string>
     <string name="float_white_list_nagetive">不开启使用量权限，无法获取前台应用程序,设置将不会起作用</string>
+    <string name="calendar_year">年</string>
 </resources>

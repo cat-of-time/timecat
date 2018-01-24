@@ -166,7 +166,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.time.cat.component.activity.MainActivity"
+            android:name="com.time.cat.component.activity.main.MainActivity"
             android:theme="@style/BaseAppTheme"/>
         <activity
             android:name="com.time.cat.component.activity.SettingTimeCatActivity"

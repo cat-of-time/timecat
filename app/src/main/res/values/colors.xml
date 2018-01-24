@@ -34,5 +34,51 @@
     <color name="back_brown">#d7ccc8</color>
     <color name="back_grey">#cfd8dc</color>
 
+    <color name="playbarProgressColor">@color/themeColor</color>
 
+    <color name="normalBackground">#fff2f4f5</color>
+    <color name="background_material_light_1">#fafafa</color>
+
+    <!-- text color -->
+    <color name="text_black">#FF000000</color>
+    <color name="text_white">#FFFFFFFF</color>
+    <color name="text_grey">#9DA0A3</color>
+    <color name="text_default">@color/text_black</color>
+
+    <!-- theme color -->
+    <color name="themeColor">#ffce3d3a</color>
+    <color name="theme_color_primary">#d20000</color>
+    <color name="theme_color_primary_dark">#b85671</color>
+
+    <color name="pink">#fb7299</color>
+    <color name="pink_dark">#b85671</color>
+    <color name="pink_trans">#99f0486c</color>
+
+    <color name="blue">#2196F3</color>
+    <color name="blue_dark">#1565C0</color>
+    <color name="blue_trans">#B41A78C3</color>
+
+    <color name="purple">#673AB7</color>
+    <color name="purple_dark">#311B92</color>
+    <color name="purple_trans">#99673AB7</color>
+
+    <color name="green">#4CAF50</color>
+    <color name="green_dark">#2E7D32</color>
+    <color name="green_trans">#994CAF50</color>
+
+    <color name="green_light">#8BC34A</color>
+    <color name="green_light_dark">#558B2F</color>
+    <color name="green_light_trans">#998BC34A</color>
+
+    <color name="yellow">#FDD835</color>
+    <color name="yellow_dark">#FBC02D</color>
+    <color name="yellow_trans">#99FDD835</color>
+
+    <color name="orange">#FF9800</color>
+    <color name="orange_dark">#EF6C00</color>
+    <color name="orange_trans">#99FF9800</color>
+
+    <color name="red">#F44336</color>
+    <color name="red_dark">#C62828</color>
+    <color name="red_trans">#99F44336</color>
 </resources>

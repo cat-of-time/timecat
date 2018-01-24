@@ -27,13 +27,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.flask.colorpicker.CircleColorDrawable;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.SettingFloatViewActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
 import com.time.cat.mvp.view.ArcMenu;
 import com.time.cat.mvp.view.PathMenu;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -142,6 +142,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             }
         }
     };
+
     private ArcTipViewController(Context application) {
         mContext = application;
         mWindowManager = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);

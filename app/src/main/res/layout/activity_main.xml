@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,29 +5,109 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.time.cat.component.activity.MainActivity">
+    tools:context="com.time.cat.component.activity.main.MainActivity">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/a"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+        <com.time.cat.ThemeSystem.widgets.TintToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_color_primary"
+            android:fitsSystemWindows="true"
+            android:minHeight="?attr/actionBarSize"
+            app:contentInsetStart="0.0dp"
+            app:layout_scrollFlags="enterAlways|scroll">
+            <LinearLayout
+                android:id="@+id/main_nav_view"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation"/>
+                <TextView
+                    android:id="@+id/main_month_view"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|center"
+                    android:maxLines="1"
+                    android:text="17"
+                    android:textColor="#ff25adff"
+                    android:textSize="19.3sp"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="14dp"
+                    android:gravity="bottom"
+                    android:maxLines="1"
+                    android:text="月"
+                    android:textColor="#ff25adff"
+                    android:textSize="19.3sp"/>
+
+                <TextView
+                    android:id="@+id/main_year_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:text="2018年"
+                    android:textColor="#ff25adff"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/button_bg"
+                    android:gravity="center"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="今"
+                    android:textColor="#ff9c0e"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/tv1"
+                    android:background="@drawable/button_bg"
+                    android:gravity="center"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="更改效果"
+                    android:textColor="#ff9c0e"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+        </com.time.cat.ThemeSystem.widgets.TintToolbar>
+
+        <com.time.cat.mvp.view.CustomPagerView
+            android:id="@+id/main_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/navigation"
+            android:layout_below="@+id/toolbar"/>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_alignParentBottom="true"
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/navigation"/>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
+

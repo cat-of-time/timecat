@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#e7e7e7"
+    android:id="@+id/cv_item">
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.67dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"/>
+</RelativeLayout>
