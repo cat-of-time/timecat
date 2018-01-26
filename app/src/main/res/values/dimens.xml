@@ -26,6 +26,12 @@
     <dimen name="text_size_tiny">12sp</dimen>
     <dimen name="text_size_very_tiny">10sp</dimen>
 
+    <dimen name="text_size_xsmall">11sp</dimen>
+    <dimen name="text_size_body">13sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">20sp</dimen>
+    <dimen name="text_size_diff_large_small">6sp</dimen>
 
     <dimen name="margin_normal">8dp</dimen>
     <dimen name="margin_double">16dp</dimen>
@@ -76,4 +82,20 @@
 
 
     <dimen name="main_tablayout_height">@dimen/height_normal</dimen>
+
+    <!-- margin -->
+    <dimen name="margin_tiny">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+    <dimen name="margin_huge">64dp</dimen>
+
+
+    <!-- cards -->
+    <dimen name="card_header_height">48dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="card_header_elevation">4dp</dimen>
+    <!--CircularProgressButton-->
+    <dimen name="cpb_stroke_width">4dp</dimen>
 </resources>

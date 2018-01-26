@@ -1,18 +1,24 @@
 package com.time.cat.component.activity.main;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.ldf.calendar.Utils;
 import com.ldf.calendar.component.CalendarAttr;
@@ -22,16 +28,25 @@ import com.ldf.calendar.model.CalendarDate;
 import com.ldf.calendar.view.Calendar;
 import com.ldf.calendar.view.MonthPager;
 import com.time.cat.R;
-import com.time.cat.component.activity.main.adapter.CalendarAdapter;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
-import com.time.cat.component.base.BaseFragment;
-import com.time.cat.mvp.presenter.FragmentPresenter;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
+import com.time.cat.component.base.BaseFragment;
+import com.time.cat.mvp.model.Schedule;
+import com.time.cat.mvp.presenter.FragmentPresenter;
+import com.time.cat.mvp.view.Label_n_Tag.SegmentedRadioGroup;
+import com.time.cat.mvp.view.Label_n_Tag.TagCloudView;
+import com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListView;
+import com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListViewCallbacks;
+import com.time.cat.mvp.view.asyncExpandableListView.AsyncHeaderViewHolder;
+import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
+import com.time.cat.mvp.view.progressButton.CircularProgressButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author dlink
@@ -39,7 +54,8 @@ import java.util.HashMap;
  * @discription HomeFragment
  */
 @SuppressLint("SetTextI18n")
-public class HomeFragment extends BaseFragment implements FragmentPresenter, OnSelectDateListener, View.OnClickListener, OnViewClickListener {
+public class HomeFragment extends BaseFragment implements FragmentPresenter, OnSelectDateListener,
+        View.OnClickListener, OnViewClickListener, AsyncExpandableListViewCallbacks<String, Schedule> {
     @SuppressWarnings("unused")
     private static final String TAG = "HomeFragment";
 
@@ -58,9 +74,10 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
     private CoordinatorLayout content;
     private MonthPager monthPager;
-    private RecyclerView rvToDoList;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
+    private AsyncExpandableListView<String, Schedule> mAsyncExpandableListView;
+    private CollectionView.Inventory<String, Schedule> inventory;
 
     @Nullable
     @Override
@@ -73,11 +90,8 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         //此处强行setViewHeight，毕竟你知道你的日历牌的高度
         monthPager.setViewHeight(Utils.dpi2px(context, 270));
 
-        rvToDoList = view.findViewById(R.id.list);
-        rvToDoList.setHasFixedSize(true);
-        //这里用线性显示 类似于listView
-        rvToDoList.setLayoutManager(new LinearLayoutManager(context));
-        rvToDoList.setAdapter(new CalendarAdapter(context));
+        mAsyncExpandableListView = view.findViewById(R.id.asyncExpandableCollectionView);
+        mAsyncExpandableListView.setHasFixedSize(true);
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initData();
@@ -112,7 +126,8 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         calendarAdapter.setOnCalendarTypeChangedListener(new CalendarViewAdapter.OnCalendarTypeChanged() {
             @Override
             public void onCalendarTypeChanged(CalendarAttr.CalendarType type) {
-                rvToDoList.scrollToPosition(0);
+//                rvToDoList.scrollToPosition(0);
+                mAsyncExpandableListView.scrollToPosition(0);
             }
         });
         initMarkData();
@@ -174,6 +189,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     @Override
     public void initData() {//必须调用
         initCurrentDate();
+        initExpandableListViewData();
     }
 
     /**
@@ -185,12 +201,58 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
             mDateChangeListener.onDateChange(currentDate.getYear(), currentDate.getMonth(), currentDate.isToday());
         }
     }
+
+    private void initExpandableListViewData() {
+
+        inventory = new CollectionView.Inventory<>();
+
+        CollectionView.InventoryGroup<String, Schedule> group1 = inventory.newGroup(0); // groupOrdinal is the smallest, displayed first
+        group1.setHeaderItem("Top Stories");
+
+
+        CollectionView.InventoryGroup<String, Schedule> group2 = inventory.newGroup(2);
+        group2.setHeaderItem("World");
+
+
+        CollectionView.InventoryGroup<String, Schedule> group3 = inventory.newGroup(3);
+        group3.setHeaderItem("Australia");
+
+        CollectionView.InventoryGroup<String, Schedule> group4 = inventory.newGroup(4);
+        group4.setHeaderItem("International");
+
+        CollectionView.InventoryGroup<String, Schedule> group5 = inventory.newGroup(5);
+        group5.setHeaderItem("Businesses");
+
+        CollectionView.InventoryGroup<String, Schedule> group6 = inventory.newGroup(6);
+        group6.setHeaderItem("Technology");
+
+        CollectionView.InventoryGroup<String, Schedule> group7 = inventory.newGroup(7);
+        group7.setHeaderItem("Environment");
+
+        CollectionView.InventoryGroup<String, Schedule> group8 = inventory.newGroup(8);
+        group8.setHeaderItem("Health");
+
+        CollectionView.InventoryGroup<String, Schedule> group9 = inventory.newGroup(9);
+        group9.setHeaderItem("Science");
+
+        CollectionView.InventoryGroup<String, Schedule> group10 = inventory.newGroup(10);
+        group10.setHeaderItem("Sports");
+
+        CollectionView.InventoryGroup<String, Schedule> group11 = inventory.newGroup(11);
+        group11.setHeaderItem("Entertainment");
+
+        CollectionView.InventoryGroup<String, Schedule> group12 = inventory.newGroup(12);
+        group12.setHeaderItem("Politics");
+
+        mAsyncExpandableListView.updateInventory(inventory);
+    }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
 
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
+        mAsyncExpandableListView.setCallbacks(this);
     }
 
 
@@ -200,6 +262,55 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         switch (view.getId()) {}
     }
     //-//</View.OnClickListener>---------------------------------------------------------------------
+
+
+    //-//<AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
+    @Override
+    public void onStartLoadingGroup(int groupOrdinal) {
+        new LoadDataTask(groupOrdinal, mAsyncExpandableListView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public AsyncHeaderViewHolder newCollectionHeaderView(Context context, int groupOrdinal, ViewGroup parent) {
+        // Create a new view.
+        View v = LayoutInflater.from(context)
+                .inflate(R.layout.item_todo_list, parent, false);
+
+        return new ScheduleHeaderViewHolder(v, groupOrdinal, mAsyncExpandableListView);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder newCollectionItemView(Context context, int groupOrdinal, ViewGroup parent) {
+        // Create a new view.
+        View v = LayoutInflater.from(context)
+                .inflate(R.layout.card_todolist_async, parent, false);
+
+        return new ScheduleItemHolder(v);
+    }
+
+    @Override
+    public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder,
+                                         int groupOrdinal, String headerItem) {
+        ScheduleHeaderViewHolder scheduleHeaderViewHolder = (ScheduleHeaderViewHolder) holder;
+        scheduleHeaderViewHolder.getTextView().setText(headerItem);
+    }
+
+    private static final int[] checkIds = new int[] {
+            R.id.label_important_urgent,
+            R.id.label_important_not_urgent,
+            R.id.label_not_important_urgent,
+            R.id.label_not_important_not_urgent,
+    };
+    @Override
+    public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder,
+                                       int groupOrdinal, Schedule item) {
+        ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
+        scheduleItemHolder.getTextViewTitle().setText(item.getTitle());
+        scheduleItemHolder.getTextViewContent().setText(item.getContent());
+        scheduleItemHolder.getTagCloudView().setTags(item.getTags());
+        scheduleItemHolder.getLabelGroup().check(checkIds[item.getLabel()]);
+    }
+    //-//</AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
 
 
     //-//<MainActivity.OnViewClickListener>---------------------------------------------------------------------
@@ -250,7 +361,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     }
     //-//</OnSelectDateListener>--------------------------------------------------------------------
 
-    //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
+    //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
 
 
 
@@ -270,5 +381,202 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
 
 
     //<内部类>---尽量少用----------------------------------------------------------------------------
+    private static class LoadDataTask extends AsyncTask<Void, Void, Void> {
+
+        private final int mGroupOrdinal;
+        private WeakReference<AsyncExpandableListView<String, Schedule>> listviewRef = null;
+
+        public LoadDataTask(int groupOrdinal, AsyncExpandableListView<String, Schedule> listview) {
+            mGroupOrdinal = groupOrdinal;
+            listviewRef = new WeakReference<>(listview);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            List<Schedule> items = new ArrayList<>();
+            Schedule schedule = new Schedule();
+            schedule.setTitle("Lawyers meet voluntary pro bono target for first time since 2013");
+            schedule.setContent("A voluntary target for the amount of pro bono work done by Australian lawyers has been met for the first time since 2013. Key points: The Australian Pro Bono Centre's asks lawyers to do 35 hours of free community work a year; Pro bono services can help ...\n");
+            schedule.setLabel(Schedule.LABEL_IMPORTANT_NOT_URGENT);
+            List<String> tags = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                tags.add("标签" + i);
+            }
+            schedule.setTags(tags);
+
+            items.add(schedule);
+//子任务
+//            schedule = new Schedule();
+//            schedule.setTitle("子任务标题");
+//            schedule.setContent("子任务内容");
+//            items.add(schedule);
+
+            if (listviewRef.get() != null) {
+                listviewRef.get().onFinishLoadingGroup(mGroupOrdinal, items);
+            }
+        }
+
+    }
+
+    public static class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder
+            implements AsyncExpandableListView.OnGroupStateChangeListener {
+
+        private final TextView textView;
+        private final ProgressBar mProgressBar;
+        private ImageView ivExpansionIndicator;
+
+        public ScheduleHeaderViewHolder(View v, int groupOrdinal, AsyncExpandableListView asyncExpandableListView) {
+            super(v, groupOrdinal, asyncExpandableListView);
+            textView = v.findViewById(R.id.calendar_item_content);
+            mProgressBar = v.findViewById(R.id.calendar_item_progressBar);
+            mProgressBar.getIndeterminateDrawable().setColorFilter(0xFFFFFFFF,
+                    android.graphics.PorterDuff.Mode.MULTIPLY);
+            ivExpansionIndicator = v.findViewById(R.id.calendar_item_ivExpansionIndicator);
+        }
+
+
+        public TextView getTextView() {
+            return textView;
+        }
+
+
+        @Override
+        public void onGroupStartExpending() {
+            mProgressBar.setVisibility(View.VISIBLE);
+            ivExpansionIndicator.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        public void onGroupExpanded() {
+            mProgressBar.setVisibility(View.GONE);
+            ivExpansionIndicator.setVisibility(View.VISIBLE);
+            ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_up);
+        }
+
+        @Override
+        public void onGroupCollapsed() {
+            mProgressBar.setVisibility(View.GONE);
+            ivExpansionIndicator.setVisibility(View.VISIBLE);
+            ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_down);
+
+        }
+    }
+
+    public static class ScheduleItemHolder extends RecyclerView.ViewHolder implements TagCloudView.OnTagClickListener, RadioGroup.OnCheckedChangeListener {
+        private static final String TAG = "ScheduleItemHolder";
+
+        private final TextView tvTitle;
+        private final TextView tvContent;
+        private final TagCloudView tagCloudView;
+        private final SegmentedRadioGroup label_group;
+        private final CircularProgressButton circular_progress_btn;
+        public ScheduleItemHolder(View v) {
+            super(v);
+            tvTitle = v.findViewById(R.id.title);
+            tvContent = v.findViewById(R.id.description);
+            label_group = v.findViewById(R.id.label_group);
+            tagCloudView = v.findViewById(R.id.tag_cloud_view);
+            circular_progress_btn = v.findViewById(R.id.circular_progress_btn);
+            circular_progress_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (circular_progress_btn.getProgress() == 0) {
+                        simulateErrorProgress(circular_progress_btn);
+                    } else {
+                        circular_progress_btn.setProgress(0);
+                    }
+                }
+            });
+
+            tagCloudView.setOnTagClickListener(this);
+            tagCloudView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e(TAG, "onClick tagCloudView");
+                }
+            });
+        }
+
+        public TextView getTextViewTitle() {
+            return tvTitle;
+        }
+
+        public TextView getTextViewContent() {
+            return tvContent;
+        }
+
+        public TagCloudView getTagCloudView() {
+            return tagCloudView;
+        }
+
+        public SegmentedRadioGroup getLabelGroup() {
+            return label_group;
+        }
+
+        private void simulateSuccessProgress(final CircularProgressButton button) {
+            ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 100);
+            widthAnimation.setDuration(1500);
+            widthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+            widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    button.setProgress(value);
+                }
+            });
+            widthAnimation.start();
+        }
+
+        private void simulateErrorProgress(final CircularProgressButton button) {
+            ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 99);
+            widthAnimation.setDuration(1500);
+            widthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+            widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    button.setProgress(value);
+                    if (value == 99) {
+                        button.setProgress(-1);
+                    }
+                }
+            });
+            widthAnimation.start();
+        }
+
+        //-//<TagCloudView.OnTagClickListener>------------------------------------------------------
+        @Override
+        public void onTagClick(int position) {
+            if (position == -1) {
+                Log.e(TAG, "onClick tagCloudView at --> 点击末尾文字");
+            } else {
+                Log.e(TAG, "onClick tagCloudView at --> 点击 position" + position);
+            }
+        }
+        //-//</TagCloudView.OnTagClickListener>------------------------------------------------------
+
+        //-//<RadioGroup.OnCheckedChangeListener>------------------------------------------------------
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch (checkedId) {
+                case R.id.label_important_urgent:
+                case R.id.label_important_not_urgent:
+                case R.id.label_not_important_urgent:
+                case R.id.label_not_important_not_urgent:
+            }
+        }
+        //-//</RadioGroup.OnCheckedChangeListener>------------------------------------------------------
+    }
     //</内部类>---尽量少用---------------------------------------------------------------------------
 }

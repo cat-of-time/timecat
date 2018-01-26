@@ -10,6 +10,12 @@
     <color name="text_color_import">#E64A19</color>
     <color name="text_color_half_trans">#80FFFFFF</color>
 
+    <color name="radio_colors">@color/colorPrimary</color>
+    <color name="label_important_urgent_color">@color/red</color>
+    <color name="label_important_not_urgent_color">@color/orange</color>
+    <color name="label_not_important_urgent_color">@color/blue</color>
+    <color name="label_not_important_not_urgent_color">@color/green</color>
+
     <color name="trans">#00000000</color>
     <color name="primary">#FF03A9F4</color>
     <color name="primary_dark">#FF0288D1</color>
@@ -83,4 +89,14 @@
     <color name="red">#F44336</color>
     <color name="red_dark">#C62828</color>
     <color name="red_trans">#99F44336</color>
+
+    <!--CircularProgressButton-->
+    <color name="cpb_grey">#ffdedede</color>
+    <color name="cpb_blue">#ff0099cc</color>
+    <color name="cpb_blue_dark">#ff00719b</color>
+    <color name="cpb_red">#ffff4444</color>
+    <color name="cpb_red_dark">#ffcd3a3a</color>
+    <color name="cpb_green">#ff99cc00</color>
+    <color name="cpb_green_dark">#ff6d9b00</color>
+    <color name="cpb_white">@android:color/white</color>
 </resources>

@@ -66,13 +66,25 @@
                 android:background="#fff">
             </com.ldf.calendar.view.MonthPager>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list"
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/list"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:layout_marginBottom="45dp"-->
+                <!--android:background="#ffffff"-->
+                <!--android:clipChildren="false"-->
+                <!--android:clipToPadding="false"-->
+                <!--app:layout_behavior="com.ldf.calendar.behavior.RecyclerViewBehavior"/>-->
+
+
+            <com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListView
+                android:id="@+id/asyncExpandableCollectionView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="45dp"
-                android:background="#ffffff"
+                android:background="@color/transparent"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 app:layout_behavior="com.ldf.calendar.behavior.RecyclerViewBehavior"/>

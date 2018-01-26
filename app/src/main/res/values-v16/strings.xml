@@ -8,5 +8,7 @@
     <string name="notify_monitor_clipboard_off">停用复制</string>
     <string name="notify_copy_title">全局复制</string>
     <string name="notify_srceen_cap">截屏OCR</string>
+    <string name="label_not_important_not_urgent">不重要不紧急</string>
+    <string name="label_not_important_urgent">紧急不重要</string>
 
 </resources>

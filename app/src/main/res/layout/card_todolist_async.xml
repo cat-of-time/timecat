@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/explore_io_card_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="9dp"
+    android:layout_marginTop="3dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="Gavan Griffith raises concerns about relationship between George Brandis, Justin Gleeson"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp"
+            tools:text="A long-serving former solicitor-general has launched a withering assessment of Attorney-General George Brandis' relationship with the nation's second law officer."/>
+
+        <com.time.cat.mvp.view.Label_n_Tag.SegmentedRadioGroup
+            android:id="@+id/label_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:checkedButton="@+id/label_important_urgent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/label_important_urgent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:minHeight="33dip"
+                android:minWidth="40dip"
+                android:text="@string/label_important_urgent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/label_important_urgent_color"
+                android:textSize="10sp"/>
+
+            <RadioButton
+                android:id="@+id/label_important_not_urgent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:minHeight="33dip"
+                android:minWidth="40dip"
+                android:text="@string/label_important_not_urgent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/label_important_not_urgent_color"
+                android:textSize="10sp"/>
+
+            <RadioButton
+                android:id="@+id/label_not_important_urgent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:minHeight="33dip"
+                android:minWidth="40dip"
+                android:text="@string/label_not_important_urgent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/label_not_important_urgent_color"
+                android:textSize="10sp"/>
+
+            <RadioButton
+                android:id="@+id/label_not_important_not_urgent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:minHeight="33dip"
+                android:minWidth="40dip"
+                android:text="@string/label_not_important_not_urgent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/label_not_important_not_urgent_color"
+                android:textSize="10sp"/>
+        </com.time.cat.mvp.view.Label_n_Tag.SegmentedRadioGroup>
+
+        <com.time.cat.mvp.view.Label_n_Tag.TagCloudView
+            android:id="@+id/tag_cloud_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_tagcloudview_light_selector"
+            app:tcvBackground="@drawable/background_tag_selector"
+            app:tcvBorder="8dp"
+            app:tcvCanTagClick="false"
+            app:tcvItemBorderHorizontal="8dp"
+            app:tcvItemBorderVertical="6dp"
+            app:tcvSingleLine="false"
+            app:tcvTextColor="#42A5F5"/>
+
+        <com.time.cat.mvp.view.progressButton.CircularProgressButton
+            android:id="@+id/circular_progress_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:cpb_cornerRadius="24dp"
+
+            app:cpb_textComplete="@string/Complete"
+            app:cpb_textError="@string/Error"
+            app:cpb_textIdle="@string/Upload"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

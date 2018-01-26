@@ -441,4 +441,11 @@ PS: xposed trigger mode and the general version is not the same, each have advan
     <string name="request_usage_setting_msg">Need usage status permission!</string>
     <string name="float_white_list">Apps do not show float view</string>
     <string name="float_white_list_nagetive">Without usage rights, we can not get the foreground application, the settings will not work</string>
+    <string name="label_not_important_not_urgent">不重要不紧急</string>
+    <string name="label_not_important_urgent">紧急不重要</string>
+    <string name="label_important_not_urgent">重要不紧急</string>
+    <string name="label_important_urgent">重要且紧急</string>
+    <string name="Complete">Complete</string>
+    <string name="Error">Error！</string>
+    <string name="Upload">Update</string>
 </resources>
