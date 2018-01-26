@@ -410,7 +410,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
             schedule.setContent("A voluntary target for the amount of pro bono work done by Australian lawyers has been met for the first time since 2013. Key points: The Australian Pro Bono Centre's asks lawyers to do 35 hours of free community work a year; Pro bono services can help ...\n");
             schedule.setLabel(Schedule.LABEL_IMPORTANT_NOT_URGENT);
             List<String> tags = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 tags.add("标签" + i);
             }
             schedule.setTags(tags);
