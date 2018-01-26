@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.time.cat.mvp.view;
+package com.time.cat.AnimationSystem;
 
 import android.view.animation.Animation;
 import android.view.animation.Transformation;

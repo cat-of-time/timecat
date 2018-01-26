@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;

@@ -30,6 +30,7 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
     public void onCreate() {
         super.onCreate();
         instance = this;
+        ThemeUtils.setSwitchColor(this);
         Global.init(this);
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
@@ -49,21 +50,31 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
 
     //<theme>---------------------------------------------------------------------------------------
     private String getTheme(Context context) {
-        if (ThemeManager.getTheme(context) == ThemeManager.CARD_STORM) {
-            return "blue";
-        } else if (ThemeManager.getTheme(context) == ThemeManager.CARD_HOPE) {
-            return "purple";
-        } else if (ThemeManager.getTheme(context) == ThemeManager.CARD_WOOD) {
-            return "green";
-        } else if (ThemeManager.getTheme(context) == ThemeManager.CARD_LIGHT) {
-            return "green_light";
-        } else if (ThemeManager.getTheme(context) == ThemeManager.CARD_THUNDER) {
-            return "yellow";
-        } else if (ThemeManager.getTheme(context) == ThemeManager.CARD_SAND) {
-            return "orange";
-        } else if (ThemeManager.getTheme(context) == ThemeManager.CARD_FIREY) {
-            return "red";
+        switch (ThemeManager.getTheme(context)) {
+            case ThemeManager.CARD_STORM:
+                return "blue";
+            case ThemeManager.CARD_HOPE:
+                return "purple";
+            case ThemeManager.CARD_WOOD:
+                return "green";
+            case ThemeManager.CARD_LIGHT:
+                return "green_light";
+            case ThemeManager.CARD_THUNDER:
+                return "yellow";
+            case ThemeManager.CARD_SAND:
+                return "orange";
+            case ThemeManager.CARD_FIREY:
+                return "red";
+            case ThemeManager.CARD_WHITE:
+                return "white";
+            case ThemeManager.CARD_BLACK:
+                return "black";
+            case ThemeManager.CARD_GREY:
+                return "gray";
+            case ThemeManager.CARD_TRANSPARENT:
+                return "transparent";
         }
+
         return null;
     }
 

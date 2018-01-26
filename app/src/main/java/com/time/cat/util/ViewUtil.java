@@ -78,6 +78,30 @@ public class ViewUtil {
         return px / TimeCatApp.getInstance().getResources().getDisplayMetrics().scaledDensity;
     }
 
+    /**
+     * Convert Dp to Pixel
+     */
+    public static int dpToPx(float dp, Resources resources) {
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
+        return (int) px;
+    }
+
+    public static int getRelativeTop(View myView) {
+//	    if (myView.getParent() == myView.getRootView())
+        if (myView.getId() == android.R.id.content)
+            return myView.getTop();
+        else
+            return myView.getTop() + getRelativeTop((View) myView.getParent());
+    }
+
+    public static int getRelativeLeft(View myView) {
+//	    if (myView.getParent() == myView.getRootView())
+        if (myView.getId() == android.R.id.content)
+            return myView.getLeft();
+        else
+            return myView.getLeft() + getRelativeLeft((View) myView.getParent());
+    }
+
     public static void hideInputMethod(View view) {
         InputMethodManager imm = (InputMethodManager) TimeCatApp.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

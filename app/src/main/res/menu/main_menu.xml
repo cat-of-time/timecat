@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group
+        android:id="@+id/main_menu_homeFragment"
+        android:visible="false">
+        <item
+            android:id="@+id/main_menu_today"
+            android:icon="@mipmap/ic_today"
+            android:title="@string/main_menu_today"
+            android:visible="false"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/main_menu_change_theme"
+            android:icon="@mipmap/ic_change_theme"
+            android:title="@string/main_menu_change_theme"
+            android:visible="false"
+            app:showAsAction="ifRoom"/>
+    </group>
+    <group
+        android:id="@+id/main_menu_dashboardFragment"
+        android:visible="false">
+        <item
+            android:id="@+id/main_menu_1"
+            android:icon="@mipmap/ic_browser"
+            android:title="@string/main_menu_change_theme"
+            android:visible="false"
+            app:showAsAction="ifRoom"/>
+    </group>
+    <group
+        android:id="@+id/main_menu_dashboardFragment2"
+        android:visible="false">
+        <item
+            android:id="@+id/main_menu_2"
+            android:icon="@mipmap/ic_change_theme"
+            android:title="@string/main_menu_change_theme"
+            android:visible="false"
+            app:showAsAction="ifRoom"/>
+    </group>
+    <item
+        android:id="@+id/main_menu_more"
+        android:icon="@mipmap/ic_more"
+        android:title="@string/main_menu_more"
+        app:showAsAction="always"/>
+
+</menu>

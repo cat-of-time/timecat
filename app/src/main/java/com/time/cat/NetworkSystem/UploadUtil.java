@@ -1,4 +1,4 @@
-package com.time.cat.mvp.model.network;
+package com.time.cat.NetworkSystem;
 
 /**
  * Created by wangyan-pd on 2017/1/17.

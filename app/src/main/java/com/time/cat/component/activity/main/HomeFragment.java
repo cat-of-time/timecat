@@ -22,9 +22,11 @@ import com.ldf.calendar.model.CalendarDate;
 import com.ldf.calendar.view.Calendar;
 import com.ldf.calendar.view.MonthPager;
 import com.time.cat.R;
+import com.time.cat.component.activity.main.adapter.CalendarAdapter;
+import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.base.BaseFragment;
 import com.time.cat.mvp.presenter.FragmentPresenter;
-import com.time.cat.mvp.presenter.OnViewClickListener;
+import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
 
@@ -43,14 +45,14 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
 
 
     //<生命周期>-------------------------------------------------------------------------------------
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        activity.setOnViewClickListener(this);
     }
-
     //</生命周期>------------------------------------------------------------------------------------
+
+
+
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
@@ -83,7 +85,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
 
-        Log.e(TAG, "OnCreated");
+        Log.i(TAG, "OnCreated");
         return view;
     }
 
@@ -155,7 +157,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
                     CalendarDate date = currentCalendars.get(position % currentCalendars.size()).getSeedDate();
                     currentDate = date;
                     if (mDateChangeListener != null) {
-                        mDateChangeListener.onDateChange(date.getYear(), date.getMonth());
+                        mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
                     }
                 }
             }
@@ -180,60 +182,34 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     private void initCurrentDate() {
         currentDate = new CalendarDate();
         if (mDateChangeListener != null) {
-            mDateChangeListener.onDateChange(currentDate.getYear(), currentDate.getMonth());
+            mDateChangeListener.onDateChange(currentDate.getYear(), currentDate.getMonth(), currentDate.isToday());
         }
     }
-
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
 
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
-//        MainActivity.setOnViewClickListener(this);
     }
 
 
     //-//<View.OnClickListener>---------------------------------------------------------------------
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-//            case R.id.back_today_button:
-//                refreshMonthPager();
-//                break;
-//            case R.id.theme_switch:
-//                refreshSelectBackground();
-//                break;
-//            case R.id.scroll_switch:
-//                if (calendarAdapter.getCalendarType() == CalendarAttr.CalendarType.WEEK) {
-//                    Utils.scrollTo(content, rvToDoList, monthPager.getViewHeight(), 200);
-//                    calendarAdapter.switchToMonth();
-//                } else {
-//                    Utils.scrollTo(content, rvToDoList, monthPager.getCellHeight(), 200);
-//                    calendarAdapter.switchToWeek(monthPager.getRowIndex());
-//                }
-//                break;
-//            case R.id.next_month:
-//                monthPager.setCurrentItem(monthPager.getCurrentPosition() + 1);
-//                break;
-//            case R.id.last_month:
-//                monthPager.setCurrentItem(monthPager.getCurrentPosition() - 1);
-//                break;
-        }
+        switch (view.getId()) {}
     }
-
-
     //-//</View.OnClickListener>---------------------------------------------------------------------
 
 
     //-//<MainActivity.OnViewClickListener>---------------------------------------------------------------------
     @Override
-    public void onView1Click() {
+    public void onViewTodayClick() {
         refreshMonthPager();
     }
 
     @Override
-    public void onView2Click() {
+    public void onViewChangeMarkThemeClick() {
         refreshSelectBackground();
     }
 
@@ -241,7 +217,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         CalendarDate today = new CalendarDate();
         calendarAdapter.notifyDataChanged(today);
         if (mDateChangeListener != null) {
-            mDateChangeListener.onDateChange(today.getYear(), today.getMonth());
+            mDateChangeListener.onDateChange(today.getYear(), today.getMonth(), today.isToday());
         }
     }
 
@@ -269,7 +245,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     private void refreshClickDate(CalendarDate date) {
         currentDate = date;
         if (mDateChangeListener != null) {
-            mDateChangeListener.onDateChange(date.getYear(), date.getMonth());
+            mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
         }
     }
     //-//</OnSelectDateListener>--------------------------------------------------------------------
@@ -277,16 +253,22 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
 
 
-    //<内部类>---尽量少用----------------------------------------------------------------------------
+
+
+
+
+    //<回调接口>-------------------------------------------------------------------------------------
     private OnDateChangeListener mDateChangeListener;
 
     public void setOnDateChangeListener(OnDateChangeListener DateChangeListener) {
         mDateChangeListener = DateChangeListener;
     }
+    //</回调接口>------------------------------------------------------------------------------------
 
-    public interface OnDateChangeListener {
-        void onDateChange(int year, int month);
-    }
+
+
+
+
+    //<内部类>---尽量少用----------------------------------------------------------------------------
     //</内部类>---尽量少用---------------------------------------------------------------------------
-
 }

@@ -145,7 +145,66 @@
             android:src="@drawable/selector_pick_item"
             app:backgroundTint="@color/pink" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="?attr/dialogPreferredPadding"
+        android:paddingRight="?attr/dialogPreferredPadding"
+        android:paddingTop="?attr/dialogPreferredPadding">
 
+        <com.time.cat.ThemeSystem.widgets.TintImageView
+            android:id="@+id/theme_white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_card_96_96"
+            android:scaleType="centerInside"
+            android:src="@drawable/selector_pick_item"
+            app:backgroundTint="@color/white" />
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible" />
+
+        <com.time.cat.ThemeSystem.widgets.TintImageView
+            android:id="@+id/theme_black"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_card_96_96"
+            android:scaleType="centerInside"
+            android:src="@drawable/selector_pick_item"
+            app:backgroundTint="@color/black" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible" />
+
+        <com.time.cat.ThemeSystem.widgets.TintImageView
+            android:id="@+id/theme_grey"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_card_96_96"
+            android:scaleType="centerInside"
+            android:src="@drawable/selector_pick_item"
+            app:backgroundTint="@color/grey" />
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible" />
+
+        <com.time.cat.ThemeSystem.widgets.TintImageView
+            android:id="@+id/theme_transparent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_card_96_96"
+            android:scaleType="centerInside"
+            android:src="@drawable/selector_pick_item"
+            app:backgroundTint="@color/transparent" />
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/buttonPanel"
         style="?attr/buttonBarStyle"
@@ -165,7 +224,7 @@
             android:visibility="invisible" />
 
         <com.time.cat.ThemeSystem.widgets.TintButton
-            android:id="@android:id/button2"
+            android:id="@+id/dialog_theme_cancel"
             style="?attr/buttonBarNegativeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -175,7 +234,7 @@
             android:textColor="@color/text_black" />
 
         <com.time.cat.ThemeSystem.widgets.TintButton
-            android:id="@android:id/button1"
+            android:id="@+id/dialog_theme_confirm"
             style="?attr/buttonBarPositiveButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

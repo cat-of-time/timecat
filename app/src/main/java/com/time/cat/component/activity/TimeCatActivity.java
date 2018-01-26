@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.mvp.model.network.RetrofitHelper;
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.util.ClipboardUtils;
 import com.time.cat.util.ColorUtil;
 import com.time.cat.util.ConstantUtil;

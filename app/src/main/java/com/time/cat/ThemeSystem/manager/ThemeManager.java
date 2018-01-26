@@ -37,6 +37,11 @@ public class ThemeManager {
     public static final int CARD_THUNDER = 0x6;
     public static final int CARD_SAND = 0x7;
     public static final int CARD_FIREY = 0x8;
+    public static final int CARD_WHITE = 0x9;
+    public static final int CARD_BLACK = 0xa;
+    public static final int CARD_GREY = 0xb;
+    public static final int CARD_TRANSPARENT = 0xc;
+
 
     public static SharedPreferences getSharePreference(Context context) {
         return context.getSharedPreferences("multiple_theme", Context.MODE_PRIVATE);
@@ -74,6 +79,14 @@ public class ThemeManager {
                 return "THE SAND";
             case CARD_FIREY:
                 return "THE FIREY";
+            case CARD_WHITE:
+                return "THE WHITE";
+            case CARD_BLACK:
+                return "THE BLACK";
+            case CARD_GREY:
+                return "THE GRAY";
+            case CARD_TRANSPARENT:
+                return "THE TRANSPARENT";
         }
         return "THE RETURN";
     }

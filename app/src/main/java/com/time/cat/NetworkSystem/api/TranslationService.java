@@ -1,4 +1,4 @@
-package com.time.cat.mvp.model.network.api;
+package com.time.cat.NetworkSystem.api;
 
 import com.time.cat.mvp.model.entity.TranslationItem;
 

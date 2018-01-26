@@ -6,7 +6,7 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.model.entity.ImageUpload;
-import com.time.cat.mvp.model.network.UploadUtil;
+import com.time.cat.NetworkSystem.UploadUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;

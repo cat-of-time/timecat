@@ -2,17 +2,16 @@ package com.ldf.calendar.component;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ldf.calendar.interf.OnAdapterSelectListener;
-import com.ldf.calendar.interf.IDayRenderer;
-import com.ldf.calendar.interf.OnSelectDateListener;
 import com.ldf.calendar.Utils;
-import com.ldf.calendar.view.MonthPager;
+import com.ldf.calendar.interf.IDayRenderer;
+import com.ldf.calendar.interf.OnAdapterSelectListener;
+import com.ldf.calendar.interf.OnSelectDateListener;
 import com.ldf.calendar.model.CalendarDate;
 import com.ldf.calendar.view.Calendar;
+import com.ldf.calendar.view.MonthPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,14 +67,14 @@ public class CalendarViewAdapter extends PagerAdapter {
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        Log.e("ldf","setPrimaryItem");
+//        Log.e("ldf","setPrimaryItem");
         super.setPrimaryItem(container, position, object);
         this.currentPosition = position;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        Log.e("ldf","instantiateItem");
+//        Log.e("ldf","instantiateItem");
         if (position < 2) {
             return null;
         }

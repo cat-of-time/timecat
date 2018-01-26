@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,10 +31,12 @@ import com.time.cat.AnimationSystem.ViewHelper;
 import com.time.cat.R;
 import com.time.cat.ThemeSystem.manager.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
+import com.time.cat.component.activity.main.adapter.MenuItemAdapter;
+import com.time.cat.component.activity.main.listener.OnDateChangeListener;
+import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.mvp.presenter.OnViewClickListener;
 import com.time.cat.mvp.view.CustomPagerView;
 
 import java.util.ArrayList;
@@ -44,18 +47,21 @@ import java.util.List;
  * @date 2018/1/19
  */
 @SuppressLint("SetTextI18n")
-public class MainActivity extends BaseActivity implements ActivityPresenter, DialogThemeFragment.ClickListener, DrawerLayout.DrawerListener, ViewPager.OnPageChangeListener, BottomNavigationView.OnNavigationItemSelectedListener, HomeFragment.OnDateChangeListener {
-    @SuppressWarnings("unused")
+public class MainActivity extends BaseActivity implements ActivityPresenter, OnDateChangeListener,
+        DialogThemeFragment.ClickListener, DrawerLayout.DrawerListener, ViewPager.OnPageChangeListener,
+        BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener,
+        AdapterView.OnItemClickListener {
     private static final String TAG = "MainActivity";
 
 
     //<生命周期>-------------------------------------------------------------------------------------
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_container);
         getWindow().setBackgroundDrawableResource(R.color.background_material_light_1);
+        setStatusBarFullTransparent();
+//        setDrawerLayoutFitSystemWindow();
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initView();
@@ -71,20 +77,36 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
     //</生命周期>------------------------------------------------------------------------------------
 
 
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     private ActionBar ab;
-    private TextView tvYear;
-    private TextView tvMonth;
-    private TextView tv1;
-    private TextView tv2;
     private DrawerLayout drawerLayout;
     private ListView mLvLeftMenu;
+
+    private Menu menu;
+
+    private TextView tvYear;
+    private TextView tvMonth;
+
     private CustomPagerView customPagerView;
     private CustomPagerViewAdapter customPagerViewAdapter;
+
     private BottomNavigationView navigation;
 
     @Override
     public void initView() {//必须调用
+        switch (ThemeManager.getTheme(this)) {
+            case ThemeManager.CARD_WHITE:
+            case ThemeManager.CARD_THUNDER:
+            case ThemeManager.CARD_TRANSPARENT:
+                setStatusBarFontIconDark(true);
+                break;
+            default:
+                setStatusBarFontIconDark(false);
+        }
+
         drawerLayout = findViewById(R.id.fd);
         assert drawerLayout != null;
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
@@ -92,11 +114,9 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
 
         tvYear = findViewById(R.id.main_year_view);
         tvMonth = findViewById(R.id.main_month_view);
-        tv1 = findViewById(R.id.tv1);
-        tv2 = findViewById(R.id.tv2);
 
         customPagerView = findViewById(R.id.main_viewpager);
-        navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.main_navigation);
         setUpDrawer();
         setToolBar();
         setViewPager();
@@ -109,40 +129,13 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
         LayoutInflater inflater = LayoutInflater.from(this);
         mLvLeftMenu.addHeaderView(inflater.inflate(R.layout.nav_header_main, mLvLeftMenu, false));
         mLvLeftMenu.setAdapter(new MenuItemAdapter(this));
-        mLvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 1:
-                        drawerLayout.closeDrawers();
-                        break;
-                    case 2:
-                        DialogThemeFragment themeDialog = new DialogThemeFragment();
-                        themeDialog.setClickListener(MainActivity.this);
-                        themeDialog.show(getSupportFragmentManager(), "theme");
-                        drawerLayout.closeDrawers();
-                        break;
-                    case 3:
-                        drawerLayout.closeDrawers();
-                        break;
-                    case 4:
-                        drawerLayout.closeDrawers();
-                        break;
-                    case 5:
-                        drawerLayout.closeDrawers();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
     /**
      * 左上角的侧滑栏入口
      */
     private void setToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
         assert ab != null;
@@ -158,57 +151,107 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
         HomeFragment homeFragment = new HomeFragment();
         homeFragment.setOnDateChangeListener(this);
         setOnViewClickListener(homeFragment);
+
+        DashboardFragment dashboardFragment = new DashboardFragment();
+        DashboardFragment dashboardFragment2 = new DashboardFragment();
+
+        fragmentNames = new String[]{"HomeFragment", "DashboardFragment", "DashboardFragment2"};
+
         customPagerViewAdapter = new CustomPagerViewAdapter(getSupportFragmentManager());
         customPagerViewAdapter.addFragment(homeFragment);
+        customPagerViewAdapter.addFragment(dashboardFragment);
+        customPagerViewAdapter.addFragment(dashboardFragment2);
         assert customPagerView != null;
         customPagerView.setAdapter(customPagerViewAdapter);
         customPagerView.setCurrentItem(0);
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
 
 
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
+
+
+
+
+    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {//必须调用
 
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
 
-    //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
+
+
+
+
+    //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
+        mLvLeftMenu.setOnItemClickListener(this);
         drawerLayout.setDrawerListener(this);
         customPagerView.addOnPageChangeListener(this);
         navigation.setOnNavigationItemSelectedListener(this);
-        if (mViewClickListener != null) {
-            tv1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mViewClickListener.onView1Click();
-                }
-            });
-            tv2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mViewClickListener.onView2Click();
-                }
-            });
-        }
     }
 
-    //-//<Listener>------------------------------------------------------------------------------
+    //-//<BottomNavigationView.OnNavigationItemSelectedListener>------------------------------------
+    String[] fragmentNames;
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //点击BottomNavigationView的Item项，切换ViewPager页面
-        //menu/navigation.xml里加的android:orderInCategory属性就是下面item.getOrder()取的值
+        //menu/main_navigation.xml里加的android:orderInCategory属性就是下面item.getOrder()取的值
         customPagerView.setCurrentItem(item.getOrder());
+        adjustActionBar(fragmentNames[item.getOrder()]);
         return true;
     }
-    //-//</Listener>-----------------------------------------------------------------------------
+
+    /**
+     * 根据当前fragment来动态绑定右上角的button
+     * @param currentFragment 当前fragment
+     */
+    private void adjustActionBar(String currentFragment) {
+        switch (currentFragment) {
+            case "HomeFragment":
+                if (menu != null) {
+                    menu.setGroupVisible(R.id.main_menu_homeFragment, true);
+                    menu.setGroupVisible(R.id.main_menu_dashboardFragment, false);
+                    menu.setGroupVisible(R.id.main_menu_dashboardFragment2, false);
+                    Log.i(TAG, "main_menu_homeFragment --> setGroupVisible");
+                    //不是今天 ? 显示 : 不显示
+                    if (!isToday) {
+                        menu.findItem(R.id.main_menu_today).setVisible(true);
+                    } else {
+                        menu.findItem(R.id.main_menu_today).setVisible(false);
+                    }
+                }
+                break;
+            case "DashboardFragment":
+                if (menu != null) {
+                    menu.setGroupVisible(R.id.main_menu_homeFragment, false);
+                    menu.setGroupVisible(R.id.main_menu_dashboardFragment, true);
+                    menu.setGroupVisible(R.id.main_menu_dashboardFragment2, false);
+                    Log.i(TAG, "main_menu_dashboardFragment --> setGroupVisible");
+                }
+                break;
+            case "DashboardFragment2":
+                if (menu != null) {
+                    menu.setGroupVisible(R.id.main_menu_homeFragment, false);
+                    menu.setGroupVisible(R.id.main_menu_dashboardFragment, false);
+                    menu.setGroupVisible(R.id.main_menu_dashboardFragment2, true);
+                    Log.i(TAG, "main_menu_dashboardFragment2 --> setGroupVisible");
+                }
+                break;
+        }
+    }
+    //-//</BottomNavigationView.OnNavigationItemSelectedListener>-----------------------------------
 
 
     //-//<Activity>---------------------------------------------------------------------------------
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        this.menu = menu;
+        return super.onCreateOptionsMenu(menu);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle item selection
@@ -217,7 +260,26 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
                 //Menu icon
                 drawerLayout.openDrawer(Gravity.LEFT);
                 return true;
-
+            case R.id.main_menu_today:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewTodayClick();
+                }
+                return true;
+            case R.id.main_menu_change_theme:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewChangeMarkThemeClick();
+                }
+                return true;
+            case R.id.main_menu_1:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewTodayClick();
+                }
+                return true;
+            case R.id.main_menu_2:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewChangeMarkThemeClick();
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -238,13 +300,24 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
     //-//</Activity>--------------------------------------------------------------------------------
 
 
-    //-//<DialogThemeFragment.ClickListener>------------------------------------------------------------
+    //-//<DialogThemeFragment.ClickListener>--------------------------------------------------------
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onConfirm(int currentTheme) {
-        if (ThemeManager.getTheme(MainActivity.this) != currentTheme) {
-            ThemeManager.setTheme(MainActivity.this, currentTheme);
-            ThemeUtils.refreshUI(MainActivity.this, new ThemeUtils.ExtraRefreshable() {
+        Log.e(TAG, "onConfirm----------------->");
+        if (ThemeManager.getTheme(this) != currentTheme) {
+            ThemeManager.setTheme(this, currentTheme);
+            switch (currentTheme) {
+                case ThemeManager.CARD_WHITE:
+                case ThemeManager.CARD_THUNDER:
+                case ThemeManager.CARD_TRANSPARENT:
+                    setStatusBarFontIconDark(true);
+                    break;
+                default:
+                    setStatusBarFontIconDark(false);
+            }
+            Log.e(TAG, "setTheme------------------>");
+            ThemeUtils.refreshUI(this, new ThemeUtils.ExtraRefreshable() {
                         @Override
                         public void refreshGlobal(Activity activity) {
                             //for global setting, just do once
@@ -253,6 +326,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
                                 ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(null, null, ThemeUtils.getThemeAttrColor(context, android.R.attr.colorPrimary));
                                 setTaskDescription(taskDescription);
                                 getWindow().setStatusBarColor(ThemeUtils.getColorById(context, R.color.theme_color_primary));
+
                             }
                         }
 
@@ -263,9 +337,8 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
             );
         }
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-//        changeTheme();
     }
-    //-//</DialogThemeFragment.ClickListener>-----------------------------------------------------------
+    //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
 
 
     //-//<ViewPager.OnPageChangeListener>-----------------------------------------------------------
@@ -275,20 +348,18 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
      * -[1->2->0 viewpage间的切换, 1->0 viewpage与drawer间的切换] }
      */
     final int[] canOpenDrawer = {0};
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
-
     @Override
     public void onPageSelected(int position) {
         //页面滑动的时候，改变BottomNavigationView的Item高亮
         navigation.getMenu().getItem(position).setChecked(true);
+        adjustActionBar(fragmentNames[position]);
     }
-
     @Override
     public void onPageScrollStateChanged(int state) {
-        Log.e(TAG, "state" + state);
+//        Log.e(TAG, "state" + state);
         if (customPagerView.getCurrentItem() == 0) {
             switch (state) {
                 case 1:
@@ -326,14 +397,13 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
         float scale = 1 - slideOffset;
         float rightScale = 0.8f + scale * 0.2f;
         float leftScale = 1 - 0.3f * scale;
-        Log.e(TAG, "\nscale:" + scale + "\nleftScale:" + leftScale + "\nrightScale:" + rightScale);
+//        Log.e(TAG, "\nscale:" + scale + "\nleftScale:" + leftScale + "\nrightScale:" + rightScale);
 
         ViewHelper.setAlpha(mMenu, 0.6f + 0.4f * (1 - scale));
         ViewHelper.setTranslationX(mContent, mMenu.getMeasuredWidth() * (1 - scale));
 
         mContent.invalidate();
     }
-
     /**
      * Called when a drawer has settled in a completely open state.
      * The drawer is interactive at this point.
@@ -344,7 +414,6 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
     public void onDrawerOpened(View drawerView) {
 
     }
-
     /**
      * Called when a drawer has settled in a completely closed state.
      *
@@ -354,7 +423,6 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
     public void onDrawerClosed(View drawerView) {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
     }
-
     /**
      * Called when the drawer motion state changes. The new state will
      * be one of {STATE_IDLE, STATE_DRAGGING, STATE_SETTLING}.
@@ -369,14 +437,78 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
 
 
     //-//<HomeFragment.OnDateChangeListener>--------------------------------------------------------
+    private boolean isToday;
     @Override
-    public void onDateChange(int year, int month) {
+    public void onDateChange(int year, int month, boolean isToday) {
         tvYear.setText(year + getString(R.string.calendar_year));
         tvMonth.setText(month + "");
+        this.isToday = isToday;
+        if (menu != null) {
+            Log.i(TAG, "menu != null --> setting main_menu_today");
+            //不是今天 ? 显示 : 不显示
+            if (!isToday) {
+                menu.findItem(R.id.main_menu_today).setVisible(true);
+            } else {
+                menu.findItem(R.id.main_menu_today).setVisible(false);
+            }
+        }
     }
     //-//</HomeFragment.OnDateChangeListener>-------------------------------------------------------
 
+
+    //-//<View.OnClickListener>---------------------------------------------------------------------
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+        }
+    }
+    //-//</View.OnClickListener>--------------------------------------------------------------------
+
+
+    //-//<View.OnClickListener>---------------------------------------------------------------------
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        switch (position) {
+            case 1:
+                drawerLayout.closeDrawers();
+                break;
+            case 2:
+                DialogThemeFragment themeDialog = new DialogThemeFragment();
+                themeDialog.setClickListener(this);
+                themeDialog.show(getSupportFragmentManager(), "theme");
+                drawerLayout.closeDrawers();
+                break;
+            case 3:
+                drawerLayout.closeDrawers();
+                break;
+            case 4:
+                drawerLayout.closeDrawers();
+                break;
+            case 5:
+                drawerLayout.closeDrawers();
+                break;
+            default:
+                break;
+        }
+    }
+    //-//</View.OnClickListener>--------------------------------------------------------------------
+
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
+
+
+
+
+
+    //<回调接口>-------------------------------------------------------------------------------------
+    private OnViewClickListener mViewClickListener;
+
+    public void setOnViewClickListener(OnViewClickListener onViewClickListener) {
+        mViewClickListener = onViewClickListener;
+    }
+    //</回调接口>-------------------------------------------------------------------------------------
+
+
+
 
 
     //<内部类>---尽量少用----------------------------------------------------------------------------
@@ -401,12 +533,6 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, Dia
             return mFragments.size();
         }
 
-    }
-
-    private OnViewClickListener mViewClickListener;
-
-    public void setOnViewClickListener(OnViewClickListener viewClickListener) {
-        mViewClickListener = viewClickListener;
     }
     //</内部类>---尽量少用---------------------------------------------------------------------------
 

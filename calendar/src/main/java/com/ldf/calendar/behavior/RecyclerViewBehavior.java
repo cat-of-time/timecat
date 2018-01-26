@@ -53,7 +53,7 @@ public class RecyclerViewBehavior extends CoordinatorLayout.Behavior<RecyclerVie
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, RecyclerView child,
                                        View directTargetChild, View target, int nestedScrollAxes) {
-        Log.e("ldf", "onStartNestedScroll");
+//        Log.e("ldf", "onStartNestedScroll");
 
         MonthPager monthPager = (MonthPager) coordinatorLayout.getChildAt(0);
         monthPager.setScrollable(false);
@@ -65,7 +65,7 @@ public class RecyclerViewBehavior extends CoordinatorLayout.Behavior<RecyclerVie
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, RecyclerView child,
                                   View target, int dx, int dy, int[] consumed) {
-        Log.e("ldf", "onNestedPreScroll");
+//        Log.e("ldf", "onNestedPreScroll");
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
         child.setVerticalScrollBarEnabled(true);
 
@@ -93,7 +93,7 @@ public class RecyclerViewBehavior extends CoordinatorLayout.Behavior<RecyclerVie
 
     @Override
     public void onStopNestedScroll(final CoordinatorLayout parent, final RecyclerView child, View target) {
-        Log.e("ldf", "onStopNestedScroll");
+//        Log.e("ldf", "onStopNestedScroll");
         super.onStopNestedScroll(parent, child, target);
         MonthPager monthPager = (MonthPager) parent.getChildAt(0);
         monthPager.setScrollable(true);

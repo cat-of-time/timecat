@@ -16,32 +16,39 @@
             android:background="#fff"
             android:orientation="horizontal">
 
-            <TextView
+            <com.time.cat.ThemeSystem.widgets.TintTextView
                 style="@style/weekIndicatorStyle"
+                android:background="@color/theme_color_primary"
                 android:text="日"/>
 
-            <TextView
+            <com.time.cat.ThemeSystem.widgets.TintTextView
                 style="@style/weekIndicatorStyle"
+                android:background="@color/theme_color_primary"
                 android:text="一"/>
 
-            <TextView
+            <com.time.cat.ThemeSystem.widgets.TintTextView
                 style="@style/weekIndicatorStyle"
+                android:background="@color/theme_color_primary"
                 android:text="二"/>
 
-            <TextView
+            <com.time.cat.ThemeSystem.widgets.TintTextView
                 style="@style/weekIndicatorStyle"
+                android:background="@color/theme_color_primary"
                 android:text="三"/>
 
-            <TextView
+            <com.time.cat.ThemeSystem.widgets.TintTextView
                 style="@style/weekIndicatorStyle"
+                android:background="@color/theme_color_primary"
                 android:text="四"/>
 
-            <TextView
+            <com.time.cat.ThemeSystem.widgets.TintTextView
                 style="@style/weekIndicatorStyle"
+                android:background="@color/theme_color_primary"
                 android:text="五"/>
 
-            <TextView
+            <com.time.cat.ThemeSystem.widgets.TintTextView
                 style="@style/weekIndicatorStyle"
+                android:background="@color/theme_color_primary"
                 android:text="六"/>
 
         </LinearLayout>

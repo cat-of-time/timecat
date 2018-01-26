@@ -1,12 +1,12 @@
-package com.time.cat.mvp.model.network;
+package com.time.cat.NetworkSystem;
 
 import com.time.cat.TimeCatApp;
-import com.time.cat.mvp.model.network.api.ImageUploadService;
-import com.time.cat.mvp.model.network.api.MicSoftOcrService;
-import com.time.cat.mvp.model.network.api.OcrService;
-import com.time.cat.mvp.model.network.api.PicUploadService;
-import com.time.cat.mvp.model.network.api.TranslationService;
-import com.time.cat.mvp.model.network.api.WordSegmentService;
+import com.time.cat.NetworkSystem.api.ImageUploadService;
+import com.time.cat.NetworkSystem.api.MicSoftOcrService;
+import com.time.cat.NetworkSystem.api.OcrService;
+import com.time.cat.NetworkSystem.api.PicUploadService;
+import com.time.cat.NetworkSystem.api.TranslationService;
+import com.time.cat.NetworkSystem.api.WordSegmentService;
 import com.time.cat.util.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

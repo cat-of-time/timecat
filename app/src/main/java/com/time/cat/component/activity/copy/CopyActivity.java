@@ -201,7 +201,7 @@ public class CopyActivity extends BaseActivity {
         return text.toString();
     }
 
-    private int getStatusBarHeight() {
+    public int getStatusBarHeight() {
         int resId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         return resId > 0 ? getResources().getDimensionPixelSize(resId) : (int) Math.ceil((double) (25.0F * getResources().getDisplayMetrics().density));
     }

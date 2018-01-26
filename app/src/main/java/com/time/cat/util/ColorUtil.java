@@ -1,6 +1,9 @@
 package com.time.cat.util;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.support.annotation.AttrRes;
 
 /**
  * Created by Administrator on 2016/12/3.
@@ -17,6 +20,19 @@ public class ColorUtil {
             return Color.BLACK;
         } else {
             return Color.WHITE;
+        }
+    }
+
+    public static int resolveColor(Context context, @AttrRes int attr) {
+        return resolveColor(context, attr, 0);
+    }
+
+    public static int resolveColor(Context context, @AttrRes int attr, int fallback) {
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
+        try {
+            return a.getColor(0, fallback);
+        } finally {
+            a.recycle();
         }
     }
 }

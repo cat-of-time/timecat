@@ -22,7 +22,7 @@ import com.time.cat.ThemeSystem.manager.ThemeManager;
 public class DialogThemeFragment extends DialogFragment implements View.OnClickListener {
 
     public static final String TAG = "DialogThemeFragment";
-    ImageView[] mCards = new ImageView[8];
+    ImageView[] mCards = new ImageView[12];
     Button mConfirm;
     Button mCancel;
 
@@ -44,8 +44,8 @@ public class DialogThemeFragment extends DialogFragment implements View.OnClickL
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mCancel = view.findViewById(android.R.id.button2);
-        mConfirm = view.findViewById(android.R.id.button1);
+        mCancel = view.findViewById(R.id.dialog_theme_cancel);
+        mConfirm = view.findViewById(R.id.dialog_theme_confirm);
         mCards[0] = view.findViewById(R.id.theme_pink);
         mCards[1] = view.findViewById(R.id.theme_purple);
         mCards[2] = view.findViewById(R.id.theme_blue);
@@ -54,6 +54,10 @@ public class DialogThemeFragment extends DialogFragment implements View.OnClickL
         mCards[5] = view.findViewById(R.id.theme_yellow);
         mCards[6] = view.findViewById(R.id.theme_orange);
         mCards[7] = view.findViewById(R.id.theme_red);
+        mCards[8] = view.findViewById(R.id.theme_white);
+        mCards[9] = view.findViewById(R.id.theme_black);
+        mCards[10] = view.findViewById(R.id.theme_grey);
+        mCards[11] = view.findViewById(R.id.theme_transparent);
         setImageButtons(mCurrentTheme);
         for (ImageView card : mCards) {
             card.setOnClickListener(this);
@@ -64,14 +68,14 @@ public class DialogThemeFragment extends DialogFragment implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        Log.e(TAG, "onClick");
+        Log.i(TAG, "onClick");
         switch (v.getId()) {
-
-            case android.R.id.button1:
+            case R.id.dialog_theme_confirm:
                 if (mClickListener != null) {
+                    Log.i(TAG, "onConfirm");
                     mClickListener.onConfirm(mCurrentTheme);
                 }
-            case android.R.id.button2:
+            case R.id.dialog_theme_cancel:
                 dismiss();
                 break;
             case R.id.theme_pink:
@@ -106,6 +110,22 @@ public class DialogThemeFragment extends DialogFragment implements View.OnClickL
                 mCurrentTheme = ThemeManager.CARD_FIREY;
                 setImageButtons(mCurrentTheme);
                 break;
+            case R.id.theme_white:
+                mCurrentTheme = ThemeManager.CARD_WHITE;
+                setImageButtons(mCurrentTheme);
+                break;
+            case R.id.theme_black:
+                mCurrentTheme = ThemeManager.CARD_BLACK;
+                setImageButtons(mCurrentTheme);
+                break;
+            case R.id.theme_grey:
+                mCurrentTheme = ThemeManager.CARD_GREY;
+                setImageButtons(mCurrentTheme);
+                break;
+            case R.id.theme_transparent:
+                mCurrentTheme = ThemeManager.CARD_TRANSPARENT;
+                setImageButtons(mCurrentTheme);
+                break;
             default:
                 break;
         }
@@ -120,6 +140,10 @@ public class DialogThemeFragment extends DialogFragment implements View.OnClickL
         mCards[5].setSelected(currentTheme == ThemeManager.CARD_THUNDER);
         mCards[6].setSelected(currentTheme == ThemeManager.CARD_SAND);
         mCards[7].setSelected(currentTheme == ThemeManager.CARD_FIREY);
+        mCards[8].setSelected(currentTheme == ThemeManager.CARD_WHITE);
+        mCards[9].setSelected(currentTheme == ThemeManager.CARD_BLACK);
+        mCards[10].setSelected(currentTheme == ThemeManager.CARD_GREY);
+        mCards[11].setSelected(currentTheme == ThemeManager.CARD_TRANSPARENT);
     }
 
     public void setClickListener(ClickListener clickListener) {

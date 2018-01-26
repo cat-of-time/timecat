@@ -33,20 +33,18 @@ import android.util.StateSet;
 import android.util.TypedValue;
 import android.util.Xml;
 
+import com.time.cat.R;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-
-import com.time.cat.R;
 
 /**
  * @author xyczero617@gmail.com
  * @time 16/2/22
  */
 public abstract class DrawableUtils {
-
-    protected abstract Drawable inflateDrawable(Context context, XmlPullParser parser, AttributeSet attrs) throws IOException, XmlPullParserException;
 
     static Drawable createDrawable(Context context, int resId) {
         if (resId <= 0) return null;
@@ -74,7 +72,7 @@ public abstract class DrawableUtils {
                         throw new XmlPullParserException("No start tag found");
                     }
 
-                    dr = createFromXmlInner(context, rp, attrs);
+                    dr = createFromXmlInner(context, rp, attrs, resId);
                     rp.close();
                 }
             } catch (IOException e) {
@@ -87,23 +85,33 @@ public abstract class DrawableUtils {
     }
 
     static Drawable createFromXmlInner(Context context, XmlPullParser parser, AttributeSet attrs) throws IOException, XmlPullParserException {
-        final DrawableUtils drawableUtils;
+        return createFromXmlInner(context, parser, attrs, 0);
+    }
+
+    static Drawable createFromXmlInner(Context context, XmlPullParser parser, AttributeSet attrs, int resId) throws IOException, XmlPullParserException {
+        final DrawableInflateDelegate delegate;
 
         final String name = parser.getName();
         switch (name) {
             case "selector":
-                drawableUtils = new StateListDrawableUtils();
+                delegate = new StateListDrawableInflateImpl();
                 break;
             case "shape":
-                drawableUtils = new GradientDrawableUtils();
+                delegate = new GradientDrawableInflateImpl();
                 break;
             case "layer-list":
-                drawableUtils = new LayerDrawableUtils();
+                delegate = new LayerDrawableInflateImpl();
+                break;
+            case "ripple":
+                delegate = new RippleDrawableInflateImpl();
+                break;
+            case "vector":
+                delegate = new VectorDrawableInflateImpl(resId);
                 break;
             default:
-                drawableUtils = null;
+                delegate = null;
         }
-        return drawableUtils == null ? null : drawableUtils.inflateDrawable(context, parser, attrs);
+        return delegate == null ? null : delegate.inflateDrawable(context, parser, attrs);
     }
 
     /**
@@ -112,7 +120,7 @@ public abstract class DrawableUtils {
      * @param attrs The attribute set.
      * @return An array of state_ attributes.
      */
-    protected int[] extractStateSet(AttributeSet attrs) {
+    static int[] extractStateSet(AttributeSet attrs) {
         int j = 0;
         final int numAttrs = attrs.getAttributeCount();
         int[] states = new int[numAttrs];

@@ -16,6 +16,7 @@
 
 package com.time.cat.ThemeSystem.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -52,13 +53,13 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
 
+import com.time.cat.R;
+import com.time.cat.ThemeSystem.widgets.Tintable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
-
-import com.time.cat.R;
-import com.time.cat.ThemeSystem.widgets.Tintable;
 
 /**
  * Created by xyczero on 15/9/6.
@@ -272,6 +273,7 @@ public class ThemeUtils {
         return false;
     }
 
+    @SuppressLint("RestrictedApi")
     public static Drawable getWrapperDrawable(Drawable drawable) {
         if (drawable instanceof android.support.v4.graphics.drawable.DrawableWrapper) {
             return ((android.support.v4.graphics.drawable.DrawableWrapper) drawable).getWrappedDrawable();
@@ -292,6 +294,7 @@ public class ThemeUtils {
         return null;
     }
 
+    @SuppressLint("RestrictedApi")
     public static ContextWrapper getWrapperContext(Context context, @StyleRes int themeId) {
         if (context == null) return null;
 

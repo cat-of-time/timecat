@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/navigation_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:fitsSystemWindows="true"
-                android:orientation="vertical">
+<com.time.cat.ThemeSystem.widgets.TintRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navigation_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_color_primary"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/top_bac"
@@ -15,4 +16,4 @@
         android:src="@mipmap/topinfo_ban_bg"/>
 
 
-</RelativeLayout>
+</com.time.cat.ThemeSystem.widgets.TintRelativeLayout>

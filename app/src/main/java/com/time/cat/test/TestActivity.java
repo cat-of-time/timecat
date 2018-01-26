@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.mvp.model.network.RetrofitHelper;
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.util.IOUtil;
 import com.time.cat.util.LogUtil;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;

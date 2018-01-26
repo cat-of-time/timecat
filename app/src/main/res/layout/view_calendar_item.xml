@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.time.cat.ThemeSystem.widgets.TintRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cv_item"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="#e7e7e7"
-    android:id="@+id/cv_item">
+    android:background="@color/theme_color_primary">
 
-    <TextView
-        android:id="@+id/text_view"
+
+    <CheckBox
+        android:id="@+id/calendar_item_checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        android:buttonTint="@color/green"/>
+
+    <TextView
+        android:id="@+id/calendar_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="temp"
+        android:layout_toEndOf="@+id/calendar_item_checkBox"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/calendar_item_delay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="顺延1天"
+        android:textColor="@color/red"
+        android:textSize="10sp"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.67dp"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"/>
-</RelativeLayout>
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#efefef"/>
+
+</com.time.cat.ThemeSystem.widgets.TintRelativeLayout>

@@ -2,7 +2,6 @@ package com.ldf.calendar.behavior;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.ldf.calendar.Utils;
@@ -54,7 +53,7 @@ public class MonthPagerBehavior extends CoordinatorLayout.Behavior<MonthPager> {
             }
 
             child.offsetTopAndBottom(dy);
-            Log.e("ldf", "onDependentViewChanged = " + dy);
+//            Log.e("ldf", "onDependentViewChanged = " + dy);
 
         }
 

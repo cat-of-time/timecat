@@ -135,6 +135,10 @@ public class CalendarDate implements Serializable {
         this.day = day;
     }
 
+    public boolean isToday() {
+        return this.day == Utils.getDay();
+    }
+
     public boolean equals(CalendarDate date) {
         if (date == null) {
             return false;

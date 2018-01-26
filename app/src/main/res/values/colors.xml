@@ -18,6 +18,8 @@
     <color name="quarter_transparent">#40000000</color>
     <color name="shadow">#aa000000</color>
     <color name="transparent">#00000000</color>
+    <color name="grey">#727272</color>
+    <color name="gray">#727272</color>
 
     <color name="intro_bg">#3d85c0</color>
 

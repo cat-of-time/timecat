@@ -3,5 +3,5 @@
     <item android:drawable="@drawable/view_calendar_active_mark_background"
         android:state_enabled="true"></item>
     <item android:drawable="@drawable/view_calendar_unactive_mark_background"
-        android:state_enabled="false"></item>
+          android:state_enabled="false"></item>
 </selector>
