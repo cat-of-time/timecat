@@ -33,10 +33,9 @@ public class MenuItemAdapter extends BaseAdapter {
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
-                new LvMenuItem(R.mipmap.ic_close, "夜间模式"),
-                new LvMenuItem(R.mipmap.ic_close, "主题换肤"),
-                new LvMenuItem(R.mipmap.ic_close, "定时关闭音乐"),
-                new LvMenuItem(R.mipmap.ic_close, "下载歌曲品质"),
+                new LvMenuItem(R.drawable.ic_drawer_night_mode, "夜间模式"),
+                new LvMenuItem(R.drawable.ic_drawer_choose_theme, "主题换肤"),
+                new LvMenuItem(R.drawable.ic_drawer_setting, "设置"),
                 new LvMenuItem(R.mipmap.ic_close, "退出")
             ));
 

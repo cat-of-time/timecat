@@ -2,5 +2,7 @@
 
     <dimen name="main_toolbar_height">@dimen/margin_four</dimen>
     <dimen name="main_tablayout_height">@dimen/height_normal</dimen>
+    <dimen name="calendar_item_ivExpansionIndicator_height">32dp</dimen>
+    <dimen name="calendar_item_ivExpansionIndicator_width">32dp</dimen>
 
 </resources>

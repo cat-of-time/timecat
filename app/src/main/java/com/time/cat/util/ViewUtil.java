@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.time.cat.TimeCatApp;
 
@@ -64,6 +66,11 @@ public class ViewUtil {
 
     public static int dp2px(float dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, TimeCatApp.getInstance().getResources().getDisplayMetrics());
+    }
+
+    public static int dp2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 
     public static float px2dp(float px) {
@@ -162,6 +169,50 @@ public class ViewUtil {
         return activity.getWindowManager().getDefaultDisplay().getHeight() + getNavigationBarHeight(activity);
     }
 
+    /**
+     * 下划线
+     *
+     * @param textView input
+     */
+    public static void addButtomLine(TextView textView) {
+        textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+    }
+
+    /**
+     * 取消设置的的划线
+     *
+     * @param textView input
+     */
+    public static void removeLine(TextView textView) {
+        textView.getPaint().setFlags(0); // 取消设置的的划线
+    }
+
+    /**
+     * 设置中划线并加清晰
+     *
+     * @param textView input
+     */
+    public static void addClearCenterLine(TextView textView) {
+        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置中划线并加清晰
+    }
+
+    /**
+     * 中划线
+     *
+     * @param textView input
+     */
+    public static void addCenterLine(TextView textView) {
+        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); // 中划线
+    }
+
+    /**
+     * 抗锯齿
+     *
+     * @param textView input
+     */
+    public static void addjuchiLine(TextView textView) {
+        textView.getPaint().setAntiAlias(true);// 抗锯齿
+    }
 
 //    /**
 //     * Apply any View style attributes to a view.

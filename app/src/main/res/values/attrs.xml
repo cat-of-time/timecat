@@ -11,7 +11,7 @@
     <attr name="fromDegrees" format="float|reference" />
     <attr name="toDegrees" format="float|reference" />
     <attr name="childSize" format="dimension|reference" />
-
+    <!--ArcLayout-->
     <declare-styleable name="ArcLayout">
         <attr name="fromDegrees"/>
         <attr name="toDegrees"/>
@@ -181,9 +181,17 @@
 
         <attr name="tcvTagResId" format="reference"/>
     </declare-styleable>
-
     <!--Tag View-->
     <declare-styleable name="CompoundButton">
         <attr name="android:button" />
+    </declare-styleable>
+    <!--SmoothCheckBox-->
+    <declare-styleable name="SmoothCheckBox">
+        <attr name="duration" format="integer"/>
+        <attr name="stroke_width" format="dimension"/>
+        <attr name="color_tick" format="color"/>
+        <attr name="color_checked" format="color"/>
+        <attr name="color_unchecked" format="color"/>
+        <attr name="color_unchecked_stroke" format="color"/>
     </declare-styleable>
 </resources>

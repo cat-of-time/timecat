@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,9 +33,11 @@ import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseFragment;
 import com.time.cat.mvp.model.Schedule;
+import com.time.cat.mvp.model.ScheduleHeaderItem;
 import com.time.cat.mvp.presenter.FragmentPresenter;
 import com.time.cat.mvp.view.Label_n_Tag.SegmentedRadioGroup;
 import com.time.cat.mvp.view.Label_n_Tag.TagCloudView;
+import com.time.cat.mvp.view.SmoothCheckBox;
 import com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListView;
 import com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListViewCallbacks;
 import com.time.cat.mvp.view.asyncExpandableListView.AsyncHeaderViewHolder;
@@ -42,6 +45,7 @@ import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
 import com.time.cat.mvp.view.progressButton.CircularProgressButton;
+import com.time.cat.util.ViewUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -55,7 +59,7 @@ import java.util.List;
  */
 @SuppressLint("SetTextI18n")
 public class HomeFragment extends BaseFragment implements FragmentPresenter, OnSelectDateListener,
-        View.OnClickListener, OnViewClickListener, AsyncExpandableListViewCallbacks<String, Schedule> {
+        View.OnClickListener, OnViewClickListener, AsyncExpandableListViewCallbacks<ScheduleHeaderItem, Schedule> {
     @SuppressWarnings("unused")
     private static final String TAG = "HomeFragment";
 
@@ -65,10 +69,16 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        refreshMonthPager();
+        Utils.scrollTo(content, mAsyncExpandableListView, monthPager.getCellHeight(), 200);
+        calendarAdapter.switchToWeek(monthPager.getRowIndex());
+    }
+
     //</生命周期>------------------------------------------------------------------------------------
-
-
-
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
@@ -76,8 +86,8 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     private MonthPager monthPager;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
-    private AsyncExpandableListView<String, Schedule> mAsyncExpandableListView;
-    private CollectionView.Inventory<String, Schedule> inventory;
+    private AsyncExpandableListView<ScheduleHeaderItem, Schedule> mAsyncExpandableListView;
+    private CollectionView.Inventory<ScheduleHeaderItem, Schedule> inventory;
 
     @Nullable
     @Override
@@ -99,13 +109,14 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
 
-        Log.i(TAG, "OnCreated");
+        Log.i(TAG, "OnCreateView");
         return view;
     }
 
     private Context context;
     private CalendarDate currentDate;
     private int mCurrentPage = MonthPager.CURRENT_DAY_INDEX;
+
     @Override
     public void initView() {//必须调用
         initCalendarView();
@@ -120,7 +131,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         calendarAdapter = new CalendarViewAdapter(
                 context,
                 this,
-                CalendarAttr.CalendarType.MONTH,
+                CalendarAttr.CalendarType.WEEK,
                 CalendarAttr.WeekArrayType.Sunday,
                 customDayView);
         calendarAdapter.setOnCalendarTypeChangedListener(new CalendarViewAdapter.OnCalendarTypeChanged() {
@@ -174,11 +185,14 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
                     if (mDateChangeListener != null) {
                         mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
                     }
+                } else {
+                    refreshMonthPager();
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                calendarAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -206,43 +220,11 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
 
         inventory = new CollectionView.Inventory<>();
 
-        CollectionView.InventoryGroup<String, Schedule> group1 = inventory.newGroup(0); // groupOrdinal is the smallest, displayed first
-        group1.setHeaderItem("Top Stories");
-
-
-        CollectionView.InventoryGroup<String, Schedule> group2 = inventory.newGroup(2);
-        group2.setHeaderItem("World");
-
-
-        CollectionView.InventoryGroup<String, Schedule> group3 = inventory.newGroup(3);
-        group3.setHeaderItem("Australia");
-
-        CollectionView.InventoryGroup<String, Schedule> group4 = inventory.newGroup(4);
-        group4.setHeaderItem("International");
-
-        CollectionView.InventoryGroup<String, Schedule> group5 = inventory.newGroup(5);
-        group5.setHeaderItem("Businesses");
-
-        CollectionView.InventoryGroup<String, Schedule> group6 = inventory.newGroup(6);
-        group6.setHeaderItem("Technology");
-
-        CollectionView.InventoryGroup<String, Schedule> group7 = inventory.newGroup(7);
-        group7.setHeaderItem("Environment");
-
-        CollectionView.InventoryGroup<String, Schedule> group8 = inventory.newGroup(8);
-        group8.setHeaderItem("Health");
-
-        CollectionView.InventoryGroup<String, Schedule> group9 = inventory.newGroup(9);
-        group9.setHeaderItem("Science");
-
-        CollectionView.InventoryGroup<String, Schedule> group10 = inventory.newGroup(10);
-        group10.setHeaderItem("Sports");
-
-        CollectionView.InventoryGroup<String, Schedule> group11 = inventory.newGroup(11);
-        group11.setHeaderItem("Entertainment");
-
-        CollectionView.InventoryGroup<String, Schedule> group12 = inventory.newGroup(12);
-        group12.setHeaderItem("Politics");
+        for (int i = 0; i < 12; i++) {
+            CollectionView.InventoryGroup<ScheduleHeaderItem, Schedule> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
+            String[] titles = getResources().getStringArray(R.array.titles);
+            group_i.setHeaderItem(new ScheduleHeaderItem(titles[i], i % 4));
+        }
 
         mAsyncExpandableListView.updateInventory(inventory);
     }
@@ -259,7 +241,8 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     //-//<View.OnClickListener>---------------------------------------------------------------------
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {}
+        switch (view.getId()) {
+        }
     }
     //-//</View.OnClickListener>---------------------------------------------------------------------
 
@@ -273,8 +256,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     @Override
     public AsyncHeaderViewHolder newCollectionHeaderView(Context context, int groupOrdinal, ViewGroup parent) {
         // Create a new view.
-        View v = LayoutInflater.from(context)
-                .inflate(R.layout.item_todo_list, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_todo_list, parent, false);
 
         return new ScheduleHeaderViewHolder(v, groupOrdinal, mAsyncExpandableListView);
     }
@@ -282,25 +264,37 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     @Override
     public RecyclerView.ViewHolder newCollectionItemView(Context context, int groupOrdinal, ViewGroup parent) {
         // Create a new view.
-        View v = LayoutInflater.from(context)
-                .inflate(R.layout.card_todolist_async, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.card_todolist_async, parent, false);
 
         return new ScheduleItemHolder(v);
     }
 
+    private static final int[] labelColor = new int[] {
+//            getResources().getColor(R.color.label_important_urgent_color),
+//            getResources().getColor(R.color.label_important_not_urgent_color),
+//            getResources().getColor(R.color.label_not_important_urgent_color),
+//            getResources().getColor(R.color.label_not_important_not_urgent_color),
+            Color.parseColor("#f44336"),
+            Color.parseColor("#ff8700"),
+            Color.parseColor("#2196f3"),
+            Color.parseColor("#4caf50"),
+    };
+
     @Override
     public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder,
-                                         int groupOrdinal, String headerItem) {
+                                         int groupOrdinal, ScheduleHeaderItem headerItem) {
         ScheduleHeaderViewHolder scheduleHeaderViewHolder = (ScheduleHeaderViewHolder) holder;
-        scheduleHeaderViewHolder.getTextView().setText(headerItem);
+        scheduleHeaderViewHolder.getTextView().setText(headerItem.getTitle());
+        scheduleHeaderViewHolder.getCalendar_item_checkBox().setColor(labelColor[headerItem.getLabel()]);
     }
 
-    private static final int[] checkIds = new int[] {
+    private static final int[] checkIds = new int[]{
             R.id.label_important_urgent,
             R.id.label_important_not_urgent,
             R.id.label_not_important_urgent,
             R.id.label_not_important_not_urgent,
     };
+
     @Override
     public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder,
                                        int groupOrdinal, Schedule item) {
@@ -367,7 +361,6 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
 
 
 
-
     //<回调接口>-------------------------------------------------------------------------------------
     private OnDateChangeListener mDateChangeListener;
 
@@ -384,9 +377,9 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     private static class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         private final int mGroupOrdinal;
-        private WeakReference<AsyncExpandableListView<String, Schedule>> listviewRef = null;
+        private WeakReference<AsyncExpandableListView<ScheduleHeaderItem, Schedule>> listviewRef = null;
 
-        public LoadDataTask(int groupOrdinal, AsyncExpandableListView<String, Schedule> listview) {
+        public LoadDataTask(int groupOrdinal, AsyncExpandableListView<ScheduleHeaderItem, Schedule> listview) {
             mGroupOrdinal = groupOrdinal;
             listviewRef = new WeakReference<>(listview);
         }
@@ -430,15 +423,18 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     }
 
     public static class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder
-            implements AsyncExpandableListView.OnGroupStateChangeListener {
+            implements AsyncExpandableListView.OnGroupStateChangeListener, SmoothCheckBox.OnCheckedChangeListener {
 
+        private SmoothCheckBox calendar_item_checkBox;
         private final TextView textView;
         private final ProgressBar mProgressBar;
         private ImageView ivExpansionIndicator;
 
         public ScheduleHeaderViewHolder(View v, int groupOrdinal, AsyncExpandableListView asyncExpandableListView) {
             super(v, groupOrdinal, asyncExpandableListView);
-            textView = v.findViewById(R.id.calendar_item_content);
+            calendar_item_checkBox = v.findViewById(R.id.calendar_item_checkBox);
+            calendar_item_checkBox.setOnCheckedChangeListener(this);
+            textView = v.findViewById(R.id.calendar_item_title);
             mProgressBar = v.findViewById(R.id.calendar_item_progressBar);
             mProgressBar.getIndeterminateDrawable().setColorFilter(0xFFFFFFFF,
                     android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -450,6 +446,9 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
             return textView;
         }
 
+        public SmoothCheckBox getCalendar_item_checkBox() {
+            return calendar_item_checkBox;
+        }
 
         @Override
         public void onGroupStartExpending() {
@@ -471,9 +470,20 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
             ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_down);
 
         }
+
+        @Override
+        public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+            Log.e(TAG, String.valueOf(isChecked));
+            if (isChecked) {
+                ViewUtil.addClearCenterLine(textView);
+            } else {
+                ViewUtil.removeLine(textView);
+            }
+        }
     }
 
-    public static class ScheduleItemHolder extends RecyclerView.ViewHolder implements TagCloudView.OnTagClickListener, RadioGroup.OnCheckedChangeListener {
+    public static class ScheduleItemHolder extends RecyclerView.ViewHolder
+            implements TagCloudView.OnTagClickListener, RadioGroup.OnCheckedChangeListener {
         private static final String TAG = "ScheduleItemHolder";
 
         private final TextView tvTitle;
@@ -481,6 +491,7 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         private final TagCloudView tagCloudView;
         private final SegmentedRadioGroup label_group;
         private final CircularProgressButton circular_progress_btn;
+
         public ScheduleItemHolder(View v) {
             super(v);
             tvTitle = v.findViewById(R.id.title);

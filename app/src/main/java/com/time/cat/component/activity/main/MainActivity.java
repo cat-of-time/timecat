@@ -34,6 +34,7 @@ import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.main.adapter.MenuItemAdapter;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
+import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.mvp.presenter.ActivityPresenter;
@@ -444,7 +445,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         tvMonth.setText(month + "");
         this.isToday = isToday;
         if (menu != null) {
-            Log.i(TAG, "menu != null --> setting main_menu_today");
+//            Log.i(TAG, "menu != null --> setting main_menu_today");
             //不是今天 ? 显示 : 不显示
             if (!isToday) {
                 menu.findItem(R.id.main_menu_today).setVisible(true);
@@ -479,13 +480,13 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                 drawerLayout.closeDrawers();
                 break;
             case 3:
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
                 drawerLayout.closeDrawers();
                 break;
             case 4:
                 drawerLayout.closeDrawers();
-                break;
-            case 5:
-                drawerLayout.closeDrawers();
+                finish();
                 break;
             default:
                 break;

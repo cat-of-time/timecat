@@ -7,78 +7,72 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="#fff"
+        android:orientation="horizontal">
+
+        <com.time.cat.ThemeSystem.widgets.TintTextView
+            style="@style/weekIndicatorStyle"
+            android:background="@color/theme_color_primary"
+            android:text="日"/>
+
+        <com.time.cat.ThemeSystem.widgets.TintTextView
+            style="@style/weekIndicatorStyle"
+            android:background="@color/theme_color_primary"
+            android:text="一"/>
+
+        <com.time.cat.ThemeSystem.widgets.TintTextView
+            style="@style/weekIndicatorStyle"
+            android:background="@color/theme_color_primary"
+            android:text="二"/>
+
+        <com.time.cat.ThemeSystem.widgets.TintTextView
+            style="@style/weekIndicatorStyle"
+            android:background="@color/theme_color_primary"
+            android:text="三"/>
+
+        <com.time.cat.ThemeSystem.widgets.TintTextView
+            style="@style/weekIndicatorStyle"
+            android:background="@color/theme_color_primary"
+            android:text="四"/>
+
+        <com.time.cat.ThemeSystem.widgets.TintTextView
+            style="@style/weekIndicatorStyle"
+            android:background="@color/theme_color_primary"
+            android:text="五"/>
+
+        <com.time.cat.ThemeSystem.widgets.TintTextView
+            style="@style/weekIndicatorStyle"
+            android:background="@color/theme_color_primary"
+            android:text="六"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
-        <LinearLayout
+        <com.ldf.calendar.view.MonthPager
+            android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="#fff"
-            android:orientation="horizontal">
+            android:layout_height="270dp"
+            android:background="#fff">
+        </com.ldf.calendar.view.MonthPager>
 
-            <com.time.cat.ThemeSystem.widgets.TintTextView
-                style="@style/weekIndicatorStyle"
-                android:background="@color/theme_color_primary"
-                android:text="日"/>
-
-            <com.time.cat.ThemeSystem.widgets.TintTextView
-                style="@style/weekIndicatorStyle"
-                android:background="@color/theme_color_primary"
-                android:text="一"/>
-
-            <com.time.cat.ThemeSystem.widgets.TintTextView
-                style="@style/weekIndicatorStyle"
-                android:background="@color/theme_color_primary"
-                android:text="二"/>
-
-            <com.time.cat.ThemeSystem.widgets.TintTextView
-                style="@style/weekIndicatorStyle"
-                android:background="@color/theme_color_primary"
-                android:text="三"/>
-
-            <com.time.cat.ThemeSystem.widgets.TintTextView
-                style="@style/weekIndicatorStyle"
-                android:background="@color/theme_color_primary"
-                android:text="四"/>
-
-            <com.time.cat.ThemeSystem.widgets.TintTextView
-                style="@style/weekIndicatorStyle"
-                android:background="@color/theme_color_primary"
-                android:text="五"/>
-
-            <com.time.cat.ThemeSystem.widgets.TintTextView
-                style="@style/weekIndicatorStyle"
-                android:background="@color/theme_color_primary"
-                android:text="六"/>
-
-        </LinearLayout>
-
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/content"
+        <com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListView
+            android:id="@+id/asyncExpandableCollectionView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <com.ldf.calendar.view.MonthPager
-                android:id="@+id/calendar_view"
-                android:layout_width="match_parent"
-                android:layout_height="270dp"
-                android:background="#fff">
-            </com.ldf.calendar.view.MonthPager>
-
-            <com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListView
-                android:id="@+id/asyncExpandableCollectionView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="45dp"
-                android:background="@color/gray"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                app:layout_behavior="com.ldf.calendar.behavior.RecyclerViewBehavior"/>
-            <!-- paddingBottom或者magin距离必须是MonthPager高度的1/6-->
-            <!-- RecyclerView的高度必须是MatchParent-->
-            <!-- RecyclerView的background必须是非透明-->
-        </android.support.design.widget.CoordinatorLayout>
-    </LinearLayout>
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="45dp"
+            android:background="@color/gray"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_behavior="com.ldf.calendar.behavior.RecyclerViewBehavior"/>
+        <!-- paddingBottom或者magin距离必须是MonthPager高度的1/6-->
+        <!-- RecyclerView的高度必须是MatchParent-->
+        <!-- RecyclerView的background必须是非透明-->
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
