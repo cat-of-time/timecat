@@ -19,6 +19,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ldf.calendar.Utils;
@@ -33,7 +34,6 @@ import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseFragment;
 import com.time.cat.mvp.model.Schedule;
-import com.time.cat.mvp.model.ScheduleHeaderItem;
 import com.time.cat.mvp.presenter.FragmentPresenter;
 import com.time.cat.mvp.view.Label_n_Tag.SegmentedRadioGroup;
 import com.time.cat.mvp.view.Label_n_Tag.TagCloudView;
@@ -49,6 +49,7 @@ import com.time.cat.util.ViewUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,7 +60,7 @@ import java.util.List;
  */
 @SuppressLint("SetTextI18n")
 public class HomeFragment extends BaseFragment implements FragmentPresenter, OnSelectDateListener,
-        View.OnClickListener, OnViewClickListener, AsyncExpandableListViewCallbacks<ScheduleHeaderItem, Schedule> {
+        View.OnClickListener, OnViewClickListener, AsyncExpandableListViewCallbacks<Schedule, Schedule> {
     @SuppressWarnings("unused")
     private static final String TAG = "HomeFragment";
 
@@ -86,8 +87,8 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     private MonthPager monthPager;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
-    private AsyncExpandableListView<ScheduleHeaderItem, Schedule> mAsyncExpandableListView;
-    private CollectionView.Inventory<ScheduleHeaderItem, Schedule> inventory;
+    private AsyncExpandableListView<Schedule, Schedule> mAsyncExpandableListView;
+    private CollectionView.Inventory<Schedule, Schedule> inventory;
 
     @Nullable
     @Override
@@ -137,7 +138,6 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         calendarAdapter.setOnCalendarTypeChangedListener(new CalendarViewAdapter.OnCalendarTypeChanged() {
             @Override
             public void onCalendarTypeChanged(CalendarAttr.CalendarType type) {
-//                rvToDoList.scrollToPosition(0);
                 mAsyncExpandableListView.scrollToPosition(0);
             }
         });
@@ -221,14 +221,25 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
         inventory = new CollectionView.Inventory<>();
 
         for (int i = 0; i < 12; i++) {
-            CollectionView.InventoryGroup<ScheduleHeaderItem, Schedule> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
+            CollectionView.InventoryGroup<Schedule, Schedule> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
             String[] titles = getResources().getStringArray(R.array.titles);
-            group_i.setHeaderItem(new ScheduleHeaderItem(titles[i], i % 4));
+            Schedule schedule = new Schedule();
+            schedule.setLabel(i % 4);
+            schedule.setTitle(titles[i]);
+            schedule.setIsFinish(i % 3 == 0);
+            schedule.setCreateTime(new Date(2018 - 1900, 0, i));//month = 0 是 1 月
+            schedule.setAllDay(i % 3 == 0);
+
+
+            group_i.setHeaderItem(schedule);
         }
 
         mAsyncExpandableListView.updateInventory(inventory);
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
+
+
+
 
 
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
@@ -280,12 +291,26 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
             Color.parseColor("#4caf50"),
     };
 
+    private boolean onBindCollectionHeaderView;
     @Override
     public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder,
-                                         int groupOrdinal, ScheduleHeaderItem headerItem) {
+                                         int groupOrdinal, Schedule headerItem) {
+        onBindCollectionHeaderView = true;
         ScheduleHeaderViewHolder scheduleHeaderViewHolder = (ScheduleHeaderViewHolder) holder;
-        scheduleHeaderViewHolder.getTextView().setText(headerItem.getTitle());
-        scheduleHeaderViewHolder.getCalendar_item_checkBox().setColor(labelColor[headerItem.getLabel()]);
+        scheduleHeaderViewHolder.getCalendarItemCheckBox()
+                .setUncheckedStrokeColor(labelColor[headerItem.getLabel()]);
+        scheduleHeaderViewHolder.getCalendarItemCheckBox().setChecked(headerItem.getIsFinish());
+
+        scheduleHeaderViewHolder.getCalendarItemTitle().setText(headerItem.getTitle());
+
+        Date today = new Date();
+        long during = today.getTime() - headerItem.getCreateTime().getTime();
+        long day = during / (1000 * 60 * 60 * 24);
+//        Log.e(TAG, during + getString(R.string.calendar_delay) + day + getString(R.string.calendar_day));
+        scheduleHeaderViewHolder.getCalendarItemDelay()
+                .setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
+
+        onBindCollectionHeaderView = false;
     }
 
     private static final int[] checkIds = new int[]{
@@ -377,9 +402,9 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
     private static class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         private final int mGroupOrdinal;
-        private WeakReference<AsyncExpandableListView<ScheduleHeaderItem, Schedule>> listviewRef = null;
+        private WeakReference<AsyncExpandableListView<Schedule, Schedule>> listviewRef = null;
 
-        public LoadDataTask(int groupOrdinal, AsyncExpandableListView<ScheduleHeaderItem, Schedule> listview) {
+        public LoadDataTask(int groupOrdinal, AsyncExpandableListView<Schedule, Schedule> listview) {
             mGroupOrdinal = groupOrdinal;
             listviewRef = new WeakReference<>(listview);
         }
@@ -422,50 +447,64 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
 
     }
 
-    public static class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder
+    public class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder
             implements AsyncExpandableListView.OnGroupStateChangeListener, SmoothCheckBox.OnCheckedChangeListener {
 
+        private RelativeLayout calendar_item_ll;
         private SmoothCheckBox calendar_item_checkBox;
-        private final TextView textView;
-        private final ProgressBar mProgressBar;
+        private TextView calendar_item_title;
+        private ProgressBar calendar_item_progressBar;
         private ImageView ivExpansionIndicator;
+        private TextView calendar_item_delay;
 
         public ScheduleHeaderViewHolder(View v, int groupOrdinal, AsyncExpandableListView asyncExpandableListView) {
             super(v, groupOrdinal, asyncExpandableListView);
+
+            calendar_item_ll = v.findViewById(R.id.calendar_item_ll);
+            // 防止误点击
+            calendar_item_ll.setOnClickListener(null);
+
             calendar_item_checkBox = v.findViewById(R.id.calendar_item_checkBox);
             calendar_item_checkBox.setOnCheckedChangeListener(this);
-            textView = v.findViewById(R.id.calendar_item_title);
-            mProgressBar = v.findViewById(R.id.calendar_item_progressBar);
-            mProgressBar.getIndeterminateDrawable().setColorFilter(0xFFFFFFFF,
+
+            calendar_item_title = v.findViewById(R.id.calendar_item_title);
+            calendar_item_delay = v.findViewById(R.id.calendar_item_delay);
+
+            calendar_item_progressBar = v.findViewById(R.id.calendar_item_progressBar);
+            calendar_item_progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#1296db"),
                     android.graphics.PorterDuff.Mode.MULTIPLY);
             ivExpansionIndicator = v.findViewById(R.id.calendar_item_ivExpansionIndicator);
         }
 
 
-        public TextView getTextView() {
-            return textView;
+        public TextView getCalendarItemTitle() {
+            return calendar_item_title;
         }
 
-        public SmoothCheckBox getCalendar_item_checkBox() {
+        public SmoothCheckBox getCalendarItemCheckBox() {
             return calendar_item_checkBox;
+        }
+
+        public TextView getCalendarItemDelay() {
+            return calendar_item_delay;
         }
 
         @Override
         public void onGroupStartExpending() {
-            mProgressBar.setVisibility(View.VISIBLE);
+            calendar_item_progressBar.setVisibility(View.VISIBLE);
             ivExpansionIndicator.setVisibility(View.INVISIBLE);
         }
 
         @Override
         public void onGroupExpanded() {
-            mProgressBar.setVisibility(View.GONE);
+            calendar_item_progressBar.setVisibility(View.GONE);
             ivExpansionIndicator.setVisibility(View.VISIBLE);
             ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_up);
         }
 
         @Override
         public void onGroupCollapsed() {
-            mProgressBar.setVisibility(View.GONE);
+            calendar_item_progressBar.setVisibility(View.GONE);
             ivExpansionIndicator.setVisibility(View.VISIBLE);
             ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_down);
 
@@ -473,11 +512,13 @@ public class HomeFragment extends BaseFragment implements FragmentPresenter, OnS
 
         @Override
         public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
-            Log.e(TAG, String.valueOf(isChecked));
+//            Log.e(TAG, String.valueOf(onBindCollectionHeaderView));
             if (isChecked) {
-                ViewUtil.addClearCenterLine(textView);
+                ViewUtil.addClearCenterLine(calendar_item_title);
+                calendar_item_title.setTextColor(Color.GRAY);
             } else {
-                ViewUtil.removeLine(textView);
+                ViewUtil.removeLine(calendar_item_title);
+                calendar_item_title.setTextColor(Color.BLACK);
             }
         }
     }

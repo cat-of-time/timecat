@@ -478,7 +478,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                     try {
                         acrFloatView.setVisibility(View.VISIBLE);
                         acrFloatView.setOnTouchListener(ArcTipViewController.this);
-                        int position = getArcPostion(layoutParams);
+                        int position = getArcPosition(layoutParams);
                         mWindowManager.addView(acrFloatView, layoutParams);
                         reMeasureHeight(position, layoutParams);
                         initArcMenu(archMenu, icons);
@@ -546,7 +546,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 
     }
 
-    private int getArcPostion(WindowManager.LayoutParams layoutParams) {
+    private int getArcPosition(WindowManager.LayoutParams layoutParams) {
         int wmX = layoutParams.x;
         int wmY = layoutParams.y;
         int position = PathMenu.RIGHT_CENTER;

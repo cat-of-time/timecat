@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cv_item"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="@color/white">
 
-
-    <com.time.cat.mvp.view.SmoothCheckBox
-        android:id="@+id/calendar_item_checkBox"
+    <RelativeLayout
+        android:id="@+id/calendar_item_ll"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="10dp"
-        app:color_checked="@color/colorAccent"/>
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <com.time.cat.mvp.view.SmoothCheckBox
+            android:id="@+id/calendar_item_checkBox"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            app:color_checked="@color/gray"
+            app:stroke_width="2dp"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/calendar_item_rl_content_container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@+id/calendar_item_checkBox"
+        android:layout_toEndOf="@+id/calendar_item_ll"
         android:layout_toStartOf="@+id/calendar_item_rl_container">
 
         <TextView
@@ -69,6 +76,7 @@
             android:layout_height="@dimen/calendar_item_ivExpansionIndicator_height"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/ic_arrow_down"/>
     </RelativeLayout>
 

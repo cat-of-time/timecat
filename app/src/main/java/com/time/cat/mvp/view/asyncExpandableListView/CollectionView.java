@@ -59,7 +59,13 @@ public class CollectionView<T1, T2> extends RecyclerView {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void notifyItemChanged(int position) {
+        mAdapter.notifyItemChanged(position);
+    }
 
+    public void notifyDataSetChanged() {
+        mAdapter.notifyDataSetChanged();
+    }
 
     public T1 getHeader(int groupOrdinal) {
         InventoryGroup<T1, T2> group = mInventory.mGroups.get(groupOrdinal);

@@ -448,4 +448,6 @@ PS: xposed trigger mode and the general version is not the same, each have advan
     <string name="Complete">Complete</string>
     <string name="Error">Error！</string>
     <string name="Upload">Update</string>
+    <string name="calendar_delay">delay</string>
+    <string name="calendar_day">d</string>
 </resources>

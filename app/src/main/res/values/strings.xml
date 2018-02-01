@@ -466,4 +466,6 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="Complete">更新成功</string>
     <string name="Error">更新失败！</string>
     <string name="Upload">更新</string>
+    <string name="calendar_delay">顺延</string>
+    <string name="calendar_day">天</string>
 </resources>

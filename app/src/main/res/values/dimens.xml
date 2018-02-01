@@ -98,6 +98,6 @@
     <dimen name="card_header_elevation">4dp</dimen>
     <!--CircularProgressButton-->
     <dimen name="cpb_stroke_width">4dp</dimen>
-    <dimen name="calendar_item_ivExpansionIndicator_height">32dp</dimen>
-    <dimen name="calendar_item_ivExpansionIndicator_width">32dp</dimen>
+    <dimen name="calendar_item_ivExpansionIndicator_height">18dp</dimen>
+    <dimen name="calendar_item_ivExpansionIndicator_width">18dp</dimen>
 </resources>

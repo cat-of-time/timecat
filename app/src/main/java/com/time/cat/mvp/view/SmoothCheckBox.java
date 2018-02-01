@@ -209,9 +209,18 @@ public class SmoothCheckBox extends View implements Checkable {
         }
     }
 
-    public void setColor(int color) {
-        mCheckedColor = color;
+    public void setUncheckedStrokeColor(int color) {
         mFloorUnCheckedColor = color;
+        reset();
+        invalidate();
+    }
+
+    public int getCheckedColor() {
+        return mCheckedColor;
+    }
+
+    public void setWidth(int width) {
+        mWidth = width;
         reset();
         invalidate();
     }

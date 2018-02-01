@@ -23,11 +23,11 @@ public class Schedule {
     private int label;//重要紧急标签
     private List<String> tags;//一般标签
     private Date createTime;//创建时间
+    private Date finishTime;//完成时间
     private Date startTime;//开始时间
     private Date endTime;//结束时间
     private boolean allDay;//是否全天，1 - 是，0 - 不是
     private boolean isFinish;//是否完成，1 - 是，0 - 不是
-    private String color;//颜色
 
     public Schedule() {}
 
@@ -69,14 +69,6 @@ public class Schedule {
 
     public void setAllDay(boolean allDay) {
         this.allDay = allDay;
-    }
-
-    public String getColor() {
-        return this.color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public String getUserID() {
@@ -125,5 +117,13 @@ public class Schedule {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
     }
 }
