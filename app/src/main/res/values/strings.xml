@@ -17,7 +17,8 @@
     <string name="request_accessibility_confirm">前往设置</string>
     <string name="timecat_open">Time Cat 功能已打开</string>
     <string name="timecat_close">Time Cat 功能已关闭</string>
-    <string name="open_bang_for_translate">翻译功能开启Time Cat即可体验</string>
+    <string name="open_timecat_for_translate">翻译功能开启Time Cat即可体验</string>
+
     <string name="sort_mode_help">排序模式\n通过拖动改变词句的排列\n再次点击则返回选词模式</string>
     <string name="click_to_see_function">选择文本后\n请点击功能按钮查看介绍\n请确保您掌握了每个功能</string>
     <string name="share_request_confirm_dislike">当然！</string>
@@ -35,7 +36,7 @@
     <string name="stringValue4">拍照识别</string>
     <string name="stringValue5">重新识别</string>
     <string name="stringValue6">一触即达，便捷你的生活！</string>
-    <string name="stringValue7">Copyright ©2018 Time Cat. All Rights  Reserved</string>
+    <string name="copyright">Copyright ©2018 Time Cat. All Rights  Reserved</string>
     <string name="share_request_confirm_like">当然！</string>
     <string name="stringValue9">翻译结果：</string>
     <string name="sorry_for_parse_fail">抱歉，解析失败</string>
@@ -56,6 +57,7 @@
     <string name="accessibility_des">打开右上角开关，在弹出的对话框中点击 `确认`。\n\n开启后，即可在微信，QQ等应用聊天页面中点击或长按文字聊天气泡，然后就会打开 Time Cat 页面。\n\n 此功能完全不需要root您的手机。只需您打开服务，弹窗提示您的授权时，点击确认便可。</string>
     <string name="ok">我知道了</string>
     <string name="translate_mode_help">翻译\n使用有道词典进行中英互译</string>
+
     <string name="introduction">如何使用</string>
     <string name="double_click_intercal">双击间隔#毫秒\t\t\t\t\t\t\t\t\t点击修改</string>
     <string name="double_click_intercal_hint">太长易误触，太短会与微信自身冲突</string>
@@ -468,4 +470,7 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="Upload">更新</string>
     <string name="calendar_delay">顺延</string>
     <string name="calendar_day">天</string>
+    <string name="addTask">添加任务</string>
+    <string name="add_task_mode_help">添加任务 直接根据选词生成日程任务</string>
+    <string name="open_timecat_for_task">快速添加任务功能开启Time Cat即可体验</string>
 </resources>

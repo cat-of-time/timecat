@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/trans_rl"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+                android:id="@+id/trans_rl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/title"
@@ -14,7 +14,7 @@
         android:gravity="center_vertical|left"
         android:text="@string/stringValue9"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_title" />
+        android:textSize="@dimen/text_size_title"/>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/trans_again"
@@ -23,9 +23,9 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/margin_double"
         android:layout_marginTop="@dimen/margin_double"
-        android:scaleType="centerInside"
         android:contentDescription="@string/translate"
-        android:src="@mipmap/ic_compare_arrows_white_36dp" />
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_compare_arrows_white_36dp"/>
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/to_translate"
@@ -34,8 +34,12 @@
         android:layout_below="@id/title"
         android:layout_marginLeft="@dimen/margin_double"
         android:layout_marginRight="@dimen/margin_double"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:singleLine="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_normal" />
+        android:textSize="@dimen/text_size_normal"/>
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/translate_result"
@@ -44,9 +48,13 @@
         android:layout_below="@id/to_translate"
         android:layout_marginBottom="@dimen/margin_double"
         android:layout_marginLeft="@dimen/margin_double"
-        android:layout_marginTop="@dimen/margin_normal"
         android:layout_marginRight="@dimen/margin_double"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:singleLine="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_normal" />
+        android:textSize="@dimen/text_size_normal"/>
 
 </RelativeLayout>

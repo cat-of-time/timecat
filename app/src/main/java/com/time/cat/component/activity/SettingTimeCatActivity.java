@@ -80,6 +80,10 @@ public class SettingTimeCatActivity extends BaseActivity {
         }
 
         @Override
+        public void onAddTask(String text) {
+        }
+
+        @Override
         public void onDrag() {
             UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_DRAG);
         }

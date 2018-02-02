@@ -12,9 +12,9 @@ import rx.Observable;
 /**
  * @author dlink
  * @date 2018/2/2
+ * @discription
  */
-public interface WordSegmentService {
-    //请自行在http://bosonnlp.com/account/register 注册账号，并用自己的API密钥替换下面的X-Token的值
+public interface ScheduleService {
     String XToken = "L8LIQcbG.23465.XXP67wBHuaLu";
 
     @Headers({

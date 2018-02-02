@@ -7,7 +7,7 @@
     <string name="request_accessibility_confirm">go to set accessibility</string>
     <string name="about">about</string>
     <string name="timecat_close">TimeCat has been shut down</string>
-    <string name="open_bang_for_translate">Open the TimeCat can experience translation function</string>
+    <string name="open_timecat_for_translate">Open the TimeCat can experience translation function</string>
     <string name="timecat_open"> "TimeCat has been opened"</string>
     <string name="setting">setting</string>
     <string name="copyed">Copied</string>
@@ -27,7 +27,7 @@
     <string name="choose_sentences_mode">Word choice mode \n by sliding and click to select words</string>
     <string name="stringValue5">re-ocr</string>
     <string name="stringValue4">take  a picture for Ocr</string>
-    <string name="stringValue7">Copyright ©2018 TimeCat. All Rights  Reserved</string>
+    <string name="copyright">Copyright ©2018 TimeCat. All Rights  Reserved</string>
     <string name="stringValue6">A touch can reach  your convenient life！</string>
     <string name="share_request_confirm_like">Of course！</string>
     <string name="stringValue9">Translation result：</string>
@@ -450,4 +450,7 @@ PS: xposed trigger mode and the general version is not the same, each have advan
     <string name="Upload">Update</string>
     <string name="calendar_delay">delay</string>
     <string name="calendar_day">d</string>
+    <string name="addTask">add Task</string>
+    <string name="add_task_mode_help">添加任务 直接根据选词生成日程任务</string>
+    <string name="open_timecat_for_task">快速添加任务功能开启Time Cat即可体验</string>
 </resources>

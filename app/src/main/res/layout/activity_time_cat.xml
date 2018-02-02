@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical">
 
 
     <android.support.v4.widget.ContentLoadingProgressBar
@@ -12,32 +12,39 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"/>
 
     <com.time.cat.mvp.view.TimeCatLayoutWrapper
         android:id="@+id/timecat_wrap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_toLeftOf="@+id/app_list_ll" />
+        android:layout_toLeftOf="@+id/app_list_ll"/>
 
     <ViewStub
         android:id="@+id/trans_view_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout="@layout/items_translate" />
+        android:layout="@layout/items_translate"/>
+
+    <ViewStub
+        android:id="@+id/task_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout="@layout/items_add_task"/>
 
     <LinearLayout
         android:id="@+id/app_list_ll"
         android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:clipChildren="true"
         android:clipToPadding="true"
-        android:visibility="gone"
         android:gravity="center_vertical"
-        android:layout_height="match_parent">
+        android:visibility="gone">
 
         <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
             android:id="@+id/app_list"
@@ -49,6 +56,5 @@
             android:clipToPadding="false"/>
 
     </LinearLayout>
-
 
 </RelativeLayout>

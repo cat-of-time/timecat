@@ -854,6 +854,14 @@ public class TimeCatLayout extends ViewGroup implements TimeCatHeader.ActionList
         }
     }
 
+    @Override
+    public void onAddTask() {
+        if (mActionListener != null) {
+            String text = makeSelectedText();
+            mActionListener.onAddTask(text);
+        }
+    }
+
     public void onSelectOther() {
         for (Line line : mLines) {
             List<Item> items = line.getItems();
@@ -882,6 +890,8 @@ public class TimeCatLayout extends ViewGroup implements TimeCatHeader.ActionList
         void onCopy(String text);
 
         void onTrans(String text);
+
+        void onAddTask(String text);
 
         void onDrag();
 

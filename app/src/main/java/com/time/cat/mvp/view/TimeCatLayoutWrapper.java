@@ -106,6 +106,13 @@ public class TimeCatLayoutWrapper extends FrameLayout {
             }
 
             @Override
+            public void onAddTask(String text) {
+                if (mActionListener != null) {
+                    mActionListener.onAddTask(text);
+                }
+            }
+
+            @Override
             public void onDrag() {
                 if (mActionListener != null) {
                     mActionListener.onDrag();
@@ -137,6 +144,11 @@ public class TimeCatLayoutWrapper extends FrameLayout {
             @Override
             public void onTrans() {
                 mTimeCatLayout.onTrans();
+            }
+
+            @Override
+            public void onAddTask() {
+                mTimeCatLayout.onAddTask();
             }
         });
         mBottom.setActionListener(new TimeCatBottom.ActionListener() {
@@ -281,6 +293,8 @@ public class TimeCatLayoutWrapper extends FrameLayout {
         void onCopy(String text);
 
         void onTrans(String text);
+
+        void onAddTask(String text);
 
         void onDrag();
 

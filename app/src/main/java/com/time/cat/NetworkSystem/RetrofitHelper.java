@@ -116,7 +116,6 @@ public class RetrofitHelper {
     }
 
     public static ImageUploadService getImageUploadService() {
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IMAGE_UPLOAD_URL)
                 .client(mOkHttpClient)

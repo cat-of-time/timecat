@@ -44,7 +44,7 @@ public class IntroActivity extends BaseActivity {
     private String[] txts_local;
     TimeCatLayoutWrapper.ActionListener timeCatActionListener = new TimeCatLayoutWrapper.ActionListener() {
 
-        private boolean firstSelected = true, firstSearch = true, firstShare = true, firstCopy = true, firstTrans = true, firstDrag = true;
+        private boolean firstSelected = true, firstSearch = true, firstShare = true, firstCopy = true, firstTrans = true, firstDrag = true, firstAddTask = true;
 
         @Override
         public void onSelected(String text) {
@@ -124,7 +124,23 @@ public class IntroActivity extends BaseActivity {
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
             } else {
                 if (!TextUtils.isEmpty(text)) {
-                    SnackBarUtil.show(mIntro, R.string.open_bang_for_translate);
+                    SnackBarUtil.show(mIntro, R.string.open_timecat_for_translate);
+                }
+            }
+            clickTimes++;
+            showEnterBtn();
+        }
+
+        @Override
+        public void onAddTask(String text) {
+            if (firstAddTask) {
+                mFunctionIntroTV.setScaleY(0);
+                mFunctionIntroTV.setScaleX(0);
+                mFunctionIntroTV.setText(R.string.add_task_mode_help);
+                mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+            } else {
+                if (!TextUtils.isEmpty(text)) {
+                    SnackBarUtil.show(mIntro, getString(R.string.open_timecat_for_task));
                 }
             }
             clickTimes++;

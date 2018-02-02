@@ -22,6 +22,7 @@ class TimeCatHeader extends ViewGroup implements View.OnClickListener {
     ImageView mShare;
     ImageView mCopy;
     ImageView mTrans;
+    ImageView mTask;
 
     Drawable mBorder;
     private int mActionGap;
@@ -59,26 +60,32 @@ class TimeCatHeader extends ViewGroup implements View.OnClickListener {
         mSearch.setImageResource(R.mipmap.timecat_action_search);
         mSearch.setOnClickListener(this);
         mSearch.setContentDescription(getContext().getString(R.string.search));
+
         mShare = new ImageView(context);
         mShare.setImageResource(R.mipmap.timecat_action_share);
         mShare.setOnClickListener(this);
         mShare.setContentDescription(getContext().getString(R.string.share_));
-        mCopy = new ImageView(context);
-        mCopy.setImageResource(R.mipmap.timecat_action_copy);
-        mCopy.setOnClickListener(this);
-        mCopy.setContentDescription(getContext().getString(R.string.copy_));
-
 
         mTrans = new ImageView(context);
         mTrans.setImageResource(R.mipmap.ic_compare_arrows_white_36dp);
         mTrans.setOnClickListener(this);
         mTrans.setContentDescription(getContext().getString(R.string.translate));
 
+        mTask = new ImageView(context);
+        mTask.setImageResource(R.mipmap.timecat_action_new_task);
+        mTask.setOnClickListener(this);
+        mTask.setContentDescription(getContext().getString(R.string.addTask));
+
+        mCopy = new ImageView(context);
+        mCopy.setImageResource(R.mipmap.timecat_action_copy);
+        mCopy.setOnClickListener(this);
+        mCopy.setContentDescription(getContext().getString(R.string.copy_));
 
         addView(mSearch, createLayoutParams());
         addView(mShare, createLayoutParams());
-        addView(mCopy, createLayoutParams());
         addView(mTrans, createLayoutParams());
+        addView(mTask, createLayoutParams());
+        addView(mCopy, createLayoutParams());
 
         setWillNotDraw(false);
 
@@ -119,6 +126,7 @@ class TimeCatHeader extends ViewGroup implements View.OnClickListener {
         layoutSubView(mSearch, mActionGap, 0);
         layoutSubView(mShare, 2 * mActionGap + mSearch.getMeasuredWidth(), 0);
         layoutSubView(mTrans, 3 * mActionGap + mTrans.getMeasuredWidth() + mShare.getMeasuredWidth(), 0);
+        layoutSubView(mTask, 4 * mActionGap + mTask.getMeasuredWidth() + mTrans.getMeasuredWidth() + mShare.getMeasuredWidth(), 0);
         layoutSubView(mCopy, width - mActionGap - mCopy.getMeasuredWidth(), 0);
 
         Rect oldBounds = mBorder.getBounds();
@@ -172,6 +180,8 @@ class TimeCatHeader extends ViewGroup implements View.OnClickListener {
             mActionListener.onCopy();
         } else if (v == mTrans) {
             mActionListener.onTrans();
+        } else if (v == mTask) {
+            mActionListener.onAddTask();
         }
     }
 
@@ -183,6 +193,8 @@ class TimeCatHeader extends ViewGroup implements View.OnClickListener {
         void onCopy();
 
         void onTrans();
+
+        void onAddTask();
     }
 
     private class BoundWrapper {

@@ -91,6 +91,7 @@ public class UrlCountUtil {
     public static final String CLICK_TIMECAT_COPY = "click_timecat_copy";
     public static final String CLICK_TIMECAT_SHARAE = "click_timecat_sharae";
     public static final String CLICK_TIMECAT_TRANSLATE = "click_timecat_translate";
+    public static final String CLICK_TIMECAT_ADDTASK = "click_timecat_add_task";
     public static final String CLICK_TIMECAT_DRAG = "click_timecat_drag";
     public static final String CLICK_TIMECAT_SEARCH = "click_timecat_search";
     public static final String CLICK_TIMECAT_SWITCH_TYPE = "click_timecat_switch_type";

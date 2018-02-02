@@ -11,7 +11,9 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
@@ -20,9 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shang.commonjar.contentProvider.SPHelper;
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.NetworkSystem.RetrofitHelper;
+import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.mvp.view.TimeCatLayout;
+import com.time.cat.mvp.view.TimeCatLayoutWrapper;
 import com.time.cat.util.ClipboardUtils;
 import com.time.cat.util.ColorUtil;
 import com.time.cat.util.ConstantUtil;
@@ -35,8 +40,6 @@ import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
 import com.time.cat.util.onestep.AppsAdapter;
 import com.time.cat.util.onestep.ResolveInfoWrap;
-import com.time.cat.mvp.view.TimeCatLayout;
-import com.time.cat.mvp.view.TimeCatLayoutWrapper;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yanzhenjie.recyclerview.swipe.touch.OnItemMoveListener;
 
@@ -52,191 +55,87 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by penglu on 2016/10/27.
+ * @author dlink
+ * @date 2018/2/2
  */
-public class TimeCatActivity extends BaseActivity {
+public class TimeCatActivity extends BaseActivity implements ActivityPresenter, TimeCatLayoutWrapper.ActionListener {
     public static final String TO_SPLIT_STR = "to_split_str";
     private static final String DEVIDER = "__DEVIDER___DEVIDER__";
-    int alpha;
-    int lastPickedColor;
-    private TimeCatLayout timeCatLayout;
-    private TimeCatLayoutWrapper timeCatLayoutWrapper;
-    private ContentLoadingProgressBar loading;
-    private boolean remainSymbol = true;
-    private EditText toTrans;
-    private EditText transResult;
-    private RelativeLayout transRl;
-    private String originString;
-    private List<String> netWordSegments;
-    private SwipeMenuRecyclerView mAppsRecyclerView;
-    private View mAppsRecyclerViewLL;
-    private String mSelectText;
-    TimeCatLayoutWrapper.ActionListener timeCatActionListener = new TimeCatLayoutWrapper.ActionListener() {
 
-
-        @Override
-        public void onSelected(String text) {
-            mSelectText = text;
-        }
-
-        @Override
-        public void onSearch(String text) {
-            if (TextUtils.isEmpty(text)) {
-                text = originString;
-            }
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SEARCH);
-            boolean isUrl = false;
-            Uri uri = null;
-            try {
-                Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
-                Matcher matcher = p.matcher(text);
-                if (!matcher.matches()) {
-                    uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url + URLEncoder.encode(text, "utf-8"));
-                    isUrl = false;
-                } else {
-                    uri = Uri.parse(text);
-                    if (!text.startsWith("http")) {
-                        text = "http://" + text;
-                    }
-                    isUrl = true;
-                }
-
-                boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
-                Intent intent;
-                if (t) {
-                    intent = new Intent();
-                    if (isUrl) {
-                        intent.putExtra("url", text);
-                    } else {
-                        intent.putExtra("query", text);
-                    }
-                    intent.setClass(TimeCatActivity.this, WebActivity.class);
-                    startActivity(intent);
-                } else {
-                    intent = new Intent(Intent.ACTION_VIEW, uri);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                Intent intent = new Intent();
-                if (isUrl) {
-                    intent.putExtra("url", text);
-                } else {
-                    intent.putExtra("query", text);
-                }
-                intent.setClass(TimeCatActivity.this, WebActivity.class);
-                startActivity(intent);
-            }
-
-        }
-
-        @Override
-        public void onShare(String text) {
-            if (TextUtils.isEmpty(text)) {
-                text = originString;
-            }
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SHARAE);
-            SharedIntentHelper.sendShareIntent(TimeCatActivity.this, text);
-        }
-
-        @Override
-        public void onCopy(String text) {
-            if (TextUtils.isEmpty(text)) {
-                text = originString;
-            }
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_COPY);
-
-            Intent intent = new Intent(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
-            intent.putExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG, text);
-            sendBroadcast(intent);
-            String finalText = text;
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ClipboardUtils.setText(getApplicationContext(), finalText);
-                    ToastUtil.show("已复制");
-                    finish();
-                }
-            }, 100);
-        }
-
-        @Override
-        public void onTrans(String text) {
-            if (mAppsRecyclerView != null) {
-                mAppsRecyclerViewLL.setVisibility(View.GONE);
-            }
-            if (TextUtils.isEmpty(text)) {
-                text = originString;
-            }
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_TRANSLATE);
-
-            if (transRl == null) {
-                ViewStub viewStub = (ViewStub) findViewById(R.id.trans_view_stub);
-                viewStub.inflate();
-                transRl = (RelativeLayout) findViewById(R.id.trans_rl);
-                toTrans = (EditText) findViewById(R.id.to_translate);
-                transResult = (EditText) findViewById(R.id.translate_result);
-                TextView title = (TextView) findViewById(R.id.title);
-
-                title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
-                toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
-                transResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
-
-                findViewById(R.id.trans_again).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!TextUtils.isEmpty(toTrans.getText())) {
-                            translate(toTrans.getText().toString());
-                        }
-                        ViewUtil.hideInputMethod(toTrans);
-                    }
-                });
-
-
-            }
-            translate(text);
-        }
-
-        @Override
-        public void onDrag() {
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_DRAG);
-        }
-
-        @Override
-        public void onSwitchType(boolean isLocal) {
-            showSegment(isLocal);
-        }
-
-        @Override
-        public void onSwitchSymbol(boolean isShow) {
-            SPHelper.save(ConstantUtil.REMAIN_SYMBOL, isShow);
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_REMAIN_SYMBOL);
-        }
-
-        @Override
-        public void onSwitchSection(boolean isShow) {
-            SPHelper.save(ConstantUtil.REMAIN_SECTION, isShow);
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_REMAIN_SECTION);
-        }
-
-        @Override
-        public void onDragSelection() {
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_DRAG_SELECTION);
-
-        }
-    };
-
+    //<生命周期>-------------------------------------------------------------------------------------
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+
+        //<功能归类分区方法，必须调用>----------------------------------------------------------------
+        initView();
+        initData();
+        initEvent();
+        //</功能归类分区方法，必须调用>----------------------------------------------------------------
     }
 
-    private void init() {
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        netWordSegments = null;
+        originString = null;
+        initView();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (timeCatLayoutWrapper != null && timeCatLayoutWrapper.getVisibility() == View.GONE) {
+            boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
+            if (mAppsRecyclerViewLL != null) {
+                mAppsRecyclerViewLL.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
+            }
+            timeCatLayoutWrapper.setVisibility(View.VISIBLE);
+            if (transRl != null) {
+                transRl.setVisibility(View.GONE);
+            }
+            if (add_task_rl != null) {
+                add_task_rl.setVisibility(View.GONE);
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+    //</生命周期>-------------------------------------------------------------------------------------
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    private TimeCatLayout timeCatLayout;
+    private TimeCatLayoutWrapper timeCatLayoutWrapper;
+    private ContentLoadingProgressBar loading;
+
+    private SwipeMenuRecyclerView mAppsRecyclerView;
+    private View mAppsRecyclerViewLL;
+
+    private EditText toTrans;
+    private EditText transResult;
+    private RelativeLayout transRl;
+
+    private EditText add_task_et_title;
+    private EditText add_task_et_content;
+    private RelativeLayout add_task_rl;
+
+    private int alpha;
+    private int lastPickedColor;
+    private boolean remainSymbol = true;
+    private String originString;
+    private String mSelectText;
+    private List<String> netWordSegments;
+
+    @Override
+    public void initView() {//必须调用
         boolean fullScreen = SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN, false);
-        boolean stickHeader = SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER, false);
+        initContentView(fullScreen);
+        initTextString();
+        initTimeCatView(fullScreen);
+    }
+
+    private void initContentView(boolean fullScreen) {
         alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
         int value = (int) ((alpha / 100.0f) * 255);
@@ -246,22 +145,30 @@ public class TimeCatActivity extends BaseActivity {
             setTheme(R.style.PreSettingTheme);
             setContentView(R.layout.activity_time_cat);
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.timecat_activity_window_full));
-            getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+            getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor),
+                    Color.green(lastPickedColor), Color.blue(lastPickedColor)));
             showAppList4OneStep();
         } else {
             CardView cardView = new CardView(this);
-            View view = LayoutInflater.from(this).inflate(R.layout.activity_time_cat, null, false);
             cardView.setRadius(ViewUtil.dp2px(10));
-
-
-            cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+            cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor),
+                    Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+            View view = LayoutInflater.from(this).inflate(R.layout.activity_time_cat, null, false);
             cardView.addView(view);
 
             getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
             setContentView(cardView);
 
-        }
+//            getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
+//            setContentView(R.layout.activity_time_cat_card);
+//            CardView cardView = findViewById(R.id.timecat_cardView);
+//            cardView.setRadius(ViewUtil.dp2px(10));
+//            cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
 
+        }
+    }
+
+    private void initTextString() {
         Intent intent = getIntent();
         String str = null;
         try {
@@ -287,21 +194,21 @@ public class TimeCatActivity extends BaseActivity {
         }
 
         mSelectText = str;
+        originString = str.replaceAll("@", " @ ");
+    }
 
-        str = str.replaceAll("@", " @ ");
-
+    private void initTimeCatView(boolean fullScreen) {
         remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL, true);
-
-
+        boolean stickHeader = SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER, false);
         int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
         int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
-        int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
+        int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
 
 
-        timeCatLayout = (TimeCatLayout) findViewById(R.id.timecat);
-        loading = (ContentLoadingProgressBar) findViewById(R.id.loading);
-        timeCatLayoutWrapper = (TimeCatLayoutWrapper) findViewById(R.id.timecat_wrap);
+        timeCatLayout = findViewById(R.id.timecat);
+        loading = findViewById(R.id.loading);
+        timeCatLayoutWrapper = findViewById(R.id.timecat_wrap);
 
 
         loading.show();
@@ -319,19 +226,8 @@ public class TimeCatActivity extends BaseActivity {
 
         timeCatLayoutWrapper.setShowSymbol(remainSymbol);
         timeCatLayoutWrapper.setShowSection(SPHelper.getBoolean(ConstantUtil.REMAIN_SECTION, false));
-        originString = str;
-        String finalStr = str;
-        timeCatLayoutWrapper.setActionListener(timeCatActionListener);
+        timeCatLayoutWrapper.setActionListener(this);
         timeCatLayoutWrapper.onSwitchType(SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false));
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        netWordSegments = null;
-        originString = null;
-        init();
     }
 
     private void showAppList4OneStep() {
@@ -385,6 +281,37 @@ public class TimeCatActivity extends BaseActivity {
 
     }
 
+    private void showSegment(boolean isLocal) {
+        loading.show();
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SWITCH_TYPE);
+        timeCatLayout.reset();
+        if (!isLocal) {
+            if (netWordSegments == null) {
+                getSegment(originString);
+            } else {
+                for (String t : netWordSegments) {
+                    timeCatLayout.addTextItem(t);
+                }
+                loading.hide();
+                timeCatLayoutWrapper.setVisibility(View.VISIBLE);
+            }
+        } else {
+            List<String> txts = getLocalSegments(originString);
+            for (String t : txts) {
+                timeCatLayout.addTextItem(t);
+            }
+            loading.hide();
+            timeCatLayoutWrapper.setVisibility(View.VISIBLE);
+        }
+    }
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码----------------------------------
+
+
+    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+    @Override
+    public void initData() {//必须调用
+    }
+
     private void getSegment(String str) {
         RetrofitHelper.getWordSegmentService()
                 .getWordSegsList(str)
@@ -419,30 +346,6 @@ public class TimeCatActivity extends BaseActivity {
                     });
 
                 });
-    }
-
-    private void showSegment(boolean isLocal) {
-        loading.show();
-        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SWITCH_TYPE);
-        timeCatLayout.reset();
-        if (!isLocal) {
-            if (netWordSegments == null) {
-                getSegment(originString);
-            } else {
-                for (String t : netWordSegments) {
-                    timeCatLayout.addTextItem(t);
-                }
-                loading.hide();
-                timeCatLayoutWrapper.setVisibility(View.VISIBLE);
-            }
-        } else {
-            List<String> txts = getLocalSegments(originString);
-            for (String t : txts) {
-                timeCatLayout.addTextItem(t);
-            }
-            loading.hide();
-            timeCatLayoutWrapper.setVisibility(View.VISIBLE);
-        }
     }
 
     @NonNull
@@ -487,6 +390,128 @@ public class TimeCatActivity extends BaseActivity {
         }
         return txts;
     }
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+
+
+    //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
+    @Override
+    public void initEvent() {//必须调用
+    }
+
+
+    //-//<TimeCatLayoutWrapper.ActionListener>------------------------------------------------------
+    @Override
+    public void onSelected(String text) {
+        mSelectText = text;
+    }
+
+    @Override
+    public void onSearch(String text) {
+        if (TextUtils.isEmpty(text)) {
+            text = originString;
+        }
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SEARCH);
+        boolean isUrl = false;
+        Uri uri = null;
+        try {
+            Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = p.matcher(text);
+            if (!matcher.matches()) {
+                uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url + URLEncoder.encode(text, "utf-8"));
+                isUrl = false;
+            } else {
+                uri = Uri.parse(text);
+                if (!text.startsWith("http")) {
+                    text = "http://" + text;
+                }
+                isUrl = true;
+            }
+
+            boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
+            Intent intent;
+            if (t) {
+                intent = new Intent();
+                if (isUrl) {
+                    intent.putExtra("url", text);
+                } else {
+                    intent.putExtra("query", text);
+                }
+                intent.setClass(TimeCatActivity.this, WebActivity.class);
+                startActivity(intent);
+            } else {
+                intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Intent intent = new Intent();
+            if (isUrl) {
+                intent.putExtra("url", text);
+            } else {
+                intent.putExtra("query", text);
+            }
+            intent.setClass(TimeCatActivity.this, WebActivity.class);
+            startActivity(intent);
+        }
+
+    }
+
+    @Override
+    public void onShare(String text) {
+        if (TextUtils.isEmpty(text)) {
+            text = originString;
+        }
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SHARAE);
+        SharedIntentHelper.sendShareIntent(TimeCatActivity.this, text);
+    }
+
+    @Override
+    public void onTrans(String text) {
+        if (mAppsRecyclerView != null) {
+            mAppsRecyclerViewLL.setVisibility(View.GONE);
+        }
+        if (TextUtils.isEmpty(text)) {
+            text = originString;
+        }
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_TRANSLATE);
+
+        if (transRl == null) {
+            ViewStub viewStub = (ViewStub) findViewById(R.id.trans_view_stub);
+            viewStub.inflate();
+            transRl = (RelativeLayout) findViewById(R.id.trans_rl);
+            toTrans = (EditText) findViewById(R.id.to_translate);
+            transResult = (EditText) findViewById(R.id.translate_result);
+            TextView title = (TextView) findViewById(R.id.title);
+
+            title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+            toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+            transResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+            EditText editText = new EditText(this);
+//设置EditText的显示方式为多行文本输入
+            transResult.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+//文本显示的位置在EditText的最上方
+            transResult.setGravity(Gravity.TOP);
+//改变默认的单行模式
+            transResult.setSingleLine(false);
+//水平滚动设置为False
+            transResult.setHorizontallyScrolling(false);
+
+            findViewById(R.id.trans_again).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(toTrans.getText())) {
+                        translate(toTrans.getText().toString());
+                    }
+                    ViewUtil.hideInputMethod(toTrans);
+                }
+            });
+
+
+        }
+        translate(text);
+    }
 
     private void translate(String text) {
         if (TextUtils.isEmpty(text)) {
@@ -516,17 +541,121 @@ public class TimeCatActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if (timeCatLayoutWrapper != null && timeCatLayoutWrapper.getVisibility() == View.GONE) {
-            boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
-            if (mAppsRecyclerViewLL != null)
-                mAppsRecyclerViewLL.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
-            timeCatLayoutWrapper.setVisibility(View.VISIBLE);
-            if (transRl != null) {
-                transRl.setVisibility(View.GONE);
-            }
-        } else {
-            super.onBackPressed();
+    public void onAddTask(String text) {
+        if (mAppsRecyclerView != null) {
+            mAppsRecyclerViewLL.setVisibility(View.GONE);
         }
+        if (TextUtils.isEmpty(text)) {
+            text = originString;
+        }
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_ADDTASK);
+
+        if (add_task_rl == null) {
+            ViewStub viewStub = findViewById(R.id.task_view_stub);
+            viewStub.inflate();
+            add_task_rl = findViewById(R.id.add_task_rl);
+            add_task_et_title = findViewById(R.id.add_task_et_title);
+            add_task_et_content = findViewById(R.id.add_task_et_content);
+            TextView title = findViewById(R.id.add_task_tv_title);
+
+            title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+            add_task_et_title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+            add_task_et_content.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+
+            findViewById(R.id.add_task_iv_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (timeCatLayoutWrapper != null && timeCatLayoutWrapper.getVisibility() == View.GONE) {
+                        boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
+                        if (mAppsRecyclerViewLL != null) {
+                            mAppsRecyclerViewLL.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
+                        }
+                        timeCatLayoutWrapper.setVisibility(View.VISIBLE);
+                        if (add_task_rl != null) {
+                            add_task_rl.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            });
+            findViewById(R.id.add_task_iv_success).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewUtil.hideInputMethod(add_task_et_title);
+                    ViewUtil.hideInputMethod(add_task_et_content);
+
+                    if (!TextUtils.isEmpty(add_task_et_title.getText())) {
+                        String title = add_task_et_title.getText().toString();
+                        String content = add_task_et_content.getText().toString();
+                        addTask(title, content);
+                    } else {
+                        ToastUtil.show("任务标题必须非空！");
+                    }
+                }
+            });
+        }
+        timeCatLayoutWrapper.setVisibility(View.GONE);
+        add_task_rl.setVisibility(View.VISIBLE);
+
+        add_task_et_title.setText(text);
+        add_task_et_content.setText(text);
+        add_task_et_content.setSelection(text.length());
     }
+
+    private void addTask(String title, String content) {
+        ToastUtil.show("添加任务成功");
+        finish();
+//        ToastUtil.show("添加任务失败");
+    }
+
+    @Override
+    public void onCopy(String text) {
+        if (TextUtils.isEmpty(text)) {
+            text = originString;
+        }
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_COPY);
+
+        Intent intent = new Intent(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
+        intent.putExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG, text);
+        sendBroadcast(intent);
+        String finalText = text;
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ClipboardUtils.setText(getApplicationContext(), finalText);
+                ToastUtil.show("已复制");
+                finish();
+            }
+        }, 100);
+    }
+
+    @Override
+    public void onDrag() {
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_DRAG);
+    }
+
+    @Override
+    public void onSwitchType(boolean isLocal) {
+        showSegment(isLocal);
+    }
+
+    @Override
+    public void onSwitchSymbol(boolean isShow) {
+        SPHelper.save(ConstantUtil.REMAIN_SYMBOL, isShow);
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_REMAIN_SYMBOL);
+    }
+
+    @Override
+    public void onSwitchSection(boolean isShow) {
+        SPHelper.save(ConstantUtil.REMAIN_SECTION, isShow);
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_REMAIN_SECTION);
+    }
+
+    @Override
+    public void onDragSelection() {
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_DRAG_SELECTION);
+
+    }
+    //-//</TimeCatLayoutWrapper.ActionListener>-----------------------------------------------------
+
+    //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
 }
