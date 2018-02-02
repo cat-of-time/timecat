@@ -35,10 +35,12 @@ import com.time.cat.component.activity.main.adapter.MenuItemAdapter;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.activity.setting.SettingActivity;
+import com.time.cat.component.activity.user.LoginActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.CustomPagerView;
+import com.time.cat.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,6 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         setContentView(R.layout.activity_main_container);
         getWindow().setBackgroundDrawableResource(R.color.background_material_light_1);
         setStatusBarFullTransparent();
-//        setDrawerLayoutFitSystemWindow();
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initView();
@@ -75,6 +76,9 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+
     //</生命周期>------------------------------------------------------------------------------------
 
 
@@ -286,17 +290,18 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         }
     }
 
-    private static final int REQUEST_RECHARGE = 1;
-    private static final int REQUEST_WITHDRAW = 2;
+    private static final int REQUEST_LOGIN = 0;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
+        if (requestCode == REQUEST_LOGIN) {
+            if (resultCode == RESULT_OK) {
+
+                // TODO: Implement successful signup logic here
+                // 设置用户登录后的界面
+                ToastUtil.show("登录成功！");
+            }
         }
-
-
     }
     //-//</Activity>--------------------------------------------------------------------------------
 
@@ -480,13 +485,16 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                 drawerLayout.closeDrawers();
                 break;
             case 3:
-                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                intent = new Intent(MainActivity.this, SettingActivity.class);
                 startActivity(intent);
                 drawerLayout.closeDrawers();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
             case 4:
+                intent = new Intent(getApplicationContext(), LoginActivity .class);
+                startActivityForResult(intent, REQUEST_LOGIN);
                 drawerLayout.closeDrawers();
-                finish();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
             default:
                 break;

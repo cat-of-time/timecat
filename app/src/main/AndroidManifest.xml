@@ -17,8 +17,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
-                     tools:ignore="ProtectedPermissions"/>
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions"/>
 
     <application
         android:name="com.time.cat.TimeCatApp"
@@ -96,6 +97,7 @@
             android:noHistory="true"
             android:process=":monitor"
             android:theme="@style/OverlayTheme"/>
+
         <service
             android:name="com.time.cat.component.service.TimeCatMonitorService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
@@ -299,6 +301,12 @@
             android:noHistory="true"
             android:process=":monitor"
             android:theme="@style/KeepAliveActivtyTheme"/>
+        <activity
+            android:name=".component.activity.user.LoginActivity"
+            android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".component.activity.user.SignupActivity"
+            android:theme="@style/AppTheme.Dark"/>
     </application>
 
 </manifest>

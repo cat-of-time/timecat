@@ -1,9 +1,12 @@
 package com.time.cat.component.base;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,21 +20,35 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.time.cat.util.StatusbarColorUtils;
+import com.time.cat.util.StringUtil;
+import com.time.cat.util.ThreadManager;
+import com.time.cat.util.ToastUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * Created by penglu on 2016/4/27.
+ * @author dlink
+ * @date 2018/2/2
+ * @discription 基类
  */
 public class BaseActivity extends PermissionActivity {
     private static final String TAG = "BaseActivity";
     private Fragment currentFragment;
-
+    /**
+     * 该Activity实例，命名为context是因为大部分方法都只需要context，写成context使用更方便
+     * @warn 不能在子类中创建
+     */
+    protected BaseActivity context = null;
+    public Intent intent;
+    private boolean isAlive = false;
+    private boolean isRunning = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = (BaseActivity) getActivity();
+        isAlive = true;
     }
 
     public void switchFragment(Fragment fragment) {
@@ -48,16 +65,76 @@ public class BaseActivity extends PermissionActivity {
         currentFragment = fragment;
     }
 
+    /**一般用于对不支持的数据的处理，比如onCreate中获取到不能接受的id(id<=0)可以这样处理
+     */
+    public void finishWithError(String error) {
+        ToastUtil.show(error);
+//        enterAnim = exitAnim = R.anim.null_anim;
+        finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();//必须写在最前才能显示自定义动画
+//        runUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (enterAnim > 0 && exitAnim > 0) {
+//                    try {
+//                        overridePendingTransition(enterAnim, exitAnim);
+//                    } catch (Exception e) {
+//                        Log.e(TAG, "finish overridePendingTransition(enterAnim, exitAnim);" +
+//                                " >> catch (Exception e) {  " + e.getMessage());
+//                    }
+//                }
+//            }
+//        });
+    }
+
     @Override
     protected void onResume() {
+        Log.d(TAG, "\n onResume <<<<<<<<<<<<<<<<<<<<<<<");
         super.onResume();
+        isRunning = true;
+        Log.d(TAG, "onResume >>>>>>>>>>>>>>>>>>>>>>>>\n");
     }
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "\n onPause <<<<<<<<<<<<<<<<<<<<<<<");
         super.onPause();
+        isRunning = false;
+        Log.d(TAG, "onPause >>>>>>>>>>>>>>>>>>>>>>>>\n");
     }
 
+    /**销毁并回收内存
+     * @warn 子类如果要使用这个方法内用到的变量，应重写onDestroy方法并在super.onDestroy();前操作
+     */
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "\n onDestroy <<<<<<<<<<<<<<<<<<<<<<<");
+//        dismissProgressDialog();
+//        BaseBroadcastReceiver.unregister(context, receiver);
+        ThreadManager.getInstance().destroyThread(threadNameList);
+//        if (view != null) {
+//            try {
+//                view.destroyDrawingCache();
+//            } catch (Exception e) {
+//                Log.w(TAG, "onDestroy  try { view.destroyDrawingCache();" +
+//                        " >> } catch (Exception e) {\n" + e.getMessage());
+//            }
+//        }
+
+        isAlive = false;
+        isRunning = false;
+        super.onDestroy();
+
+        threadNameList = null;
+
+        context = null;
+
+        Log.d(TAG, "onDestroy >>>>>>>>>>>>>>>>>>>>>>>>\n");
+    }
     public void registerFragment(int id, Fragment fragment) {
         if (currentFragment == fragment) {
             return;
@@ -123,6 +200,121 @@ public class BaseActivity extends PermissionActivity {
         }
         ft.commitAllowingStateLoss();
     }
+
+
+
+
+    //<启动新Activity方法>---------------------------------------------------------------------------
+    /**打开新的Activity，向左滑入效果
+     * @param intent intent
+     */
+    public void toActivity(Intent intent) {
+        toActivity(intent, true);
+    }
+    /**打开新的Activity
+     * @param intent intent
+     * @param showAnimation showAnimation
+     */
+    public void toActivity(Intent intent, boolean showAnimation) {
+        toActivity(intent, -1, showAnimation);
+    }
+    /**打开新的Activity，向左滑入效果
+     * @param intent intent
+     * @param requestCode requestCode
+     */
+    public void toActivity(Intent intent, int requestCode) {
+        toActivity(intent, requestCode, true);
+    }
+    /**打开新的Activity
+     * @param intent intent
+     * @param requestCode requestCode
+     * @param showAnimation showAnimation
+     */
+    public void toActivity(final Intent intent, final int requestCode, final boolean showAnimation) {
+        runUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (intent == null) {
+                    Log.w(TAG, "toActivity  intent == null >> return;");
+                    return;
+                }
+                //fragment中使用context.startActivity会导致在fragment中不能正常接收onActivityResult
+                if (requestCode < 0) {
+                    startActivity(intent);
+                } else {
+                    startActivityForResult(intent, requestCode);
+                }
+//                if (showAnimation) {
+//                    overridePendingTransition(R.anim.right_push_in, R.anim.hold);
+//                } else {
+//                    overridePendingTransition(R.anim.null_anim, R.anim.null_anim);
+//                }
+            }
+        });
+    }
+    //</启动新Activity方法>---------------------------------------------------------------------------
+
+
+
+
+    //<运行线程>----------------------------------------------------------------------------------
+    /**在UI线程中运行，建议用这个方法代替runOnUiThread
+     * @param action
+     */
+    public final void runUiThread(Runnable action) {
+        if (isAlive() == false) {
+            Log.w(TAG, "runUiThread  isAlive() == false >> return;");
+            return;
+        }
+        runOnUiThread(action);
+    }
+    /**
+     * 线程名列表
+     */
+    protected List<String> threadNameList;
+    /**运行线程
+     * @param name
+     * @param runnable
+     * @return
+     */
+    public final Handler runThread(String name, Runnable runnable) {
+        if (isAlive() == false) {
+            Log.w(TAG, "runThread  isAlive() == false >> return null;");
+            return null;
+        }
+        name = StringUtil.getTrimedString(name);
+        Handler handler = ThreadManager.getInstance().runThread(name, runnable);
+        if (handler == null) {
+            Log.e(TAG, "runThread handler == null >> return null;");
+            return null;
+        }
+
+        if (threadNameList.contains(name) == false) {
+            threadNameList.add(name);
+        }
+        return handler;
+    }
+    //</运行线程>----------------------------------------------------------------------------------
+
+    /**
+     * 获取Activity
+     *
+     * @must 在非抽象Activity中 return this;
+     */
+//    @Override
+    public Activity getActivity() {
+        return null;
+    }
+//    @Override
+    public final boolean isAlive() {
+        return isAlive && context != null;// & ! isFinishing();导致finish，onDestroy内runUiThread不可用
+    }
+//    @Override
+    public final boolean isRunning() {
+        return isRunning & isAlive();
+    }
+
+
 
     //<沉浸式状态栏>----------------------------------------------------------------------------------
     static int statusHeight;

@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#727272</color>
+    <color name="gray">#727272</color>
     <color name="text_color">@color/white</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
@@ -24,8 +26,7 @@
     <color name="quarter_transparent">#40000000</color>
     <color name="shadow">#aa000000</color>
     <color name="transparent">#00000000</color>
-    <color name="grey">#727272</color>
-    <color name="gray">#727272</color>
+
 
     <color name="intro_bg">#3d85c0</color>
 
@@ -99,4 +100,15 @@
     <color name="cpb_green">#ff99cc00</color>
     <color name="cpb_green_dark">#ff6d9b00</color>
     <color name="cpb_white">@android:color/white</color>
+
+    <!--Login & SignUp-->
+    <color name="primary_darker">#CC1D1D</color>
+    <color name="accent">#FFFFFF</color>
+    <color name="jet">#222222</color>
+    <color name="oil">#333333</color>
+    <color name="monsoon">#777777</color>
+    <color name="jumbo">#888888</color>
+    <color name="aluminum">#999999</color>
+    <color name="base">#AAAAAA</color>
+    <color name="iron">#CCCCCC</color>
 </resources>
