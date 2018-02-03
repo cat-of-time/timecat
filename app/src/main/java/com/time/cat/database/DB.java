@@ -16,7 +16,7 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.usc.citius.servando.calendula.database;
+package com.time.cat.database;
 
 import android.content.Context;
 import android.util.Log;
@@ -41,22 +41,22 @@ public class DB {
     // SQLite DB Helper
     private static DatabaseHelper db;
 
-    // Medicines DAO
-    private static MedicineDao Medicines;
-    // Routines DAO
-    private static RoutineDao Routines;
-    // Schedules DAO
-    private static ScheduleDao Schedules;
-    // ScheduleItems DAO
-    private static ScheduleItemDao ScheduleItems;
-    // DailyScheduleItem DAO
-    private static DailyScheduleItemDao DailyScheduleItems;
-    // Prescriptions DAO
-    private static PrescriptionDao Prescriptions;
-    // HomogeneousGroups DAO
-    private static HomogeneousGroupDao Groups;
-    // Pickups DAO
-    private static PickupInfoDao Pickups;
+//    // Medicines DAO
+//    private static MedicineDao Medicines;
+//    // Routines DAO
+//    private static RoutineDao Routines;
+//    // Schedules DAO
+//    private static ScheduleDao Schedules;
+//    // ScheduleItems DAO
+//    private static ScheduleItemDao ScheduleItems;
+//    // DailyScheduleItem DAO
+//    private static DailyScheduleItemDao DailyScheduleItems;
+//    // Prescriptions DAO
+//    private static PrescriptionDao Prescriptions;
+//    // HomogeneousGroups DAO
+//    private static HomogeneousGroupDao Groups;
+//    // Pickups DAO
+//    private static PickupInfoDao Pickups;
     // Patients DAO
     private static PatientDao Patients;
 
@@ -72,14 +72,14 @@ public class DB {
 
             db.getReadableDatabase().enableWriteAheadLogging();
 
-            Medicines = new MedicineDao(db);
-            Routines = new RoutineDao(db);
-            Schedules = new ScheduleDao(db);
-            ScheduleItems = new ScheduleItemDao(db);
-            DailyScheduleItems = new DailyScheduleItemDao(db);
-            Prescriptions = new PrescriptionDao(db);
-            Groups = new HomogeneousGroupDao(db);
-            Pickups = new PickupInfoDao(db);
+//            Medicines = new MedicineDao(db);
+//            Routines = new RoutineDao(db);
+//            Schedules = new ScheduleDao(db);
+//            ScheduleItems = new ScheduleItemDao(db);
+//            DailyScheduleItems = new DailyScheduleItemDao(db);
+//            Prescriptions = new PrescriptionDao(db);
+//            Groups = new HomogeneousGroupDao(db);
+//            Pickups = new PickupInfoDao(db);
             Patients = new PatientDao(db);
             Log.v(TAG, "DB initialized " + DB.DB_NAME);
         }
@@ -109,37 +109,37 @@ public class DB {
     }
 
 
-    public static MedicineDao medicines() {
-        return Medicines;
-    }
-
-    public static RoutineDao routines() {
-        return Routines;
-    }
-
-    public static ScheduleDao schedules() {
-        return Schedules;
-    }
-
-    public static ScheduleItemDao scheduleItems() {
-        return ScheduleItems;
-    }
-
-    public static DailyScheduleItemDao dailyScheduleItems() {
-        return DailyScheduleItems;
-    }
-
-    public static PrescriptionDao prescriptions() {
-        return Prescriptions;
-    }
-
-    public static HomogeneousGroupDao groups() {
-        return Groups;
-    }
-
-    public static PickupInfoDao pickups() {
-        return Pickups;
-    }
+//    public static MedicineDao medicines() {
+//        return Medicines;
+//    }
+//
+//    public static RoutineDao routines() {
+//        return Routines;
+//    }
+//
+//    public static ScheduleDao schedules() {
+//        return Schedules;
+//    }
+//
+//    public static ScheduleItemDao scheduleItems() {
+//        return ScheduleItems;
+//    }
+//
+//    public static DailyScheduleItemDao dailyScheduleItems() {
+//        return DailyScheduleItems;
+//    }
+//
+//    public static PrescriptionDao prescriptions() {
+//        return Prescriptions;
+//    }
+//
+//    public static HomogeneousGroupDao groups() {
+//        return Groups;
+//    }
+//
+//    public static PickupInfoDao pickups() {
+//        return Pickups;
+//    }
 
     public static PatientDao patients() {
         return Patients;

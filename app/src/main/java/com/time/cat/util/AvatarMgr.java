@@ -16,18 +16,18 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.usc.citius.servando.calendula.util;
+package com.time.cat.util;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.graphics.Palette;
 
+import com.time.cat.R;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import es.usc.citius.servando.calendula.R;
 
 /**
  * Created by joseangel.pineiro on 10/26/15.

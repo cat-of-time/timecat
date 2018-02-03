@@ -86,7 +86,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:paddingLeft="60dp"
-            android:text="@string/drawer_help_option"
+            android:text="@string/drawer_theme_option"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

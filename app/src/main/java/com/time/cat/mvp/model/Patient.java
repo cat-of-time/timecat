@@ -16,14 +16,14 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.usc.citius.servando.calendula.persistence;
+package com.time.cat.mvp.model;
 
 import android.graphics.Color;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.time.cat.util.AvatarMgr;
 
-import es.usc.citius.servando.calendula.util.AvatarMgr;
 
 /**
  * Models an user

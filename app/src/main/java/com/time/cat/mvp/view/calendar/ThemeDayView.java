@@ -82,6 +82,7 @@ public class ThemeDayView extends DayView {
         if (date != null) {
             if (date.equals(today)) {
                 dateTv.setTextColor(getResources().getColor(R.color.white));
+                dateTv.setText("今");
                 todayBackground.setVisibility(VISIBLE);
             } else {
                 dateTv.setText(date.day + "");

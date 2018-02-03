@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.time.cat.R;
+import com.time.cat.util.ScreenUtils;
 import com.time.cat.util.StatusbarColorUtils;
 import com.time.cat.util.StringUtil;
 import com.time.cat.util.ThreadManager;
@@ -316,6 +319,52 @@ public class BaseActivity extends PermissionActivity {
 
 
 
+    protected Toolbar toolbar;
+
+
+    protected BaseActivity setupToolbar(String title, int color, int iconColor){
+        // set up the toolbar
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(color);
+//        toolbar.setNavigationIcon(getNavigationIcon(iconColor));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (title == null) {
+            //set the back arrow in the toolbar
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        } else {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setTitle(title);
+        }
+        return this;
+    }
+
+
+    protected BaseActivity setupToolbar(String title, int color){
+        return setupToolbar(title, color, Color.WHITE);
+    }
+
+    protected BaseActivity setupStatusBar(int color){
+        ScreenUtils.setStatusBarColor(this, color);
+        return this;
+    }
+
+    protected BaseActivity subscribeToEvents() {
+//        CalendulaApp.eventBus().register(this);
+        return this;
+    }
+
+    protected BaseActivity unsubscribeFromEvents() {
+//        CalendulaApp.eventBus().unregister(this);
+        return this;
+    }
+
+
+
+
+
     //<沉浸式状态栏>----------------------------------------------------------------------------------
     static int statusHeight;
 
@@ -324,7 +373,7 @@ public class BaseActivity extends PermissionActivity {
      *
      * @param context
      */
-    public static int getStatusHeight(Context context) {
+    public static int getStatusBarHeight(Context context) {
         if (statusHeight <= 0) {
             try {
                 Class<?> clazz = Class.forName("com.android.internal.R$dimen");
@@ -392,6 +441,17 @@ public class BaseActivity extends PermissionActivity {
         }
     }
 
+    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
+        Window win = activity.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
     /**
      * 如果需要内容紧贴着StatusBar
      * 应该在对应的xml布局文件中，设置根布局fitsSystemWindows=true。
@@ -410,7 +470,7 @@ public class BaseActivity extends PermissionActivity {
      */
     protected void setDrawerLayoutFitSystemWindow() {
         if (Build.VERSION.SDK_INT == 19) {//19表示4.4
-            int statusBarHeight = getStatusHeight(this);
+            int statusBarHeight = getStatusBarHeight(this);
             if (contentViewGroup == null) {
                 contentViewGroup = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
             }
@@ -476,13 +536,13 @@ public class BaseActivity extends PermissionActivity {
         }
         // android6.0+系统
         // 这个设置和在xml的style文件中用这个<item name="android:windowLightStatusBar">true</item>属性是一样的
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (dark) {
-                getWindow().getDecorView().setSystemUiVisibility(
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (dark) {
+//                getWindow().getDecorView().setSystemUiVisibility(
+//                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//            }
+//        }
     }
     //</沉浸式状态栏>----------------------------------------------------------------------------------
 

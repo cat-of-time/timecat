@@ -16,7 +16,7 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.usc.citius.servando.calendula.util;
+package com.time.cat.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -42,11 +42,11 @@ import android.view.WindowManager;
 
 import com.mikepenz.materialize.Materialize;
 import com.mikepenz.materialize.MaterializeBuilder;
+import com.time.cat.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import es.usc.citius.servando.calendula.R;
 
 /**
  * Created by joseangel.pineiro on 11/20/13.
@@ -216,7 +216,12 @@ public class ScreenUtils {
     }
 
     public static int getStatusBarHeight(Context ctx) {
-        return ctx.getResources().getDimensionPixelSize(R.dimen.status_bar_height);
+        int result = 0;
+        int resourceId = ctx.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = ctx.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     public static int dpToPx(Resources r, float dp){

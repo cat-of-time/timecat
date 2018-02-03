@@ -2,9 +2,7 @@
 <resources>
     <string name="app_name">时光猫</string>
 
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
 
     <string name="cancel">取消</string>
     <string name="about">关于</string>
@@ -473,4 +471,51 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="addTask">添加任务</string>
     <string name="add_task_mode_help">添加任务 直接根据选词生成日程任务</string>
     <string name="open_timecat_for_task">快速添加任务功能开启Time Cat即可体验</string>
+    getDrawerawer-->
+    <string name="title_schedules">日程</string>
+    <string name="title_routines">生物钟</string>
+    <string name="title_plans">计划</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_patients">Patients</string>
+    <string name="title_activity_schedules">Schedules</string>
+    <string name="title_activity_routines">Routines</string>
+    <string name="title_activity_plans">Plans</string>
+    <string name="title_activity_medicines">Medicines</string>
+    <string name="title_activity_calendar">Pickups calendar</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="title_activity_schedule_list">Schedules</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_reminder">ReminderActivity</string>
+    <string name="title_activity_agenda_detail">AgendaDetailActivity</string>
+    <string name="title_activity_confirm_schedules">Confirm schedules</string>
+    <string name="title_activity_patient_detail">PatientDetailActivity</string>
+    <string name="title_activity_webview" translatable="false">WebViewActivity</string>
+
+    <string name="home_menu_routines">ROUTINES</string>
+    <string name="home_menu_medicines">MEDICINES</string>
+    <string name="home_menu_schedules">SCHEDULES</string>
+    <string name="home_menu_pharmacies">Pharmacies</string>
+    <string name="home_menu_plan">Plan</string>
+    <string name="drawer_top_option">Top</string>
+    <string name="drawer_menu_option">Menu</string>
+    <string name="drawer_bottom_option">Bottom</string>
+    <string name="drawer_services_option">Tools</string>
+    <string name="drawer_theme_option">Theme</string>
+    <string name="drawer_settings_option">Settings</string>
+    <string name="drawer_about_option">About</string>
+
+    <string-array name="home_drawer_actions">
+        <item>@string/drawer_top_option</item>
+        <item>Home</item>
+        <item>Menu</item>
+        <item>Routines</item>
+        <item>Medicines</item>
+        <item>Schedules</item>
+        <item>@string/drawer_services_option</item>
+        <item>Pharmacies</item>
+        <item>Plan</item>
+        <item>@string/drawer_bottom_option</item>
+
+    </string-array>
 </resources>

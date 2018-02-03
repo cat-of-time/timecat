@@ -15,9 +15,9 @@ import com.time.cat.mvp.presenter.FragmentPresenter;
  * @date 2018/1/25
  * @discription 生物钟fragment
  */
-public class RoutinesFragment extends BaseFragment implements FragmentPresenter{
+public class PlansFragment extends BaseFragment implements FragmentPresenter{
     @SuppressWarnings("unused")
-    private static final String TAG = "RoutinesFragment";
+    private static final String TAG = "PlansFragment";
 
 
     //<生命周期>-------------------------------------------------------------------------------------

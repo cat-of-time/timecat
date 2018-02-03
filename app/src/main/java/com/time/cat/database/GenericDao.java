@@ -16,7 +16,7 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.usc.citius.servando.calendula.database;
+package com.time.cat.database;
 
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.CloseableWrappedIterable;

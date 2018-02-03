@@ -453,4 +453,8 @@ PS: xposed trigger mode and the general version is not the same, each have advan
     <string name="addTask">add Task</string>
     <string name="add_task_mode_help">添加任务 直接根据选词生成日程任务</string>
     <string name="open_timecat_for_task">快速添加任务功能开启Time Cat即可体验</string>
+
+    <string name="title_schedules">Schedules</string>
+    <string name="title_routines">Routines</string>
+    <string name="title_plans">Plans</string>
 </resources>

@@ -138,11 +138,11 @@
         <activity
             android:name="com.time.cat.component.activity.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
             <intent-filter>
                 <action android:name="notify_universal_copy_broadcast"/>
             </intent-filter>
@@ -169,14 +169,20 @@
         </activity>
         <activity
             android:name="com.time.cat.component.activity.main.MainActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:theme="@style/ColorTranslucentTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.time.cat.component.activity.SettingTimeCatActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:theme="@style/ColorTranslucentTheme"/>
         <activity
             android:name="com.time.cat.component.activity.SettingFloatViewActivity"
             android:process=":monitor"
-            android:theme="@style/BaseAppTheme"/>
+            android:theme="@style/ColorTranslucentTheme"/>
         <activity
             android:name="com.time.cat.component.activity.searchengine.SearchEngineActivity"
             android:theme="@style/SearchEngineAppTheme"/>
@@ -303,10 +309,13 @@
             android:theme="@style/KeepAliveActivtyTheme"/>
         <activity
             android:name=".component.activity.user.LoginActivity"
-            android:theme="@style/AppTheme.Dark"/>
+            android:theme="@style/BaseAppTheme"/>
         <activity
             android:name=".component.activity.user.SignupActivity"
-            android:theme="@style/AppTheme.Dark"/>
+            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name=".component.activity.AboutActivity"
+            android:theme="@style/BaseAppTheme"/>
     </application>
 
 </manifest>

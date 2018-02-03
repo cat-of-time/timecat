@@ -16,20 +16,16 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.usc.citius.servando.calendula.database;
+package com.time.cat.database;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.j256.ormlite.dao.Dao;
+import com.time.cat.mvp.model.Patient;
 
 import java.sql.SQLException;
 
-import es.usc.citius.servando.calendula.CalendulaApp;
-import es.usc.citius.servando.calendula.events.PersistenceEvents;
-import es.usc.citius.servando.calendula.persistence.Medicine;
-import es.usc.citius.servando.calendula.persistence.Patient;
-import es.usc.citius.servando.calendula.persistence.Routine;
 
 /**
  * Created by joseangel.pineiro on 3/26/15.
@@ -56,9 +52,9 @@ public class PatientDao extends GenericDao<Patient, Long> {
     @Override
     public void saveAndFireEvent(Patient p) {
 
-        Object event =  p.id() == null ? new PersistenceEvents.UserCreateEvent(p) : new PersistenceEvents.UserUpdateEvent(p);
-        save(p);
-        CalendulaApp.eventBus().post(event);
+//        Object event =  p.id() == null ? new PersistenceEvents.UserCreateEvent(p) : new PersistenceEvents.UserUpdateEvent(p);
+//        save(p);
+//        TimeCatApp.eventBus().post(event);
 
     }
 
@@ -92,14 +88,14 @@ public class PatientDao extends GenericDao<Patient, Long> {
         PreferenceManager.getDefaultSharedPreferences(ctx).edit()
         .putLong(PREFERENCE_ACTIVE_PATIENT,patient.id())
         .commit();
-        CalendulaApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(patient));
+//        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(patient));
     }
     public void setActiveById(Long id, Context ctx) {
         Patient patient = findById(id);
         PreferenceManager.getDefaultSharedPreferences(ctx).edit()
                 .putLong(PREFERENCE_ACTIVE_PATIENT, patient.id())
                 .commit();
-        CalendulaApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(patient));
+//        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(patient));
     }
 
 
@@ -112,17 +108,17 @@ public class PatientDao extends GenericDao<Patient, Long> {
     }
 
     public void removeAllStuff(Patient p) {
-        for(Medicine m : DB.medicines().findAll()){
-            if(m.patient().id() == p.id()){
-                // this also remove schedules
-                DB.medicines().deleteCascade(m, true);
-            }
-        }
-        // remove routines
-        for(Routine r:  DB.routines().findAll()) {
-            if (r.patient().id() == p.id()) {
-                DB.routines().remove(r);
-            }
-        }
+//        for(Medicine m : DB.medicines().findAll()){
+//            if(m.patient().id() == p.id()){
+//                // this also remove schedules
+//                DB.medicines().deleteCascade(m, true);
+//            }
+//        }
+//        // remove routines
+//        for(Routine r:  DB.routines().findAll()) {
+//            if (r.patient().id() == p.id()) {
+//                DB.routines().remove(r);
+//            }
+//        }
     }
 }

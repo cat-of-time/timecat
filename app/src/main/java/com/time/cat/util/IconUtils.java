@@ -16,9 +16,10 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.usc.citius.servando.calendula.util;
+package com.time.cat.util;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
@@ -27,6 +28,14 @@ import com.mikepenz.iconics.typeface.IIcon;
  * Created by joseangel.pineiro on 10/29/15.
  */
 public class IconUtils {
+
+    public static IconicsDrawable icon_white_24dp(Context ctx, IIcon ic, int size) {
+        return icon_white(ctx, ic, 24);
+    }
+
+    public static IconicsDrawable icon_white(Context ctx, IIcon ic, int size) {
+        return icon(ctx, ic, Color.WHITE, size);
+    }
 
     public static IconicsDrawable icon(Context ctx, IIcon ic, int color){
         return new IconicsDrawable(ctx, ic)

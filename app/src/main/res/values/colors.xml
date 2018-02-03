@@ -19,8 +19,9 @@
     <color name="label_not_important_not_urgent_color">@color/green</color>
 
     <color name="trans">#00000000</color>
-    <color name="primary">#FF03A9F4</color>
-    <color name="primary_dark">#FF0288D1</color>
+    <color name="primary">#03A9F4</color>
+    <color name="primary_dark">#0288D1</color>
+    <color name="primary_darker">#01579B</color>
     <color name="colorPrimaryDarkTransparent">@color/primary</color>
     <color name="divider">#cee9e9e9</color>
     <color name="quarter_transparent">#40000000</color>
@@ -102,7 +103,6 @@
     <color name="cpb_white">@android:color/white</color>
 
     <!--Login & SignUp-->
-    <color name="primary_darker">#CC1D1D</color>
     <color name="accent">#FFFFFF</color>
     <color name="jet">#222222</color>
     <color name="oil">#333333</color>
@@ -111,4 +111,20 @@
     <color name="aluminum">#999999</color>
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
+
+    <!--drawer-->
+    <color name="drawerbg_default">#272727</color>
+    <color name="drawerbg">#3c3c3c</color>
+    <color name="android_blue">#33B5E5</color>
+    <color name="android_blue_dark">#0099CC</color>
+    <color name="android_blue_darker">#0077aa</color>
+    <color name="android_blue_statusbar">#004F71</color>
+    <color name="android_blue_light">#5533B5E5</color>
+    <color name="android_orange">#FFBB33</color>
+    <color name="android_orange_dark">#FF8800</color>
+    <color name="android_orange_light">#55FFBB33</color>
+    <color name="android_orange_lighter">#22FFBB33</color>
+    <color name="dark_grey_home">#272727</color>
+    <color name="dark_grey_home_statusbar">#151515</color>
+    <color name="dark_grey_text">#5e5e5e</color>
 </resources>

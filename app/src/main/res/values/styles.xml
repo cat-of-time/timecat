@@ -87,6 +87,29 @@
     <!-- 启动页 引导页设置StatusBar为透明色 -->
     <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme" />
 
+    <!--MainActivityTheme-->
+    <style name="MainActivityTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">
+        <!-- Set AppCompat’s actionBarStyle -->
+        <!--<item name="actionBarStyle">@style/MyActionBar</item>-->
+        <item name="windowActionBar">false</item>
+
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="colorPrimary">@color/android_blue_dark</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="windowActionModeOverlay">true</item>
+        <!-- The rest of your attributes -->
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="siv_insetForeground">#00ffffff</item>
+
+        <item name="android:actionModeBackground">@color/transparent</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <!--PreSettingTheme-->
     <style name="PreSettingTheme" parent="@style/ColorTranslucentTheme">
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">false</item>

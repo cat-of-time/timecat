@@ -3,8 +3,10 @@ package com.time.cat;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 
@@ -21,6 +23,7 @@ import com.time.cat.util.onestep.AppManager;
  */
 public class TimeCatApp extends Application implements ThemeUtils.switchColor{
     private static TimeCatApp instance;
+    public static final String PHARMACY_MODE_ENABLED = "PHARMACY_MODE_ENABLED";
 
     public static TimeCatApp getInstance() {
         return instance;
@@ -45,7 +48,10 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
         AppManager.getInstance(this);
     }
 
-
+    public static boolean isPharmaModeEnabled(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(PHARMACY_MODE_ENABLED, false);
+    }
 
 
     //<theme>---------------------------------------------------------------------------------------

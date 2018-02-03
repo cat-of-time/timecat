@@ -13,11 +13,11 @@ import com.time.cat.mvp.presenter.FragmentPresenter;
 /**
  * @author dlink
  * @date 2018/1/25
- * @discription
+ * @discription 生物钟fragment
  */
-public class DashboardFragment extends BaseFragment implements FragmentPresenter{
+public class RoutinesFragment extends BaseFragment implements FragmentPresenter{
     @SuppressWarnings("unused")
-    private static final String TAG = "DashboardFragment";
+    private static final String TAG = "RoutinesFragment";
 
 
     //<生命周期>-------------------------------------------------------------------------------------

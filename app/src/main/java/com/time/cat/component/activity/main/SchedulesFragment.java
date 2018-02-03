@@ -56,13 +56,17 @@ import java.util.List;
 /**
  * @author dlink
  * @date 2018/1/24
- * @discription HomeFragment
+ * @discription SchedulesFragment
  */
 @SuppressLint("SetTextI18n")
-public class HomeFragment extends BaseFragment implements FragmentPresenter, OnSelectDateListener,
-        View.OnClickListener, OnViewClickListener, AsyncExpandableListViewCallbacks<Schedule, Schedule> {
+public class SchedulesFragment extends BaseFragment implements
+                                                    FragmentPresenter,
+                                                    OnSelectDateListener,
+                                                    View.OnClickListener,
+                                                    OnViewClickListener,
+                                                    AsyncExpandableListViewCallbacks<Schedule, Schedule> {
     @SuppressWarnings("unused")
-    private static final String TAG = "HomeFragment";
+    private static final String TAG = "SchedulesFragment";
 
 
     //<生命周期>-------------------------------------------------------------------------------------
