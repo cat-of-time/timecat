@@ -32,7 +32,7 @@ public class DB {
     public static final String TAG = DB.class.getSimpleName();
 
     // Database name
-    public static String DB_NAME = "calendula.db";
+    public static String DB_NAME = "timecat.db";
     // initialized flag
     public static boolean initialized = false;
 
@@ -44,11 +44,11 @@ public class DB {
 //    // Medicines DAO
 //    private static MedicineDao Medicines;
 //    // Routines DAO
-//    private static RoutineDao Routines;
+    private static RoutineDao Routines;
 //    // Schedules DAO
-//    private static ScheduleDao Schedules;
+    private static ScheduleDao Schedules;
 //    // ScheduleItems DAO
-//    private static ScheduleItemDao ScheduleItems;
+    private static ScheduleItemDao ScheduleItems;
 //    // DailyScheduleItem DAO
 //    private static DailyScheduleItemDao DailyScheduleItems;
 //    // Prescriptions DAO
@@ -73,9 +73,9 @@ public class DB {
             db.getReadableDatabase().enableWriteAheadLogging();
 
 //            Medicines = new MedicineDao(db);
-//            Routines = new RoutineDao(db);
-//            Schedules = new ScheduleDao(db);
-//            ScheduleItems = new ScheduleItemDao(db);
+            Routines = new RoutineDao(db);
+            Schedules = new ScheduleDao(db);
+            ScheduleItems = new ScheduleItemDao(db);
 //            DailyScheduleItems = new DailyScheduleItemDao(db);
 //            Prescriptions = new PrescriptionDao(db);
 //            Groups = new HomogeneousGroupDao(db);
@@ -113,17 +113,17 @@ public class DB {
 //        return Medicines;
 //    }
 //
-//    public static RoutineDao routines() {
-//        return Routines;
-//    }
-//
-//    public static ScheduleDao schedules() {
-//        return Schedules;
-//    }
-//
-//    public static ScheduleItemDao scheduleItems() {
-//        return ScheduleItems;
-//    }
+    public static RoutineDao routines() {
+        return Routines;
+    }
+
+    public static ScheduleDao schedules() {
+        return Schedules;
+    }
+
+    public static ScheduleItemDao scheduleItems() {
+        return ScheduleItems;
+    }
 //
 //    public static DailyScheduleItemDao dailyScheduleItems() {
 //        return DailyScheduleItems;

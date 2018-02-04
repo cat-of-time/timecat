@@ -21,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.time.cat.R;
+import com.time.cat.TimeCatApp;
 import com.time.cat.util.ScreenUtils;
 import com.time.cat.util.StatusbarColorUtils;
 import com.time.cat.util.StringUtil;
@@ -207,6 +208,10 @@ public class BaseActivity extends PermissionActivity {
 
 
 
+
+
+
+
     //<启动新Activity方法>---------------------------------------------------------------------------
     /**打开新的Activity，向左滑入效果
      * @param intent intent
@@ -352,15 +357,14 @@ public class BaseActivity extends PermissionActivity {
     }
 
     protected BaseActivity subscribeToEvents() {
-//        CalendulaApp.eventBus().register(this);
+        TimeCatApp.eventBus().register(this);
         return this;
     }
 
     protected BaseActivity unsubscribeFromEvents() {
-//        CalendulaApp.eventBus().unregister(this);
+        TimeCatApp.eventBus().unregister(this);
         return this;
     }
-
 
 
 

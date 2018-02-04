@@ -14,8 +14,8 @@
         android:visibility="gone"/>
     <View
         android:id="@+id/selected_background"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:background="@drawable/view_calendar_select_background"
         android:layout_centerInParent="true"
         android:visibility="gone"/>

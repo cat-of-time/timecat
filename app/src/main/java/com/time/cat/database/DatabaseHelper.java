@@ -28,7 +28,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.time.cat.mvp.model.Patient;
-import com.time.cat.mvp.model.Schedule;
 
 import java.sql.SQLException;
 
@@ -43,10 +42,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     // List of persisted classes to simplify table creation
     public Class<?>[] persistedClasses = new Class<?>[]{
-//            Routine.class,
+            Routine.class,
 //            Medicine.class,
             Schedule.class,
-//            ScheduleItem.class,
+            ScheduleItem.class,
 //            DailyScheduleItem.class,
 //            Prescription.class,
             // v8
@@ -66,11 +65,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // the DAO object we use to access the Medicines table
 //    private Dao<Medicine, Long> medicinesDao = null;
     // the DAO object we use to access the Routines table
-//    private Dao<Routine, Long> routinesDao = null;
+    private Dao<Routine, Long> routinesDao = null;
     // the DAO object we use to access the Schedules table
-//    private Dao<Schedule, Long> schedulesDao = null;
+    private Dao<Schedule, Long> schedulesDao = null;
     // the DAO object we use to access the ScheduleItems table
-//    private Dao<ScheduleItem, Long> scheduleItemsDao = null;
+    private Dao<ScheduleItem, Long> scheduleItemsDao = null;
     // the DAO object we use to access the DailyScheduleItems table
 //    private Dao<DailyScheduleItem, Long> dailyScheduleItemsDao = null;
     // the DAO object we use to access the DailyScheduleItems table
@@ -112,7 +111,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Patient createDefaultPatient() throws SQLException {
         // Create a default patient
         Patient p = new Patient();
-        p.setName("Usuario");
+        p.setName("TestUser");
         p.setDefault(true);
         getPatientDao().create(p);
         return p;
@@ -224,7 +223,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //        getDailyScheduleItemsDao().executeRaw(updateDateSql);
 //
 //    }
-
+//
 //    /**
 //     * Method that migrate schedules to the iCal format
 //     */
@@ -281,40 +280,40 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //        }
 //        return medicinesDao;
 //    }
-//
-//    /**
-//     * Returns the Database Access Object (DAO) for our Routines class. It will create it or just give the cached
-//     * value.
-//     */
-//    public Dao<Routine, Long> getRoutinesDao() throws SQLException {
-//        if (routinesDao == null) {
-//            routinesDao = getDao(Routine.class);
-//        }
-//        return routinesDao;
-//    }
-//
-//    /**
-//     * Returns the Database Access Object (DAO) for our Schedules class. It will create it or just give the cached
-//     * value.
-//     */
-//    public Dao<Schedule, Long> getSchedulesDao() throws SQLException {
-//        if (schedulesDao == null) {
-//            schedulesDao = getDao(Schedule.class);
-//        }
-//        return schedulesDao;
-//    }
-//
-//    /**
-//     * Returns the Database Access Object (DAO) for our ScheduleItem class. It will create it or just give the cached
-//     * value.
-//     */
-//    public Dao<ScheduleItem, Long> getScheduleItemsDao() throws SQLException {
-//        if (scheduleItemsDao == null) {
-//            scheduleItemsDao = getDao(ScheduleItem.class);
-//        }
-//        return scheduleItemsDao;
-//    }
-//
+
+    /**
+     * Returns the Database Access Object (DAO) for our Routines class. It will create it or just give the cached
+     * value.
+     */
+    public Dao<Routine, Long> getRoutinesDao() throws SQLException {
+        if (routinesDao == null) {
+            routinesDao = getDao(Routine.class);
+        }
+        return routinesDao;
+    }
+
+    /**
+     * Returns the Database Access Object (DAO) for our Schedules class. It will create it or just give the cached
+     * value.
+     */
+    public Dao<Schedule, Long> getSchedulesDao() throws SQLException {
+        if (schedulesDao == null) {
+            schedulesDao = getDao(Schedule.class);
+        }
+        return schedulesDao;
+    }
+
+    /**
+     * Returns the Database Access Object (DAO) for our ScheduleItem class. It will create it or just give the cached
+     * value.
+     */
+    public Dao<ScheduleItem, Long> getScheduleItemsDao() throws SQLException {
+        if (scheduleItemsDao == null) {
+            scheduleItemsDao = getDao(ScheduleItem.class);
+        }
+        return scheduleItemsDao;
+    }
+
 //    /**
 //     * Returns the Database Access Object (DAO) for our DailyScheduleItem class. It will create it or just give the cached
 //     * value.

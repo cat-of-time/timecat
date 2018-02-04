@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -31,15 +32,19 @@ import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
+import com.time.cat.database.DB;
+import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.Patient;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.CustomPagerView;
-import com.time.cat.util.AvatarMgr;
+import com.time.cat.test.DefaultDataGenerator;
 import com.time.cat.util.ScreenUtils;
 import com.time.cat.util.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author dlink
@@ -57,6 +62,8 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         setContentView(R.layout.activity_main);
         setStatusBarFullTransparent();
         initDrawer(savedInstanceState);
+        handler = new Handler();
+
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initView();
         initData();
@@ -67,22 +74,26 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
     @Override
     protected void onResume() {
         super.onResume();
-//        Patient p = DB.patients().getActive(this);
+        Patient p = DB.patients().getActive(this);
 //        Patient p = new Patient();
 //        p.setAvatar(AvatarMgr.AVATAR_2);
 //        p.setColor(4);
 //        p.setName("测试");
 //        p.setId((long) 5);
-//        leftDrawer.onActivityResume(p);
-//        active = true;
-//
-//        // process pending events
-//        while (!pendingEvents.isEmpty()) {
-//            Log.d(TAG, "Processing pending event...");
-//            onEvent(pendingEvents.poll());
-//        }
-    }
+        leftDrawer.onActivityResume(p);
+        active = true;
 
+        // process pending events
+        while (!pendingEvents.isEmpty()) {
+            Log.d(TAG, "Processing pending event...");
+            onEvent(pendingEvents.poll());
+        }
+    }
+    @Override
+    protected void onPause() {
+        active = false;
+        super.onPause();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -132,18 +143,6 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
      */
     private void setToolBar() {
         toolbar = findViewById(R.id.main_toolbar);
-        //1.先设置toolbar的高度
-//        ViewGroup.LayoutParams params = toolbar.getLayoutParams();
-//        int statusBarHeight = ScreenUtils.getStatusBarHeight(this);
-//        Log.e(TAG, ""+statusBarHeight+params);
-//        params.height += statusBarHeight;
-//        toolbar.setLayoutParams(params);
-        //2.设置paddingTop，以达到状态栏不遮挡toolbar的内容。
-//        toolbar.setPadding(
-//                toolbar.getPaddingLeft(),
-//                toolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(this),
-//                toolbar.getPaddingRight(),
-//                toolbar.getPaddingBottom());
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0, ScreenUtils.getStatusBarHeight(this), 0, 0);
         toolbar.setLayoutParams(layoutParams);
@@ -213,6 +212,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
     public void initEvent() {//必须调用
         customPagerView.addOnPageChangeListener(this);
         navigation.setOnNavigationItemSelectedListener(this);
+        subscribeToEvents();
     }
 
     //-//<BottomNavigationView.OnNavigationItemSelectedListener>------------------------------------
@@ -367,14 +367,18 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
 //        setupStatusBar(TimeCatApp.getInstance().replaceColor(this, 0xd20000));
 //        Log.e(TAG, "set to "+ TimeCatApp.getInstance().replaceColor(this, 0xd20000));
 
-        Patient p = new Patient();
-        p.setAvatar(AvatarMgr.AVATAR_2);
-        p.setColor(TimeCatApp.getInstance().replaceColor(this, 0xd20000));
-        p.setName("测试");
-        p.setId((long) 5);
-        leftDrawer.updateHeaderBackground(p);
-//        Log.e(TAG, "set getDrawer color");
+        Patient patient;
+        long patientId = getIntent().getLongExtra("patient_id", -1);
 
+        if (patientId != -1) {
+            patient = DB.patients().findById(patientId);
+        } else {
+            patient = new Patient();
+        }
+        patient.setColor(TimeCatApp.getInstance().replaceColor(this, 0xd20000));
+        DB.patients().saveAndFireEvent(patient);
+        DefaultDataGenerator.generateDefaultRoutines(patient, this);
+        leftDrawer.updateHeaderBackground(patient);
     }
     //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
 
@@ -453,6 +457,48 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         }
     }
     //-//</View.OnClickListener>--------------------------------------------------------------------
+
+    //-//<Method called from the event bus>--------------------------------------------------------------------
+    private Handler handler;
+    private Queue<Object> pendingEvents = new LinkedList<>();
+    boolean active = false;
+    private Patient activePatient;
+
+    public void onEvent(final Object evt) {
+        if (active) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    if (evt instanceof PersistenceEvents.ModelCreateOrUpdateEvent) {
+                        PersistenceEvents.ModelCreateOrUpdateEvent event = (PersistenceEvents.ModelCreateOrUpdateEvent) evt;
+                        Log.d(TAG, "onEvent: " + event.clazz.getName());
+//                        ((DailyAgendaFragment) getViewPagerFragment(0)).notifyDataChange();
+//                        ((RoutinesListFragment) getViewPagerFragment(1)).notifyDataChange();
+//                        ((MedicinesListFragment) getViewPagerFragment(2)).notifyDataChange();
+                    } else if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
+                        activePatient = ((PersistenceEvents.ActiveUserChangeEvent) evt).patient;
+//                        updateTitle(mViewPager.getCurrentItem());
+//                        toolbarLayout.setContentScrimColor(activePatient.color());
+//                        fabMgr.onPatientUpdate(activePatient);
+                    } else if (evt instanceof PersistenceEvents.UserUpdateEvent) {
+                        Patient p = ((PersistenceEvents.UserUpdateEvent) evt).patient;
+//                        ((DailyAgendaFragment) getViewPagerFragment(0)).onUserUpdate();
+                        leftDrawer.onPatientUpdated(p);
+                        if (DB.patients().isActive(p, MainActivity.this)) {
+                            activePatient = p;
+                        }
+                    } else if (evt instanceof PersistenceEvents.UserCreateEvent) {
+                        Patient created = ((PersistenceEvents.UserCreateEvent) evt).patient;
+                        leftDrawer.onPatientCreated(created);
+                    }
+                }
+            });
+        } else {
+            pendingEvents.add(evt);
+        }
+    }
+    //-//</Method called from the event bus>--------------------------------------------------------------------
 
 
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------

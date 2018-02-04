@@ -127,4 +127,10 @@
     <color name="dark_grey_home">#272727</color>
     <color name="dark_grey_home_statusbar">#151515</color>
     <color name="dark_grey_text">#5e5e5e</color>
+
+    <!--fab-->
+    <color name="fab_light_normal">#efefef</color>
+    <color name="fab_light_pressed">#b7b7b7</color>
+    <color name="fab_dark_normal">#272727</color>
+    <color name="fab_dark_pressed">#373737</color>
 </resources>

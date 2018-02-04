@@ -15,24 +15,41 @@ import com.time.cat.ThemeSystem.manager.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.service.ListenClipboardService;
 import com.time.cat.component.service.TimeCatMonitorService;
+import com.time.cat.database.DB;
+import com.time.cat.database.PatientDao;
+import com.time.cat.mvp.model.Patient;
+import com.time.cat.test.DefaultDataGenerator;
 import com.time.cat.util.KeepAliveWatcher;
 import com.time.cat.util.onestep.AppManager;
 
+import de.greenrobot.event.EventBus;
+
 /**
- * Created by penglu on 2016/10/26.
+ * @author dlink
+ * @date 2018/2/3
+ * @discription app
  */
 public class TimeCatApp extends Application implements ThemeUtils.switchColor{
     private static TimeCatApp instance;
     public static final String PHARMACY_MODE_ENABLED = "PHARMACY_MODE_ENABLED";
-
+    private static EventBus eventBus = EventBus.getDefault();
     public static TimeCatApp getInstance() {
         return instance;
     }
-
+    SharedPreferences prefs;
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        // initialize SQLite engine
+        initializeDatabase();
+
+        if (!prefs.getBoolean("DEFAULT_DATA_INSERTED", false)) {
+            DefaultDataGenerator.fillDBWithDummyData(getApplicationContext());
+            prefs.edit().putBoolean("DEFAULT_DATA_INSERTED", true).commit();
+        }
+
         ThemeUtils.setSwitchColor(this);
         Global.init(this);
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
@@ -53,6 +70,22 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
         return prefs.getBoolean(PHARMACY_MODE_ENABLED, false);
     }
 
+    public static EventBus eventBus() {
+        return eventBus;
+    }
+
+    public void initializeDatabase() {
+        DB.init(this);
+        try{
+            if(DB.patients().countOf() == 1) {
+                Patient p = DB.patients().getDefault();
+                prefs.edit().putLong(PatientDao.PREFERENCE_ACTIVE_PATIENT, p.id()).commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     //<theme>---------------------------------------------------------------------------------------
     private String getTheme(Context context) {

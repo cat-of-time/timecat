@@ -316,6 +316,7 @@
         <activity
             android:name=".component.activity.AboutActivity"
             android:theme="@style/BaseAppTheme"/>
+        <activity android:name=".component.activity.user.PatientDetailActivity"/>
     </application>
 
 </manifest>

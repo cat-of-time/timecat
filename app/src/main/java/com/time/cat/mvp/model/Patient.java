@@ -26,7 +26,9 @@ import com.time.cat.util.AvatarMgr;
 
 
 /**
- * Models an user
+ * @author dlink
+ * @date 2018/1/25
+ * @discription 用户类
  */
 @DatabaseTable(tableName = "Patients")
 public class Patient {
@@ -82,7 +84,6 @@ public class Patient {
         return avatar;
     }
 
-
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
@@ -91,18 +92,12 @@ public class Patient {
         this.color = color;
     }
 
-    public int color(){
+    public int color() {
         return color;
     }
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", isDefault=" + isDefault +
-                ", avatar='" + avatar + '\'' +
-                ", color=" + color +
-                '}';
+        return "Patient{" + "id=" + id + ", name='" + name + '\'' + ", isDefault=" + isDefault + ", avatar='" + avatar + '\'' + ", color=" + color + '}';
     }
 }

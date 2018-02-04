@@ -6,13 +6,13 @@
         android:visible="false">
         <item
             android:id="@+id/main_menu_today"
-            android:icon="@mipmap/ic_today"
+            android:icon="@drawable/ic_today_white_24dp"
             android:title="@string/main_menu_today"
             android:visible="false"
             app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/main_menu_change_theme"
-            android:icon="@mipmap/ic_change_theme"
+            android:icon="@drawable/ic_change_white_24dp"
             android:title="@string/main_menu_change_theme"
             android:visible="false"
             app:showAsAction="ifRoom"/>
@@ -32,7 +32,7 @@
         android:visible="false">
         <item
             android:id="@+id/main_menu_2"
-            android:icon="@mipmap/ic_change_theme"
+            android:icon="@drawable/ic_change_white_24dp"
             android:title="@string/main_menu_change_theme"
             android:visible="false"
             app:showAsAction="ifRoom"/>
