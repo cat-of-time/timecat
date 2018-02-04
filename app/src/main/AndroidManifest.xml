@@ -309,10 +309,10 @@
             android:theme="@style/KeepAliveActivtyTheme"/>
         <activity
             android:name=".component.activity.user.LoginActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:theme="@style/AppTheme.Dark"/>
         <activity
             android:name=".component.activity.user.SignupActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:theme="@style/AppTheme.Dark"/>
         <activity
             android:name=".component.activity.AboutActivity"
             android:theme="@style/BaseAppTheme"/>
