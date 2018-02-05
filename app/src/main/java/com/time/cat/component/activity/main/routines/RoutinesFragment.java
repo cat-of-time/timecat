@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.routines;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

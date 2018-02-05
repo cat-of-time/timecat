@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.viewmanager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +12,8 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
+import com.time.cat.component.activity.main.MainActivity;
+import com.time.cat.component.activity.main.schedules.SchedulesHelpActivity;
 import com.time.cat.mvp.model.User;
 import com.time.cat.util.ScreenUtils;
 
@@ -21,10 +23,10 @@ import java.util.List;
 /**
  * Helper to manage the home screen floating action button behaviour
  */
-public class FabMenuMgr implements View.OnClickListener{
+public class FabMenuManager implements View.OnClickListener{
 
 
-    LeftDrawerView drawerMgr;
+    LeftDrawerManager drawerMgr;
     FloatingActionsMenu fabMenu;
     FloatingActionButton fab;
     MainActivity activity;
@@ -34,7 +36,7 @@ public class FabMenuMgr implements View.OnClickListener{
     private int currentPage = 0;
 
 
-    public FabMenuMgr(FloatingActionButton fab, FloatingActionsMenu fabMenu, LeftDrawerView drawerMgr, MainActivity a) {
+    public FabMenuManager(FloatingActionButton fab, FloatingActionsMenu fabMenu, LeftDrawerManager drawerMgr, MainActivity a) {
         this.fab = fab;
         this.fabMenu = fabMenu;
         this.activity = a;

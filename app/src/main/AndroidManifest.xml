@@ -318,7 +318,7 @@
             android:theme="@style/BaseAppTheme"/>
         <activity android:name=".component.activity.user.UserDetailActivity"/>
         <activity
-            android:name=".component.activity.main.SchedulesHelpActivity"
+            android:name=".component.activity.main.schedules.SchedulesHelpActivity"
             android:theme="@style/Theme.Intro"/>
     </application>
 

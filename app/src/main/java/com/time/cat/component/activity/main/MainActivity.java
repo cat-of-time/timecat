@@ -31,6 +31,11 @@ import com.time.cat.ThemeSystem.manager.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
+import com.time.cat.component.activity.main.routines.RoutinesListFragment;
+import com.time.cat.component.activity.main.schedules.SchedulesFragment;
+import com.time.cat.component.activity.main.schedules.SchedulesHelpActivity;
+import com.time.cat.component.activity.main.viewmanager.FabMenuManager;
+import com.time.cat.component.activity.main.viewmanager.LeftDrawerManager;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
@@ -109,7 +114,7 @@ public class MainActivity extends BaseActivity implements
 
     private Menu menu;
     Toolbar toolbar;
-    private LeftDrawerView leftDrawer;
+    private LeftDrawerManager leftDrawer;
 
     private TextView tvYear;
     private TextView tvMonth;
@@ -121,7 +126,7 @@ public class MainActivity extends BaseActivity implements
 
     private FloatingActionButton fab;
     private FloatingActionsMenu addButton;
-    private FabMenuMgr fabMgr;
+    private FabMenuManager fabMgr;
     @Override
     public void initView() {//必须调用
         switch (ThemeManager.getTheme(this)) {
@@ -149,7 +154,7 @@ public class MainActivity extends BaseActivity implements
      * 侧滑栏
      */
     private void initDrawer(Bundle savedInstanceState) {
-        leftDrawer = new LeftDrawerView(this, toolbar);
+        leftDrawer = new LeftDrawerManager(this, toolbar);
         leftDrawer.init(savedInstanceState);
     }
 
@@ -195,7 +200,7 @@ public class MainActivity extends BaseActivity implements
     private void setFab() {
         addButton = findViewById(R.id.fab_menu);
         fab = findViewById(R.id.add_button);
-        fabMgr = new FabMenuMgr(fab, addButton, leftDrawer, this);
+        fabMgr = new FabMenuManager(fab, addButton, leftDrawer, this);
         fabMgr.init();
 
         fabMgr.onUserUpdate(activeUser);

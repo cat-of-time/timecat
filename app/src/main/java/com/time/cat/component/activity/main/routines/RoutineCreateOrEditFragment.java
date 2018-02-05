@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.routines;
 
 import android.app.Activity;
 import android.app.AlertDialog;

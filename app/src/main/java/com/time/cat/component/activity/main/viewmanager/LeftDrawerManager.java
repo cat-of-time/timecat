@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.viewmanager;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +31,7 @@ import com.time.cat.AnimationSystem.ViewHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.AboutActivity;
+import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.activity.user.LoginActivity;
 import com.time.cat.component.activity.user.UserDetailActivity;
@@ -49,10 +50,10 @@ import java.util.List;
  * @date 2018/2/3
  * @discription 侧滑栏
  */
-public class LeftDrawerView implements
+public class LeftDrawerManager implements
                             Drawer.OnDrawerItemClickListener,
                             AccountHeader.OnAccountHeaderListener {
-    private static final String TAG = "LeftDrawerView";
+    private static final String TAG = "LeftDrawerManager";
 
     public static final int HOME = -1;
     public static final int USER_ADD = -2;
@@ -77,7 +78,7 @@ public class LeftDrawerView implements
     private MainActivity mainActivity;
     private User currentUser;
 
-    public LeftDrawerView(MainActivity activity, Toolbar toolbar) {
+    public LeftDrawerManager(MainActivity activity, Toolbar toolbar) {
         this.toolbar = toolbar;
         this.mainActivity = activity;
     }
