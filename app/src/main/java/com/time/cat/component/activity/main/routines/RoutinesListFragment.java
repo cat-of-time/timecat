@@ -21,9 +21,9 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.component.activity.main.AlarmScheduler;
+import com.time.cat.component.activity.main.schedules.AlarmScheduler;
 import com.time.cat.database.DB;
-import com.time.cat.database.Routine;
+import com.time.cat.mvp.model.Routine;
 import com.time.cat.events.PersistenceEvents;
 
 import java.util.List;

@@ -21,8 +21,12 @@ package com.time.cat.mvp.model;
 import android.graphics.Color;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.time.cat.database.Schedule;
 import com.time.cat.util.AvatarMgr;
+
+import java.util.Collection;
 
 
 /**
@@ -52,14 +56,15 @@ public class User {
     @DatabaseField(columnName = COLUMN_AVATAR)
     private String avatar = AvatarMgr.DEFAULT_AVATAR;
 
-
     @DatabaseField(columnName = COLUMN_COLOR)
     private int color = Color.parseColor("#3498db"); // material blue 700 1976d2
+
+    @ForeignCollectionField
+    private Collection<Schedule> schedules;
 
     public Long id() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -67,7 +72,6 @@ public class User {
     public String name() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -75,7 +79,6 @@ public class User {
     public boolean isDefault() {
         return isDefault;
     }
-
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
     }
@@ -83,17 +86,15 @@ public class User {
     public String avatar() {
         return avatar;
     }
-
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
-    public void setColor(int color) {
-        this.color = color;
-    }
-
     public int color() {
         return color;
+    }
+    public void setColor(int color) {
+        this.color = color;
     }
 
     @Override

@@ -51,8 +51,8 @@ import java.util.List;
  * @discription 侧滑栏
  */
 public class LeftDrawerManager implements
-                            Drawer.OnDrawerItemClickListener,
-                            AccountHeader.OnAccountHeaderListener {
+                               Drawer.OnDrawerItemClickListener,
+                               AccountHeader.OnAccountHeaderListener {
     private static final String TAG = "LeftDrawerManager";
 
     public static final int HOME = -1;

@@ -1,6 +1,6 @@
 package com.time.cat.events;
 
-import com.time.cat.database.Routine;
+import com.time.cat.mvp.model.Routine;
 import com.time.cat.mvp.model.User;
 import com.time.cat.mvp.model.Schedule;
 

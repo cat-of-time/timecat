@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.schedules;
 
 
 import android.content.BroadcastReceiver;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.database.Routine;
+import com.time.cat.mvp.model.Routine;
 import com.time.cat.database.Schedule;
 
 import org.joda.time.LocalDate;

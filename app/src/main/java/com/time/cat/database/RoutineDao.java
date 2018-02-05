@@ -26,6 +26,8 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
+import com.time.cat.mvp.model.Routine;
+import com.time.cat.mvp.model.ScheduleItem;
 import com.time.cat.mvp.model.User;
 
 import org.joda.time.LocalTime;

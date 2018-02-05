@@ -19,7 +19,7 @@ import com.doomonafireball.betterpickers.timepicker.TimePickerDialogFragment;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.database.DB;
-import com.time.cat.database.Routine;
+import com.time.cat.mvp.model.Routine;
 import com.time.cat.util.Snack;
 
 import org.joda.time.DateTime;

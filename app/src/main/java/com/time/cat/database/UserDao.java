@@ -24,6 +24,7 @@ import android.preference.PreferenceManager;
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
+import com.time.cat.mvp.model.Routine;
 import com.time.cat.mvp.model.User;
 
 import java.sql.SQLException;

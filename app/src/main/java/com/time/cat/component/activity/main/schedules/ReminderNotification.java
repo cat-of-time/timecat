@@ -16,7 +16,7 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.schedules;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -38,9 +38,9 @@ import android.support.v4.util.Pair;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.AboutActivity;
-import com.time.cat.database.Routine;
+import com.time.cat.mvp.model.Routine;
 import com.time.cat.database.Schedule;
-import com.time.cat.database.ScheduleItem;
+import com.time.cat.mvp.model.ScheduleItem;
 import com.time.cat.mvp.model.User;
 import com.time.cat.util.AvatarMgr;
 

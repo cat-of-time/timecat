@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.schedules;
 
 import android.content.Intent;
 import android.util.Log;

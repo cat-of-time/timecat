@@ -16,12 +16,12 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.time.cat.database;
+package com.time.cat.mvp.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.time.cat.database.DB;
 import com.time.cat.database.typeSerializers.LocalTimePersister;
-import com.time.cat.mvp.model.User;
 
 import org.joda.time.LocalTime;
 

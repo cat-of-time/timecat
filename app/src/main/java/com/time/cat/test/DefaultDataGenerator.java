@@ -23,7 +23,7 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.time.cat.database.DB;
-import com.time.cat.database.Routine;
+import com.time.cat.mvp.model.Routine;
 import com.time.cat.database.Schedule;
 import com.time.cat.mvp.model.User;
 

@@ -19,6 +19,8 @@
 package com.time.cat.database;
 
 import com.j256.ormlite.dao.Dao;
+import com.time.cat.mvp.model.Routine;
+import com.time.cat.mvp.model.ScheduleItem;
 
 import java.sql.SQLException;
 import java.util.List;

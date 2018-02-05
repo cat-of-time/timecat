@@ -16,10 +16,11 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.time.cat.database;
+package com.time.cat.mvp.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.time.cat.database.DB;
 
 /**
  * Created by joseangel.pineiro on 7/9/14.
@@ -36,7 +37,7 @@ public class ScheduleItem {
     private Long id;
 
     @DatabaseField(columnName = COLUMN_SCHEDULE, foreign = true, foreignAutoRefresh = true)
-    private Schedule schedule;
+    private com.time.cat.database.Schedule schedule;
 
     @DatabaseField(columnName = COLUMN_ROUTINE, foreign = true, foreignAutoRefresh = true)
     private Routine routine;
@@ -48,14 +49,14 @@ public class ScheduleItem {
         super();
     }
 
-    public ScheduleItem(Schedule schedule, Routine routine, float dose) {
+    public ScheduleItem(com.time.cat.database.Schedule schedule, Routine routine, float dose) {
         this();
         this.schedule = schedule;
         this.routine = routine;
         this.dose = dose;
     }
 
-    public ScheduleItem(Schedule schedule, Routine routine) {
+    public ScheduleItem(com.time.cat.database.Schedule schedule, Routine routine) {
         this();
         this.schedule = schedule;
         this.routine = routine;
@@ -77,11 +78,11 @@ public class ScheduleItem {
         this.routine = routine;
     }
 
-    public Schedule schedule() {
+    public com.time.cat.database.Schedule schedule() {
         return schedule;
     }
 
-    public void setSchedule(Schedule schedule) {
+    public void setSchedule(com.time.cat.database.Schedule schedule) {
         this.schedule = schedule;
     }
 

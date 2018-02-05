@@ -23,6 +23,7 @@ import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
+import com.time.cat.mvp.model.ScheduleItem;
 import com.time.cat.mvp.model.User;
 
 import java.sql.SQLException;
@@ -89,7 +90,7 @@ public class ScheduleDao extends GenericDao<Schedule, Long> {
     }
 
     public List<Schedule> findHourly() {
-        return findBy(Schedule.COLUMN_TYPE, Schedule.SCHEDULE_TYPE_HOURLY);
+        return findBy(Schedule.COLUMN_TYPE, Schedule.SCHEDULE_TYPE_EVERYHOUR);
     }
 
 }

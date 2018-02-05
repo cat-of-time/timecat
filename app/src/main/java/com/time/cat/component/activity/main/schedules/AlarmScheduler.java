@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main;
+package com.time.cat.component.activity.main.schedules;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.time.cat.database.Routine;
+import com.time.cat.mvp.model.Routine;
 import com.time.cat.database.Schedule;
 
 import org.joda.time.DateTime;
@@ -24,9 +24,7 @@ public class AlarmScheduler {
     private static final String TAG = "AlarmScheduler";
     private static final AlarmScheduler instance = new AlarmScheduler();
 
-    private AlarmScheduler() {
-
-    }
+    private AlarmScheduler() {}
 
     // static method to get the AlarmScheduler instance
     public static AlarmScheduler instance() {

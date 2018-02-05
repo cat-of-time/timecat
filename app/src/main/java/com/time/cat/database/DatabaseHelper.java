@@ -27,6 +27,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.time.cat.mvp.model.Routine;
+import com.time.cat.mvp.model.ScheduleItem;
 import com.time.cat.mvp.model.User;
 
 import java.sql.SQLException;

@@ -131,14 +131,12 @@ public class SchedulesFragment extends BaseFragment implements
 
         mAsyncExpandableListView = view.findViewById(R.id.asyncExpandableCollectionView);
         mAsyncExpandableListView.setHasFixedSize(true);
-
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initData();
         initView();
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
 
-//        Log.i(TAG, "OnCreateView");
         return view;
     }
 
@@ -239,6 +237,14 @@ public class SchedulesFragment extends BaseFragment implements
     public void initData() {//必须调用
         initCurrentDate();
         initExpandableListViewData();
+//        if (inventory.getTotalItemCount() <= 0) {
+//            mAsyncExpandableListView.setVisibility(View.GONE);
+//            empty.setVisibility(View.VISIBLE);
+//        }
+//        else {
+//            mAsyncExpandableListView.setVisibility(View.VISIBLE);
+//            empty.setVisibility(View.GONE);
+//        }
     }
 
     /**
@@ -262,7 +268,7 @@ public class SchedulesFragment extends BaseFragment implements
 
         inventory = new CollectionView.Inventory<>();
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 5; i++) {
             CollectionView.InventoryGroup<Schedule, Schedule> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
             String[] titles = getResources().getStringArray(R.array.titles);
             Schedule schedule = new Schedule();
