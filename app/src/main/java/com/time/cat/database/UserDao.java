@@ -49,19 +49,19 @@ public class UserDao extends GenericDao<User, Long> {
     }
 
     @Override
-    public void saveAndFireEvent(User p) {
+    public void saveAndFireEvent(User u) {
 
-        Object event =  p.id() == null ? new PersistenceEvents.UserCreateEvent(p) : new PersistenceEvents.UserUpdateEvent(p);
-        save(p);
+        Object event =  u.id() == null ? new PersistenceEvents.UserCreateEvent(u) : new PersistenceEvents.UserUpdateEvent(u);
+        save(u);
         TimeCatApp.eventBus().post(event);
 
     }
 
     /// Mange active user through preferences
 
-    public boolean isActive(User p, Context ctx) {
+    public boolean isActive(User u, Context ctx) {
         Long activeId = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
-        return activeId.equals(p.id());
+        return activeId.equals(u.id());
     }
 
     public User getActive(Context ctx) {
@@ -83,11 +83,11 @@ public class UserDao extends GenericDao<User, Long> {
         return findOneBy(User.COLUMN_DEFAULT, true);
     }
 
-    public void setActive(User user, Context ctx) {
+    public void setActive(User u, Context ctx) {
         PreferenceManager.getDefaultSharedPreferences(ctx).edit()
-                .putLong(PREFERENCE_ACTIVE_USER, user.id())
+                .putLong(PREFERENCE_ACTIVE_USER, u.id())
                 .commit();
-        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(user));
+        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
     }
 
     public void setActiveById(Long id, Context ctx) {
@@ -98,26 +98,26 @@ public class UserDao extends GenericDao<User, Long> {
         TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(user));
     }
 
-    public void removeCascade(User p) {
+    public void removeCascade(User u) {
         // remove all data
-        removeAllStuff(p);
+        removeAllStuff(u);
         // remove user
-        DB.users().remove(p);
+        DB.users().remove(u);
 
     }
 
-    public void removeAllStuff(User p) {
+    public void removeAllStuff(User u) {
 //        for(Medicine m : DB.medicines().findAll()){
-//            if(m.user().id() == p.id()){
+//            if(m.user().id() == u.id()){
 //                // this also remove schedules
 //                DB.medicines().deleteCascade(m, true);
 //            }
 //        }
-//        // remove routines
-//        for(Routine r:  DB.routines().findAll()) {
-//            if (r.user().id() == p.id()) {
-//                DB.routines().remove(r);
-//            }
-//        }
+        // remove routines
+        for(Routine r:  DB.routines().findAll()) {
+            if (r.user().id() == u.id()) {
+                DB.routines().remove(r);
+            }
+        }
     }
 }

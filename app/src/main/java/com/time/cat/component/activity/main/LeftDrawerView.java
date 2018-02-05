@@ -88,8 +88,8 @@ public class LeftDrawerView implements
 
         ArrayList<IProfile> profiles = new ArrayList<>();
         profiles.add(new ProfileSettingDrawerItem()
-                .withName("Añadir paciente")
-                .withDescription("Gestionar la pautas de otra persona")
+                .withName("添加用户")
+                .withDescription("管理他人的指导方针")
                 .withIcon(new IconicsDrawable(mainActivity, GoogleMaterial.Icon.gmd_account_add)
                         .sizeDp(24)
                         .paddingDp(5)
@@ -103,17 +103,17 @@ public class LeftDrawerView implements
                     .withEmail(p.name() + "@timecat")
                     .withIcon(AvatarMgr.res(p.avatar())));
         }
-//        User p = new User();
-//        p.setAvatar(AvatarMgr.AVATAR_2);
-//        p.setColor(Color.YELLOW);
-//        p.setName("测试");
-//        p.setId((long) 5);
-//        Log.e(TAG, "Adding user to getDrawer: " + p.name());
+//        User u = new User();
+//        u.setAvatar(AvatarMgr.AVATAR_2);
+//        u.setColor(Color.YELLOW);
+//        u.setName("测试");
+//        u.setId((long) 5);
+//        Log.e(TAG, "Adding user to getDrawer: " + u.name());
 //        profiles.add(new ProfileDrawerItem()
-//                .withIdentifier(p.id().intValue())
-//                .withName(p.name())
-//                .withEmail(p.name() + "@timecat")
-//                .withIcon(AvatarMgr.res(p.avatar())));
+//                .withIdentifier(u.id().intValue())
+//                .withName(u.name())
+//                .withEmail(u.name() + "@timecat")
+//                .withIcon(AvatarMgr.res(u.avatar())));
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(mainActivity)
@@ -214,10 +214,10 @@ public class LeftDrawerView implements
                 .withSavedInstance(savedInstanceState)
                 .build();
 
-        User p = DB.users().getActive(mainActivity);
-        headerResult.setActiveProfile(p.id().intValue(), false);
-        updateHeaderBackground(p);
-        drawer.setStatusBarColor(p.color());
+        User u = DB.users().getActive(mainActivity);
+        headerResult.setActiveProfile(u.id().intValue(), false);
+        updateHeaderBackground(u);
+        drawer.setStatusBarColor(u.color());
         drawer.getDrawerLayout().setClipToPadding(true);
         drawer.getDrawerLayout().setFitsSystemWindows(false);
 
@@ -346,11 +346,11 @@ public class LeftDrawerView implements
         return false;
     }
 
-    public void updateHeaderBackground(User p) {
-        currentUser = p;
+    public void updateHeaderBackground(User u) {
+        currentUser = u;
         LayerDrawable layers = (LayerDrawable) headerResult.getHeaderBackgroundView().getDrawable();
         ColorDrawable color = (ColorDrawable) layers.findDrawableByLayerId(R.id.color_layer);
-        color.setColor(ScreenUtils.equivalentNoAlpha(p.color(), 1f));
+        color.setColor(ScreenUtils.equivalentNoAlpha(u.color(), 1f));
     }
 
     public Drawer getDrawer() {
@@ -361,9 +361,9 @@ public class LeftDrawerView implements
         return headerResult;
     }
 
-    public void onActivityResume(User p) {
+    public void onActivityResume(User u) {
 
-        currentUser = p;
+        currentUser = u;
 
         List<User> users = DB.users().findAll();
         ArrayList<IProfile> profiles = headerResult.getProfiles();
@@ -387,25 +387,25 @@ public class LeftDrawerView implements
             }
         }
 
-        headerResult.setActiveProfile(p.id().intValue(), false);
+        headerResult.setActiveProfile(u.id().intValue(), false);
 
-        if (p != null && !p.equals(currentUser) || header().getActiveProfile().getIcon().getIconRes() != AvatarMgr.res(p.avatar())) {
-            headerResult.setActiveProfile(p.id().intValue(), false);
+        if (u != null && !u.equals(currentUser) || header().getActiveProfile().getIcon().getIconRes() != AvatarMgr.res(u.avatar())) {
+            headerResult.setActiveProfile(u.id().intValue(), false);
             IProfile profile = headerResult.getActiveProfile();
-            profile.withIcon(AvatarMgr.res(p.avatar()));
+            profile.withIcon(AvatarMgr.res(u.avatar()));
             headerResult.updateProfile(profile);
         }
-        updateHeaderBackground(p);
+        updateHeaderBackground(u);
     }
 
-    public void onUserCreated(User p) {
+    public void onUserCreated(User u) {
 
-        IProfile profile = genProfile(p);
+        IProfile profile = genProfile(u);
         headerResult.addProfiles(profile);
     }
 
-    public void onUserUpdated(User p) {
-        IProfile profile = genProfile(p);
+    public void onUserUpdated(User u) {
+        IProfile profile = genProfile(u);
         headerResult.updateProfile(profile);
 
     }
@@ -423,11 +423,11 @@ public class LeftDrawerView implements
         mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    private IProfile genProfile(User p) {
+    private IProfile genProfile(User u) {
         return new ProfileDrawerItem()
-                .withIdentifier(p.id().intValue())
-                .withName(p.name())
-                .withEmail(p.name() + "@timecat")
-                .withIcon(AvatarMgr.res(p.avatar()));
+                .withIdentifier(u.id().intValue())
+                .withName(u.name())
+                .withEmail(u.name() + "@timecat")
+                .withIcon(AvatarMgr.res(u.avatar()));
     }
 }

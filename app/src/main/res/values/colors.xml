@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="grey">#727272</color>
-    <color name="gray">#727272</color>
+
     <color name="text_color">@color/white</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
@@ -56,9 +53,9 @@
     <color name="text_default">@color/text_black</color>
 
     <!-- theme color -->
-    <color name="theme_color">@color/blue</color>
-    <color name="theme_color_primary">@color/blue_dark</color>
-    <color name="theme_color_primary_dark">@color/blue_trans</color>
+    <color name="theme_color">#2196F3</color>
+    <color name="theme_color_primary">#1565C0</color>
+    <color name="theme_color_primary_dark">#B41A78C3</color>
 
     <color name="theme_red">#ffce3d3a</color>
     <color name="theme_red_primary">#d20000</color>
@@ -95,6 +92,77 @@
     <color name="red">#F44336</color>
     <color name="red_dark">#C62828</color>
     <color name="red_trans">#99F44336</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="grey">#727272</color>
+    <color name="gray">#727272</color>
+    <color name="magenta">#ff00ff</color>
+
+
+    <color name="theme_0">#1abc9c</color>
+    <color name="theme_0_dark">#1abc9c</color>
+    <color name="theme_0_trans">#1abc9c</color>
+
+    <color name="theme_1">#16a085</color>
+    <color name="theme_1_dark">#16a085</color>
+    <color name="theme_1_trans">#16a085</color>
+
+    <color name="theme_2">#f1c40f</color>
+    <color name="theme_2_dark">#f1c40f</color>
+    <color name="theme_2_trans">#f1c40f</color>
+
+    <color name="theme_3">#f39c12</color>
+    <color name="theme_3_dark">#f39c12</color>
+    <color name="theme_3_trans">#f39c12</color>
+
+    <color name="theme_4">#2ecc71</color>
+    <color name="theme_4_dark">#2ecc71</color>
+    <color name="theme_4_trans">#2ecc71</color>
+
+    <color name="theme_5">#27ae60</color>
+    <color name="theme_5_dark">#27ae60</color>
+    <color name="theme_5_trans">#27ae60</color>
+
+    <color name="theme_6">#e67e22</color>
+    <color name="theme_6_dark">#e67e22</color>
+    <color name="theme_6_trans">#e67e22</color>
+
+    <color name="theme_7">#d35400</color>
+    <color name="theme_7_dark">#d35400</color>
+    <color name="theme_7_trans">#d35400</color>
+
+    <color name="theme_8">#c0392b</color>
+    <color name="theme_8_dark">#c0392b</color>
+    <color name="theme_8_trans">#c0392b</color>
+
+    <color name="theme_9">#e74c3c</color>
+    <color name="theme_9_dark">#e74c3c</color>
+    <color name="theme_9_trans">#e74c3c</color>
+
+    <color name="theme_10">#2980b9</color>
+    <color name="theme_10_dark">#2980b9</color>
+    <color name="theme_10_trans">#2980b9</color>
+
+    <color name="theme_11">#3498db</color>
+    <color name="theme_11_dark">#3498db</color>
+    <color name="theme_11_trans">#3498db</color>
+
+    <color name="theme_12">#9b59b6</color>
+    <color name="theme_12_dark">#9b59b6</color>
+    <color name="theme_12_trans">#9b59b6</color>
+
+    <color name="theme_13">#8e44ad</color>
+    <color name="theme_13_dark">#8e44ad</color>
+    <color name="theme_13_trans">#8e44ad</color>
+
+    <color name="theme_14">#2c3e50</color>
+    <color name="theme_14_dark">#2c3e50</color>
+    <color name="theme_14_trans">#2c3e50</color>
+
+    <color name="theme_15">#34495e</color>
+    <color name="theme_15_dark">#34495e</color>
+    <color name="theme_15_trans">#34495e</color>
 
     <!--CircularProgressButton-->
     <color name="cpb_grey">#ffdedede</color>

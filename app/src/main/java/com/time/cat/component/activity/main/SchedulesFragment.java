@@ -30,6 +30,7 @@ import com.ldf.calendar.model.CalendarDate;
 import com.ldf.calendar.view.Calendar;
 import com.ldf.calendar.view.MonthPager;
 import com.time.cat.R;
+import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseFragment;
@@ -81,8 +82,14 @@ public class SchedulesFragment extends BaseFragment implements
         refreshMonthPager();
         Utils.scrollTo(content, mAsyncExpandableListView, monthPager.getCellHeight(), 200);
         calendarAdapter.switchToWeek(monthPager.getRowIndex());
+        ThemeUtils.refreshUI(getActivity(), null);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ThemeUtils.refreshUI(getActivity(), null);
+    }
     //</生命周期>------------------------------------------------------------------------------------
 
 
@@ -91,6 +98,7 @@ public class SchedulesFragment extends BaseFragment implements
     private MonthPager monthPager;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
+    private ArrayList<TextView> textViewList;
     private AsyncExpandableListView<Schedule, Schedule> mAsyncExpandableListView;
     private CollectionView.Inventory<Schedule, Schedule> inventory;
 
@@ -98,12 +106,28 @@ public class SchedulesFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_schedules, container, false);
         context = getContext();
         content = view.findViewById(R.id.content);
         monthPager = view.findViewById(R.id.calendar_view);
         //此处强行setViewHeight，毕竟你知道你的日历牌的高度
         monthPager.setViewHeight(Utils.dpi2px(context, 270));
+
+        textViewList = new ArrayList<>();
+        TextView weekIndicator_7 = view.findViewById(R.id.weekIndicator_7);
+        TextView weekIndicator_1 = view.findViewById(R.id.weekIndicator_1);
+        TextView weekIndicator_2 = view.findViewById(R.id.weekIndicator_2);
+        TextView weekIndicator_3 = view.findViewById(R.id.weekIndicator_3);
+        TextView weekIndicator_4 = view.findViewById(R.id.weekIndicator_4);
+        TextView weekIndicator_5 = view.findViewById(R.id.weekIndicator_5);
+        TextView weekIndicator_6 = view.findViewById(R.id.weekIndicator_6);
+        textViewList.add(weekIndicator_7);
+        textViewList.add(weekIndicator_1);
+        textViewList.add(weekIndicator_2);
+        textViewList.add(weekIndicator_3);
+        textViewList.add(weekIndicator_4);
+        textViewList.add(weekIndicator_5);
+        textViewList.add(weekIndicator_6);
 
         mAsyncExpandableListView = view.findViewById(R.id.asyncExpandableCollectionView);
         mAsyncExpandableListView.setHasFixedSize(true);
@@ -114,7 +138,7 @@ public class SchedulesFragment extends BaseFragment implements
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
 
-        Log.i(TAG, "OnCreateView");
+//        Log.i(TAG, "OnCreateView");
         return view;
     }
 
@@ -186,6 +210,13 @@ public class SchedulesFragment extends BaseFragment implements
                 if (currentCalendars.get(position % currentCalendars.size()) != null) {
                     CalendarDate date = currentCalendars.get(position % currentCalendars.size()).getSeedDate();
                     currentDate = date;
+                    for (int i = 1; i <= 7; i ++) {
+                        if (i == currentDate.getDayOfWeek()) {
+                            textViewList.get(i-1).setTextColor(Color.WHITE);
+                        } else {
+                            textViewList.get(i-1).setTextColor(Color.BLACK);
+                        }
+                    }
                     if (mDateChangeListener != null) {
                         mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
                     }
@@ -215,6 +246,13 @@ public class SchedulesFragment extends BaseFragment implements
      */
     private void initCurrentDate() {
         currentDate = new CalendarDate();
+        for (int i = 1; i <= 7; i ++) {
+            if (i == currentDate.getDayOfWeek()) {
+                textViewList.get(i-1).setTextColor(Color.WHITE);
+            } else {
+                textViewList.get(i-1).setTextColor(Color.BLACK);
+            }
+        }
         if (mDateChangeListener != null) {
             mDateChangeListener.onDateChange(currentDate.getYear(), currentDate.getMonth(), currentDate.isToday());
         }
@@ -350,6 +388,13 @@ public class SchedulesFragment extends BaseFragment implements
     private void refreshMonthPager() {
         CalendarDate today = new CalendarDate();
         calendarAdapter.notifyDataChanged(today);
+        for (int i = 1; i <= 7; i ++) {
+            if (i == today.getDayOfWeek()) {
+                textViewList.get(i-1).setTextColor(Color.WHITE);
+            } else {
+                textViewList.get(i-1).setTextColor(Color.BLACK);
+            }
+        }
         if (mDateChangeListener != null) {
             mDateChangeListener.onDateChange(today.getYear(), today.getMonth(), today.isToday());
         }
@@ -378,6 +423,13 @@ public class SchedulesFragment extends BaseFragment implements
 
     private void refreshClickDate(CalendarDate date) {
         currentDate = date;
+        for (int i = 1; i <= 7; i ++) {
+            if (i == currentDate.getDayOfWeek()) {
+                textViewList.get(i-1).setTextColor(Color.WHITE);
+            } else {
+                textViewList.get(i-1).setTextColor(Color.BLACK);
+            }
+        }
         if (mDateChangeListener != null) {
             mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
         }

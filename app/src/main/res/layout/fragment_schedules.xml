@@ -12,36 +12,43 @@
         android:orientation="horizontal">
 
         <com.time.cat.ThemeSystem.widgets.TintTextView
+            android:id="@+id/weekIndicator_7"
             style="@style/weekIndicatorStyle"
             android:background="@color/theme_color_primary"
             android:text="日"/>
 
         <com.time.cat.ThemeSystem.widgets.TintTextView
+            android:id="@+id/weekIndicator_1"
             style="@style/weekIndicatorStyle"
             android:background="@color/theme_color_primary"
             android:text="一"/>
 
         <com.time.cat.ThemeSystem.widgets.TintTextView
+            android:id="@+id/weekIndicator_2"
             style="@style/weekIndicatorStyle"
             android:background="@color/theme_color_primary"
             android:text="二"/>
 
         <com.time.cat.ThemeSystem.widgets.TintTextView
+            android:id="@+id/weekIndicator_3"
             style="@style/weekIndicatorStyle"
             android:background="@color/theme_color_primary"
             android:text="三"/>
 
         <com.time.cat.ThemeSystem.widgets.TintTextView
+            android:id="@+id/weekIndicator_4"
             style="@style/weekIndicatorStyle"
             android:background="@color/theme_color_primary"
             android:text="四"/>
 
         <com.time.cat.ThemeSystem.widgets.TintTextView
+            android:id="@+id/weekIndicator_5"
             style="@style/weekIndicatorStyle"
             android:background="@color/theme_color_primary"
             android:text="五"/>
 
         <com.time.cat.ThemeSystem.widgets.TintTextView
+            android:id="@+id/weekIndicator_6"
             style="@style/weekIndicatorStyle"
             android:background="@color/theme_color_primary"
             android:text="六"/>

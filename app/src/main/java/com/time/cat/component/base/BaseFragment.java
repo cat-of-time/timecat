@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.TimeCatApp;
 
 /**
@@ -28,4 +29,11 @@ public class BaseFragment extends Fragment {
         super.onAttach(activity);
         activity = getActivity();
     }
+
+    @Override
+    public void onResume() {
+        ThemeUtils.refreshUI(getActivity(), null);
+        super.onResume();
+    }
+
 }

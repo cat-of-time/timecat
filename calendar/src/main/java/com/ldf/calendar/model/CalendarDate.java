@@ -155,4 +155,7 @@ public class CalendarDate implements Serializable {
         return new CalendarDate(year, month, day);
     }
 
+    public int getDayOfWeek() {
+        return Utils.getDayOfWeek(this);
+    }
 }

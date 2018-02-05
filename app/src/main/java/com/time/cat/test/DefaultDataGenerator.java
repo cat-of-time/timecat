@@ -41,10 +41,10 @@ public class DefaultDataGenerator {
         if (Routine.findAll().size() == 0 && Schedule.findAll().size() == 0) {
             try {
                 Log.d("DefaultDataGenerator", "Creating dummy data...");
-                User p = DB.users().getActive(ctx);
-                new Routine(p, new LocalTime(9, 0), "breakfast").save();
-                new Routine(p, new LocalTime(13, 0), "lunch").save();
-                new Routine(p, new LocalTime(21, 0), "dinner").save();
+                User u = DB.users().getActive(ctx);
+                new Routine(u, new LocalTime(9, 0), "breakfast").save();
+                new Routine(u, new LocalTime(13, 0), "lunch").save();
+                new Routine(u, new LocalTime(21, 0), "dinner").save();
                 Log.d("DefaultDataGenerator", "Dummy data saved successfully!");
             } catch (Exception e) {
                 Log.e("DefaultDataGenerator", "Error filling db with dummy data!", e);

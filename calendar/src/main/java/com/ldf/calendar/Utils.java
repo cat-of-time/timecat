@@ -253,6 +253,27 @@ public final class Utils {
                 c.get(Calendar.DAY_OF_MONTH));
     }
 
+    /**
+     * 得到种子日期所在星期
+     *
+     * @param seedDate 种子日期
+     * @return int 1->星期日，2->星期一，...，7->星期六
+     */
+    public static int getDayOfWeek(CalendarDate seedDate) {
+        Calendar c = Calendar.getInstance();
+        String dateString = seedDate.toString();
+        Date date = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+            date = sdf.parse(dateString);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        c.setTime(date);
+        return c.get(Calendar.DAY_OF_WEEK);
+    }
+
+
     private static int top;
     private static boolean customScrollToBottom = false;
 

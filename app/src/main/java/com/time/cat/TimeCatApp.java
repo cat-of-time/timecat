@@ -9,6 +9,7 @@ import android.os.MessageQueue;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.util.Log;
 
 import com.shang.commonjar.contentProvider.Global;
 import com.time.cat.ThemeSystem.manager.ThemeManager;
@@ -19,6 +20,7 @@ import com.time.cat.database.DB;
 import com.time.cat.database.UserDao;
 import com.time.cat.mvp.model.User;
 import com.time.cat.test.DefaultDataGenerator;
+import com.time.cat.util.ColorUtil;
 import com.time.cat.util.KeepAliveWatcher;
 import com.time.cat.util.onestep.AppManager;
 
@@ -29,7 +31,7 @@ import de.greenrobot.event.EventBus;
  * @date 2018/2/3
  * @discription app
  */
-public class TimeCatApp extends Application implements ThemeUtils.switchColor{
+public class TimeCatApp extends Application implements ThemeUtils.switchColor {
     public static final String PHARMACY_MODE_ENABLED = "PHARMACY_MODE_ENABLED";
 
     // PREFERENCES
@@ -57,10 +59,13 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
 
     private static TimeCatApp instance;
     private static EventBus eventBus = EventBus.getDefault();
+
     public static TimeCatApp getInstance() {
         return instance;
     }
+
     SharedPreferences prefs;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -100,8 +105,8 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
 
     public void initializeDatabase() {
         DB.init(this);
-        try{
-            if(DB.users().countOf() == 1) {
+        try {
+            if (DB.users().countOf() == 1) {
                 User p = DB.users().getDefault();
                 prefs.edit().putLong(UserDao.PREFERENCE_ACTIVE_USER, p.id()).commit();
             }
@@ -126,7 +131,7 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
                 return "yellow";
             case ThemeManager.CARD_SAND:
                 return "orange";
-            case ThemeManager.CARD_FIREY:
+            case ThemeManager.CARD_FIRE:
                 return "red";
             case ThemeManager.CARD_WHITE:
                 return "white";
@@ -134,8 +139,42 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
                 return "black";
             case ThemeManager.CARD_GREY:
                 return "gray";
-            case ThemeManager.CARD_TRANSPARENT:
-                return "transparent";
+            case ThemeManager.CARD_MAGENTA:
+                return "magenta";
+
+            case ThemeManager.CARD_THEME_0:
+                Log.e("app", "CARD_THEME_0=" + ColorUtil.getColorHex(ThemeManager.getTheme(this)));
+                return "theme_0";
+            case ThemeManager.CARD_THEME_1:
+                return "theme_1";
+            case ThemeManager.CARD_THEME_2:
+                return "theme_2";
+            case ThemeManager.CARD_THEME_3:
+                return "theme_3";
+            case ThemeManager.CARD_THEME_4:
+                return "theme_4";
+            case ThemeManager.CARD_THEME_5:
+                return "theme_5";
+            case ThemeManager.CARD_THEME_6:
+                return "theme_6";
+            case ThemeManager.CARD_THEME_7:
+                return "theme_7";
+            case ThemeManager.CARD_THEME_8:
+                return "theme_8";
+            case ThemeManager.CARD_THEME_9:
+                return "theme_9";
+            case ThemeManager.CARD_THEME_10:
+                return "theme_10";
+            case ThemeManager.CARD_THEME_11:
+                return "theme_11";
+            case ThemeManager.CARD_THEME_12:
+                return "theme_12";
+            case ThemeManager.CARD_THEME_13:
+                return "theme_13";
+            case ThemeManager.CARD_THEME_14:
+                return "theme_14";
+            case ThemeManager.CARD_THEME_15:
+                return "theme_15";
         }
 
         return null;
@@ -166,8 +205,7 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
         return colorId != -1 ? getResources().getColor(colorId) : originColor;
     }
 
-    private
-    @ColorRes
+    private @ColorRes
     int getThemeColorId(Context context, int colorId, String theme) {
         switch (colorId) {
             case R.color.theme_color_primary:
@@ -180,8 +218,7 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
         return colorId;
     }
 
-    private
-    @ColorRes
+    private @ColorRes
     int getThemeColor(Context context, int color, String theme) {
         switch (color) {
             case 0xd20000:

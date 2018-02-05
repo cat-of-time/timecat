@@ -118,7 +118,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
         switch (ThemeManager.getTheme(this)) {
             case ThemeManager.CARD_WHITE:
             case ThemeManager.CARD_THUNDER:
-            case ThemeManager.CARD_TRANSPARENT:
+            case ThemeManager.CARD_MAGENTA:
                 setStatusBarFontIconDark(true);
                 break;
             default:
@@ -457,6 +457,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                     if (addRoutinesCheckBox.isChecked()) {
                         DefaultDataGenerator.generateDefaultRoutines(user, this);
                     }
+                    refreshTheme(this, user.color());
                     supportFinishAfterTransition();
                 } else {
                     Snack.show("fail! plz try again!", this);

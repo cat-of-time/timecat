@@ -35,4 +35,8 @@ public class ColorUtil {
             a.recycle();
         }
     }
+
+    public static String getColorHex(int color) {
+        return "#" + CHexConverUtil.algorismToHEXString(color, 8);
+    }
 }

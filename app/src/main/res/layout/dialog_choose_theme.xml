@@ -197,13 +197,13 @@
             android:visibility="invisible" />
 
         <com.time.cat.ThemeSystem.widgets.TintImageView
-            android:id="@+id/theme_transparent"
+            android:id="@+id/theme_magenta"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/ic_card_96_96"
             android:scaleType="centerInside"
             android:src="@drawable/selector_pick_item"
-            app:backgroundTint="@color/transparent" />
+            app:backgroundTint="@color/magenta" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/buttonPanel"

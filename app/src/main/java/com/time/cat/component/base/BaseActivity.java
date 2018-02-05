@@ -21,6 +21,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.time.cat.R;
+import com.time.cat.ThemeSystem.manager.ThemeManager;
+import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.TimeCatApp;
 import com.time.cat.util.ScreenUtils;
 import com.time.cat.util.StatusbarColorUtils;
@@ -369,6 +371,31 @@ public class BaseActivity extends PermissionActivity {
 
 
 
+
+    public void refreshTheme(Context c, int currentTheme) {
+        ThemeManager.setTheme(c, currentTheme);
+        switch (currentTheme) {
+            case ThemeManager.CARD_WHITE:
+            case ThemeManager.CARD_THUNDER:
+            case ThemeManager.CARD_MAGENTA:
+                setStatusBarFontIconDark(true);
+                break;
+            default:
+                setStatusBarFontIconDark(false);
+        }
+        Log.e(TAG, "refreshTheme------------------>");
+        ThemeUtils.refreshUI(c, null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
+
+
+
+
+
+
     //<沉浸式状态栏>----------------------------------------------------------------------------------
     static int statusHeight;
 
@@ -514,7 +541,7 @@ public class BaseActivity extends PermissionActivity {
                 extraFlagField.invoke(window, 0, darkModeFlag);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         // 魅族FlymeUI
@@ -536,17 +563,17 @@ public class BaseActivity extends PermissionActivity {
             meizuFlags.setInt(lp, value);
             window.setAttributes(lp);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         // android6.0+系统
         // 这个设置和在xml的style文件中用这个<item name="android:windowLightStatusBar">true</item>属性是一样的
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (dark) {
-//                getWindow().getDecorView().setSystemUiVisibility(
-//                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//            }
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (dark) {
+                getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
     }
     //</沉浸式状态栏>----------------------------------------------------------------------------------
 

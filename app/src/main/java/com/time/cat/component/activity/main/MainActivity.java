@@ -29,7 +29,6 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.time.cat.R;
 import com.time.cat.ThemeSystem.manager.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
-import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseActivity;
@@ -52,7 +51,13 @@ import java.util.Queue;
  * @date 2018/1/19
  */
 @SuppressLint("SetTextI18n")
-public class MainActivity extends BaseActivity implements ActivityPresenter, OnDateChangeListener, DialogThemeFragment.ClickListener, ViewPager.OnPageChangeListener, BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements
+                                               ActivityPresenter,
+                                               OnDateChangeListener,
+                                               DialogThemeFragment.ClickListener,
+                                               ViewPager.OnPageChangeListener,
+                                               BottomNavigationView.OnNavigationItemSelectedListener,
+                                               View.OnClickListener {
     private static final String TAG = "MainActivity";
 
 
@@ -65,6 +70,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         initDrawer(savedInstanceState);
         handler = new Handler();
         activeUser = DB.users().getActive(this);
+        ThemeManager.setTheme(this, activeUser.color());
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initView();
@@ -72,18 +78,13 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-        User p = DB.users().getActive(this);
-//        User p = new User();
-//        p.setAvatar(AvatarMgr.AVATAR_2);
-//        p.setColor(4);
-//        p.setName("测试");
-//        p.setId((long) 5);
-        leftDrawer.onActivityResume(p);
+        User u = DB.users().getActive(this);
+        leftDrawer.onActivityResume(u);
         active = true;
+        refreshTheme(this, u.color());
 
         // process pending events
         while (!pendingEvents.isEmpty()) {
@@ -126,7 +127,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         switch (ThemeManager.getTheme(this)) {
             case ThemeManager.CARD_WHITE:
             case ThemeManager.CARD_THUNDER:
-            case ThemeManager.CARD_TRANSPARENT:
+            case ThemeManager.CARD_MAGENTA:
                 setStatusBarFontIconDark(true);
                 break;
             default:
@@ -197,7 +198,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         fabMgr = new FabMenuMgr(fab, addButton, leftDrawer, this);
         fabMgr.init();
 
-        fabMgr.onPatientUpdate(activeUser);
+        fabMgr.onUserUpdate(activeUser);
     }
 
     public void showPagerItem(int position) {
@@ -255,7 +256,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                     menu.setGroupVisible(R.id.main_menu_schedulesFragment, true);
                     menu.setGroupVisible(R.id.main_menu_routinesFragment, false);
                     menu.setGroupVisible(R.id.main_menu_plansFragment, false);
-                    Log.i(TAG, "main_menu_schedulesFragment --> setGroupVisible");
+//                    Log.i(TAG, "main_menu_schedulesFragment --> setGroupVisible");
                     //不是今天 ? 显示 : 不显示
                     if (!isToday) {
                         menu.findItem(R.id.main_menu_today).setVisible(true);
@@ -269,7 +270,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                     menu.setGroupVisible(R.id.main_menu_schedulesFragment, false);
                     menu.setGroupVisible(R.id.main_menu_routinesFragment, true);
                     menu.setGroupVisible(R.id.main_menu_plansFragment, false);
-                    Log.i(TAG, "main_menu_routinesFragment --> setGroupVisible");
+//                    Log.i(TAG, "main_menu_routinesFragment --> setGroupVisible");
                 }
                 break;
             case "PlansFragment":
@@ -277,7 +278,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                     menu.setGroupVisible(R.id.main_menu_schedulesFragment, false);
                     menu.setGroupVisible(R.id.main_menu_routinesFragment, false);
                     menu.setGroupVisible(R.id.main_menu_plansFragment, true);
-                    Log.i(TAG, "main_menu_plansFragment --> setGroupVisible");
+//                    Log.i(TAG, "main_menu_plansFragment --> setGroupVisible");
                 }
                 break;
         }
@@ -353,7 +354,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
             switch (currentTheme) {
                 case ThemeManager.CARD_WHITE:
                 case ThemeManager.CARD_THUNDER:
-                case ThemeManager.CARD_TRANSPARENT:
+                case ThemeManager.CARD_MAGENTA:
                     setStatusBarFontIconDark(true);
                     break;
                 default:
@@ -366,29 +367,26 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                     //for global setting, just do once
                     if (Build.VERSION.SDK_INT >= 21) {
                         final MainActivity context = MainActivity.this;
-                        ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(null, null, ThemeUtils.getThemeAttrColor(context, android.R.attr.colorPrimary));
+                        ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(null, null,
+                                ThemeUtils.getThemeAttrColor(context, android.R.attr.colorPrimary));
                         setTaskDescription(taskDescription);
                         getWindow().setStatusBarColor(ThemeUtils.getColorById(context, R.color.theme_color_primary));
-
                     }
                 }
 
                 @Override
                 public void refreshSpecificView(View view) {
+
                 }
             });
+
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            activeUser = DB.users().getActive(this);
+            activeUser.setColor(currentTheme);
+            DB.users().saveAndFireEvent(activeUser);
+            leftDrawer.updateHeaderBackground(activeUser);
+            fabMgr.onUserUpdate(activeUser);
         }
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-        Log.e(TAG, "set to transparent");
-
-//        setupStatusBar(TimeCatApp.getInstance().replaceColor(this, 0xd20000));
-//        Log.e(TAG, "set to "+ TimeCatApp.getInstance().replaceColor(this, 0xd20000));
-
-//        DefaultDataGenerator.generateDefaultRoutines(activeUser, this);
-        activeUser = DB.users().getActive(this);
-        activeUser.setColor(TimeCatApp.getInstance().replaceColor(this, 0xd20000));
-        DB.users().saveAndFireEvent(activeUser);
-        leftDrawer.updateHeaderBackground(activeUser);
     }
     //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
 
@@ -491,11 +489,12 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                         activeUser = ((PersistenceEvents.ActiveUserChangeEvent) evt).user;
 //                        updateTitle(mViewPager.getCurrentItem());
 //                        toolbarLayout.setContentScrimColor(activeUser.color());
-//                        fabMgr.onUserUpdate(activeUser);
+                        fabMgr.onUserUpdate(activeUser);
                     } else if (evt instanceof PersistenceEvents.UserUpdateEvent) {
                         User user = ((PersistenceEvents.UserUpdateEvent) evt).user;
-//                        ((DailyAgendaFragment) getViewPagerFragment(0)).onUserUpdate();
                         leftDrawer.onUserUpdated(user);
+                        fabMgr.onUserUpdate(user);
+                        refreshTheme(MainActivity.this, user.color());
                         if (DB.users().isActive(user, MainActivity.this)) {
                             activeUser = user;
                         }
@@ -562,4 +561,5 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         startActivity(i);
         this.overridePendingTransition(0, 0);
     }
+
 }

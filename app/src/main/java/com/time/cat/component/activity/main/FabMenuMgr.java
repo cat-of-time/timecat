@@ -100,8 +100,8 @@ public class FabMenuMgr implements View.OnClickListener{
 
         this.currentPage = currentPage;
 
-        fab.setColorNormal(Color.parseColor("#ecf0f1"));
-        fab.setColorPressed(Color.parseColor("#e7e7e7"));
+        fab.setColorNormal(Color.parseColor("#ffffff"));
+        fab.setColorPressed(ScreenUtils.equivalentNoAlpha(Color.parseColor("#ffffff"), 0.5f));
 
 //        fab.setColorNormalResId(getFabColor(currentPage));
 //        fab.setColorPressedResId(getFabPressedColor(currentPage));
@@ -196,8 +196,8 @@ public class FabMenuMgr implements View.OnClickListener{
         switch (page) {
             case 1:
                 return R.color.android_orange;
-//            case 2:
-//                return R.color.android_pink_dark;
+            case 2:
+                return R.color.android_blue_darker;
             case 3:
                 return R.color.android_green;
             default:
@@ -209,8 +209,8 @@ public class FabMenuMgr implements View.OnClickListener{
         switch (page) {
             case 1:
                 return R.color.android_orange_dark;
-//            case 2:
-//                return R.color.android_pink;
+            case 2:
+                return R.color.android_blue_dark;
             case 3:
                 return R.color.android_green_dark;
             default:
@@ -218,11 +218,12 @@ public class FabMenuMgr implements View.OnClickListener{
         }
     }
 
-    public void onPatientUpdate(User p){
+    public void onUserUpdate(User u){
         for(FloatingActionButton f: scheduleActions){
-            f.setColorNormal(p.color());
-            f.setColorPressed(ScreenUtils.equivalentNoAlpha(p.color(), 0.7f));
+            f.setColorNormal(u.color());
+            f.setColorPressed(ScreenUtils.equivalentNoAlpha(u.color(), 0.5f));
         }
+        fabMenu.invalidate();
     }
 
     public void onPharmacyModeChanged(boolean enabled){

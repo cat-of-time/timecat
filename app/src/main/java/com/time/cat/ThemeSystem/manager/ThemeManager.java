@@ -29,19 +29,35 @@ public class ThemeManager {
     private static final String TAG = "ThemeManager";
     private static final String CURRENT_THEME = "theme_current";
 
-    public static final int CARD_SAKURA = 0x1;
-    public static final int CARD_HOPE = 0x2;
-    public static final int CARD_STORM = 0x3;
-    public static final int CARD_WOOD = 0x4;
-    public static final int CARD_LIGHT = 0x5;
-    public static final int CARD_THUNDER = 0x6;
-    public static final int CARD_SAND = 0x7;
-    public static final int CARD_FIREY = 0x8;
-    public static final int CARD_WHITE = 0x9;
-    public static final int CARD_BLACK = 0xa;
-    public static final int CARD_GREY = 0xb;
-    public static final int CARD_TRANSPARENT = 0xc;
+    public static final int CARD_SAKURA = 0xFF1565C0;
+    public static final int CARD_STORM = 0xFF2196F3;
+    public static final int CARD_HOPE = 0xFF673AB7;
+    public static final int CARD_WOOD = 0xFF4CAF50;
+    public static final int CARD_LIGHT = 0xFF8BC34A;
+    public static final int CARD_THUNDER = 0xFFFDD835;
+    public static final int CARD_SAND = 0xFFFF9800;
+    public static final int CARD_FIRE = 0xFFF44336;
+    public static final int CARD_WHITE = 0xFFFFFFFF;
+    public static final int CARD_BLACK = 0xFF000000;
+    public static final int CARD_GREY = 0xFF727272;
+    public static final int CARD_MAGENTA = 0xFFff00ff;
 
+    public static final int CARD_THEME_0 = 0xff1abc9c;
+    public static final int CARD_THEME_1 = 0xff16a085;
+    public static final int CARD_THEME_2 = 0xfff1c40f;
+    public static final int CARD_THEME_3 = 0xfff39c12;
+    public static final int CARD_THEME_4 = 0xff2ecc71;
+    public static final int CARD_THEME_5 = 0xff27ae60;
+    public static final int CARD_THEME_6 = 0xffe67e22;
+    public static final int CARD_THEME_7 = 0xffd35400;
+    public static final int CARD_THEME_8 = 0xffc0392b;
+    public static final int CARD_THEME_9 = 0xffe74c3c;
+    public static final int CARD_THEME_10 = 0xff2980b9;
+    public static final int CARD_THEME_11 = 0xff3498db;
+    public static final int CARD_THEME_12 = 0xff9b59b6;
+    public static final int CARD_THEME_13 = 0xff8e44ad;
+    public static final int CARD_THEME_14 = 0xff2c3e50;
+    public static final int CARD_THEME_15 = 0xff34495e;
 
     public static SharedPreferences getSharePreference(Context context) {
         return context.getSharedPreferences("multiple_theme", Context.MODE_PRIVATE);
@@ -77,7 +93,7 @@ public class ThemeManager {
                 return "THE THUNDER";
             case CARD_SAND:
                 return "THE SAND";
-            case CARD_FIREY:
+            case CARD_FIRE:
                 return "THE FIREY";
             case CARD_WHITE:
                 return "THE WHITE";
@@ -85,8 +101,41 @@ public class ThemeManager {
                 return "THE BLACK";
             case CARD_GREY:
                 return "THE GRAY";
-            case CARD_TRANSPARENT:
-                return "THE TRANSPARENT";
+            case CARD_MAGENTA:
+                return "THE MAGENTAT";
+
+            case CARD_THEME_0:
+                return "CARD_THEME_0";
+            case CARD_THEME_1:
+                return "CARD_THEME_1";
+            case CARD_THEME_2:
+                return "CARD_THEME_2";
+            case CARD_THEME_3:
+                return "CARD_THEME_3";
+            case CARD_THEME_4:
+                return "CARD_THEME_4";
+            case CARD_THEME_5:
+                return "CARD_THEME_5";
+            case CARD_THEME_6:
+                return "CARD_THEME_6";
+            case CARD_THEME_7:
+                return "CARD_THEME_7";
+            case CARD_THEME_8:
+                return "CARD_THEME_8";
+            case CARD_THEME_9:
+                return "CARD_THEME_9";
+            case CARD_THEME_10:
+                return "CARD_THEME_10";
+            case CARD_THEME_11:
+                return "CARD_THEME_11";
+            case CARD_THEME_12:
+                return "CARD_THEME_12";
+            case CARD_THEME_13:
+                return "CARD_THEME_13";
+            case CARD_THEME_14:
+                return "CARD_THEME_14";
+            case CARD_THEME_15:
+                return "CARD_THEME_15";
         }
         return "THE RETURN";
     }

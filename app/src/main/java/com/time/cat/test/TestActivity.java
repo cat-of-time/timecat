@@ -57,7 +57,7 @@ public class TestActivity extends BaseActivity implements
         switch (ThemeManager.getTheme(this)) {
             case ThemeManager.CARD_WHITE:
             case ThemeManager.CARD_THUNDER:
-            case ThemeManager.CARD_TRANSPARENT:
+            case ThemeManager.CARD_MAGENTA:
                 setStatusBarFontIconDark(true);
                 break;
             default:
