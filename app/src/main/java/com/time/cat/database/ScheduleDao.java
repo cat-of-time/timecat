@@ -23,7 +23,7 @@ import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -38,18 +38,18 @@ public class ScheduleDao extends GenericDao<Schedule, Long> {
         super(db);
     }
 
-    public List<Schedule> findAllForActivePatient(Context ctx) {
-        return findAll(DB.patients().getActive(ctx));
+    public List<Schedule> findAllForActiveUser(Context ctx) {
+        return findAll(DB.users().getActive(ctx));
     }
 
-    public List<Schedule> findAll(Patient p) {
+    public List<Schedule> findAll(User p) {
         return findAll(p.id());
     }
 
 
-    public List<Schedule> findAll(Long patientId) {
+    public List<Schedule> findAll(Long userId) {
         try {
-            return dao.queryBuilder().where().eq(Schedule.COLUMN_PATIENT, patientId).query();
+            return dao.queryBuilder().where().eq(Schedule.COLUMN_USER, userId).query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }

@@ -16,8 +16,8 @@ import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.service.ListenClipboardService;
 import com.time.cat.component.service.TimeCatMonitorService;
 import com.time.cat.database.DB;
-import com.time.cat.database.PatientDao;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.database.UserDao;
+import com.time.cat.mvp.model.User;
 import com.time.cat.test.DefaultDataGenerator;
 import com.time.cat.util.KeepAliveWatcher;
 import com.time.cat.util.onestep.AppManager;
@@ -30,8 +30,32 @@ import de.greenrobot.event.EventBus;
  * @discription app
  */
 public class TimeCatApp extends Application implements ThemeUtils.switchColor{
-    private static TimeCatApp instance;
     public static final String PHARMACY_MODE_ENABLED = "PHARMACY_MODE_ENABLED";
+
+    // PREFERENCES
+    public static final String PREFERENCES_NAME = "CalendulaPreferences";
+    public static final String PREF_ALARM_SETTLED = "alarm_settled";
+
+    // INTENTS
+    public static final String INTENT_EXTRA_ACTION = "action";
+    public static final String INTENT_EXTRA_ROUTINE_ID = "routine_id";
+    public static final String INTENT_EXTRA_SCHEDULE_ID = "schedule_id";
+    public static final String INTENT_EXTRA_SCHEDULE_TIME = "schedule_time";
+    public static final String INTENT_EXTRA_DELAY_ROUTINE_ID = "delay_routine_id";
+    public static final String INTENT_EXTRA_DELAY_SCHEDULE_ID = "delay_schedule_id";
+    // ACTIONS
+    public static final int ACTION_ROUTINE_TIME = 1;
+    public static final int ACTION_DAILY_ALARM = 2;
+    public static final int ACTION_ROUTINE_DELAYED_TIME = 3;
+    public static final int ACTION_DELAY_ROUTINE = 4;
+    public static final int ACTION_CANCEL_ROUTINE = 5;
+    public static final int ACTION_HOURLY_SCHEDULE_TIME = 6;
+    public static final int ACTION_HOURLY_SCHEDULE_DELAYED_TIME = 7;
+    public static final int ACTION_DELAY_HOURLY_SCHEDULE = 8;
+    public static final int ACTION_CANCEL_HOURLY_SCHEDULE = 9;
+    public static final int ACTION_CHECK_PICKUPS_ALARM = 10;
+
+    private static TimeCatApp instance;
     private static EventBus eventBus = EventBus.getDefault();
     public static TimeCatApp getInstance() {
         return instance;
@@ -77,9 +101,9 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor{
     public void initializeDatabase() {
         DB.init(this);
         try{
-            if(DB.patients().countOf() == 1) {
-                Patient p = DB.patients().getDefault();
-                prefs.edit().putLong(PatientDao.PREFERENCE_ACTIVE_PATIENT, p.id()).commit();
+            if(DB.users().countOf() == 1) {
+                User p = DB.users().getDefault();
+                prefs.edit().putLong(UserDao.PREFERENCE_ACTIVE_USER, p.id()).commit();
             }
         } catch (Exception e) {
             e.printStackTrace();

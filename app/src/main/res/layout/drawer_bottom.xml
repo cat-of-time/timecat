@@ -30,7 +30,7 @@
         android:layout_height="55dp">
 
         <TextView
-            android:id="@+id/text_patients"
+            android:id="@+id/text_users"
             style="@style/Base.TextAppearance.AppCompat.Button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

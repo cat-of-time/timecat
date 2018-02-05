@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <group
         android:id="@+id/main_menu_schedulesFragment"
-        android:visible="false">
+        android:visible="true">
         <item
             android:id="@+id/main_menu_today"
             android:icon="@drawable/ic_today_white_24dp"
@@ -14,7 +14,7 @@
             android:id="@+id/main_menu_change_theme"
             android:icon="@drawable/ic_change_white_24dp"
             android:title="@string/main_menu_change_theme"
-            android:visible="false"
+            android:visible="true"
             app:showAsAction="ifRoom"/>
     </group>
     <group
@@ -39,7 +39,7 @@
     </group>
     <item
         android:id="@+id/main_menu_more"
-        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:icon="@drawable/ic_help_white_48dp"
         android:title="@string/main_menu_more"
         app:showAsAction="always"/>
 

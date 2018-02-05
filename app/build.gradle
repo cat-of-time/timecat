@@ -113,6 +113,9 @@ android {
             java.srcDirs += ['src/Normal/java']
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 repositories {
     flatDir {
@@ -160,6 +163,8 @@ dependencies {
     compile 'com.makeramen:roundedimageview:1.5.0'
     // snackbar
     compile 'com.nispok:snackbar:2.9.0'
+    // time picker
+    compile 'com.doomonafireball.betterpickers:library:1.5.5'
     //material getDrawer
     compile('com.mikepenz:materialdrawer:4.4.1@aar') {
         transitive = true
@@ -178,6 +183,9 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.2.1'
     // ormlite
     compile 'com.j256.ormlite:ormlite-android:4.45'
+    // intro
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.heinrichreimersoftware:material-intro:1.6.2'
     //project
     compile project(':lib')
     compile project(':commonjar')

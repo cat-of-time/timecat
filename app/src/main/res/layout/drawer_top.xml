@@ -18,10 +18,10 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/left_drawer_top"
-    android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:background="@color/drawerbg_default">
+                android:id="@+id/left_drawer_top"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@color/drawerbg_default">
 
     <ImageView
         android:id="@+id/left_drawer_top_overlay"
@@ -29,54 +29,54 @@
         android:layout_height="120dp"
         android:alpha="1"
         android:background="@color/android_orange"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"/>
 
     <ImageView
         android:id="@+id/settings_button"
         android:layout_width="fill_parent"
         android:layout_height="120dp"
+        android:alpha="0.2"
         android:scaleType="centerCrop"
-        android:src="@drawable/drawertopbg"
-        android:alpha="0.2"/>
+        android:src="@drawable/drawertopbg"/>
 
     <Button
         android:id="@+id/name"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="Ángel"
-        style="?android:attr/borderlessButtonStyle"
-        android:textColor="#fff"
-        android:visibility="visible"
-        android:gravity="center_vertical|end"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="10dp"/>
+        android:gravity="center_vertical|end"
+        android:text="Ángel"
+        android:textColor="#fff"
+        android:visibility="visible"/>
 
     <ImageButton
+        android:id="@+id/switch_user"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="40dp"
         android:layout_height="50dp"
-        android:id="@+id/swich_patient"
         android:layout_alignParentBottom="true"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_arrow_drop_down_circle_white_48dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:padding="5dp"
         android:scaleType="fitCenter"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"/>
+        android:src="@drawable/ic_arrow_drop_down_circle_white_48dp"/>
 
     <ImageButton
-        android:layout_width="90dp"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_height="90dp"
         android:id="@+id/avatar"
-        android:src="@drawable/avatar11"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_alignParentBottom="true"
-        android:scaleType="fitCenter"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/avatar11"/>
 
 
 </RelativeLayout>

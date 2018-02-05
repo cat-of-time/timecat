@@ -139,9 +139,9 @@
             android:name="com.time.cat.component.activity.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
             <intent-filter>
                 <action android:name="notify_universal_copy_broadcast"/>
@@ -316,7 +316,10 @@
         <activity
             android:name=".component.activity.AboutActivity"
             android:theme="@style/BaseAppTheme"/>
-        <activity android:name=".component.activity.user.PatientDetailActivity"/>
+        <activity android:name=".component.activity.user.UserDetailActivity"/>
+        <activity
+            android:name=".component.activity.main.SchedulesHelpActivity"
+            android:theme="@style/Theme.Intro"/>
     </application>
 
 </manifest>

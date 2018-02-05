@@ -30,8 +30,8 @@ import com.time.cat.util.AvatarMgr;
  * @date 2018/1/25
  * @discription 用户类
  */
-@DatabaseTable(tableName = "Patients")
-public class Patient {
+@DatabaseTable(tableName = "Users")
+public class User {
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "Name";
@@ -98,6 +98,6 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", name='" + name + '\'' + ", isDefault=" + isDefault + ", avatar='" + avatar + '\'' + ", color=" + color + '}';
+        return "User{" + "id=" + id + ", name='" + name + '\'' + ", isDefault=" + isDefault + ", avatar='" + avatar + '\'' + ", color=" + color + '}';
     }
 }

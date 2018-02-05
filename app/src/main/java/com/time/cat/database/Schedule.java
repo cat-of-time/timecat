@@ -24,7 +24,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.database.typeSerializers.BooleanArrayPersister;
 import com.time.cat.database.typeSerializers.LocalDatePersister;
 import com.time.cat.database.typeSerializers.LocalTimePersister;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -45,9 +45,7 @@ public class Schedule {
     public static final int SCHEDULE_TYPE_CYCLE = 5;
 
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_MEDICINE = "Medicine";
     public static final String COLUMN_DAYS = "Days";
-    public static final String COLUMN_RRULE = "Rrule";
     public static final String COLUMN_START = "Start";
     public static final String COLUMN_START_TIME = "Starttime";
     public static final String COLUMN_DOSE = "Dose";
@@ -56,7 +54,7 @@ public class Schedule {
 
     public static final String COLUMN_SCANNED = "Scanned";
 
-    public static final String COLUMN_PATIENT = "Patient";
+    public static final String COLUMN_USER = "User";
 
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private Long id;
@@ -82,8 +80,8 @@ public class Schedule {
     @DatabaseField(columnName = COLUMN_SCANNED)
     private boolean scanned;
 
-    @DatabaseField(columnName = COLUMN_PATIENT, foreign = true, foreignAutoRefresh = true)
-    private Patient patient;
+    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
+    private User user;
 
 
     public int type() {
@@ -121,12 +119,12 @@ public class Schedule {
         return dose;
     }
 
-    public Patient patient() {
-        return patient;
+    public User user() {
+        return user;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     // *************************************

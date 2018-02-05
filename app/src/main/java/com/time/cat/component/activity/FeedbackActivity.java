@@ -55,7 +55,7 @@ public class FeedbackActivity extends BaseActivity {
         //color(消息内容文字颜色 "#ffffff")，
         //avatar(当前登录账号的头像)，string，为http url
         //toAvatar(客服账号的头像),string，为http url
-        //themeColor(标题栏自定义颜色 "#ffffff")
+        //theme_color(标题栏自定义颜色 "#ffffff")
         //profilePlaceholder: (顶部联系方式)，string
         //profileTitle: （顶部联系方式左侧提示内容）, String
         //chatInputPlaceholder: (输入框里面的内容),string

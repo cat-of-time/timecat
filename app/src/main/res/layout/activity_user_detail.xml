@@ -3,12 +3,9 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                tools:context="com.time.cat.component.activity.user.PatientDetailActivity"
+                tools:context="com.time.cat.component.activity.user.UserDetailActivity"
                 android:id="@+id/bg"
                 android:background="#fff">
-
-
-
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -20,12 +17,12 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/patient_avatar_bg"
+            android:id="@+id/user_avatar_bg"
             >
         </View>
 
         <ImageView
-            android:id="@+id/patient_avatar"
+            android:id="@+id/user_avatar"
             android:transitionName="transition"
             android:layout_width="140dp"
             android:src="@drawable/avatar_default"
@@ -59,7 +56,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:title="Patients"
+        android:title="Users"
         android:layout_marginTop="@dimen/status_bar_height"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -67,7 +64,7 @@
 
 
     <EditText
-        android:id="@+id/patient_name"
+        android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="72dp"
@@ -96,8 +93,8 @@
         android:layout_height="wrap_content"
         android:text="Crear rutinas por defecto"
         android:id="@+id/checkBox"
-        android:layout_below="@+id/patient_name"
-        android:layout_alignLeft="@+id/patient_name"
+        android:layout_below="@+id/user_name"
+        android:layout_alignLeft="@+id/user_name"
         android:layout_marginTop="36dp"
         android:elegantTextHeight="false"
         android:textColor="@color/dark_grey_text"

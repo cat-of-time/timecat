@@ -24,6 +24,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.time.cat.R;
 import com.time.cat.ThemeSystem.manager.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
@@ -34,10 +36,9 @@ import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
 import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.CustomPagerView;
-import com.time.cat.test.DefaultDataGenerator;
 import com.time.cat.util.ScreenUtils;
 import com.time.cat.util.ToastUtil;
 
@@ -63,6 +64,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         setStatusBarFullTransparent();
         initDrawer(savedInstanceState);
         handler = new Handler();
+        activeUser = DB.users().getActive(this);
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initView();
@@ -74,8 +76,8 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
     @Override
     protected void onResume() {
         super.onResume();
-        Patient p = DB.patients().getActive(this);
-//        Patient p = new Patient();
+        User p = DB.users().getActive(this);
+//        User p = new User();
 //        p.setAvatar(AvatarMgr.AVATAR_2);
 //        p.setColor(4);
 //        p.setName("测试");
@@ -116,6 +118,9 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
 
     private BottomNavigationView navigation;
 
+    private FloatingActionButton fab;
+    private FloatingActionsMenu addButton;
+    private FabMenuMgr fabMgr;
     @Override
     public void initView() {//必须调用
         switch (ThemeManager.getTheme(this)) {
@@ -136,6 +141,15 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
 
         setToolBar();
         setViewPager();
+        setFab();
+    }
+
+    /**
+     * 侧滑栏
+     */
+    private void initDrawer(Bundle savedInstanceState) {
+        leftDrawer = new LeftDrawerView(this, toolbar);
+        leftDrawer.init(savedInstanceState);
     }
 
     /**
@@ -162,26 +176,28 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         schedulesFragment.setOnDateChangeListener(this);
         setOnViewClickListener(schedulesFragment);
 
-        RoutinesFragment routinesFragment = new RoutinesFragment();
+//        RoutinesFragment routinesFragment = new RoutinesFragment();
+        RoutinesListFragment routinesListFragment = new RoutinesListFragment();
         PlansFragment plansFragment = new PlansFragment();
 
         fragmentNames = new String[]{"SchedulesFragment", "RoutinesFragment", "PlansFragment"};
 
         customPagerViewAdapter = new CustomPagerViewAdapter(getSupportFragmentManager());
         customPagerViewAdapter.addFragment(schedulesFragment);
-        customPagerViewAdapter.addFragment(routinesFragment);
+        customPagerViewAdapter.addFragment(routinesListFragment);
         customPagerViewAdapter.addFragment(plansFragment);
         assert customPagerView != null;
         customPagerView.setAdapter(customPagerViewAdapter);
         customPagerView.setCurrentItem(0);
     }
 
-    /**
-     * 侧滑栏
-     */
-    private void initDrawer(Bundle savedInstanceState) {
-        leftDrawer = new LeftDrawerView(this, toolbar);
-        leftDrawer.init(savedInstanceState);
+    private void setFab() {
+        addButton = findViewById(R.id.fab_menu);
+        fab = findViewById(R.id.add_button);
+        fabMgr = new FabMenuMgr(fab, addButton, leftDrawer, this);
+        fabMgr.init();
+
+        fabMgr.onPatientUpdate(activeUser);
     }
 
     public void showPagerItem(int position) {
@@ -306,6 +322,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                 }
                 return true;
             default:
+                launchActivity(new Intent(this, SchedulesHelpActivity.class));
                 return super.onOptionsItemSelected(item);
         }
     }
@@ -367,18 +384,11 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
 //        setupStatusBar(TimeCatApp.getInstance().replaceColor(this, 0xd20000));
 //        Log.e(TAG, "set to "+ TimeCatApp.getInstance().replaceColor(this, 0xd20000));
 
-        Patient patient;
-        long patientId = getIntent().getLongExtra("patient_id", -1);
-
-        if (patientId != -1) {
-            patient = DB.patients().findById(patientId);
-        } else {
-            patient = new Patient();
-        }
-        patient.setColor(TimeCatApp.getInstance().replaceColor(this, 0xd20000));
-        DB.patients().saveAndFireEvent(patient);
-        DefaultDataGenerator.generateDefaultRoutines(patient, this);
-        leftDrawer.updateHeaderBackground(patient);
+//        DefaultDataGenerator.generateDefaultRoutines(activeUser, this);
+        activeUser = DB.users().getActive(this);
+        activeUser.setColor(TimeCatApp.getInstance().replaceColor(this, 0xd20000));
+        DB.users().saveAndFireEvent(activeUser);
+        leftDrawer.updateHeaderBackground(activeUser);
     }
     //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
 
@@ -401,6 +411,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         navigation.getMenu().getItem(position).setChecked(true);
         adjustActionBar(fragmentNames[position]);
         leftDrawer.onPagerPositionChange(position);
+        fabMgr.onViewPagerItemChange(position);
     }
 
     @Override
@@ -462,7 +473,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
     private Handler handler;
     private Queue<Object> pendingEvents = new LinkedList<>();
     boolean active = false;
-    private Patient activePatient;
+    private User activeUser;
 
     public void onEvent(final Object evt) {
         if (active) {
@@ -477,20 +488,20 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
 //                        ((RoutinesListFragment) getViewPagerFragment(1)).notifyDataChange();
 //                        ((MedicinesListFragment) getViewPagerFragment(2)).notifyDataChange();
                     } else if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
-                        activePatient = ((PersistenceEvents.ActiveUserChangeEvent) evt).patient;
+                        activeUser = ((PersistenceEvents.ActiveUserChangeEvent) evt).user;
 //                        updateTitle(mViewPager.getCurrentItem());
-//                        toolbarLayout.setContentScrimColor(activePatient.color());
-//                        fabMgr.onPatientUpdate(activePatient);
+//                        toolbarLayout.setContentScrimColor(activeUser.color());
+//                        fabMgr.onUserUpdate(activeUser);
                     } else if (evt instanceof PersistenceEvents.UserUpdateEvent) {
-                        Patient p = ((PersistenceEvents.UserUpdateEvent) evt).patient;
+                        User user = ((PersistenceEvents.UserUpdateEvent) evt).user;
 //                        ((DailyAgendaFragment) getViewPagerFragment(0)).onUserUpdate();
-                        leftDrawer.onPatientUpdated(p);
-                        if (DB.patients().isActive(p, MainActivity.this)) {
-                            activePatient = p;
+                        leftDrawer.onUserUpdated(user);
+                        if (DB.users().isActive(user, MainActivity.this)) {
+                            activeUser = user;
                         }
                     } else if (evt instanceof PersistenceEvents.UserCreateEvent) {
-                        Patient created = ((PersistenceEvents.UserCreateEvent) evt).patient;
-                        leftDrawer.onPatientCreated(created);
+                        User created = ((PersistenceEvents.UserCreateEvent) evt).user;
+                        leftDrawer.onUserCreated(created);
                     }
                 }
             });
@@ -537,5 +548,18 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
 
     }
     //</内部类>---尽量少用---------------------------------------------------------------------------
+    public void launchActivityDelayed(final Class<?> activityClazz, int delay) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(MainActivity.this, activityClazz));
+                overridePendingTransition(0, 0);
+            }
+        }, delay);
 
+    }
+    private void launchActivity(Intent i) {
+        startActivity(i);
+        this.overridePendingTransition(0, 0);
+    }
 }

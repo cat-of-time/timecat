@@ -25,7 +25,7 @@ import android.util.Log;
 import com.time.cat.database.DB;
 import com.time.cat.database.Routine;
 import com.time.cat.database.Schedule;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 
 import org.joda.time.LocalTime;
 
@@ -41,7 +41,7 @@ public class DefaultDataGenerator {
         if (Routine.findAll().size() == 0 && Schedule.findAll().size() == 0) {
             try {
                 Log.d("DefaultDataGenerator", "Creating dummy data...");
-                Patient p = DB.patients().getActive(ctx);
+                User p = DB.users().getActive(ctx);
                 new Routine(p, new LocalTime(9, 0), "breakfast").save();
                 new Routine(p, new LocalTime(13, 0), "lunch").save();
                 new Routine(p, new LocalTime(21, 0), "dinner").save();
@@ -52,7 +52,7 @@ public class DefaultDataGenerator {
         }
     }
 
-    public static void generateDefaultRoutines(Patient p, Context ctx){
+    public static void generateDefaultRoutines(User p, Context ctx){
         Resources r = ctx.getResources();
         new Routine(p, new LocalTime(9, 0), "breakfast").save();
         new Routine(p, new LocalTime(13, 0), "lunch").save();

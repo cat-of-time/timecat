@@ -30,7 +30,7 @@ public class AboutActivity extends BaseActivity{
                     .withAboutVersionShown(true)
                     .withLicenseShown(true)
                     .withLicenseDialog(true)
-                    .withAboutDescription("withAboutDescription")
+                    .withAboutDescription(getString(R.string.about_description))
                     .fragment();
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

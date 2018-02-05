@@ -33,10 +33,10 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.AboutActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.activity.user.LoginActivity;
-import com.time.cat.component.activity.user.PatientDetailActivity;
+import com.time.cat.component.activity.user.UserDetailActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 import com.time.cat.util.AvatarMgr;
 import com.time.cat.util.IconUtils;
 import com.time.cat.util.ScreenUtils;
@@ -55,14 +55,14 @@ public class LeftDrawerView implements
     private static final String TAG = "LeftDrawerView";
 
     public static final int HOME = -1;
-    public static final int PATIENT_ADD = -2;
+    public static final int USER_ADD = -2;
 
     public static final int SCHEDULES = 0;
     public static final int ROUTINES = 1;
     public static final int PLANS = 2;
 
     public static final int MEDICINES = 3;
-    public static final int PATIENTS = 4;
+    public static final int USERS = 4;
     public static final int THEME = 5;
     public static final int SETTINGS = 6;
     public static final int ABOUT = 7;
@@ -75,7 +75,7 @@ public class LeftDrawerView implements
     private Drawer drawer = null;
     private Toolbar toolbar;
     private MainActivity mainActivity;
-    private Patient currentPatient;
+    private User currentUser;
 
     public LeftDrawerView(MainActivity activity, Toolbar toolbar) {
         this.toolbar = toolbar;
@@ -94,21 +94,21 @@ public class LeftDrawerView implements
                         .sizeDp(24)
                         .paddingDp(5)
                         .colorRes(R.color.dark_grey_home))
-                .withIdentifier(PATIENT_ADD));
-        for (Patient p : DB.patients().findAll()) {
-            Log.d("LeftDrawer", "Adding patient to getDrawer: " + p.name());
+                .withIdentifier(USER_ADD));
+        for (User p : DB.users().findAll()) {
+            Log.d("LeftDrawer", "Adding user to getDrawer: " + p.name());
             profiles.add(new ProfileDrawerItem()
                     .withIdentifier(p.id().intValue())
                     .withName(p.name())
                     .withEmail(p.name() + "@timecat")
                     .withIcon(AvatarMgr.res(p.avatar())));
         }
-//        Patient p = new Patient();
+//        User p = new User();
 //        p.setAvatar(AvatarMgr.AVATAR_2);
 //        p.setColor(Color.YELLOW);
 //        p.setName("测试");
 //        p.setId((long) 5);
-//        Log.e(TAG, "Adding patient to getDrawer: " + p.name());
+//        Log.e(TAG, "Adding user to getDrawer: " + p.name());
 //        profiles.add(new ProfileDrawerItem()
 //                .withIdentifier(p.id().intValue())
 //                .withName(p.name())
@@ -139,9 +139,9 @@ public class LeftDrawerView implements
                                 .withIcon(IconUtils.icon(mainActivity, GoogleMaterial.Icon.gmd_home, R.color.black).alpha(110))
                                 .withIdentifier(HOME),
                         new PrimaryDrawerItem()
-                                .withName(R.string.title_activity_patients)
+                                .withName(R.string.title_activity_users)
                                 .withIcon(IconUtils.icon(mainActivity, CommunityMaterial.Icon.cmd_account_multiple, R.color.black).alpha(110))
-                                .withIdentifier(PATIENTS),
+                                .withIdentifier(USERS),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem()
                                 .withName(R.string.title_activity_schedules)
@@ -214,7 +214,7 @@ public class LeftDrawerView implements
                 .withSavedInstance(savedInstanceState)
                 .build();
 
-        Patient p = DB.patients().getActive(mainActivity);
+        User p = DB.users().getActive(mainActivity);
         headerResult.setActiveProfile(p.id().intValue(), false);
         updateHeaderBackground(p);
         drawer.setStatusBarColor(p.color());
@@ -237,11 +237,11 @@ public class LeftDrawerView implements
             case HOME:
 //                mainActivity.showPagerItem(0, false);
                 break;
-            case PATIENTS:
+            case USERS:
                 Intent intent = new Intent(mainActivity, LoginActivity.class);
                 mainActivity.startActivityForResult(intent, REQUEST_LOGIN);
                 mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-//                launchActivity(new Intent(mainActivity, PatientsActivity.class));
+//                launchActivity(new Intent(mainActivity, UsersActivity.class));
                 drawer.setSelection(HOME, false);
                 break;
 
@@ -327,27 +327,27 @@ public class LeftDrawerView implements
     public boolean onProfileChanged(View view, IProfile profile, boolean current) {
 //
         if (profile instanceof ProfileSettingDrawerItem) {
-            Intent intent = new Intent(mainActivity, PatientDetailActivity.class);
+            Intent intent = new Intent(mainActivity, UserDetailActivity.class);
             launchActivity(intent);
             return true;
         } else {
-            Long id = Long.valueOf(profile.getIdentifier());
-            Patient p = DB.patients().findById(id);
-            boolean isActive = DB.patients().isActive(p, mainActivity);
+            Long id = (long) profile.getIdentifier();
+            User user = DB.users().findById(id);
+            boolean isActive = DB.users().isActive(user, mainActivity);
             if (isActive) {
-                Intent intent = new Intent(mainActivity, PatientDetailActivity.class);
-                intent.putExtra("patient_id", id);
+                Intent intent = new Intent(mainActivity, UserDetailActivity.class);
+                intent.putExtra("user_id", id);
                 launchActivity(intent);
             } else {
-                DB.patients().setActive(p, mainActivity);
-                updateHeaderBackground(p);
+                DB.users().setActive(user, mainActivity);
+                updateHeaderBackground(user);
             }
         }
         return false;
     }
 
-    public void updateHeaderBackground(Patient p) {
-        currentPatient = p;
+    public void updateHeaderBackground(User p) {
+        currentUser = p;
         LayerDrawable layers = (LayerDrawable) headerResult.getHeaderBackgroundView().getDrawable();
         ColorDrawable color = (ColorDrawable) layers.findDrawableByLayerId(R.id.color_layer);
         color.setColor(ScreenUtils.equivalentNoAlpha(p.color(), 1f));
@@ -361,18 +361,18 @@ public class LeftDrawerView implements
         return headerResult;
     }
 
-    public void onActivityResume(Patient p) {
+    public void onActivityResume(User p) {
 
-        currentPatient = p;
+        currentUser = p;
 
-        List<Patient> patients = DB.patients().findAll();
+        List<User> users = DB.users().findAll();
         ArrayList<IProfile> profiles = headerResult.getProfiles();
         ArrayList<IProfile> toRemove = new ArrayList<>();
-        if (patients.size() != profiles.size()) {
+        if (users.size() != profiles.size()) {
             for (IProfile pr : profiles) {
                 Long id = Long.valueOf(pr.getIdentifier());
                 boolean remove = true;
-                for (Patient pat : patients) {
+                for (User pat : users) {
                     if (pat.id().equals(id)) {
                         remove = false;
                         break;
@@ -389,7 +389,7 @@ public class LeftDrawerView implements
 
         headerResult.setActiveProfile(p.id().intValue(), false);
 
-        if (p != null && !p.equals(currentPatient) || header().getActiveProfile().getIcon().getIconRes() != AvatarMgr.res(p.avatar())) {
+        if (p != null && !p.equals(currentUser) || header().getActiveProfile().getIcon().getIconRes() != AvatarMgr.res(p.avatar())) {
             headerResult.setActiveProfile(p.id().intValue(), false);
             IProfile profile = headerResult.getActiveProfile();
             profile.withIcon(AvatarMgr.res(p.avatar()));
@@ -398,13 +398,13 @@ public class LeftDrawerView implements
         updateHeaderBackground(p);
     }
 
-    public void onPatientCreated(Patient p) {
+    public void onUserCreated(User p) {
 
         IProfile profile = genProfile(p);
         headerResult.addProfiles(profile);
     }
 
-    public void onPatientUpdated(Patient p) {
+    public void onUserUpdated(User p) {
         IProfile profile = genProfile(p);
         headerResult.updateProfile(profile);
 
@@ -423,7 +423,7 @@ public class LeftDrawerView implements
         mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    private IProfile genProfile(Patient p) {
+    private IProfile genProfile(User p) {
         return new ProfileDrawerItem()
                 .withIdentifier(p.id().intValue())
                 .withName(p.name())

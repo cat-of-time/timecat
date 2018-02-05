@@ -26,7 +26,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 
 import org.joda.time.LocalTime;
 
@@ -71,31 +71,31 @@ public class RoutineDao extends GenericDao<Routine, Long> {
     }
 
 
-    public List<Routine> findAllForActivePatient(Context ctx) {
-        return findAll(DB.patients().getActive(ctx));
+    public List<Routine> findAllForActiveUser(Context ctx) {
+        return findAll(DB.users().getActive(ctx));
     }
 
-    public List<Routine> findAll(Patient p) {
+    public List<Routine> findAll(User p) {
         return findAll(p.id());
     }
 
 
-    public List<Routine> findAll(Long patientId) {
+    public List<Routine> findAll(Long userId) {
         try {
             return dao.queryBuilder()
                     .orderBy(Routine.COLUMN_TIME, true)
-                    .where().eq(Routine.COLUMN_PATIENT, patientId)
+                    .where().eq(Routine.COLUMN_USER, userId)
                     .query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
     }
 
-    public Routine findByPatientAndName(String name, Patient p) {
+    public Routine findByUserAndName(String name, User p) {
         try {
             QueryBuilder<Routine, Long> qb = dao.queryBuilder();
             Where w = qb.where();
-            w.and(w.eq(Routine.COLUMN_NAME, name),w.eq(Routine.COLUMN_PATIENT, p));
+            w.and(w.eq(Routine.COLUMN_NAME, name),w.eq(Routine.COLUMN_USER, p));
             qb.setWhere(w);
             return qb.queryForFirst();
         } catch (SQLException e) {

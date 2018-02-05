@@ -27,7 +27,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 
 import java.sql.SQLException;
 
@@ -52,7 +52,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //            HomogeneousGroup.class,
 //            PickupInfo.class,
             // v9
-            Patient.class,
+            User.class,
             // v10
 //            HtmlCacheEntry.class
     };
@@ -78,8 +78,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //    private Dao<HomogeneousGroup, Long> homogeneousGroupsDao = null;
     // the DAO object we use to access the pcikupInfo table
 //    private Dao<PickupInfo, Long> pickupInfoDao = null;
-    // the DAO object we use to access the patients table
-    private Dao<Patient, Long> patientDao = null;
+    // the DAO object we use to access the users table
+    private Dao<User, Long> userDao = null;
 
 
     public DatabaseHelper(Context context) {
@@ -100,7 +100,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 TableUtils.createTable(connectionSource, c);
             }
 
-            createDefaultPatient();
+            createDefaultUser();
 
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -108,13 +108,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private Patient createDefaultPatient() throws SQLException {
-        // Create a default patient
-        Patient p = new Patient();
-        p.setName("TestUser");
-        p.setDefault(true);
-        getPatientDao().create(p);
-        return p;
+    private User createDefaultUser() throws SQLException {
+        // Create a default user
+        User user = new User();
+        user.setName("TestUser");
+        user.setDefault(true);
+        getUserDao().create(user);
+        return user;
     }
 
     /**
@@ -157,8 +157,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //                    TableUtils.createTable(connectionSource, HomogeneousGroup.class);
 //                    TableUtils.createTable(connectionSource, PickupInfo.class);
                 case 9:
-                    TableUtils.createTable(connectionSource, Patient.class);
-//                    migrateToMultiPatient();
+                    TableUtils.createTable(connectionSource, User.class);
+//                    migrateToMultiUser();
 //                case 10:
 //                    TableUtils.createTable(connectionSource, HtmlCacheEntry.class);
 //                case 11:
@@ -174,7 +174,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 Log.d(DatabaseHelper.class.getName(), "Will try to recreate db...");
                 dropAndCreateAllTables();
-                createDefaultPatient();
+                createDefaultUser();
             }catch (Exception ex){
                 throw new RuntimeException(e);
             }
@@ -184,37 +184,37 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //    /**
 //     * Method that migrate models to multi-user
 //     */
-//    private void migrateToMultiPatient() throws SQLException {
+//    private void migrateToMultiUser() throws SQLException {
 //
-//        // add patient column to routines, schedules and medicines
-//        getRoutinesDao().executeRaw("ALTER TABLE Routines ADD COLUMN Patient INTEGER;");
-//        getRoutinesDao().executeRaw("ALTER TABLE Medicines ADD COLUMN Patient INTEGER;");
-//        getRoutinesDao().executeRaw("ALTER TABLE Schedules ADD COLUMN Patient INTEGER;");
-//        getRoutinesDao().executeRaw("ALTER TABLE DailyScheduleItems ADD COLUMN Patient INTEGER;");
+//        // add user column to routines, schedules and medicines
+//        getRoutinesDao().executeRaw("ALTER TABLE Routines ADD COLUMN User INTEGER;");
+//        getRoutinesDao().executeRaw("ALTER TABLE Medicines ADD COLUMN User INTEGER;");
+//        getRoutinesDao().executeRaw("ALTER TABLE Schedules ADD COLUMN User INTEGER;");
+//        getRoutinesDao().executeRaw("ALTER TABLE DailyScheduleItems ADD COLUMN User INTEGER;");
 //        getRoutinesDao().executeRaw("ALTER TABLE DailyScheduleItems ADD COLUMN Date TEXT;");
 //
-//        Patient p = createDefaultPatient();
+//        User p = createDefaultUser();
 //        // SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences();
-//        // prefs.edit().putLong(PatientDao.PREFERENCE_ACTIVE_PATIENT, p.id()).commit();
+//        // prefs.edit().putLong(UserDao.PREFERENCE_ACTIVE_USER, p.id()).commit();
 //
-//        // Assign all routines to the default patient
+//        // Assign all routines to the default user
 //        UpdateBuilder<Routine, Long> rUpdateBuilder = getRoutinesDao().updateBuilder();
-//        rUpdateBuilder.updateColumnValue(Routine.COLUMN_PATIENT, p.id());
+//        rUpdateBuilder.updateColumnValue(Routine.COLUMN_USER, p.id());
 //        rUpdateBuilder.update();
 //
-//        // Assign all schedules to the default patient
+//        // Assign all schedules to the default user
 //        UpdateBuilder<Schedule, Long> sUpdateBuilder = getSchedulesDao().updateBuilder();
-//        sUpdateBuilder.updateColumnValue(Schedule.COLUMN_PATIENT, p.id());
+//        sUpdateBuilder.updateColumnValue(Schedule.COLUMN_USER, p.id());
 //        sUpdateBuilder.update();
 //
-//        // Assign all medicines to the default patient
+//        // Assign all medicines to the default user
 //        UpdateBuilder<Medicine, Long> mUpdateBuilder = getMedicinesDao().updateBuilder();
-//        mUpdateBuilder.updateColumnValue(Medicine.COLUMN_PATIENT, p.id());
+//        mUpdateBuilder.updateColumnValue(Medicine.COLUMN_USER, p.id());
 //        mUpdateBuilder.update();
 //
-//        // Assign all DailyScheduleItems to the default patient, for today
+//        // Assign all DailyScheduleItems to the default user, for today
 //        UpdateBuilder<DailyScheduleItem, Long> siUpdateBuilder = getDailyScheduleItemsDao().updateBuilder();
-//        siUpdateBuilder.updateColumnValue(DailyScheduleItem.COLUMN_PATIENT, p.id());
+//        siUpdateBuilder.updateColumnValue(DailyScheduleItem.COLUMN_USER, p.id());
 //        siUpdateBuilder.update();
 //
 //        // date formatter changes on v11, so we can no use LocalDatePersister here
@@ -363,11 +363,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * Returns the Database Access Object (DAO) for our User class. It will create it or just give the cached
      * value.
      */
-    public Dao<Patient, Long> getPatientDao() throws SQLException {
-        if (patientDao == null) {
-            patientDao = getDao(Patient.class);
+    public Dao<User, Long> getUserDao() throws SQLException {
+        if (userDao == null) {
+            userDao = getDao(User.class);
         }
-        return patientDao;
+        return userDao;
     }
 
     @Override

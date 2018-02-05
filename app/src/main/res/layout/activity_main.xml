@@ -68,6 +68,71 @@
             android:layout_above="@+id/main_navigation"
             android:layout_below="@+id/main_toolbar"/>
 
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="17dp"
+            fab:fab_colorNormal="#32ffffff"
+            fab:fab_colorPressed="#ffffff"
+            fab:fab_icon="@drawable/ic_action_add"
+            fab:fab_title="routine schedule"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fab_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="17dp"
+            android:layout_centerHorizontal="true"
+            fab:fab_addButtonColorNormal="#32ffffff"
+            fab:fab_addButtonColorPressed="#ffffff"
+            fab:fab_addButtonPlusIconColor="#263238"
+            fab:fab_labelStyle="@style/menu_labels_style">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/android_green_light_noalpha"
+                fab:fab_colorPressed="@color/android_green"
+                fab:fab_icon="@drawable/ic_alarm_white_48dp"
+                fab:fab_size="mini"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/android_green_light_noalpha"
+                fab:fab_colorPressed="@color/android_green"
+                fab:fab_icon="@drawable/ic_history_white_48dp"
+                fab:fab_size="mini"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/android_green_light_noalpha"
+                fab:fab_colorPressed="@color/android_green"
+                fab:fab_size="mini"
+                fab:fab_icon="@drawable/ic_autorenew_white_48dp"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_size="mini"
+                fab:fab_colorNormal="@color/android_green_light_noalpha"
+                fab:fab_colorPressed="@color/android_green"
+                fab:fab_icon="@drawable/ic_qrcode_white_48dp"/>
+
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/main_navigation"
             android:layout_width="wrap_content"

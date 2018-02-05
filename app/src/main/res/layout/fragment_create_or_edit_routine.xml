@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~    Calendula - An assistant for personal medication management.
+  ~    Copyright (C) 2016 CITIUS - USC
+  ~
+  ~    Calendula is free software; you can redistribute it and/or modify
+  ~    it under the terms of the GNU General Public License as published by
+  ~    the Free Software Foundation; either version 3 of the License, or
+  ~    (at your option) any later version.
+  ~
+  ~    This program is distributed in the hope that it will be useful,
+  ~    but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~    GNU General Public License for more details.
+  ~
+  ~    You should have received a copy of the GNU General Public License
+  ~    along with this software.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!--<TimePicker-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/routine_time_picker"-->
+    <!--android:layout_below="@+id/textView2"-->
+    <!--android:layout_alignLeft="@+id/textView2"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:layout_marginRight="20dp" />-->
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
+        android:text="Routine Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/dark_grey_text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/routine_edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:imeOptions="actionDone"
+        android:textColor="@color/dark_grey_home"
+        android:textSize="22dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_below="@+id/routine_edit_name"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:text="Time"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/dark_grey_text"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/routine_edit_name"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignRight="@+id/routine_edit_name"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:padding="10dp"
+        android:text="18:30h"
+        android:textColor="@color/android_blue"
+        android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/done_button"
+        style="@style/next_button"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Done"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/textView"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/ic_edit_black_48dp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/ic_alarm_black_48dp" />
+
+
+</RelativeLayout>

@@ -24,32 +24,32 @@ import android.preference.PreferenceManager;
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 
 import java.sql.SQLException;
 
 
-public class PatientDao extends GenericDao<Patient, Long> {
+public class UserDao extends GenericDao<User, Long> {
 
-    public static final String PREFERENCE_ACTIVE_PATIENT = "active_patient";
+    public static final String PREFERENCE_ACTIVE_USER = "active_user";
 
-    public static final String TAG = "PatientDao";
+    public static final String TAG = "UserDao";
 
-    public PatientDao(DatabaseHelper db) {
+    public UserDao(DatabaseHelper db) {
         super(db);
     }
 
     @Override
-    public Dao<Patient, Long> getConcreteDao() {
+    public Dao<User, Long> getConcreteDao() {
         try {
-            return dbHelper.getPatientDao();
+            return dbHelper.getUserDao();
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating patients dao", e);
+            throw new RuntimeException("Error creating users dao", e);
         }
     }
 
     @Override
-    public void saveAndFireEvent(Patient p) {
+    public void saveAndFireEvent(User p) {
 
         Object event =  p.id() == null ? new PersistenceEvents.UserCreateEvent(p) : new PersistenceEvents.UserUpdateEvent(p);
         save(p);
@@ -57,16 +57,16 @@ public class PatientDao extends GenericDao<Patient, Long> {
 
     }
 
-    /// Mange active patient through preferences
+    /// Mange active user through preferences
 
-    public boolean isActive(Patient p, Context ctx) {
-        Long activeId = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_PATIENT, -1);
+    public boolean isActive(User p, Context ctx) {
+        Long activeId = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
         return activeId.equals(p.id());
     }
 
-    public Patient getActive(Context ctx) {
-        long id = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_PATIENT, -1);
-        Patient p;
+    public User getActive(Context ctx) {
+        long id = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
+        User p;
         if (id != -1) {
             p = findById(id);
             if (p == null) {
@@ -79,43 +79,43 @@ public class PatientDao extends GenericDao<Patient, Long> {
         }
     }
 
-    public Patient getDefault() {
-        return findOneBy(Patient.COLUMN_DEFAULT, true);
+    public User getDefault() {
+        return findOneBy(User.COLUMN_DEFAULT, true);
     }
 
-    public void setActive(Patient patient, Context ctx) {
+    public void setActive(User user, Context ctx) {
         PreferenceManager.getDefaultSharedPreferences(ctx).edit()
-                .putLong(PREFERENCE_ACTIVE_PATIENT, patient.id())
+                .putLong(PREFERENCE_ACTIVE_USER, user.id())
                 .commit();
-        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(patient));
+        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(user));
     }
 
     public void setActiveById(Long id, Context ctx) {
-        Patient patient = findById(id);
+        User user = findById(id);
         PreferenceManager.getDefaultSharedPreferences(ctx).edit()
-                .putLong(PREFERENCE_ACTIVE_PATIENT, patient.id())
+                .putLong(PREFERENCE_ACTIVE_USER, user.id())
                 .commit();
-        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(patient));
+        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(user));
     }
 
-    public void removeCascade(Patient p) {
+    public void removeCascade(User p) {
         // remove all data
         removeAllStuff(p);
-        // remove patient
-        DB.patients().remove(p);
+        // remove user
+        DB.users().remove(p);
 
     }
 
-    public void removeAllStuff(Patient p) {
+    public void removeAllStuff(User p) {
 //        for(Medicine m : DB.medicines().findAll()){
-//            if(m.patient().id() == p.id()){
+//            if(m.user().id() == p.id()){
 //                // this also remove schedules
 //                DB.medicines().deleteCascade(m, true);
 //            }
 //        }
 //        // remove routines
 //        for(Routine r:  DB.routines().findAll()) {
-//            if (r.patient().id() == p.id()) {
+//            if (r.user().id() == p.id()) {
 //                DB.routines().remove(r);
 //            }
 //        }

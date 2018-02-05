@@ -21,7 +21,7 @@ package com.time.cat.database;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.database.typeSerializers.LocalTimePersister;
-import com.time.cat.mvp.model.Patient;
+import com.time.cat.mvp.model.User;
 
 import org.joda.time.LocalTime;
 
@@ -36,7 +36,7 @@ public class Routine {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TIME = "Time";
     public static final String COLUMN_NAME = "Name";
-    public static final String COLUMN_PATIENT = "Patient";
+    public static final String COLUMN_USER = "User";
 
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private Long id;
@@ -47,8 +47,8 @@ public class Routine {
     @DatabaseField(columnName = COLUMN_NAME)
     private String name;
 
-    @DatabaseField(columnName = COLUMN_PATIENT, foreign = true, foreignAutoRefresh = true)
-    private Patient patient;
+    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
+    private User user;
 
     public Routine() {
     }
@@ -58,8 +58,8 @@ public class Routine {
         this.name = name;
     }
 
-    public Routine(Patient p, LocalTime time, String name) {
-        this.patient = p;
+    public Routine(User p, LocalTime time, String name) {
+        this.user = p;
         this.time = time;
         this.name = name;
     }
@@ -96,12 +96,12 @@ public class Routine {
         this.time = time;
     }
 
-    public Patient patient() {
-        return patient;
+    public User user() {
+        return user;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     // *************************************
