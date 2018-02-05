@@ -1,8 +1,8 @@
 package com.time.cat.events;
 
-import com.time.cat.mvp.model.Routine;
-import com.time.cat.mvp.model.User;
-import com.time.cat.mvp.model.Schedule;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.mvp.model.Task;
 
 /**
  * @author dlink
@@ -11,8 +11,8 @@ import com.time.cat.mvp.model.Schedule;
  */
 public class PersistenceEvents {
 
-    public static ModelCreateOrUpdateEvent ROUTINE_EVENT = new ModelCreateOrUpdateEvent(Routine.class);
-    public static ModelCreateOrUpdateEvent SCHEDULE_EVENT = new ModelCreateOrUpdateEvent(Schedule.class);
+    public static ModelCreateOrUpdateEvent ROUTINE_EVENT = new ModelCreateOrUpdateEvent(DBRoutine.class);
+    public static ModelCreateOrUpdateEvent SCHEDULE_EVENT = new ModelCreateOrUpdateEvent(Task.class);
 
 
     public static class ModelCreateOrUpdateEvent {
@@ -33,22 +33,22 @@ public class PersistenceEvents {
     }
 
     public static class UserCreateEvent {
-        public User user;
-        public UserCreateEvent(User user) {
+        public DBUser user;
+        public UserCreateEvent(DBUser user) {
             this.user = user;
         }
     }
 
     public static class UserUpdateEvent {
-        public User user;
-        public UserUpdateEvent(User user) {
+        public DBUser user;
+        public UserUpdateEvent(DBUser user) {
             this.user = user;
         }
     }
 
     public static class ActiveUserChangeEvent {
-        public User user;
-        public ActiveUserChangeEvent(User user) {
+        public DBUser user;
+        public ActiveUserChangeEvent(DBUser user) {
             this.user = user;
         }
     }

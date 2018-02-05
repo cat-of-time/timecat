@@ -40,7 +40,7 @@ import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
 import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.CustomPagerView;
 import com.time.cat.util.ScreenUtils;
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        User u = DB.users().getActive(this);
+        DBUser u = DB.users().getActive(this);
         leftDrawer.onActivityResume(u);
         active = true;
         refreshTheme(this, u.color());
@@ -476,7 +476,7 @@ public class MainActivity extends BaseActivity implements
     private Handler handler;
     private Queue<Object> pendingEvents = new LinkedList<>();
     boolean active = false;
-    private User activeUser;
+    private DBUser activeUser;
 
     public void onEvent(final Object evt) {
         if (active) {
@@ -496,7 +496,7 @@ public class MainActivity extends BaseActivity implements
 //                        toolbarLayout.setContentScrimColor(activeUser.color());
                         fabMgr.onUserUpdate(activeUser);
                     } else if (evt instanceof PersistenceEvents.UserUpdateEvent) {
-                        User user = ((PersistenceEvents.UserUpdateEvent) evt).user;
+                        DBUser user = ((PersistenceEvents.UserUpdateEvent) evt).user;
                         leftDrawer.onUserUpdated(user);
                         fabMgr.onUserUpdate(user);
                         refreshTheme(MainActivity.this, user.color());
@@ -504,7 +504,7 @@ public class MainActivity extends BaseActivity implements
                             activeUser = user;
                         }
                     } else if (evt instanceof PersistenceEvents.UserCreateEvent) {
-                        User created = ((PersistenceEvents.UserCreateEvent) evt).user;
+                        DBUser created = ((PersistenceEvents.UserCreateEvent) evt).user;
                         leftDrawer.onUserCreated(created);
                     }
                 }

@@ -174,7 +174,7 @@ public class CropImageActivity extends BaseActivity implements CropImageView.OnS
         // handle result of pick image chooser
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_CANCELED) {
-                //User cancelled the picker. We don't have anything to crop
+                //DBUser cancelled the picker. We don't have anything to crop
                 setResultCancel();
             }
 

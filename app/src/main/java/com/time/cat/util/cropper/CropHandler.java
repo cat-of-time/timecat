@@ -5,7 +5,7 @@ import android.net.Uri;
 
 /**
  * Created with Android Studio.
- * User: ryan@xisue.com
+ * DBUser: ryan@xisue.com
  * Date: 10/1/14
  * Time: 11:00 AM
  * Desc: CropHandler

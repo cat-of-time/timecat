@@ -1,6 +1,6 @@
 package com.time.cat.NetworkSystem.api;
 
-import com.time.cat.mvp.model.entity.WordSegs;
+import com.time.cat.mvp.model.APImodel.WordSegs;
 
 import java.util.ArrayList;
 

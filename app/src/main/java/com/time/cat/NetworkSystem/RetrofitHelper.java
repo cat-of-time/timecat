@@ -154,8 +154,8 @@ public class RetrofitHelper {
         public Response intercept(Chain chain) throws IOException {
             Request originalRequest = chain.request();
             Request requestWithUserAgent = originalRequest.newBuilder()
-                    .removeHeader("User-Agent")
-                    .addHeader("User-Agent", COMMON_UA_STR)
+                    .removeHeader("DBUser-Agent")
+                    .addHeader("DBUser-Agent", COMMON_UA_STR)
                     .build();
             return chain.proceed(requestWithUserAgent);
         }

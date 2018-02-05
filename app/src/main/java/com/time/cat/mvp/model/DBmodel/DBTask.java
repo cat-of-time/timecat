@@ -16,16 +16,15 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.time.cat.database;
+package com.time.cat.mvp.model.DBmodel;
 
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.time.cat.database.DB;
 import com.time.cat.database.typeSerializers.BooleanArrayPersister;
 import com.time.cat.database.typeSerializers.LocalDatePersister;
 import com.time.cat.database.typeSerializers.LocalTimePersister;
-import com.time.cat.mvp.model.ScheduleItem;
-import com.time.cat.mvp.model.User;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -37,7 +36,7 @@ import java.util.List;
  * Created by joseangel.pineiro
  */
 @DatabaseTable(tableName = "Schedules")
-public class Schedule {
+public class DBTask {
 
     public static final int SCHEDULE_TYPE_EVERYDAY = 0; // DEFAULT
     public static final int SCHEDULE_TYPE_EVERYWEEK = 1;
@@ -74,11 +73,10 @@ public class Schedule {
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     public Long id;//ID唯一主键
 
-    @DatabaseField(columnName = COLUMN_USER, foreign = true, canBeNull = true, foreignAutoRefresh = true)
-    public User user;
+    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
+    public DBUser user;
 
     //必不为null
-    int user_id;//创建日程的用户的主账号id
     @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
     DateTime created_datetime;//创建时间
     @DatabaseField(columnName = COLUMN_TITLE)
@@ -171,10 +169,10 @@ public class Schedule {
         this.dose = dose;
     }
 
-    public User user() {
+    public DBUser user() {
         return user;
     }
-    public void setUser(User user) {
+    public void setUser(DBUser user) {
         this.user = user;
     }
 
@@ -214,15 +212,15 @@ public class Schedule {
     // DB queries
     // *************************************
 
-    public List<ScheduleItem> items() {
+    public List<DBTaskItem> items() {
         return DB.scheduleItems().findBySchedule(this);
     }
 
-    public static List<Schedule> findAll() {
+    public static List<DBTask> findAll() {
         return DB.schedules().findAll();
     }
 
-    public static Schedule findById(long id) {
+    public static DBTask findById(long id) {
         return DB.schedules().findById(id);
     }
 
@@ -247,7 +245,7 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return "Schedule{" + "id=" + id + ", start=" + start + ", dose=" + dose + ", type=" + type + '}';
+        return "Task{" + "id=" + id + ", start=" + start + ", dose=" + dose + ", type=" + type + '}';
     }
 
     public static final boolean[] noWeekDays() {

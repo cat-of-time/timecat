@@ -4,7 +4,7 @@ package com.time.cat.NetworkSystem.api;
  * Created by wangyan-pd on 2017/1/16.
  */
 
-import com.time.cat.mvp.model.entity.ImageUpload;
+import com.time.cat.mvp.model.APImodel.ImageUpload;
 
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -22,7 +22,7 @@ public interface PicUploadService {
             "Accept-Language:zh-CN,zh;q=0.8",
             "Connection:keep-alive",
             "Content-Type:text/plain",
-            "User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36",
+            "DBUser-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36",
             "X-Requested-With:XMLHttpRequest"
     })
     @POST("api/upload/auto?")

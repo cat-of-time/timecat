@@ -1,6 +1,6 @@
 package com.time.cat.NetworkSystem.api;
 
-import com.time.cat.mvp.model.entity.TranslationItem;
+import com.time.cat.mvp.model.APImodel.TranslationItem;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

@@ -16,7 +16,7 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.time.cat.mvp.model;
+package com.time.cat.mvp.model.DBmodel;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -26,40 +26,40 @@ import com.time.cat.database.DB;
  * Created by joseangel.pineiro on 7/9/14.
  */
 @DatabaseTable(tableName = "ScheduleItems")
-public class ScheduleItem {
+public class DBTaskItem {
 
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_SCHEDULE = "Schedule";
-    public static final String COLUMN_ROUTINE = "Routine";
+    public static final String COLUMN_TASK = "DBTask";
+    public static final String COLUMN_ROUTINE = "DBRoutine";
     public static final String COLUMN_DOSE = "Dose";
 
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private Long id;
 
-    @DatabaseField(columnName = COLUMN_SCHEDULE, foreign = true, foreignAutoRefresh = true)
-    private com.time.cat.database.Schedule schedule;
+    @DatabaseField(columnName = COLUMN_TASK, foreign = true, foreignAutoRefresh = true)
+    private DBTask DBTask;
 
     @DatabaseField(columnName = COLUMN_ROUTINE, foreign = true, foreignAutoRefresh = true)
-    private Routine routine;
+    private DBRoutine DBRoutine;
 
     @DatabaseField(columnName = COLUMN_DOSE)
     private float dose;
 
-    public ScheduleItem() {
+    public DBTaskItem() {
         super();
     }
 
-    public ScheduleItem(com.time.cat.database.Schedule schedule, Routine routine, float dose) {
+    public DBTaskItem(DBTask DBTask, DBRoutine DBRoutine, float dose) {
         this();
-        this.schedule = schedule;
-        this.routine = routine;
+        this.DBTask = DBTask;
+        this.DBRoutine = DBRoutine;
         this.dose = dose;
     }
 
-    public ScheduleItem(com.time.cat.database.Schedule schedule, Routine routine) {
+    public DBTaskItem(DBTask DBTask, DBRoutine DBRoutine) {
         this();
-        this.schedule = schedule;
-        this.routine = routine;
+        this.DBTask = DBTask;
+        this.DBRoutine = DBRoutine;
     }
 
     public Long getId() {
@@ -70,20 +70,20 @@ public class ScheduleItem {
         this.id = id;
     }
 
-    public Routine routine() {
-        return routine;
+    public DBRoutine routine() {
+        return DBRoutine;
     }
 
-    public void setRoutine(Routine routine) {
-        this.routine = routine;
+    public void setDBRoutine(DBRoutine DBRoutine) {
+        this.DBRoutine = DBRoutine;
     }
 
-    public com.time.cat.database.Schedule schedule() {
-        return schedule;
+    public DBTask schedule() {
+        return DBTask;
     }
 
-    public void setSchedule(com.time.cat.database.Schedule schedule) {
-        this.schedule = schedule;
+    public void setDBTask(DBTask DBTask) {
+        this.DBTask = DBTask;
     }
 
     public float dose() {

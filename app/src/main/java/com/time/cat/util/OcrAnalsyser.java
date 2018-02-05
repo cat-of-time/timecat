@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.mvp.model.entity.ImageUpload;
+import com.time.cat.mvp.model.APImodel.ImageUpload;
 import com.time.cat.NetworkSystem.UploadUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -222,22 +222,6 @@ public class OcrAnalsyser {
 
         void onFail(Throwable throwable);
     }
-
-//    public void analyse(byte[] img, CallBack callback) {
-//        if (callback == null)
-//            return;
-//        this.img = img;
-//        try {
-//            Observable.create(mOnSubscrube1)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(s -> callback.onSucess(s),
-//                            throwable -> callback.onFail(throwable));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
     public interface CallBack {
         void onSucess(OCR ocr);

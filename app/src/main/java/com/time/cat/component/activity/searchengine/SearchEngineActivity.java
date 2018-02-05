@@ -16,7 +16,7 @@ import com.time.cat.R;
 import com.time.cat.component.activity.searchengine.listener.OnItemClickListener;
 import com.time.cat.component.activity.searchengine.view.ListViewDecoration;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.mvp.model.entity.SearchEngine;
+import com.time.cat.mvp.model.APImodel.SearchEngine;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.SnackBarUtil;

@@ -79,7 +79,7 @@
             fab:fab_colorNormal="#32ffffff"
             fab:fab_colorPressed="#ffffff"
             fab:fab_icon="@drawable/ic_action_add"
-            fab:fab_title="routine schedule"/>
+            fab:fab_title="DBRoutine task"/>
 
         <com.getbase.floatingactionbutton.FloatingActionsMenu
             xmlns:fab="http://schemas.android.com/apk/res-auto"

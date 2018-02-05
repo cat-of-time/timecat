@@ -472,7 +472,7 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="addTask">添加任务</string>
     <string name="add_task_mode_help">添加任务 直接根据选词生成日程任务</string>
     <string name="open_timecat_for_task">快速添加任务功能开启Time Cat即可体验</string>
-    getDrawerawer-->
+    <!--getDrawerawer-->
     <string name="title_schedules">日程</string>
     <string name="title_routines">生物钟</string>
     <string name="title_plans">计划</string>
@@ -519,19 +519,19 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
         <item>@string/drawer_bottom_option</item>
 
     </string-array>
-    <!--routine-->
-    <string name="routines_list_empty_text">There are no routines yet.\n\nRoutines are times when you need to take meds, like breakfast or dinner. You can reuse it for creating schedules faster.</string>
+    DBRoutinetine-->
+    <string name="routines_list_empty_text">There are no routines yet.\n\nRoutines are times when you need to take care, like breakfast or dinner. You can reuse it for creating schedules faster.</string>
     <string name="medicines_list_empty_text">There are no meds yet.\n\nAdd your meds to the kit, and you will have easy access to leaflets and warnings.</string>
     <string name="schedules_list_empty_text">There are no schedules yet.\n\nAdd your schedules here and let we just notify you! </string>
-    <string name="remove_routine_message_long">The routine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
-    <string name="remove_routine_message_short">Remove %1$s routine?</string>
+    <string name="remove_routine_message_long">The DBRoutine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
+    <string name="remove_routine_message_short">Remove %1$s DBRoutine?</string>
     <string name="remove_medicine_message_short">Remove %1$s?</string>
-    <string name="remove_routine_dialog_title">Remove routine</string>
+    <string name="remove_routine_dialog_title">Remove DBRoutine</string>
     <string name="dialog_yes_option">Yes</string>
     <string name="dialog_no_option">No</string>
     <string name="reminder_cancelled_message">Reminder cancelled</string>
     <!--floating button-->
-    <string name="schedule_type_routines_title">Routine schedule</string>
+    <string name="schedule_type_routines_title">Routine task</string>
     <string name="schedule_type_hourly_title">Dosing interval</string>
     <string name="schedule_type_period_title">Period + rest</string>
     <string name="schedule_type_common_periods">Common cycles</string>
@@ -539,11 +539,11 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
 
 
     <string name="schedule_type_help_title">
-        You are about to create a schedule, choose the one that best suits your needs!
+        You are about to create a task, choose the one that best suits your needs!
     </string>
 
     <string name="schedule_type_routines_help">
-        This kind of schedule lets you bind intakes to your routines, such as: \"Every day at breakfast and dinner, excluding sundays\", or \"Every 3 days, with lunch.\"
+        This kind of task lets you bind intakes to your routines, such as: \"Every day at breakfast and dinner, excluding sundays\", or \"Every 3 days, with lunch.\"
     </string>
 
     <string name="schedule_type_hourly_help">
@@ -551,6 +551,6 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     </string>
 
     <string name="schedule_type_intervalrest_help">
-        Birth control pills and other meds are taken for a while, and then there\'s a rest. This kind of schedule allows you to specify both periods and simplify those intakes.
+        Birth control pills and other meds are taken for a while, and then there\'s a rest. This kind of task allows you to specify both periods and simplify those intakes.
     </string>
 </resources>

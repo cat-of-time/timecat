@@ -19,8 +19,9 @@
 package com.time.cat.database;
 
 import com.j256.ormlite.dao.Dao;
-import com.time.cat.mvp.model.Routine;
-import com.time.cat.mvp.model.ScheduleItem;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBTask;
+import com.time.cat.mvp.model.DBmodel.DBTaskItem;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by joseangel.pineiro on 3/26/15.
  */
-public class ScheduleItemDao extends GenericDao<ScheduleItem, Long> {
+public class ScheduleItemDao extends GenericDao<DBTaskItem, Long> {
 
 
     public ScheduleItemDao(DatabaseHelper db) {
@@ -37,7 +38,7 @@ public class ScheduleItemDao extends GenericDao<ScheduleItem, Long> {
     }
 
     @Override
-    public Dao<ScheduleItem, Long> getConcreteDao() {
+    public Dao<DBTaskItem, Long> getConcreteDao() {
         try {
             return dbHelper.getScheduleItemsDao();
         } catch (SQLException e) {
@@ -45,15 +46,15 @@ public class ScheduleItemDao extends GenericDao<ScheduleItem, Long> {
         }
     }
 
-    public List<ScheduleItem> findBySchedule(Schedule s) {
-        return findBy(ScheduleItem.COLUMN_SCHEDULE, s.getId());
+    public List<DBTaskItem> findBySchedule(DBTask s) {
+        return findBy(DBTaskItem.COLUMN_TASK, s.getId());
     }
 
-    public List<ScheduleItem> findByRoutine(Routine r) {
-        return findBy(ScheduleItem.COLUMN_ROUTINE, r.getId());
+    public List<DBTaskItem> findByRoutine(DBRoutine r) {
+        return findBy(DBTaskItem.COLUMN_ROUTINE, r.getId());
     }
 
-    public void deleteCascade(final ScheduleItem s) {
+    public void deleteCascade(final DBTaskItem s) {
         DB.transaction(new Callable<Object>() {
             @Override
             public Object call() throws Exception {

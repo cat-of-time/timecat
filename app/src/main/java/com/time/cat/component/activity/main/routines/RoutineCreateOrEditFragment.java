@@ -19,7 +19,7 @@ import com.doomonafireball.betterpickers.timepicker.TimePickerDialogFragment;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.database.DB;
-import com.time.cat.mvp.model.Routine;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.util.Snack;
 
 import org.joda.time.DateTime;
@@ -30,7 +30,7 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
                                                                 TimePickerDialogFragment.TimePickerDialogHandler {
 
     OnRoutineEditListener mRoutineEditCallback;
-    Routine mRoutine;
+    DBRoutine mDBRoutine;
 
     Button timeButton;
     TextView mNameTextView;
@@ -63,10 +63,10 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
         }
 
         if (routineId != -1) {
-            mRoutine = Routine.findById(routineId);
-            setRoutine(mRoutine);
-            hour = mRoutine.time().getHourOfDay();
-            minute = mRoutine.time().getMinuteOfHour();
+            mDBRoutine = DBRoutine.findById(routineId);
+            setRoutine(mDBRoutine);
+            hour = mDBRoutine.time().getHourOfDay();
+            minute = mDBRoutine.time().getMinuteOfHour();
         } else {
             DateTime now = DateTime.now();
             hour = now.getHourOfDay();
@@ -117,14 +117,14 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mRoutine != null)
-            outState.putLong(TimeCatApp.INTENT_EXTRA_ROUTINE_ID, mRoutine.getId());
+        if (mDBRoutine != null)
+            outState.putLong(TimeCatApp.INTENT_EXTRA_ROUTINE_ID, mDBRoutine.getId());
     }
 
-    private void setRoutine(Routine r) {
-        Log.d(getTag(), "Routine set: " + r.name());
-        mRoutine = r;
-        mNameTextView.setText(mRoutine.name());
+    private void setRoutine(DBRoutine r) {
+        Log.d(getTag(), "DBRoutine set: " + r.name());
+        mDBRoutine = r;
+        mNameTextView.setText(mDBRoutine.name());
         updateTime();
     }
 
@@ -141,23 +141,23 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
 
 
             // if editing
-            if (mRoutine != null) {
-                mRoutine.setName(name);
-                mRoutine.setTime(new LocalTime(hour, minute));
-                DB.routines().saveAndFireEvent(mRoutine);
-                //mRoutine.save();
+            if (mDBRoutine != null) {
+                mDBRoutine.setName(name);
+                mDBRoutine.setTime(new LocalTime(hour, minute));
+                DB.routines().saveAndFireEvent(mDBRoutine);
+                //mDBRoutine.save();
                 if (mRoutineEditCallback != null) {
-                    mRoutineEditCallback.onRoutineEdited(mRoutine);
+                    mRoutineEditCallback.onRoutineEdited(mDBRoutine);
                 }
             }
             // if creating
             else {
-                mRoutine = new Routine(new LocalTime(hour, minute), name);
-                mRoutine.setUser(DB.users().getActive(getActivity()));
-                Log.d(getTag(), "Routine created");
-                DB.routines().saveAndFireEvent(mRoutine);
+                mDBRoutine = new DBRoutine(new LocalTime(hour, minute), name);
+                mDBRoutine.setUser(DB.users().getActive(getActivity()));
+                Log.d(getTag(), "DBRoutine created");
+                DB.routines().saveAndFireEvent(mDBRoutine);
                 if (mRoutineEditCallback != null) {
-                    mRoutineEditCallback.onRoutineCreated(mRoutine);
+                    mRoutineEditCallback.onRoutineCreated(mDBRoutine);
                 }
             }
         } else {
@@ -166,7 +166,7 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
     }
 
 
-    public void showDeleteConfirmationDialog(final Routine r) {
+    public void showDeleteConfirmationDialog(final DBRoutine r) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         String message;
@@ -183,7 +183,7 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
                 .setPositiveButton(getString(R.string.dialog_yes_option), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (mRoutineEditCallback != null) {
-                            mRoutineEditCallback.onRoutineDeleted(mRoutine);
+                            mRoutineEditCallback.onRoutineDeleted(mDBRoutine);
                         }
                     }
                 })
@@ -228,11 +228,11 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
 
     // Container Activity must implement this interface
     public interface OnRoutineEditListener {
-        void onRoutineEdited(Routine r);
+        void onRoutineEdited(DBRoutine r);
 
-        void onRoutineCreated(Routine r);
+        void onRoutineCreated(DBRoutine r);
 
-        void onRoutineDeleted(Routine r);
+        void onRoutineDeleted(DBRoutine r);
     }
 
 }

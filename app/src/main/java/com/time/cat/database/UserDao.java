@@ -24,13 +24,13 @@ import android.preference.PreferenceManager;
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.Routine;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 
 import java.sql.SQLException;
 
 
-public class UserDao extends GenericDao<User, Long> {
+public class UserDao extends GenericDao<DBUser, Long> {
 
     public static final String PREFERENCE_ACTIVE_USER = "active_user";
 
@@ -41,7 +41,7 @@ public class UserDao extends GenericDao<User, Long> {
     }
 
     @Override
-    public Dao<User, Long> getConcreteDao() {
+    public Dao<DBUser, Long> getConcreteDao() {
         try {
             return dbHelper.getUserDao();
         } catch (SQLException e) {
@@ -50,7 +50,7 @@ public class UserDao extends GenericDao<User, Long> {
     }
 
     @Override
-    public void saveAndFireEvent(User u) {
+    public void saveAndFireEvent(DBUser u) {
 
         Object event =  u.id() == null ? new PersistenceEvents.UserCreateEvent(u) : new PersistenceEvents.UserUpdateEvent(u);
         save(u);
@@ -60,14 +60,14 @@ public class UserDao extends GenericDao<User, Long> {
 
     /// Mange active user through preferences
 
-    public boolean isActive(User u, Context ctx) {
+    public boolean isActive(DBUser u, Context ctx) {
         Long activeId = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
         return activeId.equals(u.id());
     }
 
-    public User getActive(Context ctx) {
+    public DBUser getActive(Context ctx) {
         long id = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
-        User p;
+        DBUser p;
         if (id != -1) {
             p = findById(id);
             if (p == null) {
@@ -80,11 +80,11 @@ public class UserDao extends GenericDao<User, Long> {
         }
     }
 
-    public User getDefault() {
-        return findOneBy(User.COLUMN_DEFAULT, true);
+    public DBUser getDefault() {
+        return findOneBy(DBUser.COLUMN_DEFAULT, true);
     }
 
-    public void setActive(User u, Context ctx) {
+    public void setActive(DBUser u, Context ctx) {
         PreferenceManager.getDefaultSharedPreferences(ctx).edit()
                 .putLong(PREFERENCE_ACTIVE_USER, u.id())
                 .commit();
@@ -92,14 +92,14 @@ public class UserDao extends GenericDao<User, Long> {
     }
 
     public void setActiveById(Long id, Context ctx) {
-        User user = findById(id);
+        DBUser user = findById(id);
         PreferenceManager.getDefaultSharedPreferences(ctx).edit()
                 .putLong(PREFERENCE_ACTIVE_USER, user.id())
                 .commit();
         TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(user));
     }
 
-    public void removeCascade(User u) {
+    public void removeCascade(DBUser u) {
         // remove all data
         removeAllStuff(u);
         // remove user
@@ -107,7 +107,7 @@ public class UserDao extends GenericDao<User, Long> {
 
     }
 
-    public void removeAllStuff(User u) {
+    public void removeAllStuff(DBUser u) {
 //        for(Medicine m : DB.medicines().findAll()){
 //            if(m.user().id() == u.id()){
 //                // this also remove schedules
@@ -115,7 +115,7 @@ public class UserDao extends GenericDao<User, Long> {
 //            }
 //        }
         // remove routines
-        for(Routine r:  DB.routines().findAll()) {
+        for(DBRoutine r:  DB.routines().findAll()) {
             if (r.user().id() == u.id()) {
                 DB.routines().remove(r);
             }

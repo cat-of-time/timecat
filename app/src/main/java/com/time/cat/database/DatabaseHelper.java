@@ -27,9 +27,10 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.time.cat.mvp.model.Routine;
-import com.time.cat.mvp.model.ScheduleItem;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBTask;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBTaskItem;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 
 import java.sql.SQLException;
 
@@ -44,17 +45,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     // List of persisted classes to simplify table creation
     public Class<?>[] persistedClasses = new Class<?>[]{
-            Routine.class,
+            DBRoutine.class,
 //            Medicine.class,
-            Schedule.class,
-            ScheduleItem.class,
+            DBTask.class,
+            DBTaskItem.class,
 //            DailyScheduleItem.class,
 //            Prescription.class,
             // v8
 //            HomogeneousGroup.class,
 //            PickupInfo.class,
             // v9
-            User.class,
+            DBUser.class,
             // v10
 //            HtmlCacheEntry.class
     };
@@ -67,11 +68,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // the DAO object we use to access the Medicines table
 //    private Dao<Medicine, Long> medicinesDao = null;
     // the DAO object we use to access the Routines table
-    private Dao<Routine, Long> routinesDao = null;
+    private Dao<DBRoutine, Long> routinesDao = null;
     // the DAO object we use to access the Schedules table
-    private Dao<Schedule, Long> schedulesDao = null;
+    private Dao<DBTask, Long> schedulesDao = null;
     // the DAO object we use to access the ScheduleItems table
-    private Dao<ScheduleItem, Long> scheduleItemsDao = null;
+    private Dao<DBTaskItem, Long> scheduleItemsDao = null;
     // the DAO object we use to access the DailyScheduleItems table
 //    private Dao<DailyScheduleItem, Long> dailyScheduleItemsDao = null;
     // the DAO object we use to access the DailyScheduleItems table
@@ -81,7 +82,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // the DAO object we use to access the pcikupInfo table
 //    private Dao<PickupInfo, Long> pickupInfoDao = null;
     // the DAO object we use to access the users table
-    private Dao<User, Long> userDao = null;
+    private Dao<DBUser, Long> userDao = null;
 
 
     public DatabaseHelper(Context context) {
@@ -110,10 +111,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private User createDefaultUser() throws SQLException {
+    private DBUser createDefaultUser() throws SQLException {
         // Create a default user
-        User user = new User();
+        DBUser user = new DBUser();
         user.setName("TestUser");
+        user.setEmail("testuser@example.com");
         user.setDefault(true);
         getUserDao().create(user);
         return user;
@@ -147,8 +149,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //                        @Override
 //                        public Void call() throws Exception {
 //                            // iterate over schedules and set Scanned to false
-//                            List<Schedule> schedules = getSchedulesDao().queryForAll();
-//                            for (Schedule s : schedules) {
+//                            List<Task> schedules = getSchedulesDao().queryForAll();
+//                            for (Task s : schedules) {
 //                                s.setScanned(false);
 //                                s.save();
 //                            }
@@ -159,7 +161,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //                    TableUtils.createTable(connectionSource, HomogeneousGroup.class);
 //                    TableUtils.createTable(connectionSource, PickupInfo.class);
                 case 9:
-                    TableUtils.createTable(connectionSource, User.class);
+                    TableUtils.createTable(connectionSource, DBUser.class);
 //                    migrateToMultiUser();
 //                case 10:
 //                    TableUtils.createTable(connectionSource, HtmlCacheEntry.class);
@@ -189,24 +191,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //    private void migrateToMultiUser() throws SQLException {
 //
 //        // add user column to routines, schedules and medicines
-//        getRoutinesDao().executeRaw("ALTER TABLE Routines ADD COLUMN User INTEGER;");
-//        getRoutinesDao().executeRaw("ALTER TABLE Medicines ADD COLUMN User INTEGER;");
-//        getRoutinesDao().executeRaw("ALTER TABLE Schedules ADD COLUMN User INTEGER;");
-//        getRoutinesDao().executeRaw("ALTER TABLE DailyScheduleItems ADD COLUMN User INTEGER;");
+//        getRoutinesDao().executeRaw("ALTER TABLE Routines ADD COLUMN DBUser INTEGER;");
+//        getRoutinesDao().executeRaw("ALTER TABLE Medicines ADD COLUMN DBUser INTEGER;");
+//        getRoutinesDao().executeRaw("ALTER TABLE Schedules ADD COLUMN DBUser INTEGER;");
+//        getRoutinesDao().executeRaw("ALTER TABLE DailyScheduleItems ADD COLUMN DBUser INTEGER;");
 //        getRoutinesDao().executeRaw("ALTER TABLE DailyScheduleItems ADD COLUMN Date TEXT;");
 //
-//        User p = createDefaultUser();
+//        DBUser p = createDefaultUser();
 //        // SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences();
 //        // prefs.edit().putLong(UserDao.PREFERENCE_ACTIVE_USER, p.id()).commit();
 //
 //        // Assign all routines to the default user
-//        UpdateBuilder<Routine, Long> rUpdateBuilder = getRoutinesDao().updateBuilder();
-//        rUpdateBuilder.updateColumnValue(Routine.COLUMN_USER, p.id());
+//        UpdateBuilder<DBRoutine, Long> rUpdateBuilder = getRoutinesDao().updateBuilder();
+//        rUpdateBuilder.updateColumnValue(DBRoutine.COLUMN_USER, p.id());
 //        rUpdateBuilder.update();
 //
 //        // Assign all schedules to the default user
-//        UpdateBuilder<Schedule, Long> sUpdateBuilder = getSchedulesDao().updateBuilder();
-//        sUpdateBuilder.updateColumnValue(Schedule.COLUMN_USER, p.id());
+//        UpdateBuilder<Task, Long> sUpdateBuilder = getSchedulesDao().updateBuilder();
+//        sUpdateBuilder.updateColumnValue(Task.COLUMN_USER, p.id());
 //        sUpdateBuilder.update();
 //
 //        // Assign all medicines to the default user
@@ -239,7 +241,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //        getSchedulesDao().executeRaw("ALTER TABLE Schedules ADD COLUMN Cycle TEXT;");
 //
 //        getDailyScheduleItemsDao().executeRaw(
-//                "ALTER TABLE DailyScheduleItems ADD COLUMN Schedule INTEGER;");
+//                "ALTER TABLE DailyScheduleItems ADD COLUMN Task INTEGER;");
 //        getDailyScheduleItemsDao().executeRaw(
 //                "ALTER TABLE DailyScheduleItems ADD COLUMN Time TEXT;");
 //
@@ -248,18 +250,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //            @Override
 //            public Void call() throws Exception {
 //                // iterate over schedules and replace days[] with rrule
-//                List<Schedule> schedules = getSchedulesDao().queryForAll();
+//                List<Task> schedules = getSchedulesDao().queryForAll();
 //                Log.d(TAG, "Upgrade " + schedules.size() + " schedules");
-//                for (Schedule s : schedules) {
+//                for (Task s : schedules) {
 //                    if (s.rule() == null) {
 //                        s.setRepetition(new RepetitionRule(RepetitionRule.DEFAULT_ICAL_VALUE));
 //                    }
 //                    s.setDays(s.getLegacyDays());
 //
 //                    if (s.allDaysSelected()) {
-//                        s.setType(Schedule.SCHEDULE_TYPE_EVERYDAY);
+//                        s.setType(Task.SCHEDULE_TYPE_EVERYDAY);
 //                    } else {
-//                        s.setType(Schedule.SCHEDULE_TYPE_SOMEDAYS);
+//                        s.setType(Task.SCHEDULE_TYPE_SOMEDAYS);
 //                    }
 //                    s.setStart(LocalDate.now());
 //                    s.save();
@@ -287,9 +289,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * Returns the Database Access Object (DAO) for our Routines class. It will create it or just give the cached
      * value.
      */
-    public Dao<Routine, Long> getRoutinesDao() throws SQLException {
+    public Dao<DBRoutine, Long> getRoutinesDao() throws SQLException {
         if (routinesDao == null) {
-            routinesDao = getDao(Routine.class);
+            routinesDao = getDao(DBRoutine.class);
         }
         return routinesDao;
     }
@@ -298,20 +300,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * Returns the Database Access Object (DAO) for our Schedules class. It will create it or just give the cached
      * value.
      */
-    public Dao<Schedule, Long> getSchedulesDao() throws SQLException {
+    public Dao<DBTask, Long> getSchedulesDao() throws SQLException {
         if (schedulesDao == null) {
-            schedulesDao = getDao(Schedule.class);
+            schedulesDao = getDao(DBTask.class);
         }
         return schedulesDao;
     }
 
     /**
-     * Returns the Database Access Object (DAO) for our ScheduleItem class. It will create it or just give the cached
+     * Returns the Database Access Object (DAO) for our DBTaskItem class. It will create it or just give the cached
      * value.
      */
-    public Dao<ScheduleItem, Long> getScheduleItemsDao() throws SQLException {
+    public Dao<DBTaskItem, Long> getScheduleItemsDao() throws SQLException {
         if (scheduleItemsDao == null) {
-            scheduleItemsDao = getDao(ScheduleItem.class);
+            scheduleItemsDao = getDao(DBTaskItem.class);
         }
         return scheduleItemsDao;
     }
@@ -362,12 +364,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //    }
 
     /**
-     * Returns the Database Access Object (DAO) for our User class. It will create it or just give the cached
+     * Returns the Database Access Object (DAO) for our DBUser class. It will create it or just give the cached
      * value.
      */
-    public Dao<User, Long> getUserDao() throws SQLException {
+    public Dao<DBUser, Long> getUserDao() throws SQLException {
         if (userDao == null) {
-            userDao = getDao(User.class);
+            userDao = getDao(DBUser.class);
         }
         return userDao;
     }

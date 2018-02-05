@@ -16,17 +16,13 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.time.cat.mvp.model;
+package com.time.cat.mvp.model.DBmodel;
 
 import android.graphics.Color;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.time.cat.database.Schedule;
 import com.time.cat.util.AvatarMgr;
-
-import java.util.Collection;
 
 
 /**
@@ -35,14 +31,15 @@ import java.util.Collection;
  * @discription 用户类
  */
 @DatabaseTable(tableName = "Users")
-public class User {
+public class DBUser {
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_DEFAULT = "Default";
     public static final String COLUMN_AVATAR = "Avatar";
     public static final String COLUMN_COLOR = "Color";
-
+    public static final String COLUMN_EMAIL = "Email";
+//TODO setting={}
 
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private Long id;
@@ -57,10 +54,13 @@ public class User {
     private String avatar = AvatarMgr.DEFAULT_AVATAR;
 
     @DatabaseField(columnName = COLUMN_COLOR)
-    private int color = Color.parseColor("#3498db"); // material blue 700 1976d2
+    private int color = Color.parseColor("#3498db");
+    // color是16进制数的int型表示，使用时可直接作color资源
 
-    @ForeignCollectionField
-    private Collection<Schedule> schedules;
+    @DatabaseField(columnName = COLUMN_EMAIL, canBeNull = false)
+    private String email;
+//    @ForeignCollectionField
+//    private Collection<DBTask> DBTasks;
 
     public Long id() {
         return id;
@@ -97,8 +97,16 @@ public class User {
         this.color = color;
     }
 
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name='" + name + '\'' + ", isDefault=" + isDefault + ", avatar='" + avatar + '\'' + ", color=" + color + '}';
+        return String.format("DBUser{id=%s, name=%s, email=%s, isDefault=%s, avatar=%s, color=%s}",
+                String.valueOf(id), name, email, String.valueOf(isDefault), avatar, String.valueOf(color));
     }
 }

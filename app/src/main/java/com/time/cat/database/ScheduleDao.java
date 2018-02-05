@@ -23,8 +23,9 @@ import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.ScheduleItem;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBTask;
+import com.time.cat.mvp.model.DBmodel.DBTaskItem;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -33,24 +34,24 @@ import java.util.concurrent.Callable;
 /**
  * Created by joseangel.pineiro on 3/26/15.
  */
-public class ScheduleDao extends GenericDao<Schedule, Long> {
+public class ScheduleDao extends GenericDao<DBTask, Long> {
 
     public ScheduleDao(DatabaseHelper db) {
         super(db);
     }
 
-    public List<Schedule> findAllForActiveUser(Context ctx) {
+    public List<DBTask> findAllForActiveUser(Context ctx) {
         return findAll(DB.users().getActive(ctx));
     }
 
-    public List<Schedule> findAll(User p) {
+    public List<DBTask> findAll(DBUser p) {
         return findAll(p.id());
     }
 
 
-    public List<Schedule> findAll(Long userId) {
+    public List<DBTask> findAll(Long userId) {
         try {
-            return dao.queryBuilder().where().eq(Schedule.COLUMN_USER, userId).query();
+            return dao.queryBuilder().where().eq(DBTask.COLUMN_USER, userId).query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
@@ -58,7 +59,7 @@ public class ScheduleDao extends GenericDao<Schedule, Long> {
 
 
     @Override
-    public Dao<Schedule, Long> getConcreteDao() {
+    public Dao<DBTask, Long> getConcreteDao() {
         try {
             return dbHelper.getSchedulesDao();
         } catch (SQLException e) {
@@ -72,11 +73,11 @@ public class ScheduleDao extends GenericDao<Schedule, Long> {
         TimeCatApp.eventBus().post(PersistenceEvents.SCHEDULE_EVENT);
     }
 
-    public void deleteCascade(final Schedule s, boolean fireEvent) {
+    public void deleteCascade(final DBTask s, boolean fireEvent) {
         DB.transaction(new Callable<Object>() {
             @Override
             public Object call() throws Exception {
-                for (ScheduleItem i : s.items()) {
+                for (DBTaskItem i : s.items()) {
                     DB.scheduleItems().deleteCascade(i);
                 }
                 DB.schedules().remove(s);
@@ -89,8 +90,8 @@ public class ScheduleDao extends GenericDao<Schedule, Long> {
         }
     }
 
-    public List<Schedule> findHourly() {
-        return findBy(Schedule.COLUMN_TYPE, Schedule.SCHEDULE_TYPE_EVERYHOUR);
+    public List<DBTask> findHourly() {
+        return findBy(DBTask.COLUMN_TYPE, DBTask.SCHEDULE_TYPE_EVERYHOUR);
     }
 
 }

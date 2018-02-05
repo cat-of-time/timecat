@@ -23,7 +23,7 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.main.schedules.AlarmScheduler;
 import com.time.cat.database.DB;
-import com.time.cat.mvp.model.Routine;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.events.PersistenceEvents;
 
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.List;
 public class RoutinesListFragment extends Fragment {
 
 
-    List<Routine> mRoutines;
+    List<DBRoutine> mDBRoutines;
     OnRoutineSelectedListener mRoutineSelectedCallback;
     ArrayAdapter adapter;
     ListView listview;
@@ -47,11 +47,11 @@ public class RoutinesListFragment extends Fragment {
         View empty = rootView.findViewById(android.R.id.empty);
         listview.setEmptyView(empty);
 
-        mRoutines = DB.routines().findAllForActiveUser(getContext());
+        mDBRoutines = DB.routines().findAllForActiveUser(getContext());
 
         ic = new IconicsDrawable(getContext()).icon(CommunityMaterial.Icon.cmd_clock).colorRes(R.color.agenda_item_title).paddingDp(8).sizeDp(40);
 
-        adapter = new RoutinesListAdapter(getActivity(), R.layout.routines_list_item, mRoutines);
+        adapter = new RoutinesListAdapter(getActivity(), R.layout.routines_list_item, mDBRoutines);
         listview.setAdapter(adapter);
 
         return rootView;
@@ -68,10 +68,10 @@ public class RoutinesListFragment extends Fragment {
         }
     }
 
-    private View createRoutineListItem(LayoutInflater inflater, final Routine routine) {
+    private View createRoutineListItem(LayoutInflater inflater, final DBRoutine DBRoutine) {
 
-        int hour = routine.time().getHourOfDay();
-        int minute = routine.time().getMinuteOfHour();
+        int hour = DBRoutine.time().getHourOfDay();
+        int minute = DBRoutine.time().getMinuteOfHour();
 
         String strHour = String.valueOf(hour >= 10 ? hour : "0" + hour);
         String strMinute = ":" + String.valueOf(minute >= 10 ? minute : "0" + minute);
@@ -80,19 +80,19 @@ public class RoutinesListFragment extends Fragment {
 
         ((TextView) item.findViewById(R.id.routines_list_item_hour)).setText(strHour);
         ((TextView) item.findViewById(R.id.routines_list_item_minute)).setText(strMinute);
-        ((TextView) item.findViewById(R.id.routines_list_item_name)).setText(routine.name());
+        ((TextView) item.findViewById(R.id.routines_list_item_name)).setText(DBRoutine.name());
         ((ImageButton) item.findViewById(R.id.imageButton2)).setImageDrawable(ic);
 
-        int items = routine.scheduleItems().size();
+        int items = DBRoutine.scheduleItems().size();
 
         ((TextView) item.findViewById(R.id.routines_list_item_subtitle)).setText((items > 0 ? ("" + items) : "Sin ") + " pautas asociadas");
         View overlay = item.findViewById(R.id.routine_list_item_container);
-        overlay.setTag(routine);
+        overlay.setTag(DBRoutine);
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Routine r = (Routine) view.getTag();
+                DBRoutine r = (DBRoutine) view.getTag();
                 if (mRoutineSelectedCallback != null && r != null) {
                     Log.d(getTag(), "Click at " + r.name());
                     mRoutineSelectedCallback.onRoutineSelected(r);
@@ -107,14 +107,14 @@ public class RoutinesListFragment extends Fragment {
         overlay.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (view.getTag() != null) showDeleteConfirmationDialog((Routine) view.getTag());
+                if (view.getTag() != null) showDeleteConfirmationDialog((DBRoutine) view.getTag());
                 return true;
             }
         });
         return item;
     }
 
-    void showDeleteConfirmationDialog(final Routine r) {
+    void showDeleteConfirmationDialog(final DBRoutine r) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         String message;
@@ -151,21 +151,21 @@ public class RoutinesListFragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnRoutineSelectedListener {
-        void onRoutineSelected(Routine r);
+        void onRoutineSelected(DBRoutine r);
 
         void onCreateRoutine();
     }
 
-    private class RoutinesListAdapter extends ArrayAdapter<Routine> {
+    private class RoutinesListAdapter extends ArrayAdapter<DBRoutine> {
 
-        public RoutinesListAdapter(Context context, int layoutResourceId, List<Routine> items) {
+        public RoutinesListAdapter(Context context, int layoutResourceId, List<DBRoutine> items) {
             super(context, layoutResourceId, items);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-            return createRoutineListItem(layoutInflater, mRoutines.get(position));
+            return createRoutineListItem(layoutInflater, mDBRoutines.get(position));
         }
 
     }
@@ -174,7 +174,7 @@ public class RoutinesListFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            mRoutines = DB.routines().findAllForActiveUser(getContext());
+            mDBRoutines = DB.routines().findAllForActiveUser(getContext());
 
             return null;
         }
@@ -183,7 +183,7 @@ public class RoutinesListFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             adapter.clear();
-            for (Routine r : mRoutines) {
+            for (DBRoutine r : mDBRoutines) {
                 adapter.add(r);
             }
             adapter.notifyDataSetChanged();

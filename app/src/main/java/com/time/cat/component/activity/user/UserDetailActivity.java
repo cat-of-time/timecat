@@ -42,7 +42,7 @@ import com.time.cat.R;
 import com.time.cat.ThemeSystem.manager.ThemeManager;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.test.DefaultDataGenerator;
 import com.time.cat.util.AvatarMgr;
@@ -79,7 +79,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     GridView avatarGrid;
     BaseAdapter adapter;
-    User user;
+    DBUser user;
 
     ImageView userAvatar;
     View userAvatarBg;
@@ -180,7 +180,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
 
         } else {
             linkButton.setVisibility(View.GONE);
-            user = new User();
+            user = new DBUser();
         }
     }
 

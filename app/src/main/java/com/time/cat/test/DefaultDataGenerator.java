@@ -23,9 +23,9 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.time.cat.database.DB;
-import com.time.cat.mvp.model.Routine;
-import com.time.cat.database.Schedule;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBTask;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 
 import org.joda.time.LocalTime;
 
@@ -38,13 +38,13 @@ public class DefaultDataGenerator {
 
     public static void fillDBWithDummyData(Context ctx) {
         Resources r = ctx.getResources();
-        if (Routine.findAll().size() == 0 && Schedule.findAll().size() == 0) {
+        if (DBRoutine.findAll().size() == 0 && DBTask.findAll().size() == 0) {
             try {
                 Log.d("DefaultDataGenerator", "Creating dummy data...");
-                User u = DB.users().getActive(ctx);
-                new Routine(u, new LocalTime(9, 0), "breakfast").save();
-                new Routine(u, new LocalTime(13, 0), "lunch").save();
-                new Routine(u, new LocalTime(21, 0), "dinner").save();
+                DBUser u = DB.users().getActive(ctx);
+                new DBRoutine(u, new LocalTime(9, 0), "breakfast").save();
+                new DBRoutine(u, new LocalTime(13, 0), "lunch").save();
+                new DBRoutine(u, new LocalTime(21, 0), "dinner").save();
                 Log.d("DefaultDataGenerator", "Dummy data saved successfully!");
             } catch (Exception e) {
                 Log.e("DefaultDataGenerator", "Error filling db with dummy data!", e);
@@ -52,11 +52,11 @@ public class DefaultDataGenerator {
         }
     }
 
-    public static void generateDefaultRoutines(User p, Context ctx){
+    public static void generateDefaultRoutines(DBUser p, Context ctx){
         Resources r = ctx.getResources();
-        new Routine(p, new LocalTime(9, 0), "breakfast").save();
-        new Routine(p, new LocalTime(13, 0), "lunch").save();
-        new Routine(p, new LocalTime(21, 0), "dinner").save();
+        new DBRoutine(p, new LocalTime(9, 0), "breakfast").save();
+        new DBRoutine(p, new LocalTime(13, 0), "lunch").save();
+        new DBRoutine(p, new LocalTime(21, 0), "dinner").save();
     }
 
 }

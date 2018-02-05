@@ -34,7 +34,7 @@ import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseFragment;
-import com.time.cat.mvp.model.Schedule;
+import com.time.cat.mvp.model.Task;
 import com.time.cat.mvp.presenter.FragmentPresenter;
 import com.time.cat.mvp.view.Label_n_Tag.SegmentedRadioGroup;
 import com.time.cat.mvp.view.Label_n_Tag.TagCloudView;
@@ -65,7 +65,7 @@ public class SchedulesFragment extends BaseFragment implements
                                                     OnSelectDateListener,
                                                     View.OnClickListener,
                                                     OnViewClickListener,
-                                                    AsyncExpandableListViewCallbacks<Schedule, Schedule> {
+                                                    AsyncExpandableListViewCallbacks<Task, Task> {
     @SuppressWarnings("unused")
     private static final String TAG = "SchedulesFragment";
 
@@ -99,8 +99,8 @@ public class SchedulesFragment extends BaseFragment implements
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
     private ArrayList<TextView> textViewList;
-    private AsyncExpandableListView<Schedule, Schedule> mAsyncExpandableListView;
-    private CollectionView.Inventory<Schedule, Schedule> inventory;
+    private AsyncExpandableListView<Task, Task> mAsyncExpandableListView;
+    private CollectionView.Inventory<Task, Task> inventory;
 
     @Nullable
     @Override
@@ -269,17 +269,17 @@ public class SchedulesFragment extends BaseFragment implements
         inventory = new CollectionView.Inventory<>();
 
         for (int i = 0; i < 5; i++) {
-            CollectionView.InventoryGroup<Schedule, Schedule> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
+            CollectionView.InventoryGroup<Task, Task> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
             String[] titles = getResources().getStringArray(R.array.titles);
-            Schedule schedule = new Schedule();
-            schedule.setLabel(i % 4);
-            schedule.setTitle(titles[i]);
-            schedule.setIsFinish(i % 3 == 0);
-            schedule.setCreateTime(new Date(2018 - 1900, 0, i));//month = 0 是 1 月
-            schedule.setAllDay(i % 3 == 0);
+            Task task = new Task();
+            task.setLabel(i % 4);
+            task.setTitle(titles[i]);
+            task.setIsFinish(i % 3 == 0);
+            task.setCreateTime(new Date(2018 - 1900, 0, i));//month = 0 是 1 月
+            task.setAllDay(i % 3 == 0);
 
 
-            group_i.setHeaderItem(schedule);
+            group_i.setHeaderItem(task);
         }
 
         mAsyncExpandableListView.updateInventory(inventory);
@@ -342,7 +342,7 @@ public class SchedulesFragment extends BaseFragment implements
     private boolean onBindCollectionHeaderView;
     @Override
     public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder,
-                                         int groupOrdinal, Schedule headerItem) {
+                                         int groupOrdinal, Task headerItem) {
         onBindCollectionHeaderView = true;
         ScheduleHeaderViewHolder scheduleHeaderViewHolder = (ScheduleHeaderViewHolder) holder;
         scheduleHeaderViewHolder.getCalendarItemCheckBox()
@@ -370,7 +370,7 @@ public class SchedulesFragment extends BaseFragment implements
 
     @Override
     public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder,
-                                       int groupOrdinal, Schedule item) {
+                                       int groupOrdinal, Task item) {
         ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
         scheduleItemHolder.getTextViewTitle().setText(item.getTitle());
         scheduleItemHolder.getTextViewContent().setText(item.getContent());
@@ -464,9 +464,9 @@ public class SchedulesFragment extends BaseFragment implements
     private static class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         private final int mGroupOrdinal;
-        private WeakReference<AsyncExpandableListView<Schedule, Schedule>> listviewRef = null;
+        private WeakReference<AsyncExpandableListView<Task, Task>> listviewRef = null;
 
-        public LoadDataTask(int groupOrdinal, AsyncExpandableListView<Schedule, Schedule> listview) {
+        public LoadDataTask(int groupOrdinal, AsyncExpandableListView<Task, Task> listview) {
             mGroupOrdinal = groupOrdinal;
             listviewRef = new WeakReference<>(listview);
         }
@@ -484,23 +484,23 @@ public class SchedulesFragment extends BaseFragment implements
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            List<Schedule> items = new ArrayList<>();
-            Schedule schedule = new Schedule();
-            schedule.setTitle("Lawyers meet voluntary pro bono target for first time since 2013");
-            schedule.setContent("A voluntary target for the amount of pro bono work done by Australian lawyers has been met for the first time since 2013. Key points: The Australian Pro Bono Centre's asks lawyers to do 35 hours of free community work a year; Pro bono services can help ...\n");
-            schedule.setLabel(Schedule.LABEL_IMPORTANT_NOT_URGENT);
+            List<Task> items = new ArrayList<>();
+            Task task = new Task();
+            task.setTitle("Lawyers meet voluntary pro bono target for first time since 2013");
+            task.setContent("A voluntary target for the amount of pro bono work done by Australian lawyers has been met for the first time since 2013. Key points: The Australian Pro Bono Centre's asks lawyers to do 35 hours of free community work a year; Pro bono services can help ...\n");
+            task.setLabel(Task.LABEL_IMPORTANT_NOT_URGENT);
             List<String> tags = new ArrayList<>();
             for (int i = 0; i < 4; i++) {
                 tags.add("标签" + i);
             }
-            schedule.setTags(tags);
+            task.setTags(tags);
 
-            items.add(schedule);
+            items.add(task);
 //子任务
-//            schedule = new Schedule();
-//            schedule.setTitle("子任务标题");
-//            schedule.setContent("子任务内容");
-//            items.add(schedule);
+//            task = new Task();
+//            task.setTitle("子任务标题");
+//            task.setContent("子任务内容");
+//            items.add(task);
 
             if (listviewRef.get() != null) {
                 listviewRef.get().onFinishLoadingGroup(mGroupOrdinal, items);

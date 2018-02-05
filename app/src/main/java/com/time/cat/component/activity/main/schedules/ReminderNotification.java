@@ -38,10 +38,10 @@ import android.support.v4.util.Pair;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.AboutActivity;
-import com.time.cat.mvp.model.Routine;
-import com.time.cat.database.Schedule;
-import com.time.cat.mvp.model.ScheduleItem;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBTask;
+import com.time.cat.mvp.model.DBmodel.DBTaskItem;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.util.AvatarMgr;
 
 import org.joda.time.LocalDate;
@@ -91,7 +91,7 @@ public class ReminderNotification {
         return ("schedule_notification_" + schedule).hashCode();
     }
 
-    public static void notify(final Context context, final String title, Routine r, List<ScheduleItem> doses, LocalDate date, Intent intent, boolean lost) {
+    public static void notify(final Context context, final String title, DBRoutine r, List<DBTaskItem> doses, LocalDate date, Intent intent, boolean lost) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean notifications = prefs.getBoolean("alarm_notifications", true);
 
@@ -118,7 +118,7 @@ public class ReminderNotification {
     }
 
 
-    public static void notify(final Context context, final String title, Schedule schedule, LocalDate date, LocalTime time, Intent intent, boolean lost) {
+    public static void notify(final Context context, final String title, DBTask DBTask, LocalDate date, LocalTime time, Intent intent, boolean lost) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean notifications = prefs.getBoolean("alarm_notifications", true);
 
@@ -128,8 +128,8 @@ public class ReminderNotification {
 
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
         style.setBigContentTitle(title);
-        styleForSchedule(context, style, schedule, lost);
-        Pair<Intent, Intent> intents = lost ? null : getIntentsForSchedule(context, schedule, date, time);
+        styleForSchedule(context, style, DBTask, lost);
+        Pair<Intent, Intent> intents = lost ? null : getIntentsForSchedule(context, DBTask, date, time);
 
         NotificationOptions options = new NotificationOptions();
         options.style = style;
@@ -137,9 +137,9 @@ public class ReminderNotification {
         options.when = time.toDateTimeToday().getMillis();
         options.tag = NOTIFICATION_SCHEDULE_TAG;
         options.notificationNumber = 1;
-        options.picture = getLargeIcon(context.getResources(), schedule.user());
+        options.picture = getLargeIcon(context.getResources(), DBTask.user());
         options.text = "options.text";
-        notify(context, scheduleNotificationId(schedule.getId().intValue()), title, intents, intent, options);
+        notify(context, scheduleNotificationId(DBTask.getId().intValue()), title, intents, intent, options);
     }
 
     private static void notify(final Context context, int id, final String title, Pair<Intent, Intent> actionIntents, Intent intent, NotificationOptions options) {
@@ -231,11 +231,11 @@ public class ReminderNotification {
         return n;
     }
 
-    private static void styleForRoutine(Context ctx, NotificationCompat.InboxStyle style, Routine r, List<ScheduleItem> doses, boolean lost) {
+    private static void styleForRoutine(Context ctx, NotificationCompat.InboxStyle style, DBRoutine r, List<DBTaskItem> doses, boolean lost) {
 
 //        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //
-//        for (ScheduleItem scheduleItem : doses) {
+//        for (DBTaskItem scheduleItem : doses) {
 //            //TODO: Use DecimalFormat
 //            // DecimalFormat timeFormatter = new DecimalFormat("#");
 //            //String dfDose = timeFormatter.format(scheduleItem.dose());
@@ -258,13 +258,13 @@ public class ReminderNotification {
 
     }
 
-    private static void styleForSchedule(Context context, NotificationCompat.InboxStyle style, Schedule schedule, boolean lost) {
+    private static void styleForSchedule(Context context, NotificationCompat.InboxStyle style, DBTask DBTask, boolean lost) {
 //        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 //
-//        final Medicine med = schedule.medicine();
+//        final Medicine med = DBTask.medicine();
 //        final SpannableStringBuilder SpItem = new SpannableStringBuilder();
 //        SpItem.append(med.name());
-//        SpItem.append("   " + schedule.dose() + " " + med.presentation().units(context.getResources()));
+//        SpItem.append("   " + DBTask.dose() + " " + med.presentation().units(context.getResources()));
 //        style.addLine(SpItem);
 //
 //        String delayMinutesStr = prefs.getString("alarm_repeat_frequency", "15");
@@ -274,11 +274,11 @@ public class ReminderNotification {
 //            String repeatTime = DateTime.now().plusMinutes((int) delayMinutes).toString("kk:mm");
 //            style.setSummaryText(context.getString(R.string.notification_repeat_message, repeatTime));
 //        } else {
-//            style.setSummaryText(med.name() + "(" + context.getString(R.string.every) + " " + schedule.rule().interval() + " " + context.getString(R.string.hours) + ")");
+//            style.setSummaryText(med.name() + "(" + context.getString(R.string.every) + " " + DBTask.rule().interval() + " " + context.getString(R.string.hours) + ")");
 //        }
     }
 
-    private static Pair<Intent, Intent> getIntentsForRoutine(Context context, Routine r, LocalDate date) {
+    private static Pair<Intent, Intent> getIntentsForRoutine(Context context, DBRoutine r, LocalDate date) {
 
         // delay intent sent on click delay button
         final Intent delay = new Intent(context, AboutActivity.class);
@@ -295,17 +295,17 @@ public class ReminderNotification {
         return new Pair<>(delay, cancel);
     }
 
-    private static Pair<Intent, Intent> getIntentsForSchedule(Context context, Schedule schedule, LocalDate date, LocalTime time) {
+    private static Pair<Intent, Intent> getIntentsForSchedule(Context context, DBTask DBTask, LocalDate date, LocalTime time) {
 
         final Intent delay = new Intent(context, AboutActivity.class);
         delay.putExtra(TimeCatApp.INTENT_EXTRA_ACTION, "delay");
-        delay.putExtra(TimeCatApp.INTENT_EXTRA_SCHEDULE_ID, schedule.getId());
+        delay.putExtra(TimeCatApp.INTENT_EXTRA_SCHEDULE_ID, DBTask.getId());
         delay.putExtra(TimeCatApp.INTENT_EXTRA_SCHEDULE_TIME, date.toString("kk:mm"));
         delay.putExtra("date", date.toString(AlarmIntentParams.DATE_FORMAT));
 
         final Intent cancel = new Intent(context, NotificationEventReceiver.class);
         cancel.putExtra(TimeCatApp.INTENT_EXTRA_ACTION, TimeCatApp.ACTION_CANCEL_HOURLY_SCHEDULE);
-        cancel.putExtra(TimeCatApp.INTENT_EXTRA_SCHEDULE_ID, schedule.getId());
+        cancel.putExtra(TimeCatApp.INTENT_EXTRA_SCHEDULE_ID, DBTask.getId());
         cancel.putExtra(TimeCatApp.INTENT_EXTRA_SCHEDULE_TIME, time.toString("kk:mm"));
         cancel.putExtra("date", date.toString(AlarmIntentParams.DATE_FORMAT));
 
@@ -323,7 +323,7 @@ public class ReminderNotification {
         }
     }
 
-    private static Bitmap getLargeIcon(Resources r, User user) {
+    private static Bitmap getLargeIcon(Resources r, DBUser user) {
         return BitmapFactory.decodeResource(r, AvatarMgr.res(user.avatar()));
     }
 

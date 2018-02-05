@@ -37,7 +37,7 @@ import com.time.cat.component.activity.user.LoginActivity;
 import com.time.cat.component.activity.user.UserDetailActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.util.AvatarMgr;
 import com.time.cat.util.IconUtils;
 import com.time.cat.util.ScreenUtils;
@@ -76,7 +76,7 @@ public class LeftDrawerManager implements
     private Drawer drawer = null;
     private Toolbar toolbar;
     private MainActivity mainActivity;
-    private User currentUser;
+    private DBUser currentUser;
 
     public LeftDrawerManager(MainActivity activity, Toolbar toolbar) {
         this.toolbar = toolbar;
@@ -96,7 +96,7 @@ public class LeftDrawerManager implements
                         .paddingDp(5)
                         .colorRes(R.color.dark_grey_home))
                 .withIdentifier(USER_ADD));
-        for (User p : DB.users().findAll()) {
+        for (DBUser p : DB.users().findAll()) {
             Log.d("LeftDrawer", "Adding user to getDrawer: " + p.name());
             profiles.add(new ProfileDrawerItem()
                     .withIdentifier(p.id().intValue())
@@ -104,7 +104,7 @@ public class LeftDrawerManager implements
                     .withEmail(p.name() + "@timecat")
                     .withIcon(AvatarMgr.res(p.avatar())));
         }
-//        User u = new User();
+//        DBUser u = new DBUser();
 //        u.setAvatar(AvatarMgr.AVATAR_2);
 //        u.setColor(Color.YELLOW);
 //        u.setName("测试");
@@ -215,7 +215,7 @@ public class LeftDrawerManager implements
                 .withSavedInstance(savedInstanceState)
                 .build();
 
-        User u = DB.users().getActive(mainActivity);
+        DBUser u = DB.users().getActive(mainActivity);
         headerResult.setActiveProfile(u.id().intValue(), false);
         updateHeaderBackground(u);
         drawer.setStatusBarColor(u.color());
@@ -333,7 +333,7 @@ public class LeftDrawerManager implements
             return true;
         } else {
             Long id = (long) profile.getIdentifier();
-            User user = DB.users().findById(id);
+            DBUser user = DB.users().findById(id);
             boolean isActive = DB.users().isActive(user, mainActivity);
             if (isActive) {
                 Intent intent = new Intent(mainActivity, UserDetailActivity.class);
@@ -347,7 +347,7 @@ public class LeftDrawerManager implements
         return false;
     }
 
-    public void updateHeaderBackground(User u) {
+    public void updateHeaderBackground(DBUser u) {
         currentUser = u;
         LayerDrawable layers = (LayerDrawable) headerResult.getHeaderBackgroundView().getDrawable();
         ColorDrawable color = (ColorDrawable) layers.findDrawableByLayerId(R.id.color_layer);
@@ -362,18 +362,18 @@ public class LeftDrawerManager implements
         return headerResult;
     }
 
-    public void onActivityResume(User u) {
+    public void onActivityResume(DBUser u) {
 
         currentUser = u;
 
-        List<User> users = DB.users().findAll();
+        List<DBUser> users = DB.users().findAll();
         ArrayList<IProfile> profiles = headerResult.getProfiles();
         ArrayList<IProfile> toRemove = new ArrayList<>();
         if (users.size() != profiles.size()) {
             for (IProfile pr : profiles) {
                 Long id = Long.valueOf(pr.getIdentifier());
                 boolean remove = true;
-                for (User pat : users) {
+                for (DBUser pat : users) {
                     if (pat.id().equals(id)) {
                         remove = false;
                         break;
@@ -399,13 +399,13 @@ public class LeftDrawerManager implements
         updateHeaderBackground(u);
     }
 
-    public void onUserCreated(User u) {
+    public void onUserCreated(DBUser u) {
 
         IProfile profile = genProfile(u);
         headerResult.addProfiles(profile);
     }
 
-    public void onUserUpdated(User u) {
+    public void onUserUpdated(DBUser u) {
         IProfile profile = genProfile(u);
         headerResult.updateProfile(profile);
 
@@ -424,7 +424,7 @@ public class LeftDrawerManager implements
         mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    private IProfile genProfile(User u) {
+    private IProfile genProfile(DBUser u) {
         return new ProfileDrawerItem()
                 .withIdentifier(u.id().intValue())
                 .withName(u.name())

@@ -1,4 +1,4 @@
-package com.time.cat.mvp.model.entity;
+package com.time.cat.mvp.model.APImodel;
 
 /**
  * Created by penglu on 2016/12/3.

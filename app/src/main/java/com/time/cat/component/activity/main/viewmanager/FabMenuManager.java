@@ -14,7 +14,7 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.main.schedules.SchedulesHelpActivity;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.util.ScreenUtils;
 
 import java.util.ArrayList;
@@ -220,7 +220,7 @@ public class FabMenuManager implements View.OnClickListener{
         }
     }
 
-    public void onUserUpdate(User u){
+    public void onUserUpdate(DBUser u){
         for(FloatingActionButton f: scheduleActions){
             f.setColorNormal(u.color());
             f.setColorPressed(ScreenUtils.equivalentNoAlpha(u.color(), 0.5f));

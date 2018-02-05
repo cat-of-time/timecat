@@ -1,6 +1,6 @@
 package com.time.cat.util;
 
-import com.time.cat.mvp.model.entity.SearchEngine;
+import com.time.cat.mvp.model.APImodel.SearchEngine;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shang.commonjar.contentProvider.SPHelper;

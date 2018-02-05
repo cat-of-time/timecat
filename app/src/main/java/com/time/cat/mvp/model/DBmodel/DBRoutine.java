@@ -16,7 +16,7 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.time.cat.mvp.model;
+package com.time.cat.mvp.model.DBmodel;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -31,12 +31,12 @@ import java.util.List;
  * Created by joseangel.pineiro
  */
 @DatabaseTable(tableName = "Routines")
-public class Routine {
+public class DBRoutine {
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TIME = "Time";
     public static final String COLUMN_NAME = "Name";
-    public static final String COLUMN_USER = "User";
+    public static final String COLUMN_USER = "DBUser";
 
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private Long id;
@@ -48,35 +48,35 @@ public class Routine {
     private String name;
 
     @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
-    private User user;
+    private DBUser user;
 
-    public Routine() {
+    public DBRoutine() {
     }
 
-    public Routine(LocalTime time, String name) {
+    public DBRoutine(LocalTime time, String name) {
         this.time = time;
         this.name = name;
     }
 
-    public Routine(User p, LocalTime time, String name) {
+    public DBRoutine(DBUser p, LocalTime time, String name) {
         this.user = p;
         this.time = time;
         this.name = name;
     }
 
-    public static List<Routine> findAll() {
+    public static List<DBRoutine> findAll() {
         return DB.routines().findAll();
     }
 
-    public static Routine findById(long id) {
+    public static DBRoutine findById(long id) {
         return DB.routines().findById(id);
     }
 
-    public static Routine findByName(String name) {
+    public static DBRoutine findByName(String name) {
         return DB.routines().findOneBy(COLUMN_NAME, name);
     }
 
-    public static List<Routine> findInHour(int hour) {
+    public static List<DBRoutine> findInHour(int hour) {
         return DB.routines().findInHour(hour);
     }
 
@@ -96,11 +96,11 @@ public class Routine {
         this.time = time;
     }
 
-    public User user() {
+    public DBUser user() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(DBUser user) {
         this.user = user;
     }
 
@@ -124,7 +124,7 @@ public class Routine {
         DB.routines().deleteCascade(this, false);
     }
 
-    public List<ScheduleItem> scheduleItems() {
+    public List<DBTaskItem> scheduleItems() {
         return DB.scheduleItems().findByRoutine(this);
     }
 

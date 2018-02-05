@@ -22,7 +22,7 @@ import com.time.cat.util.cropper.CropHelper;
 import com.time.cat.util.cropper.CropParams;
 import com.time.cat.util.cropper.ImageUriUtil;
 import com.time.cat.util.cropper.handler.CropImage;
-import com.time.cat.mvp.model.entity.ImageUpload;
+import com.time.cat.mvp.model.APImodel.ImageUpload;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.OcrAnalsyser;
 import com.time.cat.util.SnackBarUtil;

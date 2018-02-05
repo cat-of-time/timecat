@@ -8,7 +8,7 @@ import java.util.List;
  * @date 2018/1/25
  * @discription 日程类
  */
-public class Schedule {
+public class Task {
     public static final int LABEL_IMPORTANT_URGENT= 0;
     public static final int LABEL_IMPORTANT_NOT_URGENT= 1;
     public static final int LABEL_NOT_IMPORTANT_URGENT= 2;
@@ -16,7 +16,6 @@ public class Schedule {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;//ID
     private String title;//日程标题
     private String content;//日程内容
     private String userID;//用户ID
@@ -29,15 +28,7 @@ public class Schedule {
     private boolean allDay;//是否全天，1 - 是，0 - 不是
     private boolean isFinish;//是否完成，1 - 是，0 - 不是
 
-    public Schedule() {}
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    public Task() {}
 
     public String getTitle() {
         return this.title;

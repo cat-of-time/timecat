@@ -1,4 +1,4 @@
-package com.time.cat.mvp.model.entity;
+package com.time.cat.mvp.model.APImodel;
 
 import java.util.List;
 

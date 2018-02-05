@@ -18,7 +18,7 @@ import com.time.cat.component.service.ListenClipboardService;
 import com.time.cat.component.service.TimeCatMonitorService;
 import com.time.cat.database.DB;
 import com.time.cat.database.UserDao;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.test.DefaultDataGenerator;
 import com.time.cat.util.ColorUtil;
 import com.time.cat.util.KeepAliveWatcher;
@@ -107,7 +107,7 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor {
         DB.init(this);
         try {
             if (DB.users().countOf() == 1) {
-                User p = DB.users().getDefault();
+                DBUser p = DB.users().getDefault();
                 prefs.edit().putLong(UserDao.PREFERENCE_ACTIVE_USER, p.id()).commit();
             }
         } catch (Exception e) {
@@ -143,7 +143,6 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor {
                 return "magenta";
 
             case ThemeManager.CARD_THEME_0:
-                Log.e("app", "CARD_THEME_0=" + ColorUtil.getColorHex(ThemeManager.getTheme(this)));
                 return "theme_0";
             case ThemeManager.CARD_THEME_1:
                 return "theme_1";

@@ -29,7 +29,7 @@ import com.time.cat.component.activity.DiyOcrKeyActivity;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.WebActivity;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.mvp.model.entity.ImageUpload;
+import com.time.cat.mvp.model.APImodel.ImageUpload;
 import com.time.cat.util.ColorUtil;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.LogUtil;

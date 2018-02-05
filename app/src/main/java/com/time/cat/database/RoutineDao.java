@@ -26,9 +26,9 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.Routine;
-import com.time.cat.mvp.model.ScheduleItem;
-import com.time.cat.mvp.model.User;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBTaskItem;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 
 import org.joda.time.LocalTime;
 
@@ -40,7 +40,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by joseangel.pineiro on 3/26/15.
  */
-public class RoutineDao extends GenericDao<Routine, Long> {
+public class RoutineDao extends GenericDao<DBRoutine, Long> {
 
     public static final String TAG = "RoutineDao";
 
@@ -49,7 +49,7 @@ public class RoutineDao extends GenericDao<Routine, Long> {
     }
 
     @Override
-    public Dao<Routine, Long> getConcreteDao() {
+    public Dao<DBRoutine, Long> getConcreteDao() {
         try {
             return dbHelper.getRoutinesDao();
         } catch (SQLException e) {
@@ -64,40 +64,40 @@ public class RoutineDao extends GenericDao<Routine, Long> {
     }
 
     @Override
-    public List<Routine> findAll() {
+    public List<DBRoutine> findAll() {
         try {
-            return dao.queryBuilder().orderBy(Routine.COLUMN_TIME,true).query();
+            return dao.queryBuilder().orderBy(DBRoutine.COLUMN_TIME,true).query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
     }
 
 
-    public List<Routine> findAllForActiveUser(Context ctx) {
+    public List<DBRoutine> findAllForActiveUser(Context ctx) {
         return findAll(DB.users().getActive(ctx));
     }
 
-    public List<Routine> findAll(User p) {
+    public List<DBRoutine> findAll(DBUser p) {
         return findAll(p.id());
     }
 
 
-    public List<Routine> findAll(Long userId) {
+    public List<DBRoutine> findAll(Long userId) {
         try {
             return dao.queryBuilder()
-                    .orderBy(Routine.COLUMN_TIME, true)
-                    .where().eq(Routine.COLUMN_USER, userId)
+                    .orderBy(DBRoutine.COLUMN_TIME, true)
+                    .where().eq(DBRoutine.COLUMN_USER, userId)
                     .query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
     }
 
-    public Routine findByUserAndName(String name, User p) {
+    public DBRoutine findByUserAndName(String name, DBUser p) {
         try {
-            QueryBuilder<Routine, Long> qb = dao.queryBuilder();
+            QueryBuilder<DBRoutine, Long> qb = dao.queryBuilder();
             Where w = qb.where();
-            w.and(w.eq(Routine.COLUMN_NAME, name),w.eq(Routine.COLUMN_USER, p));
+            w.and(w.eq(DBRoutine.COLUMN_NAME, name),w.eq(DBRoutine.COLUMN_USER, p));
             qb.setWhere(w);
             return qb.queryForFirst();
         } catch (SQLException e) {
@@ -106,7 +106,7 @@ public class RoutineDao extends GenericDao<Routine, Long> {
     }
 
 
-    public List<Routine> findInHour(int hour) {
+    public List<DBRoutine> findInHour(int hour) {
         try {
             LocalTime time = new LocalTime(hour, 0);
             // get one hour interval [h:00, h:59:]
@@ -117,7 +117,7 @@ public class RoutineDao extends GenericDao<Routine, Long> {
             LocalTime endTime = time.plusMinutes(59);
 
             return queryBuilder().where()
-                    .between(Routine.COLUMN_TIME, time, endTime)
+                    .between(DBRoutine.COLUMN_TIME, time, endTime)
                     .query();
         } catch (Exception e) {
             Log.e(TAG, "Error in findInHour", e);
@@ -125,13 +125,13 @@ public class RoutineDao extends GenericDao<Routine, Long> {
         }
     }
 
-    public void deleteCascade(final Routine r, boolean fireEvent) {
+    public void deleteCascade(final DBRoutine r, boolean fireEvent) {
 
         DB.transaction(new Callable<Object>() {
             @Override
             public Object call() throws Exception {
-                Collection<ScheduleItem> items = r.scheduleItems();
-                for (ScheduleItem i : items) {
+                Collection<DBTaskItem> items = r.scheduleItems();
+                for (DBTaskItem i : items) {
                     i.deleteCascade();
                 }
                 DB.routines().remove(r);
