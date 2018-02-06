@@ -28,18 +28,14 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by wangyan-pd on 2016/11/19.
- */
-
-public class OcrAnalsyser {
+public class OcrAnalyser {
     //别人的 00b0e581e4124a2583ea7dba57aaf281
     // 我自己的 56c87e179c084cfaae9b70a2f58fa8d3 56c87e179c084cfaae9b70a2f58fa8d3
     //彭露的 9e88939475894dec85a2019fd36243be
     //进发的 eac11887004a4c88a7c3f527d6852bb3
     //王岩2 cc750e4c195d497391e9fe18f6d21bae
     static ArrayList<String> keys;
-    private static OcrAnalsyser instance = new OcrAnalsyser();
+    private static OcrAnalyser instance = new OcrAnalyser();
 
     static {
         keys = new ArrayList<>();
@@ -52,12 +48,12 @@ public class OcrAnalsyser {
         keys.add("00b0e581e4124a2583ea7dba57aaf281");
     }
 
-    //String[] keys = { "9e88939475894dec85a2019fd36243be", "56c87e179c084cfaae9b70a2f58fa8d3"};
     int currentIndex = 0;
     VisionServiceRestClient client = new VisionServiceRestClient(keys.get(currentIndex));
+
     private String img_path;
-    private boolean verticalOrentation = true;
-    Observable.OnSubscribe<OCR> mOnSubscrube = new Observable.OnSubscribe<OCR>() {
+    private boolean verticalOrientation = true;
+    Observable.OnSubscribe<OCR> onSubscribe = new Observable.OnSubscribe<OCR>() {
         @Override
         public void call(Subscriber<? super OCR> subscriber) {
             client.setOnTimeUseUp(new WebServiceRequest.OnResult() {
@@ -80,7 +76,7 @@ public class OcrAnalsyser {
             });
             byte[] data = IOUtil.getBytes(img_path);
             try {
-                String ocr = client.recognizeText(data, LanguageCodes.AutoDetect, verticalOrentation);
+                String ocr = client.recognizeText(data, LanguageCodes.AutoDetect, verticalOrientation);
                 if (!TextUtils.isEmpty(ocr)) {
                     OCR ocrItem = new Gson().fromJson(ocr, new TypeToken<OCR>() {
                     }.getType());
@@ -96,7 +92,7 @@ public class OcrAnalsyser {
         }
     };
     private byte[] img;
-    Observable.OnSubscribe<OCR> mOnSubscrube1 = new Observable.OnSubscribe<OCR>() {
+    Observable.OnSubscribe<OCR> onSubscribe1 = new Observable.OnSubscribe<OCR>() {
         @Override
         public void call(Subscriber<? super OCR> subscriber) {
 
@@ -119,7 +115,7 @@ public class OcrAnalsyser {
 
                     }
                 });
-                String ocr = client.recognizeText(img, LanguageCodes.AutoDetect, verticalOrentation);
+                String ocr = client.recognizeText(img, LanguageCodes.AutoDetect, verticalOrientation);
 
                 if (!TextUtils.isEmpty(ocr)) {
                     OCR ocrItem = new Gson().fromJson(ocr, new TypeToken<OCR>() {
@@ -135,13 +131,13 @@ public class OcrAnalsyser {
             }
         }
     };
-    private String seachPicPath;
-    Observable.OnSubscribe<ImageUpload> mOnSubscrube2 = new Observable.OnSubscribe<ImageUpload>() {
+    private String searchPicPath;
+    Observable.OnSubscribe<ImageUpload> onSubscribe2 = new Observable.OnSubscribe<ImageUpload>() {
         @Override
         public void call(Subscriber<? super ImageUpload> subscriber) {
 
             try {
-                String json = UploadUtil.uploadFile(new File(seachPicPath));
+                String json = UploadUtil.uploadFile(new File(searchPicPath));
                 if (!TextUtils.isEmpty(json)) {
                     ImageUpload imageUpload = new Gson().fromJson(json, new TypeToken<ImageUpload>() {
                     }.getType());
@@ -156,17 +152,17 @@ public class OcrAnalsyser {
         }
     };
 
-    public static OcrAnalsyser getInstance() {
+    public static OcrAnalyser getInstance() {
         return instance;
     }
 
     public void uploadImage(BaseActivity activity, String fileName, ImageUploadCallBack callback) {
-        this.seachPicPath = fileName;
-        Observable.create(mOnSubscrube2)
+        this.searchPicPath = fileName;
+        Observable.create(onSubscribe2)
                 .subscribeOn(Schedulers.io())
                 .compose(activity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> callback.onSucess(s),
+                .subscribe(s -> callback.onSuccess(s),
                         throwable -> {
                             callback.onFail(throwable);
                         });
@@ -185,19 +181,19 @@ public class OcrAnalsyser {
         int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
         SPHelper.save(ConstantUtil.OCR_TIME, time);
         this.img_path = img_path;
-        this.verticalOrentation = isVertical;
-        Observable.create(mOnSubscrube)
+        this.verticalOrientation = isVertical;
+        Observable.create(onSubscribe)
                 .subscribeOn(Schedulers.io())
                 .compose(activity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> callback.onSucess(s),
+                .subscribe(s -> callback.onSuccess(s),
                         throwable -> {
                             callback.onFail(throwable);
                             SPHelper.save(ConstantUtil.SHOULD_SHOW_DIY_OCR, true);
                         });
     }
 
-    public String getPasedMiscSoftText(OCR ocr) {
+    public String getPassedMiscSoftText(OCR ocr) {
 
         String result = "";
         for (Region reg : ocr.regions) {
@@ -218,13 +214,13 @@ public class OcrAnalsyser {
     }
 
     public interface ImageUploadCallBack {
-        void onSucess(ImageUpload imageUpload);
+        void onSuccess(ImageUpload imageUpload);
 
         void onFail(Throwable throwable);
     }
 
     public interface CallBack {
-        void onSucess(OCR ocr);
+        void onSuccess(OCR ocr);
 
         void onFail(Throwable throwable);
     }

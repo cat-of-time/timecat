@@ -33,7 +33,7 @@ import com.time.cat.mvp.model.APImodel.ImageUpload;
 import com.time.cat.util.ColorUtil;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.LogUtil;
-import com.time.cat.util.OcrAnalsyser;
+import com.time.cat.util.OcrAnalyser;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
@@ -197,9 +197,9 @@ public class CaptureResultActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ToastUtil.show(R.string.upload_img);
-                OcrAnalsyser.getInstance().uploadImage(CaptureResultActivity.this, fileName, new OcrAnalsyser.ImageUploadCallBack() {
+                OcrAnalyser.getInstance().uploadImage(CaptureResultActivity.this, fileName, new OcrAnalyser.ImageUploadCallBack() {
                     @Override
-                    public void onSucess(ImageUpload imageUpload) {
+                    public void onSuccess(ImageUpload imageUpload) {
                         if (imageUpload != null &&
                                 imageUpload.getData() != null &&
                                 !TextUtils.isEmpty(imageUpload.getData().getUrl())) {
@@ -235,11 +235,11 @@ public class CaptureResultActivity extends BaseActivity {
                 }
                 ToastUtil.show(R.string.ocr_recognize);
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCR);
-                OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
+                OcrAnalyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalyser.CallBack() {
                     @Override
-                    public void onSucess(OCR ocr) {
+                    public void onSuccess(OCR ocr) {
                         ocrResultRL.setVisibility(View.VISIBLE);
-                        ocrResult.setText(OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
+                        ocrResult.setText(OcrAnalyser.getInstance().getPassedMiscSoftText(ocr));
                         ocrResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
                     }
 
@@ -267,9 +267,9 @@ public class CaptureResultActivity extends BaseActivity {
                         return;
                     }
                     ToastUtil.show(R.string.ocr_recognize);
-                    OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
+                    OcrAnalyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalyser.CallBack() {
                         @Override
-                        public void onSucess(OCR ocr) {
+                        public void onSuccess(OCR ocr) {
                             if (!TextUtils.isEmpty(ocrResult.getText())) {
                                 Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
                                 intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
@@ -279,7 +279,7 @@ public class CaptureResultActivity extends BaseActivity {
                             } else {
                                 Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
                                 intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra(TimeCatActivity.TO_SPLIT_STR, OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
+                                intent.putExtra(TimeCatActivity.TO_SPLIT_STR, OcrAnalyser.getInstance().getPassedMiscSoftText(ocr));
                                 startActivity(intent);
                                 finish();
                             }

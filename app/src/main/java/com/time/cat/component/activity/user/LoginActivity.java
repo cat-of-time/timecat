@@ -8,11 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
+import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.base.BaseActivity;
+import com.time.cat.database.DB;
+import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.util.ModelUtil;
+import com.time.cat.util.ToastUtil;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author dlink
@@ -23,7 +33,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-
+    public static final String INTENT_USER_EMAIL = "intent_user_email";
 
     //<生命周期>------------------------------------------------------------------------------------
     @Override
@@ -42,10 +52,16 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
                 // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
-                this.finish();
+                if (data != null) {
+                    intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra(INTENT_USER_EMAIL, data.getStringExtra(INTENT_USER_EMAIL));
+                    setResult(RESULT_OK, intent);
+                    onLoginSuccess();
+                } else {
+                    Log.e(TAG, "onActivityResult --> data == null");
+                }
             }
         }
     }
@@ -80,9 +96,9 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {
-
+        intent = new Intent(LoginActivity.this, MainActivity.class);
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
 
 
@@ -111,7 +127,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
         }
     }
 
-    public void login() {
+    public void login()      {
         Log.d(TAG, "Login");
 
         if (!validate()) {
@@ -131,29 +147,73 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
         String password = passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
+        final boolean[] isSuccess = {false};
+        RetrofitHelper.getLoginService()
+                .login(email, password, false) //获取Observable对象
+                .compose(LoginActivity.this.bindToLifecycle())
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<User>() {
+                    @Override
+                    public void call(User user) {
+                        //保存用户信息到本地
+                        DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
+                        Log.i(TAG, user.toString());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        Log.e(TAG, e.toString());
+                        onLoginFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+
+                    @Override
+                    public void onNext(User user) {
+                        //请求成功
+                        isSuccess[0] = true;
+                        intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra(INTENT_USER_EMAIL, user.getEmail());
+                        setResult(RESULT_OK, intent);
+                        onLoginSuccess();
+                        progressDialog.dismiss();
+                        Log.i(TAG, "请求成功" + user.toString());
+                    }
+                });
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onLoginSuccess or onLoginFailed
+//                        if (isSuccess[0]) {
+//                            onLoginSuccess();
+//                        } else {
+//                            onLoginFailed();
+//                        }
+//                        // onLoginFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
 
     public void onLoginSuccess() {
-        loginButton.setEnabled(true);
+        loginButton.setEnabled(false);
+//        Log.e(TAG, intent.toString());
+//        Log.e(TAG, intent.getStringExtra(INTENT_USER_EMAIL));
 
-        setResult(RESULT_OK, null);
-        finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+        ToastUtil.show("登录失败！");
         loginButton.setEnabled(true);
     }
 

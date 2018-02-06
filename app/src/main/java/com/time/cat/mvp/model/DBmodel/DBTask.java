@@ -33,7 +33,9 @@ import org.joda.time.LocalTime;
 import java.util.List;
 
 /**
- * Created by joseangel.pineiro
+ * @author dlink
+ * @date 2018/2/6
+ * @discription 任务类
  */
 @DatabaseTable(tableName = "Schedules")
 public class DBTask {

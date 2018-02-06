@@ -8,11 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
+import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.base.BaseActivity;
+import com.time.cat.database.DB;
+import com.time.cat.mvp.model.APImodel.User;
+import com.time.cat.mvp.model.Account;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.util.ModelUtil;
+import com.time.cat.util.ToastUtil;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author dlink
@@ -43,10 +54,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
-    EditText nameText;
-    EditText addressText;
     EditText emailText;
-    EditText mobileText;
     EditText passwordText;
     EditText reEnterPasswordText;
     Button signupButton;
@@ -54,10 +62,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
 
     @Override
     public void initView() {
-        nameText = findViewById(R.id.input_name);
-        addressText = findViewById(R.id.input_address);
         emailText = findViewById(R.id.input_email);
-        mobileText = findViewById(R.id.input_mobile);
         passwordText = findViewById(R.id.input_password);
         reEnterPasswordText = findViewById(R.id.input_reEnterPassword);
         signupButton = findViewById(R.id.btn_signup);
@@ -96,8 +101,8 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
                 // Finish the registration screen and return to the Login activity
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
-                finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                finish();
                 break;
         }
     }
@@ -118,62 +123,111 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = nameText.getText().toString();
-        String address = addressText.getText().toString();
         String email = emailText.getText().toString();
-        String mobile = mobileText.getText().toString();
         String password = passwordText.getText().toString();
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        User u = new User();
+        u.setAccount(new Account());
+        u.setEmail(email);
+        u.setUsername(email);
+        u.setIs_staff(false);
+        u.setPassword(password);
+        Log.e(TAG, u.toString());
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
+        final boolean[] isSuccess = {false};
+        // TODO: Implement your own signup logic here.
+        RetrofitHelper.getLoginService()
+                .createUser(u) //获取Observable对象
+                .compose(SignupActivity.this.bindToLifecycle())
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<User>() {
+                    @Override
+                    public void call(User user) {
+//                        saveUser(user);//保存用户信息到本地
+                        DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
+                        Log.e(TAG, "保存用户信息到本地" + user.toString());
                     }
-                }, 3000);
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        Log.e(TAG, e.toString());
+                        onSignupFailed();
+                        progressDialog.dismiss();
+
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        //请求成功
+                        intent = new Intent(SignupActivity.this, MainActivity.class);
+                        intent.putExtra(LoginActivity.INTENT_USER_EMAIL, user.getEmail());
+                        setResult(RESULT_OK, intent);
+                        onSignupSuccess();
+                        progressDialog.dismiss();
+                        Log.e(TAG, "请求成功" + user.toString());
+                    }
+                });
+
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onSignupSuccess or onSignupFailed
+//                        // depending on success
+//                        if (isSuccess[0]) {
+//                            onSignupSuccess();
+//                        } else {
+//                            onSignupFailed();
+//                        }
+//                        // onSignupFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
 
     public void onSignupSuccess() {
-        signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
+        signupButton.setEnabled(false);
+        ToastUtil.show("创建用户成功！");
         finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+        ToastUtil.show("创建用户失败！");
         signupButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String name = nameText.getText().toString();
-        String address = addressText.getText().toString();
+//        String name = nameText.getText().toString();
+//        String address = addressText.getText().toString();
         String email = emailText.getText().toString();
-        String mobile = mobileText.getText().toString();
+//        String mobile = mobileText.getText().toString();
         String password = passwordText.getText().toString();
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 3) {
-            nameText.setError("at least 3 characters");
-            valid = false;
-        } else {
-            nameText.setError(null);
-        }
-
-        if (address.isEmpty()) {
-            addressText.setError("Enter Valid Address");
-            valid = false;
-        } else {
-            addressText.setError(null);
-        }
+//        if (name.isEmpty() || name.length() < 3) {
+//            nameText.setError("at least 3 characters");
+//            valid = false;
+//        } else {
+//            nameText.setError(null);
+//        }
+//
+//        if (address.isEmpty()) {
+//            addressText.setError("Enter Valid Address");
+//            valid = false;
+//        } else {
+//            addressText.setError(null);
+//        }
 
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -183,12 +237,12 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
             emailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()!=10) {
-            mobileText.setError("Enter Valid Mobile Number");
-            valid = false;
-        } else {
-            mobileText.setError(null);
-        }
+//        if (mobile.isEmpty() || mobile.length()!=10) {
+//            mobileText.setError("Enter Valid Mobile Number");
+//            valid = false;
+//        } else {
+//            mobileText.setError(null);
+//        }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
             passwordText.setError("between 4 and 10 alphanumeric characters");

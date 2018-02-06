@@ -1,15 +1,16 @@
 package com.time.cat.NetworkSystem;
 
-import com.time.cat.TimeCatApp;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.time.cat.NetworkSystem.api.ImageUploadService;
+import com.time.cat.NetworkSystem.api.LoginService;
 import com.time.cat.NetworkSystem.api.MicSoftOcrService;
 import com.time.cat.NetworkSystem.api.OcrService;
 import com.time.cat.NetworkSystem.api.PicUploadService;
 import com.time.cat.NetworkSystem.api.TranslationService;
 import com.time.cat.NetworkSystem.api.WordSegmentService;
+import com.time.cat.TimeCatApp;
 import com.time.cat.util.LogUtil;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,16 +31,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitHelper {
-    private static final String BASE_URL = "http://api.bosonnlp.com/";
+    private static final String SEGMENT_URL = "http://api.bosonnlp.com/";
     private static final String YOUDAO_URL = "http://fanyi.youdao.com/";
     private static final String OCR_URL = "https://api.ocr.space/";
     private static final String MICSOFT_OCR_URL = "https://api.projectoxford.ai/";
-    // private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
+//     private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
     private static final String IMAGE_UPLOAD_URL = "https://sm.ms/";
     private static final String PIC_UPLOAD_URL = "https://yotuku.cn/";
-    static Gson gson = new GsonBuilder()
-            .setLenient()
-            .create();
+    private static final String BASE_URL = "http://192.168.88.105:8000/";
+
+    static Gson gson = new GsonBuilder().setLenient().create();
     private static OkHttpClient mOkHttpClient;
 
     static {
@@ -87,7 +88,7 @@ public class RetrofitHelper {
 
     public static WordSegmentService getWordSegmentService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(SEGMENT_URL)
                 .client(mOkHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -135,6 +136,16 @@ public class RetrofitHelper {
         return retrofit.create(PicUploadService.class);
     }
 
+    public static LoginService getLoginService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(LoginService.class);
+    }
+
     public static class Log implements HttpLoggingInterceptor.Logger {
         @Override
         public void log(String message) {
@@ -154,8 +165,8 @@ public class RetrofitHelper {
         public Response intercept(Chain chain) throws IOException {
             Request originalRequest = chain.request();
             Request requestWithUserAgent = originalRequest.newBuilder()
-                    .removeHeader("DBUser-Agent")
-                    .addHeader("DBUser-Agent", COMMON_UA_STR)
+                    .removeHeader("User-Agent")
+                    .addHeader("User-Agent", COMMON_UA_STR)
                     .build();
             return chain.proceed(requestWithUserAgent);
         }

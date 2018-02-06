@@ -36,6 +36,7 @@ import com.time.cat.component.activity.main.schedules.SchedulesFragment;
 import com.time.cat.component.activity.main.schedules.SchedulesHelpActivity;
 import com.time.cat.component.activity.main.viewmanager.FabMenuManager;
 import com.time.cat.component.activity.main.viewmanager.LeftDrawerManager;
+import com.time.cat.component.activity.user.LoginActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
@@ -341,6 +342,10 @@ public class MainActivity extends BaseActivity implements
             if (resultCode == RESULT_OK) {
 
                 // TODO: Implement successful signup logic here
+                String email = data.getStringExtra(LoginActivity.INTENT_USER_EMAIL);
+                Log.e(TAG, email);
+                activeUser = DB.users().findOneBy(DBUser.COLUMN_EMAIL, email);
+                DB.users().setActive(activeUser, this);
                 // 设置用户登录后的界面
                 ToastUtil.show("登录成功！");
             }
@@ -492,14 +497,10 @@ public class MainActivity extends BaseActivity implements
 //                        ((MedicinesListFragment) getViewPagerFragment(2)).notifyDataChange();
                     } else if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
                         activeUser = ((PersistenceEvents.ActiveUserChangeEvent) evt).user;
-//                        updateTitle(mViewPager.getCurrentItem());
-//                        toolbarLayout.setContentScrimColor(activeUser.color());
-                        fabMgr.onUserUpdate(activeUser);
+                        onUserUpdate(activeUser);
                     } else if (evt instanceof PersistenceEvents.UserUpdateEvent) {
                         DBUser user = ((PersistenceEvents.UserUpdateEvent) evt).user;
-                        leftDrawer.onUserUpdated(user);
-                        fabMgr.onUserUpdate(user);
-                        refreshTheme(MainActivity.this, user.color());
+                        onUserUpdate(user);
                         if (DB.users().isActive(user, MainActivity.this)) {
                             activeUser = user;
                         }
@@ -515,7 +516,26 @@ public class MainActivity extends BaseActivity implements
     }
     //-//</Method called from the event bus>--------------------------------------------------------------------
 
+    public void launchActivityDelayed(final Class<?> activityClazz, int delay) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(MainActivity.this, activityClazz));
+                overridePendingTransition(0, 0);
+            }
+        }, delay);
 
+    }
+    private void launchActivity(Intent i) {
+        startActivity(i);
+        this.overridePendingTransition(0, 0);
+    }
+    public void onUserUpdate(DBUser user) {
+//        DB.users().setActive(user, this);
+        leftDrawer.onUserUpdated(user);
+        fabMgr.onUserUpdate(user);
+        refreshTheme(MainActivity.this, user.color());
+    }
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
 
 
@@ -552,19 +572,5 @@ public class MainActivity extends BaseActivity implements
 
     }
     //</内部类>---尽量少用---------------------------------------------------------------------------
-    public void launchActivityDelayed(final Class<?> activityClazz, int delay) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(MainActivity.this, activityClazz));
-                overridePendingTransition(0, 0);
-            }
-        }, delay);
-
-    }
-    private void launchActivity(Intent i) {
-        startActivity(i);
-        this.overridePendingTransition(0, 0);
-    }
 
 }

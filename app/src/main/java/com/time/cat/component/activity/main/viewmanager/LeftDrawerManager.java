@@ -101,7 +101,7 @@ public class LeftDrawerManager implements
             profiles.add(new ProfileDrawerItem()
                     .withIdentifier(p.id().intValue())
                     .withName(p.name())
-                    .withEmail(p.name() + "@timecat")
+                    .withEmail(p.getEmail())
                     .withIcon(AvatarMgr.res(p.avatar())));
         }
 //        DBUser u = new DBUser();
@@ -428,7 +428,7 @@ public class LeftDrawerManager implements
         return new ProfileDrawerItem()
                 .withIdentifier(u.id().intValue())
                 .withName(u.name())
-                .withEmail(u.name() + "@timecat")
+                .withEmail(u.getEmail())
                 .withIcon(AvatarMgr.res(u.avatar()));
     }
 }

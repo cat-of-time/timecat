@@ -1,8 +1,5 @@
 package com.time.cat.mvp.model.APImodel;
 
-/**
- * Created by wangyan-pd on 2017/1/9.
- */
 
 public class ImageUpload {
 

@@ -24,7 +24,7 @@ import com.time.cat.util.cropper.ImageUriUtil;
 import com.time.cat.util.cropper.handler.CropImage;
 import com.time.cat.mvp.model.APImodel.ImageUpload;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.OcrAnalsyser;
+import com.time.cat.util.OcrAnalyser;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
@@ -118,9 +118,9 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             @Override
             public void onClick(View v) {
                 ToastUtil.show(R.string.upload_img);
-                OcrAnalsyser.getInstance().uploadImage(OcrActivity.this, img_path, new OcrAnalsyser.ImageUploadCallBack() {
+                OcrAnalyser.getInstance().uploadImage(OcrActivity.this, img_path, new OcrAnalyser.ImageUploadCallBack() {
                     @Override
-                    public void onSucess(ImageUpload imageUpload) {
+                    public void onSuccess(ImageUpload imageUpload) {
                         if (imageUpload != null &&
                                 imageUpload.getData() != null &&
                                 !TextUtils.isEmpty(imageUpload.getData().getUrl())) {
@@ -266,10 +266,10 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             return;
         }
         editText.setText(R.string.recognize);
-        OcrAnalsyser.getInstance().analyse(this, img_path, true, new OcrAnalsyser.CallBack() {
+        OcrAnalyser.getInstance().analyse(this, img_path, true, new OcrAnalyser.CallBack() {
             @Override
-            public void onSucess(OCR ocr) {
-                editText.setText(OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
+            public void onSuccess(OCR ocr) {
+                editText.setText(OcrAnalyser.getInstance().getPassedMiscSoftText(ocr));
             }
 
             @Override
