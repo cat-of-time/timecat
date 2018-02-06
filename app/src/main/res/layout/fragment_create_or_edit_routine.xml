@@ -90,7 +90,7 @@
     <Button
         android:id="@+id/done_button"
         style="@style/next_button"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

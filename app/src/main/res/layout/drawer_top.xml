@@ -25,7 +25,7 @@
 
     <ImageView
         android:id="@+id/left_drawer_top_overlay"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="120dp"
         android:alpha="1"
         android:background="@color/android_orange"
@@ -33,7 +33,7 @@
 
     <ImageView
         android:id="@+id/settings_button"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="120dp"
         android:alpha="0.2"
         android:scaleType="centerCrop"

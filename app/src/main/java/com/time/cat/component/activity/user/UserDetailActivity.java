@@ -25,13 +25,13 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -44,7 +44,6 @@ import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.test.DefaultDataGenerator;
 import com.time.cat.util.AvatarMgr;
 import com.time.cat.util.ScreenUtils;
 import com.time.cat.util.Snack;
@@ -90,6 +89,8 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
     EditText userName;
     List<String> avatars = new ArrayList<>(AvatarMgr.avatars.keySet());
 
+    TextView userEmail;
+
     private Menu menu;
     private int avatarBackgroundColor;
 
@@ -101,7 +102,6 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
     Drawable iconClose;
     Drawable iconSwitch;
 
-    CheckBox addRoutinesCheckBox;
     LinearLayout colorList;
     HorizontalScrollView colorScroll;
     Button linkButton;
@@ -115,14 +115,10 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
 
     @Override
     public void initView() {//必须调用
-        switch (ThemeManager.getTheme(this)) {
-            case ThemeManager.CARD_WHITE:
-            case ThemeManager.CARD_THUNDER:
-            case ThemeManager.CARD_MAGENTA:
-                setStatusBarFontIconDark(true);
-                break;
-            default:
-                setStatusBarFontIconDark(false);
+        setStatusBarFullTransparent();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ThemeManager.getTheme(this));
+            Log.e(TAG, "setStatusBarColor");
         }
 
         top = findViewById(R.id.top);
@@ -130,10 +126,12 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
         userAvatar = findViewById(R.id.user_avatar);
         userAvatarBg = findViewById(R.id.user_avatar_bg);
         gridContainer = findViewById(R.id.grid_container);
+
         userName = findViewById(R.id.user_name);
+        userEmail = findViewById(R.id.user_detail_email);
+
         fab = findViewById(R.id.avatar_change);
         avatarGrid = findViewById(R.id.grid);
-        addRoutinesCheckBox = findViewById(R.id.checkBox);
         colorScroll = findViewById(R.id.colorScroll);
         linkButton = findViewById(R.id.linkButton);
 
@@ -159,7 +157,6 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
 
         if (userId != -1) {
             user = DB.users().findById(userId);
-            addRoutinesCheckBox.setVisibility(View.GONE);
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             token = prefs.getString("remote_token" + userId, null);
@@ -365,6 +362,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
 
     private void loadUser() {
         userName.setText(user.name());
+        userEmail.setText(user.getEmail());
         top.setBackgroundColor(user.color());
         updateAvatar(user.avatar(), 400, 400, userAvatar.getWidth() / 2);
     }
@@ -375,7 +373,8 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
         color2 = ScreenUtils.equivalentNoAlpha(color1, 0.7f);
         avatarBackgroundColor = color1;
         gridContainer.setBackgroundColor(getResources().getColor(R.color.dark_grey_home));
-        //ScreenUtils.setStatusBarColor(this, avatarBackgroundColor);
+        ScreenUtils.setStatusBarColor(this, avatarBackgroundColor);
+        Log.e(TAG, "setStatusBarColor");
 
         if (delay > 0) {
             userAvatarBg.postDelayed(new Runnable() {
@@ -414,7 +413,6 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
     //-//<Activity>---------------------------------------------------------------------------------
     @Override
     public void onBackPressed() {
-        //ScreenUtils.setStatusBarColor(this, color2);
         userAvatarBg.setVisibility(View.INVISIBLE);
         super.onBackPressed();
     }
@@ -439,7 +437,6 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                //ScreenUtils.setStatusBarColor(this, color2);
                 userAvatarBg.setVisibility(View.INVISIBLE);
                 supportFinishAfterTransition();
                 return true;
@@ -454,9 +451,6 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
 
                 if (!TextUtils.isEmpty(user.name())) {
                     DB.users().saveAndFireEvent(user);
-                    if (addRoutinesCheckBox.isChecked()) {
-                        DefaultDataGenerator.generateDefaultRoutines(user, this);
-                    }
                     refreshTheme(this, user.color());
                     supportFinishAfterTransition();
                 } else {

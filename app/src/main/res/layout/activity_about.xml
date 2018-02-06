@@ -19,7 +19,7 @@
 
     <ImageView
         android:id="@+id/tabs_shadow"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_below="@+id/toolbar"
         android:alpha="0.7"
@@ -28,8 +28,8 @@
 
     <FrameLayout
         android:id="@+id/fragment_holder"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbar" />
 
 </RelativeLayout>

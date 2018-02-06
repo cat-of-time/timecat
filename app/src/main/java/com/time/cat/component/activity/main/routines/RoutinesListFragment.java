@@ -1,5 +1,6 @@
 package com.time.cat.component.activity.main.routines;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -162,10 +163,17 @@ public class RoutinesListFragment extends Fragment {
             super(context, layoutResourceId, items);
         }
 
+        @SuppressLint("ViewHolder")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-            return createRoutineListItem(layoutInflater, mDBRoutines.get(position));
+            if (mDBRoutines.size() != 0) {
+                return createRoutineListItem(layoutInflater, mDBRoutines.get(position));
+            }
+            if (convertView == null) {
+                convertView = layoutInflater.inflate(R.layout.design_drawer_item, parent, false);
+            }
+            return convertView;
         }
 
     }

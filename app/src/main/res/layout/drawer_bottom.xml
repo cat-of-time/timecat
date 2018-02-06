@@ -26,14 +26,14 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="55dp">
 
         <TextView
             android:id="@+id/text_users"
             style="@style/Base.TextAppearance.AppCompat.Button"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="60dp"
             android:text="Pacientes"
@@ -57,8 +57,8 @@
         <TextView
             android:id="@+id/text_settings"
             style="@style/Base.TextAppearance.AppCompat.Button"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="60dp"
             android:text="@string/drawer_settings_option"
@@ -76,14 +76,14 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="55dp">
 
         <TextView
             android:id="@+id/text_help"
             style="@style/Base.TextAppearance.AppCompat.Button"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="60dp"
             android:text="@string/drawer_theme_option"

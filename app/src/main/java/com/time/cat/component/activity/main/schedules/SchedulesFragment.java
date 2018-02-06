@@ -46,6 +46,7 @@ import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
 import com.time.cat.mvp.view.progressButton.CircularProgressButton;
+import com.time.cat.util.ToastUtil;
 import com.time.cat.util.ViewUtil;
 
 import java.lang.ref.WeakReference;
@@ -510,7 +511,8 @@ public class SchedulesFragment extends BaseFragment implements
     }
 
     public class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder
-            implements AsyncExpandableListView.OnGroupStateChangeListener, SmoothCheckBox.OnCheckedChangeListener {
+            implements AsyncExpandableListView.OnGroupStateChangeListener,
+                       SmoothCheckBox.OnCheckedChangeListener, View.OnClickListener {
 
         private RelativeLayout calendar_item_ll;
         private SmoothCheckBox calendar_item_checkBox;
@@ -518,10 +520,14 @@ public class SchedulesFragment extends BaseFragment implements
         private ProgressBar calendar_item_progressBar;
         private ImageView ivExpansionIndicator;
         private TextView calendar_item_delay;
+        private RelativeLayout calendar_item_rl_content_container;
+        private RelativeLayout calendar_item_rl_container;
+
+        private int mGroupOrdinal;
 
         public ScheduleHeaderViewHolder(View v, int groupOrdinal, AsyncExpandableListView asyncExpandableListView) {
             super(v, groupOrdinal, asyncExpandableListView);
-
+            mGroupOrdinal = groupOrdinal;
             calendar_item_ll = v.findViewById(R.id.calendar_item_ll);
             // 防止误点击
             calendar_item_ll.setOnClickListener(null);
@@ -536,6 +542,11 @@ public class SchedulesFragment extends BaseFragment implements
             calendar_item_progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#1296db"),
                     android.graphics.PorterDuff.Mode.MULTIPLY);
             ivExpansionIndicator = v.findViewById(R.id.calendar_item_ivExpansionIndicator);
+            calendar_item_rl_container = v.findViewById(R.id.calendar_item_rl_container);
+            calendar_item_rl_content_container = v.findViewById(R.id.calendar_item_rl_content_container);
+
+            calendar_item_rl_container.setOnClickListener(this);
+            calendar_item_rl_content_container.setOnClickListener(this);
         }
 
 
@@ -581,6 +592,18 @@ public class SchedulesFragment extends BaseFragment implements
             } else {
                 ViewUtil.removeLine(calendar_item_title);
                 calendar_item_title.setTextColor(Color.BLACK);
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.calendar_item_rl_container:
+                    mAsyncExpandableListView.onGroupClicked(mGroupOrdinal);
+                    break;
+                case R.id.calendar_item_rl_content_container:
+                    ToastUtil.show("to Create a task");
+                    break;
             }
         }
     }

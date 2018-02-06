@@ -31,8 +31,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/app_list"
         android:visibility="gone"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scrollbars="none">
 
     </android.support.v7.widget.RecyclerView>

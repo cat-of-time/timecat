@@ -55,6 +55,15 @@ public class BaseActivity extends PermissionActivity {
         super.onCreate(savedInstanceState);
         context = (BaseActivity) getActivity();
         isAlive = true;
+        switch (ThemeManager.getTheme(this)) {
+            case ThemeManager.CARD_WHITE:
+            case ThemeManager.CARD_THUNDER:
+            case ThemeManager.CARD_MAGENTA:
+                setStatusBarFontIconDark(true);
+                break;
+            default:
+                setStatusBarFontIconDark(false);
+        }
     }
 
     public void switchFragment(Fragment fragment) {

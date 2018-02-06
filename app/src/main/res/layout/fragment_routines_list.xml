@@ -1,13 +1,18 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:background="#fcfcfc">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentTop="true"
+        android:alpha="0.4"
+        android:background="@drawable/presentation_box_shadow_top"/>
     <ListView
         android:id="@+id/routines_list"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:background="#fcfcfc"
         android:divider="#E0EAEF"
         android:dividerHeight="0dp"
