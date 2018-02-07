@@ -149,6 +149,8 @@ public class SchedulesFragment extends BaseFragment implements
     public void initView() {//必须调用
         initCalendarView();
         initMonthPager();
+        Utils.scrollTo(content, mAsyncExpandableListView, monthPager.getCellHeight(), 200);
+        calendarAdapter.switchToWeek(monthPager.getRowIndex());
     }
 
     /**

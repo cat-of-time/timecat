@@ -48,15 +48,13 @@ public class ArcLayout extends ViewGroup {
         super(context, attrs);
         // 获取自定义属性，设定默认值
         if (attrs != null) {
-            TypedArray a = getContext().obtainStyledAttributes(attrs,
-                    R.styleable.ArcLayout, 0, 0);
-            mFromDegrees = a.getFloat(R.styleable.ArcLayout_fromDegrees,
-                    DEFAULT_FROM_DEGREES);
-            mToDegrees = a.getFloat(R.styleable.ArcLayout_toDegrees,
-                    DEFAULT_TO_DEGREES);
-            mChildSize = Math
-                    .max(a.getDimensionPixelSize(
-                            R.styleable.ArcLayout_childSize, 0), 0);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ArcLayout, 0, 0);
+            mFromDegrees = a.getFloat(R.styleable.ArcLayout_fromDegrees,DEFAULT_FROM_DEGREES);
+            mToDegrees = a.getFloat(R.styleable.ArcLayout_toDegrees,DEFAULT_TO_DEGREES);
+            mChildSize = Math.max(
+                    a.getDimensionPixelSize(R.styleable.ArcLayout_childSize, 0),
+                    0
+            );
 
             a.recycle();
         }
@@ -244,12 +242,12 @@ public class ArcLayout extends ViewGroup {
         int radius = mRadius = computeRadius(
                 Math.abs(mToDegrees - mFromDegrees), getChildCount(),
                 mChildSize, mChildPadding, MIN_RADIUS);
-        Log.i("layout", "radius:" + radius);
+//        Log.i("layout", "radius:" + radius);
 
         int layoutPadding = 10;
         int size = radius * 2 + mChildSize + mChildPadding
                 + layoutPadding * 2;
-        Log.i("layout", "size:" + size);
+//        Log.i("layout", "size:" + size);
 
         setMeasuredDimension(size, size);
 

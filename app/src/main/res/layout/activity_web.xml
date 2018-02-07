@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/tab_indicator_long_width"
-        android:background="#dddddd">
+        android:background="#fff">
 
         <ImageView
             android:src="@mipmap/ic_close"

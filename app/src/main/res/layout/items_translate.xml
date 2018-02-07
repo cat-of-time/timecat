@@ -5,56 +5,88 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/height_normal"
-        android:layout_marginLeft="@dimen/share_card_button_height"
-        android:layout_marginTop="@dimen/margin_double"
-        android:gravity="center_vertical|left"
-        android:text="@string/stringValue9"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_title"/>
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/trans_again"
-        android:layout_width="@dimen/height_normal"
-        android:layout_height="@dimen/height_normal"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_double"
-        android:layout_marginTop="@dimen/margin_double"
-        android:contentDescription="@string/translate"
-        android:scaleType="centerInside"
-        android:src="@mipmap/ic_compare_arrows_white_36dp"/>
-
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/to_translate"
+    <LinearLayout
+        android:id="@+id/translate_ll_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_150dp"
-        android:layout_below="@id/title"
-        android:layout_marginLeft="@dimen/margin_double"
-        android:layout_marginRight="@dimen/margin_double"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:scrollHorizontally="false"
-        android:singleLine="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_normal"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_double"
+        android:orientation="horizontal">
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/translate_result"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/translate_iv_cancel"
+            android:layout_width="@dimen/height_small_32"
+            android:layout_height="@dimen/height_small_32"
+            android:layout_weight="1"
+            android:contentDescription="@string/cancel"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_close_capture"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_small_32"
+            android:layout_weight="8"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/stringValue9"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_title"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/trans_again"
+            android:layout_width="@dimen/height_small_32"
+            android:layout_height="@dimen/height_small_32"
+            android:layout_weight="1"
+            android:contentDescription="@string/translate"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_compare_arrows_white_36dp"/>
+    </LinearLayout>
+    <!-- title Label -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/translate_til_to_translate"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_150dp"
-        android:layout_below="@id/to_translate"
-        android:layout_marginBottom="@dimen/margin_double"
-        android:layout_marginLeft="@dimen/margin_double"
-        android:layout_marginRight="@dimen/margin_double"
-        android:layout_marginTop="@dimen/margin_normal"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:scrollHorizontally="false"
-        android:singleLine="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_normal"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/translate_ll_header"
+        android:layout_marginBottom="8dp">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/to_translate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="@dimen/margin_auto"
+            android:layout_marginLeft="@dimen/margin_auto"
+            android:layout_marginRight="@dimen/margin_auto"
+            android:gravity="top"
+            android:hint="翻译内容"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"
+            android:scrollHorizontally="false"
+            android:singleLine="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_tiny"/>
+    </android.support.design.widget.TextInputLayout>
+    <!-- content Label -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/add_task_til_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/translate_til_to_translate"
+        android:layout_marginBottom="8dp">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/translate_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_auto"
+            android:gravity="top"
+            android:hint="翻译结果"
+            android:inputType="textMultiLine"
+            android:minHeight="@dimen/dimen_150dp"
+            android:scrollHorizontally="false"
+            android:singleLine="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_tiny"/>
+    </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>

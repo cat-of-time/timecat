@@ -56,7 +56,7 @@
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/image1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/my_weixin"
             android:src="@drawable/wechat" />
@@ -74,7 +74,7 @@
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="400dp"
             android:layout_gravity="center_horizontal"
             android:text="@string/my_zhifubao"
             android:src="@drawable/alipay" />

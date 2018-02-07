@@ -48,7 +48,7 @@ public class ArcMenu extends FrameLayout {
 
     private ImageView mHintView;
     private ViewGroup controlLayout;
-    private OnModeSeletedListener mOnModeSeleter;
+    private OnModeSelectedListener mOnModeSeleter;
     private int mPosition;
 
     public ArcMenu(Context context) {
@@ -318,11 +318,11 @@ public class ArcMenu extends FrameLayout {
         return mHintView;
     }
 
-    public void setOnModeSeletedListener(OnModeSeletedListener onModeSeletedListener) {
-        mOnModeSeleter = onModeSeletedListener;
+    public void setOnModeSelectedListener(OnModeSelectedListener onModeSelectedListener) {
+        mOnModeSeleter = onModeSelectedListener;
     }
 
-    public interface OnModeSeletedListener {
+    public interface OnModeSelectedListener {
         void onModeSelected();
 
         void onNothing();

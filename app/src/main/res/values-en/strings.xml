@@ -30,7 +30,7 @@
     <string name="copyright">Copyright ©2018 TimeCat. All Rights  Reserved</string>
     <string name="stringValue6">A touch can reach  your convenient life！</string>
     <string name="share_request_confirm_like">Of course！</string>
-    <string name="stringValue9">Translation result：</string>
+    <string name="stringValue9">Translation result</string>
     <string name="sorry_for_parse_fail">I\'m sorry,resolution fail</string>
     <string name="ocr_picture">Open OCR</string>
     <string name="problems">Programs don\'t work properly?</string>

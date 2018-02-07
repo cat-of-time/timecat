@@ -137,7 +137,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
 
     private void initContentView(boolean fullScreen) {
         alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#fff7ca"));
         int value = (int) ((alpha / 100.0f) * 255);
 
         RegexUtil.refreshSymbolSelection();
@@ -158,13 +158,6 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
 
             getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
             setContentView(cardView);
-
-//            getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
-//            setContentView(R.layout.activity_time_cat_card);
-//            CardView cardView = findViewById(R.id.timecat_cardView);
-//            cardView.setRadius(ViewUtil.dp2px(10));
-//            cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
-
         }
     }
 
@@ -498,6 +491,21 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
 //水平滚动设置为False
             transResult.setHorizontallyScrolling(false);
 
+            findViewById(R.id.translate_iv_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (timeCatLayoutWrapper != null && timeCatLayoutWrapper.getVisibility() == View.GONE) {
+                        boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
+                        if (mAppsRecyclerViewLL != null) {
+                            mAppsRecyclerViewLL.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
+                        }
+                        timeCatLayoutWrapper.setVisibility(View.VISIBLE);
+                        if (transRl != null) {
+                            transRl.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            });
             findViewById(R.id.trans_again).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -35,7 +35,7 @@
     <string name="stringValue6">一触即达，便捷你的生活！</string>
     <string name="copyright">Copyright ©2018 Time Cat. All Rights  Reserved</string>
     <string name="share_request_confirm_like">当然！</string>
-    <string name="stringValue9">翻译结果：</string>
+    <string name="stringValue9">翻译结果</string>
     <string name="sorry_for_parse_fail">抱歉，解析失败</string>
     <string name="ocr_picture">从图片中识别</string>
     <string name="problems">程序工作不正常？</string>

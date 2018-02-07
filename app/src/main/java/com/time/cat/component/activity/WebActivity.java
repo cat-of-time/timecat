@@ -53,7 +53,7 @@ public class WebActivity extends BaseActivity {
     private WebView mWebView;
     private int browserSelection;
     private String mQuery;
-    private boolean isrefreshNotreload;
+    private boolean isRefreshNotReload;
     private boolean isFistIn = true;
 
     private void initAnim() {
@@ -151,7 +151,7 @@ public class WebActivity extends BaseActivity {
         for (int i = 0; i < SearchEngineUtil.getInstance().getSearchEngines().size(); i++) {
             String url = SearchEngineUtil.getInstance().getSearchEngines().get(i).url;
             if (mUrl.contains(url)) {
-                isrefreshNotreload = true;
+                isRefreshNotReload = true;
                 mTitleSpinner.setSelection(i);
                 return;
             }
@@ -178,8 +178,8 @@ public class WebActivity extends BaseActivity {
                         isFistIn = false;
                         return;
                     }
-                    if (isrefreshNotreload) {
-                        isrefreshNotreload = false;
+                    if (isRefreshNotReload) {
+                        isRefreshNotReload = false;
                         return;
                     }
                     toLoadUrl("", mQuery);
@@ -247,7 +247,7 @@ public class WebActivity extends BaseActivity {
         ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(localDisplayMetrics);
         localLayoutParams.width = ((int) (localDisplayMetrics.widthPixels * 0.9D));
         localLayoutParams.gravity = 17;
-        localLayoutParams.height = ((int) (localDisplayMetrics.heightPixels * 0.8D));
+        localLayoutParams.height = ((int) (localDisplayMetrics.heightPixels * 0.9D));
         getWindow().setAttributes(localLayoutParams);
         getWindow().setGravity(17);
         getWindow().getAttributes().windowAnimations = R.anim.anim_scale_in;
