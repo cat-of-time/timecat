@@ -90,7 +90,7 @@
         <item name="rd_bottomPadding">2dp</item>
         <item name="rd_delayClick">afterRelease</item>
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
-        <item name="android:textColor">@color/abc_primary_text_material_dark</item>
+        <item name="android:textColor">#fff</item>
     </style>
 
     <!-- Switch Style -->

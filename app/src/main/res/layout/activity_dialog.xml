@@ -15,14 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/dialog_add_task_til_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10dp">
 
             <android.support.v7.widget.AppCompatEditText
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginLeft="@dimen/margin_auto"
                 android:layout_marginRight="@dimen/margin_auto"
-                android:background="@null"
                 android:hint="任务名称"
                 android:singleLine="true"
                 android:textColor="@color/black"
@@ -42,6 +41,8 @@
                 android:layout_marginLeft="@dimen/margin_auto"
                 android:layout_marginRight="@dimen/margin_auto"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:focusedByDefault="true"
                 android:gravity="top"
                 android:hint="任务内容"
@@ -117,12 +118,15 @@
 
             <com.rey.material.widget.Button
                 android:id="@+id/dialog_add_task_footer_bt_submit"
-                android:layout_width="64dp"
-                android:layout_height="32dp"
+                style="@style/LightRaiseWaveColorButtonRippleStyle"
+                android:layout_width="80dp"
+                android:layout_height="36dp"
                 android:layout_alignParentEnd="true"
-                android:text="BUTTON"
-                android:textSize="@dimen/text_size_small"
-                app:v_styleId="@array/button_raise_wave_color"/>
+                android:text="提交"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_size_tiny"
+                app:rd_enable="true"
+                app:v_styleId="@style/LightRaiseWaveColorButtonRippleStyle"/>
         </RelativeLayout>
 
     </LinearLayout>

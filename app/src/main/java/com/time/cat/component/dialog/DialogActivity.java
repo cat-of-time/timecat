@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,23 +15,25 @@ import android.widget.Toast;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.util.ViewUtil;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author dlink
  * @date 2018/2/14
  * @discription
  */
-public class DialogActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener {
+public class DialogActivity extends BaseActivity implements
+                                                 ActivityPresenter,
+                                                 View.OnClickListener,
+                                                 SoftKeyBoardListener.OnSoftKeyBoardChangeListener {
     @SuppressWarnings("unused")
     private static final String TAG = "DialogActivity ";
 
 
     //<启动方法>-------------------------------------------------------------------------------------
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
-    private Button dialog_add_task_footer_bt_submit;
-    private EditText dialog_add_task_et_content;
-    //</启动方法>------------------------------------------------------------------------------------
-
     /**
      * 启动这个Activity的Intent
      *
@@ -50,7 +49,8 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
     public Activity getActivity() {
         return this;
     }
-    //</生命周期>------------------------------------------------------------------------------------
+    //</启动方法>------------------------------------------------------------------------------------
+
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -70,6 +70,12 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
     protected void onDestroy() {
         super.onDestroy();
     }
+    //</生命周期>------------------------------------------------------------------------------------
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    private Button dialog_add_task_footer_bt_submit;
+    private EditText dialog_add_task_et_content;
 
     @Override
     public void initView() {//必须调用
@@ -79,19 +85,23 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
         setWindow();
 
         dialog_add_task_et_content = findViewById(R.id.dialog_add_task_et_content);
-        new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-//                InputMethodManager inputMethodManager=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                InputMethodManager inputManager = (InputMethodManager) dialog_add_task_et_content.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputManager != null) {
-                    inputManager.showSoftInput(dialog_add_task_et_content, 0);
-                }
-                return false;
+
+        //获取焦点 光标出现
+        dialog_add_task_et_content.setFocusable(true);
+        dialog_add_task_et_content.setFocusableInTouchMode(true);
+        dialog_add_task_et_content.requestFocus();
+
+        // 这里给出个延迟弹出键盘，如果直接弹出键盘会和界面view渲染一起，体验不太好
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                ViewUtil.showInputMethod(dialog_add_task_et_content);
             }
-        }).sendEmptyMessageDelayed(0, 300);
+        }, 256);
+
+
         dialog_add_task_footer_bt_submit = findViewById(R.id.dialog_add_task_footer_bt_submit);
+
     }
 
     private void setWindow() {
@@ -120,6 +130,7 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
     @Override
     public void initEvent() {//必须调用
         dialog_add_task_footer_bt_submit.setOnClickListener(this);
+        SoftKeyBoardListener.setListener(DialogActivity.this, this);
     }
 
     @Override
@@ -132,8 +143,19 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
         }
     }
 
-    //-//<Listener>------------------------------------------------------------------------------
-    //-//</Listener>-----------------------------------------------------------------------------
+
+
+    //-//<SoftKeyBoardListener.OnSoftKeyBoardChangeListener>------------------------------------------------------------------------------
+    @Override
+    public void keyBoardShow(int height) {
+        Toast.makeText(DialogActivity.this, "键盘显示 高度" + height, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void keyBoardHide(int height) {
+        Toast.makeText(DialogActivity.this, "键盘隐藏 高度" + height, Toast.LENGTH_SHORT).show();
+    }
+    //-//</SoftKeyBoardListener.OnSoftKeyBoardChangeListener>-----------------------------------------------------------------------------
 
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
 
