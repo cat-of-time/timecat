@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/search_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/search_name_hint"
         android:maxLength="5"
-        android:layout_width="match_parent"
-        app:theme="@style/BrowserMonthDropTheme"
         android:textColor="@color/primary_text"
-        android:layout_height="wrap_content" />
+        app:theme="@style/BrowserMonthDropTheme"/>
+
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/search_url"
-        android:hint="@string/search_url_hint"
         android:layout_width="match_parent"
-        app:theme="@style/BrowserMonthDropTheme"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_url_hint"
         android:textColor="@color/primary_text"
-        android:layout_height="wrap_content" />
+        app:theme="@style/BrowserMonthDropTheme"/>
 
 </LinearLayout>

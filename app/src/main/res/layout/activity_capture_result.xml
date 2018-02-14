@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/margin_double">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_double">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,33 +21,33 @@
             <ImageView
                 android:id="@+id/captured_pic"
                 android:layout_width="match_parent"
-                android:scaleType="centerInside"
+                android:layout_height="wrap_content"
                 android:maxHeight="400dp"
-                android:layout_height="wrap_content" />
+                android:scaleType="centerInside"/>
 
             <RelativeLayout
                 android:id="@+id/ocr_result_rl"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_normal"
-                android:paddingRight="@dimen/margin_normal"
-                android:layout_height="wrap_content">
+                android:paddingRight="@dimen/margin_normal">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/ocr_result_key"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="@dimen/text_size_very_tiny"
+                    android:layout_height="wrap_content"
                     android:hint="@string/click_to_edit"
+                    android:textSize="@dimen/text_size_very_tiny"
                     >
+
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/ocr_result"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left|center_vertical"
-                        android:padding="@dimen/margin_double"
-                        android:textSize="@dimen/text_size_normal"
                         android:maxHeight="300dp"
-                        android:textColor="@color/white" />
+                        android:padding="@dimen/margin_double"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_normal"/>
                 </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
@@ -71,7 +70,7 @@
                 android:drawableTop="@mipmap/timecat_action_share"
                 android:gravity="center_horizontal"
                 android:scaleType="center"
-                android:text="@string/share_" />
+                android:text="@string/share_"/>
 
 
             <android.support.v7.widget.AppCompatTextView
@@ -83,7 +82,7 @@
                 android:drawableTop="@mipmap/timecat_action_local"
                 android:gravity="center_horizontal"
                 android:scaleType="center"
-                android:text="@string/save_" />
+                android:text="@string/save_"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/search"
@@ -94,7 +93,8 @@
                 android:drawableTop="@mipmap/timecat_action_search"
                 android:gravity="center_horizontal"
                 android:scaleType="center"
-                android:text="@string/search_" />
+                android:text="@string/search_"/>
+
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/recognize"
                 android:layout_width="0dp"
@@ -104,7 +104,7 @@
                 android:drawableTop="@mipmap/timecat_action_cloud"
                 android:gravity="center_horizontal"
                 android:scaleType="center"
-                android:text="@string/ocr_" />
+                android:text="@string/ocr_"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/timecat"
@@ -115,7 +115,7 @@
                 android:drawableTop="@mipmap/timecat_action_copy"
                 android:gravity="center_horizontal"
                 android:scaleType="center"
-                android:text="@string/timecat_" />
+                android:text="@string/timecat_"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

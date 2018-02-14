@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:ignore="MergeRootFrame"
-    android:orientation="vertical"
-    tools:context=".component.activity.whitelist.WhiteListActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".component.activity.whitelist.WhiteListActivity"
+              tools:ignore="MergeRootFrame">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,26 +14,26 @@
         android:layout_height="@dimen/toolbar_height"
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true"
-        app:subtitleTextColor="@color/white"
-        app:titleTextColor="@color/white"
         android:gravity="center"
         app:popupTheme="@style/Theme.AppCompat.Light"
-        app:title="@string/title_white_list" />
+        app:subtitleTextColor="@color/white"
+        app:title="@string/title_white_list"
+        app:titleTextColor="@color/white"/>
 
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/loading"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="200dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/app_list"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:visibility="gone">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

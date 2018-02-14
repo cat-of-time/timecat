@@ -23,7 +23,6 @@
             app:layout_scrollFlags="enterAlways|scroll">
 
             <LinearLayout
-                android:id="@+id/main_nav_view"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_centerVertical="true"
@@ -87,8 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="17dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="17dp"
             fab:fab_addButtonColorNormal="#32ffffff"
             fab:fab_addButtonColorPressed="#ffffff"
             fab:fab_addButtonPlusIconColor="#263238"
@@ -118,17 +117,17 @@
                 android:layout_height="wrap_content"
                 fab:fab_colorNormal="@color/android_green_light_noalpha"
                 fab:fab_colorPressed="@color/android_green"
-                fab:fab_size="mini"
-                fab:fab_icon="@drawable/ic_autorenew_white_48dp"/>
+                fab:fab_icon="@drawable/ic_autorenew_white_48dp"
+                fab:fab_size="mini"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/action_d"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                fab:fab_size="mini"
                 fab:fab_colorNormal="@color/android_green_light_noalpha"
                 fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_qrcode_white_48dp"/>
+                fab:fab_icon="@drawable/ic_qrcode_white_48dp"
+                fab:fab_size="mini"/>
 
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>

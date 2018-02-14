@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.time.cat.ThemeSystem.widgets.TintRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/theme_color_primary"
     android:layout_width="51.4dp"
-    android:layout_height="45dp">
+    android:layout_height="45dp"
+    android:background="@color/theme_color_primary"
+    android:orientation="vertical">
+
     <View
         android:id="@+id/today_background"
         android:layout_width="33dp"
         android:layout_height="33dp"
-        android:background="@drawable/view_calendar_today_background"
         android:layout_centerInParent="true"
+        android:background="@drawable/view_calendar_today_background"
         android:visibility="gone"/>
+
     <View
         android:id="@+id/selected_background"
         android:layout_width="33dp"
         android:layout_height="33dp"
-        android:background="@drawable/view_calendar_selected_background"
         android:layout_centerInParent="true"
+        android:background="@drawable/view_calendar_selected_background"
         android:visibility="gone"/>
+
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="19"/>
+
     <ImageView
         android:id="@+id/maker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:background="@drawable/view_calendar_mark_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:visibility="visible"/>
 </com.time.cat.ThemeSystem.widgets.TintRelativeLayout>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,7 +15,7 @@
         android:gravity="center"
         app:popupTheme="@style/Theme.AppCompat.Light"
         app:subtitleTextColor="@color/white"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/hint"
@@ -26,14 +26,13 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/move_edit_hint"
-        android:textSize="12sp" />
+        android:textSize="12sp"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/hint"
-        android:background="@drawable/divider_recycler" />
-
+        android:background="@drawable/divider_recycler"/>
 
 
     <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
@@ -43,7 +42,8 @@
         android:layout_below="@+id/hint"
         android:orientation="vertical"
         android:overScrollMode="never"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_search"
         android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
-        app:theme="@style/fabTheme"
-        android:src="@mipmap/add" />
+        android:src="@mipmap/add"
+        app:theme="@style/fabTheme"/>
 
 </RelativeLayout>

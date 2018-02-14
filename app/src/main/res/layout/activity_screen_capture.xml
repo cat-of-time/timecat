@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <com.time.cat.mvp.view.MarkSizeView
         android:id="@+id/mark_size"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/mark_type"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:background="@null"
-        android:textColor="@color/white"
+        android:gravity="center"
         android:text="@string/capture_type_rect"
-        android:textSize="@dimen/text_size_huge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_huge"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/capture_tips"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/capture_tips"
         android:gravity="center"
+        android:text="@string/capture_tips"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_huge"
-        android:layout_height="wrap_content" />
+        android:textSize="@dimen/text_size_huge"/>
 
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/capture_all"
-        android:layout_marginBottom="50dp"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
         android:background="@null"
-        android:textColor="@color/white"
+        android:gravity="center"
         android:text="@string/capture_all"
-        android:textSize="@dimen/text_size_huge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_huge"/>
 </RelativeLayout>

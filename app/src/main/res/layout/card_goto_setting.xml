@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/content_view"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/content_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/goto_access_rl"
-        android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
         <com.time.cat.mvp.view.HintTextView
+            style="@style/hintTextViewInLayoutLeft"
+            android:layout_width="match_parent"
             android:layout_centerVertical="true"
             app:hint="@string/open_access_hint"
             app:hintTextColor="@color/text_color_import"
             app:msg="@string/open_access_setting"
-            android:layout_width="match_parent"
-            style="@style/hintTextViewInLayoutLeft"
             />
 
 
@@ -25,23 +25,22 @@
 
 
     <RelativeLayout
-        android:id="@+id/goto_voice_rl"
-        android:visibility="gone"
+        style="@style/hintTextViewRelativeLayoutSelector"
         android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        android:visibility="gone">
 
         <View
             android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:layout_height="1px"/>
+            android:layout_height="1px"
+            android:background="@color/divider"/>
 
         <com.time.cat.mvp.view.HintTextView
+            style="@style/hintTextViewInLayoutLeft"
+            android:layout_width="match_parent"
             android:layout_centerVertical="true"
             app:hint="@string/open_voice_hint"
             app:hintTextColor="@color/secondary_text"
             app:msg="@string/open_voice_setting"
-            android:layout_width="match_parent"
-            style="@style/hintTextViewInLayoutLeft"
             />
 
 
@@ -50,19 +49,18 @@
 
     <RelativeLayout
         android:id="@+id/auto_open_rl"
-        android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
         <View
             android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:layout_height="1px"/>
+            android:layout_height="1px"
+            android:background="@color/divider"/>
 
         <com.time.cat.mvp.view.HintTextView
-            android:id="@+id/auto_open_tv"
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/auto_open_hint"
-            app:msg="@string/auto_open" />
+            app:msg="@string/auto_open"/>
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/auto_open_switch"

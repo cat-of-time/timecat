@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,7 +16,7 @@
         app:popupTheme="@style/Theme.AppCompat.Light"
         app:subtitleTextColor="@color/white"
         app:title="@string/title_white_list"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"/>
 
 
     <android.support.v7.widget.CardView
@@ -25,34 +25,33 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/intro"
         android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_normal"
         android:layout_marginLeft="@dimen/default_grow_margin"
         android:layout_marginRight="@dimen/default_grow_margin"
         android:layout_marginTop="@dimen/margin_normal"
-        android:layout_marginBottom="@dimen/margin_normal"
         app:cardCornerRadius="@dimen/timecat_card_corner">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
             <com.time.cat.mvp.view.TimeCatLayoutWrapper
                 android:id="@+id/timecat_wrap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:textSize="@dimen/text_size_small" />
+                app:textSize="@dimen/text_size_small"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
     <ScrollView xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:clipChildren="false"
-        android:background="@color/white">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clickable="false"
+                android:clipChildren="false">
 
         <LinearLayout
-            android:id="@+id/activity_intro"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -73,7 +72,7 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="@dimen/margin_double"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_normal"/>
 
                 <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/set_text_size"
@@ -81,7 +80,7 @@
                     android:layout_height="@dimen/setting_timecat_activity_line_height"
                     android:max="100"
                     android:paddingLeft="@dimen/margin_double"
-                    android:paddingRight="@dimen/margin_double" />
+                    android:paddingRight="@dimen/margin_double"/>
             </LinearLayout>
 
 
@@ -99,7 +98,7 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="@dimen/margin_double"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_normal"/>
 
                 <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/set_line_margin"
@@ -107,7 +106,7 @@
                     android:layout_height="@dimen/setting_timecat_activity_line_height"
                     android:max="100"
                     android:paddingLeft="@dimen/margin_double"
-                    android:paddingRight="@dimen/margin_double" />
+                    android:paddingRight="@dimen/margin_double"/>
 
             </LinearLayout>
 
@@ -126,7 +125,7 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="@dimen/margin_double"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_normal"/>
 
                 <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/set_item_margin"
@@ -134,7 +133,7 @@
                     android:layout_height="@dimen/setting_timecat_activity_line_height"
                     android:max="100"
                     android:paddingLeft="@dimen/margin_double"
-                    android:paddingRight="@dimen/margin_double" />
+                    android:paddingRight="@dimen/margin_double"/>
 
             </LinearLayout>
 
@@ -153,7 +152,7 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="@dimen/margin_double"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_normal"/>
 
                 <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/set_item_padding"
@@ -161,7 +160,7 @@
                     android:layout_height="@dimen/setting_timecat_activity_line_height"
                     android:max="100"
                     android:paddingLeft="@dimen/margin_double"
-                    android:paddingRight="@dimen/margin_double" />
+                    android:paddingRight="@dimen/margin_double"/>
 
             </LinearLayout>
 
@@ -170,8 +169,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_double"
                 android:background="@drawable/button_white_stroke_green"
-                android:padding="2dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -180,7 +179,7 @@
                     android:paddingLeft="@dimen/margin_double"
                     android:text="@string/set_background"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_normal"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/timecat_background"
@@ -204,7 +203,7 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="@dimen/margin_double"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_normal"/>
 
                 <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/set_timecat_alpha"
@@ -212,96 +211,98 @@
                     android:layout_height="@dimen/setting_timecat_activity_line_height"
                     android:max="100"
                     android:paddingLeft="@dimen/margin_double"
-                    android:paddingRight="@dimen/margin_double" />
+                    android:paddingRight="@dimen/margin_double"/>
 
 
             </LinearLayout>
 
 
             <android.support.v7.widget.AppCompatCheckBox
-                app:theme="@style/CheckBoxTheme"
                 android:id="@+id/is_blank_symbol"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/setting_timecat_activity_line_height"
                 android:layout_marginLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_tiny"
                 android:gravity="left|center_vertical"
+                android:text="@string/treat_blanks_symbol"
                 android:textColor="@color/secondary_text"
-                android:text="@string/treat_blanks_symbol"/>
+                android:textSize="@dimen/text_size_tiny"
+                app:theme="@style/CheckBoxTheme"/>
 
             <android.support.v7.widget.AppCompatCheckBox
-                app:theme="@style/CheckBoxTheme"
                 android:id="@+id/auto_add_blanks"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/setting_timecat_activity_line_height"
                 android:layout_marginLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_tiny"
                 android:gravity="left|center_vertical"
+                android:text="@string/auto_add_blanks"
                 android:textColor="@color/secondary_text"
-                android:text="@string/auto_add_blanks"/>
+                android:textSize="@dimen/text_size_tiny"
+                app:theme="@style/CheckBoxTheme"/>
 
 
             <android.support.v7.widget.AppCompatCheckBox
-                app:theme="@style/CheckBoxTheme"
                 android:id="@+id/is_default_local"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/setting_timecat_activity_line_height"
                 android:layout_marginLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_small"
                 android:gravity="left|center_vertical"
+                android:text="@string/is_default_local"
                 android:textColor="@color/secondary_text"
-                android:text="@string/is_default_local"/>
+                android:textSize="@dimen/text_size_small"
+                app:theme="@style/CheckBoxTheme"/>
 
 
             <android.support.v7.widget.AppCompatCheckBox
-                app:theme="@style/CheckBoxTheme"
                 android:id="@+id/is_full_screen"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/setting_timecat_activity_line_height"
                 android:layout_marginLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_small"
                 android:gravity="left|center_vertical"
+                android:text="@string/is_full_screen"
                 android:textColor="@color/secondary_text"
-                android:text="@string/is_full_screen"/>
+                android:textSize="@dimen/text_size_small"
+                app:theme="@style/CheckBoxTheme"/>
 
             <android.support.v7.widget.AppCompatCheckBox
-                app:theme="@style/CheckBoxTheme"
                 android:id="@+id/is_stick_header"
                 android:layout_width="match_parent"
-                android:gravity="left|center_vertical"
                 android:layout_height="@dimen/setting_timecat_activity_line_height"
                 android:layout_marginLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_small"
+                android:gravity="left|center_vertical"
+                android:text="@string/is_stick_header"
                 android:textColor="@color/secondary_text"
-                android:text="@string/is_stick_header"/>
+                android:textSize="@dimen/text_size_small"
+                app:theme="@style/CheckBoxTheme"/>
+
             <android.support.v7.widget.AppCompatCheckBox
-                app:theme="@style/CheckBoxTheme"
                 android:id="@+id/is_stick_sharebar"
                 android:layout_width="match_parent"
-                android:gravity="left|center_vertical"
                 android:layout_height="@dimen/setting_timecat_activity_line_height"
                 android:layout_marginLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_small"
+                android:gravity="left|center_vertical"
+                android:text="@string/is_stick_sharebar"
                 android:textColor="@color/secondary_text"
-                android:text="@string/is_stick_sharebar"/>
+                android:textSize="@dimen/text_size_small"
+                app:theme="@style/CheckBoxTheme"/>
+
             <LinearLayout
                 android:id="@+id/setting_share_apps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
                 android:layout_margin="@dimen/margin_double"
                 android:background="@drawable/button_white_stroke_green"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/setting_timecat_activity_text_height"
-                    android:text="@string/share_app"
                     android:gravity="center_vertical|center_horizontal"
                     android:paddingLeft="@dimen/margin_double"
+                    android:text="@string/share_app"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_normal"/>
             </LinearLayout>
 
         </LinearLayout>

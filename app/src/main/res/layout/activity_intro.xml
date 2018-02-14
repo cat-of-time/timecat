@@ -1,101 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_intro"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
-    android:background="@color/intro_bg"
-    tools:context="com.time.cat.component.activity.IntroActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/intro_bg"
+              android:orientation="vertical"
+              tools:context="com.time.cat.component.activity.IntroActivity">
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/dimen_50dp"
+            android:layout_marginRight="@dimen/dimen_50dp"
+            android:layout_marginTop="@dimen/dimen_150dp"
+            android:text="@string/stringValue1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/timecat_wraper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/intro"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/default_grow_margin"
+            android:layout_marginRight="@dimen/default_grow_margin"
+            android:layout_marginTop="@dimen/margin_four"
+            android:visibility="invisible"
+            app:cardBackgroundColor="@color/timecat_bg"
+            app:cardCornerRadius="@dimen/timecat_card_corner">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/intro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/dimen_50dp"
-                android:layout_marginRight="@dimen/dimen_50dp"
-                android:layout_marginTop="@dimen/dimen_150dp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:text="@string/stringValue1" />
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/timecat_wraper"
-                android:layout_width="match_parent"
-                android:visibility="invisible"
-                app:cardCornerRadius="@dimen/timecat_card_corner"
-                app:cardBackgroundColor="@color/timecat_bg"
-                android:layout_below="@id/intro"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/default_grow_margin"
-                android:layout_marginRight="@dimen/default_grow_margin"
-                android:layout_marginTop="@dimen/margin_four"
-                android:layout_height="wrap_content">
-                <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+                <com.time.cat.mvp.view.TimeCatLayoutWrapper
+                    android:id="@+id/timecat_wrap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <com.time.cat.mvp.view.TimeCatLayoutWrapper
-                        android:id="@+id/timecat_wrap"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:lineSpace="3dp"
-                        app:textSize="@dimen/text_size_small" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+                    app:lineSpace="3dp"
+                    app:textSize="@dimen/text_size_small"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/enter_timecat_intro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/timecat_wraper"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_four"
-                android:gravity="center"
-                android:text="@string/click_to_see_function"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:visibility="gone" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/enter_timecat_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timecat_wraper"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_four"
+            android:gravity="center"
+            android:text="@string/click_to_see_function"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal"
+            android:visibility="gone"/>
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/enter_timecat"
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="@dimen/margin_double"
-                android:paddingBottom="@dimen/margin_double"
-                android:paddingLeft="@dimen/margin_four"
-                android:paddingRight="@dimen/margin_four"
-                android:background="@drawable/button_introduction"
-                android:layout_marginBottom="@dimen/margin_four"
-                android:text="@string/stringValue2"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_title"
-                android:visibility="gone" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/enter_timecat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_four"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_introduction"
+            android:paddingBottom="@dimen/margin_double"
+            android:paddingLeft="@dimen/margin_four"
+            android:paddingRight="@dimen/margin_four"
+            android:paddingTop="@dimen/margin_double"
+            android:text="@string/stringValue2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_title"
+            android:visibility="gone"/>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/jump"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:text="@string/jump_introduction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_normal"
-                android:paddingLeft="@dimen/margin_double"
-                android:paddingRight="@dimen/margin_double"
-                android:textSize="@dimen/text_size_very_tiny"
-                android:layout_marginBottom="@dimen/margin_four"
-                android:layout_marginRight="@dimen/margin_double"
-                android:textColor="@color/white"
-                android:background="@drawable/button_introduction"
-                />
-        </RelativeLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/jump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_four"
+            android:layout_marginRight="@dimen/margin_double"
+            android:background="@drawable/button_introduction"
+            android:padding="@dimen/margin_normal"
+            android:paddingLeft="@dimen/margin_double"
+            android:paddingRight="@dimen/margin_double"
+            android:text="@string/jump_introduction"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_very_tiny"
+            />
+    </RelativeLayout>
 </LinearLayout>

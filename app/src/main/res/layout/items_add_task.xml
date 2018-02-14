@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/add_task_rl"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
-
 
     <LinearLayout
         android:id="@+id/add_task_ll_header"
@@ -55,6 +54,7 @@
             android:layout_height="48dp"
             android:layout_marginLeft="@dimen/margin_auto"
             android:layout_marginRight="@dimen/margin_auto"
+            android:background="@null"
             android:hint="任务名称"
             android:singleLine="true"
             android:textColor="@color/black"
@@ -74,6 +74,7 @@
             android:layout_marginLeft="@dimen/margin_auto"
             android:layout_marginRight="@dimen/margin_auto"
             android:layout_marginTop="@dimen/margin_normal"
+            android:focusedByDefault="true"
             android:gravity="top"
             android:hint="任务内容"
             android:inputType="textMultiLine"
@@ -85,29 +86,7 @@
             android:textSize="@dimen/text_size_tiny"/>
     </android.support.design.widget.TextInputLayout>
 
-    <ViewStub
-        android:id="@+id/items_add_task_select_important_urgent_view_stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/add_task_ll_footer"
-        android:layout_below="@id/add_task_til_content"
-        android:layout="@layout/items_add_task_select_important_urgent"/>
-    <ViewStub
-        android:id="@+id/items_add_task_select_date_view_stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/add_task_ll_footer"
-        android:layout_below="@id/add_task_til_content"
-        android:layout="@layout/items_add_task_select_date"/>
-    <ViewStub
-        android:id="@+id/items_add_task_select_time_view_stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/add_task_ll_footer"
-        android:layout_below="@id/add_task_til_content"
-        android:layout="@layout/items_add_task_select_time"/>
     <LinearLayout
-        android:id="@+id/add_task_ll_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/add_task_til_content"
@@ -160,4 +139,5 @@
             android:textColor="@color/blue"
             android:textSize="10dp"/>
     </LinearLayout>
+
 </RelativeLayout>

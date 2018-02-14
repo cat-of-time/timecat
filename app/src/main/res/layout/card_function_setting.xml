@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/content_view"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/content_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/total_switch_rl"
-        android:duplicateParentState="false"
-        style="@style/cardViewRelativeLayoutSelector">
+        style="@style/cardViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/total_switch_tv"
             style="@style/cardViewTextViewInLayoutLeft"
-            android:text="@string/total_switch" />
+            android:text="@string/total_switch"/>
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/total_switch_switch"
@@ -23,18 +22,20 @@
 
     <View
         android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="@color/divider"/>
+
     <RelativeLayout
         android:id="@+id/monitor_click_rl"
-        android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
         <com.time.cat.mvp.view.HintTextView
             android:id="@+id/monitor_click_tv"
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/monitor_click_into"
-            app:msg="@string/monitor_click" />
+            app:msg="@string/monitor_click"/>
+
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/monitor_click_switch"
             style="@style/switchStyle"/>
@@ -42,27 +43,28 @@
 
     <View
         android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="@color/divider"/>
+
     <RelativeLayout
         android:id="@+id/monitor_clipboard_rl"
-        android:duplicateParentState="false"
-        style="@style/cardViewRelativeLayoutSelector">
+        style="@style/cardViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/monitor_clipboard_tv"
 
             style="@style/cardViewTextViewInLayoutLeft"
-            android:text="@string/monitor_clipboard" />
+            android:text="@string/monitor_clipboard"/>
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/monitor_clipboard_switch"
             style="@style/switchStyle"/>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="@color/divider"/>
 
     <RelativeLayout
         android:id="@+id/orc"
@@ -78,7 +80,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="@string/ocr_picture"
-            android:textColor="@color/primary_text" />
+            android:textColor="@color/primary_text"/>
 
     </RelativeLayout>
 

@@ -7,12 +7,12 @@
     <LinearLayout
         android:id="@+id/long_pressed_ll"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:background="@color/white"
+        android:layout_height="90dp"
         android:layout_alignParentBottom="true"
-        android:layout_height="90dp">
+        android:background="@color/white"
+        android:gravity="center">
 
-        <include layout="@layout/long_press_box_trans" />
+        <include layout="@layout/long_press_box_trans"/>
     </LinearLayout>
 
 </com.time.cat.mvp.view.KeyRelativeLayout>

@@ -18,15 +18,16 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="90dp"
-    android:layout_height="130dp">
+             android:layout_width="90dp"
+             android:layout_height="130dp">
+
     <ImageView
-        android:layout_marginTop="40dp"
+        android:id="@+id/imageView"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:id="@+id/imageView"
+        android:layout_marginTop="40dp"
         android:background="@drawable/avatar_list_item_bg"
-        android:src="@drawable/avatar1"
         android:padding="8dp"
-        android:scaleType="fitEnd"/>
+        android:scaleType="fitEnd"
+        android:src="@drawable/avatar1"/>
 </FrameLayout>

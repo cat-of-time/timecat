@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
@@ -21,12 +20,12 @@
         <com.time.cat.mvp.view.ColorTextView
             android:id="@+id/title"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_huge"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/text_size_huge"/>
 
         <com.time.cat.mvp.view.ColorTextView
             android:id="@+id/control_setting_title"
@@ -39,7 +38,7 @@
             android:lineSpacingExtra="@dimen/margin_normal"
             android:padding="10dp"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_normal" />
+            android:textSize="@dimen/text_size_normal"/>
 
         <com.time.cat.mvp.view.ColorTextView
             android:id="@+id/introduction"
@@ -49,7 +48,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@color/secondary_text"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_small"/>
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/contron_by_float"
@@ -59,7 +58,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:text="@string/control_by_float"
-            app:theme="@style/CheckBoxTheme" />
+            app:theme="@style/CheckBoxTheme"/>
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/contron_by_notify"
@@ -69,7 +68,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:text="@string/control_by_notify"
-            app:theme="@style/CheckBoxTheme" />
+            app:theme="@style/CheckBoxTheme"/>
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/trigger_by_float"
@@ -79,7 +78,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:text="@string/trigger_by_float"
-            app:theme="@style/CheckBoxTheme" />
+            app:theme="@style/CheckBoxTheme"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/confirm"
@@ -92,7 +91,7 @@
             android:background="@null"
             android:gravity="center"
             android:text="@string/confirm_setting"
-            android:textColor="@color/secondary_text" />
+            android:textColor="@color/secondary_text"/>
 
 
     </LinearLayout>

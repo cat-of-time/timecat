@@ -73,7 +73,6 @@
             android:layout_below="@+id/top">
 
             <com.mikepenz.iconics.view.IconicsImageView
-                android:id="@+id/ic_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_how_to_use"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.time.cat.component.activity.howtouse.HowToUseActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              tools:context="com.time.cat.component.activity.howtouse.HowToUseActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -22,11 +21,11 @@
         app:popupTheme="@style/Theme.AppCompat.Light"
         app:subtitleTextColor="@color/white"
         app:title="@string/introduction"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"/>
 
     <ScrollView
-        android:layout_width="match_parent"
         android:id="@+id/intro_menu"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -38,117 +37,117 @@
                 android:id="@+id/overall_intro"
                 style="@style/cardViewTextView"
                 android:text="@string/overall_intro"
-                android:textColor="@color/text_color_import" />
+                android:textColor="@color/text_color_import"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/introduction"
                 style="@style/cardViewTextView"
                 android:text="@string/show_introduction"
-                android:textColor="@color/text_color_import" />
+                android:textColor="@color/text_color_import"/>
 
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/about_accessibility"
                 style="@style/cardViewTextView"
-                android:text="@string/about_accessibility" />
+                android:text="@string/about_accessibility"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/problems"
                 style="@style/cardViewTextView"
-                android:text="@string/problems" />
+                android:text="@string/problems"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/about_control"
                 style="@style/cardViewTextView"
-                android:text="@string/about_control" />
+                android:text="@string/about_control"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/about_click"
                 style="@style/cardViewTextView"
-                android:text="@string/about_click" />
+                android:text="@string/about_click"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/how_to_use_copy"
                 style="@style/cardViewTextView"
-                android:text="@string/how_to_use_copy" />
+                android:text="@string/how_to_use_copy"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/about_universal_copy"
                 style="@style/cardViewTextView"
-                android:text="@string/about_universal_copy" />
+                android:text="@string/about_universal_copy"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/about_ocr"
                 style="@style/cardViewTextView"
-                android:text="@string/about_ocr" />
+                android:text="@string/about_ocr"/>
 
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/about_xposed"
                 style="@style/cardViewTextView"
-                android:visibility="gone"
-                android:text="@string/about_xposed" />
+                android:text="@string/about_xposed"
+                android:visibility="gone"/>
 
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/open_from_outside"
                 style="@style/cardViewTextView"
-                android:text="@string/open_from_outside" />
+                android:text="@string/open_from_outside"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/how_to_set"
                 style="@style/cardViewTextView"
-                android:text="@string/how_to_set" />
+                android:text="@string/how_to_set"/>
 
         </LinearLayout>
     </ScrollView>
@@ -169,12 +168,12 @@
             android:paddingRight="@dimen/margin_double"
             android:text="@string/how_to_set"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/text_size_title" />
+            android:textSize="@dimen/text_size_title"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/divider" />
+            android:background="@color/divider"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -186,7 +185,7 @@
                 android:layout_height="match_parent"
                 android:lineSpacingMultiplier="1.5"
                 android:padding="@dimen/margin_double"
-                android:text="@string/how_to_set" />
+                android:text="@string/how_to_set"/>
 
         </ScrollView>
     </LinearLayout>

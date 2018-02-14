@@ -16,9 +16,9 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
     <com.bilibili.magicasakura.widgets.TintProgressBar
         android:id="@+id/progress"
@@ -31,7 +31,7 @@
         android:layout_marginStart="10dip"
         android:layout_marginTop="12dip"
         app:progressIndeterminateTint="?attr/themeColorSecondary"
-        app:progressTint="?attr/themeColorSecondary" />
+        app:progressTint="?attr/themeColorSecondary"/>
 
     <TextView
         android:id="@+id/progress_percent"
@@ -41,7 +41,7 @@
         android:layout_below="@id/progress"
         android:layout_marginEnd="10dip"
         android:layout_marginStart="10dip"
-        android:paddingBottom="12dip" />
+        android:paddingBottom="12dip"/>
 
     <TextView
         android:id="@+id/progress_number"
@@ -51,5 +51,5 @@
         android:layout_below="@id/progress"
         android:layout_marginEnd="10dip"
         android:layout_marginStart="10dip"
-        android:paddingBottom="12dip" />
+        android:paddingBottom="12dip"/>
 </RelativeLayout>
