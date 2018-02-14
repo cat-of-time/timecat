@@ -28,7 +28,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.CompoundButtonCompat;
 import android.util.AttributeSet;
-import android.widget.CheckBox;
 
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.ThemeSystem.utils.TintManager;
@@ -37,8 +36,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @author xyczero617@gmail.com
  * @time 16/1/27
  */
-public class TintCheckBox extends android.support.v7.widget.AppCompatCheckBox implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible,
-        AppCompatCompoundButtonHelper.CompoundButtonExtensible, AppCompatTextHelper.TextExtensible {
+public class TintCheckBox extends android.support.v7.widget.AppCompatCheckBox implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatCompoundButtonHelper.CompoundButtonExtensible, AppCompatTextHelper.TextExtensible {
     private AppCompatBackgroundHelper mBackgroundHelper;
     private AppCompatCompoundButtonHelper mCompoundButtonHelper;
     private AppCompatTextHelper mTextHelper;
@@ -162,9 +160,7 @@ public class TintCheckBox extends android.support.v7.widget.AppCompatCheckBox im
     @Override
     public int getCompoundPaddingLeft() {
         final int value = super.getCompoundPaddingLeft();
-        return mCompoundButtonHelper != null
-                ? mCompoundButtonHelper.getCompoundPaddingLeft(value)
-                : value;
+        return mCompoundButtonHelper != null ? mCompoundButtonHelper.getCompoundPaddingLeft(value) : value;
     }
 
     @Override

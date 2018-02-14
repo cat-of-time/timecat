@@ -11,8 +11,8 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.time.cat.util.ConstantUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
+import com.time.cat.util.ConstantUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,12 +37,7 @@ public class SelectionDbHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_PACKAGE = "package";
     public static final String COLUMN_TYPE = "type";
-    public static final String CREATE_EXEC =
-            "create table if not exists " + TABLE_NAME + " ( " +
-                    COLUMN_ID + " integer primary key, " +
-                    COLUMN_PACKAGE + " varchar, " +
-                    COLUMN_TYPE + " int " +
-                    ")";
+    public static final String CREATE_EXEC = "create table if not exists " + TABLE_NAME + " ( " + COLUMN_ID + " integer primary key, " + COLUMN_PACKAGE + " varchar, " + COLUMN_TYPE + " int " + ")";
     String[] spinnerArray;
     private Context mContext;
     private List<AppListAdapter.ApplicationInfoWrap> mCanOpenApplicationInfos;
@@ -148,8 +143,7 @@ public class SelectionDbHelper extends SQLiteOpenHelper {
             int typeIndex = cursor.getColumnIndex(COLUMN_TYPE);
             do {
                 selections.put(cursor.getString(packageIndex), cursor.getInt(typeIndex));
-            }
-            while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         database.close();
         return selections;

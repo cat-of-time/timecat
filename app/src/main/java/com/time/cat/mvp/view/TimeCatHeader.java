@@ -133,8 +133,7 @@ class TimeCatHeader extends ViewGroup implements View.OnClickListener {
         Rect newBounds = new Rect(0, mSearch.getMeasuredHeight() / 2, width, height);
 
         if (!stickHeader && !oldBounds.equals(newBounds)) {
-            ObjectAnimator.ofObject(new BoundWrapper(oldBounds), "bound",
-                    new RectEvaluator(), oldBounds, newBounds).setDuration(200).start();
+            ObjectAnimator.ofObject(new BoundWrapper(oldBounds), "bound", new RectEvaluator(), oldBounds, newBounds).setDuration(200).start();
         }
     }
 

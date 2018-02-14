@@ -15,22 +15,22 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.base.BaseActivity;
+import com.time.cat.mvp.view.ColorTextView;
+import com.time.cat.mvp.view.Dialog;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
 import com.time.cat.util.ClipboardUtils;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.NotificationCheckUtil;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.mvp.view.ColorTextView;
-import com.time.cat.mvp.view.Dialog;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.SimpleDialog;
-import com.shang.commonjar.contentProvider.SPHelper;
 
-import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 import static com.time.cat.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
+import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
 /**
  * Created by wangyan-pd on 2016/11/28.
@@ -92,26 +92,22 @@ public class PreSettingActivity extends BaseActivity {
                 sendBroadcast(new Intent(BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
                 if (isClickFloat && isChecked) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getApplicationContext())) {
-                        SnackBarUtil.show(buttonView,
-                                getString(R.string.punish_float_problem),
-                                getString(R.string.punish_float_action),
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
+                        SnackBarUtil.show(buttonView, getString(R.string.punish_float_problem), getString(R.string.punish_float_action), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
 //                                        Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
 //                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
 //                                        mContext.startActivity(intent);
 
-                                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                                                    Uri.parse("package:" + getPackageName()));
-                                            startActivity(intent);
+                                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                                    startActivity(intent);
 
-                                        } catch (Throwable e) {
-                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
-                                        }
-                                    }
-                                });
+                                } catch (Throwable e) {
+                                    SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
+                                }
+                            }
+                        });
                     } else {
                         SnackBarUtil.show(buttonView, getString(R.string.punish_float_problem));
                     }
@@ -127,23 +123,20 @@ public class PreSettingActivity extends BaseActivity {
                 sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 if (isClickNotify && isChecked) {
                     if (!NotificationCheckUtil.areNotificationsEnabled(getApplicationContext())) {
-                        SnackBarUtil.show(buttonView,
-                                getString(R.string.notify_enable),
-                                getString(R.string.notify_disabled_title),
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
-                                            Intent intent = new Intent();
-                                            intent.setClassName("com.android.settings", "com.android.settings.Settings$AppNotificationSettingsActivity");
-                                            intent.putExtra("app_package", getPackageName());
-                                            intent.putExtra("app_uid", getApplicationInfo().uid);
-                                            startActivity(intent);
-                                        } catch (Throwable e) {
-                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
-                                        }
-                                    }
-                                });
+                        SnackBarUtil.show(buttonView, getString(R.string.notify_enable), getString(R.string.notify_disabled_title), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    Intent intent = new Intent();
+                                    intent.setClassName("com.android.settings", "com.android.settings.Settings$AppNotificationSettingsActivity");
+                                    intent.putExtra("app_package", getPackageName());
+                                    intent.putExtra("app_uid", getApplicationInfo().uid);
+                                    startActivity(intent);
+                                } catch (Throwable e) {
+                                    SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
+                                }
+                            }
+                        });
                     } else {
                         SnackBarUtil.show(buttonView, getString(R.string.notify_enable));
                     }
@@ -293,9 +286,7 @@ public class PreSettingActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_PRE_CANCEL_IN_DIALOG);
             }
         };
-        builder.message(getString(R.string.pre_setting_intro3))
-                .negativeAction(getString(R.string.confirm_setting))
-                .positiveAction(getString(R.string.pre_setting_cancel));
+        builder.message(getString(R.string.pre_setting_intro3)).negativeAction(getString(R.string.confirm_setting)).positiveAction(getString(R.string.pre_setting_cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getSupportFragmentManager(), null);
     }

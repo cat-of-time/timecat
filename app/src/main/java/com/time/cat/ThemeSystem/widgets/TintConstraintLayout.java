@@ -13,8 +13,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @date 2018/1/25
  * @discription
  */
-public class TintConstraintLayout extends ConstraintLayout implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible,
-        AppCompatForegroundHelper.ForegroundExtensible {
+public class TintConstraintLayout extends ConstraintLayout implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatForegroundHelper.ForegroundExtensible {
 
     private AppCompatBackgroundHelper mBackgroundHelper;
     private AppCompatForegroundHelper mForegroundHelper;

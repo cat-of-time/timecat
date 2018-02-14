@@ -41,15 +41,15 @@ public class DB {
     // SQLite DB Helper
     private static DatabaseHelper db;
 
-//    // Medicines DAO
+    //    // Medicines DAO
 //    private static MedicineDao Medicines;
 //    // Routines DAO
     private static RoutineDao Routines;
-//    // Schedules DAO
+    //    // Schedules DAO
     private static ScheduleDao Schedules;
-//    // ScheduleItems DAO
+    //    // ScheduleItems DAO
     private static ScheduleItemDao ScheduleItems;
-//    // DailyScheduleItem DAO
+    //    // DailyScheduleItem DAO
 //    private static DailyScheduleItemDao DailyScheduleItems;
 //    // Prescriptions DAO
 //    private static PrescriptionDao Prescriptions;
@@ -109,7 +109,7 @@ public class DB {
     }
 
 
-//    public static MedicineDao medicines() {
+    //    public static MedicineDao medicines() {
 //        return Medicines;
 //    }
 //

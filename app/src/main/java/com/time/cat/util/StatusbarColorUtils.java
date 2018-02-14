@@ -50,6 +50,7 @@ public class StatusbarColorUtils {
      *
      * @param color 颜色
      * @param level 级别
+     *
      * @return
      */
     public static boolean isBlackColor(int color, int level) {
@@ -61,6 +62,7 @@ public class StatusbarColorUtils {
      * 颜色转换成灰度值
      *
      * @param rgb 颜色
+     *
      * @return　灰度值
      */
     public static int toGrey(int rgb) {

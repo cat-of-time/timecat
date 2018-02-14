@@ -2,11 +2,6 @@ package com.time.cat.util;
 
 import android.text.TextUtils;
 
-import com.time.cat.R;
-import com.time.cat.TimeCatApp;
-import com.time.cat.component.base.BaseActivity;
-import com.time.cat.mvp.model.APImodel.ImageUpload;
-import com.time.cat.NetworkSystem.UploadUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;
@@ -18,6 +13,11 @@ import com.microsoft.projectoxford.vision.contract.Word;
 import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 import com.microsoft.projectoxford.vision.rest.WebServiceRequest;
 import com.shang.commonjar.contentProvider.SPHelper;
+import com.time.cat.NetworkSystem.UploadUtil;
+import com.time.cat.R;
+import com.time.cat.TimeCatApp;
+import com.time.cat.component.base.BaseActivity;
+import com.time.cat.mvp.model.APImodel.ImageUpload;
 
 import java.io.File;
 import java.io.IOException;
@@ -158,14 +158,9 @@ public class OcrAnalyser {
 
     public void uploadImage(BaseActivity activity, String fileName, ImageUploadCallBack callback) {
         this.searchPicPath = fileName;
-        Observable.create(onSubscribe2)
-                .subscribeOn(Schedulers.io())
-                .compose(activity.bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> callback.onSuccess(s),
-                        throwable -> {
-                            callback.onFail(throwable);
-                        });
+        Observable.create(onSubscribe2).subscribeOn(Schedulers.io()).compose(activity.bindToLifecycle()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> callback.onSuccess(s), throwable -> {
+            callback.onFail(throwable);
+        });
     }
 
     public void analyse(BaseActivity activity, String img_path, boolean isVertical, CallBack callback) {
@@ -176,21 +171,15 @@ public class OcrAnalyser {
             currentIndex = 0;
             client = new VisionServiceRestClient(keys.get(currentIndex));
         }
-        if (callback == null)
-            return;
+        if (callback == null) return;
         int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
         SPHelper.save(ConstantUtil.OCR_TIME, time);
         this.img_path = img_path;
         this.verticalOrientation = isVertical;
-        Observable.create(onSubscribe)
-                .subscribeOn(Schedulers.io())
-                .compose(activity.bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> callback.onSuccess(s),
-                        throwable -> {
-                            callback.onFail(throwable);
-                            SPHelper.save(ConstantUtil.SHOULD_SHOW_DIY_OCR, true);
-                        });
+        Observable.create(onSubscribe).subscribeOn(Schedulers.io()).compose(activity.bindToLifecycle()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> callback.onSuccess(s), throwable -> {
+            callback.onFail(throwable);
+            SPHelper.save(ConstantUtil.SHOULD_SHOW_DIY_OCR, true);
+        });
     }
 
     public String getPassedMiscSoftText(OCR ocr) {
@@ -208,8 +197,7 @@ public class OcrAnalyser {
         if (ocr.language.equalsIgnoreCase(LanguageCodes.ChineseSimplified) || ocr.language.equalsIgnoreCase(LanguageCodes.ChineseTraditional)) {
             result = result.replaceAll(" ", "");
         }
-        if (TextUtils.isEmpty(result))
-            result = "no text found";
+        if (TextUtils.isEmpty(result)) result = "no text found";
         return result;
     }
 

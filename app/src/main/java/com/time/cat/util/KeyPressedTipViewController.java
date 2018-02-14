@@ -24,11 +24,11 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
 import com.time.cat.mvp.view.KeyRelativeLayout;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 
 public class KeyPressedTipViewController implements View.OnTouchListener {
@@ -110,8 +110,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
 
     public synchronized void show(CloseListener closeListener) {
         mCloseListener = closeListener;
-        mContext.registerReceiver(mHomeKeyEventReceiver, new IntentFilter(
-                Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        mContext.registerReceiver(mHomeKeyEventReceiver, new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
         if (mWholeView != null) {
             if (isToRemoved) {
                 mainHandler.postDelayed(new Runnable() {
@@ -264,8 +263,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
         int w = WindowManager.LayoutParams.MATCH_PARENT;
         int h = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        int flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        int flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
         int type = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(mContext)) {
             type = WindowManager.LayoutParams.TYPE_PHONE;
@@ -442,8 +440,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
         }
         if (keyPressIndex == 7) {
             if (lastKeyEvent != null) {
-                if ((lastKeyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP)
-                        || (keyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN && lastKeyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP)) {
+                if ((lastKeyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) || (keyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN && lastKeyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP)) {
                     if (keyEvent.getEventTime() - lastKeyEvent.getEventTime() < LONG_PRESS_DELAY) {
                         longPressRunnable.run();
                     }

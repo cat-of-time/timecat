@@ -87,8 +87,7 @@ public class FloatViewWhiteListActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             getMenuInflater().inflate(R.menu.white_list_activity_menu, menu);
-            SearchManager searchManager =
-                    (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             final SearchView searchView = (SearchView) menu.findItem(R.id.ab_search).getActionView();
 
             selectAll = menu.findItem(R.id.select_all);
@@ -103,8 +102,7 @@ public class FloatViewWhiteListActivity extends BaseActivity {
             searchView.setIconifiedByDefault(false);
 
 
-            searchView.setSearchableInfo(
-                    searchManager.getSearchableInfo(getComponentName()));
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {

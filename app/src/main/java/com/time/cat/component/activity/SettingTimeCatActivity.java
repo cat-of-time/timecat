@@ -21,17 +21,17 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.shang.commonjar.contentProvider.SPHelper;
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.component.activity.share.ShareAppManagerActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.base.baseCard.DividerItemDecoration;
+import com.time.cat.mvp.view.TimeCatLayout;
+import com.time.cat.mvp.view.TimeCatLayoutWrapper;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.time.cat.mvp.view.TimeCatLayout;
-import com.time.cat.mvp.view.TimeCatLayoutWrapper;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
 
 /**
  * Created by penglu on 2016/11/9.
@@ -94,15 +94,13 @@ public class SettingTimeCatActivity extends BaseActivity {
             UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SWITCH_TYPE);
             mTimeCatLayout.reset();
             if (isLocal) {
-                String[] txts = new String[]{"TimeCat", "可", "以", "进", "行", "文", "本", "分", "词", "。", "\n",
-                        "也", "支", "持", "复", "制", "翻", "译", "和", "调", "整", "…"};
+                String[] txts = new String[]{"TimeCat", "可", "以", "进", "行", "文", "本", "分", "词", "。", "\n", "也", "支", "持", "复", "制", "翻", "译", "和", "调", "整", "…"};
 
                 for (String t : txts) {
                     mTimeCatLayout.addTextItem(t);
                 }
             } else {
-                String[] txts = new String[]{"TimeCat", "可以", "进行", "文本", "分词", "。", "\n",
-                        "也", "支持", "复制", "翻译", "和", "调整", "…"};
+                String[] txts = new String[]{"TimeCat", "可以", "进行", "文本", "分词", "。", "\n", "也", "支持", "复制", "翻译", "和", "调整", "…"};
 
                 for (String t : txts) {
                     mTimeCatLayout.addTextItem(t);
@@ -450,8 +448,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         mTimeCatLayoutWrap.setShowSection(SPHelper.getBoolean(ConstantUtil.REMAIN_SECTION, false));
         mTimeCatLayoutWrap.setActionListener(timeCatActionListener);
 
-        String[] txts = new String[]{"TimeCat", "可以", "进行", "文本", "分词", "。", "\n",
-                "也", "支持", "复制", "翻译", "和", "调整", "…"};
+        String[] txts = new String[]{"TimeCat", "可以", "进行", "文本", "分词", "。", "\n", "也", "支持", "复制", "翻译", "和", "调整", "…"};
 
         for (String t : txts) {
             mTimeCatLayout.addTextItem(t);
@@ -480,39 +477,27 @@ public class SettingTimeCatActivity extends BaseActivity {
     }
 
     private void showColorPickDialog() {
-        ColorPickerDialogBuilder
-                .with(this)
-                .setTitle(R.string.set_background_myself)
-                .initialColor(lastPickedColor)
-                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                .density(12)
-                .setOnColorSelectedListener(new OnColorSelectedListener() {
-                    @Override
-                    public void onColorSelected(int selectedColor) {
-                        applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)), (int) (Color.alpha(selectedColor) * 100.0 / 255));
-                    }
-                })
-                .setPositiveButton(R.string.confirm, new ColorPickerClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                        lastPickedColor = Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor));
-                        alpha = (int) (Color.alpha(selectedColor) * 100.0 / 255);
-                        applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
-                        SPHelper.save(ConstantUtil.TIMECAT_DIY_BG_COLOR, lastPickedColor);
-                        UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR, lastPickedColor + "");
-                        mTimecatAlphaSeekBar.setProgress(alpha);
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        applyColor(lastPickedColor);
-                    }
-                })
-                .showColorEdit(true)
-                .setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright))
-                .build()
-                .show();
+        ColorPickerDialogBuilder.with(this).setTitle(R.string.set_background_myself).initialColor(lastPickedColor).wheelType(ColorPickerView.WHEEL_TYPE.FLOWER).density(12).setOnColorSelectedListener(new OnColorSelectedListener() {
+            @Override
+            public void onColorSelected(int selectedColor) {
+                applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)), (int) (Color.alpha(selectedColor) * 100.0 / 255));
+            }
+        }).setPositiveButton(R.string.confirm, new ColorPickerClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                lastPickedColor = Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor));
+                alpha = (int) (Color.alpha(selectedColor) * 100.0 / 255);
+                applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
+                SPHelper.save(ConstantUtil.TIMECAT_DIY_BG_COLOR, lastPickedColor);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR, lastPickedColor + "");
+                mTimecatAlphaSeekBar.setProgress(alpha);
+            }
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                applyColor(lastPickedColor);
+            }
+        }).showColorEdit(true).setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright)).build().show();
     }
 
 }

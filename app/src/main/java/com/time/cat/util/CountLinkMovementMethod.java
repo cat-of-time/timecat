@@ -44,8 +44,7 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
     private static Object FROM_BELOW = new NoCopySpan.Concrete();
 
     public static MovementMethod getInstance() {
-        if (sInstance == null)
-            sInstance = new CountLinkMovementMethod();
+        if (sInstance == null) sInstance = new CountLinkMovementMethod();
 
         return sInstance;
     }
@@ -56,14 +55,12 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
     }
 
     @Override
-    protected boolean handleMovementKey(TextView widget, Spannable buffer, int keyCode,
-                                        int movementMetaState, KeyEvent event) {
+    protected boolean handleMovementKey(TextView widget, Spannable buffer, int keyCode, int movementMetaState, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
                 if (KeyEvent.metaStateHasNoModifiers(movementMetaState)) {
-                    if (event.getAction() == KeyEvent.ACTION_DOWN &&
-                            event.getRepeatCount() == 0 && action(CLICK, widget, buffer)) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0 && action(CLICK, widget, buffer)) {
                         return true;
                     }
                 }
@@ -111,8 +108,7 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
     private boolean action(int what, TextView widget, Spannable buffer) {
         Layout layout = widget.getLayout();
 
-        int padding = widget.getTotalPaddingTop() +
-                widget.getTotalPaddingBottom();
+        int padding = widget.getTotalPaddingTop() + widget.getTotalPaddingBottom();
         int areatop = widget.getScrollY();
         int areabot = areatop + widget.getHeight() - padding;
 
@@ -136,10 +132,8 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
             }
         }
 
-        if (selStart > last)
-            selStart = selEnd = Integer.MAX_VALUE;
-        if (selEnd < first)
-            selStart = selEnd = -1;
+        if (selStart > last) selStart = selEnd = Integer.MAX_VALUE;
+        if (selEnd < first) selStart = selEnd = -1;
 
         switch (what) {
             case CLICK:
@@ -149,8 +143,7 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
 
                 ClickableSpan[] link = buffer.getSpans(selStart, selEnd, ClickableSpan.class);
 
-                if (link.length != 1)
-                    return false;
+                if (link.length != 1) return false;
 
                 link[0].onClick(widget);
                 break;
@@ -206,12 +199,10 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
     }
 
     @Override
-    public boolean onTouchEvent(TextView widget, Spannable buffer,
-                                MotionEvent event) {
+    public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
         int action = event.getAction();
 
-        if (action == MotionEvent.ACTION_UP ||
-                action == MotionEvent.ACTION_DOWN) {
+        if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_DOWN) {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
@@ -243,9 +234,7 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
                         }
                     }
                 } else if (action == MotionEvent.ACTION_DOWN) {
-                    Selection.setSelection(buffer,
-                            buffer.getSpanStart(link[0]),
-                            buffer.getSpanEnd(link[0]));
+                    Selection.setSelection(buffer, buffer.getSpanStart(link[0]), buffer.getSpanEnd(link[0]));
                 }
 
                 return true;

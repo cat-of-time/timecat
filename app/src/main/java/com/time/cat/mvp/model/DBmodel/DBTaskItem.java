@@ -95,18 +95,12 @@ public class DBTaskItem {
         double fraction = dose - integerPart;
 
         String fractionRational;
-        if (fraction == 0.125)
-            fractionRational = "1/8";
-        else if (fraction == 0.25)
-            fractionRational = "1/4";
-        else if (fraction == 0.5)
-            fractionRational = "1/2";
-        else if (fraction == 0.75)
-            fractionRational = "3/4";
-        else if (fraction == 0)
-            return "" + ((int) dose);
-        else
-            return "" + dose;
+        if (fraction == 0.125) fractionRational = "1/8";
+        else if (fraction == 0.25) fractionRational = "1/4";
+        else if (fraction == 0.5) fractionRational = "1/2";
+        else if (fraction == 0.75) fractionRational = "3/4";
+        else if (fraction == 0) return "" + ((int) dose);
+        else return "" + dose;
         return integerPart + "+" + fractionRational;
 
     }

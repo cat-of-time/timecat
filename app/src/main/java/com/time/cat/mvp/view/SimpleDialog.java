@@ -63,8 +63,7 @@ public class SimpleDialog extends Dialog {
     public Dialog applyStyle(int resId) {
         super.applyStyle(resId);
 
-        if (resId == 0)
-            return this;
+        if (resId == 0) return this;
 
         TypedArray a = getContext().obtainStyledAttributes(resId, R.styleable.SimpleDialog);
         int textAppearance = 0;
@@ -91,11 +90,9 @@ public class SimpleDialog extends Dialog {
 
         a.recycle();
 
-        if (textAppearance != 0)
-            messageTextAppearance(textAppearance);
+        if (textAppearance != 0) messageTextAppearance(textAppearance);
 
-        if (textColorDefined)
-            messageTextColor(textColor);
+        if (textColorDefined) messageTextColor(textColor);
 
         return this;
     }
@@ -116,8 +113,7 @@ public class SimpleDialog extends Dialog {
 
     @Override
     public Dialog contentView(View v) {
-        if (mScrollView == null)
-            initScrollView();
+        if (mScrollView == null) initScrollView();
 
         if (mScrollView.getChildAt(0) != v && v != null) {
             mScrollView.removeAllViews();
@@ -153,11 +149,9 @@ public class SimpleDialog extends Dialog {
      * @return The SimpleDialog for chaining methods.
      */
     public SimpleDialog message(CharSequence message) {
-        if (mScrollView == null)
-            initScrollView();
+        if (mScrollView == null) initScrollView();
 
-        if (mMessage == null)
-            initMessageView();
+        if (mMessage == null) initMessageView();
 
         if (mScrollView.getChildAt(0) != mMessage) {
             mScrollView.removeAllViews();
@@ -213,8 +207,7 @@ public class SimpleDialog extends Dialog {
     public SimpleDialog messageTextColor(int color) {
         if (mMessageTextColor != color) {
             mMessageTextColor = color;
-            if (mMessage != null)
-                mMessage.setTextColor(color);
+            if (mMessage != null) mMessage.setTextColor(color);
         }
         return this;
     }
@@ -229,8 +222,7 @@ public class SimpleDialog extends Dialog {
     public SimpleDialog radioButtonStyle(int resId) {
         if (mRadioButtonStyle != resId) {
             mRadioButtonStyle = resId;
-            if (mAdapter != null && mMode == MODE_ITEMS)
-                mAdapter.notifyDataSetChanged();
+            if (mAdapter != null && mMode == MODE_ITEMS) mAdapter.notifyDataSetChanged();
         }
         return this;
     }
@@ -245,8 +237,7 @@ public class SimpleDialog extends Dialog {
     public SimpleDialog checkBoxStyle(int resId) {
         if (mCheckBoxStyle != resId) {
             mCheckBoxStyle = resId;
-            if (mAdapter != null && mMode == MODE_MULTI_ITEMS)
-                mAdapter.notifyDataSetChanged();
+            if (mAdapter != null && mMode == MODE_MULTI_ITEMS) mAdapter.notifyDataSetChanged();
         }
         return this;
     }
@@ -261,8 +252,7 @@ public class SimpleDialog extends Dialog {
     public SimpleDialog itemHeight(int height) {
         if (mItemHeight != height) {
             mItemHeight = height;
-            if (mAdapter != null)
-                mAdapter.notifyDataSetChanged();
+            if (mAdapter != null) mAdapter.notifyDataSetChanged();
         }
         return this;
     }
@@ -277,8 +267,7 @@ public class SimpleDialog extends Dialog {
     public SimpleDialog itemTextAppearance(int resId) {
         if (mItemTextAppearance != resId) {
             mItemTextAppearance = resId;
-            if (mAdapter != null)
-                mAdapter.notifyDataSetChanged();
+            if (mAdapter != null) mAdapter.notifyDataSetChanged();
         }
         return this;
     }
@@ -308,8 +297,7 @@ public class SimpleDialog extends Dialog {
      * @return The SimpleDialog for chaining methods.
      */
     public SimpleDialog items(CharSequence[] items, int selectedIndex) {
-        if (mListView == null)
-            initListView();
+        if (mListView == null) initListView();
 
         mMode = MODE_ITEMS;
         mAdapter.setItems(items, selectedIndex);
@@ -326,8 +314,7 @@ public class SimpleDialog extends Dialog {
      * @return The SimpleDialog for chaining methods.
      */
     public SimpleDialog multiChoiceItems(CharSequence[] items, int... selectedIndexes) {
-        if (mListView == null)
-            initListView();
+        if (mListView == null) initListView();
 
         mMode = MODE_MULTI_ITEMS;
         mAdapter.setItems(items, selectedIndexes);
@@ -437,8 +424,7 @@ public class SimpleDialog extends Dialog {
         }
 
         public int getSelectedIndex() {
-            if (mMode == MODE_ITEMS || mMode == MODE_MULTI_ITEMS)
-                return mSelectedIndexes[0];
+            if (mMode == MODE_ITEMS || mMode == MODE_MULTI_ITEMS) return mSelectedIndexes[0];
 
             return -1;
         }
@@ -449,16 +435,14 @@ public class SimpleDialog extends Dialog {
         }
 
         public int[] getSelectedIndexes() {
-            if (mMode == MODE_ITEMS || mMode == MODE_MULTI_ITEMS)
-                return mSelectedIndexes;
+            if (mMode == MODE_ITEMS || mMode == MODE_MULTI_ITEMS) return mSelectedIndexes;
 
             return null;
         }
 
         public CharSequence[] getSelectedValues() {
             int[] indexes = getSelectedIndexes();
-            if (indexes == null || indexes.length == 0)
-                return null;
+            if (indexes == null || indexes.length == 0) return null;
 
             CharSequence[] result = new CharSequence[indexes.length];
             for (int i = 0; i < indexes.length; i++)
@@ -493,10 +477,8 @@ public class SimpleDialog extends Dialog {
             switch (mMode) {
                 case MODE_ITEMS:
                     if (selected) {
-                        if (mSelectedIndexes == null)
-                            mSelectedIndexes = new int[]{index};
-                        else
-                            mSelectedIndexes[0] = index;
+                        if (mSelectedIndexes == null) mSelectedIndexes = new int[]{index};
+                        else mSelectedIndexes[0] = index;
                     }
                     break;
                 case MODE_MULTI_ITEMS:
@@ -518,8 +500,7 @@ public class SimpleDialog extends Dialog {
                         mItems = new CharSequence[values.length];
                         for (int i = 0; i < mItems.length; i++)
                             mItems[i] = (CharSequence) values[i];
-                    } else
-                        mItems = null;
+                    } else mItems = null;
                     mSelectedIndexes = new int[]{in.readInt()};
                     break;
                 }
@@ -529,8 +510,7 @@ public class SimpleDialog extends Dialog {
                         mItems = new CharSequence[values.length];
                         for (int i = 0; i < mItems.length; i++)
                             mItems[i] = (CharSequence) values[i];
-                    } else
-                        mItems = null;
+                    } else mItems = null;
                     int length = in.readInt();
                     if (length > 0) {
                         mSelectedIndexes = new int[length];
@@ -556,8 +536,7 @@ public class SimpleDialog extends Dialog {
                     dest.writeArray(mItems);
                     int length = mSelectedIndexes == null ? 0 : mSelectedIndexes.length;
                     dest.writeInt(length);
-                    if (length > 0)
-                        dest.writeIntArray(mSelectedIndexes);
+                    if (length > 0) dest.writeIntArray(mSelectedIndexes);
                     break;
             }
         }
@@ -659,12 +638,11 @@ public class SimpleDialog extends Dialog {
             for (int i = 0; i < mSelected.length; i++)
                 mSelected[i] = false;
 
-            if (selectedIndexes != null)
-                for (int index : selectedIndexes)
-                    if (index >= 0 && index < mSelected.length) {
-                        mSelected[index] = true;
-                        mLastSelectedIndex = index;
-                    }
+            if (selectedIndexes != null) for (int index : selectedIndexes)
+                if (index >= 0 && index < mSelected.length) {
+                    mSelected[index] = true;
+                    mLastSelectedIndex = index;
+                }
 
             notifyDataSetChanged();
         }
@@ -680,11 +658,9 @@ public class SimpleDialog extends Dialog {
         public int[] getSelectedIndexes() {
             int count = 0;
             for (int i = 0; i < mSelected.length; i++)
-                if (mSelected[i])
-                    count++;
+                if (mSelected[i]) count++;
 
-            if (count == 0)
-                return null;
+            if (count == 0) return null;
 
             int[] result = new int[count];
             count = 0;
@@ -700,11 +676,9 @@ public class SimpleDialog extends Dialog {
         public CharSequence[] getSelectedValues() {
             int count = 0;
             for (int i = 0; i < mSelected.length; i++)
-                if (mSelected[i])
-                    count++;
+                if (mSelected[i]) count++;
 
-            if (count == 0)
-                return null;
+            if (count == 0) return null;
 
             CharSequence[] result = new CharSequence[count];
             count = 0;
@@ -743,8 +717,7 @@ public class SimpleDialog extends Dialog {
                     v = new RadioButton(parent.getContext());
 //                    ViewUtil.applyStyle(v, mRadioButtonStyle);
                 }
-                if (mItemHeight != ViewGroup.LayoutParams.WRAP_CONTENT)
-                    v.setMinHeight(mItemHeight);
+                if (mItemHeight != ViewGroup.LayoutParams.WRAP_CONTENT) v.setMinHeight(mItemHeight);
                 v.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
                     v.setTextDirection(((InternalListView) parent).isLayoutRtl() ? View.TEXT_DIRECTION_RTL : View.TEXT_DIRECTION_LTR);
@@ -754,10 +727,8 @@ public class SimpleDialog extends Dialog {
 
             v.setTag(position);
             v.setText(mItems[position]);
-            if (v instanceof CheckBox)
-                v.setChecked(mSelected[position]);
-            else
-                v.setChecked(mSelected[position]);
+            if (v instanceof CheckBox) v.setChecked(mSelected[position]);
+            else v.setChecked(mSelected[position]);
 
             v.setOnCheckedChangeListener(this);
 
@@ -781,8 +752,7 @@ public class SimpleDialog extends Dialog {
                     mOnSelectionChangedListener.onSelectionChanged(mLastSelectedIndex, false);
 
                 CompoundButton child = (CompoundButton) mListView.getChildAt(mLastSelectedIndex - mListView.getFirstVisiblePosition());
-                if (child != null)
-                    child.setChecked(false);
+                if (child != null) child.setChecked(false);
 
                 mLastSelectedIndex = position;
             }

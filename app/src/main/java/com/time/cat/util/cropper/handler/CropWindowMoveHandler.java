@@ -695,15 +695,7 @@ final class CropWindowMoveHandler {
      * The type of crop window move that is handled.
      */
     public enum Type {
-        TOP_LEFT,
-        TOP_RIGHT,
-        BOTTOM_LEFT,
-        BOTTOM_RIGHT,
-        LEFT,
-        TOP,
-        RIGHT,
-        BOTTOM,
-        CENTER
+        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, LEFT, TOP, RIGHT, BOTTOM, CENTER
     }
     //endregion
 }

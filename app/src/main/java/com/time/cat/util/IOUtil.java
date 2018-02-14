@@ -312,12 +312,9 @@ public class IOUtil {
             e.printStackTrace();
         } finally {
             try {
-                if (oos != null)
-                    oos.close();
-                if (ois != null)
-                    ois.close();
-                if (in != null)
-                    in.close();
+                if (oos != null) oos.close();
+                if (ois != null) ois.close();
+                if (in != null) in.close();
                 out.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -389,8 +386,7 @@ public class IOUtil {
             return;
         } else if (themeDir.isDirectory()) {
             themeLinkedList.addAll(Arrays.asList(themeDir.listFiles()));
-            while (!themeLinkedList.isEmpty())
-                deleteContent(themeLinkedList.pollLast());
+            while (!themeLinkedList.isEmpty()) deleteContent(themeLinkedList.pollLast());
         } else {
             themeDir.delete();
         }

@@ -11,15 +11,15 @@ import android.widget.RelativeLayout;
  * @date 2018/1/26
  * @discription
  */
-public class CustomView extends RelativeLayout{
+public class CustomView extends RelativeLayout {
     final static String MATERIALDESIGNXML = "http://schemas.android.com/apk/res-auto";
     final static String ANDROIDXML = "http://schemas.android.com/apk/res/android";
 
     final int disabledBackgroundColor = Color.parseColor("#E2E2E2");
-    int beforeBackground;
-
     // Indicate if user touched this view the last time
     public boolean isLastTouch = false;
+    int beforeBackground;
+    boolean animation = false;
 
     public CustomView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -28,14 +28,10 @@ public class CustomView extends RelativeLayout{
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        if(enabled)
-            setBackgroundColor(beforeBackground);
-        else
-            setBackgroundColor(disabledBackgroundColor);
+        if (enabled) setBackgroundColor(beforeBackground);
+        else setBackgroundColor(disabledBackgroundColor);
         invalidate();
     }
-
-    boolean animation = false;
 
     @Override
     protected void onAnimationStart() {
@@ -52,7 +48,6 @@ public class CustomView extends RelativeLayout{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(animation)
-            invalidate();
+        if (animation) invalidate();
     }
 }

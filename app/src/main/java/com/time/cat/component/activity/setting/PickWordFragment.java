@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 /**
  * Created by penglu on 2016/12/10.
@@ -24,13 +24,11 @@ public class PickWordFragment extends BaseRecyclerFragment {
             boolean isChecked = intent.getBooleanExtra(ConstantUtil.SHOW_TENCENT_SETTINGS, true);
             if (isChecked) {
                 int index = 0;
-                if (!newAdapter.containsView(settingCard))
-                    index = cardViews.size();
+                if (!newAdapter.containsView(settingCard)) index = cardViews.size();
                 newAdapter.addView(settingCard, index);
 
             } else {
-                if (newAdapter.containsView(settingCard))
-                    newAdapter.deleteView(settingCard);
+                if (newAdapter.containsView(settingCard)) newAdapter.deleteView(settingCard);
             }
         }
     };

@@ -1019,12 +1019,7 @@ public class CropOverlayView extends View {
             float newRight = x + dX;
             float newBottom = y + dY;
 
-            if (newLeft < newRight &&
-                    newTop <= newBottom &&
-                    newLeft >= 0 &&
-                    newRight <= mCropWindowHandler.getMaxCropWidth() &&
-                    newTop >= 0 &&
-                    newBottom <= mCropWindowHandler.getMaxCropHeight()) {
+            if (newLeft < newRight && newTop <= newBottom && newLeft >= 0 && newRight <= mCropWindowHandler.getMaxCropWidth() && newTop >= 0 && newBottom <= mCropWindowHandler.getMaxCropHeight()) {
 
                 rect.set(newLeft, newTop, newRight, newBottom);
                 mCropWindowHandler.setRect(rect);

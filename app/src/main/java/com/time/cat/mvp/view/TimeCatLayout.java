@@ -30,11 +30,11 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.RegexUtil;
 import com.time.cat.util.ViewUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -434,10 +434,7 @@ public class TimeCatLayout extends ViewGroup implements TimeCatHeader.ActionList
             mHeader.measure(MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(selectedLineHeight, MeasureSpec.UNSPECIFIED));
         }
 //        int size = heightSize + getPaddingTop() + getPaddingBottom() + (mLines.size()) * mLineSpace + mActionBarTopHeight + mActionBarBottomHeight;
-        int size = (mLines.size() > 0 ? (mLines.size() * mLines.get(0).getHeight()) : 0)
-                + getPaddingTop() + getPaddingBottom() +
-                (mLines.size()) * mLineSpace +
-                mActionBarTopHeight + mActionBarBottomHeight;
+        int size = (mLines.size() > 0 ? (mLines.size() * mLines.get(0).getHeight()) : 0) + getPaddingTop() + getPaddingBottom() + (mLines.size()) * mLineSpace + mActionBarTopHeight + mActionBarBottomHeight;
         super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY));
     }
 
@@ -559,10 +556,7 @@ public class TimeCatLayout extends ViewGroup implements TimeCatHeader.ActionList
                     if (mDragSelectY < 0) {
                         mDragSelectY = 0;
                     }
-                    mDragSelectRect.set((int) Math.min(mDownX, mDragSelectX),
-                            (int) Math.min(mDownY, mDragSelectY),
-                            (int) Math.max(mDownX, mDragSelectX),
-                            (int) Math.max(mDownY, mDragSelectY));
+                    mDragSelectRect.set((int) Math.min(mDownX, mDragSelectX), (int) Math.min(mDownY, mDragSelectY), (int) Math.max(mDownX, mDragSelectX), (int) Math.max(mDownY, mDragSelectY));
                     setSelectionByRect(mDragSelectRect);
                     invalidate();
                     break;
@@ -919,6 +913,7 @@ public class TimeCatLayout extends ViewGroup implements TimeCatHeader.ActionList
         Item item;
         boolean isSelected;
         ItemState next;
+
         public ItemState(Item item, boolean isSelected) {
             this.item = item;
             this.isSelected = isSelected;

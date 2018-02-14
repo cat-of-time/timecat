@@ -15,11 +15,10 @@ import com.time.cat.util.ToastUtil;
  * @date 2018/2/2
  * @discription TestActivity
  */
-public class TestActivity extends BaseActivity implements
-                                               ActivityPresenter,
-                                               View.OnClickListener {
+public class TestActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener {
     private static final String TAG = "MainActivity";
-
+    //-//<Activity>---------------------------------------------------------------------------------
+    private static final int REQUEST_LOGIN = 0;
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -39,18 +38,22 @@ public class TestActivity extends BaseActivity implements
     protected void onResume() {
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
     //</生命周期>------------------------------------------------------------------------------------
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
 
     @Override
     public void initView() {//必须调用
@@ -64,27 +67,19 @@ public class TestActivity extends BaseActivity implements
                 setStatusBarFontIconDark(false);
         }
     }
-
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
-
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {//必须调用
 
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
-
 
     //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
         subscribeToEvents();
     }
-
-
-    //-//<Activity>---------------------------------------------------------------------------------
-    private static final int REQUEST_LOGIN = 0;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

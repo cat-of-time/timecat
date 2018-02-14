@@ -15,13 +15,9 @@ import rx.Observable;
  * @discription 登录服务接口
  */
 public interface LoginService {
-    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
     @GET("/users/")
-    Observable<User> login(
-            @Query("email") String email,
-            @Query("password") String password,
-            @Query("is_staff") boolean is_staff
-    );
+    Observable<User> login(@Query("email") String email, @Query("password") String password, @Query("is_staff") boolean is_staff);
 
     /**
      * POST
@@ -55,9 +51,7 @@ public interface LoginService {
      *
      * @return user
      */
-    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
     @POST("/users/")
-    Observable<User> createUser(
-            @Body User user
-    );
+    Observable<User> createUser(@Body User user);
 }

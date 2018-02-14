@@ -15,11 +15,11 @@ import com.time.cat.R;
 import com.time.cat.component.activity.DiyOcrKeyActivity;
 import com.time.cat.component.activity.DonateActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
-import com.time.cat.util.CountLinkMovementMethod;
-import com.time.cat.util.UrlCountUtil;
 import com.time.cat.mvp.view.Dialog;
 import com.time.cat.mvp.view.DialogFragment;
 import com.time.cat.mvp.view.SimpleDialog;
+import com.time.cat.util.CountLinkMovementMethod;
+import com.time.cat.util.UrlCountUtil;
 
 /**
  * Created by penglu on 2015/11/23.
@@ -113,13 +113,9 @@ public class AboutCard extends AbsCard {
             }
         };
         ((SimpleDialog.Builder) builder).
-                message(Html.fromHtml(
-                        String.format(mContext.getString(R.string.about_content), version).replaceAll("\n", "<br />")
-                                + "<br/><a href='" + "https://github.com/l465659833/Bigbang" + "'>" + "Github: https://github.com/l465659833/Bigbang" + "</a>"
+                message(Html.fromHtml(String.format(mContext.getString(R.string.about_content), version).replaceAll("\n", "<br />") + "<br/><a href='" + "https://github.com/l465659833/Bigbang" + "'>" + "Github: https://github.com/l465659833/Bigbang" + "</a>"
 
-                ))
-                .title(mContext.getString(R.string.about))
-                .positiveAction(mContext.getString(R.string.confirm));
+                )).title(mContext.getString(R.string.about)).positiveAction(mContext.getString(R.string.confirm));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }

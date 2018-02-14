@@ -37,31 +37,24 @@ public class ViewUtil {
                 final int result = sNextGeneratedId.get();
                 // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
                 int newValue = result + 1;
-                if (newValue > 0x00FFFFFF)
-                    newValue = 1; // Roll over to 1, not 0.
-                if (sNextGeneratedId.compareAndSet(result, newValue))
-                    return result;
+                if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
+                if (sNextGeneratedId.compareAndSet(result, newValue)) return result;
             }
-        } else
-            return View.generateViewId();
+        } else return View.generateViewId();
     }
 
     public static boolean hasState(int[] states, int state) {
-        if (states == null)
-            return false;
+        if (states == null) return false;
 
         for (int state1 : states)
-            if (state1 == state)
-                return true;
+            if (state1 == state) return true;
 
         return false;
     }
 
     public static void setBackground(View v, Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            v.setBackground(drawable);
-        else
-            v.setBackgroundDrawable(drawable);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) v.setBackground(drawable);
+        else v.setBackgroundDrawable(drawable);
     }
 
     public static int dp2px(float dp) {
@@ -95,18 +88,14 @@ public class ViewUtil {
 
     public static int getRelativeTop(View myView) {
 //	    if (myView.getParent() == myView.getRootView())
-        if (myView.getId() == android.R.id.content)
-            return myView.getTop();
-        else
-            return myView.getTop() + getRelativeTop((View) myView.getParent());
+        if (myView.getId() == android.R.id.content) return myView.getTop();
+        else return myView.getTop() + getRelativeTop((View) myView.getParent());
     }
 
     public static int getRelativeLeft(View myView) {
 //	    if (myView.getParent() == myView.getRootView())
-        if (myView.getId() == android.R.id.content)
-            return myView.getLeft();
-        else
-            return myView.getLeft() + getRelativeLeft((View) myView.getParent());
+        if (myView.getId() == android.R.id.content) return myView.getLeft();
+        else return myView.getLeft() + getRelativeLeft((View) myView.getParent());
     }
 
     public static void hideInputMethod(View view) {
@@ -147,8 +136,7 @@ public class ViewUtil {
             return 0;
         }
         Resources resources = activity.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height",
-                "dimen", "android");
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         //获取NavigationBar的高度
         int height = resources.getDimensionPixelSize(resourceId);
         return height;

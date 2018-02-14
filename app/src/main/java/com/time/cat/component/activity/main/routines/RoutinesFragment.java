@@ -15,7 +15,7 @@ import com.time.cat.mvp.presenter.FragmentPresenter;
  * @date 2018/1/25
  * @discription 生物钟fragment
  */
-public class RoutinesFragment extends BaseFragment implements FragmentPresenter{
+public class RoutinesFragment extends BaseFragment implements FragmentPresenter {
     @SuppressWarnings("unused")
     private static final String TAG = "RoutinesFragment";
 
@@ -23,8 +23,7 @@ public class RoutinesFragment extends BaseFragment implements FragmentPresenter{
     //<生命周期>-------------------------------------------------------------------------------------
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
     //</生命周期>------------------------------------------------------------------------------------

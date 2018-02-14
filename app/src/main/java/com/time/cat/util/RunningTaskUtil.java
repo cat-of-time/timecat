@@ -200,10 +200,7 @@ public class RunningTaskUtil {
             }
         };
 
-        ((SimpleDialog.Builder) builder)
-                .message(context.getString(R.string.request_usage_setting_msg))
-                .positiveAction(context.getString(R.string.goto_setting))
-                .negativeAction(context.getString(R.string.cancel));
+        ((SimpleDialog.Builder) builder).message(context.getString(R.string.request_usage_setting_msg)).positiveAction(context.getString(R.string.goto_setting)).negativeAction(context.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) context).getSupportFragmentManager(), null);
     }

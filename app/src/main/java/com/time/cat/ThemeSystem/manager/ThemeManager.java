@@ -20,15 +20,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * @PackageName com.time.cat.ThemeSystem.manager
  * @author dlinking-lxy
+ * @PackageName com.time.cat.ThemeSystem.manager
  * @date 17-7-5.
  * @discription 主题控制统一入口
  */
 public class ThemeManager {
-    private static final String TAG = "ThemeManager";
-    private static final String CURRENT_THEME = "theme_current";
-
     public static final int CARD_SAKURA = 0xFF1565C0;
     public static final int CARD_STORM = 0xFF2196F3;
     public static final int CARD_HOPE = 0xFF673AB7;
@@ -41,7 +38,6 @@ public class ThemeManager {
     public static final int CARD_BLACK = 0xFF000000;
     public static final int CARD_GREY = 0xFF727272;
     public static final int CARD_MAGENTA = 0xFFff00ff;
-
     public static final int CARD_THEME_0 = 0xff1abc9c;
     public static final int CARD_THEME_1 = 0xff16a085;
     public static final int CARD_THEME_2 = 0xfff1c40f;
@@ -58,15 +54,15 @@ public class ThemeManager {
     public static final int CARD_THEME_13 = 0xff8e44ad;
     public static final int CARD_THEME_14 = 0xff2c3e50;
     public static final int CARD_THEME_15 = 0xff34495e;
+    private static final String TAG = "ThemeManager";
+    private static final String CURRENT_THEME = "theme_current";
 
     public static SharedPreferences getSharePreference(Context context) {
         return context.getSharedPreferences("multiple_theme", Context.MODE_PRIVATE);
     }
 
     public static void setTheme(Context context, int themeId) {
-        getSharePreference(context).edit()
-                .putInt(CURRENT_THEME, themeId)
-                .commit();
+        getSharePreference(context).edit().putInt(CURRENT_THEME, themeId).commit();
     }
 
     public static int getTheme(Context context) {

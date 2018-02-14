@@ -31,8 +31,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @author xyczero617@gmail.com
  * @time 15/10/25
  */
-public class TintButton extends android.support.v7.widget.AppCompatButton implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible
-        , AppCompatTextHelper.TextExtensible {
+public class TintButton extends android.support.v7.widget.AppCompatButton implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatTextHelper.TextExtensible {
     private AppCompatTextHelper mTextHelper;
     private AppCompatBackgroundHelper mBackgroundHelper;
 

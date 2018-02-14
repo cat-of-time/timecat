@@ -15,15 +15,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.base.BaseActivity;
+import com.time.cat.mvp.view.GuideView;
+import com.time.cat.mvp.view.TimeCatLayoutWrapper;
 import com.time.cat.util.ClipboardUtils;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.ToastUtil;
-import com.time.cat.mvp.view.TimeCatLayoutWrapper;
-import com.time.cat.mvp.view.GuideView;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -257,15 +257,9 @@ public class IntroActivity extends BaseActivity {
 
             }
         });
-        guideView = new GuideView.Builder(this)
-                .setTargetView(mIntro)//设置目标
-                .setCustomGuideView(tv)
-                .setCenterView(imageView)
-                .setDirction(GuideView.Direction.BOTTOM)
-                .setShape(GuideView.MyShape.CIRCULAR)   // 设置圆形显示区域，
-                .setOffset(0, mIntro.getMeasuredHeight() + 100)
-                .setBgColor(getResources().getColor(R.color.shadow))
-                .setOnclickListener(new GuideView.OnClickCallback() {
+        guideView = new GuideView.Builder(this).setTargetView(mIntro)//设置目标
+                .setCustomGuideView(tv).setCenterView(imageView).setDirction(GuideView.Direction.BOTTOM).setShape(GuideView.MyShape.CIRCULAR)   // 设置圆形显示区域，
+                .setOffset(0, mIntro.getMeasuredHeight() + 100).setBgColor(getResources().getColor(R.color.shadow)).setOnclickListener(new GuideView.OnClickCallback() {
                     @Override
                     public void onClickedGuideView() {
                         animation.cancel();
@@ -274,43 +268,38 @@ public class IntroActivity extends BaseActivity {
                         mTimeCatWraper.setVisibility(View.VISIBLE);
                         mTimeCatWraper.setScaleX(0);
                         mTimeCatWraper.setScaleY(0);
-                        mTimeCatWraper.animate().scaleY(1).scaleX(1)
-                                .setInterpolator(new AnticipateOvershootInterpolator())
-                                .setDuration(200)
-                                .setListener(new Animator.AnimatorListener() {
+                        mTimeCatWraper.animate().scaleY(1).scaleX(1).setInterpolator(new AnticipateOvershootInterpolator()).setDuration(200).setListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                handler.postDelayed(new Runnable() {
                                     @Override
-                                    public void onAnimationStart(Animator animation) {
-
+                                    public void run() {
+                                        showTimeCatIntro();
                                     }
+                                }, 300);
+                            }
 
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                showTimeCatIntro();
-                                            }
-                                        }, 300);
-                                    }
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
 
-                                    @Override
-                                    public void onAnimationCancel(Animator animation) {
+                            }
 
-                                    }
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
 
-                                    @Override
-                                    public void onAnimationRepeat(Animator animation) {
-
-                                    }
-                                }).start();
+                            }
+                        }).start();
 
                     }
-                })
-                .setOnViewAddedListener(view -> {
+                }).setOnViewAddedListener(view -> {
                     view.setAnimation(animation);
                     animation.start();
-                })
-                .build();
+                }).build();
         guideView.setClickable(false);
         guideView.setLongClickable(false);
         guideView.setFocusable(false);
@@ -324,13 +313,8 @@ public class IntroActivity extends BaseActivity {
         mTimeCatLayout.setActionListener(timeCatActionListener);
 
         mTimeCatWraper = findViewById(R.id.timecat_wraper);
-        txts_cloud = new String[]{"TimeCat", "是", "您", "的", "快捷", "助手", "。", "\n",
-                "您", "可以", "在", "任意", "app", "中", "对", "文字", "进行", "编辑", "，",
-                "包括", "分词", "，", "翻译", "，", "复制", "以及", "动态", "调整", "。", "\n", "希望", "您", "能", "在", "日常", "生活", "中", "获得", "便利"};
-        txts_local = new String[]{"TimeCat", "是", "您", "的", "快", "捷", "助", "手", "。", "\n",
-                "您", "可", "以", "在", "任", "意", "app", "中", "对", "文", "字", "进", "行", "编", "辑", "，",
-                "包", "括", "分", "词", "，", "翻", "译", "，", "复", "制", "以", "及", "动", "态", "调", "整", "。", "\n", "希", "望", "您", "能", "在", "日", "常", "生", "活", "中", "获", "得"
-                , "便", "利"};
+        txts_cloud = new String[]{"TimeCat", "是", "您", "的", "快捷", "助手", "。", "\n", "您", "可以", "在", "任意", "app", "中", "对", "文字", "进行", "编辑", "，", "包括", "分词", "，", "翻译", "，", "复制", "以及", "动态", "调整", "。", "\n", "希望", "您", "能", "在", "日常", "生活", "中", "获得", "便利"};
+        txts_local = new String[]{"TimeCat", "是", "您", "的", "快", "捷", "助", "手", "。", "\n", "您", "可", "以", "在", "任", "意", "app", "中", "对", "文", "字", "进", "行", "编", "辑", "，", "包", "括", "分", "词", "，", "翻", "译", "，", "复", "制", "以", "及", "动", "态", "调", "整", "。", "\n", "希", "望", "您", "能", "在", "日", "常", "生", "活", "中", "获", "得", "便", "利"};
         for (String t : txts_cloud) {
             mTimeCatLayout.addTextItem(t);
         }
@@ -404,16 +388,9 @@ public class IntroActivity extends BaseActivity {
 
             }
         });
-        guideView = new GuideView.Builder(this)
-                .setTargetView(mTimeCatWraper)//设置目标
-                .setCustomGuideView(tv)
-                .setCenterView(imageView)
-                .setDirction(GuideView.Direction.BOTTOM)
-                .setShape(GuideView.MyShape.RECTANGULAR)   // 设置圆形显示区域，
-                .setRadius(5)
-                .setOffset(0, mTimeCatWraper.getMeasuredHeight() / 2 + 100)
-                .setBgColor(getResources().getColor(R.color.shadow))
-                .setOnclickListener(new GuideView.OnClickCallback() {
+        guideView = new GuideView.Builder(this).setTargetView(mTimeCatWraper)//设置目标
+                .setCustomGuideView(tv).setCenterView(imageView).setDirction(GuideView.Direction.BOTTOM).setShape(GuideView.MyShape.RECTANGULAR)   // 设置圆形显示区域，
+                .setRadius(5).setOffset(0, mTimeCatWraper.getMeasuredHeight() / 2 + 100).setBgColor(getResources().getColor(R.color.shadow)).setOnclickListener(new GuideView.OnClickCallback() {
                     @Override
                     public void onClickedGuideView() {
                         animation.cancel();
@@ -421,12 +398,10 @@ public class IntroActivity extends BaseActivity {
                         showEnterBtn();
                         mFunctionIntroTV.setVisibility(View.VISIBLE);
                     }
-                })
-                .setOnViewAddedListener(view -> {
+                }).setOnViewAddedListener(view -> {
                     view.setAnimation(animation);
                     animation.start();
-                })
-                .build();
+                }).build();
         guideView.setClickable(false);
         guideView.setLongClickable(false);
         guideView.setFocusable(false);
@@ -440,10 +415,7 @@ public class IntroActivity extends BaseActivity {
                 mEnterBtn.setScaleY(0);
                 mEnterBtn.setScaleX(0);
                 mEnterBtn.setAlpha(0);
-                mEnterBtn.animate().scaleX(1).scaleY(1).alpha(1)
-                        .setInterpolator(new AnticipateOvershootInterpolator())
-                        .setStartDelay(500)
-                        .start();
+                mEnterBtn.animate().scaleX(1).scaleY(1).alpha(1).setInterpolator(new AnticipateOvershootInterpolator()).setStartDelay(500).start();
             }
         }
     }
@@ -459,8 +431,7 @@ public class IntroActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (guideView != null)
-            guideView.hide();
+        if (guideView != null) guideView.hide();
         guideView = null;
     }
 }

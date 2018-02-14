@@ -27,8 +27,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBTaskItem;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 
@@ -42,13 +42,14 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public static final String TAG = "DatabaseHelper";
-
+    // name of the database file for our application
+    private static final String DATABASE_NAME = DB.DB_NAME;
+    // any time you make changes to your database objects, you may have to increase the database version
+    private static final int DATABASE_VERSION = 11;
     // List of persisted classes to simplify table creation
-    public Class<?>[] persistedClasses = new Class<?>[]{
-            DBRoutine.class,
+    public Class<?>[] persistedClasses = new Class<?>[]{DBRoutine.class,
 //            Medicine.class,
-            DBTask.class,
-            DBTaskItem.class,
+            DBTask.class, DBTaskItem.class,
 //            DailyScheduleItem.class,
 //            Prescription.class,
             // v8
@@ -59,12 +60,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             // v10
 //            HtmlCacheEntry.class
     };
-
-    // name of the database file for our application
-    private static final String DATABASE_NAME = DB.DB_NAME;
-    // any time you make changes to your database objects, you may have to increase the database version
-    private static final int DATABASE_VERSION = 11;
-
     // the DAO object we use to access the Medicines table
 //    private Dao<Medicine, Long> medicinesDao = null;
     // the DAO object we use to access the Routines table
@@ -179,7 +174,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 Log.d(DatabaseHelper.class.getName(), "Will try to recreate db...");
                 dropAndCreateAllTables();
                 createDefaultUser();
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 throw new RuntimeException(e);
             }
         }

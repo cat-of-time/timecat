@@ -42,8 +42,7 @@ public class IMMLeaks {
             return;
         }
 
-        final InputMethodManager inputMethodManager =
-                (InputMethodManager) application.getSystemService(INPUT_METHOD_SERVICE);
+        final InputMethodManager inputMethodManager = (InputMethodManager) application.getSystemService(INPUT_METHOD_SERVICE);
 
         final Field mServedViewField;
         final Field mHField;
@@ -66,9 +65,7 @@ public class IMMLeaks {
         application.registerActivityLifecycleCallbacks(new LifecycleCallbacksAdapter() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                ReferenceCleaner cleaner =
-                        new ReferenceCleaner(inputMethodManager, mHField, mServedViewField,
-                                finishInputLockedMethod);
+                ReferenceCleaner cleaner = new ReferenceCleaner(inputMethodManager, mHField, mServedViewField, finishInputLockedMethod);
                 View rootView = activity.getWindow().getDecorView().getRootView();
                 ViewTreeObserver viewTreeObserver = rootView.getViewTreeObserver();
                 viewTreeObserver.addOnGlobalFocusChangeListener(cleaner);
@@ -77,17 +74,14 @@ public class IMMLeaks {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    static class ReferenceCleaner
-            implements MessageQueue.IdleHandler, View.OnAttachStateChangeListener,
-            ViewTreeObserver.OnGlobalFocusChangeListener {
+    static class ReferenceCleaner implements MessageQueue.IdleHandler, View.OnAttachStateChangeListener, ViewTreeObserver.OnGlobalFocusChangeListener {
 
         private final InputMethodManager inputMethodManager;
         private final Field mHField;
         private final Field mServedViewField;
         private final Method finishInputLockedMethod;
 
-        ReferenceCleaner(InputMethodManager inputMethodManager, Field mHField, Field mServedViewField,
-                         Method finishInputLockedMethod) {
+        ReferenceCleaner(InputMethodManager inputMethodManager, Field mHField, Field mServedViewField, Method finishInputLockedMethod) {
             this.inputMethodManager = inputMethodManager;
             this.mHField = mHField;
             this.mServedViewField = mServedViewField;

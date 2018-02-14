@@ -29,11 +29,16 @@ import rx.schedulers.Schedulers;
  * @date 2018/2/2
  * @discription 登录
  */
-public class LoginActivity extends BaseActivity implements ActivityPresenter,  View.OnClickListener{
+public class LoginActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener {
+    public static final String INTENT_USER_EMAIL = "intent_user_email";
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-
-    public static final String INTENT_USER_EMAIL = "intent_user_email";
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    EditText emailText;
+    EditText passwordText;
+    Button loginButton;
+    //</生命周期>------------------------------------------------------------------------------------
+    TextView signupLink;
 
     //<生命周期>------------------------------------------------------------------------------------
     @Override
@@ -71,15 +76,6 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
         // Disable going back to the MainActivity
         moveTaskToBack(true);
     }
-    //</生命周期>------------------------------------------------------------------------------------
-
-
-
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
-    EditText emailText;
-    EditText passwordText;
-    Button loginButton;
-    TextView signupLink;
 
     @Override
     public void initView() {
@@ -91,17 +87,12 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
 
 
-
-
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {
         intent = new Intent(LoginActivity.this, MainActivity.class);
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
-
-
-
 
 
     //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
@@ -127,7 +118,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
         }
     }
 
-    public void login()      {
+    public void login() {
         Log.d(TAG, "Login");
 
         if (!validate()) {
@@ -137,8 +128,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
 
         loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
@@ -148,10 +138,8 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
 
         // TODO: Implement your own authentication logic here.
         final boolean[] isSuccess = {false};
-        RetrofitHelper.getLoginService()
-                .login(email, password, false) //获取Observable对象
-                .compose(LoginActivity.this.bindToLifecycle())
-                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+        RetrofitHelper.getLoginService().login(email, password, false) //获取Observable对象
+                .compose(LoginActivity.this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                 .doOnNext(new Action1<User>() {
                     @Override
@@ -160,8 +148,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter,  V
                         DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
                         Log.i(TAG, user.toString());
                     }
-                })
-                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {

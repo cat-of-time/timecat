@@ -24,8 +24,8 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.main.schedules.AlarmScheduler;
 import com.time.cat.database.DB;
-import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.events.PersistenceEvents;
+import com.time.cat.mvp.model.DBmodel.DBRoutine;
 
 import java.util.List;
 
@@ -150,6 +150,27 @@ public class RoutinesListFragment extends Fragment {
         new ReloadItemsTask().execute();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        TimeCatApp.eventBus().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        TimeCatApp.eventBus().unregister(this);
+        super.onStop();
+    }
+
+    // Method called from the event bus
+    @SuppressWarnings("unused")
+    public void onEvent(Object evt) {
+        if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
+            notifyDataChange();
+        }
+    }
+
+
     // Container Activity must implement this interface
     public interface OnRoutineSelectedListener {
         void onRoutineSelected(DBRoutine r);
@@ -195,27 +216,6 @@ public class RoutinesListFragment extends Fragment {
                 adapter.add(r);
             }
             adapter.notifyDataSetChanged();
-        }
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        TimeCatApp.eventBus().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        TimeCatApp.eventBus().unregister(this);
-        super.onStop();
-    }
-
-    // Method called from the event bus
-    @SuppressWarnings("unused")
-    public void onEvent(Object evt) {
-        if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
-            notifyDataChange();
         }
     }
 

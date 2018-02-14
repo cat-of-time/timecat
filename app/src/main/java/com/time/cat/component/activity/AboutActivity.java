@@ -13,7 +13,7 @@ import com.time.cat.component.base.BaseActivity;
  * @date 2018/2/3
  * @discription
  */
-public class AboutActivity extends BaseActivity{
+public class AboutActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +24,7 @@ public class AboutActivity extends BaseActivity{
 
         if (savedInstanceState == null) {
 
-            Fragment fragment = new LibsBuilder()
-                    .withAboutAppName("TimeCat")
-                    .withAboutIconShown(true)
-                    .withAboutVersionShown(true)
-                    .withLicenseShown(true)
-                    .withLicenseDialog(true)
-                    .withAboutDescription(getString(R.string.about_description))
-                    .fragment();
+            Fragment fragment = new LibsBuilder().withAboutAppName("TimeCat").withAboutIconShown(true).withAboutVersionShown(true).withLicenseShown(true).withLicenseDialog(true).withAboutDescription(getString(R.string.about_description)).fragment();
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.fragment_holder, fragment).commit();

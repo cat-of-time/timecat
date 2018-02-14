@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.screen.CaptureResultActivity;
 import com.time.cat.component.activity.searchengine.SearchEngineActivity;
@@ -35,7 +36,6 @@ import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -203,8 +203,7 @@ public class WebActivity extends BaseActivity {
         if (!TextUtils.isEmpty(mUrl)) {
             return Uri.parse(mUrl);
         } else {
-            if (!TextUtils.isEmpty(mQuery))
-                return Uri.parse(getUrlStrBySelect(mQuery));
+            if (!TextUtils.isEmpty(mQuery)) return Uri.parse(getUrlStrBySelect(mQuery));
         }
         return null;
     }
@@ -229,8 +228,7 @@ public class WebActivity extends BaseActivity {
     private String getUrlStrBySelect(String query) {
         query = query.replaceAll("\n", "");
         String url = SearchEngineUtil.getInstance().getSearchEngines().get(browserSelection).url;
-        if (!url.startsWith("http"))
-            url = "http://" + url;
+        if (!url.startsWith("http")) url = "http://" + url;
         try {
             return url + URLEncoder.encode(query, "utf-8");
         } catch (UnsupportedEncodingException e) {

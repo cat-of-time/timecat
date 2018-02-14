@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.SettingTimeCatActivity;
 import com.time.cat.component.activity.searchengine.SearchEngineActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
+import com.time.cat.mvp.view.HintTextView;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.mvp.view.HintTextView;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 /**
  * Created by wangyan-pd on 2016/11/9.

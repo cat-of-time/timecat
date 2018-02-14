@@ -48,8 +48,7 @@ public class UploadUtil {
         } else if (w < h && h > hh) {//如果高度高的话根据宽度固定大小缩放
             be = (int) (newOpts.outHeight / hh);
         }
-        if (be <= 0)
-            be = 1;
+        if (be <= 0) be = 1;
         newOpts.inSampleSize = be;//设置缩放比例
         //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
         bitmap = BitmapFactory.decodeFile(srcPath.getAbsolutePath(), newOpts);
@@ -98,8 +97,7 @@ public class UploadUtil {
             conn.setRequestProperty("Charset", CHARSET); // 设置编码
             conn.setRequestProperty("connection", "keep-alive");
             conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
-            if (Build.VERSION.SDK != null
-                    && Build.VERSION.SDK_INT > 13) {
+            if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
                 conn.setRequestProperty("Connection", "close");
             }
             if (file != null) {
@@ -122,8 +120,7 @@ public class UploadUtil {
                  * 这里重点注意： name里面的值为服务端需要key 只有这个key 才可以得到对应的文件
                  * filename是文件的名字，包含后缀名的 比如:abc.png
                  */
-                sb.append("Content-Disposition: form-data; name=\"smfile\"; filename=\""
-                        + file.getName() + "\"" + LINE_END);
+                sb.append("Content-Disposition: form-data; name=\"smfile\"; filename=\"" + file.getName() + "\"" + LINE_END);
                 //  sb.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINE_END);
                 sb.append("Content-Type:  image/*" + LINE_END);
                 sb.append(LINE_END);
@@ -181,8 +178,7 @@ public class UploadUtil {
      * @return String result of Service response
      * @throws IOException
      */
-    public static String post(String url, Map<String, String> params, Map<String, File> files)
-            throws IOException {
+    public static String post(String url, Map<String, String> params, Map<String, File> files) throws IOException {
         String BOUNDARY = UUID.randomUUID().toString();
         String PREFIX = "--", LINEND = "\r\n";
         String MULTIPART_FROM_DATA = "multipart/form-data";
@@ -213,26 +209,24 @@ public class UploadUtil {
         DataOutputStream outStream = new DataOutputStream(conn.getOutputStream());
         outStream.write(sb.toString().getBytes());
         // 发送文件数据
-        if (files != null)
-            for (Map.Entry<String, File> file : files.entrySet()) {
-                StringBuilder sb1 = new StringBuilder();
-                sb1.append(PREFIX);
-                sb1.append(BOUNDARY);
-                sb1.append(LINEND);
-                sb1.append("Content-Disposition: form-data; name=\"uploadfile\"; filename=\""
-                        + file.getValue().getName() + "\"" + LINEND);
-                sb1.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINEND);
-                sb1.append(LINEND);
-                outStream.write(sb1.toString().getBytes());
-                InputStream is = new FileInputStream(file.getValue());
-                byte[] buffer = new byte[1024];
-                int len = 0;
-                while ((len = is.read(buffer)) != -1) {
-                    outStream.write(buffer, 0, len);
-                }
-                is.close();
-                outStream.write(LINEND.getBytes());
+        if (files != null) for (Map.Entry<String, File> file : files.entrySet()) {
+            StringBuilder sb1 = new StringBuilder();
+            sb1.append(PREFIX);
+            sb1.append(BOUNDARY);
+            sb1.append(LINEND);
+            sb1.append("Content-Disposition: form-data; name=\"uploadfile\"; filename=\"" + file.getValue().getName() + "\"" + LINEND);
+            sb1.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINEND);
+            sb1.append(LINEND);
+            outStream.write(sb1.toString().getBytes());
+            InputStream is = new FileInputStream(file.getValue());
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = is.read(buffer)) != -1) {
+                outStream.write(buffer, 0, len);
             }
+            is.close();
+            outStream.write(LINEND.getBytes());
+        }
         // 请求结束标志
         byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
         outStream.write(end_data);

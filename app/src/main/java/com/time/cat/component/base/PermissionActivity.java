@@ -16,8 +16,7 @@ import java.util.List;
  * @描述	      ${Activity基类 }
  * @更新描述   ${适配6.0权限问题}
  */
-public class PermissionActivity extends RxAppCompatActivity implements
-        EasyPermissions.PermissionCallbacks {
+public class PermissionActivity extends RxAppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     protected static final int RC_PERM = 123;
 
@@ -31,12 +30,10 @@ public class PermissionActivity extends RxAppCompatActivity implements
     public void checkPermission(CheckPermListener listener, int resString, String... mPerms) {
         mListener = listener;
         if (EasyPermissions.hasPermissions(this, mPerms)) {
-            if (mListener != null)
-                mListener.grantPermission();
+            if (mListener != null) mListener.grantPermission();
         } else {
             CharSequence text = Html.fromHtml("<font color=\"#000000\">" + getString(resString) + "</font>");
-            EasyPermissions.requestPermissions(this, text,
-                    RC_PERM, mPerms);
+            EasyPermissions.requestPermissions(this, text, RC_PERM, mPerms);
         }
     }
 
@@ -68,23 +65,18 @@ public class PermissionActivity extends RxAppCompatActivity implements
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         //同意了某些权限可能不是全部
-        if (mListener != null)
-            mListener.denyPermission();
+        if (mListener != null) mListener.denyPermission();
     }
 
     @Override
     public void onPermissionsAllGranted() {
-        if (mListener != null)
-            mListener.grantPermission();//同意了全部权限的回调
+        if (mListener != null) mListener.grantPermission();//同意了全部权限的回调
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        if (!EasyPermissions.checkDeniedPermissionsNeverAskAgain(this,
-                getString(R.string.perm_tip),
-                R.string.setting, R.string.cancel, null, perms)) {
-            if (mListener != null)
-                mListener.denyPermission();
+        if (!EasyPermissions.checkDeniedPermissionsNeverAskAgain(this, getString(R.string.perm_tip), R.string.setting, R.string.cancel, null, perms)) {
+            if (mListener != null) mListener.denyPermission();
         }
     }
 

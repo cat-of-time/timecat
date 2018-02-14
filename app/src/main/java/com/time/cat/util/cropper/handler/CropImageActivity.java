@@ -30,9 +30,9 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
-import com.shang.utils.StatusBarCompat;
 
 import java.io.File;
 import java.io.IOException;
@@ -241,12 +241,7 @@ public class CropImageActivity extends BaseActivity implements CropImageView.OnS
             setResult(null, null, 1);
         } else {
             Uri outputUri = getOutputUri();
-            mCropImageView.saveCroppedImageAsync(outputUri,
-                    mOptions.outputCompressFormat,
-                    mOptions.outputCompressQuality,
-                    mOptions.outputRequestWidth,
-                    mOptions.outputRequestHeight,
-                    mOptions.outputRequestSizeOptions);
+            mCropImageView.saveCroppedImageAsync(outputUri, mOptions.outputCompressFormat, mOptions.outputCompressQuality, mOptions.outputRequestWidth, mOptions.outputRequestHeight, mOptions.outputRequestSizeOptions);
         }
     }
 
@@ -265,8 +260,7 @@ public class CropImageActivity extends BaseActivity implements CropImageView.OnS
         Uri outputUri = mOptions.outputUri;
         if (outputUri.equals(Uri.EMPTY)) {
             try {
-                String ext = mOptions.outputCompressFormat == Bitmap.CompressFormat.JPEG ? ".jpg" :
-                        mOptions.outputCompressFormat == Bitmap.CompressFormat.PNG ? ".png" : ".webp";
+                String ext = mOptions.outputCompressFormat == Bitmap.CompressFormat.JPEG ? ".jpg" : mOptions.outputCompressFormat == Bitmap.CompressFormat.PNG ? ".png" : ".webp";
                 outputUri = Uri.fromFile(File.createTempFile("cropped", ext, getCacheDir()));
             } catch (IOException e) {
                 throw new RuntimeException("Failed to create temp file for output image", e);
@@ -296,13 +290,7 @@ public class CropImageActivity extends BaseActivity implements CropImageView.OnS
      * Get intent instance to be used for the result of this activity.
      */
     protected Intent getResultIntent(Uri uri, Exception error, int sampleSize) {
-        CropImage.ActivityResult result = new CropImage.ActivityResult(null,
-                uri,
-                error,
-                mCropImageView.getCropPoints(),
-                mCropImageView.getCropRect(),
-                mCropImageView.getRotatedDegrees(),
-                sampleSize);
+        CropImage.ActivityResult result = new CropImage.ActivityResult(null, uri, error, mCropImageView.getCropPoints(), mCropImageView.getCropRect(), mCropImageView.getRotatedDegrees(), sampleSize);
         Intent intent = new Intent();
         intent.putExtra(CropImage.CROP_IMAGE_EXTRA_RESULT, result);
         return intent;

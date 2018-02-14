@@ -36,10 +36,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @time 16/2/4
  */
 public class AppCompatProgressBarHelper extends AppCompatBaseHelper {
-    private static final int ATTR[] = new int[]{
-            R.attr.progressTint,
-            R.attr.progressIndeterminateTint
-    };
+    private static final int ATTR[] = new int[]{R.attr.progressTint, R.attr.progressIndeterminateTint};
 
     private int mProgressTintResId;
     private int mIndeterminateTintResId;
@@ -96,8 +93,7 @@ public class AppCompatProgressBarHelper extends AppCompatBaseHelper {
 
     private void applySupportProgressTint() {
         Log.e("themep", "apply progress tint");
-        if (mProgressTintInfo != null
-                && (mProgressTintInfo.mHasTintList || mProgressTintInfo.mHasTintMode)) {
+        if (mProgressTintInfo != null && (mProgressTintInfo.mHasTintList || mProgressTintInfo.mHasTintMode)) {
             Log.e("themep", "apply progress tint true");
             final Drawable target = getTintTarget(android.R.id.progress, true);
             if (target != null) {

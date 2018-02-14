@@ -57,10 +57,7 @@ public class CopyNode implements Parcelable {
 
     @Override
     public String toString() {
-        return "CopyNode{" +
-                "bound=" + bound +
-                ", content='" + content + '\'' +
-                '}';
+        return "CopyNode{" + "bound=" + bound + ", content='" + content + '\'' + '}';
     }
 
 

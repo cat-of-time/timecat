@@ -65,6 +65,7 @@ public class DBUser {
     public Long id() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -72,6 +73,7 @@ public class DBUser {
     public String name() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -79,6 +81,7 @@ public class DBUser {
     public boolean isDefault() {
         return isDefault;
     }
+
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
     }
@@ -86,6 +89,7 @@ public class DBUser {
     public String avatar() {
         return avatar;
     }
+
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
@@ -93,6 +97,7 @@ public class DBUser {
     public int color() {
         return color;
     }
+
     public void setColor(int color) {
         this.color = color;
     }
@@ -100,13 +105,13 @@ public class DBUser {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
     @Override
     public String toString() {
-        return String.format("DBUser{id=%s, name=%s, email=%s, isDefault=%s, avatar=%s, color=%s}",
-                String.valueOf(id), name, email, String.valueOf(isDefault), avatar, String.valueOf(color));
+        return String.format("DBUser{id=%s, name=%s, email=%s, isDefault=%s, avatar=%s, color=%s}", String.valueOf(id), name, email, String.valueOf(isDefault), avatar, String.valueOf(color));
     }
 }

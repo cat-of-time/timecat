@@ -13,21 +13,21 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.OcrActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
-import com.time.cat.component.service.TimeCatMonitorService;
 import com.time.cat.component.service.ListenClipboardService;
-import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.SnackBarUtil;
-import com.time.cat.util.UrlCountUtil;
+import com.time.cat.component.service.TimeCatMonitorService;
 import com.time.cat.mvp.view.DialogFragment;
 import com.time.cat.mvp.view.HintTextView;
 import com.time.cat.mvp.view.SimpleDialog;
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.time.cat.util.ConstantUtil;
+import com.time.cat.util.SnackBarUtil;
+import com.time.cat.util.UrlCountUtil;
 
-import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 import static com.time.cat.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
+import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
 
 /**
@@ -229,8 +229,7 @@ public class FunctionSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message(mContext.getString(R.string.float_tips))
-                .positiveAction(mContext.getString(R.string.ok));
+        builder.message(mContext.getString(R.string.float_tips)).positiveAction(mContext.getString(R.string.ok));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }
@@ -260,9 +259,7 @@ public class FunctionSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message(mContext.getString(R.string.access_open_tips))
-                .positiveAction(mContext.getString(R.string.request_accessibility_confirm))
-                .negativeAction(mContext.getString(R.string.cancel));
+        builder.message(mContext.getString(R.string.access_open_tips)).positiveAction(mContext.getString(R.string.request_accessibility_confirm)).negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }

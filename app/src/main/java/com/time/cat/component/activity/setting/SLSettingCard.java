@@ -13,20 +13,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.SettingFloatViewActivity;
 import com.time.cat.component.activity.whitelist.SelectionDbHelper;
 import com.time.cat.component.base.baseCard.AbsCard;
+import com.time.cat.mvp.view.Dialog;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
 import com.time.cat.util.AESUtils;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.IOUtil;
 import com.time.cat.util.LogUtil;
 import com.time.cat.util.NativeHelper;
 import com.time.cat.util.ToastUtil;
-import com.time.cat.mvp.view.Dialog;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.SimpleDialog;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -95,9 +95,7 @@ public class SLSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message(mContext.getString(R.string.load_setting_tips))
-                .positiveAction(mContext.getString(R.string.confirm))
-                .negativeAction(mContext.getString(R.string.cancel));
+        builder.message(mContext.getString(R.string.load_setting_tips)).positiveAction(mContext.getString(R.string.confirm)).negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }
@@ -130,10 +128,7 @@ public class SLSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message(mContext.getString(R.string.save_setting_tips))
-                .positiveAction(mContext.getString(R.string.save_other))
-                .negativeAction(mContext.getString(R.string.only_save_ocr))
-                .neutralAction(mContext.getString(R.string.cancel));
+        builder.message(mContext.getString(R.string.save_setting_tips)).positiveAction(mContext.getString(R.string.save_other)).negativeAction(mContext.getString(R.string.only_save_ocr)).neutralAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }
@@ -160,9 +155,7 @@ public class SLSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message(mContext.getString(R.string.default_setting_tips))
-                .positiveAction(mContext.getString(R.string.confirm))
-                .negativeAction(mContext.getString(R.string.cancel));
+        builder.message(mContext.getString(R.string.default_setting_tips)).positiveAction(mContext.getString(R.string.confirm)).negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }

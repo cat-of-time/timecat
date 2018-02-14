@@ -64,25 +64,6 @@ public class ReminderNotification {
 
     private static Random random = new Random();
 
-
-    private static class NotificationOptions {
-        int notificationNumber;
-        boolean insistent;
-        boolean lost = false;
-        String title;
-        String text;
-        String ticker;
-        String tag;
-        Bitmap picture;
-        PendingIntent defaultIntent;
-        PendingIntent cancelIntent;
-        PendingIntent delayIntent;
-        NotificationCompat.InboxStyle style;
-        Uri ringtone;
-        long when;
-
-    }
-
     public static int routineNotificationId(int routineId) {
         return ("routine_notification_" + routineId).hashCode();
     }
@@ -116,7 +97,6 @@ public class ReminderNotification {
 
         notify(context, routineNotificationId(r.getId().intValue()), title, intents, intent, options);
     }
-
 
     public static void notify(final Context context, final String title, DBTask DBTask, LocalDate date, LocalTime time, Intent intent, boolean lost) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -180,7 +160,6 @@ public class ReminderNotification {
         notify(context, id, n, options.tag);
     }
 
-
     private static Notification buildNotification(Context context, NotificationOptions options) {
 
         Resources res = context.getResources();
@@ -210,8 +189,7 @@ public class ReminderNotification {
 
         if (!options.lost) {
             // add delay button and cancel button
-            builder.addAction(R.drawable.ic_arrow_down, "res.getString(R.string.notification_delay)", options.delayIntent)
-                    .addAction(R.drawable.ic_arrow_left_end_white, "res.getString(R.string.notification_cancel_now)", options.cancelIntent);
+            builder.addAction(R.drawable.ic_arrow_down, "res.getString(R.string.notification_delay)", options.delayIntent).addAction(R.drawable.ic_arrow_left_end_white, "res.getString(R.string.notification_cancel_now)", options.cancelIntent);
         }
 
         if (options.insistent) {
@@ -327,7 +305,6 @@ public class ReminderNotification {
         return BitmapFactory.decodeResource(r, AvatarMgr.res(user.avatar()));
     }
 
-
     @TargetApi(Build.VERSION_CODES.ECLAIR)
     private static void notify(final Context context, int id, final Notification notification, String tag) {
         //int id = Math.abs(tag.hashCode());
@@ -352,6 +329,24 @@ public class ReminderNotification {
             nm.cancel(id);
             nm.cancel(id);
         }
+    }
+
+    private static class NotificationOptions {
+        int notificationNumber;
+        boolean insistent;
+        boolean lost = false;
+        String title;
+        String text;
+        String ticker;
+        String tag;
+        Bitmap picture;
+        PendingIntent defaultIntent;
+        PendingIntent cancelIntent;
+        PendingIntent delayIntent;
+        NotificationCompat.InboxStyle style;
+        Uri ringtone;
+        long when;
+
     }
 
 }

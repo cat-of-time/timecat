@@ -14,13 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.util.onestep.ResolveInfoWrap;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SharedIntentHelper;
-import com.shang.utils.StatusBarCompat;
+import com.time.cat.util.onestep.ResolveInfoWrap;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yanzhenjie.recyclerview.swipe.touch.OnItemMoveListener;
 
@@ -183,9 +183,7 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
             resolveInfoWraps = SharedIntentHelper.listIntents(ShareAppManagerActivity.this);
             PackageManager packageManager = getPackageManager();
             for (ResolveInfoWrap resolveInfoWrap : resolveInfoWraps) {
-                mAllAppInfo.add(new ShareAppInfo(resolveInfoWrap.resolveInfo,
-                        resolveInfoWrap.resolveInfo.loadLabel(packageManager).toString(), resolveInfoWrap.resolveInfo.activityInfo.packageName,
-                        !mDisAppSet.contains(resolveInfoWrap.resolveInfo.loadLabel(packageManager).toString())));
+                mAllAppInfo.add(new ShareAppInfo(resolveInfoWrap.resolveInfo, resolveInfoWrap.resolveInfo.loadLabel(packageManager).toString(), resolveInfoWrap.resolveInfo.activityInfo.packageName, !mDisAppSet.contains(resolveInfoWrap.resolveInfo.loadLabel(packageManager).toString())));
             }
 
             mResultAppInfo.addAll(mAllAppInfo);

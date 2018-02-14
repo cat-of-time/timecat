@@ -46,8 +46,7 @@ public class LogUtil {
     }
 
     public static void d(String msg) {
-        if (isDshow)
-            Log.d(_TAG, msg);
+        if (isDshow) Log.d(_TAG, msg);
     }
 
     public static void d(String tag, String msg) {

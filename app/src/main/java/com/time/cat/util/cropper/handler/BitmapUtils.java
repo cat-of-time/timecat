@@ -126,9 +126,7 @@ final class BitmapUtils {
             BitmapFactory.Options options = decodeImageForOption(resolver, uri);
 
             // Calculate inSampleSize
-            options.inSampleSize = Math.max(
-                    calculateInSampleSizeByReqestedSize(options.outWidth, options.outHeight, reqWidth, reqHeight),
-                    calculateInSampleSizeByMaxTextureSize(options.outWidth, options.outHeight));
+            options.inSampleSize = Math.max(calculateInSampleSizeByReqestedSize(options.outWidth, options.outHeight, reqWidth, reqHeight), calculateInSampleSizeByMaxTextureSize(options.outWidth, options.outHeight));
 
             // Decode bitmap with inSampleSize set
             Bitmap bitmap = decodeImage(resolver, uri, options);
@@ -146,8 +144,7 @@ final class BitmapUtils {
      * contains the requires rectangle, rotate and then crop again a sub rectangle.<br>
      * If crop fails due to OOM we scale the cropping image by 0.5 every time it fails until it is small enough.
      */
-    static BitmapSampled cropBitmapObjectHandleOOM(Bitmap bitmap, float[] points, int degreesRotated,
-                                                   boolean fixAspectRatio, int aspectRatioX, int aspectRatioY) {
+    static BitmapSampled cropBitmapObjectHandleOOM(Bitmap bitmap, float[] points, int degreesRotated, boolean fixAspectRatio, int aspectRatioX, int aspectRatioY) {
         int scale = 1;
         while (true) {
             try {
@@ -169,8 +166,7 @@ final class BitmapUtils {
      *
      * @param scale how much to scale the cropped image part, use 0.5 to lower the image by half (OOM handling)
      */
-    private static Bitmap cropBitmapObjectWithScale(Bitmap bitmap, float[] points, int degreesRotated,
-                                                    boolean fixAspectRatio, int aspectRatioX, int aspectRatioY, float scale) {
+    private static Bitmap cropBitmapObjectWithScale(Bitmap bitmap, float[] points, int degreesRotated, boolean fixAspectRatio, int aspectRatioX, int aspectRatioY, float scale) {
 
         // get the rectangle in original image that contains the required cropped area (larger for non rectangular crop)
         Rect rect = getRectFromPoints(points, bitmap.getWidth(), bitmap.getHeight(), fixAspectRatio, aspectRatioX, aspectRatioY);
@@ -200,17 +196,12 @@ final class BitmapUtils {
      * Crop image bitmap from URI by decoding it with specific width and height to down-sample if required.<br>
      * Additionally if OOM is thrown try to increase the sampling (2,4,8).
      */
-    static BitmapSampled cropBitmap(Context context, Uri loadedImageUri, float[] points,
-                                    int degreesRotated, int orgWidth, int orgHeight, boolean fixAspectRatio,
-                                    int aspectRatioX, int aspectRatioY, int reqWidth, int reqHeight) {
+    static BitmapSampled cropBitmap(Context context, Uri loadedImageUri, float[] points, int degreesRotated, int orgWidth, int orgHeight, boolean fixAspectRatio, int aspectRatioX, int aspectRatioY, int reqWidth, int reqHeight) {
         int sampleMulti = 1;
         while (true) {
             try {
                 // if successful, just return the resulting bitmap
-                return cropBitmap(context, loadedImageUri, points,
-                        degreesRotated, orgWidth, orgHeight, fixAspectRatio,
-                        aspectRatioX, aspectRatioY, reqWidth, reqHeight,
-                        sampleMulti);
+                return cropBitmap(context, loadedImageUri, points, degreesRotated, orgWidth, orgHeight, fixAspectRatio, aspectRatioX, aspectRatioY, reqWidth, reqHeight, sampleMulti);
             } catch (OutOfMemoryError e) {
                 // if OOM try to increase the sampling to lower the memory usage
                 sampleMulti *= 2;
@@ -327,9 +318,7 @@ final class BitmapUtils {
      */
     static Bitmap resizeBitmap(Bitmap bitmap, int reqWidth, int reqHeight, CropImageView.RequestSizeOptions options) {
         try {
-            if (reqWidth > 0 && reqHeight > 0 && (options == CropImageView.RequestSizeOptions.RESIZE_FIT ||
-                    options == CropImageView.RequestSizeOptions.RESIZE_INSIDE ||
-                    options == CropImageView.RequestSizeOptions.RESIZE_EXACT)) {
+            if (reqWidth > 0 && reqHeight > 0 && (options == CropImageView.RequestSizeOptions.RESIZE_FIT || options == CropImageView.RequestSizeOptions.RESIZE_INSIDE || options == CropImageView.RequestSizeOptions.RESIZE_EXACT)) {
 
                 Bitmap resized = null;
                 if (options == CropImageView.RequestSizeOptions.RESIZE_EXACT) {
@@ -364,9 +353,7 @@ final class BitmapUtils {
      * @param orgHeight   used to get rectangle from points (handle edge cases to limit rectangle)
      * @param sampleMulti used to increase the sampling of the image to handle memory issues.
      */
-    private static BitmapSampled cropBitmap(Context context, Uri loadedImageUri, float[] points,
-                                            int degreesRotated, int orgWidth, int orgHeight, boolean fixAspectRatio,
-                                            int aspectRatioX, int aspectRatioY, int reqWidth, int reqHeight, int sampleMulti) {
+    private static BitmapSampled cropBitmap(Context context, Uri loadedImageUri, float[] points, int degreesRotated, int orgWidth, int orgHeight, boolean fixAspectRatio, int aspectRatioX, int aspectRatioY, int reqWidth, int reqHeight, int sampleMulti) {
 
         // get the rectangle in original image that contains the required cropped area (larger for non rectangular crop)
         Rect rect = getRectFromPoints(points, orgWidth, orgHeight, fixAspectRatio, aspectRatioX, aspectRatioY);
@@ -411,9 +398,7 @@ final class BitmapUtils {
     /**
      * Crop bitmap by fully loading the original and then cropping it, fallback in case cropping region failed.
      */
-    private static BitmapSampled cropBitmap(Context context, Uri loadedImageUri, float[] points,
-                                            int degreesRotated, boolean fixAspectRatio, int aspectRatioX, int aspectRatioY,
-                                            int sampleMulti, Rect rect, int width, int height) {
+    private static BitmapSampled cropBitmap(Context context, Uri loadedImageUri, float[] points, int degreesRotated, boolean fixAspectRatio, int aspectRatioX, int aspectRatioY, int sampleMulti, Rect rect, int width, int height) {
         Bitmap result = null;
         int sampleSize;
         try {
@@ -522,8 +507,7 @@ final class BitmapUtils {
      * rectangle.<br>
      * Note: rotating by 0, 90, 180 or 270 degrees doesn't require extra cropping.
      */
-    private static Bitmap cropForRotatedImage(Bitmap bitmap, float[] points, Rect rect, int degreesRotated,
-                                              boolean fixAspectRatio, int aspectRatioX, int aspectRatioY) {
+    private static Bitmap cropForRotatedImage(Bitmap bitmap, float[] points, Rect rect, int degreesRotated, boolean fixAspectRatio, int aspectRatioX, int aspectRatioY) {
         if (degreesRotated % 90 != 0) {
 
             int adjLeft = 0, adjTop = 0, width = 0, height = 0;

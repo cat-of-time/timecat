@@ -12,17 +12,17 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.shang.commonjar.contentProvider.Global;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.util.clipboard.ClipboardManagerCompat;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
-import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.LogUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.shang.commonjar.contentProvider.Global;
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.time.cat.util.clipboard.ClipboardManagerCompat;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

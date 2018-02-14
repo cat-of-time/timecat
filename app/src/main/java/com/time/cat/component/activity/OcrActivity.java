@@ -14,28 +14,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.time.cat.R;
-import com.time.cat.component.base.BaseActivity;
-import com.time.cat.util.cropper.BitmapUtil;
-import com.time.cat.util.cropper.CropHandler;
-import com.time.cat.util.cropper.CropHelper;
-import com.time.cat.util.cropper.CropParams;
-import com.time.cat.util.cropper.ImageUriUtil;
-import com.time.cat.util.cropper.handler.CropImage;
-import com.time.cat.mvp.model.APImodel.ImageUpload;
-import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.OcrAnalyser;
-import com.time.cat.util.SnackBarUtil;
-import com.time.cat.util.ToastUtil;
-import com.time.cat.util.UrlCountUtil;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.SimpleDialog;
 import com.microsoft.projectoxford.vision.contract.Line;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
+import com.time.cat.R;
+import com.time.cat.component.base.BaseActivity;
+import com.time.cat.mvp.model.APImodel.ImageUpload;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
+import com.time.cat.util.ConstantUtil;
+import com.time.cat.util.OcrAnalyser;
+import com.time.cat.util.SnackBarUtil;
+import com.time.cat.util.ToastUtil;
+import com.time.cat.util.UrlCountUtil;
+import com.time.cat.util.cropper.BitmapUtil;
+import com.time.cat.util.cropper.CropHandler;
+import com.time.cat.util.cropper.CropHelper;
+import com.time.cat.util.cropper.CropParams;
+import com.time.cat.util.cropper.ImageUriUtil;
+import com.time.cat.util.cropper.handler.CropImage;
 
 import static com.time.cat.component.activity.screen.CaptureResultActivity.HTTP_IMAGE_BAIDU_COM;
 
@@ -121,13 +121,9 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 OcrAnalyser.getInstance().uploadImage(OcrActivity.this, img_path, new OcrAnalyser.ImageUploadCallBack() {
                     @Override
                     public void onSuccess(ImageUpload imageUpload) {
-                        if (imageUpload != null &&
-                                imageUpload.getData() != null &&
-                                !TextUtils.isEmpty(imageUpload.getData().getUrl())) {
+                        if (imageUpload != null && imageUpload.getData() != null && !TextUtils.isEmpty(imageUpload.getData().getUrl())) {
 
-                            String url = HTTP_IMAGE_BAIDU_COM +
-                                    "queryImageUrl=" + imageUpload.getData().getUrl() +
-                                    "&querySign=4074500770,3618317556&fromProduct= ";
+                            String url = HTTP_IMAGE_BAIDU_COM + "queryImageUrl=" + imageUpload.getData().getUrl() + "&querySign=4074500770,3618317556&fromProduct= ";
                             Intent intent = new Intent();
                             intent.putExtra("url", url);
                             intent.setClass(OcrActivity.this, WebActivity.class);
@@ -190,8 +186,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 break;
             case R.id.re_ocr:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_REOCR);
-                if (mCurrentUri != null)
-                    uploadImage4Ocr(mCurrentUri);
+                if (mCurrentUri != null) uploadImage4Ocr(mCurrentUri);
                 break;
 
         }
@@ -228,8 +223,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     public void onPhotoCropped(Uri uri) {
         // Original or Cropped uri
         Log.d(TAG, "Crop Uri in path: " + uri.getPath());
-        CropImage.activity(uri)
-                .start(OcrActivity.this);
+        CropImage.activity(uri).start(OcrActivity.this);
 
     }
 
@@ -251,8 +245,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 //  shouldShowDialog = false;
             }
         };
-        builder.message(this.getString(R.string.ocr_quote_beyond_time))
-                .positiveAction(this.getString(R.string.free_use));
+        builder.message(this.getString(R.string.ocr_quote_beyond_time)).positiveAction(this.getString(R.string.free_use));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getSupportFragmentManager(), null);
     }

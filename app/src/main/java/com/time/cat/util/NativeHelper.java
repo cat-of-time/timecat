@@ -18,14 +18,11 @@ public class NativeHelper {
         try {
             String abi1 = Build.CPU_ABI;
             String abi2 = Build.CPU_ABI2;
-            if ((abi1 != null && abi1.contains("armeabi"))
-                    || (abi2 != null && abi2.contains("armeabi"))) {
+            if ((abi1 != null && abi1.contains("armeabi")) || (abi2 != null && abi2.contains("armeabi"))) {
                 return "armeabi";
-            } else if ((abi1 != null && abi1.contains("mips"))
-                    || (abi2 != null && abi2.contains("mips"))) {
+            } else if ((abi1 != null && abi1.contains("mips")) || (abi2 != null && abi2.contains("mips"))) {
                 return "mips";
-            } else if ((abi1 != null && abi1.contains("x86"))
-                    || (abi2 != null && abi2.contains("x86"))) {
+            } else if ((abi1 != null && abi1.contains("x86")) || (abi2 != null && abi2.contains("x86"))) {
                 return "x86";
             } else {
                 return "armeabi";
@@ -38,8 +35,7 @@ public class NativeHelper {
 
     public final static String getImei(Context context) {
         if (context != null) {
-            TelephonyManager tm = (TelephonyManager) context
-                    .getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             try {
                 if (tm != null && !TextUtils.isEmpty(tm.getDeviceId())) {
                     return tm.getDeviceId();

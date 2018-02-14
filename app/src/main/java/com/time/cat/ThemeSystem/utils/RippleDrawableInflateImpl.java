@@ -42,8 +42,7 @@ public class RippleDrawableInflateImpl extends LayerDrawableInflateImpl {
             if (csl == null) {
                 return null;
             }
-            while ((type = parser.next()) != XmlPullParser.END_DOCUMENT
-                    && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
+            while ((type = parser.next()) != XmlPullParser.END_DOCUMENT && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
                 if (type != XmlPullParser.START_TAG) {
                     continue;
                 }
@@ -72,9 +71,7 @@ public class RippleDrawableInflateImpl extends LayerDrawableInflateImpl {
                     while ((type = parser.next()) == XmlPullParser.TEXT) {
                     }
                     if (type != XmlPullParser.START_TAG) {
-                        throw new XmlPullParserException(parser.getPositionDescription()
-                                + ": <item> tag requires a 'drawable' attribute or "
-                                + "child tag defining a drawable");
+                        throw new XmlPullParserException(parser.getPositionDescription() + ": <item> tag requires a 'drawable' attribute or " + "child tag defining a drawable");
                     }
                     drawable = DrawableUtils.createFromXmlInner(context, parser, attrs);
                 } else {
@@ -129,8 +126,7 @@ public class RippleDrawableInflateImpl extends LayerDrawableInflateImpl {
         } else {
             try {
                 if (sAddLayer == null) {
-                    sAddLayer = Class.forName("android.graphics.drawable.LayerDrawable")
-                            .getDeclaredMethod("addLayer", Drawable.class, int[].class, int.class, int.class, int.class, int.class, int.class);
+                    sAddLayer = Class.forName("android.graphics.drawable.LayerDrawable").getDeclaredMethod("addLayer", Drawable.class, int[].class, int.class, int.class, int.class, int.class, int.class);
                     sAddLayer.setAccessible(true);
                 }
                 sAddLayer.invoke(rippleDrawable, drawable, null, 0, 0, 0, 0, 0);

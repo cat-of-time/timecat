@@ -34,6 +34,7 @@ public class PersistenceEvents {
 
     public static class UserCreateEvent {
         public DBUser user;
+
         public UserCreateEvent(DBUser user) {
             this.user = user;
         }
@@ -41,6 +42,7 @@ public class PersistenceEvents {
 
     public static class UserUpdateEvent {
         public DBUser user;
+
         public UserUpdateEvent(DBUser user) {
             this.user = user;
         }
@@ -48,11 +50,11 @@ public class PersistenceEvents {
 
     public static class ActiveUserChangeEvent {
         public DBUser user;
+
         public ActiveUserChangeEvent(DBUser user) {
             this.user = user;
         }
     }
-
 
 
 }

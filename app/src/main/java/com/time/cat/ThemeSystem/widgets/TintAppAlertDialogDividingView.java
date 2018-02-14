@@ -29,9 +29,7 @@ import com.time.cat.ThemeSystem.utils.ThemeUtils;
  * @time 2015/9/1
  */
 public class TintAppAlertDialogDividingView extends View {
-    public static final int[] TINT_ATTRS = {
-            android.R.attr.background
-    };
+    public static final int[] TINT_ATTRS = {android.R.attr.background};
 
     public TintAppAlertDialogDividingView(Context context) {
         this(context, null);

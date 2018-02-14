@@ -17,9 +17,9 @@ import java.util.WeakHashMap;
  */
 public class AsyncExpandableListView<T1, T2> extends CollectionView<T1, T2> {
 
-    private AsyncExpandableListViewCallbacks<T1, T2> mCallbacks;
     protected Map<OnGroupStateChangeListener, Integer> mOnGroupStateChangeListeners = new WeakHashMap<>();
     protected int expandedGroupOrdinal = -1;
+    private AsyncExpandableListViewCallbacks<T1, T2> mCallbacks;
 
 
     public AsyncExpandableListView(Context context) {
@@ -45,16 +45,6 @@ public class AsyncExpandableListView<T1, T2> extends CollectionView<T1, T2> {
         return rowInfo;
     }
 
-    public interface OnGroupStateChangeListener {
-
-        void onGroupStartExpending();
-
-        void onGroupExpanded();
-
-        void onGroupCollapsed();
-    }
-
-
     public void onGroupClicked(int groupOrdinal) {
         if (groupOrdinal != expandedGroupOrdinal) {
             onStartExpandingGroup(groupOrdinal);
@@ -63,7 +53,6 @@ public class AsyncExpandableListView<T1, T2> extends CollectionView<T1, T2> {
         }
 
     }
-
 
     public void setCallbacks(final AsyncExpandableListViewCallbacks<T1, T2> callbacks) {
         CollectionViewCallbacks<T1, T2> collectionViewCallbacks = new CollectionViewCallbacks<T1, T2>() {
@@ -101,7 +90,6 @@ public class AsyncExpandableListView<T1, T2> extends CollectionView<T1, T2> {
         }
     }
 
-
     protected void onStartExpandingGroup(int groupOrdinal) {
         int ordinal = 0;
         for (int i = 0; i < mInventory.getGroups().size(); i++) {
@@ -120,7 +108,6 @@ public class AsyncExpandableListView<T1, T2> extends CollectionView<T1, T2> {
         }
     }
 
-
     public boolean onFinishLoadingGroup(int groupOrdinal, List<T2> items) {
         if (expandedGroupOrdinal < 0 || groupOrdinal != expandedGroupOrdinal) {
             return false;
@@ -134,6 +121,16 @@ public class AsyncExpandableListView<T1, T2> extends CollectionView<T1, T2> {
         }
 
         return true;
+    }
+
+
+    public interface OnGroupStateChangeListener {
+
+        void onGroupStartExpending();
+
+        void onGroupExpanded();
+
+        void onGroupCollapsed();
     }
 
 }

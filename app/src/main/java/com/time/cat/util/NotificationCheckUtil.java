@@ -24,14 +24,11 @@ public class NotificationCheckUtil {
             int uid = appInfo.uid;
             try {
                 Class<?> appOpsClass = Class.forName(AppOpsManager.class.getName());
-                Method checkOpNoThrowMethod = appOpsClass.getMethod(CHECK_OP_NO_THROW, Integer.TYPE,
-                        Integer.TYPE, String.class);
+                Method checkOpNoThrowMethod = appOpsClass.getMethod(CHECK_OP_NO_THROW, Integer.TYPE, Integer.TYPE, String.class);
                 Field opPostNotificationValue = appOpsClass.getDeclaredField(OP_POST_NOTIFICATION);
                 int value = (int) opPostNotificationValue.get(Integer.class);
-                return ((int) checkOpNoThrowMethod.invoke(appOps, value, uid, pkg)
-                        == AppOpsManager.MODE_ALLOWED);
-            } catch (ClassNotFoundException | NoSuchMethodException | NoSuchFieldException |
-                    InvocationTargetException | IllegalAccessException | RuntimeException e) {
+                return ((int) checkOpNoThrowMethod.invoke(appOps, value, uid, pkg) == AppOpsManager.MODE_ALLOWED);
+            } catch (ClassNotFoundException | NoSuchMethodException | NoSuchFieldException | InvocationTargetException | IllegalAccessException | RuntimeException e) {
                 return true;
             }
         } else {

@@ -61,6 +61,10 @@ public class TintManager {
     private SparseArray<WeakReference<Drawable.ConstantState>> mCacheDrawables;
     private SparseArray<String> mSkipDrawableIdTags;
 
+    private TintManager(Context context) {
+        mContextRef = new WeakReference<>(context);
+    }
+
     public static TintManager get(Context context) {
         if (context == null) return null;
 
@@ -79,17 +83,81 @@ public class TintManager {
         return tm;
     }
 
-    private TintManager(Context context) {
-        mContextRef = new WeakReference<>(context);
-    }
-
     public static void clearTintCache() {
         for (Map.Entry<Context, TintManager> entry : INSTANCE_CACHE.entrySet()) {
             TintManager tm = entry.getValue();
-            if (tm != null)
-                tm.clear();
+            if (tm != null) tm.clear();
         }
         COLOR_FILTER_CACHE.evictAll();
+    }
+
+    public static void tintViewBackground(View view, TintInfo tint) {
+        Drawable background;
+        if (view == null || (background = view.getBackground()) == null) return;
+
+        if (tint.mHasTintList || tint.mHasTintMode) {
+            background.mutate();
+            if (background instanceof ColorDrawable) {
+                ((ColorDrawable) background).setColor(ThemeUtils.replaceColor(view.getContext(), tint.mTintList.getColorForState(view.getDrawableState(), tint.mTintList.getDefaultColor())));
+            } else {
+                background.setColorFilter(createTintFilter(view.getContext(), tint.mHasTintList ? tint.mTintList : null, tint.mHasTintMode ? tint.mTintMode : DEFAULT_MODE, view.getDrawableState()));
+            }
+        } else {
+            background.clearColorFilter();
+        }
+
+        if (Build.VERSION.SDK_INT <= 23) {
+            // On Gingerbread, GradientDrawable does not invalidate itself when it's ColorFilter
+            // has changed, so we need to force an invalidation
+            background.invalidateSelf();
+        }
+    }
+
+    public static void tintViewDrawable(View view, Drawable drawable, TintInfo tint) {
+        if (view == null || drawable == null) return;
+        if (tint.mHasTintList || tint.mHasTintMode) {
+            drawable.mutate();
+            if (drawable instanceof ColorDrawable) {
+                ((ColorDrawable) drawable).setColor(ThemeUtils.replaceColor(view.getContext(), tint.mTintList.getColorForState(view.getDrawableState(), tint.mTintList.getDefaultColor())));
+            } else {
+                drawable.setColorFilter(createTintFilter(view.getContext(), tint.mHasTintList ? tint.mTintList : null, tint.mHasTintMode ? tint.mTintMode : DEFAULT_MODE, view.getDrawableState()));
+            }
+        } else {
+            drawable.clearColorFilter();
+        }
+
+        if (Build.VERSION.SDK_INT <= 23) {
+            // On Gingerbread, GradientDrawable does not invalidate itself when it's ColorFilter
+            // has changed, so we need to force an invalidation
+            drawable.invalidateSelf();
+        }
+    }
+
+    private static PorterDuffColorFilter createTintFilter(Context context, ColorStateList tint, PorterDuff.Mode tintMode, final int[] state) {
+        if (tint == null || tintMode == null) {
+            return null;
+        }
+        final int color = ThemeUtils.replaceColor(context, tint.getColorForState(state, tint.getDefaultColor()));
+        return getPorterDuffColorFilter(color, tintMode);
+    }
+
+    private static PorterDuffColorFilter getPorterDuffColorFilter(int color, PorterDuff.Mode mode) {
+        // First, lets see if the cache already contains the color filter
+        PorterDuffColorFilter filter = COLOR_FILTER_CACHE.get(color, mode);
+
+        if (filter == null) {
+            // Cache miss, so create a color filter and add it to the cache
+            filter = new PorterDuffColorFilter(color, mode);
+            COLOR_FILTER_CACHE.put(color, mode, filter);
+        }
+
+        return filter;
+    }
+
+    private static void printLog(String msg) {
+        if (DEBUG) {
+            Log.i(TAG, msg);
+        }
     }
 
     private void clear() {
@@ -147,8 +215,7 @@ public class TintManager {
             drawable = DrawableUtils.createDrawable(context, resId);
             if (drawable != null && !(drawable instanceof ColorDrawable)) {
                 if (addCachedDrawable(resId, drawable)) {
-                    printLog("[loadDrawable] Saved drawable to cache: " +
-                            context.getResources().getResourceName(resId));
+                    printLog("[loadDrawable] Saved drawable to cache: " + context.getResources().getResourceName(resId));
                 }
             }
         }
@@ -167,8 +234,7 @@ public class TintManager {
             if (weakReference != null) {
                 Drawable.ConstantState cs = weakReference.get();
                 if (cs != null) {
-                    printLog("[getCacheDrawable] Get drawable from cache: " +
-                            context.getResources().getResourceName(key));
+                    printLog("[getCacheDrawable] Get drawable from cache: " + context.getResources().getResourceName(key));
                     return cs.newDrawable();
                 } else {
                     mCacheDrawables.delete(key);
@@ -201,94 +267,19 @@ public class TintManager {
             super(maxSize);
         }
 
-        PorterDuffColorFilter get(int color, PorterDuff.Mode mode) {
-            return get(generateCacheKey(color, mode));
-        }
-
-        PorterDuffColorFilter put(int color, PorterDuff.Mode mode, PorterDuffColorFilter filter) {
-            return put(generateCacheKey(color, mode), filter);
-        }
-
         private static int generateCacheKey(int color, PorterDuff.Mode mode) {
             int hashCode = 1;
             hashCode = 31 * hashCode + color;
             hashCode = 31 * hashCode + mode.hashCode();
             return hashCode;
         }
-    }
 
-    public static void tintViewBackground(View view, TintInfo tint) {
-        Drawable background;
-        if (view == null || (background = view.getBackground()) == null) return;
-
-        if (tint.mHasTintList || tint.mHasTintMode) {
-            background.mutate();
-            if (background instanceof ColorDrawable) {
-                ((ColorDrawable) background).setColor(ThemeUtils.replaceColor(view.getContext(), tint.mTintList.getColorForState(view.getDrawableState(), tint.mTintList.getDefaultColor())));
-            } else {
-                background.setColorFilter(createTintFilter(view.getContext(),
-                        tint.mHasTintList ? tint.mTintList : null,
-                        tint.mHasTintMode ? tint.mTintMode : DEFAULT_MODE,
-                        view.getDrawableState()));
-            }
-        } else {
-            background.clearColorFilter();
+        PorterDuffColorFilter get(int color, PorterDuff.Mode mode) {
+            return get(generateCacheKey(color, mode));
         }
 
-        if (Build.VERSION.SDK_INT <= 23) {
-            // On Gingerbread, GradientDrawable does not invalidate itself when it's ColorFilter
-            // has changed, so we need to force an invalidation
-            background.invalidateSelf();
-        }
-    }
-
-    public static void tintViewDrawable(View view, Drawable drawable, TintInfo tint) {
-        if (view == null || drawable == null) return;
-        if (tint.mHasTintList || tint.mHasTintMode) {
-            drawable.mutate();
-            if (drawable instanceof ColorDrawable) {
-                ((ColorDrawable) drawable).setColor(ThemeUtils.replaceColor(view.getContext(), tint.mTintList.getColorForState(view.getDrawableState(), tint.mTintList.getDefaultColor())));
-            } else {
-                drawable.setColorFilter(createTintFilter(view.getContext(),
-                        tint.mHasTintList ? tint.mTintList : null,
-                        tint.mHasTintMode ? tint.mTintMode : DEFAULT_MODE,
-                        view.getDrawableState()));
-            }
-        } else {
-            drawable.clearColorFilter();
-        }
-
-        if (Build.VERSION.SDK_INT <= 23) {
-            // On Gingerbread, GradientDrawable does not invalidate itself when it's ColorFilter
-            // has changed, so we need to force an invalidation
-            drawable.invalidateSelf();
-        }
-    }
-
-    private static PorterDuffColorFilter createTintFilter(Context context, ColorStateList tint, PorterDuff.Mode tintMode, final int[] state) {
-        if (tint == null || tintMode == null) {
-            return null;
-        }
-        final int color = ThemeUtils.replaceColor(context, tint.getColorForState(state, tint.getDefaultColor()));
-        return getPorterDuffColorFilter(color, tintMode);
-    }
-
-    private static PorterDuffColorFilter getPorterDuffColorFilter(int color, PorterDuff.Mode mode) {
-        // First, lets see if the cache already contains the color filter
-        PorterDuffColorFilter filter = COLOR_FILTER_CACHE.get(color, mode);
-
-        if (filter == null) {
-            // Cache miss, so create a color filter and add it to the cache
-            filter = new PorterDuffColorFilter(color, mode);
-            COLOR_FILTER_CACHE.put(color, mode, filter);
-        }
-
-        return filter;
-    }
-
-    private static void printLog(String msg) {
-        if (DEBUG) {
-            Log.i(TAG, msg);
+        PorterDuffColorFilter put(int color, PorterDuff.Mode mode, PorterDuffColorFilter filter) {
+            return put(generateCacheKey(color, mode), filter);
         }
     }
 }

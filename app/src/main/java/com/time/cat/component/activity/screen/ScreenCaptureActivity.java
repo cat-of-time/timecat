@@ -14,11 +14,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.ArcTipViewController;
+import com.time.cat.component.base.BaseActivity;
+import com.time.cat.mvp.view.MarkSizeView;
 import com.time.cat.util.LogUtil;
 import com.time.cat.util.ToastUtil;
-import com.time.cat.mvp.view.MarkSizeView;
 
 public class ScreenCaptureActivity extends BaseActivity {
     private String TAG = "ScreenCaptureActivity";
@@ -144,8 +144,7 @@ public class ScreenCaptureActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if (screenCaptureService != null)
-            screenCaptureService.onDestroy();
+        if (screenCaptureService != null) screenCaptureService.onDestroy();
         super.onDestroy();
     }
 

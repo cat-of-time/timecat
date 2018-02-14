@@ -31,11 +31,7 @@ public class Snack {
 
     public static void show(String string, Activity activity, com.nispok.snackbar.Snackbar.SnackbarDuration duration) {
 
-        SnackbarManager.show(com.nispok.snackbar.Snackbar.with(activity.getApplicationContext())
-                .type(SnackbarType.MULTI_LINE)
-                .duration(duration)
-                .text(string)
-                , activity);
+        SnackbarManager.show(com.nispok.snackbar.Snackbar.with(activity.getApplicationContext()).type(SnackbarType.MULTI_LINE).duration(duration).text(string), activity);
     }
 
     public static void show(String string, Activity activity) {

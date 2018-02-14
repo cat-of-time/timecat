@@ -6,7 +6,8 @@ import static com.time.cat.AnimationSystem.AnimatorProxy.NEEDS_PROXY;
 import static com.time.cat.AnimationSystem.AnimatorProxy.wrap;
 
 public final class ViewHelper {
-    private ViewHelper() {}
+    private ViewHelper() {
+    }
 
     public static float getAlpha(View view) {
         return NEEDS_PROXY ? wrap(view).getAlpha() : Honeycomb.getAlpha(view);

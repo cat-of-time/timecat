@@ -25,9 +25,7 @@ import com.time.cat.util.Snack;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
-public class RoutineCreateOrEditFragment extends DialogFragment implements
-                                                                RadialTimePickerDialog.OnTimeSetListener,
-                                                                TimePickerDialogFragment.TimePickerDialogHandler {
+public class RoutineCreateOrEditFragment extends DialogFragment implements RadialTimePickerDialog.OnTimeSetListener, TimePickerDialogFragment.TimePickerDialogHandler {
 
     OnRoutineEditListener mRoutineEditCallback;
     DBRoutine mDBRoutine;
@@ -93,13 +91,10 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
                 float density = getResources().getDisplayMetrics().densityDpi;
                 Log.d("RoutineCEFragment", "Density: " + density);
                 if (density >= DisplayMetrics.DENSITY_XHIGH) {
-                    RadialTimePickerDialog timePickerDialog = RadialTimePickerDialog
-                            .newInstance(RoutineCreateOrEditFragment.this, hour, minute, true);
+                    RadialTimePickerDialog timePickerDialog = RadialTimePickerDialog.newInstance(RoutineCreateOrEditFragment.this, hour, minute, true);
                     timePickerDialog.show(getChildFragmentManager(), "111");
                 } else {
-                    TimePickerBuilder tpb = new TimePickerBuilder()
-                            .setFragmentManager(getChildFragmentManager())
-                            .setStyleResId(R.style.BetterPickersDialogFragment_Light);
+                    TimePickerBuilder tpb = new TimePickerBuilder().setFragmentManager(getChildFragmentManager()).setStyleResId(R.style.BetterPickersDialogFragment_Light);
                     tpb.addTimePickerDialogHandler(RoutineCreateOrEditFragment.this);
                     tpb.show();
                 }
@@ -177,21 +172,17 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
             message = String.format(getString(R.string.remove_routine_message_short), r.name());
         }
 
-        builder.setMessage(message)
-                .setCancelable(true)
-                .setTitle(getString(R.string.remove_routine_dialog_title))
-                .setPositiveButton(getString(R.string.dialog_yes_option), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (mRoutineEditCallback != null) {
-                            mRoutineEditCallback.onRoutineDeleted(mDBRoutine);
-                        }
-                    }
-                })
-                .setNegativeButton(getString(R.string.dialog_no_option), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+        builder.setMessage(message).setCancelable(true).setTitle(getString(R.string.remove_routine_dialog_title)).setPositiveButton(getString(R.string.dialog_yes_option), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (mRoutineEditCallback != null) {
+                    mRoutineEditCallback.onRoutineDeleted(mDBRoutine);
+                }
+            }
+        }).setNegativeButton(getString(R.string.dialog_no_option), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
         AlertDialog alert = builder.create();
         alert.show();
     }

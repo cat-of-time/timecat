@@ -49,6 +49,7 @@ public class AvatarMgr {
     public static final String AVATAR_12 = "avatar_12";
 
     public static final Map<String, Integer> avatars;
+    private static HashMap<String, int[]> cache = new HashMap<>();
 
     static {
         Map<String, Integer> map = new HashMap<>();
@@ -69,30 +70,23 @@ public class AvatarMgr {
         avatars = Collections.unmodifiableMap(map);
     }
 
-    private static HashMap<String, int[]> cache = new HashMap<>();
+    public static int[] colorsFor(Resources res, String avatar) {
 
-    public static int[] colorsFor(Resources res, String avatar){
+        int[] colors = new int[]{R.color.android_blue, R.color.android_blue_light};
 
-        int[] colors = new int[]{
-                R.color.android_blue,
-                R.color.android_blue_light};
-
-        if(!cache.containsKey(avatar) && avatars.containsKey(avatar)) {
+        if (!cache.containsKey(avatar) && avatars.containsKey(avatar)) {
             Bitmap bm = BitmapFactory.decodeResource(res, avatars.get(avatar));
-            if(bm != null) {
+            if (bm != null) {
                 Palette p = Palette.generate(bm);
-                colors = new int[]{
-                        p.getVibrantColor(R.color.android_blue),
-                        p.getLightVibrantColor(R.color.android_blue_light)
-                };
+                colors = new int[]{p.getVibrantColor(R.color.android_blue), p.getLightVibrantColor(R.color.android_blue_light)};
             }
             cache.put(avatar, colors);
         }
         return cache.get(avatar);
     }
 
-    public static int res(String avatar){
-        if(avatars.containsKey(avatar)){
+    public static int res(String avatar) {
+        if (avatars.containsKey(avatar)) {
             return avatars.get(avatar);
         }
         return avatars.get(DEFAULT_AVATAR);

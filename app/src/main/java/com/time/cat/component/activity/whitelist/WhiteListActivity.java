@@ -21,13 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.base.baseCard.DividerItemDecoration;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.shang.utils.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,8 +79,7 @@ public class WhiteListActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             getMenuInflater().inflate(R.menu.white_list_activity_menu, menu);
-            SearchManager searchManager =
-                    (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             final SearchView searchView = (SearchView) menu.findItem(R.id.ab_search).getActionView();
 
             selectAll = menu.findItem(R.id.select_all);
@@ -95,8 +94,7 @@ public class WhiteListActivity extends BaseActivity {
             searchView.setIconifiedByDefault(false);
 
 
-            searchView.setSearchableInfo(
-                    searchManager.getSearchableInfo(getComponentName()));
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {

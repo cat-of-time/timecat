@@ -22,6 +22,7 @@ public class User {
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -29,6 +30,7 @@ public class User {
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -36,6 +38,7 @@ public class User {
     public Account getAccount() {
         return account;
     }
+
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -43,6 +46,7 @@ public class User {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -50,6 +54,7 @@ public class User {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -57,6 +62,7 @@ public class User {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -64,6 +70,7 @@ public class User {
     public boolean isIs_staff() {
         return is_staff;
     }
+
     public void setIs_staff(boolean is_staff) {
         this.is_staff = is_staff;
     }
@@ -71,6 +78,7 @@ public class User {
     public String[] getPlans() {
         return plans;
     }
+
     public void setPlans(String[] plans) {
         this.plans = plans;
     }
@@ -78,6 +86,7 @@ public class User {
     public String[] getTags() {
         return tags;
     }
+
     public void setTags(String[] tags) {
         this.tags = tags;
     }
@@ -85,6 +94,7 @@ public class User {
     public String[] getTasks() {
         return tasks;
     }
+
     public void setTasks(String[] tasks) {
         this.tasks = tasks;
     }

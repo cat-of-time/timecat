@@ -24,7 +24,6 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
-import android.widget.CheckedTextView;
 
 import com.time.cat.R;
 import com.time.cat.ThemeSystem.utils.TintManager;
@@ -37,10 +36,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * layout: select_dialog_singlechoice_xxx
  */
 public class TintCheckedTextView extends android.support.v7.widget.AppCompatCheckedTextView implements Tintable {
-    private static final int[] ATTRS = {
-            android.R.attr.drawableLeft,
-            R.attr.drawableLeftTint
-    };
+    private static final int[] ATTRS = {android.R.attr.drawableLeft, R.attr.drawableLeftTint};
 
     public TintCheckedTextView(Context context) {
         this(context, null);

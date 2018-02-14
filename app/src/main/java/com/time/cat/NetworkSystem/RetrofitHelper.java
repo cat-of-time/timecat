@@ -35,7 +35,7 @@ public class RetrofitHelper {
     private static final String YOUDAO_URL = "http://fanyi.youdao.com/";
     private static final String OCR_URL = "https://api.ocr.space/";
     private static final String MICSOFT_OCR_URL = "https://api.projectoxford.ai/";
-//     private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
+    //     private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
     private static final String IMAGE_UPLOAD_URL = "https://sm.ms/";
     private static final String PIC_UPLOAD_URL = "https://yotuku.cn/";
     private static final String BASE_URL = "http://192.168.88.105:8000/";
@@ -61,88 +61,45 @@ public class RetrofitHelper {
             synchronized (RetrofitHelper.class) {
                 if (mOkHttpClient == null) {
                     //设置Http缓存
-                    Cache cache = new Cache(new File(TimeCatApp.getInstance()
-                            .getCacheDir(), "HttpCache"), 1024 * 1024 * 100);
-                    mOkHttpClient = new OkHttpClient.Builder()
-                            .cache(cache)
-                            .addInterceptor(interceptor)
-                            .retryOnConnectionFailure(true)
-                            .connectTimeout(30, TimeUnit.SECONDS)
-                            .writeTimeout(20, TimeUnit.SECONDS)
-                            .readTimeout(20, TimeUnit.SECONDS)
-                            .build();
+                    Cache cache = new Cache(new File(TimeCatApp.getInstance().getCacheDir(), "HttpCache"), 1024 * 1024 * 100);
+                    mOkHttpClient = new OkHttpClient.Builder().cache(cache).addInterceptor(interceptor).retryOnConnectionFailure(true).connectTimeout(30, TimeUnit.SECONDS).writeTimeout(20, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS).build();
                 }
             }
         }
     }
 
     public static TranslationService getTranslationService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(YOUDAO_URL)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(YOUDAO_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(TranslationService.class);
     }
 
     public static WordSegmentService getWordSegmentService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(SEGMENT_URL)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(SEGMENT_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(WordSegmentService.class);
     }
 
     public static OcrService getOcrService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(OCR_URL)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(OCR_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(OcrService.class);
     }
 
     public static MicSoftOcrService getMicsoftOcrService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MICSOFT_OCR_URL)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(MICSOFT_OCR_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(MicSoftOcrService.class);
     }
 
     public static ImageUploadService getImageUploadService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(IMAGE_UPLOAD_URL)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(IMAGE_UPLOAD_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create(gson)).build();
         return retrofit.create(ImageUploadService.class);
     }
 
     public static PicUploadService getPicUploadService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PIC_UPLOAD_URL)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PIC_UPLOAD_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(PicUploadService.class);
     }
 
     public static LoginService getLoginService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(LoginService.class);
     }
 
@@ -164,10 +121,7 @@ public class RetrofitHelper {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request originalRequest = chain.request();
-            Request requestWithUserAgent = originalRequest.newBuilder()
-                    .removeHeader("User-Agent")
-                    .addHeader("User-Agent", COMMON_UA_STR)
-                    .build();
+            Request requestWithUserAgent = originalRequest.newBuilder().removeHeader("User-Agent").addHeader("User-Agent", COMMON_UA_STR).build();
             return chain.proceed(requestWithUserAgent);
         }
     }

@@ -35,8 +35,7 @@ public class BaseRecyclerFragment extends BaseFragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_common, container, false);
             cardList = view.findViewById(R.id.card_list);
-            cardList.addItemDecoration(new DividerItemDecoration(getActivity(),
-                    DividerItemDecoration.VERTICAL_LIST));
+            cardList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
             prepareCardView();
             newAdapter = new CardListAdapter(view.getContext(), false);
             newAdapter.setCardViews(cardViews);

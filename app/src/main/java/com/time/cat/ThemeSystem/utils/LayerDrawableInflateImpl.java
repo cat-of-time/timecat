@@ -36,9 +36,7 @@ import java.io.IOException;
 class LayerDrawableInflateImpl implements DrawableInflateDelegate {
     static final int STEP = 1;
 
-    static final int[] ATTRS = new int[]{
-            android.R.attr.left, android.R.attr.top, android.R.attr.right,
-            android.R.attr.bottom, android.R.attr.id};
+    static final int[] ATTRS = new int[]{android.R.attr.left, android.R.attr.top, android.R.attr.right, android.R.attr.bottom, android.R.attr.id};
 
     @Override
     public Drawable inflateDrawable(Context context, XmlPullParser parser, AttributeSet attrs) throws IOException, XmlPullParserException {
@@ -52,8 +50,7 @@ class LayerDrawableInflateImpl implements DrawableInflateDelegate {
         int[][] childLayersAttrs = new int[space][ATTRS.length];
         Drawable[] drawables = new Drawable[space];
 
-        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT
-                && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
+        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
             if (type != XmlPullParser.START_TAG) {
                 continue;
             }
@@ -79,9 +76,7 @@ class LayerDrawableInflateImpl implements DrawableInflateDelegate {
                 while ((type = parser.next()) == XmlPullParser.TEXT) {
                 }
                 if (type != XmlPullParser.START_TAG) {
-                    throw new XmlPullParserException(parser.getPositionDescription()
-                            + ": <item> tag requires a 'drawable' attribute or "
-                            + "child tag defining a drawable");
+                    throw new XmlPullParserException(parser.getPositionDescription() + ": <item> tag requires a 'drawable' attribute or " + "child tag defining a drawable");
                 }
                 drawable = DrawableUtils.createFromXmlInner(context, parser, attrs);
             } else {

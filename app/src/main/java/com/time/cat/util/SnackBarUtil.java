@@ -27,8 +27,7 @@ public class SnackBarUtil {
             Snackbar.make(view, str, Snackbar.LENGTH_LONG).setAction(cancel, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null)
-                        listener.onClick(v);
+                    if (listener != null) listener.onClick(v);
                 }
             }).show();
         } catch (Exception e) {

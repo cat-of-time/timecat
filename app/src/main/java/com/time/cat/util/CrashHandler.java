@@ -30,8 +30,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private UncaughtExceptionHandler mDefaultHandler;// 系统默认的UncaughtException处理类
     private Context mContext;// 程序的Context对象
     private Map<String, String> info = new HashMap<String, String>();// 用来存储设备信息和异常信息
-    private SimpleDateFormat format = new SimpleDateFormat(
-            "yyyy-MM-dd-HH-mm-ss");// 用于格式化日期,作为日志文件名的一部分
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");// 用于格式化日期,作为日志文件名的一部分
 
     /**
      * 保证只有一个CrashHandler实例
@@ -86,8 +85,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * @return true 如果处理了该异常信息;否则返回false.
      */
     public boolean handleException(Throwable ex) {
-        if (ex == null)
-            return false;
+        if (ex == null) return false;
         new Thread() {
             public void run() {
                 Looper.prepare();
@@ -110,11 +108,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     public void collectDeviceInfo(Context context) {
         try {
             PackageManager pm = context.getPackageManager();// 获得包管理器
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(),
-                    PackageManager.GET_ACTIVITIES);// 得到该应用的信息，即主Activity
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_ACTIVITIES);// 得到该应用的信息，即主Activity
             if (pi != null) {
-                String versionName = pi.versionName == null ? "null"
-                        : pi.versionName;
+                String versionName = pi.versionName == null ? "null" : pi.versionName;
                 String versionCode = pi.versionCode + "";
                 info.put("versionName", versionName);
                 info.put("versionCode", versionCode);
@@ -160,13 +156,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
         long timetamp = System.currentTimeMillis();
         String time = format.format(new Date());
         String fileName = "crash-" + time + "-" + timetamp + ".log";
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED)) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             try {
                 File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + CRASH_FILE);
                 Log.i("CrashHandler", dir.toString());
-                if (!dir.exists())
-                    dir.mkdir();
+                if (!dir.exists()) dir.mkdir();
                 FileOutputStream fos = new FileOutputStream(new File(dir, fileName));
                 fos.write(sb.toString().getBytes());
                 fos.close();

@@ -14,16 +14,15 @@ import android.view.View;
  */
 public class CustomPagerView extends ViewPager {
 
+    PointF downPoint = new PointF();
+    OnSingleTouchListener onSingleTouchListener;
+
     public CustomPagerView(Context context) {
         super(context);
     }
-
     public CustomPagerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
-    PointF downPoint = new PointF();
-    OnSingleTouchListener onSingleTouchListener;
 
     @Override
     public boolean onTouchEvent(MotionEvent evt) {
@@ -47,8 +46,7 @@ public class CustomPagerView extends ViewPager {
                 break;
             case MotionEvent.ACTION_UP:
                 // 在up时判断是否按下和松手的坐标为一个点
-                if (PointF.length(evt.getX() - downPoint.x, evt.getY()
-                        - downPoint.y) < (float) 5.0) {
+                if (PointF.length(evt.getX() - downPoint.x, evt.getY() - downPoint.y) < (float) 5.0) {
                     onSingleTouch(this);
                     return true;
                 }
@@ -65,12 +63,11 @@ public class CustomPagerView extends ViewPager {
         }
     }
 
-    public interface OnSingleTouchListener {
-        void onSingleTouch(View v);
+    public void setOnSingleTouchListener(OnSingleTouchListener onSingleTouchListener) {
+        this.onSingleTouchListener = onSingleTouchListener;
     }
 
-    public void setOnSingleTouchListener(
-            OnSingleTouchListener onSingleTouchListener) {
-        this.onSingleTouchListener = onSingleTouchListener;
+    public interface OnSingleTouchListener {
+        void onSingleTouch(View v);
     }
 }  

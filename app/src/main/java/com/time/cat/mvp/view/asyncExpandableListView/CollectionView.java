@@ -52,8 +52,6 @@ public class CollectionView<T1, T2> extends RecyclerView {
     }
 
 
-
-
     public void updateInventory(final Inventory<T1, T2> inventory) {
         mInventory = new Inventory<>(inventory);
         mAdapter.notifyDataSetChanged();
@@ -102,53 +100,6 @@ public class CollectionView<T1, T2> extends RecyclerView {
 
         mAdapter.notifyItemRangeRemoved(itemCountBeforeGroup + 1, itemCount);
 
-    }
-
-
-    private final class MyListAdapter extends Adapter {
-        private MyListAdapter() {
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return getRowViewHolder(parent, viewType);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            populatRoweData(holder, position);
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            RowInformation<T1, T2> rowInfo = computeRowContent(position);
-            if (rowInfo.isComputedSuccessful) {
-                if (rowInfo.isHeader) {
-                    return VIEWTYPE_HEADER - mInventory.mGroups.indexOfKey(rowInfo.groupOrdinal);
-                } else {
-                    return VIEW_TYPE_NON_HEADER + mInventory.mGroups.indexOfKey(rowInfo.groupOrdinal);
-                }
-
-            } else {
-                Log.e(TAG, "Invalid row passed to getItemViewType: " + position);
-                return 0;
-            }
-        }
-
-
-        @Override
-        public int getItemCount() {
-            int rowCount = 0;
-
-            for (int i = 0; i < mInventory.mGroups.size(); i++) {
-                int key = mInventory.mGroups.keyAt(i);
-                InventoryGroup group = mInventory.mGroups.get(key);
-                int thisGroupRowCount = group.getRowCount();
-                rowCount += thisGroupRowCount;
-            }
-
-            return rowCount;
-        }
     }
 
     protected RowInformation<T1, T2> populatRoweData(ViewHolder holder, int position) {
@@ -208,29 +159,6 @@ public class CollectionView<T1, T2> extends RecyclerView {
 
     }
 
-
-    protected static class RowInformation<T1, T2> {
-        boolean isComputedSuccessful = false;
-        int row;
-        boolean isHeader;
-        int groupOrdinal;
-        InventoryGroup<T1, T2> group;
-        int positionInGroup;
-
-        public boolean isHeader() {
-            return isHeader;
-        }
-
-        public int getGroupOrdinal() {
-            return groupOrdinal;
-        }
-
-        public int getPositionInGroup() {
-            return positionInGroup;
-        }
-    }
-
-
     protected RowInformation<T1, T2> computeRowContent(int row) {
         RowInformation<T1, T2> result = new RowInformation<>();
         int rowCounter = 0;
@@ -274,6 +202,26 @@ public class CollectionView<T1, T2> extends RecyclerView {
         return result;
     }
 
+    protected static class RowInformation<T1, T2> {
+        boolean isComputedSuccessful = false;
+        int row;
+        boolean isHeader;
+        int groupOrdinal;
+        InventoryGroup<T1, T2> group;
+        int positionInGroup;
+
+        public boolean isHeader() {
+            return isHeader;
+        }
+
+        public int getGroupOrdinal() {
+            return groupOrdinal;
+        }
+
+        public int getPositionInGroup() {
+            return positionInGroup;
+        }
+    }
 
     /**
      * Represents a group of items with a header to be displayed in the {@link CollectionView}.
@@ -325,7 +273,6 @@ public class CollectionView<T1, T2> extends RecyclerView {
 
 
     }
-
 
     /**
      * Represents the data of the items to display in the {@link CollectionView}.
@@ -406,6 +353,52 @@ public class CollectionView<T1, T2> extends RecyclerView {
 
         public SparseArray<InventoryGroup<T1, T2>> getGroups() {
             return mGroups;
+        }
+    }
+
+    private final class MyListAdapter extends Adapter {
+        private MyListAdapter() {
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return getRowViewHolder(parent, viewType);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            populatRoweData(holder, position);
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            RowInformation<T1, T2> rowInfo = computeRowContent(position);
+            if (rowInfo.isComputedSuccessful) {
+                if (rowInfo.isHeader) {
+                    return VIEWTYPE_HEADER - mInventory.mGroups.indexOfKey(rowInfo.groupOrdinal);
+                } else {
+                    return VIEW_TYPE_NON_HEADER + mInventory.mGroups.indexOfKey(rowInfo.groupOrdinal);
+                }
+
+            } else {
+                Log.e(TAG, "Invalid row passed to getItemViewType: " + position);
+                return 0;
+            }
+        }
+
+
+        @Override
+        public int getItemCount() {
+            int rowCount = 0;
+
+            for (int i = 0; i < mInventory.mGroups.size(); i++) {
+                int key = mInventory.mGroups.keyAt(i);
+                InventoryGroup group = mInventory.mGroups.get(key);
+                int thisGroupRowCount = group.getRowCount();
+                rowCount += thisGroupRowCount;
+            }
+
+            return rowCount;
         }
     }
 }

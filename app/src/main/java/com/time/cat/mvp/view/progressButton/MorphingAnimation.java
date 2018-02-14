@@ -104,20 +104,17 @@ class MorphingAnimation {
                     padding = (int) (mPadding - mPadding * animation.getAnimatedFraction());
                 }
 
-                gradientDrawable
-                        .setBounds(leftOffset + padding, padding, rightOffset - padding, mView.getHeight() - padding);
+                gradientDrawable.setBounds(leftOffset + padding, padding, rightOffset - padding, mView.getHeight() - padding);
             }
         });
 
         ObjectAnimator bgColorAnimation = ObjectAnimator.ofInt(gradientDrawable, "color", mFromColor, mToColor);
         bgColorAnimation.setEvaluator(new ArgbEvaluator());
 
-        ObjectAnimator strokeColorAnimation =
-                ObjectAnimator.ofInt(mDrawable, "strokeColor", mFromStrokeColor, mToStrokeColor);
+        ObjectAnimator strokeColorAnimation = ObjectAnimator.ofInt(mDrawable, "strokeColor", mFromStrokeColor, mToStrokeColor);
         strokeColorAnimation.setEvaluator(new ArgbEvaluator());
 
-        ObjectAnimator cornerAnimation =
-                ObjectAnimator.ofFloat(gradientDrawable, "cornerRadius", mFromCornerRadius, mToCornerRadius);
+        ObjectAnimator cornerAnimation = ObjectAnimator.ofFloat(gradientDrawable, "cornerRadius", mFromCornerRadius, mToCornerRadius);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.setDuration(mDuration);

@@ -52,7 +52,7 @@ public class UserDao extends GenericDao<DBUser, Long> {
     @Override
     public void saveAndFireEvent(DBUser u) {
 
-        Object event =  u.id() == null ? new PersistenceEvents.UserCreateEvent(u) : new PersistenceEvents.UserUpdateEvent(u);
+        Object event = u.id() == null ? new PersistenceEvents.UserCreateEvent(u) : new PersistenceEvents.UserUpdateEvent(u);
         save(u);
         TimeCatApp.eventBus().post(event);
 
@@ -85,17 +85,13 @@ public class UserDao extends GenericDao<DBUser, Long> {
     }
 
     public void setActive(DBUser u, Context ctx) {
-        PreferenceManager.getDefaultSharedPreferences(ctx).edit()
-                .putLong(PREFERENCE_ACTIVE_USER, u.id())
-                .commit();
+        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putLong(PREFERENCE_ACTIVE_USER, u.id()).commit();
         TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
     }
 
     public void setActiveById(Long id, Context ctx) {
         DBUser user = findById(id);
-        PreferenceManager.getDefaultSharedPreferences(ctx).edit()
-                .putLong(PREFERENCE_ACTIVE_USER, user.id())
-                .commit();
+        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putLong(PREFERENCE_ACTIVE_USER, user.id()).commit();
         TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(user));
     }
 
@@ -115,7 +111,7 @@ public class UserDao extends GenericDao<DBUser, Long> {
 //            }
 //        }
         // remove routines
-        for(DBRoutine r:  DB.routines().findAll()) {
+        for (DBRoutine r : DB.routines().findAll()) {
             if (r.user().id() == u.id()) {
                 DB.routines().remove(r);
             }

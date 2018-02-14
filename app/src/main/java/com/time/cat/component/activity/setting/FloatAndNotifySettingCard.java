@@ -14,22 +14,22 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.SettingFloatViewActivity;
 import com.time.cat.component.activity.floatviewwhitelist.FloatViewWhiteListActivity;
 import com.time.cat.component.activity.howtouse.HowToUseActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.HintTextView;
+import com.time.cat.mvp.view.SimpleDialog;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.NotificationCheckUtil;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.HintTextView;
-import com.time.cat.mvp.view.SimpleDialog;
-import com.shang.commonjar.contentProvider.SPHelper;
 
-import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 import static com.time.cat.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
+import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
 
 /**
@@ -125,26 +125,22 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
                 if (isClickFloat && isChecked) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(mContext)) {
-                        SnackBarUtil.show(buttonView,
-                                mContext.getString(R.string.punish_float_problem),
-                                mContext.getString(R.string.punish_float_action),
-                                new OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
+                        SnackBarUtil.show(buttonView, mContext.getString(R.string.punish_float_problem), mContext.getString(R.string.punish_float_action), new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
 //                                        Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
 //                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
 //                                        mContext.startActivity(intent);
 
-                                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                                                    Uri.parse("package:" + mContext.getPackageName()));
-                                            mContext.startActivity(intent);
+                                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + mContext.getPackageName()));
+                                    mContext.startActivity(intent);
 
-                                        } catch (Throwable e) {
-                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
-                                        }
-                                    }
-                                });
+                                } catch (Throwable e) {
+                                    SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
+                                }
+                            }
+                        });
                     } else {
                         SnackBarUtil.show(buttonView, mContext.getString(R.string.punish_float_problem));
                     }
@@ -165,23 +161,20 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 showNotifyTV.setShowHint(!showNotify);
                 if (isClickNotify && isChecked) {
                     if (!NotificationCheckUtil.areNotificationsEnabled(mContext.getApplicationContext())) {
-                        SnackBarUtil.show(buttonView,
-                                mContext.getString(R.string.notify_enable),
-                                mContext.getString(R.string.notify_disabled_title),
-                                new OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
-                                            Intent intent = new Intent();
-                                            intent.setClassName("com.android.settings", "com.android.settings.Settings$AppNotificationSettingsActivity");
-                                            intent.putExtra("app_package", mContext.getPackageName());
-                                            intent.putExtra("app_uid", mContext.getApplicationInfo().uid);
-                                            mContext.startActivity(intent);
-                                        } catch (Throwable e) {
-                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
-                                        }
-                                    }
-                                });
+                        SnackBarUtil.show(buttonView, mContext.getString(R.string.notify_enable), mContext.getString(R.string.notify_disabled_title), new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    Intent intent = new Intent();
+                                    intent.setClassName("com.android.settings", "com.android.settings.Settings$AppNotificationSettingsActivity");
+                                    intent.putExtra("app_package", mContext.getPackageName());
+                                    intent.putExtra("app_uid", mContext.getApplicationInfo().uid);
+                                    mContext.startActivity(intent);
+                                } catch (Throwable e) {
+                                    SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
+                                }
+                            }
+                        });
                     } else {
                         SnackBarUtil.show(buttonView, mContext.getString(R.string.notify_enable));
                     }
@@ -263,10 +256,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.items(longpress, index)
-                .title(mContext.getString(R.string.long_press))
-                .positiveAction(mContext.getString(R.string.confirm))
-                .negativeAction(mContext.getString(R.string.cancel));
+        builder.items(longpress, index).title(mContext.getString(R.string.long_press)).positiveAction(mContext.getString(R.string.confirm)).negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }

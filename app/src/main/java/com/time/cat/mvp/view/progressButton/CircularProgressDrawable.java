@@ -16,6 +16,9 @@ class CircularProgressDrawable extends Drawable {
     private int mSize;
     private int mStrokeWidth;
     private int mStrokeColor;
+    private RectF mRectF;
+    private Paint mPaint;
+    private Path mPath;
 
     public CircularProgressDrawable(int size, int strokeWidth, int strokeColor) {
         mSize = size;
@@ -60,10 +63,6 @@ class CircularProgressDrawable extends Drawable {
     public int getOpacity() {
         return 1;
     }
-
-    private RectF mRectF;
-    private Paint mPaint;
-    private Path mPath;
 
     private RectF getRect() {
         if (mRectF == null) {

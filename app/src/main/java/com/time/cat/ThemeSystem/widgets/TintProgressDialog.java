@@ -90,30 +90,19 @@ public class TintProgressDialog extends AlertDialog implements Handler.Callback 
         initFormats();
     }
 
-    private void initFormats() {
-        mProgressNumberFormat = "%1d/%2d";
-        mProgressPercentFormat = NumberFormat.getPercentInstance();
-        mProgressPercentFormat.setMaximumFractionDigits(0);
-    }
-
-    public static TintProgressDialog show(Context context, CharSequence title,
-                                          CharSequence message) {
+    public static TintProgressDialog show(Context context, CharSequence title, CharSequence message) {
         return show(context, title, message, false);
     }
 
-    public static TintProgressDialog show(Context context, CharSequence title,
-                                          CharSequence message, boolean indeterminate) {
+    public static TintProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate) {
         return show(context, title, message, indeterminate, false, null);
     }
 
-    public static TintProgressDialog show(Context context, CharSequence title,
-                                          CharSequence message, boolean indeterminate, boolean cancelable) {
+    public static TintProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable) {
         return show(context, title, message, indeterminate, cancelable, null);
     }
 
-    public static TintProgressDialog show(Context context, CharSequence title,
-                                          CharSequence message, boolean indeterminate,
-                                          boolean cancelable, DialogInterface.OnCancelListener cancelListener) {
+    public static TintProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable, DialogInterface.OnCancelListener cancelListener) {
         TintProgressDialog dialog = new TintProgressDialog(context);
         dialog.setTitle(title);
         dialog.setMessage(message);
@@ -122,6 +111,12 @@ public class TintProgressDialog extends AlertDialog implements Handler.Callback 
         dialog.setOnCancelListener(cancelListener);
         dialog.show();
         return dialog;
+    }
+
+    private void initFormats() {
+        mProgressNumberFormat = "%1d/%2d";
+        mProgressPercentFormat = NumberFormat.getPercentInstance();
+        mProgressPercentFormat.setMaximumFractionDigits(0);
     }
 
     @Override
@@ -189,8 +184,7 @@ public class TintProgressDialog extends AlertDialog implements Handler.Callback 
         if (mProgressPercentFormat != null) {
             double percent = (double) progress / (double) max;
             SpannableString tmp = new SpannableString(mProgressPercentFormat.format(percent));
-            tmp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD),
-                    0, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tmp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mProgressPercent.setText(tmp);
         } else {
             mProgressPercent.setText("");
@@ -210,6 +204,13 @@ public class TintProgressDialog extends AlertDialog implements Handler.Callback 
         mHasStarted = false;
     }
 
+    public int getProgress() {
+        if (mProgress != null) {
+            return mProgress.getProgress();
+        }
+        return mProgressVal;
+    }
+
     public void setProgress(int value) {
         if (mHasStarted) {
             mProgress.setProgress(value);
@@ -219,6 +220,13 @@ public class TintProgressDialog extends AlertDialog implements Handler.Callback 
         }
     }
 
+    public int getSecondaryProgress() {
+        if (mProgress != null) {
+            return mProgress.getSecondaryProgress();
+        }
+        return mSecondaryProgressVal;
+    }
+
     public void setSecondaryProgress(int secondaryProgress) {
         if (mProgress != null) {
             mProgress.setSecondaryProgress(secondaryProgress);
@@ -226,20 +234,6 @@ public class TintProgressDialog extends AlertDialog implements Handler.Callback 
         } else {
             mSecondaryProgressVal = secondaryProgress;
         }
-    }
-
-    public int getProgress() {
-        if (mProgress != null) {
-            return mProgress.getProgress();
-        }
-        return mProgressVal;
-    }
-
-    public int getSecondaryProgress() {
-        if (mProgress != null) {
-            return mProgress.getSecondaryProgress();
-        }
-        return mSecondaryProgressVal;
     }
 
     public int getMax() {
@@ -292,19 +286,19 @@ public class TintProgressDialog extends AlertDialog implements Handler.Callback 
         }
     }
 
+    public boolean isIndeterminate() {
+        if (mProgress != null) {
+            return mProgress.isIndeterminate();
+        }
+        return mIndeterminate;
+    }
+
     public void setIndeterminate(boolean indeterminate) {
         if (mProgress != null) {
             mProgress.setIndeterminate(indeterminate);
         } else {
             mIndeterminate = indeterminate;
         }
-    }
-
-    public boolean isIndeterminate() {
-        if (mProgress != null) {
-            return mProgress.isIndeterminate();
-        }
-        return mIndeterminate;
     }
 
     @Override

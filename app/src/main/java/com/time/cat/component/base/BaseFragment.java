@@ -17,8 +17,8 @@ public class BaseFragment extends Fragment {
 
     private Activity activity;
 
-    public Context getContext(){
-        if(activity == null){
+    public Context getContext() {
+        if (activity == null) {
             return TimeCatApp.getInstance();
         }
         return activity;

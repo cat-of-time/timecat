@@ -192,8 +192,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
     }
 
     private boolean hasShown() {
-        if (targetView == null)
-            return true;
+        if (targetView == null) return true;
         return mContent.getSharedPreferences(TAG, Context.MODE_PRIVATE).getBoolean(generateUniqId(targetView), false);
     }
 
@@ -232,8 +231,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
 
     public void show() {
         Log.v(TAG, "show");
-        if (hasShown())
-            return;
+        if (hasShown()) return;
 
         if (targetView != null) {
             targetView.getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -361,11 +359,9 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
         super.onDraw(canvas);
         Log.v(TAG, "onDraw");
 
-        if (!isMeasured)
-            return;
+        if (!isMeasured) return;
 
-        if (targetView == null)
-            return;
+        if (targetView == null) return;
 
         //        if (!needDraw) return;
 
@@ -382,17 +378,14 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
 
         // 背景画笔
         Paint bgPaint = new Paint();
-        if (backgroundColor != 0)
-            bgPaint.setColor(backgroundColor);
-        else
-            bgPaint.setColor(getResources().getColor(R.color.shadow));
+        if (backgroundColor != 0) bgPaint.setColor(backgroundColor);
+        else bgPaint.setColor(getResources().getColor(R.color.shadow));
 
         // 绘制屏幕背景
         temp.drawRect(0, 0, temp.getWidth(), temp.getHeight(), bgPaint);
 
         // targetView 的透明圆形画笔
-        if (mCirclePaint == null)
-            mCirclePaint = new Paint();
+        if (mCirclePaint == null) mCirclePaint = new Paint();
         porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT);// 或者CLEAR
         mCirclePaint.setXfermode(porterDuffXfermode);
         mCirclePaint.setAntiAlias(true);
@@ -465,26 +458,24 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
         });
         final boolean exit1 = onLongClickExit;
         setOnLongClickListener(new OnLongClickListener() {
-                                   @Override
-                                   public boolean onLongClick(View v) {
-                                       boolean t = false;
-                                       if (onLongclickListener != null) {
-                                           onLongclickListener.onLongClickedGuideView();
-                                           t = true;
-                                       }
-                                       if (exit1) {
-                                           hide();
-                                       }
-                                       return t;
-                                   }
-                               }
-        );
+            @Override
+            public boolean onLongClick(View v) {
+                boolean t = false;
+                if (onLongclickListener != null) {
+                    onLongclickListener.onLongClickedGuideView();
+                    t = true;
+                }
+                if (exit1) {
+                    hide();
+                }
+                return t;
+            }
+        });
     }
 
     @Override
     public void onGlobalLayout() {
-        if (isMeasured)
-            return;
+        if (isMeasured) return;
         if (targetView.getHeight() > 0 && targetView.getWidth() > 0) {
             isMeasured = true;
         }
@@ -523,9 +514,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
      * 定义GuideView相对于targetView的方位，共八种。不设置则默认在targetView下方
      */
     public enum Direction {
-        LEFT, TOP, RIGHT, BOTTOM,
-        LEFT_TOP, LEFT_BOTTOM,
-        RIGHT_TOP, RIGHT_BOTTOM
+        LEFT, TOP, RIGHT, BOTTOM, LEFT_TOP, LEFT_BOTTOM, RIGHT_TOP, RIGHT_BOTTOM
     }
 
     /**

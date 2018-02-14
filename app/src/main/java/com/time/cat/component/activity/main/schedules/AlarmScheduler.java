@@ -24,7 +24,8 @@ public class AlarmScheduler {
     private static final String TAG = "AlarmScheduler";
     private static final AlarmScheduler instance = new AlarmScheduler();
 
-    private AlarmScheduler() {}
+    private AlarmScheduler() {
+    }
 
     // static method to get the AlarmScheduler instance
     public static AlarmScheduler instance() {

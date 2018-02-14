@@ -28,8 +28,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @author xyczero617@gmail.com
  * @time 16/2/14
  */
-public class TintFrameLayout extends FrameLayout implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible,
-        AppCompatForegroundHelper.ForegroundExtensible {
+public class TintFrameLayout extends FrameLayout implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatForegroundHelper.ForegroundExtensible {
 
     private AppCompatBackgroundHelper mBackgroundHelper;
     private AppCompatForegroundHelper mForegroundHelper;

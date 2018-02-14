@@ -6,14 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.shang.commonjar.contentProvider.SPHelper;
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.ClipboardUtils;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
 
 public class DiyOcrKeyActivity extends BaseActivity {
 

@@ -21,11 +21,11 @@ import com.time.cat.R;
  */
 @SuppressLint("SetTextI18n")
 public class ThemeDayView extends DayView {
+    private final CalendarDate today = new CalendarDate();
     private TextView dateTv;
     private ImageView marker;
     private View selectedBackground;
     private View todayBackground;
-    private final CalendarDate today = new CalendarDate();
 
     /**
      * Constructor. Sets up the MarkerView with a custom layout resource.

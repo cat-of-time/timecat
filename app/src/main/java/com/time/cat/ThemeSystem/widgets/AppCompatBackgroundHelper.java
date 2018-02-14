@@ -38,11 +38,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  */
 public class AppCompatBackgroundHelper extends AppCompatBaseHelper {
 
-    private static final int[] ATTR = {
-            android.R.attr.background,
-            R.attr.backgroundTint,
-            R.attr.backgroundTintMode
-    };
+    private static final int[] ATTR = {android.R.attr.background, R.attr.backgroundTint, R.attr.backgroundTintMode};
 
     private TintInfo mBackgroundTintInfo;
 
@@ -101,8 +97,7 @@ public class AppCompatBackgroundHelper extends AppCompatBaseHelper {
 
             if (resId != 0) {
                 Drawable drawable = mTintManager.getDrawable(resId);
-                setBackgroundDrawable(
-                        drawable != null ? drawable : ContextCompat.getDrawable(mView.getContext(), resId));
+                setBackgroundDrawable(drawable != null ? drawable : ContextCompat.getDrawable(mView.getContext(), resId));
             }
         }
     }

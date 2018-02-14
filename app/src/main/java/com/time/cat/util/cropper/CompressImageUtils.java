@@ -24,8 +24,7 @@ public class CompressImageUtils {
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(originUri.getPath(), options);
             // Calculate inSampleSize
-            int minSideLength = cropParams.compressWidth > cropParams.compressHeight
-                    ? cropParams.compressHeight : cropParams.compressWidth;
+            int minSideLength = cropParams.compressWidth > cropParams.compressHeight ? cropParams.compressHeight : cropParams.compressWidth;
             options.inSampleSize = computeSampleSize(options, minSideLength, cropParams.compressWidth * cropParams.compressHeight);
             // Decode bitmap with inSampleSize set
             options.inJustDecodeBounds = false;
@@ -41,11 +40,9 @@ public class CompressImageUtils {
         } catch (Exception e) {
             Log.e(TAG, "compressInputStreamToOutputStream", e);
         } finally {
-            if (bitmap != null)
-                bitmap.recycle();
+            if (bitmap != null) bitmap.recycle();
             try {
-                if (out != null)
-                    out.close();
+                if (out != null) out.close();
             } catch (IOException ignore) {
             }
         }

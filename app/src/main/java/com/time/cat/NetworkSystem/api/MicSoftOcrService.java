@@ -13,10 +13,7 @@ import rx.Observable;
  */
 
 public interface MicSoftOcrService {
-    @Headers({
-            "User-Agent: Mozilla/5.0",
-            "ocp-apim-subscription-key : 56c87e179c084cfaae9b70a2f58fa8d3"
-    })
+    @Headers({"User-Agent: Mozilla/5.0", "ocp-apim-subscription-key : 56c87e179c084cfaae9b70a2f58fa8d3"})
     @POST("vision/v1.0/ocr?language=unk&detectOrientation=true")
     Observable<OCR> uploadImage4recognize(@Body String imgs);
 

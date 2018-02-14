@@ -57,24 +57,9 @@ import java.util.List;
  * @discription 用户信息Activity
  */
 public class UserDetailActivity extends BaseActivity implements ActivityPresenter, GridView.OnItemClickListener {
+    public static final String[] COLORS = new String[]{"#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#2ecc71", "#27ae60", "#e67e22", "#d35400", "#c0392b", "#e74c3c", "#2980b9", "#3498db", "#9b59b6", "#8e44ad", "#2c3e50", "#34495e"};
     private static final String TAG = "UserDetailActivity";
-
-
-    //<生命周期>-------------------------------------------------------------------------------------
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_detail);
-
-        //<功能归类分区方法，必须调用>-----------------------------------------------------------------
-        initView();
-        initData();
-        initEvent();
-        //</功能归类分区方法，必须调用>----------------------------------------------------------------
-    }
     //</生命周期>------------------------------------------------------------------------------------
-
-
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     GridView avatarGrid;
     BaseAdapter adapter;
@@ -90,28 +75,31 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
     List<String> avatars = new ArrayList<>(AvatarMgr.avatars.keySet());
 
     TextView userEmail;
-
-    private Menu menu;
-    private int avatarBackgroundColor;
-
     FloatingActionButton fab;
-
     int color1;
     int color2;
-
     Drawable iconClose;
     Drawable iconSwitch;
-
     LinearLayout colorList;
     HorizontalScrollView colorScroll;
     Button linkButton;
-
     String token = null;
     long userId;
+    private Menu menu;
+    private int avatarBackgroundColor;
 
-    public static final String[] COLORS = new String[]{"#1abc9c", "#16a085", "#f1c40f", "#f39c12",
-            "#2ecc71", "#27ae60", "#e67e22", "#d35400", "#c0392b", "#e74c3c", "#2980b9", "#3498db",
-            "#9b59b6", "#8e44ad", "#2c3e50", "#34495e"};
+    //<生命周期>-------------------------------------------------------------------------------------
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_detail);
+
+        //<功能归类分区方法，必须调用>-----------------------------------------------------------------
+        initView();
+        initData();
+        initEvent();
+        //</功能归类分区方法，必须调用>----------------------------------------------------------------
+    }
 
     @Override
     public void initView() {//必须调用

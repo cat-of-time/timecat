@@ -15,11 +15,9 @@ public class BlankDrawable extends Drawable {
     private static BlankDrawable mInstance;
 
     public static BlankDrawable getInstance() {
-        if (mInstance == null)
-            synchronized (BlankDrawable.class) {
-                if (mInstance == null)
-                    mInstance = new BlankDrawable();
-            }
+        if (mInstance == null) synchronized (BlankDrawable.class) {
+            if (mInstance == null) mInstance = new BlankDrawable();
+        }
 
         return mInstance;
     }

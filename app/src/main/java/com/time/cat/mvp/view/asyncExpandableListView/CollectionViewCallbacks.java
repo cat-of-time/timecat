@@ -37,6 +37,7 @@ public interface CollectionViewCallbacks<T1, T2> {
      * @param context
      * @param groupOrdinal - the groupOrdinal decides the sequence of groups being displayed, the smallest int is displayed first and in an asending order
      * @param parent
+     *
      * @return
      */
     RecyclerView.ViewHolder newCollectionItemView(Context context, int groupOrdinal, ViewGroup parent);

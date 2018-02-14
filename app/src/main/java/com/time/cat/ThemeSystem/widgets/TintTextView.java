@@ -34,8 +34,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @author xyczero617@gmail.com
  * @time 15/9/14
  */
-public class TintTextView extends android.support.v7.widget.AppCompatTextView implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible,
-        AppCompatCompoundDrawableHelper.CompoundDrawableExtensible, AppCompatTextHelper.TextExtensible {
+public class TintTextView extends android.support.v7.widget.AppCompatTextView implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatCompoundDrawableHelper.CompoundDrawableExtensible, AppCompatTextHelper.TextExtensible {
     private AppCompatTextHelper mTextHelper;
     private AppCompatBackgroundHelper mBackgroundHelper;
     private AppCompatCompoundDrawableHelper mCompoundDrawableHelper;

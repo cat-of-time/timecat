@@ -26,14 +26,28 @@ import com.time.cat.util.ViewUtil;
  * @date 2018/2/7
  * @discription
  */
-public class ScheduleCreateOrEditActivity extends BaseActivity implements
-                                                               ActivityPresenter,
-                                                               View.OnClickListener{
+public class ScheduleCreateOrEditActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener {
     @SuppressWarnings("unused")
     private static final String TAG = "ScheduleCreateActivity";
 
 
     //<启动方法>-------------------------------------------------------------------------------------
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    private int alpha;
+    private int lastPickedColor;
+    //</启动方法>------------------------------------------------------------------------------------
+    private AppCompatImageView add_task_iv_cancel;
+    private AppCompatImageView add_task_iv_success;
+    //</生命周期>------------------------------------------------------------------------------------
+    private EditText add_task_et_title;
+    private EditText add_task_et_content;
+    private TextView add_task_tv_important_urgent;
+    private TextView add_task_tv_date;
+    private TextView add_task_tv_time;
+    private LinearLayout add_task_select_ll_important_urgent;
+    private LinearLayout add_task_select_ll_date;
+    private LinearLayout add_task_select_ll_time;
+
     /**
      * 启动这个Activity的Intent
      *
@@ -49,8 +63,6 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements
     public Activity getActivity() {
         return this;
     }
-    //</启动方法>------------------------------------------------------------------------------------
-
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -61,14 +73,7 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements
         int value = (int) ((alpha / 100.0f) * 255);
         CardView cardView = new CardView(this);
         cardView.setRadius(ViewUtil.dp2px(20));
-        cardView.setCardBackgroundColor(
-                Color.argb(
-                        value,
-                        Color.red(lastPickedColor),
-                        Color.green(lastPickedColor),
-                        Color.blue(lastPickedColor)
-                )
-        );
+        cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
         View view = LayoutInflater.from(this).inflate(R.layout.items_add_task, null, false);
         cardView.addView(view);
 
@@ -86,23 +91,6 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements
     protected void onDestroy() {
         super.onDestroy();
     }
-    //</生命周期>------------------------------------------------------------------------------------
-
-
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
-    private int alpha;
-    private int lastPickedColor;
-
-    private AppCompatImageView add_task_iv_cancel;
-    private AppCompatImageView add_task_iv_success;
-    private EditText add_task_et_title;
-    private EditText add_task_et_content;
-    private TextView add_task_tv_important_urgent;
-    private TextView add_task_tv_date;
-    private TextView add_task_tv_time;
-    private LinearLayout add_task_select_ll_important_urgent;
-    private LinearLayout add_task_select_ll_date;
-    private LinearLayout add_task_select_ll_time;
 
     @Override
     public void initView() {//必须调用

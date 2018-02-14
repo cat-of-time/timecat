@@ -106,9 +106,7 @@ public abstract class GenericDao<T extends Object, I> implements Dao<T, I> {
 
     public List<T> findBy(String columnName, Object value) {
         try {
-            return dao.queryBuilder()
-                    .where().eq(columnName, value)
-                    .query();
+            return dao.queryBuilder().where().eq(columnName, value).query();
 
         } catch (SQLException e) {
             throw new RuntimeException("Error finding model", e);
@@ -472,7 +470,6 @@ public abstract class GenericDao<T extends Object, I> implements Dao<T, I> {
     public CloseableIterator<T> closeableIterator() {
         return dao.closeableIterator();
     }
-
 
 
 }

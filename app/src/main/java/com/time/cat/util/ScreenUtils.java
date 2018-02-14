@@ -198,21 +198,11 @@ public class ScreenUtils {
     }
 
     public static Materialize materialize(Activity activity, int colorRes) {
-        return new MaterializeBuilder()
-                .withActivity(activity)
-                .withTintedStatusBar(true)
-                .withTranslucentStatusBar(true)
-                .withStatusBarColorRes(colorRes)
-                .build();
+        return new MaterializeBuilder().withActivity(activity).withTintedStatusBar(true).withTranslucentStatusBar(true).withStatusBarColorRes(colorRes).build();
     }
 
     public static Materialize materializeForColor(Activity activity, int color) {
-        return new MaterializeBuilder()
-                .withActivity(activity)
-                .withTintedStatusBar(true)
-                .withTranslucentStatusBar(true)
-                .withStatusBarColor(color)
-                .build();
+        return new MaterializeBuilder().withActivity(activity).withTintedStatusBar(true).withTranslucentStatusBar(true).withStatusBarColor(color).build();
     }
 
     public static int getStatusBarHeight(Context ctx) {
@@ -224,7 +214,7 @@ public class ScreenUtils {
         return result;
     }
 
-    public static int dpToPx(Resources r, float dp){
+    public static int dpToPx(Resources r, float dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 

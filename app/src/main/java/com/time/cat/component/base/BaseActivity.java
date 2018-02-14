@@ -41,15 +41,59 @@ import java.util.List;
  */
 public class BaseActivity extends PermissionActivity {
     private static final String TAG = "BaseActivity";
-    private Fragment currentFragment;
+    //<沉浸式状态栏>----------------------------------------------------------------------------------
+    static int statusHeight;
+    public Intent intent;
     /**
      * 该Activity实例，命名为context是因为大部分方法都只需要context，写成context使用更方便
+     *
      * @warn 不能在子类中创建
      */
     protected BaseActivity context = null;
-    public Intent intent;
+    /**
+     * 线程名列表
+     */
+    protected List<String> threadNameList;
+    protected Toolbar toolbar;
+    private Fragment currentFragment;
     private boolean isAlive = false;
     private boolean isRunning = false;
+    /**
+     * 如果需要内容紧贴着StatusBar
+     * 应该在对应的xml布局文件中，设置根布局fitsSystemWindows=true。
+     */
+    private View contentViewGroup;
+
+    /**
+     * 获得状态栏的高度
+     *
+     * @param context
+     */
+    public static int getStatusBarHeight(Context context) {
+        if (statusHeight <= 0) {
+            try {
+                Class<?> clazz = Class.forName("com.android.internal.R$dimen");
+                Object object = clazz.newInstance();
+                int height = Integer.parseInt(clazz.getField("status_bar_height").get(object).toString());
+                statusHeight = context.getResources().getDimensionPixelSize(height);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return statusHeight;
+    }
+
+    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
+        Window win = activity.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +124,8 @@ public class BaseActivity extends PermissionActivity {
         currentFragment = fragment;
     }
 
-    /**一般用于对不支持的数据的处理，比如onCreate中获取到不能接受的id(id<=0)可以这样处理
+    /**
+     * 一般用于对不支持的数据的处理，比如onCreate中获取到不能接受的id(id<=0)可以这样处理
      */
     public void finishWithError(String error) {
         ToastUtil.show(error);
@@ -122,7 +167,12 @@ public class BaseActivity extends PermissionActivity {
         Log.d(TAG, "onPause >>>>>>>>>>>>>>>>>>>>>>>>\n");
     }
 
-    /**销毁并回收内存
+
+    //<启动新Activity方法>---------------------------------------------------------------------------
+
+    /**
+     * 销毁并回收内存
+     *
      * @warn 子类如果要使用这个方法内用到的变量，应重写onDestroy方法并在super.onDestroy();前操作
      */
     @Override
@@ -150,6 +200,7 @@ public class BaseActivity extends PermissionActivity {
 
         Log.d(TAG, "onDestroy >>>>>>>>>>>>>>>>>>>>>>>>\n");
     }
+
     public void registerFragment(int id, Fragment fragment) {
         if (currentFragment == fragment) {
             return;
@@ -193,7 +244,10 @@ public class BaseActivity extends PermissionActivity {
         Fragment current = fm.findFragmentByTag(currentFragmentTag);
         switchFragment(current);
     }
+    //</启动新Activity方法>---------------------------------------------------------------------------
 
+
+    //<运行线程>----------------------------------------------------------------------------------
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -216,37 +270,41 @@ public class BaseActivity extends PermissionActivity {
         ft.commitAllowingStateLoss();
     }
 
-
-
-
-
-
-
-
-    //<启动新Activity方法>---------------------------------------------------------------------------
-    /**打开新的Activity，向左滑入效果
+    /**
+     * 打开新的Activity，向左滑入效果
+     *
      * @param intent intent
      */
     public void toActivity(Intent intent) {
         toActivity(intent, true);
     }
-    /**打开新的Activity
-     * @param intent intent
+    //</运行线程>----------------------------------------------------------------------------------
+
+    /**
+     * 打开新的Activity
+     *
+     * @param intent        intent
      * @param showAnimation showAnimation
      */
     public void toActivity(Intent intent, boolean showAnimation) {
         toActivity(intent, -1, showAnimation);
     }
-    /**打开新的Activity，向左滑入效果
-     * @param intent intent
+
+    /**
+     * 打开新的Activity，向左滑入效果
+     *
+     * @param intent      intent
      * @param requestCode requestCode
      */
     public void toActivity(Intent intent, int requestCode) {
         toActivity(intent, requestCode, true);
     }
-    /**打开新的Activity
-     * @param intent intent
-     * @param requestCode requestCode
+
+    /**
+     * 打开新的Activity
+     *
+     * @param intent        intent
+     * @param requestCode   requestCode
      * @param showAnimation showAnimation
      */
     public void toActivity(final Intent intent, final int requestCode, final boolean showAnimation) {
@@ -271,13 +329,10 @@ public class BaseActivity extends PermissionActivity {
             }
         });
     }
-    //</启动新Activity方法>---------------------------------------------------------------------------
 
-
-
-
-    //<运行线程>----------------------------------------------------------------------------------
-    /**在UI线程中运行，建议用这个方法代替runOnUiThread
+    /**
+     * 在UI线程中运行，建议用这个方法代替runOnUiThread
+     *
      * @param action
      */
     public final void runUiThread(Runnable action) {
@@ -287,13 +342,13 @@ public class BaseActivity extends PermissionActivity {
         }
         runOnUiThread(action);
     }
+
     /**
-     * 线程名列表
-     */
-    protected List<String> threadNameList;
-    /**运行线程
+     * 运行线程
+     *
      * @param name
      * @param runnable
+     *
      * @return
      */
     public final Handler runThread(String name, Runnable runnable) {
@@ -313,7 +368,6 @@ public class BaseActivity extends PermissionActivity {
         }
         return handler;
     }
-    //</运行线程>----------------------------------------------------------------------------------
 
     /**
      * 获取Activity
@@ -324,21 +378,18 @@ public class BaseActivity extends PermissionActivity {
     public Activity getActivity() {
         return null;
     }
-//    @Override
+
+    //    @Override
     public final boolean isAlive() {
         return isAlive && context != null;// & ! isFinishing();导致finish，onDestroy内runUiThread不可用
     }
-//    @Override
+
+    //    @Override
     public final boolean isRunning() {
         return isRunning & isAlive();
     }
 
-
-
-    protected Toolbar toolbar;
-
-
-    protected BaseActivity setupToolbar(String title, int color, int iconColor){
+    protected BaseActivity setupToolbar(String title, int color, int iconColor) {
         // set up the toolbar
         toolbar = findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(color);
@@ -357,12 +408,11 @@ public class BaseActivity extends PermissionActivity {
         return this;
     }
 
-
-    protected BaseActivity setupToolbar(String title, int color){
+    protected BaseActivity setupToolbar(String title, int color) {
         return setupToolbar(title, color, Color.WHITE);
     }
 
-    protected BaseActivity setupStatusBar(int color){
+    protected BaseActivity setupStatusBar(int color) {
         ScreenUtils.setStatusBarColor(this, color);
         return this;
     }
@@ -376,10 +426,6 @@ public class BaseActivity extends PermissionActivity {
         TimeCatApp.eventBus().unregister(this);
         return this;
     }
-
-
-
-
 
     public void refreshTheme(Context c, int currentTheme) {
         ThemeManager.setTheme(c, currentTheme);
@@ -400,33 +446,6 @@ public class BaseActivity extends PermissionActivity {
         }
     }
 
-
-
-
-
-
-    //<沉浸式状态栏>----------------------------------------------------------------------------------
-    static int statusHeight;
-
-    /**
-     * 获得状态栏的高度
-     *
-     * @param context
-     */
-    public static int getStatusBarHeight(Context context) {
-        if (statusHeight <= 0) {
-            try {
-                Class<?> clazz = Class.forName("com.android.internal.R$dimen");
-                Object object = clazz.newInstance();
-                int height = Integer.parseInt(clazz.getField("status_bar_height").get(object).toString());
-                statusHeight = context.getResources().getDimensionPixelSize(height);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return statusHeight;
-    }
-
     /**
      * <全透状态栏>
      * 全透明状态栏，fitsSystemWindows=false
@@ -441,8 +460,7 @@ public class BaseActivity extends PermissionActivity {
         if (Build.VERSION.SDK_INT >= 21) {//21表示5.0
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         } else if (Build.VERSION.SDK_INT >= 19) {//19表示4.4
@@ -480,23 +498,6 @@ public class BaseActivity extends PermissionActivity {
             // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
-
-    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
-        Window win = activity.getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
-
-    /**
-     * 如果需要内容紧贴着StatusBar
-     * 应该在对应的xml布局文件中，设置根布局fitsSystemWindows=true。
-     */
-    private View contentViewGroup;
 
     protected void setFitSystemWindow(boolean fitSystemWindow) {
         if (contentViewGroup == null) {
@@ -578,9 +579,7 @@ public class BaseActivity extends PermissionActivity {
         // 这个设置和在xml的style文件中用这个<item name="android:windowLightStatusBar">true</item>属性是一样的
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (dark) {
-                getWindow().getDecorView().setSystemUiVisibility(
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         }
     }

@@ -61,15 +61,31 @@ import java.util.List;
  * @discription SchedulesFragment
  */
 @SuppressLint("SetTextI18n")
-public class SchedulesFragment extends BaseFragment implements
-                                                    FragmentPresenter,
-                                                    OnSelectDateListener,
-                                                    View.OnClickListener,
-                                                    OnViewClickListener,
-                                                    AsyncExpandableListViewCallbacks<Task, Task> {
+public class SchedulesFragment extends BaseFragment implements FragmentPresenter, OnSelectDateListener, View.OnClickListener, OnViewClickListener, AsyncExpandableListViewCallbacks<Task, Task> {
     @SuppressWarnings("unused")
     private static final String TAG = "SchedulesFragment";
-
+    private static final int[] labelColor = new int[]{
+//            getResources().getColor(R.color.label_important_urgent_color),
+//            getResources().getColor(R.color.label_important_not_urgent_color),
+//            getResources().getColor(R.color.label_not_important_urgent_color),
+//            getResources().getColor(R.color.label_not_important_not_urgent_color),
+            Color.parseColor("#f44336"), Color.parseColor("#ff8700"), Color.parseColor("#2196f3"), Color.parseColor("#4caf50"),};
+    private static final int[] checkIds = new int[]{R.id.label_important_urgent, R.id.label_important_not_urgent, R.id.label_not_important_urgent, R.id.label_not_important_not_urgent,};
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    private CoordinatorLayout content;
+    //</生命周期>------------------------------------------------------------------------------------
+    private MonthPager monthPager;
+    private ArrayList<Calendar> currentCalendars = new ArrayList<>();
+    private CalendarViewAdapter calendarAdapter;
+    private ArrayList<TextView> textViewList;
+    private AsyncExpandableListView<Task, Task> mAsyncExpandableListView;
+    private CollectionView.Inventory<Task, Task> inventory;
+    private Context context;
+    private CalendarDate currentDate;
+    private int mCurrentPage = MonthPager.CURRENT_DAY_INDEX;
+    private boolean onBindCollectionHeaderView;
+    //<回调接口>-------------------------------------------------------------------------------------
+    private OnDateChangeListener mDateChangeListener;
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -91,22 +107,10 @@ public class SchedulesFragment extends BaseFragment implements
         super.onResume();
         ThemeUtils.refreshUI(getActivity(), null);
     }
-    //</生命周期>------------------------------------------------------------------------------------
-
-
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
-    private CoordinatorLayout content;
-    private MonthPager monthPager;
-    private ArrayList<Calendar> currentCalendars = new ArrayList<>();
-    private CalendarViewAdapter calendarAdapter;
-    private ArrayList<TextView> textViewList;
-    private AsyncExpandableListView<Task, Task> mAsyncExpandableListView;
-    private CollectionView.Inventory<Task, Task> inventory;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
         context = getContext();
         content = view.findViewById(R.id.content);
@@ -140,10 +144,7 @@ public class SchedulesFragment extends BaseFragment implements
 
         return view;
     }
-
-    private Context context;
-    private CalendarDate currentDate;
-    private int mCurrentPage = MonthPager.CURRENT_DAY_INDEX;
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
 
     @Override
     public void initView() {//必须调用
@@ -158,12 +159,7 @@ public class SchedulesFragment extends BaseFragment implements
      */
     private void initCalendarView() {
         CustomDayView customDayView = new CustomDayView(context, R.layout.view_calendar_custom_day);
-        calendarAdapter = new CalendarViewAdapter(
-                context,
-                this,
-                CalendarAttr.CalendarType.WEEK,
-                CalendarAttr.WeekArrayType.Sunday,
-                customDayView);
+        calendarAdapter = new CalendarViewAdapter(context, this, CalendarAttr.CalendarType.WEEK, CalendarAttr.WeekArrayType.Sunday, customDayView);
         calendarAdapter.setOnCalendarTypeChangedListener(new CalendarViewAdapter.OnCalendarTypeChanged() {
             @Override
             public void onCalendarTypeChanged(CalendarAttr.CalendarType type) {
@@ -185,6 +181,7 @@ public class SchedulesFragment extends BaseFragment implements
         markData.put("2017-6-10", "0");
         calendarAdapter.setMarkData(markData);
     }
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
     /**
      * 初始化monthPager，MonthPager继承自ViewPager
@@ -211,11 +208,11 @@ public class SchedulesFragment extends BaseFragment implements
                 if (currentCalendars.get(position % currentCalendars.size()) != null) {
                     CalendarDate date = currentCalendars.get(position % currentCalendars.size()).getSeedDate();
                     currentDate = date;
-                    for (int i = 1; i <= 7; i ++) {
+                    for (int i = 1; i <= 7; i++) {
                         if (i == currentDate.getDayOfWeek()) {
-                            textViewList.get(i-1).setTextColor(Color.WHITE);
+                            textViewList.get(i - 1).setTextColor(Color.WHITE);
                         } else {
-                            textViewList.get(i-1).setTextColor(Color.BLACK);
+                            textViewList.get(i - 1).setTextColor(Color.BLACK);
                         }
                     }
                     if (mDateChangeListener != null) {
@@ -232,8 +229,6 @@ public class SchedulesFragment extends BaseFragment implements
             }
         });
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
-
 
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
     @Override
@@ -249,17 +244,18 @@ public class SchedulesFragment extends BaseFragment implements
 //            empty.setVisibility(View.GONE);
 //        }
     }
+    //-//</View.OnClickListener>---------------------------------------------------------------------
 
     /**
      * 初始化currentDate
      */
     private void initCurrentDate() {
         currentDate = new CalendarDate();
-        for (int i = 1; i <= 7; i ++) {
+        for (int i = 1; i <= 7; i++) {
             if (i == currentDate.getDayOfWeek()) {
-                textViewList.get(i-1).setTextColor(Color.WHITE);
+                textViewList.get(i - 1).setTextColor(Color.WHITE);
             } else {
-                textViewList.get(i-1).setTextColor(Color.BLACK);
+                textViewList.get(i - 1).setTextColor(Color.BLACK);
             }
         }
         if (mDateChangeListener != null) {
@@ -287,11 +283,6 @@ public class SchedulesFragment extends BaseFragment implements
 
         mAsyncExpandableListView.updateInventory(inventory);
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
-
-
-
-
 
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
     @Override
@@ -299,15 +290,12 @@ public class SchedulesFragment extends BaseFragment implements
         mAsyncExpandableListView.setCallbacks(this);
     }
 
-
     //-//<View.OnClickListener>---------------------------------------------------------------------
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
         }
     }
-    //-//</View.OnClickListener>---------------------------------------------------------------------
-
 
     //-//<AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
     @Override
@@ -331,25 +319,11 @@ public class SchedulesFragment extends BaseFragment implements
         return new ScheduleItemHolder(v);
     }
 
-    private static final int[] labelColor = new int[] {
-//            getResources().getColor(R.color.label_important_urgent_color),
-//            getResources().getColor(R.color.label_important_not_urgent_color),
-//            getResources().getColor(R.color.label_not_important_urgent_color),
-//            getResources().getColor(R.color.label_not_important_not_urgent_color),
-            Color.parseColor("#f44336"),
-            Color.parseColor("#ff8700"),
-            Color.parseColor("#2196f3"),
-            Color.parseColor("#4caf50"),
-    };
-
-    private boolean onBindCollectionHeaderView;
     @Override
-    public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder,
-                                         int groupOrdinal, Task headerItem) {
+    public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder, int groupOrdinal, Task headerItem) {
         onBindCollectionHeaderView = true;
         ScheduleHeaderViewHolder scheduleHeaderViewHolder = (ScheduleHeaderViewHolder) holder;
-        scheduleHeaderViewHolder.getCalendarItemCheckBox()
-                .setUncheckedStrokeColor(labelColor[headerItem.getLabel()]);
+        scheduleHeaderViewHolder.getCalendarItemCheckBox().setUncheckedStrokeColor(labelColor[headerItem.getLabel()]);
         scheduleHeaderViewHolder.getCalendarItemCheckBox().setChecked(headerItem.getIsFinish());
 
         scheduleHeaderViewHolder.getCalendarItemTitle().setText(headerItem.getTitle());
@@ -358,30 +332,20 @@ public class SchedulesFragment extends BaseFragment implements
         long during = today.getTime() - headerItem.getCreateTime().getTime();
         long day = during / (1000 * 60 * 60 * 24);
 //        Log.e(TAG, during + getString(R.string.calendar_delay) + day + getString(R.string.calendar_day));
-        scheduleHeaderViewHolder.getCalendarItemDelay()
-                .setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
+        scheduleHeaderViewHolder.getCalendarItemDelay().setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
 
         onBindCollectionHeaderView = false;
     }
-
-    private static final int[] checkIds = new int[]{
-            R.id.label_important_urgent,
-            R.id.label_important_not_urgent,
-            R.id.label_not_important_urgent,
-            R.id.label_not_important_not_urgent,
-    };
+    //-//</AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
 
     @Override
-    public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder,
-                                       int groupOrdinal, Task item) {
+    public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder, int groupOrdinal, Task item) {
         ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
         scheduleItemHolder.getTextViewTitle().setText(item.getTitle());
         scheduleItemHolder.getTextViewContent().setText(item.getContent());
         scheduleItemHolder.getTagCloudView().setTags(item.getTags());
         scheduleItemHolder.getLabelGroup().check(checkIds[item.getLabel()]);
     }
-    //-//</AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
-
 
     //-//<MainActivity.OnViewClickListener>---------------------------------------------------------------------
     @Override
@@ -399,17 +363,18 @@ public class SchedulesFragment extends BaseFragment implements
         if (calendarAdapter != null) {
             calendarAdapter.notifyDataChanged(today);
         }
-        for (int i = 1; i <= 7; i ++) {
+        for (int i = 1; i <= 7; i++) {
             if (i == today.getDayOfWeek()) {
-                textViewList.get(i-1).setTextColor(Color.WHITE);
+                textViewList.get(i - 1).setTextColor(Color.WHITE);
             } else {
-                textViewList.get(i-1).setTextColor(Color.BLACK);
+                textViewList.get(i - 1).setTextColor(Color.BLACK);
             }
         }
         if (mDateChangeListener != null) {
             mDateChangeListener.onDateChange(today.getYear(), today.getMonth(), today.isToday());
         }
     }
+    //-//</MainActivity.OnViewClickListener>---------------------------------------------------------------------
 
     private void refreshSelectBackground() {
         ThemeDayView themeDayView = new ThemeDayView(context, R.layout.view_calendar_custom_day_focus);
@@ -417,8 +382,6 @@ public class SchedulesFragment extends BaseFragment implements
         calendarAdapter.notifyDataSetChanged();
         calendarAdapter.notifyDataChanged(new CalendarDate());
     }
-    //-//</MainActivity.OnViewClickListener>---------------------------------------------------------------------
-
 
     //-//<OnSelectDateListener>---------------------------------------------------------------------
     @Override
@@ -431,38 +394,28 @@ public class SchedulesFragment extends BaseFragment implements
         //偏移量 -1表示刷新成上一个月数据 ， 1表示刷新成下一个月数据
         monthPager.selectOtherMonth(offset);
     }
+    //-//</OnSelectDateListener>--------------------------------------------------------------------
+
+    //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
 
     private void refreshClickDate(CalendarDate date) {
         currentDate = date;
-        for (int i = 1; i <= 7; i ++) {
+        for (int i = 1; i <= 7; i++) {
             if (i == currentDate.getDayOfWeek()) {
-                textViewList.get(i-1).setTextColor(Color.WHITE);
+                textViewList.get(i - 1).setTextColor(Color.WHITE);
             } else {
-                textViewList.get(i-1).setTextColor(Color.BLACK);
+                textViewList.get(i - 1).setTextColor(Color.BLACK);
             }
         }
         if (mDateChangeListener != null) {
             mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
         }
     }
-    //-//</OnSelectDateListener>--------------------------------------------------------------------
-
-    //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
-
-
-
-
-
-    //<回调接口>-------------------------------------------------------------------------------------
-    private OnDateChangeListener mDateChangeListener;
 
     public void setOnDateChangeListener(OnDateChangeListener DateChangeListener) {
         mDateChangeListener = DateChangeListener;
     }
     //</回调接口>------------------------------------------------------------------------------------
-
-
-
 
 
     //<内部类>---尽量少用----------------------------------------------------------------------------
@@ -514,106 +467,7 @@ public class SchedulesFragment extends BaseFragment implements
 
     }
 
-    public class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder
-            implements AsyncExpandableListView.OnGroupStateChangeListener,
-                       SmoothCheckBox.OnCheckedChangeListener, View.OnClickListener {
-
-        private RelativeLayout calendar_item_ll;
-        private SmoothCheckBox calendar_item_checkBox;
-        private TextView calendar_item_title;
-        private ProgressBar calendar_item_progressBar;
-        private ImageView ivExpansionIndicator;
-        private TextView calendar_item_delay;
-        private RelativeLayout calendar_item_rl_content_container;
-        private RelativeLayout calendar_item_rl_container;
-
-        private int mGroupOrdinal;
-
-        public ScheduleHeaderViewHolder(View v, int groupOrdinal, AsyncExpandableListView asyncExpandableListView) {
-            super(v, groupOrdinal, asyncExpandableListView);
-            mGroupOrdinal = groupOrdinal;
-            calendar_item_ll = v.findViewById(R.id.calendar_item_ll);
-            // 防止误点击
-            calendar_item_ll.setOnClickListener(null);
-
-            calendar_item_checkBox = v.findViewById(R.id.calendar_item_checkBox);
-            calendar_item_checkBox.setOnCheckedChangeListener(this);
-
-            calendar_item_title = v.findViewById(R.id.calendar_item_title);
-            calendar_item_delay = v.findViewById(R.id.calendar_item_delay);
-
-            calendar_item_progressBar = v.findViewById(R.id.calendar_item_progressBar);
-            calendar_item_progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#1296db"),
-                    android.graphics.PorterDuff.Mode.MULTIPLY);
-            ivExpansionIndicator = v.findViewById(R.id.calendar_item_ivExpansionIndicator);
-            calendar_item_rl_container = v.findViewById(R.id.calendar_item_rl_container);
-            calendar_item_rl_content_container = v.findViewById(R.id.calendar_item_rl_content_container);
-
-            calendar_item_rl_container.setOnClickListener(this);
-            calendar_item_rl_content_container.setOnClickListener(this);
-        }
-
-
-        public TextView getCalendarItemTitle() {
-            return calendar_item_title;
-        }
-
-        public SmoothCheckBox getCalendarItemCheckBox() {
-            return calendar_item_checkBox;
-        }
-
-        public TextView getCalendarItemDelay() {
-            return calendar_item_delay;
-        }
-
-        @Override
-        public void onGroupStartExpending() {
-            calendar_item_progressBar.setVisibility(View.VISIBLE);
-            ivExpansionIndicator.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        public void onGroupExpanded() {
-            calendar_item_progressBar.setVisibility(View.GONE);
-            ivExpansionIndicator.setVisibility(View.VISIBLE);
-            ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_up);
-        }
-
-        @Override
-        public void onGroupCollapsed() {
-            calendar_item_progressBar.setVisibility(View.GONE);
-            ivExpansionIndicator.setVisibility(View.VISIBLE);
-            ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_down);
-
-        }
-
-        @Override
-        public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
-//            Log.e(TAG, String.valueOf(onBindCollectionHeaderView));
-            if (isChecked) {
-                ViewUtil.addClearCenterLine(calendar_item_title);
-                calendar_item_title.setTextColor(Color.GRAY);
-            } else {
-                ViewUtil.removeLine(calendar_item_title);
-                calendar_item_title.setTextColor(Color.BLACK);
-            }
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.calendar_item_rl_container:
-                    mAsyncExpandableListView.onGroupClicked(mGroupOrdinal);
-                    break;
-                case R.id.calendar_item_rl_content_container:
-                    ToastUtil.show("to Create a task");
-                    break;
-            }
-        }
-    }
-
-    public static class ScheduleItemHolder extends RecyclerView.ViewHolder
-            implements TagCloudView.OnTagClickListener, RadioGroup.OnCheckedChangeListener {
+    public static class ScheduleItemHolder extends RecyclerView.ViewHolder implements TagCloudView.OnTagClickListener, RadioGroup.OnCheckedChangeListener {
         private static final String TAG = "ScheduleItemHolder";
 
         private final TextView tvTitle;
@@ -718,6 +572,101 @@ public class SchedulesFragment extends BaseFragment implements
             }
         }
         //-//</RadioGroup.OnCheckedChangeListener>------------------------------------------------------
+    }
+
+    public class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder implements AsyncExpandableListView.OnGroupStateChangeListener, SmoothCheckBox.OnCheckedChangeListener, View.OnClickListener {
+
+        private RelativeLayout calendar_item_ll;
+        private SmoothCheckBox calendar_item_checkBox;
+        private TextView calendar_item_title;
+        private ProgressBar calendar_item_progressBar;
+        private ImageView ivExpansionIndicator;
+        private TextView calendar_item_delay;
+        private RelativeLayout calendar_item_rl_content_container;
+        private RelativeLayout calendar_item_rl_container;
+
+        private int mGroupOrdinal;
+
+        public ScheduleHeaderViewHolder(View v, int groupOrdinal, AsyncExpandableListView asyncExpandableListView) {
+            super(v, groupOrdinal, asyncExpandableListView);
+            mGroupOrdinal = groupOrdinal;
+            calendar_item_ll = v.findViewById(R.id.calendar_item_ll);
+            // 防止误点击
+            calendar_item_ll.setOnClickListener(null);
+
+            calendar_item_checkBox = v.findViewById(R.id.calendar_item_checkBox);
+            calendar_item_checkBox.setOnCheckedChangeListener(this);
+
+            calendar_item_title = v.findViewById(R.id.calendar_item_title);
+            calendar_item_delay = v.findViewById(R.id.calendar_item_delay);
+
+            calendar_item_progressBar = v.findViewById(R.id.calendar_item_progressBar);
+            calendar_item_progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#1296db"), android.graphics.PorterDuff.Mode.MULTIPLY);
+            ivExpansionIndicator = v.findViewById(R.id.calendar_item_ivExpansionIndicator);
+            calendar_item_rl_container = v.findViewById(R.id.calendar_item_rl_container);
+            calendar_item_rl_content_container = v.findViewById(R.id.calendar_item_rl_content_container);
+
+            calendar_item_rl_container.setOnClickListener(this);
+            calendar_item_rl_content_container.setOnClickListener(this);
+        }
+
+
+        public TextView getCalendarItemTitle() {
+            return calendar_item_title;
+        }
+
+        public SmoothCheckBox getCalendarItemCheckBox() {
+            return calendar_item_checkBox;
+        }
+
+        public TextView getCalendarItemDelay() {
+            return calendar_item_delay;
+        }
+
+        @Override
+        public void onGroupStartExpending() {
+            calendar_item_progressBar.setVisibility(View.VISIBLE);
+            ivExpansionIndicator.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        public void onGroupExpanded() {
+            calendar_item_progressBar.setVisibility(View.GONE);
+            ivExpansionIndicator.setVisibility(View.VISIBLE);
+            ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_up);
+        }
+
+        @Override
+        public void onGroupCollapsed() {
+            calendar_item_progressBar.setVisibility(View.GONE);
+            ivExpansionIndicator.setVisibility(View.VISIBLE);
+            ivExpansionIndicator.setImageResource(R.drawable.ic_arrow_down);
+
+        }
+
+        @Override
+        public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+//            Log.e(TAG, String.valueOf(onBindCollectionHeaderView));
+            if (isChecked) {
+                ViewUtil.addClearCenterLine(calendar_item_title);
+                calendar_item_title.setTextColor(Color.GRAY);
+            } else {
+                ViewUtil.removeLine(calendar_item_title);
+                calendar_item_title.setTextColor(Color.BLACK);
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.calendar_item_rl_container:
+                    mAsyncExpandableListView.onGroupClicked(mGroupOrdinal);
+                    break;
+                case R.id.calendar_item_rl_content_container:
+                    ToastUtil.show("to Create a task");
+                    break;
+            }
+        }
     }
     //</内部类>---尽量少用---------------------------------------------------------------------------
 }

@@ -18,15 +18,15 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -139,8 +139,7 @@ public class CopyActivity extends BaseActivity {
             }
         };
         View view = getLayoutInflater().inflate(R.layout.dialog_copy_text_editor, null);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(layoutParams);
         TextView textView = view.findViewById(R.id.text);
         textView.setText(getSelectedText());

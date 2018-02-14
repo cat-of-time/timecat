@@ -45,11 +45,7 @@ public class CropHelper {
             }
         }
         String name = String.format("image-%d.jpg", System.currentTimeMillis());
-        return Uri
-                .fromFile(cacheFolder)
-                .buildUpon()
-                .appendPath(name)
-                .build();
+        return Uri.fromFile(cacheFolder).buildUpon().appendPath(name).build();
     }
 
     public static boolean isPhotoReallyCropped(Uri uri) {
@@ -140,8 +136,7 @@ public class CropHelper {
     }
 
     public static Intent buildCameraIntent(CropParams params) {
-        return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                .putExtra(MediaStore.EXTRA_OUTPUT, params.uri);
+        return new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, params.uri);
     }
 
     // Crop Intents
@@ -151,19 +146,7 @@ public class CropHelper {
     }
 
     private static Intent buildCropIntent(String action, CropParams params) {
-        return new Intent(action)
-                .setDataAndType(params.uri, params.type)
-                .putExtra("crop", "true")
-                .putExtra("scale", params.scale)
-                .putExtra("aspectX", params.aspectX)
-                .putExtra("aspectY", params.aspectY)
-                .putExtra("outputX", params.outputX)
-                .putExtra("outputY", params.outputY)
-                .putExtra("return-data", params.returnData)
-                .putExtra("outputFormat", params.outputFormat)
-                .putExtra("noFaceDetection", params.noFaceDetection)
-                .putExtra("scaleUpIfNeeded", params.scaleUpIfNeeded)
-                .putExtra(MediaStore.EXTRA_OUTPUT, params.uri);
+        return new Intent(action).setDataAndType(params.uri, params.type).putExtra("crop", "true").putExtra("scale", params.scale).putExtra("aspectX", params.aspectX).putExtra("aspectY", params.aspectY).putExtra("outputX", params.outputX).putExtra("outputY", params.outputY).putExtra("return-data", params.returnData).putExtra("outputFormat", params.outputFormat).putExtra("noFaceDetection", params.noFaceDetection).putExtra("scaleUpIfNeeded", params.scaleUpIfNeeded).putExtra(MediaStore.EXTRA_OUTPUT, params.uri);
     }
 
     // Clear Cache

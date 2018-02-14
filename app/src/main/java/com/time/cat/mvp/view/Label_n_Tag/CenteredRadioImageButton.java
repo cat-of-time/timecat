@@ -46,8 +46,7 @@ public class CenteredRadioImageButton extends AppCompatRadioButton {
             if (imgWidth <= btnWidth && imgHeight <= btnHeight) {
                 scale = 1.0f;
             } else {
-                scale = Math.min((float) btnWidth / (float) imgWidth,
-                        (float) btnHeight / (float) imgHeight);
+                scale = Math.min((float) btnWidth / (float) imgWidth, (float) btnHeight / (float) imgHeight);
             }
 
 

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Helper to manage the home screen floating action button behaviour
  */
-public class FabMenuManager implements View.OnClickListener{
+public class FabMenuManager implements View.OnClickListener {
 
 
     LeftDrawerManager drawerMgr;
@@ -43,12 +43,12 @@ public class FabMenuManager implements View.OnClickListener{
         this.drawerMgr = drawerMgr;
         this.scheduleActions = getScheduleActions();
 
-        final SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
 
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
-                if(!prefs.getBoolean("PREFERENCE_SCHEDULE_HELP_SHOWN", false)){
+                if (!prefs.getBoolean("PREFERENCE_SCHEDULE_HELP_SHOWN", false)) {
                     activity.launchActivityDelayed(SchedulesHelpActivity.class, 600);
                 }
             }
@@ -72,10 +72,10 @@ public class FabMenuManager implements View.OnClickListener{
         actions.add(actionB);
         actions.add(actionC);
         scanQrAction = fabMenu.findViewById(R.id.action_d);
-        if(TimeCatApp.isPharmaModeEnabled(activity)) {
+        if (TimeCatApp.isPharmaModeEnabled(activity)) {
             scanQrAction.setVisibility(View.VISIBLE);
             actions.add(scanQrAction);
-        }else{
+        } else {
             scanQrAction.setVisibility(View.GONE);
         }
         return actions;
@@ -84,21 +84,17 @@ public class FabMenuManager implements View.OnClickListener{
 
     public void init() {
 
-        for(FloatingActionButton f : scheduleActions){
+        for (FloatingActionButton f : scheduleActions) {
             f.setOnClickListener(this);
         }
 
         fab.setOnClickListener(this);
-        fab.setIconDrawable(new IconicsDrawable(activity)
-                .icon(GoogleMaterial.Icon.gmd_plus)
-                .paddingDp(5)
-                .sizeDp(24)
-                .color(Color.parseColor("#263238")));
+        fab.setIconDrawable(new IconicsDrawable(activity).icon(GoogleMaterial.Icon.gmd_plus).paddingDp(5).sizeDp(24).color(Color.parseColor("#263238")));
 
         onViewPagerItemChange(0);
     }
 
-    public void onViewPagerItemChange(int currentPage){
+    public void onViewPagerItemChange(int currentPage) {
 
         this.currentPage = currentPage;
 
@@ -108,10 +104,10 @@ public class FabMenuManager implements View.OnClickListener{
 //        fab.setColorNormalResId(getFabColor(currentPage));
 //        fab.setColorPressedResId(getFabPressedColor(currentPage));
 
-        switch (currentPage){
+        switch (currentPage) {
 
             case 0:
-                for(FloatingActionButton f : scheduleActions){
+                for (FloatingActionButton f : scheduleActions) {
                     f.setVisibility(View.VISIBLE);
                 }
                 fab.setVisibility(View.GONE);
@@ -120,7 +116,7 @@ public class FabMenuManager implements View.OnClickListener{
                 break;
             case 1:
             case 2:
-                for(FloatingActionButton f : scheduleActions){
+                for (FloatingActionButton f : scheduleActions) {
                     f.setVisibility(View.GONE);
                 }
                 fabMenu.setVisibility(View.GONE);
@@ -160,7 +156,7 @@ public class FabMenuManager implements View.OnClickListener{
     }
 
     private void onClickAdd() {
-        switch (currentPage){
+        switch (currentPage) {
             case 0:
                 return;
             case 1:
@@ -172,12 +168,12 @@ public class FabMenuManager implements View.OnClickListener{
         }
     }
 
-    private void launchActivity(Class<?> type){
+    private void launchActivity(Class<?> type) {
         activity.startActivity(new Intent(activity, type));
         activity.overridePendingTransition(0, 0);
     }
 
-    private void startSchedulesActivity(int scheduleType){
+    private void startSchedulesActivity(int scheduleType) {
 //        Intent i = new Intent(activity, ScheduleCreationActivity.class);
 //        i.putExtra("scheduleType", scheduleType);
 //        activity.startActivity(i);
@@ -185,7 +181,7 @@ public class FabMenuManager implements View.OnClickListener{
 //        fabMenu.collapse();
     }
 
-    private void startScanActivity(){
+    private void startScanActivity() {
 //        Intent i = new Intent(activity, ScanActivity.class);
 //        i.putExtra("after_scan_pkg", activity.getPackageName());
 //        i.putExtra("after_scan_cls", ConfirmSchedulesActivity.class.getName());
@@ -220,19 +216,19 @@ public class FabMenuManager implements View.OnClickListener{
         }
     }
 
-    public void onUserUpdate(DBUser u){
-        for(FloatingActionButton f: scheduleActions){
+    public void onUserUpdate(DBUser u) {
+        for (FloatingActionButton f : scheduleActions) {
             f.setColorNormal(u.color());
             f.setColorPressed(ScreenUtils.equivalentNoAlpha(u.color(), 0.5f));
         }
         fabMenu.invalidate();
     }
 
-    public void onPharmacyModeChanged(boolean enabled){
-        if(enabled && !scheduleActions.contains(scanQrAction)){
+    public void onPharmacyModeChanged(boolean enabled) {
+        if (enabled && !scheduleActions.contains(scanQrAction)) {
             scheduleActions.add(scanQrAction);
             scanQrAction.setVisibility(View.VISIBLE);
-        }else if(!enabled && scheduleActions.contains(scanQrAction)){
+        } else if (!enabled && scheduleActions.contains(scanQrAction)) {
             scanQrAction.setVisibility(View.GONE);
             scheduleActions.remove(scanQrAction);
         }

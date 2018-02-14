@@ -37,11 +37,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @time 15/11/15
  */
 public class AppCompatImageHelper extends AppCompatBaseHelper {
-    public static final int[] ATTRS = {
-            android.R.attr.src,
-            R.attr.imageTint,
-            R.attr.imageTintMode
-    };
+    public static final int[] ATTRS = {android.R.attr.src, R.attr.imageTint, R.attr.imageTintMode};
 
     private TintInfo mImageTintInfo;
     private int mImageResId;

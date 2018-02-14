@@ -74,8 +74,7 @@ public class RotateAndTranslateAnimation extends Animation {
      * @param fromDegrees Rotation offset to apply at the start of the animation.
      * @param toDegrees   Rotation offset to apply at the end of the animation.
      */
-    public RotateAndTranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta,
-                                       float fromDegrees, float toDegrees) {
+    public RotateAndTranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, float fromDegrees, float toDegrees) {
         mFromXValue = fromXDelta;
         mToXValue = toXDelta;
         mFromYValue = fromYDelta;

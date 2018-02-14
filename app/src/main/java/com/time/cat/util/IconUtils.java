@@ -37,17 +37,11 @@ public class IconUtils {
         return icon(ctx, ic, Color.WHITE, size);
     }
 
-    public static IconicsDrawable icon(Context ctx, IIcon ic, int color){
-        return new IconicsDrawable(ctx, ic)
-                .sizeDp(48)
-                .paddingDp(2)
-                .colorRes(color);
+    public static IconicsDrawable icon(Context ctx, IIcon ic, int color) {
+        return new IconicsDrawable(ctx, ic).sizeDp(48).paddingDp(2).colorRes(color);
     }
 
-    public static IconicsDrawable icon(Context ctx, IIcon ic, int color, int size){
-        return new IconicsDrawable(ctx, ic)
-                .sizeDp(size)
-                .paddingDp(0)
-                .colorRes(color);
+    public static IconicsDrawable icon(Context ctx, IIcon ic, int color, int size) {
+        return new IconicsDrawable(ctx, ic).sizeDp(size).paddingDp(0).colorRes(color);
     }
 }

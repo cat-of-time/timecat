@@ -52,9 +52,7 @@ class GradientDrawableInflateImpl implements DrawableInflateDelegate {
         int type;
         final int innerDepth = parser.getDepth() + 1;
         int depth;
-        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT
-                && ((depth = parser.getDepth()) >= innerDepth
-                || type != XmlPullParser.END_TAG)) {
+        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
             if (type != XmlPullParser.START_TAG) {
                 continue;
             }
@@ -92,9 +90,7 @@ class GradientDrawableInflateImpl implements DrawableInflateDelegate {
                     angle %= 360;
 
                     if (angle % 45 != 0) {
-                        throw new XmlPullParserException("<gradient> tag requires"
-                                + "'angle' attribute to "
-                                + "be a multiple of 45");
+                        throw new XmlPullParserException("<gradient> tag requires" + "'angle' attribute to " + "be a multiple of 45");
                     }
 
                     setStGradientAngle(gradientDrawable.getConstantState(), angle);
@@ -150,15 +146,9 @@ class GradientDrawableInflateImpl implements DrawableInflateDelegate {
                 final int topRightRadius = DrawableUtils.getAttrDimensionPixelSize(context, attrs, android.R.attr.topRightRadius, radius);
                 final int bottomLeftRadius = DrawableUtils.getAttrDimensionPixelSize(context, attrs, android.R.attr.bottomLeftRadius, radius);
                 final int bottomRightRadius = DrawableUtils.getAttrDimensionPixelSize(context, attrs, android.R.attr.bottomRightRadius, radius);
-                if (topLeftRadius != radius || topRightRadius != radius ||
-                        bottomLeftRadius != radius || bottomRightRadius != radius) {
+                if (topLeftRadius != radius || topRightRadius != radius || bottomLeftRadius != radius || bottomRightRadius != radius) {
                     // The corner radii are specified in clockwise order (see Path.addRoundRect())
-                    gradientDrawable.setCornerRadii(new float[]{
-                            topLeftRadius, topLeftRadius,
-                            topRightRadius, topRightRadius,
-                            bottomRightRadius, bottomRightRadius,
-                            bottomLeftRadius, bottomLeftRadius
-                    });
+                    gradientDrawable.setCornerRadii(new float[]{topLeftRadius, topLeftRadius, topRightRadius, topRightRadius, bottomRightRadius, bottomRightRadius, bottomLeftRadius, bottomLeftRadius});
                 }
             } else if (name.equals("padding")) {
                 final int paddingLeft = DrawableUtils.getAttrDimensionPixelOffset(context, attrs, android.R.attr.left);
@@ -208,9 +198,7 @@ class GradientDrawableInflateImpl implements DrawableInflateDelegate {
             boolean radiusRel = value.type == TypedValue.TYPE_FRACTION;
             drawable.setGradientRadius(radiusRel ? value.getFraction(1.0f, 1.0f) : value.getFloat());
         } else if (gradientType == GradientDrawable.RADIAL_GRADIENT) {
-            throw new XmlPullParserException(
-                    "<gradient> tag requires 'gradientRadius' "
-                            + "attribute with radial type");
+            throw new XmlPullParserException("<gradient> tag requires 'gradientRadius' " + "attribute with radial type");
         }
         a.recycle();
     }
@@ -260,8 +248,6 @@ class GradientDrawableInflateImpl implements DrawableInflateDelegate {
     }
 
     int getAlphaColor(int baseColor, float alpha) {
-        return alpha != 1.0f
-                ? ColorUtils.setAlphaComponent(baseColor, Math.round(Color.alpha(baseColor) * alpha))
-                : baseColor;
+        return alpha != 1.0f ? ColorUtils.setAlphaComponent(baseColor, Math.round(Color.alpha(baseColor) * alpha)) : baseColor;
     }
 }

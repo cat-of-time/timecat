@@ -96,9 +96,7 @@ public class DonateActivity extends BaseActivity {
 
         String qq = getString(R.string.join_qq);
         donateMsg = findViewById(R.id.donate_msg);
-        donateMsg.setText(Html.fromHtml(getString(R.string.thinks_for_donate)
-                + "<br /><br /><a href='" + qqJump + "'>" + qq + "</a>"
-                + "<br /><br /><a href='" + zhifubao + "'>" + donate + "</a>"));
+        donateMsg.setText(Html.fromHtml(getString(R.string.thinks_for_donate) + "<br /><br /><a href='" + qqJump + "'>" + qq + "</a>" + "<br /><br /><a href='" + zhifubao + "'>" + donate + "</a>"));
         donateMsg.setMovementMethod(CountLinkMovementMethod.getInstance());
     }
 

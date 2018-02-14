@@ -61,6 +61,25 @@ import rx.schedulers.Schedulers;
 public class TimeCatActivity extends BaseActivity implements ActivityPresenter, TimeCatLayoutWrapper.ActionListener {
     public static final String TO_SPLIT_STR = "to_split_str";
     private static final String DEVIDER = "__DEVIDER___DEVIDER__";
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    private TimeCatLayout timeCatLayout;
+    private TimeCatLayoutWrapper timeCatLayoutWrapper;
+    private ContentLoadingProgressBar loading;
+    //</生命周期>-------------------------------------------------------------------------------------
+    private SwipeMenuRecyclerView mAppsRecyclerView;
+    private View mAppsRecyclerViewLL;
+    private EditText toTrans;
+    private EditText transResult;
+    private RelativeLayout transRl;
+    private EditText add_task_et_title;
+    private EditText add_task_et_content;
+    private RelativeLayout add_task_rl;
+    private int alpha;
+    private int lastPickedColor;
+    private boolean remainSymbol = true;
+    private String originString;
+    private String mSelectText;
+    private List<String> netWordSegments;
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -101,31 +120,6 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
             super.onBackPressed();
         }
     }
-    //</生命周期>-------------------------------------------------------------------------------------
-
-
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
-    private TimeCatLayout timeCatLayout;
-    private TimeCatLayoutWrapper timeCatLayoutWrapper;
-    private ContentLoadingProgressBar loading;
-
-    private SwipeMenuRecyclerView mAppsRecyclerView;
-    private View mAppsRecyclerViewLL;
-
-    private EditText toTrans;
-    private EditText transResult;
-    private RelativeLayout transRl;
-
-    private EditText add_task_et_title;
-    private EditText add_task_et_content;
-    private RelativeLayout add_task_rl;
-
-    private int alpha;
-    private int lastPickedColor;
-    private boolean remainSymbol = true;
-    private String originString;
-    private String mSelectText;
-    private List<String> netWordSegments;
 
     @Override
     public void initView() {//必须调用
@@ -145,14 +139,12 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
             setTheme(R.style.PreSettingTheme);
             setContentView(R.layout.activity_time_cat);
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.timecat_activity_window_full));
-            getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor),
-                    Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+            getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
             showAppList4OneStep();
         } else {
             CardView cardView = new CardView(this);
             cardView.setRadius(ViewUtil.dp2px(10));
-            cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor),
-                    Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+            cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
             View view = LayoutInflater.from(this).inflate(R.layout.activity_time_cat, null, false);
             cardView.addView(view);
 
@@ -306,39 +298,33 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     }
 
     private void getSegment(String str) {
-        RetrofitHelper.getWordSegmentService()
-                .getWordSegsList(str)
-                .compose(this.bindToLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(5000, TimeUnit.MILLISECONDS)
-                .subscribe(recommendInfo -> {
-                    LogUtil.d(recommendInfo.toString());
-                    List<String> txts = recommendInfo.get(0).getWord();
-                    netWordSegments = txts;
-                    timeCatLayout.reset();
-                    for (String t : txts) {
-                        timeCatLayout.addTextItem(t);
-                    }
-                    loading.hide();
-                    timeCatLayoutWrapper.setVisibility(View.VISIBLE);
+        RetrofitHelper.getWordSegmentService().getWordSegsList(str).compose(this.bindToLifecycle()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).timeout(5000, TimeUnit.MILLISECONDS).subscribe(recommendInfo -> {
+            LogUtil.d(recommendInfo.toString());
+            List<String> txts = recommendInfo.get(0).getWord();
+            netWordSegments = txts;
+            timeCatLayout.reset();
+            for (String t : txts) {
+                timeCatLayout.addTextItem(t);
+            }
+            loading.hide();
+            timeCatLayoutWrapper.setVisibility(View.VISIBLE);
 
-                    if (!SPHelper.getBoolean(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, false)) {
-                        ToastUtil.show(R.string.bb_long_press_toast);
-                        SPHelper.save(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, true);
-                    }
-                }, throwable -> {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            LogUtil.d(throwable.toString());
-                            ToastUtil.show(R.string.no_internet_for_fenci);
+            if (!SPHelper.getBoolean(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, false)) {
+                ToastUtil.show(R.string.bb_long_press_toast);
+                SPHelper.save(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, true);
+            }
+        }, throwable -> {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    LogUtil.d(throwable.toString());
+                    ToastUtil.show(R.string.no_internet_for_fenci);
 
-                            timeCatLayoutWrapper.onSwitchType(true);
-                        }
-                    });
+                    timeCatLayoutWrapper.onSwitchType(true);
+                }
+            });
 
-                });
+        });
     }
 
     @NonNull
@@ -353,8 +339,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
                 break;
             }
             char next = str.charAt(i + 1);
-            if ((RegexUtil.isChinese(first) && !RegexUtil.isChinese(next)) || (!RegexUtil.isChinese(first) && RegexUtil.isChinese(next)) ||
-                    (Character.isLetter(first) && !Character.isLetter(next)) || (Character.isDigit(first) && !Character.isDigit(next))) {
+            if ((RegexUtil.isChinese(first) && !RegexUtil.isChinese(next)) || (!RegexUtil.isChinese(first) && RegexUtil.isChinese(next)) || (Character.isLetter(first) && !Character.isLetter(next)) || (Character.isDigit(first) && !Character.isDigit(next))) {
                 s = s + first + DEVIDER;
             } else if (RegexUtil.isSymbol(first)) {
                 s = s + DEVIDER + first + DEVIDER;
@@ -366,8 +351,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         str.replace("\n", DEVIDER + "\n" + DEVIDER);
         String[] texts = str.split(DEVIDER);
         for (String text : texts) {
-            if (text.equals(DEVIDER))
-                continue;
+            if (text.equals(DEVIDER)) continue;
             //当首字母是英文字母时，默认该字符为英文
             if (RegexUtil.isEnglish(text)) {
                 txts.add(text);
@@ -531,21 +515,16 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         toTrans.setText(text);
         toTrans.setSelection(text.length());
         transResult.setText("正在翻译");
-        RetrofitHelper.getTranslationService()
-                .getTranslationItem(text.replaceAll("\n", ""))
-                .compose(TimeCatActivity.this.bindToLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(recommendInfo -> {
-                    List<String> transes = recommendInfo.getTranslation();
-                    if (transes.size() > 0) {
-                        String trans = transes.get(0);
-                        transResult.setText(trans);
-                    }
-                    LogUtil.d(recommendInfo.toString());
-                }, throwable -> {
-                    LogUtil.d(throwable.toString());
-                });
+        RetrofitHelper.getTranslationService().getTranslationItem(text.replaceAll("\n", "")).compose(TimeCatActivity.this.bindToLifecycle()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(recommendInfo -> {
+            List<String> transes = recommendInfo.getTranslation();
+            if (transes.size() > 0) {
+                String trans = transes.get(0);
+                transResult.setText(trans);
+            }
+            LogUtil.d(recommendInfo.toString());
+        }, throwable -> {
+            LogUtil.d(throwable.toString());
+        });
     }
 
     @Override

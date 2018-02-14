@@ -48,9 +48,7 @@ class StateListDrawableInflateImpl implements DrawableInflateDelegate {
         int type;
         int depth;
 
-        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT
-                && ((depth = parser.getDepth()) >= innerDepth
-                || type != XmlPullParser.END_TAG)) {
+        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
             if (type != XmlPullParser.START_TAG) {
                 continue;
             }
@@ -70,10 +68,7 @@ class StateListDrawableInflateImpl implements DrawableInflateDelegate {
                 while ((type = parser.next()) == XmlPullParser.TEXT) {
                 }
                 if (type != XmlPullParser.START_TAG) {
-                    throw new XmlPullParserException(
-                            parser.getPositionDescription()
-                                    + ": <item> tag requires a 'drawable' attribute or "
-                                    + "child tag defining a drawable");
+                    throw new XmlPullParserException(parser.getPositionDescription() + ": <item> tag requires a 'drawable' attribute or " + "child tag defining a drawable");
                 }
                 dr = DrawableUtils.createFromXmlInner(context, parser, attrs);
             } else {

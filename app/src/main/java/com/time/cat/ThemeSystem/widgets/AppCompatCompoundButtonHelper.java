@@ -36,11 +36,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @time 15/11/23
  */
 public class AppCompatCompoundButtonHelper extends AppCompatBaseHelper {
-    private static final int[] ATTRS = {
-            android.R.attr.button,
-            R.attr.compoundButtonTint,
-            R.attr.compoundButtonTintMode
-    };
+    private static final int[] ATTRS = {android.R.attr.button, R.attr.compoundButtonTint, R.attr.compoundButtonTintMode};
 
     private TintInfo mCompoundButtonTintInfo;
     private int mCompoundButtonResId;
@@ -85,8 +81,7 @@ public class AppCompatCompoundButtonHelper extends AppCompatBaseHelper {
 
             if (resId != 0) {
                 Drawable drawable = mTintManager.getDrawable(resId);
-                setButtonDrawable(
-                        drawable != null ? drawable : ContextCompat.getDrawable(mView.getContext(), resId));
+                setButtonDrawable(drawable != null ? drawable : ContextCompat.getDrawable(mView.getContext(), resId));
             }
         }
     }

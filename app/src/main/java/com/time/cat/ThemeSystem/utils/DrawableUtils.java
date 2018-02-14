@@ -54,8 +54,7 @@ public abstract class DrawableUtils {
         res.getValue(resId, typedValue, true);
         Drawable dr = null;
 
-        if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
-                && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+        if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
             dr = new ColorDrawable(ThemeUtils.replaceColorById(context, resId));
         } else {
             try {
@@ -64,8 +63,7 @@ public abstract class DrawableUtils {
                     final AttributeSet attrs = Xml.asAttributeSet(rp);
                     int type;
 
-                    while ((type = rp.next()) != XmlPullParser.START_TAG &&
-                            type != XmlPullParser.END_DOCUMENT) {
+                    while ((type = rp.next()) != XmlPullParser.START_TAG && type != XmlPullParser.END_DOCUMENT) {
                         // Empty loop
                     }
                     if (type != XmlPullParser.START_TAG) {
@@ -118,6 +116,7 @@ public abstract class DrawableUtils {
      * Extracts state_ attributes from an attribute set.
      *
      * @param attrs The attribute set.
+     *
      * @return An array of state_ attributes.
      */
     static int[] extractStateSet(AttributeSet attrs) {
@@ -128,16 +127,12 @@ public abstract class DrawableUtils {
             final int stateResId = attrs.getAttributeNameResource(i);
             if (stateResId == 0) {
                 break;
-            } else if (stateResId == android.R.attr.drawable
-                    || stateResId == android.R.attr.id
-                    || stateResId == R.attr.drawableTint
-                    || stateResId == R.attr.drawableTintMode) {
+            } else if (stateResId == android.R.attr.drawable || stateResId == android.R.attr.id || stateResId == R.attr.drawableTint || stateResId == R.attr.drawableTintMode) {
                 // Ignore attributes from StateListDrawableItem and
                 // AnimatedStateListDrawableItem.
                 continue;
             } else {
-                states[j++] = attrs.getAttributeBooleanValue(i, false)
-                        ? stateResId : -stateResId;
+                states[j++] = attrs.getAttributeBooleanValue(i, false) ? stateResId : -stateResId;
             }
         }
         states = StateSet.trimStateSet(states, j);
@@ -265,8 +260,7 @@ public abstract class DrawableUtils {
         return id;
     }
 
-    static TypedArray obtainAttributes(
-            Resources res, Resources.Theme theme, AttributeSet set, int[] attrs) {
+    static TypedArray obtainAttributes(Resources res, Resources.Theme theme, AttributeSet set, int[] attrs) {
         if (theme == null) {
             return res.obtainAttributes(set, attrs);
         }
@@ -286,8 +280,7 @@ public abstract class DrawableUtils {
             case 15:
                 return PorterDuff.Mode.SCREEN;
             case 16:
-                return Build.VERSION.SDK_INT >= 11 ? PorterDuff.Mode.valueOf("ADD")
-                        : defaultMode;
+                return Build.VERSION.SDK_INT >= 11 ? PorterDuff.Mode.valueOf("ADD") : defaultMode;
             default:
                 return defaultMode;
         }

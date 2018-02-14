@@ -64,8 +64,7 @@ public class ArcMenu extends FrameLayout {
 
     private static Animation createItemDisapperAnimation(final long duration, final boolean isClicked) {
         AnimationSet animationSet = new AnimationSet(true);
-        animationSet.addAnimation(new ScaleAnimation(1.0f, isClicked ? 2.0f : 0.0f, 1.0f, isClicked ? 2.0f : 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f));
+        animationSet.addAnimation(new ScaleAnimation(1.0f, isClicked ? 2.0f : 0.0f, 1.0f, isClicked ? 2.0f : 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f));
         animationSet.addAnimation(new AlphaAnimation(1.0f, 0.0f));
 
         animationSet.setDuration(duration);
@@ -76,8 +75,7 @@ public class ArcMenu extends FrameLayout {
     }
 
     private static Animation createHintSwitchAnimation(final boolean expanded) {
-        Animation animation = new RotateAnimation(expanded ? 45 : 0, expanded ? 0 : 45, Animation.RELATIVE_TO_SELF,
-                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        Animation animation = new RotateAnimation(expanded ? 45 : 0, expanded ? 0 : 45, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         animation.setStartOffset(0);
         animation.setDuration(100);
         animation.setInterpolator(new DecelerateInterpolator());
@@ -104,8 +102,7 @@ public class ArcMenu extends FrameLayout {
                     mArcLayout.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (mOnModeSeleter != null)
-                                mOnModeSeleter.onModeSelected();
+                            if (mOnModeSeleter != null) mOnModeSeleter.onModeSelected();
                         }
                     }, 350);
 

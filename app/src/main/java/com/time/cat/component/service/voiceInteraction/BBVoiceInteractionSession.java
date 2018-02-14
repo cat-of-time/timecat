@@ -11,9 +11,9 @@ import android.os.Handler;
 import android.service.voice.VoiceInteractionSession;
 import android.view.KeyEvent;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.KeyPressedTipViewController;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 /**
  * Created by penglu on 2016/12/16.

@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.AutoCompleteTextView;
 
 import com.time.cat.ThemeSystem.utils.TintManager;
 
@@ -28,8 +27,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @author xyczero617@gmail.com
  * @time 16/2/14
  */
-public class TintAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible,
-        AppCompatCompoundDrawableHelper.CompoundDrawableExtensible {
+public class TintAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatCompoundDrawableHelper.CompoundDrawableExtensible {
     private AppCompatBackgroundHelper mBackgroundHelper;
     private AppCompatCompoundDrawableHelper mCompoundDrawableHelper;
 

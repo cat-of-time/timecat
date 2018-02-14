@@ -45,8 +45,7 @@ public class ColorStateListUtils {
         TypedValue value = new TypedValue();
         context.getResources().getValue(resId, value, true);
         ColorStateList cl = null;
-        if (value.type >= TypedValue.TYPE_FIRST_COLOR_INT
-                && value.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+        if (value.type >= TypedValue.TYPE_FIRST_COLOR_INT && value.type <= TypedValue.TYPE_LAST_COLOR_INT) {
             //Assume that "color/theme_color_primary" and "color/theme_color_profile" have the same color value;
             //However, "color/theme_color_primary" need to replace by themeId, "color/theme_color_profile" not.
             //If use value.data may cause "color/theme_color_profile" still been replaced by themeId
@@ -55,13 +54,11 @@ public class ColorStateListUtils {
             final String file = value.string.toString();
             try {
                 if (file.endsWith("xml")) {
-                    final XmlResourceParser rp = context.getResources().getAssets().openXmlResourceParser(
-                            value.assetCookie, file);
+                    final XmlResourceParser rp = context.getResources().getAssets().openXmlResourceParser(value.assetCookie, file);
                     final AttributeSet attrs = Xml.asAttributeSet(rp);
                     int type;
 
-                    while ((type = rp.next()) != XmlPullParser.START_TAG
-                            && type != XmlPullParser.END_DOCUMENT) {
+                    while ((type = rp.next()) != XmlPullParser.START_TAG && type != XmlPullParser.END_DOCUMENT) {
                         // Seek parser to start tag.
                     }
 
@@ -85,8 +82,7 @@ public class ColorStateListUtils {
 
         final String name = parser.getName();
         if (!name.equals("selector")) {
-            throw new XmlPullParserException(
-                    parser.getPositionDescription() + ": invalid color state list tag " + name);
+            throw new XmlPullParserException(parser.getPositionDescription() + ": invalid color state list tag " + name);
         }
 
         return inflateColorStateList(context, parser, attrs);
@@ -100,10 +96,8 @@ public class ColorStateListUtils {
         LinkedList<int[]> stateList = new LinkedList<>();
         LinkedList<Integer> colorList = new LinkedList<>();
 
-        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT
-                && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
-            if (type != XmlPullParser.START_TAG || depth > innerDepth
-                    || !parser.getName().equals("item")) {
+        while ((type = parser.next()) != XmlPullParser.END_DOCUMENT && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
+            if (type != XmlPullParser.START_TAG || depth > innerDepth || !parser.getName().equals("item")) {
                 continue;
             }
 
@@ -114,9 +108,7 @@ public class ColorStateListUtils {
             TypedArray a2 = context.obtainStyledAttributes(attrs, new int[]{android.R.attr.alpha});
             final float alphaMod = a2.getFloat(0, 1.0f);
             a2.recycle();
-            colorList.add(alphaMod != 1.0f
-                    ? ColorUtils.setAlphaComponent(baseColor, Math.round(Color.alpha(baseColor) * alphaMod))
-                    : baseColor);
+            colorList.add(alphaMod != 1.0f ? ColorUtils.setAlphaComponent(baseColor, Math.round(Color.alpha(baseColor) * alphaMod)) : baseColor);
 
             stateList.add(extractStateSet(attrs));
         }
@@ -146,8 +138,7 @@ public class ColorStateListUtils {
                     // AnimatedStateListDrawableItem.
                     continue;
                 default:
-                    states[j++] = attrs.getAttributeBooleanValue(i, false)
-                            ? stateResId : -stateResId;
+                    states[j++] = attrs.getAttributeBooleanValue(i, false) ? stateResId : -stateResId;
             }
         }
         states = StateSet.trimStateSet(states, j);

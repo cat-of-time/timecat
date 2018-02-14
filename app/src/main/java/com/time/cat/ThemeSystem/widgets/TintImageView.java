@@ -27,8 +27,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @author xyczero617@gmail.com
  * @time 15/11/8
  */
-public class TintImageView extends android.support.v7.widget.AppCompatImageView implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible
-        , AppCompatImageHelper.ImageExtensible {
+public class TintImageView extends android.support.v7.widget.AppCompatImageView implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatImageHelper.ImageExtensible {
     private AppCompatBackgroundHelper mBackgroundHelper;
     private AppCompatImageHelper mImageHelper;
 

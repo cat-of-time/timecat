@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 public abstract class ClipboardManagerCompat {
 
-    protected final ArrayList<OnPrimaryClipChangedListener> mPrimaryClipChangedListeners
-            = new ArrayList<OnPrimaryClipChangedListener>();
+    protected final ArrayList<OnPrimaryClipChangedListener> mPrimaryClipChangedListeners = new ArrayList<OnPrimaryClipChangedListener>();
 
     public static ClipboardManagerCompat create(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

@@ -57,15 +57,44 @@ import java.util.Queue;
  * @date 2018/1/19
  */
 @SuppressLint("SetTextI18n")
-public class MainActivity extends BaseActivity implements
-                                               ActivityPresenter,
-                                               OnDateChangeListener,
-                                               DialogThemeFragment.ClickListener,
-                                               ViewPager.OnPageChangeListener,
-                                               BottomNavigationView.OnNavigationItemSelectedListener,
-                                               View.OnClickListener {
+public class MainActivity extends BaseActivity implements ActivityPresenter, OnDateChangeListener, DialogThemeFragment.ClickListener, ViewPager.OnPageChangeListener, BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private static final String TAG = "MainActivity";
+    private static final int REQUEST_LOGIN = 0;
+    /**
+     * canOpenDrawer[0]是控制侧滑栏抽屉何时打开的重要参数
+     * {state-[1开始2进行中0完毕]
+     * -[1->2->0 viewpage间的切换, 1->0 viewpage与drawer间的切换] }
+     */
+    final int[] canOpenDrawer = {0};
+    Toolbar toolbar;
+    //-//<BottomNavigationView.OnNavigationItemSelectedListener>------------------------------------
+    String[] fragmentNames;
+    //</生命周期>------------------------------------------------------------------------------------
+    boolean active = false;
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    private ActionBar ab;
+    private Menu menu;
+    private LeftDrawerManager leftDrawer;
 
+    private TextView tvYear;
+    private TextView tvMonth;
+
+    private CustomPagerView customPagerView;
+    private CustomPagerViewAdapter customPagerViewAdapter;
+
+    private BottomNavigationView navigation;
+
+    private FloatingActionButton fab;
+    private FloatingActionsMenu addButton;
+    private FabMenuManager fabMgr;
+    //-//<SchedulesFragment.OnDateChangeListener>--------------------------------------------------------
+    private boolean isToday;
+    //-//<Method called from the event bus>--------------------------------------------------------------------
+    private Handler handler;
+    private Queue<Object> pendingEvents = new LinkedList<>();
+    private DBUser activeUser;
+    //<回调接口>-------------------------------------------------------------------------------------
+    private OnViewClickListener mViewClickListener;
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -84,6 +113,7 @@ public class MainActivity extends BaseActivity implements
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -98,36 +128,20 @@ public class MainActivity extends BaseActivity implements
             onEvent(pendingEvents.poll());
         }
     }
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
+
     @Override
     protected void onPause() {
         active = false;
         super.onPause();
     }
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-    //</生命周期>------------------------------------------------------------------------------------
 
-
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
-    private ActionBar ab;
-
-    private Menu menu;
-    Toolbar toolbar;
-    private LeftDrawerManager leftDrawer;
-
-    private TextView tvYear;
-    private TextView tvMonth;
-
-    private CustomPagerView customPagerView;
-    private CustomPagerViewAdapter customPagerViewAdapter;
-
-    private BottomNavigationView navigation;
-
-    private FloatingActionButton fab;
-    private FloatingActionsMenu addButton;
-    private FabMenuManager fabMgr;
     @Override
     public void initView() {//必须调用
         switch (ThemeManager.getTheme(this)) {
@@ -174,6 +188,7 @@ public class MainActivity extends BaseActivity implements
         ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         ab.setTitle("");
     }
+    //-//</BottomNavigationView.OnNavigationItemSelectedListener>-----------------------------------
 
     /**
      * 多界面
@@ -219,16 +234,17 @@ public class MainActivity extends BaseActivity implements
             }
         }
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
-
+    //-//</Activity>--------------------------------------------------------------------------------
 
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {//必须调用
 
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+    //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
 
+
+    //-//<ViewPager.OnPageChangeListener>-----------------------------------------------------------
 
     //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
     @Override
@@ -237,9 +253,6 @@ public class MainActivity extends BaseActivity implements
         navigation.setOnNavigationItemSelectedListener(this);
         subscribeToEvents();
     }
-
-    //-//<BottomNavigationView.OnNavigationItemSelectedListener>------------------------------------
-    String[] fragmentNames;
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -289,8 +302,6 @@ public class MainActivity extends BaseActivity implements
                 break;
         }
     }
-    //-//</BottomNavigationView.OnNavigationItemSelectedListener>-----------------------------------
-
 
     //-//<Activity>---------------------------------------------------------------------------------
     @Override
@@ -299,6 +310,7 @@ public class MainActivity extends BaseActivity implements
         this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
+    //-//</ViewPager.OnPageChangeListener>----------------------------------------------------------
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -334,8 +346,6 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    private static final int REQUEST_LOGIN = 0;
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_LOGIN) {
@@ -351,8 +361,7 @@ public class MainActivity extends BaseActivity implements
             }
         }
     }
-    //-//</Activity>--------------------------------------------------------------------------------
-
+    //-//</SchedulesFragment.OnDateChangeListener>-------------------------------------------------------
 
     //-//<DialogThemeFragment.ClickListener>--------------------------------------------------------
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -377,8 +386,7 @@ public class MainActivity extends BaseActivity implements
                     //for global setting, just do once
                     if (Build.VERSION.SDK_INT >= 21) {
                         final MainActivity context = MainActivity.this;
-                        ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(null, null,
-                                ThemeUtils.getThemeAttrColor(context, android.R.attr.colorPrimary));
+                        ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(null, null, ThemeUtils.getThemeAttrColor(context, android.R.attr.colorPrimary));
                         setTaskDescription(taskDescription);
                         getWindow().setStatusBarColor(ThemeUtils.getColorById(context, R.color.theme_color_primary));
                     }
@@ -398,16 +406,7 @@ public class MainActivity extends BaseActivity implements
             fabMgr.onUserUpdate(activeUser);
         }
     }
-    //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
-
-
-    //-//<ViewPager.OnPageChangeListener>-----------------------------------------------------------
-    /**
-     * canOpenDrawer[0]是控制侧滑栏抽屉何时打开的重要参数
-     * {state-[1开始2进行中0完毕]
-     * -[1->2->0 viewpage间的切换, 1->0 viewpage与drawer间的切换] }
-     */
-    final int[] canOpenDrawer = {0};
+    //-//</View.OnClickListener>--------------------------------------------------------------------
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -445,11 +444,6 @@ public class MainActivity extends BaseActivity implements
             }
         }
     }
-    //-//</ViewPager.OnPageChangeListener>----------------------------------------------------------
-
-
-    //-//<SchedulesFragment.OnDateChangeListener>--------------------------------------------------------
-    private boolean isToday;
 
     @Override
     public void onDateChange(int year, int month, boolean isToday) {
@@ -466,8 +460,6 @@ public class MainActivity extends BaseActivity implements
             }
         }
     }
-    //-//</SchedulesFragment.OnDateChangeListener>-------------------------------------------------------
-
 
     //-//<View.OnClickListener>---------------------------------------------------------------------
     @Override
@@ -475,13 +467,7 @@ public class MainActivity extends BaseActivity implements
         switch (view.getId()) {
         }
     }
-    //-//</View.OnClickListener>--------------------------------------------------------------------
-
-    //-//<Method called from the event bus>--------------------------------------------------------------------
-    private Handler handler;
-    private Queue<Object> pendingEvents = new LinkedList<>();
-    boolean active = false;
-    private DBUser activeUser;
+    //-//</Method called from the event bus>--------------------------------------------------------------------
 
     public void onEvent(final Object evt) {
         if (active) {
@@ -514,7 +500,6 @@ public class MainActivity extends BaseActivity implements
             pendingEvents.add(evt);
         }
     }
-    //-//</Method called from the event bus>--------------------------------------------------------------------
 
     public void launchActivityDelayed(final Class<?> activityClazz, int delay) {
         new Handler().postDelayed(new Runnable() {
@@ -526,21 +511,19 @@ public class MainActivity extends BaseActivity implements
         }, delay);
 
     }
+
     private void launchActivity(Intent i) {
         startActivity(i);
         this.overridePendingTransition(0, 0);
     }
+    //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
+
     public void onUserUpdate(DBUser user) {
 //        DB.users().setActive(user, this);
         leftDrawer.onUserUpdated(user);
         fabMgr.onUserUpdate(user);
         refreshTheme(MainActivity.this, user.color());
     }
-    //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
-
-
-    //<回调接口>-------------------------------------------------------------------------------------
-    private OnViewClickListener mViewClickListener;
 
     public void setOnViewClickListener(OnViewClickListener onViewClickListener) {
         mViewClickListener = onViewClickListener;

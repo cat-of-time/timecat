@@ -9,10 +9,10 @@ import java.util.List;
  * @discription 日程类
  */
 public class Task {
-    public static final int LABEL_IMPORTANT_URGENT= 0;
-    public static final int LABEL_IMPORTANT_NOT_URGENT= 1;
-    public static final int LABEL_NOT_IMPORTANT_URGENT= 2;
-    public static final int LABEL_NOT_IMPORTANT_NOT_URGENT= 3;
+    public static final int LABEL_IMPORTANT_URGENT = 0;
+    public static final int LABEL_IMPORTANT_NOT_URGENT = 1;
+    public static final int LABEL_NOT_IMPORTANT_URGENT = 2;
+    public static final int LABEL_NOT_IMPORTANT_NOT_URGENT = 3;
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,8 @@ public class Task {
     private boolean allDay;//是否全天，1 - 是，0 - 不是
     private boolean isFinish;//是否完成，1 - 是，0 - 不是
 
-    public Task() {}
+    public Task() {
+    }
 
     public String getTitle() {
         return this.title;

@@ -11,10 +11,10 @@ import android.service.quicksettings.TileService;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.TotalSwitchActivity;
 import com.time.cat.util.ConstantUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 /**
  * Created by wangyan-pd on 2017/1/12.

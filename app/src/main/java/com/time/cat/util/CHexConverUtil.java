@@ -8,7 +8,9 @@ package com.time.cat.util;
 public class CHexConverUtil {
     /**
      * 字符串转换成十六进制字符串
+     *
      * @param str 待转换的ASCII字符串
+     *
      * @return String 每个Byte之间空格分隔，如: [61 6C 6B]
      */
     public static String str2HexStr(String str) {
@@ -30,7 +32,9 @@ public class CHexConverUtil {
 
     /**
      * 十六进制转换字符串
+     *
      * @param hexStr Byte字符串(Byte之间无分隔符 如:[616C6B])
+     *
      * @return String 对应的字符串
      */
     public static String hexStr2Str(String hexStr) {
@@ -49,7 +53,9 @@ public class CHexConverUtil {
 
     /**
      * bytes转换成十六进制字符串
+     *
      * @param b byte数组
+     *
      * @return String 每个Byte值之间空格分隔
      */
     public static String byte2HexStr(byte[] b) {
@@ -65,7 +71,9 @@ public class CHexConverUtil {
 
     /**
      * bytes字符串转换为Byte值
+     *
      * @param src Byte字符串，每个Byte之间没有分隔符
+     *
      * @return byte[]
      */
     public static byte[] hexStr2Bytes(String src) {
@@ -83,7 +91,9 @@ public class CHexConverUtil {
 
     /**
      * String的字符串转换成unicode的String
+     *
      * @param strText strText 全角字符串
+     *
      * @return String 每个unicode之间无分隔符
      * @throws Exception
      */
@@ -105,7 +115,9 @@ public class CHexConverUtil {
 
     /**
      * unicode的String转换成String的字符串
+     *
      * @param hex hex 16进制值字符串 （一个unicode为2byte）
+     *
      * @return String 全角字符串
      */
     public static String unicodeToString(String hex) {
@@ -130,8 +142,8 @@ public class CHexConverUtil {
     /**
      * 数字字符串转ASCII码字符串
      *
-     * @param content
-     *            字符串
+     * @param content 字符串
+     *
      * @return ASCII字符串
      */
     public static String StringToAsciiString(String content) {
@@ -148,10 +160,9 @@ public class CHexConverUtil {
     /**
      * 十六进制转字符串
      *
-     * @param hexString
-     *            十六进制字符串
-     * @param encodeType
-     *            编码类型4：Unicode，2：普通编码
+     * @param hexString  十六进制字符串
+     * @param encodeType 编码类型4：Unicode，2：普通编码
+     *
      * @return 字符串
      */
     public static String hexStringToString(String hexString, int encodeType) {
@@ -167,8 +178,8 @@ public class CHexConverUtil {
     /**
      * 十六进制字符串装十进制
      *
-     * @param hex
-     *            十六进制字符串
+     * @param hex 十六进制字符串
+     *
      * @return 十进制数值
      */
     public static int hexStringToAlgorism(String hex) {
@@ -191,8 +202,8 @@ public class CHexConverUtil {
     /**
      * 十六转二进制
      *
-     * @param hex
-     *            十六进制字符串
+     * @param hex 十六进制字符串
+     *
      * @return 二进制字符串
      */
     public static String hexStringToBinary(String hex) {
@@ -258,8 +269,8 @@ public class CHexConverUtil {
     /**
      * ASCII码字符串转数字字符串
      *
-     * @param content
-     *            ASCII字符串
+     * @param content ASCII字符串
+     *
      * @return 字符串
      */
     public static String AsciiStringToString(String content) {
@@ -278,10 +289,9 @@ public class CHexConverUtil {
     /**
      * 将十进制转换为指定长度的十六进制字符串
      *
-     * @param algorism
-     *            int 十进制数字
-     * @param maxLength
-     *            int 转换后的十六进制字符串长度
+     * @param algorism  int 十进制数字
+     * @param maxLength int 转换后的十六进制字符串长度
+     *
      * @return String 转换后的十六进制字符串
      */
     public static String algorismToHEXString(int algorism, int maxLength) {
@@ -297,8 +307,8 @@ public class CHexConverUtil {
     /**
      * 字节数组转为普通字符串（ASCII对应的字符）
      *
-     * @param bytearray
-     *            byte[]
+     * @param bytearray byte[]
+     *
      * @return String
      */
     public static String bytetoString(byte[] bytearray) {
@@ -316,8 +326,8 @@ public class CHexConverUtil {
     /**
      * 二进制字符串转十进制
      *
-     * @param binary
-     *            二进制字符串
+     * @param binary 二进制字符串
+     *
      * @return 十进制数值
      */
     public static int binaryToAlgorism(String binary) {
@@ -334,8 +344,8 @@ public class CHexConverUtil {
     /**
      * 十进制转换为十六进制字符串
      *
-     * @param algorism
-     *            int 十进制的数字
+     * @param algorism int 十进制的数字
+     *
      * @return String 对应的十六进制字符串
      */
     public static String algorismToHEXString(int algorism) {
@@ -354,10 +364,9 @@ public class CHexConverUtil {
     /**
      * HEX字符串前补0，主要用于长度位数不足。
      *
-     * @param str
-     *            String 需要补充长度的十六进制字符串
-     * @param maxLength
-     *            int 补充后十六进制字符串的长度
+     * @param str       String 需要补充长度的十六进制字符串
+     * @param maxLength int 补充后十六进制字符串的长度
+     *
      * @return 补充结果
      */
     static public String patchHexString(String str, int maxLength) {
@@ -372,12 +381,10 @@ public class CHexConverUtil {
     /**
      * 将一个字符串转换为int
      *
-     * @param s
-     *            String 要转换的字符串
-     * @param defaultInt
-     *            int 如果出现异常,默认返回的数字
-     * @param radix
-     *            int 要转换的字符串是什么进制的,如16 8 10.
+     * @param s          String 要转换的字符串
+     * @param defaultInt int 如果出现异常,默认返回的数字
+     * @param radix      int 要转换的字符串是什么进制的,如16 8 10.
+     *
      * @return int 转换后的数字
      */
     public static int parseToInt(String s, int defaultInt, int radix) {
@@ -393,10 +400,9 @@ public class CHexConverUtil {
     /**
      * 将一个十进制形式的数字字符串转换为int
      *
-     * @param s
-     *            String 要转换的字符串
-     * @param defaultInt
-     *            int 如果出现异常,默认返回的数字
+     * @param s          String 要转换的字符串
+     * @param defaultInt int 如果出现异常,默认返回的数字
+     *
      * @return int 转换后的数字
      */
     public static int parseToInt(String s, int defaultInt) {
@@ -412,8 +418,8 @@ public class CHexConverUtil {
     /**
      * 十六进制字符串转为Byte数组,每两个十六进制字符转为一个Byte
      *
-     * @param hex
-     *            十六进制字符串
+     * @param hex 十六进制字符串
+     *
      * @return byte 转换结果
      */
     public static byte[] hexStringToByte(String hex) {
@@ -451,8 +457,8 @@ public class CHexConverUtil {
     /**
      * 字节数组转换为十六进制字符串
      *
-     * @param b
-     *            byte[] 需要转换的字节数组
+     * @param b byte[] 需要转换的字节数组
+     *
      * @return String 十六进制字符串
      */
     public static final String byte2hex(byte b[]) {

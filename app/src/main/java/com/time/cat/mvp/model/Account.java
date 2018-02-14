@@ -11,13 +11,14 @@ public class Account {
     String url;
     String user;
 
-    public Account (){
+    public Account() {
         nickname = "temp";
     }
 
     public String getNickname() {
         return nickname;
     }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -25,6 +26,7 @@ public class Account {
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -32,6 +34,7 @@ public class Account {
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -39,6 +42,7 @@ public class Account {
     public String getUser() {
         return user;
     }
+
     public void setUser(String user) {
         this.user = user;
     }

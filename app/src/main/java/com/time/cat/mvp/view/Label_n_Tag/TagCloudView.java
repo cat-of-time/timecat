@@ -26,44 +26,12 @@ public class TagCloudView extends ViewGroup {
 
     private static final String TAG = TagCloudView.class.getSimpleName();
     private static final int TYPE_TEXT_NORMAL = 1;
-    private List<String> tags;
-
-    private LayoutInflater mInflater;
-    private OnTagClickListener onTagClickListener;
-
-    private int sizeWidth;
-    private int sizeHeight;
-
-    private float mTagSize;
-    private int mTagColor;
-    private int mBackground;
-    private int mViewBorder;
-    private int mTagBorderHor;
-    private int mTagBorderVer;
-
-    private int mTagResId;
-    private int mRightImageResId;
-    private boolean mSingleLine;
-    private boolean mShowRightImage;
-    private boolean mShowEndText;
-    private boolean mCanTagClick;
-    private String endTextString;
-
-    private int imageWidth;
-    private int imageHeight;
-    private ImageView imageView = null;
-
-    private int endTextWidth = 0;
-    private int endTextHeight = 0;
-    private TextView endText = null;
-
     private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
     private static final int DEFAULT_TEXT_SIZE = 14;
     private static final int DEFAULT_TEXT_BACKGROUND = R.drawable.tag_background;
     private static final int DEFAULT_VIEW_BORDER = 6;
     private static final int DEFAULT_TEXT_BORDER_HORIZONTAL = 8;
     private static final int DEFAULT_TEXT_BORDER_VERTICAL = 5;
-
     private static final int DEFAULT_TAG_RESID = R.layout.item_tag;
     private static final int DEFAULT_RIGHT_IMAGE = R.drawable.arrow_right;
     private static final boolean DEFAULT_SINGLE_LINE = false;
@@ -71,6 +39,30 @@ public class TagCloudView extends ViewGroup {
     private static final boolean DEFAULT_SHOW_END_TEXT = true;
     private static final String DEFAULT_END_TEXT_STRING = " … ";
     private static final boolean DEFAULT_CAN_TAG_CLICK = true;
+    private List<String> tags;
+    private LayoutInflater mInflater;
+    private OnTagClickListener onTagClickListener;
+    private int sizeWidth;
+    private int sizeHeight;
+    private float mTagSize;
+    private int mTagColor;
+    private int mBackground;
+    private int mViewBorder;
+    private int mTagBorderHor;
+    private int mTagBorderVer;
+    private int mTagResId;
+    private int mRightImageResId;
+    private boolean mSingleLine;
+    private boolean mShowRightImage;
+    private boolean mShowEndText;
+    private boolean mCanTagClick;
+    private String endTextString;
+    private int imageWidth;
+    private int imageHeight;
+    private ImageView imageView = null;
+    private int endTextWidth = 0;
+    private int endTextHeight = 0;
+    private TextView endText = null;
 
     public TagCloudView(Context context) {
         this(context, null);
@@ -85,21 +77,14 @@ public class TagCloudView extends ViewGroup {
 
         mInflater = LayoutInflater.from(context);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.TagCloudView,
-                defStyleAttr,
-                defStyleAttr
-        );
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TagCloudView, defStyleAttr, defStyleAttr);
 
         mTagSize = a.getInteger(R.styleable.TagCloudView_tcvTextSize, DEFAULT_TEXT_SIZE);
         mTagColor = a.getColor(R.styleable.TagCloudView_tcvTextColor, DEFAULT_TEXT_COLOR);
         mBackground = a.getResourceId(R.styleable.TagCloudView_tcvBackground, DEFAULT_TEXT_BACKGROUND);
         mViewBorder = a.getDimensionPixelSize(R.styleable.TagCloudView_tcvBorder, DEFAULT_VIEW_BORDER);
-        mTagBorderHor = a.getDimensionPixelSize(
-                R.styleable.TagCloudView_tcvItemBorderHorizontal, DEFAULT_TEXT_BORDER_HORIZONTAL);
-        mTagBorderVer = a.getDimensionPixelSize(
-                R.styleable.TagCloudView_tcvItemBorderVertical, DEFAULT_TEXT_BORDER_VERTICAL);
+        mTagBorderHor = a.getDimensionPixelSize(R.styleable.TagCloudView_tcvItemBorderHorizontal, DEFAULT_TEXT_BORDER_HORIZONTAL);
+        mTagBorderVer = a.getDimensionPixelSize(R.styleable.TagCloudView_tcvItemBorderVertical, DEFAULT_TEXT_BORDER_VERTICAL);
         mCanTagClick = a.getBoolean(R.styleable.TagCloudView_tcvCanTagClick, DEFAULT_CAN_TAG_CLICK);
 
         mRightImageResId = a.getResourceId(R.styleable.TagCloudView_tcvRightResId, DEFAULT_RIGHT_IMAGE);
@@ -157,9 +142,7 @@ public class TagCloudView extends ViewGroup {
          * 高度根据设置改变
          * 如果为 MATCH_PARENT 则充满父窗体，否则根据内容自定义高度
          */
-        setMeasuredDimension(
-                sizeWidth,
-                (heightMode == MeasureSpec.EXACTLY ? sizeHeight : totalHeight));
+        setMeasuredDimension(sizeWidth, (heightMode == MeasureSpec.EXACTLY ? sizeHeight : totalHeight));
 
     }
 
@@ -191,8 +174,7 @@ public class TagCloudView extends ViewGroup {
                 endText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTagSize);
                 endText.setTextColor(mTagColor);
             }
-            @SuppressLint("DrawAllocation")
-            LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            @SuppressLint("DrawAllocation") LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             endText.setLayoutParams(layoutParams);
             endText.setText(endTextString == null || endTextString.equals("") ? DEFAULT_END_TEXT_STRING : endTextString);
             measureChild(endText, widthMeasureSpec, heightMeasureSpec);
@@ -245,11 +227,7 @@ public class TagCloudView extends ViewGroup {
 
             if (child.getTag() != null && (int) child.getTag() == TYPE_TEXT_NORMAL) {
                 if (totalWidth + mTagBorderHor + mViewBorder + mViewBorder + endTextWidth + imageWidth < sizeWidth) {
-                    child.layout(
-                            totalWidth - childWidth + mTagBorderVer,
-                            totalHeight - childHeight,
-                            totalWidth + mTagBorderVer,
-                            totalHeight);
+                    child.layout(totalWidth - childWidth + mTagBorderVer, totalHeight - childHeight, totalWidth + mTagBorderVer, totalHeight);
                 } else {
                     totalWidth -= childWidth + mViewBorder;
                     break;
@@ -258,21 +236,13 @@ public class TagCloudView extends ViewGroup {
         }
 
         if (endText != null) {
-            endText.layout(
-                    totalWidth + mViewBorder + mTagBorderVer,
-                    totalHeight - endTextHeight,
-                    totalWidth + mViewBorder + mTagBorderVer + endTextWidth,
-                    totalHeight);
+            endText.layout(totalWidth + mViewBorder + mTagBorderVer, totalHeight - endTextHeight, totalWidth + mViewBorder + mTagBorderVer + endTextWidth, totalHeight);
         }
 
         totalHeight += mViewBorder;
 
         if (imageView != null) {
-            imageView.layout(
-                    sizeWidth - imageWidth - mViewBorder,
-                    (totalHeight - imageHeight) / 2,
-                    sizeWidth - mViewBorder,
-                    (totalHeight - imageHeight) / 2 + imageHeight);
+            imageView.layout(sizeWidth - imageWidth - mViewBorder, (totalHeight - imageHeight) / 2, sizeWidth - mViewBorder, (totalHeight - imageHeight) / 2 + imageHeight);
         }
 
         return totalHeight;
@@ -303,18 +273,10 @@ public class TagCloudView extends ViewGroup {
             if (totalWidth + mTagBorderHor + mViewBorder > sizeWidth) {
                 totalWidth = mViewBorder;
                 totalHeight += childHeight + mTagBorderVer;
-                child.layout(
-                        totalWidth + mTagBorderHor,
-                        totalHeight - childHeight,
-                        totalWidth + childWidth + mTagBorderHor,
-                        totalHeight);
+                child.layout(totalWidth + mTagBorderHor, totalHeight - childHeight, totalWidth + childWidth + mTagBorderHor, totalHeight);
                 totalWidth += childWidth;
             } else {
-                child.layout(
-                        totalWidth - childWidth + mTagBorderHor,
-                        totalHeight - childHeight,
-                        totalWidth + mTagBorderHor,
-                        totalHeight);
+                child.layout(totalWidth - childWidth + mTagBorderHor, totalHeight - childHeight, totalWidth + mTagBorderHor, totalHeight);
             }
         }
         return totalHeight + mViewBorder;

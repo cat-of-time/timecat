@@ -52,7 +52,7 @@ public class DefaultDataGenerator {
         }
     }
 
-    public static void generateDefaultRoutines(DBUser p, Context ctx){
+    public static void generateDefaultRoutines(DBUser p, Context ctx) {
         Resources r = ctx.getResources();
         new DBRoutine(p, new LocalTime(9, 0), "breakfast").save();
         new DBRoutine(p, new LocalTime(13, 0), "lunch").save();

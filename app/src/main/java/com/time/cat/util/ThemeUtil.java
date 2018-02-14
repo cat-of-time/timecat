@@ -23,8 +23,7 @@ public class ThemeUtil {
     }
 
     private static int getColor(Context context, int id, int defaultValue) {
-        if (value == null)
-            value = new TypedValue();
+        if (value == null) value = new TypedValue();
 
         try {
             Theme theme = context.getTheme();
@@ -114,8 +113,7 @@ public class ThemeUtil {
     }
 
     public static int getType(TypedArray array, int index) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            return array.getType(index);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) return array.getType(index);
         else {
             TypedValue value = array.peekValue(index);
             return value == null ? TypedValue.TYPE_NULL : value.type;

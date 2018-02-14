@@ -22,6 +22,7 @@ public class MenuItemAdapter extends BaseAdapter {
     private final int mIconSize;
     private LayoutInflater mInflater;
     private Context mContext;
+    private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(Arrays.asList(new LvMenuItem(R.drawable.ic_drawer_night_mode, "夜间模式"), new LvMenuItem(R.drawable.ic_drawer_choose_theme, "主题换肤"), new LvMenuItem(R.drawable.ic_drawer_setting, "设置"), new LvMenuItem(R.mipmap.ic_close, "退出")));
 
     public MenuItemAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
@@ -30,15 +31,6 @@ public class MenuItemAdapter extends BaseAdapter {
         mIconSize = context.getResources().getDimensionPixelSize(R.dimen.drawer_icon_size);
         //24dp
     }
-
-    private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
-            Arrays.asList(
-                new LvMenuItem(R.drawable.ic_drawer_night_mode, "夜间模式"),
-                new LvMenuItem(R.drawable.ic_drawer_choose_theme, "主题换肤"),
-                new LvMenuItem(R.drawable.ic_drawer_setting, "设置"),
-                new LvMenuItem(R.mipmap.ic_close, "退出")
-            ));
-
 
     @Override
     public int getCount() {
@@ -86,16 +78,14 @@ public class MenuItemAdapter extends BaseAdapter {
                 break;
             case LvMenuItem.TYPE_NO_ICON:
                 if (convertView == null) {
-                    convertView = mInflater.inflate(R.layout.design_drawer_item_subheader,
-                            parent, false);
+                    convertView = mInflater.inflate(R.layout.design_drawer_item_subheader, parent, false);
                 }
                 TextView subHeader = (TextView) convertView;
                 subHeader.setText(item.name);
                 break;
             case LvMenuItem.TYPE_SEPARATOR:
                 if (convertView == null) {
-                    convertView = mInflater.inflate(R.layout.design_drawer_item_separator,
-                            parent, false);
+                    convertView = mInflater.inflate(R.layout.design_drawer_item_separator, parent, false);
                 }
                 break;
             default:

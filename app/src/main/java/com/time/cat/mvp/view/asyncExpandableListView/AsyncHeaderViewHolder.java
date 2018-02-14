@@ -27,9 +27,11 @@ public abstract class AsyncHeaderViewHolder extends RecyclerView.ViewHolder impl
 
     /**
      * triggered by onClick event, to be overrode.
+     *
      * @param view item
      */
-    public void onItemClick(View view){}
+    public void onItemClick(View view) {
+    }
 
 
 }

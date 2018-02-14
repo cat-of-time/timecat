@@ -36,11 +36,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @time 16/4/7
  */
 public class AppCompatForegroundHelper extends AppCompatBaseHelper {
-    private static final int[] ATTR = {
-            android.R.attr.foreground,
-            R.attr.foregroundTint,
-            R.attr.foregroundTintMode
-    };
+    private static final int[] ATTR = {android.R.attr.foreground, R.attr.foregroundTint, R.attr.foregroundTintMode};
 
     private TintInfo mForegroundTintInfo;
 
@@ -88,8 +84,7 @@ public class AppCompatForegroundHelper extends AppCompatBaseHelper {
 
             if (resId != 0) {
                 Drawable drawable = mTintManager.getDrawable(resId);
-                setForegroundDrawable(
-                        drawable != null ? drawable : ContextCompat.getDrawable(mView.getContext(), resId));
+                setForegroundDrawable(drawable != null ? drawable : ContextCompat.getDrawable(mView.getContext(), resId));
             }
         }
     }

@@ -30,6 +30,8 @@ import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.WebActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.model.APImodel.ImageUpload;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
 import com.time.cat.util.ColorUtil;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.LogUtil;
@@ -37,8 +39,6 @@ import com.time.cat.util.OcrAnalyser;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.SimpleDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -156,27 +156,26 @@ public class CaptureResultActivity extends BaseActivity {
         capturedImage.setImageBitmap(bitmap);
 
         save.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
-                                            UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SAVE);
-                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-                                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
-                                            file.getParentFile().mkdirs();
-                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
-                                            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                            Uri uri = Uri.fromFile(file);
-                                            intent.setData(uri);
-                                            sendBroadcast(intent);
-                                            ToastUtil.show(getResources().getString(R.string.save_sd_card));
-                                        } catch (FileNotFoundException e) {
-                                            e.printStackTrace();
-                                            ToastUtil.show(R.string.save_sd_card_fail);
-                                        }
+            @Override
+            public void onClick(View v) {
+                try {
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SAVE);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
+                    file.getParentFile().mkdirs();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    Uri uri = Uri.fromFile(file);
+                    intent.setData(uri);
+                    sendBroadcast(intent);
+                    ToastUtil.show(getResources().getString(R.string.save_sd_card));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    ToastUtil.show(R.string.save_sd_card_fail);
+                }
 
-                                    }
-                                }
-        );
+            }
+        });
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,13 +199,9 @@ public class CaptureResultActivity extends BaseActivity {
                 OcrAnalyser.getInstance().uploadImage(CaptureResultActivity.this, fileName, new OcrAnalyser.ImageUploadCallBack() {
                     @Override
                     public void onSuccess(ImageUpload imageUpload) {
-                        if (imageUpload != null &&
-                                imageUpload.getData() != null &&
-                                !TextUtils.isEmpty(imageUpload.getData().getUrl())) {
+                        if (imageUpload != null && imageUpload.getData() != null && !TextUtils.isEmpty(imageUpload.getData().getUrl())) {
 
-                            String url = HTTP_IMAGE_BAIDU_COM +
-                                    "queryImageUrl=" + imageUpload.getData().getUrl() +
-                                    "&querySign=4074500770,3618317556&fromProduct= ";
+                            String url = HTTP_IMAGE_BAIDU_COM + "queryImageUrl=" + imageUpload.getData().getUrl() + "&querySign=4074500770,3618317556&fromProduct= ";
                             Intent intent = new Intent();
                             intent.putExtra("url", url);
                             intent.setClass(CaptureResultActivity.this, WebActivity.class);
@@ -351,8 +346,7 @@ public class CaptureResultActivity extends BaseActivity {
                 super.onCancel(dialog);
             }
         };
-        builder.message(this.getString(R.string.ocr_quote_beyond_time))
-                .positiveAction(this.getString(R.string.free_use));
+        builder.message(this.getString(R.string.ocr_quote_beyond_time)).positiveAction(this.getString(R.string.free_use));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getSupportFragmentManager(), null);
     }
@@ -366,8 +360,7 @@ public class CaptureResultActivity extends BaseActivity {
      * @param msgText       消息内容
      * @param imgPath       图片路径，不分享图片则传null
      */
-    public void shareMsg(String activityTitle, String msgTitle, String msgText,
-                         String imgPath) {
+    public void shareMsg(String activityTitle, String msgTitle, String msgText, String imgPath) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         if (imgPath == null || imgPath.equals("")) {
             intent.setType("text/plain");

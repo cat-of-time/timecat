@@ -26,10 +26,10 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.time.cat.R;
+import com.time.cat.mvp.view.MarkSizeView;
 import com.time.cat.util.LogUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.ViewUtil;
-import com.time.cat.mvp.view.MarkSizeView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,8 +64,7 @@ public class ScreenCapture {
 
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public ScreenCapture(ScreenCaptureActivity activity, Intent intent, int resultCode
-            , Rect mRect, MarkSizeView.GraphicPath mGraphicPath) {
+    public ScreenCapture(ScreenCaptureActivity activity, Intent intent, int resultCode, Rect mRect, MarkSizeView.GraphicPath mGraphicPath) {
         this.activity = activity;
         mResultData = intent;
         mResultCode = resultCode;
@@ -161,9 +160,7 @@ public class ScreenCapture {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void virtualDisplay() {
         try {
-            mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror",
-                    windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                    mImageReader.getSurface(), null, null);
+            mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror", windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, mImageReader.getSurface(), null, null);
             LogUtil.d(TAG, "virtual displayed");
         } catch (Exception e) {
             e.printStackTrace();
@@ -229,14 +226,10 @@ public class ScreenCapture {
         }
         if (mRect != null) {
 
-            if (mRect.left < 0)
-                mRect.left = 0;
-            if (mRect.right < 0)
-                mRect.right = 0;
-            if (mRect.top < 0)
-                mRect.top = 0;
-            if (mRect.bottom < 0)
-                mRect.bottom = 0;
+            if (mRect.left < 0) mRect.left = 0;
+            if (mRect.right < 0) mRect.right = 0;
+            if (mRect.top < 0) mRect.top = 0;
+            if (mRect.bottom < 0) mRect.bottom = 0;
             int cut_width = Math.abs(mRect.left - mRect.right);
             int cut_height = Math.abs(mRect.top - mRect.bottom);
             if (cut_width > 0 && cut_height > 0) {

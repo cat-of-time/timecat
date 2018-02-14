@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SnackBarUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 

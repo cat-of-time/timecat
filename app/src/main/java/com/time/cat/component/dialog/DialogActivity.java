@@ -30,6 +30,11 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
 
 
     //<启动方法>-------------------------------------------------------------------------------------
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    private Button dialog_add_task_footer_bt_submit;
+    private EditText dialog_add_task_et_content;
+    //</启动方法>------------------------------------------------------------------------------------
+
     /**
      * 启动这个Activity的Intent
      *
@@ -45,8 +50,7 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
     public Activity getActivity() {
         return this;
     }
-    //</启动方法>------------------------------------------------------------------------------------
-
+    //</生命周期>------------------------------------------------------------------------------------
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -66,12 +70,7 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
     protected void onDestroy() {
         super.onDestroy();
     }
-    //</生命周期>------------------------------------------------------------------------------------
 
-
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
-    private Button dialog_add_task_footer_bt_submit;
-    private EditText dialog_add_task_et_content;
     @Override
     public void initView() {//必须调用
         //点击空白处让Activity消失，可在Style中设置
@@ -85,8 +84,7 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
             public boolean handleMessage(Message msg) {
 //                InputMethodManager inputMethodManager=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //                inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                InputMethodManager inputManager =
-                        (InputMethodManager) dialog_add_task_et_content.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inputManager = (InputMethodManager) dialog_add_task_et_content.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (inputManager != null) {
                     inputManager.showSoftInput(dialog_add_task_et_content, 0);
                 }
@@ -126,7 +124,7 @@ public class DialogActivity extends BaseActivity implements ActivityPresenter, V
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.dialog_add_task_footer_bt_submit:
                 Toast.makeText(this, dialog_add_task_et_content.getText().toString(), Toast.LENGTH_SHORT).show();
                 finish();

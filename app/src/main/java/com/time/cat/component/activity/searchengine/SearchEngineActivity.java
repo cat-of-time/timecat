@@ -12,20 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.shang.commonjar.contentProvider.SPHelper;
+import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.component.activity.searchengine.listener.OnItemClickListener;
 import com.time.cat.component.activity.searchengine.view.ListViewDecoration;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.model.APImodel.SearchEngine;
+import com.time.cat.mvp.view.Dialog;
+import com.time.cat.mvp.view.DialogFragment;
+import com.time.cat.mvp.view.SimpleDialog;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.mvp.view.Dialog;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.SimpleDialog;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
 import com.yanzhenjie.recyclerview.swipe.Closeable;
 import com.yanzhenjie.recyclerview.swipe.OnSwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -84,20 +84,13 @@ public class SearchEngineActivity extends BaseActivity {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(mContext)
 //                        .setBackgroundDrawable(R.drawable.selector_red)
 //                        .setImage(R.mipmap.ic_action_delete)
-                        .setBackgroundColor(Color.parseColor("#ff6e40"))
-                        .setText(getString(R.string.delete)) // 文字，还可以设置文字颜色，大小等。。
-                        .setTextColor(Color.WHITE)
-                        .setWidth(width)
-                        .setHeight(height);
+                        .setBackgroundColor(Color.parseColor("#ff6e40")).setText(getString(R.string.delete)) // 文字，还可以设置文字颜色，大小等。。
+                        .setTextColor(Color.WHITE).setWidth(width).setHeight(height);
                 swipeRightMenu.addMenuItem(deleteItem);// 添加一个按钮到右侧侧菜单。
 
                 SwipeMenuItem addItem = new SwipeMenuItem(mContext)
 //                        .setBackgroundDrawable(R.drawable.selector_green)
-                        .setBackgroundColor(Color.parseColor("#5af158"))
-                        .setText(getString(R.string.edit))
-                        .setTextColor(Color.WHITE)
-                        .setWidth(width)
-                        .setHeight(height);
+                        .setBackgroundColor(Color.parseColor("#5af158")).setText(getString(R.string.edit)).setTextColor(Color.WHITE).setWidth(width).setHeight(height);
                 swipeRightMenu.addMenuItem(addItem); // 添加一个按钮到右侧菜单。
             }
         }

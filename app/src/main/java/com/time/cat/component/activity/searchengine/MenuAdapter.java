@@ -21,11 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.searchengine.listener.OnItemClickListener;
 import com.time.cat.mvp.model.APImodel.SearchEngine;
 import com.time.cat.util.ConstantUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
 
 import java.util.List;

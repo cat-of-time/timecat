@@ -23,13 +23,13 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.FeedbackActivity;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;

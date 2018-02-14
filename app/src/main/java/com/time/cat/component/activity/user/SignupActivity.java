@@ -30,10 +30,15 @@ import rx.schedulers.Schedulers;
  * @date 2018/2/2
  * @discription 注册
  */
-public class SignupActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener{
+public class SignupActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener {
     private static final String TAG = "SignupActivity";
-
-
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    EditText emailText;
+    //</生命周期>------------------------------------------------------------------------------------
+    EditText passwordText;
+    EditText reEnterPasswordText;
+    Button signupButton;
+    TextView loginLink;
 
     //<生命周期>------------------------------------------------------------------------------------
     @Override
@@ -48,17 +53,6 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
     }
-    //</生命周期>------------------------------------------------------------------------------------
-
-
-
-
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
-    EditText emailText;
-    EditText passwordText;
-    EditText reEnterPasswordText;
-    Button signupButton;
-    TextView loginLink;
 
     @Override
     public void initView() {
@@ -71,16 +65,12 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
 
 
-
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {
 
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
-
-
-
 
 
     //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
@@ -99,7 +89,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
                 break;
             case R.id.link_login:
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 finish();
@@ -117,8 +107,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
 
         signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
@@ -137,10 +126,8 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
 
         final boolean[] isSuccess = {false};
         // TODO: Implement your own signup logic here.
-        RetrofitHelper.getLoginService()
-                .createUser(u) //获取Observable对象
-                .compose(SignupActivity.this.bindToLifecycle())
-                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+        RetrofitHelper.getLoginService().createUser(u) //获取Observable对象
+                .compose(SignupActivity.this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                 .doOnNext(new Action1<User>() {
                     @Override
@@ -149,8 +136,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
                         DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
                         Log.e(TAG, "保存用户信息到本地" + user.toString());
                     }
-                })
-                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {

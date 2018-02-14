@@ -16,11 +16,11 @@ import android.util.AttributeSet;
 import android.util.StateSet;
 
 import com.time.cat.R;
+
 /**
  * @author dlink
  * @date 2018/1/24
- * @discription
- * normal state [0]
+ * @discription normal state [0]
  * progress state [1-99]
  * success state [100]
  * error state [-1]
@@ -62,15 +62,59 @@ public class CircularProgressButton extends AppCompatButton {
     private float mCornerRadius;
     private boolean mIndeterminateProgressMode;
     private boolean mConfigurationChanged;
-
-    private enum State {
-        PROGRESS, IDLE, COMPLETE, ERROR
-    }
-
     private int mMaxProgress;
     private int mProgress;
-
     private boolean mMorphingInProgress;
+    private OnAnimationEndListener mErrorStateListener = new OnAnimationEndListener() {
+        @Override
+        public void onAnimationEnd() {
+            if (mIconError != 0) {
+                setText(null);
+                setIcon(mIconError);
+            } else {
+                setText(mErrorText);
+            }
+            mMorphingInProgress = false;
+            mState = State.ERROR;
+
+            mStateManager.checkState(CircularProgressButton.this);
+        }
+    };
+    private OnAnimationEndListener mIdleStateListener = new OnAnimationEndListener() {
+        @Override
+        public void onAnimationEnd() {
+            removeIcon();
+            setText(mIdleText);
+            mMorphingInProgress = false;
+            mState = State.IDLE;
+
+            mStateManager.checkState(CircularProgressButton.this);
+        }
+    };
+    private OnAnimationEndListener mCompleteStateListener = new OnAnimationEndListener() {
+        @Override
+        public void onAnimationEnd() {
+            if (mIconComplete != 0) {
+                setText(null);
+                setIcon(mIconComplete);
+            } else {
+                setText(mCompleteText);
+            }
+            mMorphingInProgress = false;
+            mState = State.COMPLETE;
+
+            mStateManager.checkState(CircularProgressButton.this);
+        }
+    };
+    private OnAnimationEndListener mProgressStateListener = new OnAnimationEndListener() {
+        @Override
+        public void onAnimationEnd() {
+            mMorphingInProgress = false;
+            mState = State.PROGRESS;
+
+            mStateManager.checkState(CircularProgressButton.this);
+        }
+    };
 
     public CircularProgressButton(Context context) {
         super(context);
@@ -209,22 +253,18 @@ public class CircularProgressButton extends AppCompatButton {
             int white = getColor(R.color.cpb_white);
             int grey = getColor(R.color.cpb_grey);
 
-            int idleStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorIdle,
-                    R.color.cpb_idle_state_selector);
+            int idleStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorIdle, R.color.cpb_idle_state_selector);
             mIdleColorState = getResources().getColorStateList(idleStateSelector);
 
-            int completeStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorComplete,
-                    R.color.cpb_complete_state_selector);
+            int completeStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorComplete, R.color.cpb_complete_state_selector);
             mCompleteColorState = getResources().getColorStateList(completeStateSelector);
 
-            int errorStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorError,
-                    R.color.cpb_error_state_selector);
+            int errorStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorError, R.color.cpb_error_state_selector);
             mErrorColorState = getResources().getColorStateList(errorStateSelector);
 
             mColorProgress = attr.getColor(R.styleable.CircularProgressButton_cpb_colorProgress, white);
             mColorIndicator = attr.getColor(R.styleable.CircularProgressButton_cpb_colorIndicator, blue);
-            mColorIndicatorBackground =
-                    attr.getColor(R.styleable.CircularProgressButton_cpb_colorIndicatorBackground, grey);
+            mColorIndicatorBackground = attr.getColor(R.styleable.CircularProgressButton_cpb_colorIndicatorBackground, grey);
         } finally {
             attr.recycle();
         }
@@ -354,16 +394,6 @@ public class CircularProgressButton extends AppCompatButton {
         animation.start();
     }
 
-    private OnAnimationEndListener mProgressStateListener = new OnAnimationEndListener() {
-        @Override
-        public void onAnimationEnd() {
-            mMorphingInProgress = false;
-            mState = State.PROGRESS;
-
-            mStateManager.checkState(CircularProgressButton.this);
-        }
-    };
-
     private void morphProgressToComplete() {
         MorphingAnimation animation = createProgressMorphing(getHeight(), mCornerRadius, getHeight(), getWidth());
 
@@ -393,22 +423,6 @@ public class CircularProgressButton extends AppCompatButton {
         animation.start();
 
     }
-
-    private OnAnimationEndListener mCompleteStateListener = new OnAnimationEndListener() {
-        @Override
-        public void onAnimationEnd() {
-            if (mIconComplete != 0) {
-                setText(null);
-                setIcon(mIconComplete);
-            } else {
-                setText(mCompleteText);
-            }
-            mMorphingInProgress = false;
-            mState = State.COMPLETE;
-
-            mStateManager.checkState(CircularProgressButton.this);
-        }
-    };
 
     private void morphCompleteToIdle() {
         MorphingAnimation animation = createMorphing();
@@ -440,18 +454,6 @@ public class CircularProgressButton extends AppCompatButton {
 
     }
 
-    private OnAnimationEndListener mIdleStateListener = new OnAnimationEndListener() {
-        @Override
-        public void onAnimationEnd() {
-            removeIcon();
-            setText(mIdleText);
-            mMorphingInProgress = false;
-            mState = State.IDLE;
-
-            mStateManager.checkState(CircularProgressButton.this);
-        }
-    };
-
     private void morphIdleToError() {
         MorphingAnimation animation = createMorphing();
 
@@ -479,22 +481,6 @@ public class CircularProgressButton extends AppCompatButton {
 
         animation.start();
     }
-
-    private OnAnimationEndListener mErrorStateListener = new OnAnimationEndListener() {
-        @Override
-        public void onAnimationEnd() {
-            if (mIconError != 0) {
-                setText(null);
-                setIcon(mIconError);
-            } else {
-                setText(mErrorText);
-            }
-            mMorphingInProgress = false;
-            mState = State.ERROR;
-
-            mStateManager.checkState(CircularProgressButton.this);
-        }
-    };
 
     private void morphProgressToIdle() {
         MorphingAnimation animation = createProgressMorphing(getHeight(), mCornerRadius, getHeight(), getWidth());
@@ -546,6 +532,10 @@ public class CircularProgressButton extends AppCompatButton {
         }
     }
 
+    public int getProgress() {
+        return mProgress;
+    }
+
     public void setProgress(int progress) {
         mProgress = progress;
 
@@ -584,10 +574,6 @@ public class CircularProgressButton extends AppCompatButton {
         }
     }
 
-    public int getProgress() {
-        return mProgress;
-    }
-
     public void setBackgroundColor(int color) {
         background.getGradientDrawable().setColor(color);
     }
@@ -600,20 +586,20 @@ public class CircularProgressButton extends AppCompatButton {
         return mIdleText;
     }
 
-    public String getCompleteText() {
-        return mCompleteText;
-    }
-
-    public String getErrorText() {
-        return mErrorText;
-    }
-
     public void setIdleText(String text) {
         mIdleText = text;
     }
 
+    public String getCompleteText() {
+        return mCompleteText;
+    }
+
     public void setCompleteText(String text) {
         mCompleteText = text;
+    }
+
+    public String getErrorText() {
+        return mErrorText;
     }
 
     public void setErrorText(String text) {
@@ -653,9 +639,24 @@ public class CircularProgressButton extends AppCompatButton {
         }
     }
 
+    private enum State {
+        PROGRESS, IDLE, COMPLETE, ERROR
+    }
 
     static class SavedState extends BaseSavedState {
 
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         private boolean mIndeterminateProgressMode;
         private boolean mConfigurationChanged;
         private int mProgress;
@@ -678,18 +679,5 @@ public class CircularProgressButton extends AppCompatButton {
             out.writeInt(mIndeterminateProgressMode ? 1 : 0);
             out.writeInt(mConfigurationChanged ? 1 : 0);
         }
-
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 }

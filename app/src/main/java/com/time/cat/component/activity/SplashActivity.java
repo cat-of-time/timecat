@@ -60,33 +60,29 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void setUpSplash() {
-        Observable.timer(2, TimeUnit.SECONDS)
-                .compose(bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<Long, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(Long aLong) {
-                        boolean isShowIntro = SPHelper.getBoolean(KEY, false);
-                        if (isShowIntro) {
-                            return Observable.just(GOTO_HOME);
-                        } else {
-                            return Observable.just(GOTO_INTRO);
-                        }
-                    }
-                })
-                .subscribe(s -> {
-                    if (s.equals(GOTO_HOME)) {
-                        if (SPHelper.getBoolean(PreSettingActivity.SHOW, true)) {
-                            startActivity(new Intent(SplashActivity.this, PreSettingActivity.class));
-                        } else {
-                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        }
+        Observable.timer(2, TimeUnit.SECONDS).compose(bindToLifecycle()).observeOn(AndroidSchedulers.mainThread()).flatMap(new Func1<Long, Observable<String>>() {
+            @Override
+            public Observable<String> call(Long aLong) {
+                boolean isShowIntro = SPHelper.getBoolean(KEY, false);
+                if (isShowIntro) {
+                    return Observable.just(GOTO_HOME);
+                } else {
+                    return Observable.just(GOTO_INTRO);
+                }
+            }
+        }).subscribe(s -> {
+            if (s.equals(GOTO_HOME)) {
+                if (SPHelper.getBoolean(PreSettingActivity.SHOW, true)) {
+                    startActivity(new Intent(SplashActivity.this, PreSettingActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
 
-                        finish();
-                    } else {
-                        startActivity(new Intent(SplashActivity.this, IntroActivity.class));
-                        finish();
-                    }
-                });
+                finish();
+            } else {
+                startActivity(new Intent(SplashActivity.this, IntroActivity.class));
+                finish();
+            }
+        });
     }
 }

@@ -28,13 +28,13 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.component.activity.KeepAliveActivity;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.copy.CopyActivity;
 import com.time.cat.component.activity.copy.CopyNode;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.activity.whitelist.SelectionDbHelper;
-import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.KeyPressedTipViewController;
 import com.time.cat.util.LogUtil;
@@ -197,21 +197,16 @@ public class TimeCatMonitorService extends AccessibilityService {
         int accessibilityEnabled = 0;
         final String service = TimeCatApp.getInstance().getPackageName() + "/" + TimeCatMonitorService.class.getCanonicalName();
         try {
-            accessibilityEnabled = Settings.Secure.getInt(
-                    mContext.getApplicationContext().getContentResolver(),
-                    android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+            accessibilityEnabled = Settings.Secure.getInt(mContext.getApplicationContext().getContentResolver(), android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
             LogUtil.v(TAG, "accessibilityEnabled = " + accessibilityEnabled);
         } catch (Settings.SettingNotFoundException e) {
-            LogUtil.d(TAG, "Error finding setting, default accessibility to not found: "
-                    + e.getMessage());
+            LogUtil.d(TAG, "Error finding setting, default accessibility to not found: " + e.getMessage());
         }
         TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
 
         if (accessibilityEnabled == 1) {
             LogUtil.v(TAG, "***ACCESSIBILITY IS ENABLED*** -----------------");
-            String settingValue = Settings.Secure.getString(
-                    mContext.getApplicationContext().getContentResolver(),
-                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            String settingValue = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
             if (settingValue != null) {
                 mStringColonSplitter.setString(settingValue);
                 while (mStringColonSplitter.hasNext()) {
@@ -284,8 +279,7 @@ public class TimeCatMonitorService extends AccessibilityService {
                             bufferedWriter.flush();
 
                             Thread.sleep(10000);
-                        }
-                        while (count > 0);
+                        } while (count > 0);
 
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -37,8 +37,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @author xyczero617@gmail.com
  * @time 16/1/19
  */
-public class TintRadioButton extends RadioButton implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible
-        , AppCompatCompoundButtonHelper.CompoundButtonExtensible, AppCompatTextHelper.TextExtensible {
+public class TintRadioButton extends RadioButton implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatCompoundButtonHelper.CompoundButtonExtensible, AppCompatTextHelper.TextExtensible {
     private AppCompatTextHelper mTextHelper;
     private AppCompatBackgroundHelper mBackgroundHelper;
     private AppCompatCompoundButtonHelper mCompoundButtonHelper;
@@ -162,9 +161,7 @@ public class TintRadioButton extends RadioButton implements Tintable, AppCompatB
     @Override
     public int getCompoundPaddingLeft() {
         final int value = super.getCompoundPaddingLeft();
-        return mCompoundButtonHelper != null
-                ? mCompoundButtonHelper.getCompoundPaddingLeft(value)
-                : value;
+        return mCompoundButtonHelper != null ? mCompoundButtonHelper.getCompoundPaddingLeft(value) : value;
     }
 
     @Override

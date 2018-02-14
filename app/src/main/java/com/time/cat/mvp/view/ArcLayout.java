@@ -49,12 +49,9 @@ public class ArcLayout extends ViewGroup {
         // 获取自定义属性，设定默认值
         if (attrs != null) {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ArcLayout, 0, 0);
-            mFromDegrees = a.getFloat(R.styleable.ArcLayout_fromDegrees,DEFAULT_FROM_DEGREES);
-            mToDegrees = a.getFloat(R.styleable.ArcLayout_toDegrees,DEFAULT_TO_DEGREES);
-            mChildSize = Math.max(
-                    a.getDimensionPixelSize(R.styleable.ArcLayout_childSize, 0),
-                    0
-            );
+            mFromDegrees = a.getFloat(R.styleable.ArcLayout_fromDegrees, DEFAULT_FROM_DEGREES);
+            mToDegrees = a.getFloat(R.styleable.ArcLayout_toDegrees, DEFAULT_TO_DEGREES);
+            mChildSize = Math.max(a.getDimensionPixelSize(R.styleable.ArcLayout_childSize, 0), 0);
 
             a.recycle();
         }
@@ -63,9 +60,7 @@ public class ArcLayout extends ViewGroup {
     /**
      * 计算半径
      */
-    private static int computeRadius(final float arcDegrees,
-                                     final int childCount, final int childSize, final int childPadding,
-                                     final int minRadius) {
+    private static int computeRadius(final float arcDegrees, final int childCount, final int childSize, final int childPadding, final int minRadius) {
         if (childCount < 2) {
             return minRadius;
         }
@@ -78,8 +73,7 @@ public class ArcLayout extends ViewGroup {
         final float perHalfDegrees = perDegrees / 2;
         final int perSize = childSize + childPadding;
 
-        final int radius = (int) ((perSize / 2) / Math.sin(Math
-                .toRadians(perHalfDegrees)));
+        final int radius = (int) ((perSize / 2) / Math.sin(Math.toRadians(perHalfDegrees)));
 
         return Math.max(radius, minRadius);
     }
@@ -87,29 +81,20 @@ public class ArcLayout extends ViewGroup {
     /**
      * 计算子菜单项的范围
      */
-    private static Rect computeChildFrame(final int centerX, final int centerY,
-                                          final int radius, final float degrees, final int size) {
+    private static Rect computeChildFrame(final int centerX, final int centerY, final int radius, final float degrees, final int size) {
         //子菜单项中心点
-        final double childCenterX = centerX + radius
-                * Math.cos(Math.toRadians(degrees));
-        final double childCenterY = centerY + radius
-                * Math.sin(Math.toRadians(degrees));
+        final double childCenterX = centerX + radius * Math.cos(Math.toRadians(degrees));
+        final double childCenterY = centerY + radius * Math.sin(Math.toRadians(degrees));
         //子菜单项的左上角，右上角，左下角，右下角
-        return new Rect((int) (childCenterX - size / 2),
-                (int) (childCenterY - size / 2),
-                (int) (childCenterX + size / 2),
-                (int) (childCenterY + size / 2));
+        return new Rect((int) (childCenterX - size / 2), (int) (childCenterY - size / 2), (int) (childCenterX + size / 2), (int) (childCenterY + size / 2));
     }
 
     /**
      * 计算动画开始时的偏移量
      */
-    private static long computeStartOffset(final int childCount,
-                                           final boolean expanded, final int index, final float delayPercent,
-                                           final long duration, Interpolator interpolator) {
+    private static long computeStartOffset(final int childCount, final boolean expanded, final int index, final float delayPercent, final long duration, Interpolator interpolator) {
         final float delay = delayPercent * duration;
-        final long viewDelay = (long) (getTransformedIndex(expanded,
-                childCount, index) * delay);
+        final long viewDelay = (long) (getTransformedIndex(expanded, childCount, index) * delay);
         final float totalDelay = delay * childCount;
 
         float normalizedDelay = viewDelay / totalDelay;
@@ -121,8 +106,7 @@ public class ArcLayout extends ViewGroup {
     /**
      * 变换时的子菜单项索引
      */
-    private static int getTransformedIndex(final boolean expanded,
-                                           final int count, final int index) {
+    private static int getTransformedIndex(final boolean expanded, final int count, final int index) {
         if (expanded) {
             return count - 1 - index;
         }
@@ -133,11 +117,8 @@ public class ArcLayout extends ViewGroup {
     /**
      * 展开动画
      */
-    private static Animation createExpandAnimation(float fromXDelta,
-                                                   float toXDelta, float fromYDelta, float toYDelta, long startOffset,
-                                                   long duration, Interpolator interpolator) {
-        Animation animation = new RotateAndTranslateAnimation(0, toXDelta, 0,
-                toYDelta, 0, 720);
+    private static Animation createExpandAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, long startOffset, long duration, Interpolator interpolator) {
+        Animation animation = new RotateAndTranslateAnimation(0, toXDelta, 0, toYDelta, 0, 720);
         animation.setStartOffset(startOffset);
         animation.setDuration(duration);
         animation.setInterpolator(interpolator);
@@ -149,16 +130,12 @@ public class ArcLayout extends ViewGroup {
     /**
      * 收缩动画
      */
-    private static Animation createShrinkAnimation(float fromXDelta,
-                                                   float toXDelta, float fromYDelta, float toYDelta, long startOffset,
-                                                   long duration, Interpolator interpolator) {
+    private static Animation createShrinkAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, long startOffset, long duration, Interpolator interpolator) {
         AnimationSet animationSet = new AnimationSet(false);
         animationSet.setFillAfter(true);
         //收缩过程中，child 逆时针自旋转360度
         final long preDuration = duration / 2;
-        Animation rotateAnimation = new RotateAnimation(0, 360,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f);
+        Animation rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotateAnimation.setStartOffset(startOffset);
         rotateAnimation.setDuration(preDuration);
         rotateAnimation.setInterpolator(new LinearInterpolator());
@@ -166,8 +143,7 @@ public class ArcLayout extends ViewGroup {
 
         animationSet.addAnimation(rotateAnimation);
         //收缩过程中位移，并逆时针旋转360度
-        Animation translateAnimation = new RotateAndTranslateAnimation(0,
-                toXDelta, 0, toYDelta, 360, 720);
+        Animation translateAnimation = new RotateAndTranslateAnimation(0, toXDelta, 0, toYDelta, 360, 720);
         translateAnimation.setStartOffset(startOffset + preDuration);
         translateAnimation.setDuration(duration - preDuration);
         translateAnimation.setInterpolator(interpolator);
@@ -239,26 +215,18 @@ public class ArcLayout extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int screenWidth = dm.widthPixels;
-        int radius = mRadius = computeRadius(
-                Math.abs(mToDegrees - mFromDegrees), getChildCount(),
-                mChildSize, mChildPadding, MIN_RADIUS);
+        int radius = mRadius = computeRadius(Math.abs(mToDegrees - mFromDegrees), getChildCount(), mChildSize, mChildPadding, MIN_RADIUS);
 //        Log.i("layout", "radius:" + radius);
 
         int layoutPadding = 10;
-        int size = radius * 2 + mChildSize + mChildPadding
-                + layoutPadding * 2;
+        int size = radius * 2 + mChildSize + mChildPadding + layoutPadding * 2;
 //        Log.i("layout", "size:" + size);
 
         setMeasuredDimension(size, size);
 
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
-            getChildAt(i)
-                    .measure(
-                            MeasureSpec.makeMeasureSpec(mChildSize,
-                                    MeasureSpec.EXACTLY),
-                            MeasureSpec.makeMeasureSpec(mChildSize,
-                                    MeasureSpec.EXACTLY));
+            getChildAt(i).measure(MeasureSpec.makeMeasureSpec(mChildSize, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(mChildSize, MeasureSpec.EXACTLY));
         }
     }
 
@@ -280,19 +248,16 @@ public class ArcLayout extends ViewGroup {
 
         float degrees = mFromDegrees;
         for (int i = 0; i < childCount; i++) {
-            Rect frame = computeChildFrame(centerX, centerY, radius, degrees,
-                    mChildSize);
+            Rect frame = computeChildFrame(centerX, centerY, radius, degrees, mChildSize);
             degrees += perDegrees;
-            getChildAt(i).layout(frame.left, frame.top, frame.right,
-                    frame.bottom);
+            getChildAt(i).layout(frame.left, frame.top, frame.right, frame.bottom);
         }
     }
 
     /**
      * 绑定子菜单项动画
      */
-    private void bindChildAnimation(final View child, final int index,
-                                    final long duration) {
+    private void bindChildAnimation(final View child, final int index, final long duration) {
         final boolean expanded = mExpanded;
 //        final int centerX = getWidth() / 2 - mRadius;  //ViewGroup的中心X坐标
 //        final int centerY = getHeight() / 2;
@@ -302,21 +267,15 @@ public class ArcLayout extends ViewGroup {
 
         final int childCount = getChildCount();
         final float perDegrees = Math.abs(mToDegrees - mFromDegrees) == 360 ? (mToDegrees - mFromDegrees) / (childCount) : (mToDegrees - mFromDegrees) / (childCount - 1);
-        Rect frame = computeChildFrame(centerX, centerY, radius, mFromDegrees
-                + index * perDegrees, mChildSize);
+        Rect frame = computeChildFrame(centerX, centerY, radius, mFromDegrees + index * perDegrees, mChildSize);
         final int toXDelta = frame.left - child.getLeft();//展开或收缩动画,child沿X轴位移距离
         final int toYDelta = frame.top - child.getTop();//展开或收缩动画,child沿Y轴位移距离
         LogUtil.d("arcLayout", "toX:" + toXDelta + " toY:" + toYDelta);
-        Interpolator interpolator = mExpanded ? new AccelerateInterpolator()
-                : new OvershootInterpolator(1.5f);
-        final long startOffset = computeStartOffset(childCount, mExpanded,
-                index, 0.1f, duration, interpolator);
+        Interpolator interpolator = mExpanded ? new AccelerateInterpolator() : new OvershootInterpolator(1.5f);
+        final long startOffset = computeStartOffset(childCount, mExpanded, index, 0.1f, duration, interpolator);
         //TODO toXDelta toYDelta 设置为0 为什么可以
         //mExpanded为true，已经展开，收缩动画；为false,展开动画
-        Animation animation = mExpanded ? createShrinkAnimation(0, toXDelta, 0,
-                toYDelta, startOffset, duration, interpolator)
-                : createExpandAnimation(0, 0, 0, 0, startOffset,
-                duration, interpolator);
+        Animation animation = mExpanded ? createShrinkAnimation(0, toXDelta, 0, toYDelta, startOffset, duration, interpolator) : createExpandAnimation(0, 0, 0, 0, startOffset, duration, interpolator);
 
         final boolean isLast = getTransformedIndex(expanded, childCount, index) == childCount - 1;
         animation.setAnimationListener(new AnimationListener() {

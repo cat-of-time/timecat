@@ -11,12 +11,12 @@ import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.SplashActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.util.ConstantUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 
 public class TimeCatNotification {
@@ -43,8 +43,7 @@ public class TimeCatNotification {
      */
     private void initNotification() {
         try {//解决崩溃问题
-            PendingIntent contentPendingIntent = createPendingIntent(mContext,
-                    SettingActivity.class);
+            PendingIntent contentPendingIntent = createPendingIntent(mContext, SettingActivity.class);
             //获取notification管理的实例
             notificationManager = (NotificationManager) this.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             createNotification();
@@ -65,14 +64,10 @@ public class TimeCatNotification {
     private void createNotification() {
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(mContext);
         //设置notification, 到时候替换压缩图片， 通过没ContentBean获取
-        notification = mNotifyBuilder.setContentTitle("")
-                .setContentText("")
+        notification = mNotifyBuilder.setContentTitle("").setContentText("")
 // 		        .setTicker(mContext.getResources().getString(R.string.notify_quick_message_ticket))
-                .setWhen(0)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setPriority(Notification.PRIORITY_MIN)//这里改成PRIORITY_MAX_Min就可以不显示状态栏的图标了
-                .setAutoCancel(true)
-                .build();
+                .setWhen(0).setSmallIcon(R.mipmap.ic_launcher).setPriority(Notification.PRIORITY_MIN)//这里改成PRIORITY_MAX_Min就可以不显示状态栏的图标了
+                .setAutoCancel(true).build();
         setContetView();
     }
 
@@ -144,8 +139,7 @@ public class TimeCatNotification {
         } catch (Exception ignored) {
         } catch (Error error) {
         }
-        contentView.setOnClickPendingIntent(R.id.Layout_notify_msearch, createPendingIntent(mContext,
-                SettingActivity.class));
+        contentView.setOnClickPendingIntent(R.id.Layout_notify_msearch, createPendingIntent(mContext, SettingActivity.class));
         notification.contentView = contentView;
     }
 
@@ -154,8 +148,7 @@ public class TimeCatNotification {
      */
     private PendingIntent createPendingIntent(String packageName, int requestCode, String target) {
         Intent contentIntent = new Intent(target);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, requestCode, contentIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, requestCode, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
     }
 
@@ -166,8 +159,7 @@ public class TimeCatNotification {
         Intent contentIntent = new Intent(context, activity);
         contentIntent.setAction(action);
         contentIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, R.string.app_name, contentIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, R.string.app_name, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
     }
 
@@ -177,8 +169,7 @@ public class TimeCatNotification {
     private PendingIntent createPendingIntent(Context context, Class<? extends Activity> action) {
         Intent contentIntent = new Intent(context, action);
         contentIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, R.string.app_name, contentIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, R.string.app_name, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         return pendingIntent;
 

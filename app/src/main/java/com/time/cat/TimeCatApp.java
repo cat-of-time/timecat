@@ -9,7 +9,6 @@ import android.os.MessageQueue;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.util.Log;
 
 import com.shang.commonjar.contentProvider.Global;
 import com.time.cat.ThemeSystem.manager.ThemeManager;
@@ -20,7 +19,6 @@ import com.time.cat.database.DB;
 import com.time.cat.database.UserDao;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.test.DefaultDataGenerator;
-import com.time.cat.util.ColorUtil;
 import com.time.cat.util.KeepAliveWatcher;
 import com.time.cat.util.onestep.AppManager;
 
@@ -59,12 +57,20 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor {
 
     private static TimeCatApp instance;
     private static EventBus eventBus = EventBus.getDefault();
+    SharedPreferences prefs;
 
     public static TimeCatApp getInstance() {
         return instance;
     }
 
-    SharedPreferences prefs;
+    public static boolean isPharmaModeEnabled(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getBoolean(PHARMACY_MODE_ENABLED, false);
+    }
+
+    public static EventBus eventBus() {
+        return eventBus;
+    }
 
     @Override
     public void onCreate() {
@@ -92,15 +98,6 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor {
             }
         });
         AppManager.getInstance(this);
-    }
-
-    public static boolean isPharmaModeEnabled(Context ctx) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return prefs.getBoolean(PHARMACY_MODE_ENABLED, false);
-    }
-
-    public static EventBus eventBus() {
-        return eventBus;
     }
 
     public void initializeDatabase() {

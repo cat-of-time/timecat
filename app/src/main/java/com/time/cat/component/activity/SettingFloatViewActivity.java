@@ -24,9 +24,9 @@ import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.base.baseCard.DividerItemDecoration;
-import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.IOUtil;
 import com.time.cat.util.UrlCountUtil;
@@ -249,42 +249,30 @@ public class SettingFloatViewActivity extends BaseActivity {
     }
 
     private void showColorPickDialog() {
-        ColorPickerDialogBuilder
-                .with(this)
-                .setTitle(R.string.set_background_myself)
-                .initialColor(lastPickedColor)
-                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                .density(12)
-                .setOnColorSelectedListener(new OnColorSelectedListener() {
-                    @Override
-                    public void onColorSelected(int selectedColor) {
-                        applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)), (int) (Color.alpha(selectedColor) * 100.0 / 255));
-                    }
-                })
-                .setPositiveButton(R.string.confirm, new ColorPickerClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                        lastPickedColor = Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor));
-                        alpha = (int) (Color.alpha(selectedColor) * 100.0 / 255);
-                        applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
+        ColorPickerDialogBuilder.with(this).setTitle(R.string.set_background_myself).initialColor(lastPickedColor).wheelType(ColorPickerView.WHEEL_TYPE.FLOWER).density(12).setOnColorSelectedListener(new OnColorSelectedListener() {
+            @Override
+            public void onColorSelected(int selectedColor) {
+                applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)), (int) (Color.alpha(selectedColor) * 100.0 / 255));
+            }
+        }).setPositiveButton(R.string.confirm, new ColorPickerClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                lastPickedColor = Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor));
+                alpha = (int) (Color.alpha(selectedColor) * 100.0 / 255);
+                applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
 //                        SPHelper.save(ConstantUtil.BIGBANG_DIY_BG_COLOR, lastPickedColor);
 //                        UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR, lastPickedColor + "");
-                        SPHelper.save(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, lastPickedColor);
-                        UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_FLOATVIEW_BGCOLOR, lastPickedColor + "");
-                        mTimecatAlphaSeekBar.setProgress(alpha);
-                        ArcTipViewController.getInstance().showForSettings();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        applyColor(lastPickedColor);
-                    }
-                })
-                .showColorEdit(true)
-                .setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright))
-                .build()
-                .show();
+                SPHelper.save(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, lastPickedColor);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_FLOATVIEW_BGCOLOR, lastPickedColor + "");
+                mTimecatAlphaSeekBar.setProgress(alpha);
+                ArcTipViewController.getInstance().showForSettings();
+            }
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                applyColor(lastPickedColor);
+            }
+        }).showColorEdit(true).setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright)).build().show();
     }
 
     @Override
@@ -297,11 +285,7 @@ public class SettingFloatViewActivity extends BaseActivity {
             refresh();
         } else if (requestCode == CropHelper.REQUEST_CROP && resultCode == -1) {
             if (data.getData() != null) {
-                CropImage.activity(data.getData())
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .setFixAspectRatio(true)
-                        .setMultiTouchEnabled(true)
-                        .start(SettingFloatViewActivity.this);
+                CropImage.activity(data.getData()).setCropShape(CropImageView.CropShape.OVAL).setFixAspectRatio(true).setMultiTouchEnabled(true).start(SettingFloatViewActivity.this);
             }
             // CropHelper.handleResult(this, requestCode, resultCode, data);
         }

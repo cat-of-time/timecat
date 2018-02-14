@@ -241,9 +241,7 @@ public class CropImageView extends FrameLayout {
                     options.maxCropResultHeight = (int) ta.getFloat(R.styleable.CropImageView_cropMaxCropResultHeightPX, options.maxCropResultHeight);
 
                     // if aspect ratio is set then set fixed to true
-                    if (ta.hasValue(R.styleable.CropImageView_cropAspectRatioX) &&
-                            ta.hasValue(R.styleable.CropImageView_cropAspectRatioX) &&
-                            !ta.hasValue(R.styleable.CropImageView_cropFixAspectRatio)) {
+                    if (ta.hasValue(R.styleable.CropImageView_cropAspectRatioX) && ta.hasValue(R.styleable.CropImageView_cropAspectRatioX) && !ta.hasValue(R.styleable.CropImageView_cropFixAspectRatio)) {
                         options.fixAspectRatio = true;
                     }
                 } finally {
@@ -576,8 +574,7 @@ public class CropImageView extends FrameLayout {
             int orgHeight = mBitmap.getHeight() * mLoadedSampleSize;
 
             // get the rectangle for the points (it may be larger than original if rotation is not stright)
-            return BitmapUtils.getRectFromPoints(points, orgWidth, orgHeight,
-                    mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY());
+            return BitmapUtils.getRectFromPoints(points, orgWidth, orgHeight, mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY());
         } else {
             return null;
         }
@@ -605,16 +602,7 @@ public class CropImageView extends FrameLayout {
         // Get crop window position relative to the displayed image.
         RectF cropWindowRect = mCropOverlayView.getCropWindowRect();
 
-        float[] points = new float[]{
-                cropWindowRect.left,
-                cropWindowRect.top,
-                cropWindowRect.right,
-                cropWindowRect.top,
-                cropWindowRect.right,
-                cropWindowRect.bottom,
-                cropWindowRect.left,
-                cropWindowRect.bottom
-        };
+        float[] points = new float[]{cropWindowRect.left, cropWindowRect.top, cropWindowRect.right, cropWindowRect.top, cropWindowRect.right, cropWindowRect.bottom, cropWindowRect.left, cropWindowRect.bottom};
 
         mImageMatrix.invert(mImageInverseMatrix);
         mImageInverseMatrix.mapPoints(points);
@@ -680,15 +668,10 @@ public class CropImageView extends FrameLayout {
             if (mLoadedImageUri != null && (mLoadedSampleSize > 1 || options == RequestSizeOptions.SAMPLING)) {
                 int orgWidth = mBitmap.getWidth() * mLoadedSampleSize;
                 int orgHeight = mBitmap.getHeight() * mLoadedSampleSize;
-                BitmapUtils.BitmapSampled bitmapSampled =
-                        BitmapUtils.cropBitmap(getContext(), mLoadedImageUri, getCropPoints(),
-                                mDegreesRotated, orgWidth, orgHeight,
-                                mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY(),
-                                reqWidth, reqHeight);
+                BitmapUtils.BitmapSampled bitmapSampled = BitmapUtils.cropBitmap(getContext(), mLoadedImageUri, getCropPoints(), mDegreesRotated, orgWidth, orgHeight, mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY(), reqWidth, reqHeight);
                 croppedBitmap = bitmapSampled.bitmap;
             } else {
-                croppedBitmap = BitmapUtils.cropBitmapObjectHandleOOM(mBitmap, getCropPoints(), mDegreesRotated,
-                        mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY()).bitmap;
+                croppedBitmap = BitmapUtils.cropBitmapObjectHandleOOM(mBitmap, getCropPoints(), mDegreesRotated, mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY()).bitmap;
             }
 
             croppedBitmap = BitmapUtils.resizeBitmap(croppedBitmap, reqWidth, reqHeight, options);
@@ -942,8 +925,7 @@ public class CropImageView extends FrameLayout {
             halfHeight *= change;
 
             // calculate the new crop window rectangle to center in the same location and have proper width/height
-            BitmapUtils.RECT.set(BitmapUtils.POINTS2[0] - halfWidth, BitmapUtils.POINTS2[1] - halfHeight,
-                    BitmapUtils.POINTS2[0] + halfWidth, BitmapUtils.POINTS2[1] + halfHeight);
+            BitmapUtils.RECT.set(BitmapUtils.POINTS2[0] - halfWidth, BitmapUtils.POINTS2[1] - halfHeight, BitmapUtils.POINTS2[0] + halfWidth, BitmapUtils.POINTS2[1] + halfHeight);
 
             mCropOverlayView.resetCropOverlayView();
             mCropOverlayView.setCropWindowRect(BitmapUtils.RECT);
@@ -1111,16 +1093,9 @@ public class CropImageView extends FrameLayout {
             int orgWidth = mBitmap.getWidth() * mLoadedSampleSize;
             int orgHeight = mBitmap.getHeight() * mLoadedSampleSize;
             if (mLoadedImageUri != null && (mLoadedSampleSize > 1 || options == RequestSizeOptions.SAMPLING)) {
-                mBitmapCroppingWorkerTask = new WeakReference<>(new BitmapCroppingWorkerTask(this, mLoadedImageUri, getCropPoints(),
-                        mDegreesRotated, orgWidth, orgHeight,
-                        mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY(),
-                        reqWidth, reqHeight, options,
-                        saveUri, saveCompressFormat, saveCompressQuality));
+                mBitmapCroppingWorkerTask = new WeakReference<>(new BitmapCroppingWorkerTask(this, mLoadedImageUri, getCropPoints(), mDegreesRotated, orgWidth, orgHeight, mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY(), reqWidth, reqHeight, options, saveUri, saveCompressFormat, saveCompressQuality));
             } else {
-                mBitmapCroppingWorkerTask = new WeakReference<>(new BitmapCroppingWorkerTask(this, mBitmap, getCropPoints(), mDegreesRotated,
-                        mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY(),
-                        reqWidth, reqHeight, options,
-                        saveUri, saveCompressFormat, saveCompressQuality));
+                mBitmapCroppingWorkerTask = new WeakReference<>(new BitmapCroppingWorkerTask(this, mBitmap, getCropPoints(), mDegreesRotated, mCropOverlayView.isFixAspectRatio(), mCropOverlayView.getAspectRatioX(), mCropOverlayView.getAspectRatioY(), reqWidth, reqHeight, options, saveUri, saveCompressFormat, saveCompressQuality));
             }
             mBitmapCroppingWorkerTask.get().execute();
             setProgressBarVisibility();
@@ -1177,8 +1152,7 @@ public class CropImageView extends FrameLayout {
                 if (uri != null) {
                     String key = bundle.getString("LOADED_IMAGE_STATE_BITMAP_KEY");
                     if (key != null) {
-                        Bitmap stateBitmap = BitmapUtils.mStateBitmap != null && BitmapUtils.mStateBitmap.first.equals(key)
-                                ? BitmapUtils.mStateBitmap.second.get() : null;
+                        Bitmap stateBitmap = BitmapUtils.mStateBitmap != null && BitmapUtils.mStateBitmap.first.equals(key) ? BitmapUtils.mStateBitmap.second.get() : null;
                         if (stateBitmap != null && !stateBitmap.isRecycled()) {
                             BitmapUtils.mStateBitmap = null;
                             setBitmap(stateBitmap, uri, bundle.getInt("LOADED_SAMPLE_SIZE"), 0);
@@ -1414,10 +1388,8 @@ public class CropImageView extends FrameLayout {
 
             if (center) {
                 // set the zoomed area to be as to the center of cropping window as possible
-                mZoomOffsetX = width > BitmapUtils.getRectWidth(mImagePoints) ? 0
-                        : Math.max(Math.min(width / 2 - cropRect.centerX(), -BitmapUtils.getRectLeft(mImagePoints)), getWidth() - BitmapUtils.getRectRight(mImagePoints)) / mZoom;
-                mZoomOffsetY = height > BitmapUtils.getRectHeight(mImagePoints) ? 0
-                        : Math.max(Math.min(height / 2 - cropRect.centerY(), -BitmapUtils.getRectTop(mImagePoints)), getHeight() - BitmapUtils.getRectBottom(mImagePoints)) / mZoom;
+                mZoomOffsetX = width > BitmapUtils.getRectWidth(mImagePoints) ? 0 : Math.max(Math.min(width / 2 - cropRect.centerX(), -BitmapUtils.getRectLeft(mImagePoints)), getWidth() - BitmapUtils.getRectRight(mImagePoints)) / mZoom;
+                mZoomOffsetY = height > BitmapUtils.getRectHeight(mImagePoints) ? 0 : Math.max(Math.min(height / 2 - cropRect.centerY(), -BitmapUtils.getRectTop(mImagePoints)), getHeight() - BitmapUtils.getRectBottom(mImagePoints)) / mZoom;
             } else {
                 // adjust the zoomed area so the crop window rectangle will be inside the area in case it was moved outside
                 mZoomOffsetX = Math.min(Math.max(mZoomOffsetX * mZoom, -cropRect.left), -cropRect.right + width) / mZoom;
@@ -1473,8 +1445,7 @@ public class CropImageView extends FrameLayout {
      * Set visibility of progress bar when async loading/cropping is in process and show is enabled.
      */
     private void setProgressBarVisibility() {
-        boolean visible = mShowProgressBar &&
-                (mBitmap == null && mBitmapLoadingWorkerTask != null || mBitmapCroppingWorkerTask != null);
+        boolean visible = mShowProgressBar && (mBitmap == null && mBitmapLoadingWorkerTask != null || mBitmapCroppingWorkerTask != null);
         mProgressBar.setVisibility(visible ? VISIBLE : INVISIBLE);
     }
 
@@ -1502,8 +1473,7 @@ public class CropImageView extends FrameLayout {
      * To set square/circle crop shape set aspect ratio to 1:1.
      */
     public enum CropShape {
-        RECTANGLE,
-        OVAL
+        RECTANGLE, OVAL
     }
     //endregion
 

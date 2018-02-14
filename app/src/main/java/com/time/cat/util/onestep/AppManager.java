@@ -165,8 +165,7 @@ public class AppManager extends DataManager {
         List<AppItem> list = new ArrayList<AppItem>();
         synchronized (mAddedAppItems) {
             for (ResolveInfo ri : allInfos) {
-                if (mContext.getPackageName().equals(
-                        ri.activityInfo.packageName)) {
+                if (mContext.getPackageName().equals(ri.activityInfo.packageName)) {
                     // pass sidebar ourself
                     continue;
                 }
@@ -252,8 +251,7 @@ public class AppManager extends DataManager {
         if (mLimitToast != null) {
             mLimitToast.cancel();
         }
-        mLimitToast = Toast.makeText(mContext, "限制条数",
-                Toast.LENGTH_SHORT);
+        mLimitToast = Toast.makeText(mContext, "限制条数", Toast.LENGTH_SHORT);
         mLimitToast.show();
     }
 
@@ -315,10 +313,7 @@ public class AppManager extends DataManager {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE " + TABLE_APPS
-                    + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "packagename TEXT," + "componentname TEXT, " + "weight INTEGER"
-                    + ");");
+            db.execSQL("CREATE TABLE " + TABLE_APPS + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT," + "packagename TEXT," + "componentname TEXT, " + "weight INTEGER" + ");");
             // pre install package
             List<AppItem> appList = new ArrayList<AppItem>();
             for (String packageName : sAutoAddPackageList) {
@@ -382,11 +377,7 @@ public class AppManager extends DataManager {
         private int getId(AppItem item) {
             Cursor cursor = null;
             try {
-                cursor = getReadableDatabase().query(
-                        TABLE_APPS,
-                        null,
-                        AppsColumns.PACKAGE_NAME + "=? and " + AppsColumns.COMPONENT_NAME + "=?",
-                        new String[]{item.getPackageName(), item.getComponentName()}, null, null, null);
+                cursor = getReadableDatabase().query(TABLE_APPS, null, AppsColumns.PACKAGE_NAME + "=? and " + AppsColumns.COMPONENT_NAME + "=?", new String[]{item.getPackageName(), item.getComponentName()}, null, null, null);
                 if (cursor.moveToFirst()) {
                     return cursor.getInt(cursor.getColumnIndex(AppsColumns._ID));
                 }

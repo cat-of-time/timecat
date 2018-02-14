@@ -244,8 +244,7 @@ public final class CropImage {
      */
     public static List<Intent> getGalleryIntents(@NonNull PackageManager packageManager, String action, boolean includeDocuments) {
         List<Intent> intents = new ArrayList<>();
-        Intent galleryIntent = action == Intent.ACTION_GET_CONTENT ? new Intent(action)
-                : new Intent(action, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent galleryIntent = action == Intent.ACTION_GET_CONTENT ? new Intent(action) : new Intent(action, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryIntent.setType("image/*");
         List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
         for (ResolveInfo res : listGallery) {
@@ -275,8 +274,7 @@ public final class CropImage {
      */
     public static boolean isExplicitCameraPermissionRequired(@NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return hasPermissionInManifest(context, "android.permission.CAMERA") &&
-                    context.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED;
+            return hasPermissionInManifest(context, "android.permission.CAMERA") && context.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED;
         }
         return false;
     }
@@ -347,9 +345,7 @@ public final class CropImage {
      * @return true - required permission are not granted, false - either no need for permissions or they are granted
      */
     public static boolean isReadExternalStoragePermissionsRequired(@NonNull Context context, @NonNull Uri uri) {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
-                isUriRequiresPermissions(context, uri);
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && isUriRequiresPermissions(context, uri);
     }
 
     /**
@@ -855,10 +851,7 @@ public final class CropImage {
         }
 
         protected ActivityResult(Parcel in) {
-            super(null, in.readParcelable(Uri.class.getClassLoader()),
-                    (Exception) in.readSerializable(),
-                    in.createFloatArray(), in.readParcelable(Rect.class.getClassLoader()),
-                    in.readInt(), in.readInt());
+            super(null, in.readParcelable(Uri.class.getClassLoader()), (Exception) in.readSerializable(), in.createFloatArray(), in.readParcelable(Rect.class.getClassLoader()), in.readInt(), in.readInt());
         }
 
         @Override

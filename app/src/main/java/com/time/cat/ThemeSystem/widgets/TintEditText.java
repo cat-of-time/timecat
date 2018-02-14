@@ -22,7 +22,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.widget.EditText;
 
 import com.time.cat.ThemeSystem.utils.InputConnectionImpl;
 import com.time.cat.ThemeSystem.utils.TintManager;
@@ -31,8 +30,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  * @author xyczero617@gmail.com
  * @time 16/2/1
  */
-public class TintEditText extends android.support.v7.widget.AppCompatEditText implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible,
-        AppCompatCompoundDrawableHelper.CompoundDrawableExtensible {
+public class TintEditText extends android.support.v7.widget.AppCompatEditText implements Tintable, AppCompatBackgroundHelper.BackgroundExtensible, AppCompatCompoundDrawableHelper.CompoundDrawableExtensible {
     private AppCompatBackgroundHelper mBackgroundHelper;
     private AppCompatCompoundDrawableHelper mCompoundDrawableHelper;
 

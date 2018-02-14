@@ -48,10 +48,10 @@ public class DBTask {
     public static final int SCHEDULE_TYPE_CYCLE = 5;
 
 
-    public static final int LABEL_IMPORTANT_URGENT= 0;
-    public static final int LABEL_IMPORTANT_NOT_URGENT= 1;
-    public static final int LABEL_NOT_IMPORTANT_URGENT= 2;
-    public static final int LABEL_NOT_IMPORTANT_NOT_URGENT= 3;
+    public static final int LABEL_IMPORTANT_URGENT = 0;
+    public static final int LABEL_IMPORTANT_NOT_URGENT = 1;
+    public static final int LABEL_NOT_IMPORTANT_URGENT = 2;
+    public static final int LABEL_NOT_IMPORTANT_NOT_URGENT = 3;
 
     public static final long serialVersionUID = 1L;
 
@@ -71,19 +71,36 @@ public class DBTask {
     public static final String COLUMN_IS_ALL_DAY = "is_all_day";
     public static final String COLUMN_BEGIN_DATETIME = "begin_datetime";
     public static final String COLUMN_END_DATETIME = "end_datetime";
-
+    public static final String COLUMN_DAYS = "Days";
+    public static final String COLUMN_START = "Start";
+    public static final String COLUMN_START_TIME = "Starttime";
+    public static final String COLUMN_DOSE = "Dose";
+    public static final String COLUMN_TYPE = "Type";
+    public static final String COLUMN_CYCLE = "Cycle";
+    public static final String COLUMN_SCANNED = "Scanned";
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     public Long id;//ID唯一主键
-
     @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
     public DBUser user;
-
+    @DatabaseField(columnName = COLUMN_DAYS, persisterClass = BooleanArrayPersister.class)
+    public boolean[] days = noWeekDays();
+    @DatabaseField(columnName = COLUMN_START, persisterClass = LocalDatePersister.class)
+    public LocalDate start;
+    @DatabaseField(columnName = COLUMN_START_TIME, persisterClass = LocalTimePersister.class)
+    public LocalTime startTime;
+    @DatabaseField(columnName = COLUMN_DOSE)
+    public float dose = 1f;
+    @DatabaseField(columnName = COLUMN_TYPE)
+    public int type = SCHEDULE_TYPE_EVERYDAY;
+    @DatabaseField(columnName = COLUMN_CYCLE)
+    public String cycle;
+    @DatabaseField(columnName = COLUMN_SCANNED)
+    public boolean scanned;
     //必不为null
     @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
     DateTime created_datetime;//创建时间
     @DatabaseField(columnName = COLUMN_TITLE)
     String title;//任务标题
-
     //nullable，是否为null取决于业务情景
     int plan_id;//计划外键
     @DatabaseField(columnName = COLUMN_CONTENT)
@@ -91,13 +108,11 @@ public class DBTask {
     @DatabaseField(columnName = COLUMN_LABEL)
     int label;//重要紧急标签，重要紧急=0，重要不紧急=1，紧急不重要=2，不重要不紧急=3
     List<String> tags;//一般标签，["标签0","标签1","标签2"]
-
     //is_finish默认false，finished_datetime默认为null
     @DatabaseField(columnName = COLUMN_IS_FINISHED)
     boolean is_finish;//是否完成，true-完成，false-没有完成
     @DatabaseField(columnName = COLUMN_FINISHED_DATETIME)
     DateTime finished_datetime;//完成时间
-
     //is_all_day默认true，begin_datetime,end_datetime默认为null
     //isAllDay == true ? 忽略开始及结束时间的Time部分 : 不忽略
     @DatabaseField(columnName = COLUMN_IS_ALL_DAY)
@@ -107,42 +122,26 @@ public class DBTask {
     @DatabaseField(columnName = COLUMN_END_DATETIME)
     DateTime end_datetime;//结束时间
 
-    public static final String COLUMN_DAYS = "Days";
-    public static final String COLUMN_START = "Start";
-    public static final String COLUMN_START_TIME = "Starttime";
-    public static final String COLUMN_DOSE = "Dose";
-    public static final String COLUMN_TYPE = "Type";
-    public static final String COLUMN_CYCLE = "Cycle";
-    public static final String COLUMN_SCANNED = "Scanned";
+    public static List<DBTask> findAll() {
+        return DB.schedules().findAll();
+    }
 
+    public static DBTask findById(long id) {
+        return DB.schedules().findById(id);
+    }
 
-    @DatabaseField(columnName = COLUMN_DAYS, persisterClass = BooleanArrayPersister.class)
-    public boolean[] days = noWeekDays();
+    public static final boolean[] noWeekDays() {
+        return new boolean[]{false, false, false, false, false, false, false};
+    }
 
-    @DatabaseField(columnName = COLUMN_START, persisterClass = LocalDatePersister.class)
-    public LocalDate start;
-
-    @DatabaseField(columnName = COLUMN_START_TIME, persisterClass = LocalTimePersister.class)
-    public LocalTime startTime;
-
-    @DatabaseField(columnName = COLUMN_DOSE)
-    public float dose = 1f;
-
-    @DatabaseField(columnName = COLUMN_TYPE)
-    public int type = SCHEDULE_TYPE_EVERYDAY;
-
-    @DatabaseField(columnName = COLUMN_CYCLE)
-    public String cycle;
-
-    @DatabaseField(columnName = COLUMN_SCANNED)
-    public boolean scanned;
-
-
-
+    public static final boolean[] allWeekDays() {
+        return new boolean[]{true, true, true, true, true, true, true};
+    }
 
     public int type() {
         return type;
     }
+
     public void setType(int type) {
         if (type < 0 || type > 5) {
             throw new RuntimeException("Invalid schedule type");
@@ -153,6 +152,7 @@ public class DBTask {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -160,6 +160,7 @@ public class DBTask {
     public LocalDate start() {
         return start;
     }
+
     public void setStart(LocalDate start) {
         this.start = start;
     }
@@ -167,6 +168,7 @@ public class DBTask {
     public float dose() {
         return dose;
     }
+
     public void setDose(float dose) {
         this.dose = dose;
     }
@@ -174,6 +176,7 @@ public class DBTask {
     public DBUser user() {
         return user;
     }
+
     public void setUser(DBUser user) {
         this.user = user;
     }
@@ -181,6 +184,7 @@ public class DBTask {
     public LocalTime startTime() {
         return startTime;
     }
+
     public void setStartTime(LocalTime t) {
         startTime = t;
     }
@@ -188,6 +192,11 @@ public class DBTask {
     public boolean scanned() {
         return scanned;
     }
+
+    // *************************************
+    // DB queries
+    // *************************************
+
     public void setScanned(boolean scanned) {
         this.scanned = scanned;
     }
@@ -199,6 +208,7 @@ public class DBTask {
         String[] parts = cycle.split(",");
         return Integer.valueOf(parts[0]);
     }
+
     public int getCycleRest() {
         if (cycle == null) {
             return 0;
@@ -206,24 +216,13 @@ public class DBTask {
         String[] parts = cycle.split(",");
         return Integer.valueOf(parts[1]);
     }
+
     public void setCycle(int days, int rest) {
         this.cycle = days + "," + rest;
     }
 
-    // *************************************
-    // DB queries
-    // *************************************
-
     public List<DBTaskItem> items() {
         return DB.scheduleItems().findBySchedule(this);
-    }
-
-    public static List<DBTask> findAll() {
-        return DB.schedules().findAll();
-    }
-
-    public static DBTask findById(long id) {
-        return DB.schedules().findById(id);
     }
 
     public void save() {
@@ -242,20 +241,9 @@ public class DBTask {
         return type == SCHEDULE_TYPE_EVERYHOUR;
     }
 
-
-
-
     @Override
     public String toString() {
         return "Task{" + "id=" + id + ", start=" + start + ", dose=" + dose + ", type=" + type + '}';
-    }
-
-    public static final boolean[] noWeekDays() {
-        return new boolean[]{false, false, false, false, false, false, false};
-    }
-
-    public static final boolean[] allWeekDays() {
-        return new boolean[]{true, true, true, true, true, true, true};
     }
 
     public String displayDose() {

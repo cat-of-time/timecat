@@ -22,16 +22,16 @@ import com.time.cat.R;
 @SuppressLint("ViewConstructor")
 public class CustomDayView extends DayView {
 
+    private final CalendarDate today = new CalendarDate();
     private TextView dateTv;
     private ImageView marker;
     private View selectedBackground;
     private View todayBackground;
-    private final CalendarDate today = new CalendarDate();
 
     /**
      * 构造器
      *
-     * @param context 上下文
+     * @param context        上下文
      * @param layoutResource 自定义DayView的layout资源
      */
     public CustomDayView(Context context, int layoutResource) {

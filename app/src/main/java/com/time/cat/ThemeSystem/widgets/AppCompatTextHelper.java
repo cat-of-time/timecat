@@ -37,11 +37,7 @@ public class AppCompatTextHelper extends AppCompatBaseHelper {
     //If writing like this:
     //int[] ATTRS = { R.attr.tintText, android.R.attr.textColor, android.R.attr.textColorLink, ...};
     //we can't get textColor value when api is below 20;
-    private static final int[] ATTRS = {
-            android.R.attr.textColor,
-            android.R.attr.textColorLink,
-            android.R.attr.textAppearance,
-    };
+    private static final int[] ATTRS = {android.R.attr.textColor, android.R.attr.textColorLink, android.R.attr.textAppearance,};
 
     private int mTextColorId;
     private int mTextLinkColorId;

@@ -90,18 +90,16 @@ public class FeedbackActivity extends BaseActivity {
 
     private void checkPermission() {
         checkPermission(new CheckPermListener() {
-                            @Override
-                            public void grantPermission() {
-                                startFeedback();
-                            }
+            @Override
+            public void grantPermission() {
+                startFeedback();
+            }
 
-                            @Override
-                            public void denyPermission() {
-                                startFeedback();
-                            }
-                        }, R.string.ask_again,
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            @Override
+            public void denyPermission() {
+                startFeedback();
+            }
+        }, R.string.ask_again, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
 }

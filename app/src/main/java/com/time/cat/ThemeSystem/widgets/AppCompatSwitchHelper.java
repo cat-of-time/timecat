@@ -34,8 +34,7 @@ public class AppCompatSwitchHelper {
     private int mTintResId;
     private PorterDuff.Mode mTintMode;
 
-    public AppCompatSwitchHelper(SwitchCompat switchCompat, TintManager tintManager,
-                                 int[] attrs, @NonNull DrawableCallback callback) {
+    public AppCompatSwitchHelper(SwitchCompat switchCompat, TintManager tintManager, int[] attrs, @NonNull DrawableCallback callback) {
         this.sAttrs = attrs;
         this.mTintManager = tintManager;
         this.mSwitchCompat = switchCompat;
@@ -57,8 +56,7 @@ public class AppCompatSwitchHelper {
 
     @SuppressWarnings("ResourceType")
     public void loadFromAttribute(AttributeSet attrs, int defStyleAttr) {
-        TypedArray array = mSwitchCompat.getContext().obtainStyledAttributes(
-                attrs, sAttrs, defStyleAttr, 0);
+        TypedArray array = mSwitchCompat.getContext().obtainStyledAttributes(attrs, sAttrs, defStyleAttr, 0);
         if (array.hasValue(1)) {
             mTintResId = array.getResourceId(1, 0);
             if (array.hasValue(2)) {
@@ -90,9 +88,7 @@ public class AppCompatSwitchHelper {
 
             if (resId != 0) {
                 Drawable drawable = mTintManager.getDrawable(resId);
-                setDrawable(drawable != null
-                        ? drawable
-                        : ContextCompat.getDrawable(mSwitchCompat.getContext(), resId));
+                setDrawable(drawable != null ? drawable : ContextCompat.getDrawable(mSwitchCompat.getContext(), resId));
             }
         }
     }
@@ -209,9 +205,9 @@ public class AppCompatSwitchHelper {
 
     public interface DrawableCallback {
 
-        void setDrawable(Drawable drawable);
-
         Drawable getDrawable();
+
+        void setDrawable(Drawable drawable);
     }
 
     public interface SwitchCompatExtensible {

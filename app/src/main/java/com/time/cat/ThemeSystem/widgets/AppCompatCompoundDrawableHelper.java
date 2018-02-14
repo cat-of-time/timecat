@@ -37,16 +37,7 @@ import com.time.cat.ThemeSystem.utils.TintManager;
  */
 public class AppCompatCompoundDrawableHelper extends AppCompatBaseHelper {
 
-    private static final int[] ATTR = {
-            R.attr.drawableLeftTint,
-            R.attr.drawableTopTint,
-            R.attr.drawableRightTint,
-            R.attr.drawableBottomTint,
-            R.attr.drawableLeftTintMode,
-            R.attr.drawableTopTintMode,
-            R.attr.drawableRightTintMode,
-            R.attr.drawableBottomTintMode
-    };
+    private static final int[] ATTR = {R.attr.drawableLeftTint, R.attr.drawableTopTint, R.attr.drawableRightTint, R.attr.drawableBottomTint, R.attr.drawableLeftTintMode, R.attr.drawableTopTintMode, R.attr.drawableRightTintMode, R.attr.drawableBottomTintMode};
 
     private TintInfo[] mCompoundDrawableTintInfos = new TintInfo[4];
 
@@ -77,11 +68,7 @@ public class AppCompatCompoundDrawableHelper extends AppCompatBaseHelper {
         mCompoundDrawableResIds[3] = ThemeUtils.getThemeAttrId(context, attrs, android.R.attr.drawableBottom);
         a.recycle();
 
-        setCompoundDrawablesWithIntrinsicBounds(
-                getCompoundDrawableByPosition(0),
-                getCompoundDrawableByPosition(1),
-                getCompoundDrawableByPosition(2),
-                getCompoundDrawableByPosition(3));
+        setCompoundDrawablesWithIntrinsicBounds(getCompoundDrawableByPosition(0), getCompoundDrawableByPosition(1), getCompoundDrawableByPosition(2), getCompoundDrawableByPosition(3));
     }
 
     /**
@@ -97,11 +84,7 @@ public class AppCompatCompoundDrawableHelper extends AppCompatBaseHelper {
     public void setCompoundDrawablesWithIntrinsicBounds(int left, int top, int right, int bottom) {
         resetTintResource(left, top, right, bottom);
 
-        setCompoundDrawablesWithIntrinsicBounds(
-                getCompoundDrawableByPosition(0),
-                getCompoundDrawableByPosition(1),
-                getCompoundDrawableByPosition(2),
-                getCompoundDrawableByPosition(3));
+        setCompoundDrawablesWithIntrinsicBounds(getCompoundDrawableByPosition(0), getCompoundDrawableByPosition(1), getCompoundDrawableByPosition(2), getCompoundDrawableByPosition(3));
     }
 
     public void setCompoundDrawablesTintList(int... resIds) {
@@ -113,11 +96,7 @@ public class AppCompatCompoundDrawableHelper extends AppCompatBaseHelper {
                 tintInfo.mTintList = null;
             }
         }
-        setCompoundDrawablesWithIntrinsicBounds(
-                getCompoundDrawableByPosition(0),
-                getCompoundDrawableByPosition(1),
-                getCompoundDrawableByPosition(2),
-                getCompoundDrawableByPosition(3));
+        setCompoundDrawablesWithIntrinsicBounds(getCompoundDrawableByPosition(0), getCompoundDrawableByPosition(1), getCompoundDrawableByPosition(2), getCompoundDrawableByPosition(3));
     }
 
     /**
@@ -203,11 +182,7 @@ public class AppCompatCompoundDrawableHelper extends AppCompatBaseHelper {
 
     @Override
     public void tint() {
-        setCompoundDrawablesWithIntrinsicBounds(
-                getCompoundDrawableByPosition(0),
-                getCompoundDrawableByPosition(1),
-                getCompoundDrawableByPosition(2),
-                getCompoundDrawableByPosition(3));
+        setCompoundDrawablesWithIntrinsicBounds(getCompoundDrawableByPosition(0), getCompoundDrawableByPosition(1), getCompoundDrawableByPosition(2), getCompoundDrawableByPosition(3));
     }
 
     public interface CompoundDrawableExtensible {

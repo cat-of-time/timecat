@@ -7,5 +7,6 @@ package com.time.cat.component.activity.main.listener;
  */
 public interface OnViewClickListener {
     void onViewTodayClick();
+
     void onViewChangeMarkThemeClick();
 }

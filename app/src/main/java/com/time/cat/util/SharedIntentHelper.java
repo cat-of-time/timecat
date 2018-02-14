@@ -9,12 +9,12 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.time.cat.component.activity.TimeCatActivity;
-import com.time.cat.component.activity.share.ShareAppManagerActivity;
-import com.time.cat.util.onestep.ResolveInfoWrap;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.time.cat.component.activity.TimeCatActivity;
+import com.time.cat.component.activity.share.ShareAppManagerActivity;
+import com.time.cat.util.onestep.ResolveInfoWrap;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,8 +45,7 @@ public class SharedIntentHelper {
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             }
-            if (strings == null)
-                strings = new ArrayList<>();
+            if (strings == null) strings = new ArrayList<>();
             List<ResolveInfoWrap> resolveInfoWraps = new ArrayList<>();
             //数组去重
             String[] array = strings.toArray(new String[0]);
@@ -80,8 +79,7 @@ public class SharedIntentHelper {
         ArrayList<String> string = new ArrayList<>();
         for (ResolveInfoWrap resolveInfoWrap : list) {
             String name = resolveInfoWrap.resolveInfo.loadLabel(context.getPackageManager()).toString();
-            if (!string.contains(name))
-                string.add(name);
+            if (!string.contains(name)) string.add(name);
         }
         context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).edit().
                 putString(ConstantUtil.SHARE_APP_INDEX, new Gson().toJson(string)).apply();

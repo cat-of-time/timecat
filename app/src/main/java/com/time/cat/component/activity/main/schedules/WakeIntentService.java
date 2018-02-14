@@ -1,4 +1,5 @@
 package com.time.cat.component.activity.main.schedules;
+
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,7 @@ public abstract class WakeIntentService extends IntentService {
      * Synchronized obtaining of the lock.
      *
      * @param context Context.
+     *
      * @return WakeLock object.
      */
     synchronized private static PowerManager.WakeLock getLock(Context context) {
@@ -71,9 +73,8 @@ public abstract class WakeIntentService extends IntentService {
         } finally {
             try {
                 PowerManager.WakeLock wakeLock = getLock(this);
-                if (wakeLock.isHeld())
-                    wakeLock.release();
-            }catch (Exception e){
+                if (wakeLock.isHeld()) wakeLock.release();
+            } catch (Exception e) {
                 // do nothing
             }
         }

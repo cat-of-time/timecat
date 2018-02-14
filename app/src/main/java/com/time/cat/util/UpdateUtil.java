@@ -2,9 +2,9 @@ package com.time.cat.util;
 
 import android.view.View;
 
+import com.qihoo.updatesdk.lib.UpdateHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.qihoo.updatesdk.lib.UpdateHelper;
 
 /**
  * Created by penglu on 2016/3/3.
@@ -12,8 +12,7 @@ import com.qihoo.updatesdk.lib.UpdateHelper;
 public class UpdateUtil {
 
     static {
-        UpdateHelper.getInstance().init(TimeCatApp.getInstance(),
-                TimeCatApp.getInstance().getResources().getColor(R.color.primary));
+        UpdateHelper.getInstance().init(TimeCatApp.getInstance(), TimeCatApp.getInstance().getResources().getColor(R.color.primary));
     }
 
     public static void autoCheckUpdate() {

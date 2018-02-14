@@ -17,8 +17,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
     private View.OnClickListener mActionListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mBuilder == null)
-                return;
+            if (mBuilder == null) return;
 
             if (v.getId() == Dialog.ACTION_POSITIVE)
                 mBuilder.onPositiveActionClicked(DialogFragment.this);
@@ -39,9 +38,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = mBuilder == null ? new Dialog(getActivity()) : mBuilder.build(getActivity());
-        dialog.positiveActionClickListener(mActionListener)
-                .negativeActionClickListener(mActionListener)
-                .neutralActionClickListener(mActionListener);
+        dialog.positiveActionClickListener(mActionListener).negativeActionClickListener(mActionListener).neutralActionClickListener(mActionListener);
         return dialog;
     }
 
@@ -64,8 +61,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
     public void onDestroyView() {
         android.app.Dialog dialog = getDialog();
 
-        if (dialog != null && dialog instanceof Dialog)
-            ((Dialog) dialog).dismissImmediately();
+        if (dialog != null && dialog instanceof Dialog) ((Dialog) dialog).dismissImmediately();
 
         super.onDestroyView();
     }

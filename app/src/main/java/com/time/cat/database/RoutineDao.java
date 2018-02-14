@@ -66,7 +66,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
     @Override
     public List<DBRoutine> findAll() {
         try {
-            return dao.queryBuilder().orderBy(DBRoutine.COLUMN_TIME,true).query();
+            return dao.queryBuilder().orderBy(DBRoutine.COLUMN_TIME, true).query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
@@ -84,10 +84,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
 
     public List<DBRoutine> findAll(Long userId) {
         try {
-            return dao.queryBuilder()
-                    .orderBy(DBRoutine.COLUMN_TIME, true)
-                    .where().eq(DBRoutine.COLUMN_USER, userId)
-                    .query();
+            return dao.queryBuilder().orderBy(DBRoutine.COLUMN_TIME, true).where().eq(DBRoutine.COLUMN_USER, userId).query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
@@ -97,7 +94,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
         try {
             QueryBuilder<DBRoutine, Long> qb = dao.queryBuilder();
             Where w = qb.where();
-            w.and(w.eq(DBRoutine.COLUMN_NAME, name),w.eq(DBRoutine.COLUMN_USER, p));
+            w.and(w.eq(DBRoutine.COLUMN_NAME, name), w.eq(DBRoutine.COLUMN_USER, p));
             qb.setWhere(w);
             return qb.queryForFirst();
         } catch (SQLException e) {
@@ -116,9 +113,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
 
             LocalTime endTime = time.plusMinutes(59);
 
-            return queryBuilder().where()
-                    .between(DBRoutine.COLUMN_TIME, time, endTime)
-                    .query();
+            return queryBuilder().where().between(DBRoutine.COLUMN_TIME, time, endTime).query();
         } catch (Exception e) {
             Log.e(TAG, "Error in findInHour", e);
             throw new RuntimeException(e);

@@ -42,8 +42,7 @@ public class ColorTextView extends TextView {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         final Resources.Theme theme = context.getTheme();
         int[] styles = new int[]{-2000244};
-        TypedArray a = theme.obtainStyledAttributes(
-                attrs, styles, defStyleAttr, 0);
+        TypedArray a = theme.obtainStyledAttributes(attrs, styles, defStyleAttr, 0);
 
         int n = a.getIndexCount();
         for (int i = 0; i < n; i++) {

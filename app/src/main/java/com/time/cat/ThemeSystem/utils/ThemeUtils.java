@@ -66,8 +66,6 @@ import java.util.LinkedList;
  * Email : xyczero@sina.com
  */
 public class ThemeUtils {
-    private static final ThreadLocal<TypedValue> TL_TYPED_VALUE = new ThreadLocal<>();
-
     public static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
     public static final int[] ENABLED_STATE_SET = new int[]{android.R.attr.state_enabled};
     public static final int[] FOCUSED_STATE_SET = new int[]{android.R.attr.state_focused};
@@ -76,9 +74,14 @@ public class ThemeUtils {
     public static final int[] CHECKED_STATE_SET = new int[]{android.R.attr.state_checked};
     public static final int[] SELECTED_STATE_SET = new int[]{android.R.attr.state_selected};
     public static final int[] EMPTY_STATE_SET = new int[0];
-
+    private static final ThreadLocal<TypedValue> TL_TYPED_VALUE = new ThreadLocal<>();
     private static final int[] TEMP_ARRAY = new int[1];
-
+    public static switchColor mSwitchColor;
+    // skip animated-selector when android version is 5.0.x
+    private static boolean isSkipAnimatedSelector = false;
+    private static boolean hasRecordedVersion = false;
+    private static Field mRecycler;
+    private static Method mClearMethod;
 
     public static Drawable tintDrawable(Drawable drawable, @ColorInt int color, PorterDuff.Mode mode) {
         if (drawable == null) return null;
@@ -124,20 +127,17 @@ public class ThemeUtils {
         return tintDrawable(drawable, TintManager.get(context).getColorStateList(colorListId), mode == null ? PorterDuff.Mode.SRC_IN : mode);
     }
 
-    public static
-    @ColorInt
+    public static @ColorInt
     int getColorById(Context context, @ColorRes int colorId) {
         return replaceColorById(context, colorId);
     }
 
-    public static
-    @ColorInt
+    public static @ColorInt
     int getColor(Context context, @ColorInt int color) {
         return replaceColor(context, color);
     }
 
-    public static
-    @ColorInt
+    public static @ColorInt
     int getThemeAttrColor(Context context, @AttrRes int attr) {
         return hasThemeAttr(context, attr) ? replaceColorById(context, getThemeAttrId(context, attr)) : Color.TRANSPARENT;
     }
@@ -235,10 +235,6 @@ public class ThemeUtils {
         return typedValue;
     }
 
-    // skip animated-selector when android version is 5.0.x
-    private static boolean isSkipAnimatedSelector = false;
-    private static boolean hasRecordedVersion = false;
-
     public static boolean isSkipAnimatedSelector() {
         if (!hasRecordedVersion) {
             final String sdkVersion = Build.VERSION.RELEASE;
@@ -250,9 +246,7 @@ public class ThemeUtils {
 
     public static boolean containsNinePatch(Drawable drawable) {
         drawable = getWrapperDrawable(drawable);
-        if (drawable instanceof NinePatchDrawable
-                || drawable instanceof InsetDrawable
-                || drawable instanceof LayerDrawable) {
+        if (drawable instanceof NinePatchDrawable || drawable instanceof InsetDrawable || drawable instanceof LayerDrawable) {
             return true;
         } else if (drawable instanceof StateListDrawable) {
             final DrawableContainer.DrawableContainerState containerState = ((DrawableContainer.DrawableContainerState) drawable.getConstantState());
@@ -263,9 +257,7 @@ public class ThemeUtils {
             }
             for (Drawable dr : containerState.getChildren()) {
                 dr = getWrapperDrawable(dr);
-                if (dr instanceof NinePatchDrawable
-                        || dr instanceof InsetDrawable
-                        || dr instanceof LayerDrawable) {
+                if (dr instanceof NinePatchDrawable || dr instanceof InsetDrawable || dr instanceof LayerDrawable) {
                     return true;
                 }
             }
@@ -367,9 +359,7 @@ public class ThemeUtils {
     }
 
     private static int[] wrapState(boolean hasDisable, int[] targetState) {
-        return targetState.length > 0
-                ? (hasDisable ? new int[]{ENABLED_STATE_SET[0], targetState[0]} : targetState)
-                : (hasDisable ? ENABLED_STATE_SET : targetState);
+        return targetState.length > 0 ? (hasDisable ? new int[]{ENABLED_STATE_SET[0], targetState[0]} : targetState) : (hasDisable ? ENABLED_STATE_SET : targetState);
     }
 
     public static ColorStateList getThemeColorStateList(Context context, ColorStateList origin) {
@@ -426,9 +416,6 @@ public class ThemeUtils {
         }
     }
 
-    private static Field mRecycler;
-    private static Method mClearMethod;
-
     private static void refreshView(View view, ExtraRefreshable extraRefreshable) {
         if (view == null) return;
 
@@ -460,8 +447,7 @@ public class ThemeUtils {
                         mRecycler.setAccessible(true);
                     }
                     if (mClearMethod == null) {
-                        mClearMethod = Class.forName("android.support.v7.widget.RecyclerView$Recycler")
-                                .getDeclaredMethod("clear");
+                        mClearMethod = Class.forName("android.support.v7.widget.RecyclerView$Recycler").getDeclaredMethod("clear");
                         mClearMethod.setAccessible(true);
                     }
                     mClearMethod.invoke(mRecycler.get(view));
@@ -487,28 +473,24 @@ public class ThemeUtils {
         }
     }
 
-    public interface ExtraRefreshable {
-        void refreshGlobal(Activity activity);
-
-        void refreshSpecificView(View view);
-    }
-
-    public static switchColor mSwitchColor;
-
     public static void setSwitchColor(switchColor switchColor) {
         mSwitchColor = switchColor;
     }
 
-    static
-    @ColorInt
+    static @ColorInt
     int replaceColorById(Context context, @ColorRes int colorId) {
         return mSwitchColor == null ? Color.TRANSPARENT : mSwitchColor.replaceColorById(context, colorId);
     }
 
-    static
-    @ColorInt
+    static @ColorInt
     int replaceColor(Context context, @ColorInt int color) {
         return mSwitchColor == null ? Color.TRANSPARENT : mSwitchColor.replaceColor(context, color);
+    }
+
+    public interface ExtraRefreshable {
+        void refreshGlobal(Activity activity);
+
+        void refreshSpecificView(View view);
     }
 
     public interface switchColor {
