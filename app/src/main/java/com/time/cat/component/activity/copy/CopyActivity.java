@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.time.cat.R;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.util.ArcTipViewController;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
@@ -76,8 +76,8 @@ public class CopyActivity extends BaseActivity {
                 return;
             }
 
-            actionBar.setTitle((CharSequence) null);
-            actionBar.setSubtitle((CharSequence) null);
+            actionBar.setTitle(null);
+            actionBar.setSubtitle(null);
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
         }
 
@@ -87,7 +87,7 @@ public class CopyActivity extends BaseActivity {
 //        ClipboardUtils.setText(this,getSelectedTextViewText(var1));
 
         Intent intent = new Intent(this, TimeCatActivity.class);
-        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(TimeCatActivity.TO_SPLIT_STR, getSelectedTextViewText(textView));
         startActivity(intent);
     }
@@ -142,7 +142,7 @@ public class CopyActivity extends BaseActivity {
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(layoutParams);
-        TextView textView = (TextView) view.findViewById(R.id.text);
+        TextView textView = view.findViewById(R.id.text);
         textView.setText(getSelectedText());
         textView.setCustomSelectionActionModeCallback(new MySelectionActionModeCallback(textView));
         view.findViewById(R.id.fab_copy).setOnClickListener(new View.OnClickListener() {
@@ -175,11 +175,7 @@ public class CopyActivity extends BaseActivity {
     private void adjustActionBarWrap() {
         boolean showTitle = true;
         boolean hadSelection;
-        if (selectedNodes.size() > 0) {
-            hadSelection = true;
-        } else {
-            hadSelection = false;
-        }
+        hadSelection = selectedNodes.size() > 0;
 
         if (hadSelection) {
             showTitle = false;
@@ -192,7 +188,7 @@ public class CopyActivity extends BaseActivity {
         StringBuilder text = new StringBuilder();
 
         for (int i = 0; i < selectedNodes.size(); ++i) {
-            text.append(((CopyNodeView) selectedNodes.get(i)).getText());
+            text.append(selectedNodes.get(i).getText());
             if (i + 1 < selectedNodes.size()) {
                 text.append("\n");
             }
@@ -211,7 +207,7 @@ public class CopyActivity extends BaseActivity {
         ArcTipViewController.getInstance().showHideFloatImageView();
 
         setContentView(R.layout.activity_copy_overlay);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
 
             try {
@@ -253,7 +249,7 @@ public class CopyActivity extends BaseActivity {
                 }
             }
         };
-        copyFab = (FloatingActionButton) findViewById(R.id.fab_copy_main);
+        copyFab = findViewById(R.id.fab_copy_main);
         copyFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,7 +258,7 @@ public class CopyActivity extends BaseActivity {
                 finish();
             }
         });
-        exitFab = (FloatingActionButton) findViewById(R.id.exit_button);
+        exitFab = findViewById(R.id.exit_button);
         exitFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -270,7 +266,7 @@ public class CopyActivity extends BaseActivity {
                 finish();
             }
         });
-        exitFullScreenFab = (FloatingActionButton) findViewById(R.id.exit_full_screen_button);
+        exitFullScreenFab = findViewById(R.id.exit_full_screen_button);
         exitFullScreenFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -284,7 +280,7 @@ public class CopyActivity extends BaseActivity {
 
         int statusBarHeight = getStatusBarHeight();
         int height = displayMetrics.heightPixels;
-        copyNodeViewContainer = (FrameLayout) findViewById(R.id.overlay_root);
+        copyNodeViewContainer = findViewById(R.id.overlay_root);
         TypedValue typedValue = new TypedValue();
         if (getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
@@ -302,7 +298,7 @@ public class CopyActivity extends BaseActivity {
         if (packageName != null) {
             height = statusBarHeight;
             if ("com.android.chrome".equals(packageName)) {
-                height = (int) (actionBarHeight - statusBarHeight - ViewUtil.dp2px(7));
+                height = actionBarHeight - statusBarHeight - ViewUtil.dp2px(7);
             }
         }
 
@@ -366,7 +362,7 @@ public class CopyActivity extends BaseActivity {
                 return true;
             case R.id.action_copy:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_COPY_ACTION);
-                setSelectTextToClipboard((TextView) null);
+                setSelectTextToClipboard(null);
                 finish();
                 return true;
             default:

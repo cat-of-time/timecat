@@ -61,16 +61,16 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.ocr_picture);
 
 
         mCropParams = new CropParams(this);
-        mImageView = (ImageView) findViewById(R.id.image);
-        editText = (AppCompatEditText) findViewById(R.id.result);
-        mPicReOcr = (Button) findViewById(R.id.re_ocr);
+        mImageView = findViewById(R.id.image);
+        editText = findViewById(R.id.result);
+        mPicReOcr = findViewById(R.id.re_ocr);
         findViewById(R.id.take_pic).setOnClickListener(this);
         findViewById(R.id.select_pic).setOnClickListener(this);
         findViewById(R.id.re_ocr).setOnClickListener(this);
@@ -81,7 +81,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TO_TIMECAT_ACTIVITY);
                 Intent intent = new Intent(OcrActivity.this, TimeCatActivity.class);
-                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(TimeCatActivity.TO_SPLIT_STR, editText.getText().toString());
                 startActivity(intent);
             }
@@ -301,7 +301,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
     private void showBigBang(String result) {
         Intent intent = new Intent(this, TimeCatActivity.class);
-        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(TimeCatActivity.TO_SPLIT_STR, result);
         startActivity(intent);
     }

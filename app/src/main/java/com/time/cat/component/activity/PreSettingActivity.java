@@ -65,13 +65,13 @@ public class PreSettingActivity extends BaseActivity {
     }
 
     private void initView() {
-        title = (ColorTextView) findViewById(R.id.title);
+        title = findViewById(R.id.title);
         title.setColorTextColor(getResources().getColor(R.color.colorPrimary));
         title.setColorText(getResources().getString(R.string.pre_setting_title));
-        colorText = (ColorTextView) findViewById(R.id.control_setting_title);
+        colorText = findViewById(R.id.control_setting_title);
         colorText.setColorTextColor(getResources().getColor(R.color.colorPrimary));
         colorText.setColorText(getResources().getString(R.string.pre_setting_intro1));
-        colorTextInto = (ColorTextView) findViewById(R.id.introduction);
+        colorTextInto = findViewById(R.id.introduction);
         colorTextInto.setColorTextColor(getResources().getColor(R.color.colorPrimary));
         colorTextInto.setColorText(getResources().getString(R.string.pre_setting_intro2));
 
@@ -82,7 +82,7 @@ public class PreSettingActivity extends BaseActivity {
             }
         });
 
-        controlByFloat = (CheckBox) findViewById(R.id.contron_by_float);
+        controlByFloat = findViewById(R.id.contron_by_float);
         controlByFloat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -118,7 +118,7 @@ public class PreSettingActivity extends BaseActivity {
                 }
             }
         });
-        controlByNotify = (CheckBox) findViewById(R.id.contron_by_notify);
+        controlByNotify = findViewById(R.id.contron_by_notify);
         controlByNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -150,7 +150,7 @@ public class PreSettingActivity extends BaseActivity {
                 }
             }
         });
-        triggerByFloat = (CheckBox) findViewById(R.id.trigger_by_float);
+        triggerByFloat = findViewById(R.id.trigger_by_float);
         triggerByFloat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -158,7 +158,7 @@ public class PreSettingActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.PRE__TRIGGER, isChecked);
             }
         });
-        confirmSetting = (TextView) findViewById(R.id.confirm);
+        confirmSetting = findViewById(R.id.confirm);
         confirmSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

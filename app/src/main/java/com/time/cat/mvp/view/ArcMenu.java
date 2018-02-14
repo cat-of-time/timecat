@@ -90,9 +90,9 @@ public class ArcMenu extends FrameLayout {
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         li.inflate(R.layout.arc_menu, this);
 
-        mArcLayout = (ArcLayout) findViewById(R.id.item_layout);
+        mArcLayout = findViewById(R.id.item_layout);
 
-        controlLayout = (ViewGroup) findViewById(R.id.control_layout);
+        controlLayout = findViewById(R.id.control_layout);
         controlLayout.setClickable(true);
         controlLayout.setOnTouchListener(new OnTouchListener() {
 
@@ -115,7 +115,7 @@ public class ArcMenu extends FrameLayout {
             }
         });
 
-        mHintView = (ImageView) findViewById(R.id.control_hint);
+        mHintView = findViewById(R.id.control_hint);
     }
 
     private void applyAttrs(AttributeSet attrs) {
@@ -159,7 +159,7 @@ public class ArcMenu extends FrameLayout {
     }
 
     public void setArcLayoutSize(int width) {
-        ViewGroup.LayoutParams layoutParams = (LayoutParams) mArcLayout.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = mArcLayout.getLayoutParams();
         if (layoutParams != null) {
             layoutParams.width = width;
             layoutParams.height = width;

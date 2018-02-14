@@ -1,4 +1,4 @@
-package com.time.cat.util;
+package com.time.cat.component;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -32,10 +32,14 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.SettingFloatViewActivity;
 import com.time.cat.component.activity.main.MainActivity;
-import com.time.cat.component.activity.main.schedules.ScheduleCreateOrEditActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
+import com.time.cat.component.dialog.DialogActivity;
 import com.time.cat.mvp.view.ArcMenu;
 import com.time.cat.mvp.view.PathMenu;
+import com.time.cat.util.ConstantUtil;
+import com.time.cat.util.LogUtil;
+import com.time.cat.util.UrlCountUtil;
+import com.time.cat.util.ViewUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -200,8 +204,8 @@ public class ArcTipViewController implements View.OnTouchListener {
                             acrFloatView.setOnTouchListener(ArcTipViewController.this);
                             floatImageView.setContentDescription(mContext.getString(R.string.float_view_hide));
                             LinearLayout.LayoutParams layoutParams_ = (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
-                            layoutParams_.width = (int) ((int) ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE, 100) / 100f);
-                            layoutParams_.height = (int) ViewUtil.dp2px(MIN_LENGTH);
+                            layoutParams_.width = (int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE, 100) / 100f);
+                            layoutParams_.height = ViewUtil.dp2px(MIN_LENGTH);
                             layoutParams_.gravity = Gravity.NO_GRAVITY;
                             floatImageView.setLayoutParams(layoutParams_);
                             floatImageView.setPadding(0, 0, 0, 0);
@@ -323,9 +327,9 @@ public class ArcTipViewController implements View.OnTouchListener {
         }
 
         iconFloatView = (LinearLayout) View.inflate(mContext, R.layout.arc_float_icon, null);
-        floatImageView = ((ImageView) iconFloatView.findViewById(R.id.float_image));
+        floatImageView = iconFloatView.findViewById(R.id.float_image);
         acrFloatView = (RelativeLayout) View.inflate(mContext, R.layout.arc_view_float, null);
-        archMenu = (ArcMenu) acrFloatView.findViewById(R.id.arc_menu);
+        archMenu = acrFloatView.findViewById(R.id.arc_menu);
         initIcon();
         archMenu.setOnModeSelectedListener(new ArcMenu.OnModeSelectedListener() {
             @Override
@@ -457,8 +461,8 @@ public class ArcTipViewController implements View.OnTouchListener {
         arcMenuPadding = (int) (ViewUtil.dp2px(12) * persent);
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) archMenu.getLayoutParams();
         if (layoutParams != null) {
-            layoutParams.width = (int) ViewUtil.dp2px(MAX_LENGTH);
-            layoutParams.height = (int) ViewUtil.dp2px(MAX_LENGTH);
+            layoutParams.width = ViewUtil.dp2px(MAX_LENGTH);
+            layoutParams.height = ViewUtil.dp2px(MAX_LENGTH);
             archMenu.setLayoutParams(layoutParams);
         }
         archMenu.applySizeChange(persent);
@@ -479,10 +483,43 @@ public class ArcTipViewController implements View.OnTouchListener {
                 break;
             case 1:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);
-                Intent intent2ScheduleCreateOrEditActivity = new Intent();
-                intent2ScheduleCreateOrEditActivity.setClass(mContext, ScheduleCreateOrEditActivity.class);
-                intent2ScheduleCreateOrEditActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent2ScheduleCreateOrEditActivity);
+//                Intent intent2ScheduleCreateOrEditActivity = new Intent();
+//                intent2ScheduleCreateOrEditActivity.setClass(mContext, ScheduleCreateOrEditActivity.class);
+//                intent2ScheduleCreateOrEditActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                mContext.startActivity(intent2ScheduleCreateOrEditActivity);
+
+                Intent intent2DialogActivity = new Intent();
+                intent2DialogActivity.setClass(mContext, DialogActivity.class);
+                intent2DialogActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent2DialogActivity);
+//                DialogPlus dialogPlus = DialogPlus.newDialog(mContext)
+//                        .setAdapter(new SimpleAdapter(mContext, true))
+//                        .setCancelable(true)
+//                        .setOnDismissListener(new OnDismissListener() {
+//                            @Override
+//                            public void onDismiss(DialogPlus dialog) {
+//                            }
+//                        })
+//                        .setOnCancelListener(new OnCancelListener() {
+//                            @Override
+//                            public void onCancel(DialogPlus dialog) {
+//                            }
+//                        })
+//                        .setOnBackPressListener(new OnBackPressListener() {
+//                            @Override
+//                            public void onBackPressed(DialogPlus dialogPlus) {
+//                            }
+//                        })
+//                        .create();
+//
+//
+//                dialogPlus.show();
+
+//                Dialog adDialog = new Dialog(mContext.getApplicationContext(), R.style.DialogNoAnimation);
+//                adDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+//                View adDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_grid,null);
+//                adDialog.setContentView(adDialogView);
+//                adDialog.show();
                 break;
             case 2:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_COPY);

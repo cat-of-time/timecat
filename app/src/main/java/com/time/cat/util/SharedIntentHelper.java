@@ -152,8 +152,8 @@ public class SharedIntentHelper {
         Intent callIntent = new Intent("android.intent.action.DIAL", Uri.parse("tel:10086"));
         Intent urlInent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.baidu.com"));
         List<ResolveInfo> callResoves = context.getPackageManager().queryIntentActivities(callIntent, 0);
-        List<ResolveInfo> geoResolves = context.getPackageManager().queryIntentActivities((Intent) geoIntent, 0);
-        List<ResolveInfo> urlResolves = context.getPackageManager().queryIntentActivities((Intent) urlInent, 0);
+        List<ResolveInfo> geoResolves = context.getPackageManager().queryIntentActivities(geoIntent, 0);
+        List<ResolveInfo> urlResolves = context.getPackageManager().queryIntentActivities(urlInent, 0);
         Intent textIntent = new Intent("android.intent.action.SEND");
         textIntent.setType("text/plain");
         List<ResolveInfo> textResolves = context.getPackageManager().queryIntentActivities(textIntent, 0);

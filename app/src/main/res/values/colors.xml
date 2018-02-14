@@ -9,7 +9,6 @@
     <color name="text_color_import">#E64A19</color>
     <color name="text_color_half_trans">#80FFFFFF</color>
 
-    <color name="radio_colors">@color/colorPrimary</color>
     <color name="label_important_urgent_color">@color/red</color>
     <color name="label_important_not_urgent_color">@color/orange</color>
     <color name="label_not_important_urgent_color">@color/blue</color>
@@ -43,7 +42,6 @@
 
     <color name="playbarProgressColor">@color/theme_color</color>
 
-    <color name="normalBackground">#fff2f4f5</color>
     <color name="background_material_light_1">#fafafa</color>
 
     <!-- text color -->
@@ -176,17 +174,9 @@
 
     <!--Login & SignUp-->
     <color name="accent">#FFFFFF</color>
-    <color name="jet">#222222</color>
-    <color name="oil">#333333</color>
-    <color name="monsoon">#777777</color>
-    <color name="jumbo">#888888</color>
-    <color name="aluminum">#999999</color>
-    <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
 
     <!--drawer-->
-    <color name="drawerbg_default">#272727</color>
-    <color name="drawerbg">#3c3c3c</color>
     <color name="android_blue">#33B5E5</color>
     <color name="android_blue_dark">#0099CC</color>
     <color name="android_blue_darker">#0077aa</color>
@@ -197,7 +187,6 @@
     <color name="android_orange_light">#55FFBB33</color>
     <color name="android_orange_lighter">#22FFBB33</color>
     <color name="dark_grey_home">#272727</color>
-    <color name="dark_grey_home_statusbar">#151515</color>
     <color name="dark_grey_text">#5e5e5e</color>
 
     <!--fab-->
@@ -216,4 +205,49 @@
     <!--schedule_hel-->
     <color name="schedule_help_background">#3498db</color>
     <color name="schedule_help_background_dark">#2980b9</color>
+
+
+    <color name="colorControlNormal">#FF78909C</color>
+    <color name="colorControlActivated">#FF03A9F4</color>
+    <color name="colorSwitchThumbNormal">#FF78909C</color>
+
+    <color name="colorPrimaryQuarter">#3303A9F4</color>
+    <color name="colorPrimaryHalf">#9003A9F4</color>
+    <color name="colorControlNormalHalf">#9078909C</color>
+    <color name="colorControlActivatedHalf">#9003A9F4</color>
+    <color name="colorAccentQuarter">#3300E5FF</color>
+    <color name="colorAccentHalf">#9000E5FF</color>
+
+    <array name="progress_colors_light">
+        <item>#FF03A9F4</item>
+        <item>#FFD8433C</item>
+        <item>#FFF2AF3A</item>
+        <item>#FF279B5E</item>
+    </array>
+
+    <array name="progress_colors_dark">
+        <item>#FF00E5FF</item>
+        <item>#ffd81d5a</item>
+        <item>#fff27512</item>
+        <item>#ff63bc34</item>
+    </array>
+
+    <array name="in_colors_light">
+        <item>#4B03A9F4</item>
+        <item>#3303A9F4</item>
+        <item>#1903A9F4</item>
+    </array>
+
+    <array name="in_colors_dark">
+        <item>#4B00E5FF</item>
+        <item>#3300E5FF</item>
+        <item>#1900E5FF</item>
+    </array>
+
+    <color name="tpi_checked">#FFFFFFFF</color>
+    <color name="tpi_unchecked">#99FFFFFF</color>
+
+    <color name="et_divider_focused">@color/colorControlActivated</color>
+    <color name="et_divider_not_focused">#FF6D6D6D</color>
+    <color name="et_divider_disable">#FFC1C1C1</color>
 </resources>

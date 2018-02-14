@@ -394,15 +394,6 @@
     </string>
 
     <string name="about_xposed">关于XP版多种触发方式的设置</string>
-    <string name="about_xposed_msg">\t\t\t\tXP版本跟普通版本一样，提供了单击、双击、长按，三种触发方式。\n\t\t\t\t
-触发的原理是在你点击的时候取点击到的文字，所以有些不可点击的区域也是可以触发的，比如QQ左上角的返回。有些点击区域，如果你点击到了文字上，也是能单独取出这些文字的。\n\t\t\t\t
-但是如果使用单击触发，就可能出现一些误触的情况，当然如果配合“点击悬浮球触发”会好一些，所以到底如何设置，还是看各位的使用习惯。\n\t\t\t\t
-已知bug：\n\t\t\t\t
-1.在qq中，如果用长按触发，会与默认长按有点冲突，导致长按菜单显示不出来，\n\t\t\t\t
-2.qq空间无法触发，\n\t\t\t\t
-3.全局复制目前还是依靠辅助服务做的。\n\t\t\t\t
-目前还不够完善，如果有使用问题欢迎反馈。\n\t\t\t\t
-PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会尽量优化的。</string>
     <string name="about_description">
         <![CDATA[
     For this development, we use several open source libraries that are shown below:
@@ -433,8 +424,6 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
 
 
     <string name="bb_long_press_toast">试试长按一个词组</string>
-    <string name="xp_monitor_click_hint">需要对每个应用单独设置合适的点击方式</string>
-    <string name="xp_monitor_click_msg">Xposed点击炸词</string>
 
 
     <string name="is_stick_view">固定悬浮球位置</string>
@@ -482,50 +471,18 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="title_activity_routines">Routines</string>
     <string name="title_activity_plans">Plans</string>
     <string name="title_activity_medicines">Medicines</string>
-    <string name="title_activity_calendar">Pickups calendar</string>
-    <string name="title_activity_about">AboutActivity</string>
 
-    <string name="title_activity_schedule_list">Schedules</string>
-    <string name="title_activity_start">StartActivity</string>
-    <string name="title_activity_reminder">ReminderActivity</string>
-    <string name="title_activity_agenda_detail">AgendaDetailActivity</string>
-    <string name="title_activity_confirm_schedules">Confirm schedules</string>
-    <string name="title_activity_user_detail">UserDetailActivity</string>
-    <string name="title_activity_webview" translatable="false">WebViewActivity</string>
-
-    <string name="home_menu_routines">ROUTINES</string>
     <string name="home_menu_medicines">MEDICINES</string>
-    <string name="home_menu_schedules">SCHEDULES</string>
     <string name="home_menu_pharmacies">Pharmacies</string>
-    <string name="home_menu_plan">Plan</string>
-    <string name="drawer_top_option">Top</string>
-    <string name="drawer_menu_option">Menu</string>
-    <string name="drawer_bottom_option">Bottom</string>
-    <string name="drawer_services_option">Tools</string>
     <string name="drawer_theme_option">Theme</string>
     <string name="drawer_settings_option">Settings</string>
-    <string name="drawer_about_option">About</string>
+    <string name="drawer_about_option">About</string><![CDATA[
 
-    <string-array name="home_drawer_actions">
-        <item>@string/drawer_top_option</item>
-        <item>Home</item>
-        <item>Menu</item>
-        <item>Routines</item>
-        <item>Medicines</item>
-        <item>Schedules</item>
-        <item>@string/drawer_services_option</item>
-        <item>Pharmacies</item>
-        <item>Plan</item>
-        <item>@string/drawer_bottom_option</item>
-
-    </string-array>
     DBRoutinetine-->
+    ]]>
     <string name="routines_list_empty_text">There are no routines yet.\n\nRoutines are times when you need to take care, like breakfast or dinner. You can reuse it for creating schedules faster.</string>
-    <string name="medicines_list_empty_text">There are no meds yet.\n\nAdd your meds to the kit, and you will have easy access to leaflets and warnings.</string>
-    <string name="schedules_list_empty_text">There are no schedules yet.\n\nAdd your schedules here and let we just notify you! </string>
     <string name="remove_routine_message_long">The DBRoutine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
     <string name="remove_routine_message_short">Remove %1$s DBRoutine?</string>
-    <string name="remove_medicine_message_short">Remove %1$s?</string>
     <string name="remove_routine_dialog_title">Remove DBRoutine</string>
     <string name="dialog_yes_option">Yes</string>
     <string name="dialog_no_option">No</string>
@@ -534,8 +491,6 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="schedule_type_routines_title">Routine task</string>
     <string name="schedule_type_hourly_title">Dosing interval</string>
     <string name="schedule_type_period_title">Period + rest</string>
-    <string name="schedule_type_common_periods">Common cycles</string>
-    <string name="schedule_type_from_qr">Desde QR</string>
 
 
     <string name="schedule_type_help_title">

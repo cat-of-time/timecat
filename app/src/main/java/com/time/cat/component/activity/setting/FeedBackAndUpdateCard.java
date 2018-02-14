@@ -69,9 +69,9 @@ public class FeedBackAndUpdateCard extends AbsCard {
     protected void initView(Context context) {
         mContext = context;
         LayoutInflater.from(mContext).inflate(R.layout.card_feedback_update, this);
-        checkUpdate = (TextView) findViewById(R.id.check_update);
-        feedback = (TextView) findViewById(R.id.feedback);
-        introduction = (TextView) findViewById(R.id.introduction);
+        checkUpdate = findViewById(R.id.check_update);
+        feedback = findViewById(R.id.feedback);
+        introduction = findViewById(R.id.introduction);
 
         checkUpdate.setOnClickListener(myOnClickListener);
         feedback.setOnClickListener(myOnClickListener);

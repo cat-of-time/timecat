@@ -206,9 +206,9 @@ public class ShareCard extends FrameLayout {
     protected void initView(Context context) {
         mContext = context;
         LayoutInflater.from(mContext).inflate(R.layout.card_share, this);
-        shareTV = (TextView) findViewById(R.id.share_msg);
-        cancelBtn = (Button) findViewById(R.id.share_cancel);
-        confirmBtn = (Button) findViewById(R.id.share_confirm);
+        shareTV = findViewById(R.id.share_msg);
+        cancelBtn = findViewById(R.id.share_cancel);
+        confirmBtn = findViewById(R.id.share_confirm);
         cancelBtn.setOnClickListener(myOnClickListener);
         confirmBtn.setOnClickListener(myOnClickListener);
         refreshText();
@@ -239,7 +239,7 @@ public class ShareCard extends FrameLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                int height = (int) ViewUtil.dp2px(120);
+                int height = ViewUtil.dp2px(120);
                 ObjectAnimator objectAnimator = ObjectAnimator.ofInt(ShareCard.this, "height", height);
                 objectAnimator.setDuration(500);
                 objectAnimator.setInterpolator(new OvershootInterpolator());

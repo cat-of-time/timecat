@@ -61,7 +61,7 @@ public class FloatViewWhiteListActivity extends BaseActivity {
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) this.getWindow().getDecorView(), true, R.color.colorPrimary);
         setContentView(R.layout.activity_monitor_white_list);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.float_white_list);
@@ -94,7 +94,7 @@ public class FloatViewWhiteListActivity extends BaseActivity {
             selectAll = menu.findItem(R.id.select_all);
             setSelection = menu.findItem(R.id.setSelection);
 
-            final SearchView.SearchAutoComplete searchEditText = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+            final SearchView.SearchAutoComplete searchEditText = searchView.findViewById(R.id.search_src_text);
 
             searchEditText.setTextColor(getResources().getColor(R.color.white));
             searchView.setQueryHint("Search");
@@ -216,9 +216,9 @@ public class FloatViewWhiteListActivity extends BaseActivity {
 
     private void initView() {
         mSelectedApplicationInfos = new HashSet<>();
-        mLoadingProgressBar = (ContentLoadingProgressBar) findViewById(R.id.loading);
+        mLoadingProgressBar = findViewById(R.id.loading);
 
-        mAppListView = (RecyclerView) findViewById(R.id.app_list);
+        mAppListView = findViewById(R.id.app_list);
 
         mLoadingProgressBar.show();
         final Handler handler = new Handler();
@@ -246,11 +246,7 @@ public class FloatViewWhiteListActivity extends BaseActivity {
             selectedPackageNames.add(SPHelper.getString(ConstantUtil.FLOAT_WHITE_LIST + i, ""));
         }
         for (AppListAdapter.ApplicationInfoWrap app : mCanOpenApplicationInfos) {
-            if (selectedPackageNames.contains(app.applicationInfo.packageName)) {
-                app.isSelected = true;
-            } else {
-                app.isSelected = false;
-            }
+            app.isSelected = selectedPackageNames.contains(app.applicationInfo.packageName);
         }
         final PackageManager pm = this.getPackageManager();
         //按名字排序，便于找到应用

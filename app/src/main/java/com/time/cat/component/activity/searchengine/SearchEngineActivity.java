@@ -154,14 +154,14 @@ public class SearchEngineActivity extends BaseActivity {
         setContentView(R.layout.activity_search_engine);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.setting_search_engine);
 
         mContext = this;
         searchEngines = SearchEngineUtil.getInstance().getSearchEngines();
-        swipeMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recyclerview);
+        swipeMenuRecyclerView = findViewById(R.id.recyclerview);
         mLinearLayoutManager = new LinearLayoutManager(this);
         swipeMenuRecyclerView.setLayoutManager(mLinearLayoutManager);// 布局管理器。
         swipeMenuRecyclerView.setHasFixedSize(true);// 如果Item够简单，高度是确定的，打开FixSize将提高性能。
@@ -198,8 +198,8 @@ public class SearchEngineActivity extends BaseActivity {
             protected void onBuildDone(Dialog dialog) {
                 super.onBuildDone(dialog);
                 dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                editName = (EditText) dialog.findViewById(R.id.search_name);
-                editUrl = (EditText) dialog.findViewById(R.id.search_url);
+                editName = dialog.findViewById(R.id.search_name);
+                editUrl = dialog.findViewById(R.id.search_url);
 
             }
 
@@ -239,8 +239,8 @@ public class SearchEngineActivity extends BaseActivity {
             protected void onBuildDone(Dialog dialog) {
                 super.onBuildDone(dialog);
                 dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                editName = (EditText) dialog.findViewById(R.id.search_name);
-                editUrl = (EditText) dialog.findViewById(R.id.search_url);
+                editName = dialog.findViewById(R.id.search_name);
+                editUrl = dialog.findViewById(R.id.search_url);
                 editName.setText(searchEngine.title);
                 editName.setSelection(searchEngine.title.length());
                 editUrl.setText(searchEngine.url);

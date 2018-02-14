@@ -49,10 +49,10 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_app_manager);
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.primary_dark);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mRV = (SwipeMenuRecyclerView) findViewById(R.id.rv);
+        mRV = findViewById(R.id.rv);
         mRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         Adapter.AppInfoAdapter appsAdapter = new Adapter.AppInfoAdapter(mResultAppInfo);
         mRV.setAdapter(appsAdapter);
@@ -95,7 +95,7 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
         final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setOnQueryTextListener(this);
 
-        final SearchView.SearchAutoComplete searchEditText = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+        final SearchView.SearchAutoComplete searchEditText = searchView.findViewById(R.id.search_src_text);
 
         searchEditText.setTextColor(getResources().getColor(R.color.white));
 

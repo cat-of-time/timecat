@@ -224,7 +224,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     }
 
     private void showAppList4OneStep() {
-        mAppsRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.app_list);
+        mAppsRecyclerView = findViewById(R.id.app_list);
         mAppsRecyclerViewLL = findViewById(R.id.app_list_ll);
         if (SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, true)) {
             mAppsRecyclerViewLL.setVisibility(View.VISIBLE);
@@ -471,12 +471,12 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_TRANSLATE);
 
         if (transRl == null) {
-            ViewStub viewStub = (ViewStub) findViewById(R.id.trans_view_stub);
+            ViewStub viewStub = findViewById(R.id.trans_view_stub);
             viewStub.inflate();
-            transRl = (RelativeLayout) findViewById(R.id.trans_rl);
-            toTrans = (EditText) findViewById(R.id.to_translate);
-            transResult = (EditText) findViewById(R.id.translate_result);
-            TextView title = (TextView) findViewById(R.id.title);
+            transRl = findViewById(R.id.trans_rl);
+            toTrans = findViewById(R.id.to_translate);
+            transResult = findViewById(R.id.translate_result);
+            TextView title = findViewById(R.id.title);
 
             title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
             toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));

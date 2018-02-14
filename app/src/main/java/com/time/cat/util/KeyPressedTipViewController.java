@@ -87,11 +87,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
         public void run() {
             Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(10);
-            if (currentKeyCode == KeyEvent.KEYCODE_BACK) {
-                isLongPressedCancel = true;
-            } else {
-                isLongPressedCancel = false;
-            }
+            isLongPressedCancel = currentKeyCode == KeyEvent.KEYCODE_BACK;
             if (currentKeyCode == KeyEvent.KEYCODE_HOME) {
                 isLongPressedHome = true;
             }
@@ -155,13 +151,13 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
 
 
         mWholeView = (KeyRelativeLayout) View.inflate(mContext, R.layout.long_pressed_view_float, null);
-        longPressedLL = (LinearLayout) mWholeView.findViewById(R.id.long_pressed_ll);
+        longPressedLL = mWholeView.findViewById(R.id.long_pressed_ll);
 
-        floatSwitch = (TextView) mWholeView.findViewById(R.id.total_switch);
-        floatClick = (TextView) mWholeView.findViewById(R.id.monitor_click);
-        floatClipboard = (TextView) mWholeView.findViewById(R.id.monitor_clipboard);
-        floatUniversalCopy = (TextView) mWholeView.findViewById(R.id.universal_copy);
-        floatScreen = (TextView) mWholeView.findViewById(R.id.screen_cap);
+        floatSwitch = mWholeView.findViewById(R.id.total_switch);
+        floatClick = mWholeView.findViewById(R.id.monitor_click);
+        floatClipboard = mWholeView.findViewById(R.id.monitor_clipboard);
+        floatUniversalCopy = mWholeView.findViewById(R.id.universal_copy);
+        floatScreen = mWholeView.findViewById(R.id.screen_cap);
 
         Rect bounds = new Rect(0, 0, ViewUtil.dp2px(30), ViewUtil.dp2px(30));
         floatSwitch.setText(totalSwitch);
@@ -396,7 +392,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
     private void showInAnimation(View view, long delay, float toAlpha) {
         synchronized (KeyPressedTipViewController.this) {
             view.setAlpha(0);
-            int y = (int) view.getHeight();
+            int y = view.getHeight();
             view.setY(view.getY() - view.getHeight());
             view.animate().alpha(toAlpha).translationYBy(y).setDuration(DELAY_STEP + 50).setStartDelay(delay).start();
         }

@@ -74,8 +74,8 @@ public class AboutCard extends AbsCard {
     protected void initView(Context context) {
         mContext = context;
         LayoutInflater.from(mContext).inflate(R.layout.card_about, this);
-        about = (TextView) findViewById(R.id.about);
-        share = (TextView) findViewById(R.id.share);
+        about = findViewById(R.id.about);
+        share = findViewById(R.id.share);
 
         about.setOnClickListener(myOnClickListener);
         share.setOnClickListener(myOnClickListener);

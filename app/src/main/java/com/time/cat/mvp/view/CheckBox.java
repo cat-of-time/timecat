@@ -266,6 +266,6 @@ public class CheckBox extends CustomView{
     }
 
     public interface OnCheckListener {
-        public void onCheck(CheckBox view, boolean check);
+        void onCheck(CheckBox view, boolean check);
     }
 }

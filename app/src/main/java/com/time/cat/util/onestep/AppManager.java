@@ -224,7 +224,6 @@ public class AppManager extends DataManager {
                             mHandler.obtainMessage(MSG_DELETE, ai).sendToTarget();
                             mAddedAppItems.remove(i);
                             i--;
-                            ;
                             changed = true;
                         }
                     }

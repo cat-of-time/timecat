@@ -34,7 +34,7 @@ public class BaseRecyclerFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_common, container, false);
-            cardList = (RecyclerView) view.findViewById(R.id.card_list);
+            cardList = view.findViewById(R.id.card_list);
             cardList.addItemDecoration(new DividerItemDecoration(getActivity(),
                     DividerItemDecoration.VERTICAL_LIST));
             prepareCardView();
@@ -43,7 +43,7 @@ public class BaseRecyclerFragment extends BaseFragment {
             cardList.setItemAnimator(new FadeInAnimator());
             cardList.setAdapter(newAdapter);
         }
-        if ((ViewGroup) view.getParent() != null) {
+        if (view.getParent() != null) {
             ((ViewGroup) view.getParent()).removeView(view);
         }
         return view;

@@ -121,9 +121,9 @@ public interface Adapter {
 
         AppInfoViewHolder(ViewGroup vp) {
             super(LayoutInflater.from(vp.getContext()).inflate(R.layout.item_app_info, vp, false));
-            mIcon = (ImageView) itemView.findViewById(R.id.icon);
-            mAppNameTv = (TextView) itemView.findViewById(R.id.app_name);
-            mSwitchCompat = (SwitchCompat) itemView.findViewById(R.id.sc);
+            mIcon = itemView.findViewById(R.id.icon);
+            mAppNameTv = itemView.findViewById(R.id.app_name);
+            mSwitchCompat = itemView.findViewById(R.id.sc);
         }
 
         void onBindViewHolder(ShareAppInfo appInfo) {

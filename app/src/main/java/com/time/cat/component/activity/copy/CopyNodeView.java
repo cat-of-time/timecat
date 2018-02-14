@@ -24,11 +24,7 @@ public class CopyNodeView extends View {
             @Override
             public void onClick(View v) {
                 boolean state;
-                if (!selected) {
-                    state = true;
-                } else {
-                    state = false;
-                }
+                state = !selected;
                 setActiveState(state);
                 clickCallback.onCopyNodeViewClick((CopyNodeView) v, state);
             }
@@ -37,11 +33,7 @@ public class CopyNodeView extends View {
             @Override
             public boolean onLongClick(View v) {
                 boolean state;
-                if (!selected) {
-                    state = true;
-                } else {
-                    state = false;
-                }
+                state = !selected;
                 setActiveState(state);
                 clickCallback.onCopyNodeViewLongClick((CopyNodeView) v, state);
                 return true;

@@ -16,7 +16,7 @@ import com.time.cat.R;
 import com.time.cat.util.clipboard.ClipboardManagerCompat;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
-import com.time.cat.util.ArcTipViewController;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.LogUtil;
 import com.time.cat.util.ToastUtil;
@@ -66,7 +66,7 @@ public final class ListenClipboardService extends Service {
         @Override
         public boolean longPressed() {
             Intent intent = new Intent(ListenClipboardService.this, SettingActivity.class);
-            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return true;
         }
@@ -209,7 +209,7 @@ public final class ListenClipboardService extends Service {
         }
 //        sLastContent = content;
         Intent intent = new Intent(this, TimeCatActivity.class);
-        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.putExtra(TimeCatActivity.TO_SPLIT_STR,sLastContent);
         intent.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
 //        startActivity(intent);

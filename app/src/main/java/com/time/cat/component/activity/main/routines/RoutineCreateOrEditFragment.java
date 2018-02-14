@@ -47,8 +47,8 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
 
         pColor = DB.users().getActive(getActivity()).color();
 
-        mNameTextView = (TextView) rootView.findViewById(R.id.routine_edit_name);
-        timeButton = (Button) rootView.findViewById(R.id.button2);
+        mNameTextView = rootView.findViewById(R.id.routine_edit_name);
+        timeButton = rootView.findViewById(R.id.button2);
 
         timeButton.setTextColor(pColor);
 
@@ -75,7 +75,7 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
 
         if (getDialog() != null) {
             getDialog().setTitle("Create routine");
-            mConfirmButton = (Button) rootView.findViewById(R.id.done_button);
+            mConfirmButton = rootView.findViewById(R.id.done_button);
             mConfirmButton.setVisibility(View.VISIBLE);
             mConfirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -74,12 +74,12 @@ public class WebActivity extends BaseActivity {
         refreshSpinner();
 
         browserSelection = SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0);
-        this.mFrameLayout = ((FrameLayout) findViewById(android.R.id.content));
-        this.mContentLayout = ((LinearLayout) findViewById(R.id.content_view));
+        this.mFrameLayout = findViewById(android.R.id.content);
+        this.mContentLayout = findViewById(R.id.content_view);
         mContentLayout.removeAllViews();
         this.mWebView = new WebView(this);
         this.mContentLayout.addView(this.mWebView, -1, -1);
-        this.mProgressBar = ((ContentLoadingProgressBar) findViewById(R.id.progress));
+        this.mProgressBar = findViewById(R.id.progress);
         mProgressBar.onAttachedToWindow();
         this.mWebView.getSettings().setJavaScriptEnabled(true);
         this.mWebView.setBackgroundColor(-1);
@@ -109,7 +109,7 @@ public class WebActivity extends BaseActivity {
             }
         });
         LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.mWebView.getLayoutParams();
-        int i = (int) ViewUtil.dp2px(2.0F);
+        int i = ViewUtil.dp2px(2.0F);
         localLayoutParams.setMargins(i, 0, i, i);
         this.mWebView.setLayoutParams(localLayoutParams);
         this.mWebView.setWebViewClient(new WebViewClient() {
@@ -162,7 +162,7 @@ public class WebActivity extends BaseActivity {
     private void refreshSpinner() {
         ArrayList<String> engines = SearchEngineUtil.getInstance().getSearchEngineNames();
         engines.add(getResources().getString(R.string.setting_search_engine_web));
-        this.mTitleSpinner = ((AppCompatSpinner) findViewById(R.id.title));
+        this.mTitleSpinner = findViewById(R.id.title);
         mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

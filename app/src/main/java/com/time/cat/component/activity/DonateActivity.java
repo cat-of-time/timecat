@@ -40,7 +40,7 @@ public class DonateActivity extends BaseActivity {
         setContentView(R.layout.activity_donate);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.donate_title);
@@ -95,7 +95,7 @@ public class DonateActivity extends BaseActivity {
 
 
         String qq = getString(R.string.join_qq);
-        donateMsg = (TextView) findViewById(R.id.donate_msg);
+        donateMsg = findViewById(R.id.donate_msg);
         donateMsg.setText(Html.fromHtml(getString(R.string.thinks_for_donate)
                 + "<br /><br /><a href='" + qqJump + "'>" + qq + "</a>"
                 + "<br /><br /><a href='" + zhifubao + "'>" + donate + "</a>"));

@@ -385,7 +385,7 @@ public class SimpleDialog extends Dialog {
          * @param index    The index of item.
          * @param selected The checked state.
          */
-        public void onSelectionChanged(int index, boolean selected);
+        void onSelectionChanged(int index, boolean selected);
     }
 
     public static class Builder extends Dialog.Builder implements OnSelectionChangedListener {
@@ -755,9 +755,9 @@ public class SimpleDialog extends Dialog {
             v.setTag(position);
             v.setText(mItems[position]);
             if (v instanceof CheckBox)
-                ((CheckBox) v).setChecked(mSelected[position]);
+                v.setChecked(mSelected[position]);
             else
-                ((RadioButton) v).setChecked(mSelected[position]);
+                v.setChecked(mSelected[position]);
 
             v.setOnCheckedChangeListener(this);
 

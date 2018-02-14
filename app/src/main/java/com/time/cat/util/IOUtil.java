@@ -51,7 +51,7 @@ public class IOUtil {
 
     public static String readString(File file) throws IOException {
         FileInputStream in = new FileInputStream(file);
-        String str = readString((InputStream) in);
+        String str = readString(in);
         in.close();
         return str;
     }
@@ -73,7 +73,7 @@ public class IOUtil {
 
     public static byte[] readBytes(String path) throws IOException {
         FileInputStream in = new FileInputStream(path);
-        byte[] bytes = readBytes((InputStream) in);
+        byte[] bytes = readBytes(in);
         in.close();
         return bytes;
     }
@@ -250,7 +250,7 @@ public class IOUtil {
         return false;
     }
 
-    public static void serialize(Serializable obj, String file) throws FileNotFoundException, IOException {
+    public static void serialize(Serializable obj, String file) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
 
         try {
@@ -277,7 +277,6 @@ public class IOUtil {
             Object var4 = ois.readObject();
             return var4;
         } catch (Exception var12) {
-            ;
         } finally {
             try {
                 if (ois != null) {

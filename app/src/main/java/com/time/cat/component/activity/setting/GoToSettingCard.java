@@ -60,7 +60,7 @@ public class GoToSettingCard extends AbsCard {
 //            });
 //        }
 
-        autoOpenSwitch = (SwitchCompat) findViewById(R.id.auto_open_switch);
+        autoOpenSwitch = findViewById(R.id.auto_open_switch);
         autoOpenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

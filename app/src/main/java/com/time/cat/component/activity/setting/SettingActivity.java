@@ -71,7 +71,7 @@ public class SettingActivity extends BaseActivity {
                         int openTimes = SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES, 0);
 
                         if (!hadEnterIntro) {
-                            ViewStub viewStub = (ViewStub) findViewById(R.id.intro_card);
+                            ViewStub viewStub = findViewById(R.id.intro_card);
                             viewStub.inflate();
                             return;
                         }
@@ -79,9 +79,9 @@ public class SettingActivity extends BaseActivity {
                         //// TODO: 2016/11/1 第一期先不上分享功能了
                         // TODO: 2016/10/31 如果用户选择不分享，应该短期内不再显示
                         if (!hasShared && openTimes >= 3 && openTimes % 8 == 0) {
-                            ViewStub viewStub = (ViewStub) findViewById(R.id.share_card);
+                            ViewStub viewStub = findViewById(R.id.share_card);
                             viewStub.inflate();
-                            ShareCard shareCard = (ShareCard) findViewById(R.id.share);
+                            ShareCard shareCard = findViewById(R.id.share);
                             shareCard.setDisMissListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -112,7 +112,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initViewPager() {
-        viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager = findViewById(R.id.container);
 //        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -157,12 +157,12 @@ public class SettingActivity extends BaseActivity {
 
     private void initToolBar() {
         // TODO: 2016/1/21 加入评价
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
     private void initIndiator() {
-        tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
     }
 

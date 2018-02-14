@@ -150,11 +150,7 @@ public class RunningTaskUtil {
             long time = System.currentTimeMillis();
             // We get usage stats for the last 10 seconds
             List<UsageStats> stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - 1000 * 60, time);
-            if (stats.size() == 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return stats.size() == 0;
         } else {
             return false;
         }

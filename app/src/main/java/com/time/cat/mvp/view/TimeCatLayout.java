@@ -379,7 +379,7 @@ public class TimeCatLayout extends ViewGroup implements TimeCatHeader.ActionList
                 if (mHeader == v) {
                     continue;
                 }
-                View child = (View) v;
+                View child = v;
                 String content;
                 content = ((TextView) child).getText().toString();
 

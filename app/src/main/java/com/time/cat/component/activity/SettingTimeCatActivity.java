@@ -153,7 +153,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             TextView view = (TextView) holder.itemView;
-            view.setMinimumHeight((int) ViewUtil.dp2px(40));
+            view.setMinimumHeight(ViewUtil.dp2px(40));
             if (position == timecatBackgroungColors.length) {
                 view.setBackgroundColor(getResources().getColor(R.color.white));
                 view.setText(R.string.set_background_myself);
@@ -205,37 +205,37 @@ public class SettingTimeCatActivity extends BaseActivity {
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.setting_timecat);
 
 
-        mTimeCatLayout = (TimeCatLayout) findViewById(R.id.timecat);
-        mTimeCatLayoutWrap = (TimeCatLayoutWrapper) findViewById(R.id.timecat_wrap);
-        cardView = (CardView) findViewById(R.id.timecat_wraper);
+        mTimeCatLayout = findViewById(R.id.timecat);
+        mTimeCatLayoutWrap = findViewById(R.id.timecat_wrap);
+        cardView = findViewById(R.id.timecat_wraper);
 
-        mTextSizeSeekBar = (SeekBar) findViewById(R.id.set_text_size);
-        mLineMarginSeekBar = (SeekBar) findViewById(R.id.set_line_margin);
-        mItemMarginSeekBar = (SeekBar) findViewById(R.id.set_item_margin);
-        mItemPaddingSeekBar = (SeekBar) findViewById(R.id.set_item_padding);
-        mTimecatAlphaSeekBar = (SeekBar) findViewById(R.id.set_timecat_alpha);
+        mTextSizeSeekBar = findViewById(R.id.set_text_size);
+        mLineMarginSeekBar = findViewById(R.id.set_line_margin);
+        mItemMarginSeekBar = findViewById(R.id.set_item_margin);
+        mItemPaddingSeekBar = findViewById(R.id.set_item_padding);
+        mTimecatAlphaSeekBar = findViewById(R.id.set_timecat_alpha);
 
-        textSize = (TextView) findViewById(R.id.text_size);
-        lineMargin = (TextView) findViewById(R.id.line_margin);
-        itemMargin = (TextView) findViewById(R.id.item_margin);
-        itemPadding = (TextView) findViewById(R.id.item_padding);
-        timecatAlpha = (TextView) findViewById(R.id.timecat_alpha);
+        textSize = findViewById(R.id.text_size);
+        lineMargin = findViewById(R.id.line_margin);
+        itemMargin = findViewById(R.id.item_margin);
+        itemPadding = findViewById(R.id.item_padding);
+        timecatAlpha = findViewById(R.id.timecat_alpha);
 
-        backgroundRV = (RecyclerView) findViewById(R.id.timecat_background);
+        backgroundRV = findViewById(R.id.timecat_background);
 
 
-        isFullScreen = (CheckBox) findViewById(R.id.is_full_screen);
-        isStickHeader = (CheckBox) findViewById(R.id.is_stick_header);
-        isStickSharebar = (CheckBox) findViewById(R.id.is_stick_sharebar);
-        isDefaultLocal = (CheckBox) findViewById(R.id.is_default_local);
-        autoAddBlanks = (CheckBox) findViewById(R.id.auto_add_blanks);
-        isBlankSymbol = (CheckBox) findViewById(R.id.is_blank_symbol);
+        isFullScreen = findViewById(R.id.is_full_screen);
+        isStickHeader = findViewById(R.id.is_stick_header);
+        isStickSharebar = findViewById(R.id.is_stick_sharebar);
+        isDefaultLocal = findViewById(R.id.is_default_local);
+        autoAddBlanks = findViewById(R.id.auto_add_blanks);
+        isBlankSymbol = findViewById(R.id.is_blank_symbol);
 
 
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE - MIN_TEXT_SIZE);
@@ -255,7 +255,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         mTextSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = (int) (MIN_TEXT_SIZE + progress);
+                int value = MIN_TEXT_SIZE + progress;
                 mTimeCatLayout.setTextSize(value);
                 textSize.setText(getString(R.string.setting_text_size) + value);
                 SPHelper.save(ConstantUtil.TEXT_SIZE, value);
@@ -276,7 +276,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         mLineMarginSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = (int) (MIN_LINE_MARGIN + progress);
+                int value = MIN_LINE_MARGIN + progress;
                 mTimeCatLayout.setLineSpace(value);
                 lineMargin.setText(getString(R.string.setting_line_margin) + value);
                 SPHelper.save(ConstantUtil.LINE_MARGIN, value);
@@ -296,7 +296,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         mItemMarginSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = (int) (MIN_ITEM_MARGIN + progress);
+                int value = MIN_ITEM_MARGIN + progress;
                 mTimeCatLayout.setItemSpace(value);
                 itemMargin.setText(getString(R.string.setting_item_margin) + value);
                 SPHelper.save(ConstantUtil.ITEM_MARGIN, value);
@@ -318,7 +318,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         mItemPaddingSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = (int) (MIN_ITEM_PADDING + progress);
+                int value = MIN_ITEM_PADDING + progress;
                 mTimeCatLayout.setTextPadding(value);
                 itemPadding.setText(getString(R.string.setting_item_padding) + value);
                 SPHelper.save(ConstantUtil.ITEM_PADDING, value);
@@ -337,7 +337,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         mTimecatAlphaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = (int) (progress);
+                int value = progress;
 //                mTimeCatLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,value);
                 cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
                 timecatAlpha.setText(getString(R.string.setting_alpha_percent) + value + "%");
@@ -407,7 +407,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
         int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
-        int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
+        int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
         alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#fff7ca"));
         boolean fullScreen = SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN, false);
@@ -424,20 +424,20 @@ public class SettingTimeCatActivity extends BaseActivity {
         boolean blankIsSymbol = SPHelper.getBoolean(ConstantUtil.TREAT_BLANKS_AS_SYMBOL, true);
 
 
-        mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));
-        mLineMarginSeekBar.setProgress((int) ((MIN_LINE_MARGIN)));
-        mItemMarginSeekBar.setProgress((int) ((MIN_ITEM_MARGIN)));
-        mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
+        mTextSizeSeekBar.setProgress((MIN_TEXT_SIZE));
+        mLineMarginSeekBar.setProgress((MIN_LINE_MARGIN));
+        mItemMarginSeekBar.setProgress((MIN_ITEM_MARGIN));
+        mItemPaddingSeekBar.setProgress((MIN_ITEM_PADDING));
 
-        mTextSizeSeekBar.setProgress((int) ((MAX_TEXT_SIZE)));
-        mLineMarginSeekBar.setProgress((int) ((MAX_LINE_MARGIN)));
-        mItemMarginSeekBar.setProgress((int) ((MAX_ITEM_MARGIN)));
-        mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
+        mTextSizeSeekBar.setProgress((MAX_TEXT_SIZE));
+        mLineMarginSeekBar.setProgress((MAX_LINE_MARGIN));
+        mItemMarginSeekBar.setProgress((MAX_ITEM_MARGIN));
+        mItemPaddingSeekBar.setProgress((MIN_ITEM_PADDING));
 
-        mTextSizeSeekBar.setProgress((int) ((text - MIN_TEXT_SIZE)));
-        mLineMarginSeekBar.setProgress((int) ((line - MIN_LINE_MARGIN)));
-        mItemMarginSeekBar.setProgress((int) ((item - MIN_ITEM_MARGIN)));
-        mItemPaddingSeekBar.setProgress((int) ((padding - MIN_ITEM_PADDING)));
+        mTextSizeSeekBar.setProgress((text - MIN_TEXT_SIZE));
+        mLineMarginSeekBar.setProgress((line - MIN_LINE_MARGIN));
+        mItemMarginSeekBar.setProgress((item - MIN_ITEM_MARGIN));
+        mItemPaddingSeekBar.setProgress((padding - MIN_ITEM_PADDING));
 
         timecatAlpha.setText(getString(R.string.setting_alpha_percent) + alpha + "%");
 

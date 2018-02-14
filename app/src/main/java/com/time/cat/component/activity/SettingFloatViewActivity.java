@@ -26,7 +26,7 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.base.baseCard.DividerItemDecoration;
-import com.time.cat.util.ArcTipViewController;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.IOUtil;
 import com.time.cat.util.UrlCountUtil;
@@ -70,7 +70,7 @@ public class SettingFloatViewActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             TextView view = (TextView) holder.itemView;
-            view.setMinimumHeight((int) ViewUtil.dp2px(40));
+            view.setMinimumHeight(ViewUtil.dp2px(40));
             if (position == timecatBackgroungColors.length) {
                 view.setBackgroundColor(getResources().getColor(R.color.white));
                 view.setText(R.string.set_background_myself);
@@ -123,21 +123,21 @@ public class SettingFloatViewActivity extends BaseActivity {
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.setting_floatview);
 
 
-        mItemPaddingSeekBar = (SeekBar) findViewById(R.id.set_item_padding);
-        mTimecatAlphaSeekBar = (SeekBar) findViewById(R.id.set_timecat_alpha);
+        mItemPaddingSeekBar = findViewById(R.id.set_item_padding);
+        mTimecatAlphaSeekBar = findViewById(R.id.set_timecat_alpha);
 
-        itemPadding = (TextView) findViewById(R.id.item_padding);
-        timecatAlpha = (TextView) findViewById(R.id.timecat_alpha);
+        itemPadding = findViewById(R.id.item_padding);
+        timecatAlpha = findViewById(R.id.timecat_alpha);
 
-        backgroundRV = (RecyclerView) findViewById(R.id.timecat_background);
+        backgroundRV = findViewById(R.id.timecat_background);
 
-        isStickView = (CheckBox) findViewById(R.id.is_stick_view);
+        isStickView = findViewById(R.id.is_stick_view);
 
 
         mItemPaddingSeekBar.setMax(MAX_ITEM_PADDING - MIN_ITEM_PADDING);
@@ -146,7 +146,7 @@ public class SettingFloatViewActivity extends BaseActivity {
         mItemPaddingSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = (int) (MIN_ITEM_PADDING + progress);
+                int value = MIN_ITEM_PADDING + progress;
                 //mBigBangLayout.setTextPadding(value);
                 itemPadding.setText(getString(R.string.setting_floatview_size) + value);
                 SPHelper.save(ConstantUtil.FLOATVIEW_SIZE, (float) value);
@@ -222,9 +222,9 @@ public class SettingFloatViewActivity extends BaseActivity {
         boolean isStick = SPHelper.getBoolean(ConstantUtil.FLOATVIEW_IS_STICK, false);
 
         isStickView.setChecked(isStick);
-        mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
-        mItemPaddingSeekBar.setProgress((int) ((MAX_ITEM_PADDING - MIN_ITEM_PADDING)));
-        mItemPaddingSeekBar.setProgress((int) ((padding - MIN_ITEM_PADDING)));
+        mItemPaddingSeekBar.setProgress((MIN_ITEM_PADDING));
+        mItemPaddingSeekBar.setProgress((MAX_ITEM_PADDING - MIN_ITEM_PADDING));
+        mItemPaddingSeekBar.setProgress((padding - MIN_ITEM_PADDING));
 
 
         timecatAlpha.setText(getString(R.string.setting_floatview_alpha_percent) + alpha + "%");

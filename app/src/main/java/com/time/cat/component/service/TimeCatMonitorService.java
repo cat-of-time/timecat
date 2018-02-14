@@ -34,7 +34,7 @@ import com.time.cat.component.activity.copy.CopyActivity;
 import com.time.cat.component.activity.copy.CopyNode;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.activity.whitelist.SelectionDbHelper;
-import com.time.cat.util.ArcTipViewController;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.KeyPressedTipViewController;
 import com.time.cat.util.LogUtil;
@@ -103,7 +103,7 @@ public class TimeCatMonitorService extends AccessibilityService {
         @Override
         public boolean longPressed() {
             Intent intent = new Intent(TimeCatMonitorService.this, SettingActivity.class);
-            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return true;
         }
@@ -548,7 +548,7 @@ public class TimeCatMonitorService extends AccessibilityService {
                 return;
             }
             Intent intent = new Intent(this, TimeCatActivity.class);
-            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(TimeCatActivity.TO_SPLIT_STR, txt.toString());
 //            startActivity(intent);
             //放到ArcTipViewController中触发试试

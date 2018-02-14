@@ -88,8 +88,8 @@ public class HintTextView extends LinearLayout {
             }
         }
 
-        msgTv = (TextView) findViewById(R.id.msg);
-        hintTv = (TextView) findViewById(R.id.hint);
+        msgTv = findViewById(R.id.msg);
+        hintTv = findViewById(R.id.hint);
 
         msgTv.setText(msg);
         msgTv.setTextSize(msgSize);

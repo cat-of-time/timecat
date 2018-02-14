@@ -65,13 +65,13 @@ public class CropImageActivity extends BaseActivity implements CropImageView.OnS
         setContentView(R.layout.crop_image_activity);
 
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.title_cropper);
 
 
-        mCropImageView = (CropImageView) findViewById(R.id.cropImageView);
+        mCropImageView = findViewById(R.id.cropImageView);
 
         Intent intent = getIntent();
         mCropImageUri = intent.getParcelableExtra(CropImage.CROP_IMAGE_EXTRA_SOURCE);

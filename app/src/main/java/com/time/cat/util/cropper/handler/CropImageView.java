@@ -263,10 +263,10 @@ public class CropImageView extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.crop_image_view, this, true);
 
-        mImageView = (ImageView) v.findViewById(R.id.ImageView_image);
+        mImageView = v.findViewById(R.id.ImageView_image);
         mImageView.setScaleType(ImageView.ScaleType.MATRIX);
 
-        mCropOverlayView = (CropOverlayView) v.findViewById(R.id.CropOverlayView);
+        mCropOverlayView = v.findViewById(R.id.CropOverlayView);
         mCropOverlayView.setCropWindowChangeListener(new CropOverlayView.CropWindowChangeListener() {
             @Override
             public void onCropWindowChanged(boolean inProgress) {
@@ -275,7 +275,7 @@ public class CropImageView extends FrameLayout {
         });
         mCropOverlayView.setInitialAttributeValues(options);
 
-        mProgressBar = (ProgressBar) v.findViewById(R.id.CropProgressBar);
+        mProgressBar = v.findViewById(R.id.CropProgressBar);
         setProgressBarVisibility();
     }
 
@@ -1206,7 +1206,7 @@ public class CropImageView extends FrameLayout {
 
                 mDegreesRotated = bundle.getInt("DEGREES_ROTATED");
 
-                mCropOverlayView.setInitialCropWindowRect((Rect) bundle.getParcelable("INITIAL_CROP_RECT"));
+                mCropOverlayView.setInitialCropWindowRect(bundle.getParcelable("INITIAL_CROP_RECT"));
 
                 mRestoreCropWindowRect = bundle.getParcelable("CROP_WINDOW_RECT");
 

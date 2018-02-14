@@ -17,7 +17,6 @@
             android:visible="true"
             app:showAsAction="ifRoom"/>
         <item
-            android:id="@+id/main_menu_more"
             android:icon="@drawable/ic_help_white_48dp"
             android:title="@string/main_menu_more"
             app:showAsAction="always"/>

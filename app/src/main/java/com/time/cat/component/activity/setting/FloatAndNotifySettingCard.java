@@ -92,15 +92,15 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
         LayoutInflater.from(context).inflate(R.layout.card_float_notify_setting, this);
 
-        showFloatViewRL = (RelativeLayout) findViewById(R.id.show_float_view_rl);
-        showFloarViewSwitch = (SwitchCompat) findViewById(R.id.show_float_view_switch);
-        showFloatViewTV = (HintTextView) findViewById(R.id.show_float_view_tv);
+        showFloatViewRL = findViewById(R.id.show_float_view_rl);
+        showFloarViewSwitch = findViewById(R.id.show_float_view_switch);
+        showFloatViewTV = findViewById(R.id.show_float_view_tv);
 
-        showNotifyRL = (RelativeLayout) findViewById(R.id.show_notify_rl);
-        showNotifySwitch = (SwitchCompat) findViewById(R.id.show_notify_switch);
-        showNotifyTV = (HintTextView) findViewById(R.id.show_notify_tv);
+        showNotifyRL = findViewById(R.id.show_notify_rl);
+        showNotifySwitch = findViewById(R.id.show_notify_switch);
+        showNotifyTV = findViewById(R.id.show_notify_tv);
 
-        longPressRL = (RelativeLayout) findViewById(R.id.long_press_rl);
+        longPressRL = findViewById(R.id.long_press_rl);
 
 //        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {

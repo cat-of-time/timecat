@@ -64,10 +64,10 @@ public class TimeCatLayoutWrapper extends FrameLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.timecat_layout, this);
 
-        mTimeCatLayout = (TimeCatLayout) findViewById(R.id.timecat);
-        mBottom = (TimeCatBottom) findViewById(R.id.bottom);
-        mHeader = (TimeCatHeader) findViewById(R.id.header);
-        mScrollView = (ScrollView) findViewById(R.id.timecat_scroll);
+        mTimeCatLayout = findViewById(R.id.timecat);
+        mBottom = findViewById(R.id.bottom);
+        mHeader = findViewById(R.id.header);
+        mScrollView = findViewById(R.id.timecat_scroll);
 
         mTimeCatLayout.setActionListener(new TimeCatLayout.ActionListener() {
             @Override

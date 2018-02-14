@@ -92,9 +92,9 @@ public class MarkSizeView extends View {
             markedColor = typedArray.getColor(R.styleable.MarkSizeView_markedColor, DEFAULT_MARKED_COLOR);
             unmarkedColor = typedArray.getColor(R.styleable.MarkSizeView_unMarkedColor, DEFAULT_UNMARKED_COLOR);
             strokeColor = typedArray.getColor(R.styleable.MarkSizeView_strokeColor, DEFAULT_STROKE_COLOR);
-            strokeWidth = typedArray.getDimensionPixelSize(R.styleable.MarkSizeView_strokeWidth, (int) ViewUtil.dp2px(DEFAULT_STROKE_WIDTH));
+            strokeWidth = typedArray.getDimensionPixelSize(R.styleable.MarkSizeView_strokeWidth, ViewUtil.dp2px(DEFAULT_STROKE_WIDTH));
             vertexColor = typedArray.getColor(R.styleable.MarkSizeView_vertexColor, DEFAULT_VERTEX_COLOR);
-            vertexWidth = typedArray.getDimensionPixelSize(R.styleable.MarkSizeView_vertexWidth, (int) ViewUtil.dp2px(DEFAULT_VERTEX_WIDTH));
+            vertexWidth = typedArray.getDimensionPixelSize(R.styleable.MarkSizeView_vertexWidth, ViewUtil.dp2px(DEFAULT_VERTEX_WIDTH));
             confirmButtonRes = typedArray.getResourceId(R.styleable.MarkSizeView_confirmButtonRes, DEFAULT_CONFIRM_BUTTON_RES);
             cancelButtonRes = typedArray.getResourceId(R.styleable.MarkSizeView_cancleButtonRes, DEFAULT_CANCEL_BUTTON_RES);
         }
@@ -131,7 +131,7 @@ public class MarkSizeView extends View {
         confirmBitmap = BitmapFactory.decodeResource(getResources(), confirmButtonRes);
         cancelBitmap = BitmapFactory.decodeResource(getResources(), cancelButtonRes);
 
-        mActionGap = (int) ViewUtil.dp2px(15);
+        mActionGap = ViewUtil.dp2px(15);
 
         mGraphicPath = new GraphicPath();
     }
@@ -414,18 +414,12 @@ public class MarkSizeView extends View {
 
     private boolean isAreaContainPoint(Rect area, int x, int y) {
         Rect newArea = new Rect(area.left - BUTTON_EXTRA_WIDTH, area.top - BUTTON_EXTRA_WIDTH, area.right + BUTTON_EXTRA_WIDTH, area.bottom + BUTTON_EXTRA_WIDTH);
-        if (newArea.contains(x, y)) {
-            return true;
-        }
-        return false;
+        return newArea.contains(x, y);
     }
 
     private boolean isAreaContainPoint(RectF area, int x, int y) {
         RectF newArea = new RectF(area.left - BUTTON_EXTRA_WIDTH, area.top - BUTTON_EXTRA_WIDTH, area.right + BUTTON_EXTRA_WIDTH, area.bottom + BUTTON_EXTRA_WIDTH);
-        if (newArea.contains(x, y)) {
-            return true;
-        }
-        return false;
+        return newArea.contains(x, y);
     }
 
     private void adjustMark(int x, int y) {
@@ -474,11 +468,7 @@ public class MarkSizeView extends View {
         rtVer.set(markedArea.right - vertexWidth / 2, markedArea.top - vertexWidth / 2, markedArea.right + vertexWidth / 2, markedArea.top + vertexWidth / 2);
         lbVer.set(markedArea.left - vertexWidth / 2, markedArea.bottom - vertexWidth / 2, markedArea.left + vertexWidth / 2, markedArea.bottom + vertexWidth / 2);
         rbVer.set(markedArea.right - vertexWidth / 2, markedArea.bottom - vertexWidth / 2, markedArea.right + vertexWidth / 2, markedArea.bottom + vertexWidth / 2);
-        if (markedArea.height() * markedArea.width() > 200) {
-            isValid = true;
-        } else {
-            isValid = false;
-        }
+        isValid = markedArea.height() * markedArea.width() > 200;
     }
 
     public void setmOnClickListener(onClickListener mOnClickListener) {

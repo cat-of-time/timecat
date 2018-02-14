@@ -25,7 +25,7 @@ public class DiyOcrKeyActivity extends BaseActivity {
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.set_diy_ocr_key);
@@ -38,7 +38,7 @@ public class DiyOcrKeyActivity extends BaseActivity {
                 ToastUtil.show(R.string.copyed);
             }
         });
-        EditText keyInput = (EditText) findViewById(R.id.ocr_diy_key_edit);
+        EditText keyInput = findViewById(R.id.ocr_diy_key_edit);
         keyInput.setText(SPHelper.getString(ConstantUtil.DIY_OCR_KEY, ""));
 
         findViewById(R.id.ocr_diy_key_confirm).setOnClickListener(new View.OnClickListener() {

@@ -160,7 +160,7 @@ public class AppCompatForegroundHelper extends AppCompatBaseHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mView.getForeground();
         } else if (mView instanceof FrameLayout) {
-            ((FrameLayout) mView).getForeground();
+            mView.getForeground();
         }
         return null;
     }
@@ -170,7 +170,7 @@ public class AppCompatForegroundHelper extends AppCompatBaseHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mView.setForeground(foreground);
         } else if (mView instanceof FrameLayout) {
-            ((FrameLayout) mView).setForeground(foreground);
+            mView.setForeground(foreground);
         }
     }
 

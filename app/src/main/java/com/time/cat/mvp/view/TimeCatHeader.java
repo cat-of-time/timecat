@@ -89,8 +89,8 @@ class TimeCatHeader extends ViewGroup implements View.OnClickListener {
 
         setWillNotDraw(false);
 
-        mActionGap = (int) ViewUtil.dp2px(5);
-        mContentPadding = (int) ViewUtil.dp2px(10);
+        mActionGap = ViewUtil.dp2px(5);
+        mContentPadding = ViewUtil.dp2px(10);
     }
 
     private LayoutParams createLayoutParams() {

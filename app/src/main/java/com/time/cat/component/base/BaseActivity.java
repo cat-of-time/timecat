@@ -340,7 +340,7 @@ public class BaseActivity extends PermissionActivity {
 
     protected BaseActivity setupToolbar(String title, int color, int iconColor){
         // set up the toolbar
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(color);
 //        toolbar.setNavigationIcon(getNavigationIcon(iconColor));
         setSupportActionBar(toolbar);

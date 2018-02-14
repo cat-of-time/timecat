@@ -535,7 +535,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                 view = inflater.inflate(R.layout.item_avatar_list, viewGroup, false);
             }
 
-            v = (ImageView) view.findViewById(R.id.imageView);
+            v = view.findViewById(R.id.imageView);
             v.setImageResource(resource);
 
             if (avatar.equals(user.avatar())) {

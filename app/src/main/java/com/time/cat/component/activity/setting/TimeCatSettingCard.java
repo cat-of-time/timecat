@@ -57,7 +57,7 @@ public class TimeCatSettingCard extends AbsCard {
                 mContext.startActivity(intent);
             }
         });
-        browserSwitch = (SwitchCompat) findViewById(R.id.browser_switch);
+        browserSwitch = findViewById(R.id.browser_switch);
         browserSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
@@ -72,8 +72,8 @@ public class TimeCatSettingCard extends AbsCard {
                 browserSwitch.setChecked(!browserSwitch.isChecked());
             }
         });
-        floatTriggerHintTextView = (HintTextView) findViewById(R.id.float_trigger_tv);
-        floatTriggerSwitch = (SwitchCompat) findViewById(R.id.float_trigger_switch);
+        floatTriggerHintTextView = findViewById(R.id.float_trigger_tv);
+        floatTriggerSwitch = findViewById(R.id.float_trigger_switch);
         floatTriggerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

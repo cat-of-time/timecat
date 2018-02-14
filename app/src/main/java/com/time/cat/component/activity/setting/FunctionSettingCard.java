@@ -110,13 +110,13 @@ public class FunctionSettingCard extends AbsCard {
 
         LayoutInflater.from(context).inflate(R.layout.card_function_setting, this);
 
-        monitorClipBoardRl = (RelativeLayout) findViewById(R.id.monitor_clipboard_rl);
-        monitorClickRl = (RelativeLayout) findViewById(R.id.monitor_click_rl);
-        monitorClickHint = (HintTextView) findViewById(R.id.monitor_click_tv);
-        totalSwitchRL = (RelativeLayout) findViewById(R.id.total_switch_rl);
-        monitorClipBoardSwitch = (SwitchCompat) findViewById(R.id.monitor_clipboard_switch);
-        monitorClickSwitch = (SwitchCompat) findViewById(R.id.monitor_click_switch);
-        totalSwitchSwitch = (SwitchCompat) findViewById(R.id.total_switch_switch);
+        monitorClipBoardRl = findViewById(R.id.monitor_clipboard_rl);
+        monitorClickRl = findViewById(R.id.monitor_click_rl);
+        monitorClickHint = findViewById(R.id.monitor_click_tv);
+        totalSwitchRL = findViewById(R.id.total_switch_rl);
+        monitorClipBoardSwitch = findViewById(R.id.monitor_clipboard_switch);
+        monitorClickSwitch = findViewById(R.id.monitor_click_switch);
+        totalSwitchSwitch = findViewById(R.id.total_switch_switch);
 
         findViewById(R.id.orc).setOnClickListener(new OnClickListener() {
             @Override

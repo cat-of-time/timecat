@@ -318,12 +318,12 @@ public class IntroActivity extends BaseActivity {
     }
 
     private void initView() {
-        mIntro = (TextView) findViewById(R.id.intro);
-        mFunctionIntroTV = (TextView) findViewById(R.id.enter_timecat_intro);
-        mTimeCatLayout = (TimeCatLayoutWrapper) findViewById(R.id.timecat_wrap);
+        mIntro = findViewById(R.id.intro);
+        mFunctionIntroTV = findViewById(R.id.enter_timecat_intro);
+        mTimeCatLayout = findViewById(R.id.timecat_wrap);
         mTimeCatLayout.setActionListener(timeCatActionListener);
 
-        mTimeCatWraper = (CardView) findViewById(R.id.timecat_wraper);
+        mTimeCatWraper = findViewById(R.id.timecat_wraper);
         txts_cloud = new String[]{"TimeCat", "是", "您", "的", "快捷", "助手", "。", "\n",
                 "您", "可以", "在", "任意", "app", "中", "对", "文字", "进行", "编辑", "，",
                 "包括", "分词", "，", "翻译", "，", "复制", "以及", "动态", "调整", "。", "\n", "希望", "您", "能", "在", "日常", "生活", "中", "获得", "便利"};
@@ -342,7 +342,7 @@ public class IntroActivity extends BaseActivity {
                 return true;
             }
         });
-        mEnterBtn = (Button) findViewById(R.id.enter_timecat);
+        mEnterBtn = findViewById(R.id.enter_timecat);
         mEnterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -354,7 +354,7 @@ public class IntroActivity extends BaseActivity {
                 finish();
             }
         });
-        mJumpBtn = (TextView) findViewById(R.id.jump);
+        mJumpBtn = findViewById(R.id.jump);
         mJumpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -10,7 +10,6 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,7 +60,7 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements
         lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#fff7ca"));
         int value = (int) ((alpha / 100.0f) * 255);
         CardView cardView = new CardView(this);
-        cardView.setRadius(ViewUtil.dp2px(10));
+        cardView.setRadius(ViewUtil.dp2px(20));
         cardView.setCardBackgroundColor(
                 Color.argb(
                         value,
@@ -139,52 +138,51 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_task_tv_important_urgent:
-
-                if (add_task_select_ll_important_urgent == null) {
-                    ViewStub viewStub = findViewById(R.id.items_add_task_select_important_urgent_view_stub);
-                    viewStub.inflate();
-                    add_task_select_ll_important_urgent = findViewById(R.id.add_task_select_ll_important_urgent);
-                }
-                add_task_select_ll_important_urgent.setVisibility(View.VISIBLE);
-                if (add_task_select_ll_date != null) {
-                    add_task_select_ll_date.setVisibility(View.GONE);
-                }
-                if (add_task_select_ll_time != null) {
-                    add_task_select_ll_time.setVisibility(View.GONE);
-                }
+//                if (add_task_select_ll_important_urgent == null) {
+//                    ViewStub viewStub = findViewById(R.id.items_add_task_select_important_urgent_view_stub);
+//                    viewStub.inflate();
+//                    add_task_select_ll_important_urgent = findViewById(R.id.add_task_select_ll_important_urgent);
+//                }
+//                add_task_select_ll_important_urgent.setVisibility(View.VISIBLE);
+//                if (add_task_select_ll_date != null) {
+//                    add_task_select_ll_date.setVisibility(View.GONE);
+//                }
+//                if (add_task_select_ll_time != null) {
+//                    add_task_select_ll_time.setVisibility(View.GONE);
+//                }
                 Log.e(TAG, "create add_task_select_ll_important_urgent");
-
+                //创建一个相对布局relative
                 break;
             case R.id.add_task_tv_date:
-                if (add_task_select_ll_date == null) {
-                    ViewStub viewStub = findViewById(R.id.items_add_task_select_date_view_stub);
-                    viewStub.inflate();
-                    add_task_select_ll_date = findViewById(R.id.add_task_select_ll_important_urgent);
-                }
-                add_task_select_ll_date.setVisibility(View.VISIBLE);
-                if (add_task_select_ll_important_urgent != null) {
-                    add_task_select_ll_important_urgent.setVisibility(View.GONE);
-                }
-                if (add_task_select_ll_time != null) {
-                    add_task_select_ll_time.setVisibility(View.GONE);
-                }
+//                if (add_task_select_ll_date == null) {
+//                    ViewStub viewStub = findViewById(R.id.items_add_task_select_date_view_stub);
+//                    viewStub.inflate();
+//                    add_task_select_ll_date = findViewById(R.id.add_task_select_ll_date);
+//                }
+//                add_task_select_ll_date.setVisibility(View.VISIBLE);
+//                if (add_task_select_ll_important_urgent != null) {
+//                    add_task_select_ll_important_urgent.setVisibility(View.GONE);
+//                }
+//                if (add_task_select_ll_time != null) {
+//                    add_task_select_ll_time.setVisibility(View.GONE);
+//                }
                 Log.e(TAG, "create add_task_select_ll_date");
 
                 break;
             case R.id.add_task_tv_time:
 
-                if (add_task_select_ll_time == null) {
-                    ViewStub viewStub = findViewById(R.id.items_add_task_select_time_view_stub);
-                    viewStub.inflate();
-                    add_task_select_ll_time = findViewById(R.id.add_task_select_ll_important_urgent);
-                }
-                add_task_select_ll_time.setVisibility(View.VISIBLE);
-                if (add_task_select_ll_date != null) {
-                    add_task_select_ll_date.setVisibility(View.GONE);
-                }
-                if (add_task_select_ll_important_urgent != null) {
-                    add_task_select_ll_important_urgent.setVisibility(View.GONE);
-                }
+//                if (add_task_select_ll_time == null) {
+//                    ViewStub viewStub = findViewById(R.id.items_add_task_select_time_view_stub);
+//                    viewStub.inflate();
+//                    add_task_select_ll_time = findViewById(R.id.add_task_select_ll_time);
+//                }
+//                add_task_select_ll_time.setVisibility(View.VISIBLE);
+//                if (add_task_select_ll_date != null) {
+//                    add_task_select_ll_date.setVisibility(View.GONE);
+//                }
+//                if (add_task_select_ll_important_urgent != null) {
+//                    add_task_select_ll_important_urgent.setVisibility(View.GONE);
+//                }
                 Log.e(TAG, "create add_task_select_ll_time");
                 break;
         }

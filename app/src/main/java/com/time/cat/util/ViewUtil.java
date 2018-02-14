@@ -138,11 +138,7 @@ public class ViewUtil {
         } else {
             boolean menu = ViewConfiguration.get(activity).hasPermanentMenuKey();
             boolean back = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
-            if (menu || back) {
-                return false;
-            } else {
-                return true;
-            }
+            return !(menu || back);
         }
     }
 

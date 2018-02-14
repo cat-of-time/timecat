@@ -96,16 +96,16 @@ public class MonitorSettingCard extends AbsCard {
 
         LayoutInflater.from(context).inflate(R.layout.card_monitor_setting, this);
 
-        onlyTextRL = (RelativeLayout) findViewById(R.id.text_only_rl);
-        onlyTextSwitch = (SwitchCompat) findViewById(R.id.text_only_switch);
+        onlyTextRL = findViewById(R.id.text_only_rl);
+        onlyTextSwitch = findViewById(R.id.text_only_switch);
 
-        whiteList = (TextView) findViewById(R.id.white_list);
+        whiteList = findViewById(R.id.white_list);
 
-        doubleClickIntervalRl = (RelativeLayout) findViewById(R.id.double_click_interval_rl);
-        mDoubleClick = (TextView) findViewById(R.id.double_click_setting);
-        doubleClickEditText = (EditText) findViewById(R.id.double_click_interval_edit);
-        doubleClickInputLayout = (TextInputLayout) findViewById(R.id.double_click_interval);
-        doubleClickConfirm = (Button) findViewById(R.id.double_click_confirm);
+        doubleClickIntervalRl = findViewById(R.id.double_click_interval_rl);
+        mDoubleClick = findViewById(R.id.double_click_setting);
+        doubleClickEditText = findViewById(R.id.double_click_interval_edit);
+        doubleClickInputLayout = findViewById(R.id.double_click_interval);
+        doubleClickConfirm = findViewById(R.id.double_click_confirm);
 
         onlyTextSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

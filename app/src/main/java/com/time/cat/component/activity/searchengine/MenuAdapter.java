@@ -77,8 +77,8 @@ public class MenuAdapter extends SwipeMenuAdapter<MenuAdapter.DefaultViewHolder>
         public DefaultViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-            tvUrl = (TextView) itemView.findViewById(R.id.tv_url);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvUrl = itemView.findViewById(R.id.tv_url);
             backGround = itemView.findViewById(R.id.background);
         }
 

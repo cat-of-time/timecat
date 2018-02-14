@@ -116,14 +116,14 @@ public class CaptureResultActivity extends BaseActivity {
             finish();
             return;
         }
-        ocrResult = (TextView) findViewById(R.id.ocr_result);
-        ocrResultRL = (RelativeLayout) findViewById(R.id.ocr_result_rl);
-        capturedImage = (ImageView) findViewById(R.id.captured_pic);
-        share = (TextView) findViewById(R.id.share);
-        save = (TextView) findViewById(R.id.save);
-        ocr = (TextView) findViewById(R.id.recognize);
-        timecat = (TextView) findViewById(R.id.timecat);
-        search = (TextView) findViewById(R.id.search);
+        ocrResult = findViewById(R.id.ocr_result);
+        ocrResultRL = findViewById(R.id.ocr_result_rl);
+        capturedImage = findViewById(R.id.captured_pic);
+        share = findViewById(R.id.share);
+        save = findViewById(R.id.save);
+        ocr = findViewById(R.id.recognize);
+        timecat = findViewById(R.id.timecat);
+        search = findViewById(R.id.search);
 
         ocrResultRL.setVisibility(View.GONE);
 
@@ -131,7 +131,7 @@ public class CaptureResultActivity extends BaseActivity {
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
         ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(localDisplayMetrics);
         if (bitmap.getHeight() > localDisplayMetrics.heightPixels * 2 / 3 || 1.0 * bitmap.getHeight() / bitmap.getWidth() >= 1.2) {
-            LinearLayout container = (LinearLayout) findViewById(R.id.container);
+            LinearLayout container = findViewById(R.id.container);
             container.setOrientation(LinearLayout.HORIZONTAL);
 
             capturedImage.setMaxWidth(localDisplayMetrics.widthPixels / 2);
@@ -272,13 +272,13 @@ public class CaptureResultActivity extends BaseActivity {
                         public void onSuccess(OCR ocr) {
                             if (!TextUtils.isEmpty(ocrResult.getText())) {
                                 Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
-                                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText());
                                 startActivity(intent);
                                 finish();
                             } else {
                                 Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
-                                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra(TimeCatActivity.TO_SPLIT_STR, OcrAnalyser.getInstance().getPassedMiscSoftText(ocr));
                                 startActivity(intent);
                                 finish();
@@ -298,7 +298,7 @@ public class CaptureResultActivity extends BaseActivity {
                 } else {
                     if (!TextUtils.isEmpty(ocrResult.getText())) {
                         Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
-                        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText().toString());
                         startActivity(intent);
                         finish();
@@ -315,7 +315,7 @@ public class CaptureResultActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCRRESULT);
                 if (!TextUtils.isEmpty(ocrResult.getText())) {
                     Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
-                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText().toString());
                     startActivity(intent);
                     finish();

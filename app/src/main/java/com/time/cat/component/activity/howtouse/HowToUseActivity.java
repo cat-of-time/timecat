@@ -33,16 +33,16 @@ public class HowToUseActivity extends BaseActivity {
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.introduction);
 
-        introMenu = (View) findViewById(R.id.intro_menu);
-        introContent = (LinearLayout) findViewById(R.id.intro_content);
+        introMenu = findViewById(R.id.intro_menu);
+        introContent = findViewById(R.id.intro_content);
 
-        introTitle = (TextView) findViewById(R.id.intro_title);
-        introMsg = (TextView) findViewById(R.id.intro_msg);
+        introTitle = findViewById(R.id.intro_title);
+        introMsg = findViewById(R.id.intro_msg);
 
         findViewById(R.id.introduction).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.util.ArcTipViewController;
+import com.time.cat.component.ArcTipViewController;
 import com.time.cat.util.LogUtil;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.mvp.view.MarkSizeView;
@@ -54,10 +54,10 @@ public class ScreenCaptureActivity extends BaseActivity {
 
         setContentView(R.layout.activity_screen_capture);
 
-        markSizeView = (MarkSizeView) findViewById(R.id.mark_size);
-        captureTips = (TextView) findViewById(R.id.capture_tips);
-        captureAll = (Button) findViewById(R.id.capture_all);
-        markType = (Button) findViewById(R.id.mark_type);
+        markSizeView = findViewById(R.id.mark_size);
+        captureTips = findViewById(R.id.capture_tips);
+        captureAll = findViewById(R.id.capture_all);
+        markType = findViewById(R.id.mark_type);
 
         markType.setOnClickListener(new View.OnClickListener() {
             @Override

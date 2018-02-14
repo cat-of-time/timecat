@@ -396,7 +396,9 @@ public class SchedulesFragment extends BaseFragment implements
 
     private void refreshMonthPager() {
         CalendarDate today = new CalendarDate();
-        calendarAdapter.notifyDataChanged(today);
+        if (calendarAdapter != null) {
+            calendarAdapter.notifyDataChanged(today);
+        }
         for (int i = 1; i <= 7; i ++) {
             if (i == today.getDayOfWeek()) {
                 textViewList.get(i-1).setTextColor(Color.WHITE);

@@ -124,10 +124,10 @@ public class AppListAdapter extends RecyclerView.Adapter {
         public AppViewHolder(View itemView) {
             super(itemView);
             mRoot = itemView;
-            mAppName = (TextView) itemView.findViewById(R.id.app_name);
-            mAppIcon = (ImageView) itemView.findViewById(R.id.app_icon);
-            mAppDescribe = (TextView) itemView.findViewById(R.id.app_name_describe);
-            mAppCheck = (CheckBox) itemView.findViewById(R.id.app_check);
+            mAppName = itemView.findViewById(R.id.app_name);
+            mAppIcon = itemView.findViewById(R.id.app_icon);
+            mAppDescribe = itemView.findViewById(R.id.app_name_describe);
+            mAppCheck = itemView.findViewById(R.id.app_check);
         }
     }
 

@@ -135,14 +135,14 @@ public class TintProgressDialog extends AlertDialog implements Handler.Callback 
             mViewUpdateHandler = new Handler(this);
 
             View view = inflater.inflate(R.layout.dialog_alert_progress, null);
-            mProgress = (ProgressBar) view.findViewById(android.R.id.progress);
-            mProgressNumber = (TextView) view.findViewById(R.id.progress_number);
-            mProgressPercent = (TextView) view.findViewById(R.id.progress_percent);
+            mProgress = view.findViewById(android.R.id.progress);
+            mProgressNumber = view.findViewById(R.id.progress_number);
+            mProgressPercent = view.findViewById(R.id.progress_percent);
             setView(view);
         } else {
             View view = inflater.inflate(R.layout.dialog_progress, null);
-            mProgress = (ProgressBar) view.findViewById(android.R.id.progress);
-            mMessageView = (TextView) view.findViewById(R.id.message);
+            mProgress = view.findViewById(android.R.id.progress);
+            mMessageView = view.findViewById(R.id.message);
             setView(view);
         }
 
