@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.time.cat">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.time.cat">
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true"/>
+        android:required="true" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions"/>
+        tools:ignore="ProtectedPermissions" />
 
     <application
-        android:name="com.time.cat.TimeCatApp"
+        android:name=".TimeCatApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -34,44 +34,44 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service
             android:name="com.qihoo.appstore.updatelib.CheckUpdateService"
-            android:exported="false"/>
+            android:exported="false" />
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5a669093a40fa335210000fe"/>
+            android:value="5a669093a40fa335210000fe" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL_VALUE}"/>
+            android:value="${UMENG_CHANNEL_VALUE}" />
 
         <activity
-            android:name="com.time.cat.component.activity.setting.SettingActivity"
+            android:name=".component.activity.setting.SettingActivity"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.time.cat.component.activity.PreSettingActivity"
+            android:name=".component.activity.PreSettingActivity"
             android:launchMode="singleTask"
             android:theme="@style/PreSettingTheme"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name="com.time.cat.test.TestActivity">
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".test.TestActivity">
 
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name="com.time.cat.component.activity.screen.CaptureResultActivity"
+            android:name=".component.activity.screen.CaptureResultActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:process=":monitor"
-            android:theme="@style/TimeCatTheme"/>
+            android:theme="@style/TimeCatTheme" />
         <activity
-            android:name="com.time.cat.component.activity.TimeCatActivity"
+            android:name=".component.activity.TimeCatActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@style/TimeCatTheme">
@@ -80,15 +80,15 @@
             <!-- android:excludeFromRecents="true" -->
             <!-- android:noHistory="true" -->
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="text/plain"/>
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.time.cat.component.activity.copy.CopyActivity"
+            android:name=".component.activity.copy.CopyActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true"
@@ -96,180 +96,183 @@
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:process=":monitor"
-            android:theme="@style/OverlayTheme"/>
+            android:theme="@style/OverlayTheme" />
 
         <service
-            android:name="com.time.cat.component.service.TimeCatMonitorService"
+            android:name=".component.service.TimeCatMonitorService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:process=":monitor">
             <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService"/>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
 
             <meta-data
                 android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility"/>
+                android:resource="@xml/accessibility" />
         </service>
         <service
-            android:name="com.time.cat.component.service.ListenClipboardService"
-            android:process=":monitor"/>
+            android:name=".component.service.ListenClipboardService"
+            android:process=":monitor" />
         <service
-            android:name="com.time.cat.component.service.ListenClipboardService$GrayInnerService"
-            android:process=":monitor"/>
+            android:name=".component.service.ListenClipboardService$GrayInnerService"
+            android:process=":monitor" />
         <service
-            android:name="com.time.cat.component.service.ListenClipboardService"
-            android:process=":monitor"/>
+            android:name=".component.service.ListenClipboardService"
+            android:process=":monitor" />
         <service
-            android:name="com.time.cat.component.service.JobService"
+            android:name=".component.service.JobService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"
-            android:process=":monitor"/>
+            android:process=":monitor" />
         <service
-            android:name="com.time.cat.component.service.GetAwayNotificationListenerService"
+            android:name=".component.service.GetAwayNotificationListenerService"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
             android:process=":monitor">
             <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService"/>
+                <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
 
         <activity
-            android:name="com.time.cat.component.activity.SplashActivity"
+            android:name=".component.activity.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
             <intent-filter>
-                <action android:name="notify_universal_copy_broadcast"/>
+                <action android:name="notify_universal_copy_broadcast" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.time.cat.component.activity.IntroActivity"
+            android:name=".component.activity.IntroActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:noHistory="true"
-            android:theme="@style/ColorTranslucentTheme"/>
+            android:theme="@style/ColorTranslucentTheme" />
         <activity
-            android:name="com.time.cat.component.activity.OcrActivity"
+            android:name=".component.activity.OcrActivity"
             android:theme="@style/BaseAppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="application/*"/>
-                <data android:mimeType="image/*"/>
-                <data android:mimeType="multipart/*"/>
+                <data android:mimeType="application/*" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="multipart/*" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.time.cat.component.activity.main.MainActivity"
-            android:theme="@style/ColorTranslucentTheme"
+            android:name=".component.activity.main.MainActivity"
             android:launchMode="singleInstance"
-            >
+            android:theme="@style/ColorTranslucentTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.time.cat.component.activity.SettingTimeCatActivity"
-            android:theme="@style/ColorTranslucentTheme"/>
+            android:name=".component.activity.SettingTimeCatActivity"
+            android:theme="@style/ColorTranslucentTheme" />
         <activity
-            android:name="com.time.cat.component.activity.SettingFloatViewActivity"
+            android:name=".component.activity.SettingFloatViewActivity"
             android:process=":monitor"
-            android:theme="@style/ColorTranslucentTheme"/>
+            android:theme="@style/ColorTranslucentTheme" />
         <activity
-            android:name="com.time.cat.component.activity.searchengine.SearchEngineActivity"
-            android:theme="@style/SearchEngineAppTheme"/>
+            android:name=".component.activity.searchengine.SearchEngineActivity"
+            android:theme="@style/SearchEngineAppTheme" />
         <activity
-            android:name="com.time.cat.component.activity.WebActivity"
+            android:name=".component.activity.WebActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:theme="@style/WebActivityTheme"/>
+            android:theme="@style/WebActivityTheme" />
         <activity
-            android:name="com.time.cat.component.activity.whitelist.WhiteListActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:name=".component.activity.whitelist.WhiteListActivity"
+            android:theme="@style/BaseAppTheme" />
         <activity
-            android:name="com.time.cat.component.activity.floatviewwhitelist.FloatViewWhiteListActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:name=".component.activity.floatviewwhitelist.FloatViewWhiteListActivity"
+            android:theme="@style/BaseAppTheme" />
         <activity
-            android:name="com.time.cat.component.activity.screen.ScreenCaptureActivity"
+            android:name=".component.activity.screen.ScreenCaptureActivity"
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleInstance"
             android:process=":monitor"
-            android:theme="@style/ScreenCaptureTheme"/>
+            android:theme="@style/ScreenCaptureTheme" />
         <activity
-            android:name="com.time.cat.component.activity.DonateActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:name=".component.activity.DonateActivity"
+            android:theme="@style/BaseAppTheme" />
 
-        <receiver android:name="com.time.cat.component.WakeUpBroadcastReceiver">
+        <receiver android:name=".component.WakeUpBroadcastReceiver">
             <intent-filter>
-                <action android:name="com.shang.timecat.wake"/>
+                <action android:name="com.shang.timecat.wake" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.time.cat.component.activity.DiyOcrKeyActivity"
-            android:theme="@style/DiyOcrKeyAppTheme"/>
+            android:name=".component.activity.DiyOcrKeyActivity"
+            android:theme="@style/DiyOcrKeyAppTheme" />
         <activity
             android:name=".util.cropper.handler.CropImageActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:theme="@style/BaseAppTheme" />
 
         <service
-            android:name="com.time.cat.component.service.voiceInteraction.BBVoiceInteractionService"
+            android:name=".component.service.voiceInteraction.BBVoiceInteractionService"
             android:permission="android.permission.BIND_VOICE_INTERACTION"
             android:process=":monitor">
             <meta-data
                 android:name="android.voice_interaction"
-                android:resource="@xml/assist_service"/>
+                android:resource="@xml/assist_service" />
 
             <intent-filter>
-                <action android:name="android.service.voice.VoiceInteractionService"/>
+                <action android:name="android.service.voice.VoiceInteractionService" />
             </intent-filter>
         </service>
         <service
-            android:name="com.time.cat.component.service.voiceInteraction.BBVoiceInteractionSessionService"
+            android:name=".component.service.voiceInteraction.BBVoiceInteractionSessionService"
             android:permission="android.permission.BIND_VOICE_INTERACTION"
-            android:process=":monitor"/>
+            android:process=":monitor" />
 
         <activity
-            android:name="com.time.cat.component.activity.howtouse.HowToUseActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:name=".component.activity.howtouse.HowToUseActivity"
+            android:theme="@style/BaseAppTheme" />
         <activity
-            android:name="com.time.cat.component.activity.share.ShareAppManagerActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:name=".component.activity.share.ShareAppManagerActivity"
+            android:theme="@style/BaseAppTheme" />
         <activity
-            android:name="com.time.cat.component.activity.FeedbackActivity"
-            android:theme="@style/BaseAppTheme"/>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+            android:name=".component.activity.FeedbackActivity"
+            android:theme="@style/BaseAppTheme" />
+        <!--
+     ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <activity
-            android:name="com.time.cat.component.activity.UniversalCopyActivity"
+            android:name=".component.activity.UniversalCopyActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:exported="true"
             android:noHistory="true"
-            android:theme="@style/ScreenCaptureTheme"/>
+            android:theme="@style/ScreenCaptureTheme" />
         <activity
-            android:name="com.time.cat.component.activity.TotalSwitchActivity"
+            android:name=".component.activity.TotalSwitchActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:exported="true"
             android:noHistory="true"
-            android:theme="@style/ScreenCaptureTheme"/>
+            android:theme="@style/ScreenCaptureTheme" />
 
         <service
             android:name=".util.quicksetting.GlobalCopyTile"
@@ -277,7 +280,7 @@
             android:label="@string/notify_copy_title"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
         <service
@@ -286,7 +289,7 @@
             android:label="@string/notify_srceen_cap"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
         <service
@@ -295,44 +298,51 @@
             android:label="@string/notify_total_switch_on"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
 
-
         <activity
-            android:name="com.time.cat.component.activity.KeepAliveActivity"
+            android:name=".component.activity.KeepAliveActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:process=":monitor"
-            android:theme="@style/KeepAliveActivtyTheme"/>
+            android:theme="@style/KeepAliveActivtyTheme" />
         <activity
             android:name=".component.activity.user.LoginActivity"
-            android:theme="@style/AppTheme.Dark">
-        </activity>
+            android:theme="@style/AppTheme.Dark"></activity>
         <activity
             android:name=".component.activity.user.SignupActivity"
-            android:theme="@style/AppTheme.Dark"/>
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".component.activity.AboutActivity"
-            android:theme="@style/BaseAppTheme"/>
-        <activity android:name=".component.activity.user.UserDetailActivity"/>
+            android:theme="@style/BaseAppTheme" />
+        <activity android:name=".component.activity.user.UserDetailActivity" />
         <activity
             android:name=".component.activity.main.schedules.SchedulesHelpActivity"
-            android:theme="@style/Theme.Intro"/>
+            android:theme="@style/Theme.Intro" />
         <activity
             android:name=".component.activity.main.schedules.ScheduleCreateOrEditActivity"
-            android:theme="@style/TimeCatTheme"
             android:launchMode="singleInstance"
+            android:theme="@style/TimeCatTheme" />
+        <activity
+            android:name=".component.dialog.DialogActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/EditDialogStyle" />
 
-            />
-        <activity android:name=".component.dialog.DialogActivity"
-                  android:configChanges="orientation|screenSize"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/EditDialogStyle"/>
+        <receiver android:name=".TimeCatAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/time_cat_app_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
