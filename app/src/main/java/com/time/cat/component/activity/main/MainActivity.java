@@ -301,6 +301,9 @@ public class MainActivity extends BaseActivity implements
             @Override
             public void onRepeat(int index) {
                 //重复选中时触发
+                if (index == 2) {
+                    launchActivity(new Intent(MainActivity.this, DialogActivity.class));
+                }
             }
         });
     }
