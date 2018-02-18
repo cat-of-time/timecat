@@ -44,8 +44,8 @@ import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.CustomPagerView;
-import com.time.cat.util.ScreenUtil;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.view.ScreenUtil;
+import com.time.cat.util.override.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -46,8 +46,8 @@ import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
 import com.time.cat.mvp.view.progressButton.CircularProgressButton;
-import com.time.cat.util.ToastUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

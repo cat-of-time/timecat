@@ -37,9 +37,9 @@ import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.mvp.view.ArcMenu;
 import com.time.cat.mvp.view.PathMenu;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.LogUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.io.File;
 import java.util.ArrayList;

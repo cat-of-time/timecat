@@ -17,9 +17,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import com.time.cat.component.dialog.SoftKeyBoardListener;
-import com.time.cat.util.DisplayUtils;
-import com.time.cat.util.ScreenUtil;
+import com.time.cat.util.listener.SoftKeyBoardListener;
+import com.time.cat.util.view.DisplayUtil;
+import com.time.cat.util.view.ScreenUtil;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -90,9 +90,9 @@ public class SmartKeyboardManager {
     private void setUpCallbacks() {
 
         // 初始化屏幕工具类
-        DisplayUtils.init(mActivity);
+        DisplayUtil.init(mActivity);
         // 默认键盘高度为267dp
-        setKeyBoardHeight(DisplayUtils.dp2px(267));
+        setKeyBoardHeight(DisplayUtil.dp2px(267));
         detectKeyboard();// 监听View树变化，以便监听键盘是否弹出
 //        enableCloseKeyboardOnTouchOutside(mActivity);
 
@@ -212,11 +212,11 @@ public class SmartKeyboardManager {
             observer.addOnGlobalLayoutListener(() -> {
                 final Rect r = new Rect();
                 activityRootView.getWindowVisibleDisplayFrame(r);
-                int heightDiff = DisplayUtils.getScreenHeight() - (r.bottom - r.top);
+                int heightDiff = DisplayUtil.getScreenHeight() - (r.bottom - r.top);
                 boolean show = heightDiff >= keyBoardHeight / 3;
                 int keyboardHeight = 0;
                 if (show) {
-                    keyboardHeight = heightDiff - DisplayUtils.getStatusBarHeight();
+                    keyboardHeight = heightDiff - DisplayUtil.getStatusBarHeight();
                     // 设置新的键盘高度
                     setKeyBoardHeight(keyboardHeight);
                 }
@@ -549,7 +549,7 @@ public class SmartKeyboardManager {
         }
         int[] location = new int[2];
         focusView.getLocationOnScreen(location);
-        int editY = location[1] - DisplayUtils.getStatusBarHeight();
+        int editY = location[1] - DisplayUtil.getStatusBarHeight();
         int offset = touchY - editY;
         if (offset > 0) {// 输入框一下的有可能是表情面板，所以，我们算作范围内
             return false;
@@ -572,7 +572,7 @@ public class SmartKeyboardManager {
         }
         int[] location = new int[2];
         focusView.getLocationOnScreen(location);
-        int focusViewTop = location[1] - DisplayUtils.getStatusBarHeight();
+        int focusViewTop = location[1] - DisplayUtil.getStatusBarHeight();
         int offsetY = y - focusViewTop;
         if (offsetY > 0 && offsetY < focusView.getMeasuredHeight()) {
             int focusViewLeft = location[0];

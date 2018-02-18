@@ -17,7 +17,7 @@ import com.time.cat.database.DB;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.util.ModelUtil;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

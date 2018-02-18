@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.time.cat.R;
 import com.time.cat.mvp.view.RectEvaluator;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 class TimeCatHeader extends ViewGroup implements View.OnClickListener {
 

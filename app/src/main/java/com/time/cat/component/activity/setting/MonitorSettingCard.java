@@ -20,7 +20,7 @@ import com.time.cat.component.activity.whitelist.WhiteListActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 

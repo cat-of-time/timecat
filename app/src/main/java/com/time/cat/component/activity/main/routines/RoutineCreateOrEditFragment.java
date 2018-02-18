@@ -20,7 +20,7 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
-import com.time.cat.util.Snack;
+import com.time.cat.util.override.Snack;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;

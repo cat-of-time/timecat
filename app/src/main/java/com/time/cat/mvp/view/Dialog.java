@@ -30,8 +30,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.util.ThemeUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ThemeUtil;
+import com.time.cat.util.view.ViewUtil;
 
 
 /**

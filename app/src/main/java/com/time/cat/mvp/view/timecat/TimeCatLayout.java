@@ -33,8 +33,8 @@ import android.widget.TextView;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.RegexUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.string.RegexUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -19,8 +19,8 @@ import com.time.cat.component.ArcTipViewController;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.LogUtil;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.clipboard.ClipboardManagerCompat;
 

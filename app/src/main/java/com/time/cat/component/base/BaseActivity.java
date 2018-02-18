@@ -24,11 +24,11 @@ import com.time.cat.R;
 import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.TimeCatApp;
-import com.time.cat.util.ScreenUtil;
-import com.time.cat.util.StatusbarColorUtils;
-import com.time.cat.util.StringUtil;
+import com.time.cat.util.view.ScreenUtil;
+import com.time.cat.util.view.StatusBarColorUtil;
+import com.time.cat.util.string.StringUtil;
 import com.time.cat.util.ThreadManager;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -556,7 +556,7 @@ public class BaseActivity extends PermissionActivity {
 
         // 魅族FlymeUI
         try {
-            StatusbarColorUtils.setStatusBarDarkIcon(this, true);  //参数 false 白色 true 黑色
+            StatusBarColorUtil.setStatusBarDarkIcon(this, true);  //参数 false 白色 true 黑色
             Window window = getWindow();
             WindowManager.LayoutParams lp = window.getAttributes();
             Field darkFlag = WindowManager.LayoutParams.class.getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");

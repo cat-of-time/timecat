@@ -31,11 +31,11 @@ import com.time.cat.component.activity.screen.CaptureResultActivity;
 import com.time.cat.component.activity.searchengine.SearchEngineActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.LogUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.SearchEngineUtil;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;

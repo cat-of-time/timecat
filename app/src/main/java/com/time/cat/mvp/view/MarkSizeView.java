@@ -19,7 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.time.cat.R;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;

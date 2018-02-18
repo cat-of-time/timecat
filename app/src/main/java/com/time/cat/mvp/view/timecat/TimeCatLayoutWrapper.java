@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.time.cat.R;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 /**
  * Created by Administrator on 2016/11/21.

@@ -8,7 +8,7 @@ import com.time.cat.R;
 import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 
 /**
  * @author dlink

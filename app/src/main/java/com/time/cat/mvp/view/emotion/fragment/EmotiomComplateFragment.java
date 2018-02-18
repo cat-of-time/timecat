@@ -10,12 +10,12 @@ import android.widget.LinearLayout;
 
 import com.time.cat.R;
 import com.time.cat.component.base.BaseFragment;
-import com.time.cat.util.GlobalOnItemClickManager;
+import com.time.cat.util.listener.GlobalOnItemClickManager;
 import com.time.cat.mvp.view.emotion.EmojiIndicatorView;
 import com.time.cat.mvp.view.emotion.adapter.EmotionGridViewAdapter;
 import com.time.cat.mvp.view.emotion.adapter.EmotionPagerAdapter;
-import com.time.cat.util.DisplayUtils;
-import com.time.cat.util.EmotionUtils;
+import com.time.cat.util.view.DisplayUtil;
+import com.time.cat.util.view.EmotionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,9 +94,9 @@ public class EmotiomComplateFragment extends BaseFragment {
      */
     private void initEmotion() {
         // 获取屏幕宽度
-        int screenWidth = DisplayUtils.getScreenWidth();
+        int screenWidth = DisplayUtil.getScreenWidth();
         // item的间距
-        int spacing = DisplayUtils.dp2px(12);
+        int spacing = DisplayUtil.dp2px(12);
         // 动态计算item的宽度和高度
         int itemWidth = (screenWidth - spacing * 8) / 7;
         //动态计算gridview的总高度
@@ -105,7 +105,7 @@ public class EmotiomComplateFragment extends BaseFragment {
         List<GridView> emotionViews = new ArrayList<>();
         List<String> emotionNames = new ArrayList<>();
         // 遍历所有的表情的key
-        for (String emojiName : EmotionUtils.getEmojiMap(emotion_map_type).keySet()) {
+        for (String emojiName : EmotionUtil.getEmojiMap(emotion_map_type).keySet()) {
             emotionNames.add(emojiName);
             // 每20个表情作为一组,同时添加到ViewPager对应的view集合中
             if (emotionNames.size() == 20) {

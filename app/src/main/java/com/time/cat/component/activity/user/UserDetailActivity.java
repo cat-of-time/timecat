@@ -44,9 +44,9 @@ import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.util.AvatarMgr;
-import com.time.cat.util.ScreenUtil;
-import com.time.cat.util.Snack;
+import com.time.cat.util.source.AvatarManager;
+import com.time.cat.util.view.ScreenUtil;
+import com.time.cat.util.override.Snack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
     View top;
     View bg;
     EditText userName;
-    List<String> avatars = new ArrayList<>(AvatarMgr.avatars.keySet());
+    List<String> avatars = new ArrayList<>(AvatarManager.avatars.keySet());
 
     TextView userEmail;
     FloatingActionButton fab;
@@ -356,7 +356,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
     }
 
     private void updateAvatar(String avatar, int delay, final int duration, final int x) {
-        userAvatar.setImageResource(AvatarMgr.res(avatar));
+        userAvatar.setImageResource(AvatarManager.res(avatar));
         color1 = user.color();
         color2 = ScreenUtil.equivalentNoAlpha(color1, 0.7f);
         avatarBackgroundColor = color1;
@@ -517,7 +517,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
         public View getView(int position, View view, ViewGroup viewGroup) {
             ImageView v;
             String avatar = avatars.get(position);
-            int resource = AvatarMgr.res(avatar);
+            int resource = AvatarManager.res(avatar);
             if (view == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.item_avatar_list, viewGroup, false);

@@ -11,8 +11,8 @@ import com.time.cat.R;
 import com.time.cat.component.activity.FeedbackActivity;
 import com.time.cat.component.activity.howtouse.HowToUseActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
-import com.time.cat.util.NetWorkUtil;
-import com.time.cat.util.SnackBarUtil;
+import com.time.cat.util.phone.NetWorkUtil;
+import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
 
 /**

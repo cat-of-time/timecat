@@ -11,6 +11,8 @@ import android.content.Context;
 import android.os.Build;
 
 import com.time.cat.component.service.JobService;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.phone.NativeHelper;
 
 import java.io.File;
 import java.lang.reflect.Method;

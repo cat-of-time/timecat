@@ -30,7 +30,7 @@ import com.time.cat.component.base.baseCard.DividerItemDecoration;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.IOUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 import com.time.cat.util.cropper.CropFileUtils;
 import com.time.cat.util.cropper.CropHelper;
 import com.time.cat.util.cropper.handler.CropImage;

@@ -10,7 +10,7 @@ import com.time.cat.NetworkSystem.api.PicUploadService;
 import com.time.cat.NetworkSystem.api.TranslationService;
 import com.time.cat.NetworkSystem.api.WordSegmentService;
 import com.time.cat.TimeCatApp;
-import com.time.cat.util.LogUtil;
+import com.time.cat.util.override.LogUtil;
 
 import java.io.File;
 import java.io.IOException;

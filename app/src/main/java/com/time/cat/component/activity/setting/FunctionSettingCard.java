@@ -23,7 +23,7 @@ import com.time.cat.mvp.view.DialogFragment;
 import com.time.cat.mvp.view.HintTextView;
 import com.time.cat.mvp.view.SimpleDialog;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.SnackBarUtil;
+import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
 
 import static com.time.cat.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;

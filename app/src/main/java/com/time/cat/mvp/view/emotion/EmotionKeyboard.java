@@ -15,8 +15,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.time.cat.component.dialog.SoftKeyBoardListener;
-import com.time.cat.util.ScreenUtil;
+import com.time.cat.util.listener.SoftKeyBoardListener;
+import com.time.cat.util.view.ScreenUtil;
 
 /**
  * @author dlink

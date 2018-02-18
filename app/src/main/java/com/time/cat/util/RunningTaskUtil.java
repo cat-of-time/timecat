@@ -18,6 +18,8 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.mvp.view.Dialog;
 import com.time.cat.mvp.view.DialogFragment;
 import com.time.cat.mvp.view.SimpleDialog;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.SnackBarUtil;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;

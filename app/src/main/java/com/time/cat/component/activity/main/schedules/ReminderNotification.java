@@ -42,7 +42,7 @@ import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBTaskItem;
 import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.util.AvatarMgr;
+import com.time.cat.util.source.AvatarManager;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -302,7 +302,7 @@ public class ReminderNotification {
     }
 
     private static Bitmap getLargeIcon(Resources r, DBUser user) {
-        return BitmapFactory.decodeResource(r, AvatarMgr.res(user.avatar()));
+        return BitmapFactory.decodeResource(r, AvatarManager.res(user.avatar()));
     }
 
     @TargetApi(Build.VERSION_CODES.ECLAIR)

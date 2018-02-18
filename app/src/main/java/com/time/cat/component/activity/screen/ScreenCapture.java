@@ -27,9 +27,9 @@ import android.view.WindowManager;
 
 import com.time.cat.R;
 import com.time.cat.mvp.view.MarkSizeView;
-import com.time.cat.util.LogUtil;
-import com.time.cat.util.ToastUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;

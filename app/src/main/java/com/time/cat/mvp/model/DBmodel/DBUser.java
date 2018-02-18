@@ -22,7 +22,7 @@ import android.graphics.Color;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.time.cat.util.AvatarMgr;
+import com.time.cat.util.source.AvatarManager;
 
 
 /**
@@ -51,7 +51,7 @@ public class DBUser {
     private boolean isDefault = false;
 
     @DatabaseField(columnName = COLUMN_AVATAR)
-    private String avatar = AvatarMgr.DEFAULT_AVATAR;
+    private String avatar = AvatarManager.DEFAULT_AVATAR;
 
     @DatabaseField(columnName = COLUMN_COLOR)
     private int color = Color.parseColor("#3498db");

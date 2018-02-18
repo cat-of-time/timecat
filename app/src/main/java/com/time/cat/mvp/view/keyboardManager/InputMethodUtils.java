@@ -15,7 +15,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.time.cat.util.DisplayUtils;
+import com.time.cat.util.view.DisplayUtil;
 
 /**
  * @author dlink
@@ -50,7 +50,7 @@ public class InputMethodUtils {
     }
 
     private static boolean sIsKeyboardShowing;
-    private static int sKeyBoardHeight = DisplayUtils.getDefaultKeyboardHeight();
+    private static int sKeyBoardHeight = DisplayUtil.getDefaultKeyboardHeight();
 
     public static boolean isKeyboardShowing() {
         return sIsKeyboardShowing;
@@ -108,12 +108,12 @@ public class InputMethodUtils {
                     public void onGlobalLayout() {
                         final Rect r = new Rect();
                         activityRootView.getWindowVisibleDisplayFrame(r);
-                        int heightDiff = DisplayUtils.getScreenHeight() - (r.bottom - r.top);
+                        int heightDiff = DisplayUtil.getScreenHeight() - (r.bottom - r.top);
                         boolean show = heightDiff >= sKeyBoardHeight / 2;
                         if (show ^ sIsKeyboardShowing) {
                             sIsKeyboardShowing = show;
                             if (show) {
-                                int keyboardHeight = heightDiff - DisplayUtils.getStatusBarHeight();
+                                int keyboardHeight = heightDiff - DisplayUtil.getStatusBarHeight();
                                 if (keyboardHeight != sKeyBoardHeight) {
                                     sKeyBoardHeight = keyboardHeight;
                                     if (null != listener) {

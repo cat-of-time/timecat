@@ -35,7 +35,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.time.cat.R;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 /**
  * A custom view that looks like the menu in <a href="https://path.com">Path

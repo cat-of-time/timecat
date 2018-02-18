@@ -18,6 +18,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import com.time.cat.util.string.StringUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

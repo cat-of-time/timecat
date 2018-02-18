@@ -32,13 +32,13 @@ import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.model.APImodel.ImageUpload;
 import com.time.cat.mvp.view.DialogFragment;
 import com.time.cat.mvp.view.SimpleDialog;
-import com.time.cat.util.ColorUtil;
+import com.time.cat.util.view.ColorUtil;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.LogUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.OcrAnalyser;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;

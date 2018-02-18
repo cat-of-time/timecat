@@ -17,8 +17,8 @@ import com.time.cat.R;
 import com.time.cat.component.ArcTipViewController;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.view.MarkSizeView;
-import com.time.cat.util.LogUtil;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.ToastUtil;
 
 public class ScreenCaptureActivity extends BaseActivity {
     private String TAG = "ScreenCaptureActivity";

@@ -29,6 +29,8 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
 import com.time.cat.mvp.view.KeyRelativeLayout;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.view.ViewUtil;
 
 
 public class KeyPressedTipViewController implements View.OnTouchListener {

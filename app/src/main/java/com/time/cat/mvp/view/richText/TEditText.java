@@ -49,8 +49,8 @@ import android.view.textclassifier.TextClassifier;
 import android.widget.Scroller;
 
 import com.time.cat.R;
-import com.time.cat.util.LogUtil;
-import com.time.cat.util.ScreenUtil;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.view.ScreenUtil;
 
 import org.xmlpull.v1.XmlPullParserException;
 

@@ -34,11 +34,11 @@ import com.time.cat.mvp.view.emotion.adapter.NoHorizontalScrollerVPAdapter;
 import com.time.cat.mvp.view.emotion.model.ImageModel;
 import com.time.cat.mvp.view.keyboardManager.SmartKeyboardManager;
 import com.time.cat.mvp.view.richText.TEditText;
-import com.time.cat.util.EmotionUtils;
-import com.time.cat.util.GlobalOnItemClickManager;
-import com.time.cat.util.SharedPreferencedUtils;
-import com.time.cat.util.ToastUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.EmotionUtil;
+import com.time.cat.util.listener.GlobalOnItemClickManager;
+import com.time.cat.util.override.SharedPreferencedUtils;
+import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -459,7 +459,7 @@ public class DialogActivity extends BaseActivity implements
         //创建fragment的工厂类
         FragmentFactory factory = FragmentFactory.getSingleFactoryInstance();
         //创建修改实例
-        EmotiomComplateFragment f1 = (EmotiomComplateFragment) factory.getFragment(EmotionUtils.EMOTION_CLASSIC_TYPE);
+        EmotiomComplateFragment f1 = (EmotiomComplateFragment) factory.getFragment(EmotionUtil.EMOTION_CLASSIC_TYPE);
         fragments.add(f1);
         Bundle b = null;
         for (int i = 0; i < 7; i++) {

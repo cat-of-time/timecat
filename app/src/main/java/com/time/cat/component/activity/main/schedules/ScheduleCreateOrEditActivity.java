@@ -19,7 +19,7 @@ import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 /**
  * @author dlink

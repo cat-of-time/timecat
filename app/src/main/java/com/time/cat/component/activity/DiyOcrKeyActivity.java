@@ -10,9 +10,9 @@ import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.util.ClipboardUtils;
+import com.time.cat.util.clipboard.ClipboardUtils;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 
 public class DiyOcrKeyActivity extends BaseActivity {

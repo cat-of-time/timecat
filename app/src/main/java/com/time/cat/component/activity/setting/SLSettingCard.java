@@ -21,12 +21,12 @@ import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.mvp.view.Dialog;
 import com.time.cat.mvp.view.DialogFragment;
 import com.time.cat.mvp.view.SimpleDialog;
-import com.time.cat.util.AESUtils;
+import com.time.cat.util.string.AESUtils;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.IOUtil;
-import com.time.cat.util.LogUtil;
-import com.time.cat.util.NativeHelper;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.phone.NativeHelper;
+import com.time.cat.util.override.ToastUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

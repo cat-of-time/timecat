@@ -31,7 +31,7 @@ import com.time.cat.mvp.view.timecat.TimeCatLayout;
 import com.time.cat.mvp.view.timecat.TimeCatLayoutWrapper;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 /**
  * Created by penglu on 2016/11/9.

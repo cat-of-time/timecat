@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.time.cat.R;
-import com.time.cat.util.DisplayUtils;
+import com.time.cat.util.view.DisplayUtil;
 
 import java.util.ArrayList;
 
@@ -37,8 +37,8 @@ public class EmojiIndicatorView extends LinearLayout {
     public EmojiIndicatorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext=context;
-        pointSize= DisplayUtils.dp2px(size);
-        marginLeft=DisplayUtils.dp2px(marginSize);
+        pointSize= DisplayUtil.dp2px(size);
+        marginLeft= DisplayUtil.dp2px(marginSize);
     }
 
     /**

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.time.cat.R;
-import com.time.cat.util.EmotionUtils;
+import com.time.cat.util.view.EmotionUtil;
 
 import java.util.List;
 
@@ -62,7 +62,7 @@ public class EmotionGridViewAdapter extends BaseAdapter {
             iv_emotion.setImageResource(R.drawable.compose_emotion_delete);
         } else {
             String emotionName = emotionNames.get(position);
-            iv_emotion.setImageResource(EmotionUtils.getImgByName(emotion_map_type, emotionName));
+            iv_emotion.setImageResource(EmotionUtil.getImgByName(emotion_map_type, emotionName));
         }
 
         return iv_emotion;

@@ -38,9 +38,9 @@ import com.time.cat.component.activity.user.UserDetailActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.util.AvatarMgr;
-import com.time.cat.util.IconUtils;
-import com.time.cat.util.ScreenUtil;
+import com.time.cat.util.source.AvatarManager;
+import com.time.cat.util.view.IconUtil;
+import com.time.cat.util.view.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,10 +85,10 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         profiles.add(new ProfileSettingDrawerItem().withName("添加用户").withDescription("管理他人的指导方针").withIcon(new IconicsDrawable(mainActivity, GoogleMaterial.Icon.gmd_account_add).sizeDp(24).paddingDp(5).colorRes(R.color.dark_grey_home)).withIdentifier(USER_ADD));
         for (DBUser p : DB.users().findAll()) {
             Log.d("LeftDrawer", "Adding user to getDrawer: " + p.name());
-            profiles.add(new ProfileDrawerItem().withIdentifier(p.id().intValue()).withName(p.name()).withEmail(p.getEmail()).withIcon(AvatarMgr.res(p.avatar())));
+            profiles.add(new ProfileDrawerItem().withIdentifier(p.id().intValue()).withName(p.name()).withEmail(p.getEmail()).withIcon(AvatarManager.res(p.avatar())));
         }
 //        DBUser u = new DBUser();
-//        u.setAvatar(AvatarMgr.AVATAR_2);
+//        u.setAvatar(AvatarManager.AVATAR_2);
 //        u.setColor(Color.YELLOW);
 //        u.setName("测试");
 //        u.setId((long) 5);
@@ -97,12 +97,12 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 //                .withIdentifier(u.id().intValue())
 //                .withName(u.name())
 //                .withEmail(u.name() + "@timecat")
-//                .withIcon(AvatarMgr.res(u.avatar())));
+//                .withIcon(AvatarManager.res(u.avatar())));
 
         headerResult = new AccountHeaderBuilder().withActivity(mainActivity).withHeaderBackground(R.drawable.drawer_header).withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP).withCompactStyle(false).withProfiles(profiles).withAlternativeProfileHeaderSwitching(true).withThreeSmallProfileImages(true).withOnAccountHeaderListener(this).withSavedInstance(savedInstanceState).build();
 
         //Create the getDrawer
-        drawer = new DrawerBuilder().withActivity(mainActivity).withFullscreen(true).withToolbar(toolbar).withAccountHeader(headerResult).addDrawerItems(new PrimaryDrawerItem().withName(R.string.title_activity_home).withIcon(IconUtils.icon(mainActivity, GoogleMaterial.Icon.gmd_home, R.color.black).alpha(110)).withIdentifier(HOME), new PrimaryDrawerItem().withName(R.string.title_activity_users).withIcon(IconUtils.icon(mainActivity, CommunityMaterial.Icon.cmd_account_multiple, R.color.black).alpha(110)).withIdentifier(USERS), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.title_activity_schedules).withIcon(IconUtils.icon(mainActivity, GoogleMaterial.Icon.gmd_calendar, R.color.black).alpha(110)).withIdentifier(SCHEDULES), new PrimaryDrawerItem().withName(R.string.title_activity_routines).withIcon(IconUtils.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(110)).withIdentifier(ROUTINES), new PrimaryDrawerItem().withName(R.string.title_activity_plans).withIcon(IconUtils.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(110)).withIdentifier(PLANS), new PrimaryDrawerItem().withName(R.string.title_activity_medicines).withEnabled(false).withIcon(IconUtils.icon(mainActivity, CommunityMaterial.Icon.cmd_pill, R.color.black).alpha(38)).withIdentifier(MEDICINES), new PrimaryDrawerItem().withName(R.string.home_menu_pharmacies).withIcon(IconUtils.icon(mainActivity, CommunityMaterial.Icon.cmd_map_marker_multiple, R.color.black).alpha(38)).withEnabled(false).withIdentifier(PHARMACIES), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.drawer_theme_option).withIcon(IconUtils.icon(mainActivity, GoogleMaterial.Icon.gmd_pin_assistant, R.color.black).alpha(110)).withIdentifier(THEME), new PrimaryDrawerItem().withName(R.string.drawer_settings_option).withIcon(IconUtils.icon(mainActivity, CommunityMaterial.Icon.cmd_settings, R.color.black).alpha(130)).withIdentifier(SETTINGS), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.drawer_about_option).withIcon(IconUtils.icon(mainActivity, CommunityMaterial.Icon.cmd_information, R.color.black).alpha(110)).withIdentifier(ABOUT)).withOnDrawerItemClickListener(this).withOnDrawerListener(new Drawer.OnDrawerListener() {
+        drawer = new DrawerBuilder().withActivity(mainActivity).withFullscreen(true).withToolbar(toolbar).withAccountHeader(headerResult).addDrawerItems(new PrimaryDrawerItem().withName(R.string.title_activity_home).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_home, R.color.black).alpha(110)).withIdentifier(HOME), new PrimaryDrawerItem().withName(R.string.title_activity_users).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_account_multiple, R.color.black).alpha(110)).withIdentifier(USERS), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.title_activity_schedules).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_calendar, R.color.black).alpha(110)).withIdentifier(SCHEDULES), new PrimaryDrawerItem().withName(R.string.title_activity_routines).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(110)).withIdentifier(ROUTINES), new PrimaryDrawerItem().withName(R.string.title_activity_plans).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(110)).withIdentifier(PLANS), new PrimaryDrawerItem().withName(R.string.title_activity_medicines).withEnabled(false).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_pill, R.color.black).alpha(38)).withIdentifier(MEDICINES), new PrimaryDrawerItem().withName(R.string.home_menu_pharmacies).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_map_marker_multiple, R.color.black).alpha(38)).withEnabled(false).withIdentifier(PHARMACIES), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.drawer_theme_option).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_pin_assistant, R.color.black).alpha(110)).withIdentifier(THEME), new PrimaryDrawerItem().withName(R.string.drawer_settings_option).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_settings, R.color.black).alpha(130)).withIdentifier(SETTINGS), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.drawer_about_option).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_information, R.color.black).alpha(110)).withIdentifier(ABOUT)).withOnDrawerItemClickListener(this).withOnDrawerListener(new Drawer.OnDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
                 drawer.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -297,10 +297,10 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
         headerResult.setActiveProfile(u.id().intValue(), false);
 
-        if (u != null && !u.equals(currentUser) || header().getActiveProfile().getIcon().getIconRes() != AvatarMgr.res(u.avatar())) {
+        if (u != null && !u.equals(currentUser) || header().getActiveProfile().getIcon().getIconRes() != AvatarManager.res(u.avatar())) {
             headerResult.setActiveProfile(u.id().intValue(), false);
             IProfile profile = headerResult.getActiveProfile();
-            profile.withIcon(AvatarMgr.res(u.avatar()));
+            profile.withIcon(AvatarManager.res(u.avatar()));
             headerResult.updateProfile(profile);
         }
         updateHeaderBackground(u);
@@ -319,7 +319,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
     }
 
     private void addCalendarItem() {
-        drawer.addItemAtPosition(new PrimaryDrawerItem().withName("Dispensación").withIcon(IconUtils.icon(mainActivity, CommunityMaterial.Icon.cmd_calendar_check, R.color.black).alpha(110)).withEnabled(true).withIdentifier(CALENDAR), 7);
+        drawer.addItemAtPosition(new PrimaryDrawerItem().withName("Dispensación").withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_calendar_check, R.color.black).alpha(110)).withEnabled(true).withIdentifier(CALENDAR), 7);
     }
 
     private void launchActivity(Intent i) {
@@ -328,6 +328,6 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
     }
 
     private IProfile genProfile(DBUser u) {
-        return new ProfileDrawerItem().withIdentifier(u.id().intValue()).withName(u.name()).withEmail(u.getEmail()).withIcon(AvatarMgr.res(u.avatar()));
+        return new ProfileDrawerItem().withIdentifier(u.id().intValue()).withName(u.name()).withEmail(u.getEmail()).withIcon(AvatarManager.res(u.avatar()));
     }
 }

@@ -26,7 +26,7 @@ import com.time.cat.component.base.BaseActivity;
 import com.time.cat.component.base.baseCard.DividerItemDecoration;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.RunningTaskUtil;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 
 import java.util.ArrayList;

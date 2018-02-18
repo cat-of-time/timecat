@@ -15,7 +15,7 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.main.schedules.SchedulesHelpActivity;
 import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.util.ScreenUtil;
+import com.time.cat.util.view.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;

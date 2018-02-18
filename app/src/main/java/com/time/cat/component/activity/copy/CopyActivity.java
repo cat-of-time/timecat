@@ -24,9 +24,9 @@ import com.time.cat.R;
 import com.time.cat.component.ArcTipViewController;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.base.BaseActivity;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

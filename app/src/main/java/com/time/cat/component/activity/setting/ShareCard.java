@@ -27,9 +27,9 @@ import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.FeedbackActivity;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.SnackBarUtil;
+import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;

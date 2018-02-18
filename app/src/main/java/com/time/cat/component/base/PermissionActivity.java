@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.Html;
 
 import com.time.cat.R;
-import com.time.cat.util.EasyPermissions;
+import com.time.cat.util.EasyPermissionsManager;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * @描述	      ${Activity基类 }
  * @更新描述   ${适配6.0权限问题}
  */
-public class PermissionActivity extends RxAppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class PermissionActivity extends RxAppCompatActivity implements EasyPermissionsManager.PermissionCallbacks {
 
     protected static final int RC_PERM = 123;
 
@@ -29,11 +29,11 @@ public class PermissionActivity extends RxAppCompatActivity implements EasyPermi
 
     public void checkPermission(CheckPermListener listener, int resString, String... mPerms) {
         mListener = listener;
-        if (EasyPermissions.hasPermissions(this, mPerms)) {
+        if (EasyPermissionsManager.hasPermissions(this, mPerms)) {
             if (mListener != null) mListener.grantPermission();
         } else {
             CharSequence text = Html.fromHtml("<font color=\"#000000\">" + getString(resString) + "</font>");
-            EasyPermissions.requestPermissions(this, text, RC_PERM, mPerms);
+            EasyPermissionsManager.requestPermissions(this, text, RC_PERM, mPerms);
         }
     }
 
@@ -50,14 +50,14 @@ public class PermissionActivity extends RxAppCompatActivity implements EasyPermi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        EasyPermissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == EasyPermissions.SETTINGS_REQ_CODE) {
+        if (requestCode == EasyPermissionsManager.SETTINGS_REQ_CODE) {
             //设置返回
         }
     }
@@ -75,7 +75,7 @@ public class PermissionActivity extends RxAppCompatActivity implements EasyPermi
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        if (!EasyPermissions.checkDeniedPermissionsNeverAskAgain(this, getString(R.string.perm_tip), R.string.setting, R.string.cancel, null, perms)) {
+        if (!EasyPermissionsManager.checkDeniedPermissionsNeverAskAgain(this, getString(R.string.perm_tip), R.string.setting, R.string.cancel, null, perms)) {
             if (mListener != null) mListener.denyPermission();
         }
     }

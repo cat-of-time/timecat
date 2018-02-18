@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.time.cat.R;
 import com.time.cat.mvp.view.emotion.model.ImageModel;
-import com.time.cat.util.ScreenUtil;
+import com.time.cat.util.view.ScreenUtil;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.time.cat.component.service.ListenClipboardService;
-import com.time.cat.util.LogUtil;
+import com.time.cat.util.override.LogUtil;
 
 /**
  * Created by wangyan-pd on 2016/11/23.

@@ -15,7 +15,7 @@ import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.CountLinkMovementMethod;
 import com.time.cat.util.IOUtil;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 
 import java.io.File;
