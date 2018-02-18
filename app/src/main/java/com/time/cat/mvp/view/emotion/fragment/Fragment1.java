@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,10 +10,11 @@ import com.time.cat.R;
 import com.time.cat.component.base.BaseFragment;
 
 /**
- * Created by zejian
- * Time  16/1/7 上午10:26
- * Email shinezejian@163.com
- * Description:
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription null
+ * @usage null
  */
 public class Fragment1 extends BaseFragment {
     @Override

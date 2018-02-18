@@ -5,11 +5,10 @@
         android:id="@+id/dialog_add_task_select_ll_tag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <com.time.cat.mvp.view.NoHorizontalScrollerViewPager
-            android:id="@+id/vp_emotionview_layout"
+            android:id="@+id/select_vp_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
@@ -20,7 +19,7 @@
             android:background="@color/gray"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_horizontal"
+            android:id="@+id/select_rv_horizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"/>
     </LinearLayout>

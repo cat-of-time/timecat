@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -9,10 +9,11 @@ import android.widget.GridView;
 import java.util.List;
 
 /**
- * Created by zejian
- * Time  16/1/7 下午4:09
- * Email shinezejian@163.com
- * Description: EmotiomComplateFragment界面Viewpager数据适配器
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription EmotiomComplateFragment界面Viewpager数据适配器
+ * @usage null
  */
 public class EmotionPagerAdapter extends PagerAdapter {
 

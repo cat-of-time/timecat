@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -21,8 +24,19 @@ import android.widget.TextView;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.mvp.view.NoHorizontalScrollerViewPager;
+import com.time.cat.mvp.view.emotion.fragment.EmotiomComplateFragment;
+import com.time.cat.mvp.view.emotion.EmotionKeyboard;
+import com.time.cat.mvp.view.emotion.fragment.Fragment1;
+import com.time.cat.mvp.view.emotion.fragment.FragmentFactory;
+import com.time.cat.mvp.view.emotion.adapter.HorizontalRecyclerviewAdapter;
+import com.time.cat.mvp.view.emotion.adapter.NoHorizontalScrollerVPAdapter;
+import com.time.cat.mvp.view.emotion.model.ImageModel;
 import com.time.cat.mvp.view.keyboardManager.SmartKeyboardManager;
 import com.time.cat.mvp.view.richText.TEditText;
+import com.time.cat.util.EmotionUtils;
+import com.time.cat.util.GlobalOnItemClickManagerUtils;
+import com.time.cat.util.SharedPreferencedUtils;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.ViewUtil;
 
@@ -125,7 +139,18 @@ public class DialogActivity extends BaseActivity implements
     // 提醒选择面板
     private GridView dialog_add_task_select_gv_remind;
 
+    // 标签选择面板
     private LinearLayout dialog_add_task_select_ll_tag;
+
+    List<Fragment> fragments = new ArrayList<>();
+    //不可横向滚动的ViewPager
+    private NoHorizontalScrollerViewPager viewPager;
+    //当前被选中底部tab
+    private static final String CURRENT_POSITION_FLAG = "CURRENT_POSITION_FLAG";
+    private int CurrentPosition = 0;
+    //底部水平tab
+    private RecyclerView recyclerview_horizontal;
+    private HorizontalRecyclerviewAdapter horizontalRecyclerviewAdapter;
 
     @Override
     public void initView() {//必须调用
@@ -182,11 +207,14 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_select_gv_remind = findViewById(R.id.dialog_add_task_select_gv_remind);
         // 标签选择面板
         dialog_add_task_select_ll_tag = findViewById(R.id.dialog_add_task_select_ll_tag);
+        viewPager = findViewById(R.id.select_vp_layout);
+        recyclerview_horizontal = findViewById(R.id.select_rv_horizontal);
 
         setSelectImportantUrgentPanel();
         setSelectDatePanel();
         setSelectTimePanel();
         setSelectRemindPanel();
+        setSelectTagPanel();
         setKeyboardManager();
     }
 
@@ -294,6 +322,39 @@ public class DialogActivity extends BaseActivity implements
     }
 
     /**
+     * 设置time选择面板
+     */
+    private void setSelectTimePanel() {
+        select_ll_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_tv_start.setTextColor(getResources().getColor(R.color.blue));
+                select_tv_start_time.setTextColor(getResources().getColor(R.color.black));
+                select_tv_end.setTextColor(getResources().getColor(R.color.gray));
+                select_tv_end_time.setTextColor(getResources().getColor(R.color.gray));
+                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+            }
+        });
+        select_ll_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_tv_start.setTextColor(getResources().getColor(R.color.gray));
+                select_tv_start_time.setTextColor(getResources().getColor(R.color.gray));
+                select_tv_end.setTextColor(getResources().getColor(R.color.blue));
+                select_tv_end_time.setTextColor(getResources().getColor(R.color.black));
+                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+            }
+        });
+        select_tv_all_day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_add_task_tv_time.setText("全天");
+            }
+        });
+
+    }
+
+    /**
      * 设置 提醒 选择面板
      */
     private void setSelectRemindPanel() {
@@ -338,39 +399,92 @@ public class DialogActivity extends BaseActivity implements
         });
     }
 
-    /**
-     * 设置time选择面板
-     */
-    private void setSelectTimePanel() {
-        select_ll_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                select_tv_start.setTextColor(getResources().getColor(R.color.blue));
-                select_tv_start_time.setTextColor(getResources().getColor(R.color.black));
-                select_tv_end.setTextColor(getResources().getColor(R.color.gray));
-                select_tv_end_time.setTextColor(getResources().getColor(R.color.gray));
-                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
-            }
-        });
-        select_ll_end.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                select_tv_start.setTextColor(getResources().getColor(R.color.gray));
-                select_tv_start_time.setTextColor(getResources().getColor(R.color.gray));
-                select_tv_end.setTextColor(getResources().getColor(R.color.blue));
-                select_tv_end_time.setTextColor(getResources().getColor(R.color.black));
-                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
-            }
-        });
-        select_tv_all_day.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog_add_task_tv_time.setText("全天");
-            }
-        });
+    private void setSelectTagPanel() {
+        replaceFragment();
+        GlobalOnItemClickManagerUtils globalOnItemClickManager = GlobalOnItemClickManagerUtils.getInstance(getActivity());
+        globalOnItemClickManager.attachToEditText(dialog_add_task_et_content);
 
+        List<ImageModel> list = new ArrayList<>();
+        for (int i = 0; i < fragments.size(); i++) {
+            if (i == 0) {
+                ImageModel model1 = new ImageModel();
+                model1.icon = getResources().getDrawable(R.drawable.ic_emotion);
+                model1.flag = "经典笑脸";
+                model1.isSelected = true;
+                list.add(model1);
+            } else {
+                ImageModel model = new ImageModel();
+                model.icon = getResources().getDrawable(R.drawable.ic_plus);
+                model.flag = "其他笑脸" + i;
+                model.isSelected = false;
+                list.add(model);
+            }
+        }
+
+        //记录底部默认选中第一个
+        CurrentPosition = 0;
+        SharedPreferencedUtils.setInteger(getActivity(), CURRENT_POSITION_FLAG, CurrentPosition);
+
+        //底部tab
+        horizontalRecyclerviewAdapter = new HorizontalRecyclerviewAdapter(getActivity(), list);
+        recyclerview_horizontal.setHasFixedSize(true);//使RecyclerView保持固定的大小,这样会提高RecyclerView的性能
+        recyclerview_horizontal.setAdapter(horizontalRecyclerviewAdapter);
+        recyclerview_horizontal.setLayoutManager(new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false));
+        //初始化recyclerview_horizontal监听器
+        horizontalRecyclerviewAdapter.setOnClickItemListener(new HorizontalRecyclerviewAdapter.OnClickItemListener() {
+            @Override
+            public void onItemClick(View view, int position, List<ImageModel> datas) {
+                //获取先前被点击tab
+                int oldPosition = SharedPreferencedUtils.getInteger(getActivity(), CURRENT_POSITION_FLAG, 0);
+                //修改背景颜色的标记
+                datas.get(oldPosition).isSelected = false;
+                //记录当前被选中tab下标
+                CurrentPosition = position;
+                datas.get(CurrentPosition).isSelected = true;
+                SharedPreferencedUtils.setInteger(getActivity(), CURRENT_POSITION_FLAG, CurrentPosition);
+                //通知更新，这里我们选择性更新就行了
+                horizontalRecyclerviewAdapter.notifyItemChanged(oldPosition);
+                horizontalRecyclerviewAdapter.notifyItemChanged(CurrentPosition);
+                //viewpager界面切换
+                viewPager.setCurrentItem(position, false);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position, List<ImageModel> datas) {
+            }
+        });
     }
 
+    private void replaceFragment() {
+        //创建fragment的工厂类
+        FragmentFactory factory = FragmentFactory.getSingleFactoryInstance();
+        //创建修改实例
+        EmotiomComplateFragment f1 = (EmotiomComplateFragment) factory.getFragment(EmotionUtils.EMOTION_CLASSIC_TYPE);
+        fragments.add(f1);
+        Bundle b = null;
+        for (int i = 0; i < 7; i++) {
+            b = new Bundle();
+            b.putString("Interge", "Fragment-" + i);
+            Fragment1 fg = Fragment1.newInstance(Fragment1.class, b);
+            fragments.add(fg);
+        }
+
+        NoHorizontalScrollerVPAdapter adapter = new NoHorizontalScrollerVPAdapter(
+                getSupportFragmentManager(), fragments
+        );
+        viewPager.setAdapter(adapter);
+    }
+
+
+    /**
+     * 是否拦截返回键操作，如果此时表情布局未隐藏，先隐藏表情布局
+     *
+     * @return true则隐藏表情布局，拦截返回键操作
+     * false 则不拦截返回键操作
+     */
+//    public boolean isInterceptBackPress() {
+//        return mEmotionKeyboard.interceptBackPress();
+//    }
     /**
      * 设置软键盘和选择面板的平滑交互
      */

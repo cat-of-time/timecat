@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.util;
 
 import android.content.Context;
 import android.view.KeyEvent;
@@ -6,11 +6,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 
+import com.time.cat.mvp.view.emotion.adapter.EmotionGridViewAdapter;
+
 /**
- * Created by zejian
- * Time  16/1/8 下午5:05
- * Email shinezejian@163.com
- * Description:点击表情的全局监听管理类
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription 点击表情的全局监听管理类
+ * @usage null
  */
 public class GlobalOnItemClickManagerUtils {
 
@@ -58,8 +61,8 @@ public class GlobalOnItemClickManagerUtils {
                         sb.insert(curPosition, emotionName);
 
                         // 特殊文字处理,将表情等转换一下
-//                        mEditText.setText(SpanStringUtils.getEmotionContent(emotion_map_type,
-//                                mContext, mEditText, sb.toString()));
+                        mEditText.setText(SpanStringUtils.getEmotionContent(emotion_map_type,
+                                mContext, mEditText, sb.toString()));
 
                         // 将光标设置到新增完表情的右侧
                         mEditText.setSelection(curPosition + emotionName.length());

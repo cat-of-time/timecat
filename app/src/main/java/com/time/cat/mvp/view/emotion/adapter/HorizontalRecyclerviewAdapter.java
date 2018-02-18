@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,15 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.time.cat.R;
+import com.time.cat.mvp.view.emotion.model.ImageModel;
 import com.time.cat.util.ScreenUtil;
 
 import java.util.List;
 
 /**
- * Created by zejian
- * Time  16/1/6 下午3:13
- * Email shinezejian@163.com
- * Description:底部横向滚动tab适配器
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription 底部横向滚动tab适配器
+ * @usage null
  */
 public class HorizontalRecyclerviewAdapter extends RecyclerView.Adapter<HorizontalRecyclerviewAdapter.ViewHolder> {
 

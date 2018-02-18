@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.time.cat.component.dialog.SoftKeyBoardListener;
 import com.time.cat.util.ScreenUtil;
 
 /**

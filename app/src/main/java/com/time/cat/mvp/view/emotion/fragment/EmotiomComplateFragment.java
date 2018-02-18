@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion.fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -10,16 +10,22 @@ import android.widget.LinearLayout;
 
 import com.time.cat.R;
 import com.time.cat.component.base.BaseFragment;
+import com.time.cat.util.GlobalOnItemClickManagerUtils;
+import com.time.cat.mvp.view.emotion.EmojiIndicatorView;
+import com.time.cat.mvp.view.emotion.adapter.EmotionGridViewAdapter;
+import com.time.cat.mvp.view.emotion.adapter.EmotionPagerAdapter;
 import com.time.cat.util.DisplayUtils;
+import com.time.cat.util.EmotionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zejian
- * Time  16/1/5 下午4:32
- * Email shinezejian@163.com
- * Description:可替换的模板表情，gridview实现
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription 可替换的模板表情，gridview实现
+ * @usage null
  */
 public class EmotiomComplateFragment extends BaseFragment {
     private EmotionPagerAdapter emotionPagerGvAdapter;
@@ -130,7 +136,8 @@ public class EmotiomComplateFragment extends BaseFragment {
     /**
      * 创建显示表情的GridView
      */
-    private GridView createEmotionGridView(List<String> emotionNames, int gvWidth, int padding, int itemWidth, int gvHeight) {
+    private GridView createEmotionGridView(List<String> emotionNames, int gvWidth,
+                                           int padding, int itemWidth, int gvHeight) {
         // 创建GridView
         GridView gv = new GridView(getActivity());
         //设置点击背景透明
@@ -147,7 +154,8 @@ public class EmotiomComplateFragment extends BaseFragment {
         EmotionGridViewAdapter adapter = new EmotionGridViewAdapter(getActivity(), emotionNames, itemWidth,emotion_map_type);
         gv.setAdapter(adapter);
         //设置全局点击事件
-        gv.setOnItemClickListener(GlobalOnItemClickManagerUtils.getInstance(getActivity()).getOnItemClickListener(emotion_map_type));
+        gv.setOnItemClickListener(GlobalOnItemClickManagerUtils.getInstance(getActivity())
+                .getOnItemClickListener(emotion_map_type));
         return gv;
     }
 

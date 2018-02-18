@@ -1,13 +1,14 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 /**
- * Created by zejian
- * Time  16/1/7 上午11:40
- * Email shinezejian@163.com
- * Description:产生fragment的工厂类
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription 产生fragment的工厂类
+ * @usage null
  */
 public class FragmentFactory {
 

@@ -1,17 +1,17 @@
 
-package com.time.cat.component.dialog;
+package com.time.cat.util;
 
 import android.support.v4.util.ArrayMap;
 
 import com.time.cat.R;
 import com.time.cat.util.LogUtil;
 
-
 /**
- * @author : zejian
- * @time : 2016年1月5日 上午11:32:33
- * @email : shinezejian@163.com
- * @description :表情加载类,可自己添加多种表情，分别建立不同的map存放和不同的标志符即可
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription 表情加载类,可自己添加多种表情，分别建立不同的map存放和不同的标志符即可
+ * @usage null
  */
 public class EmotionUtils {
 
@@ -32,7 +32,7 @@ public class EmotionUtils {
 		EMPTY_MAP = new ArrayMap<>();
 		EMOTION_CLASSIC_MAP = new ArrayMap<>();
 
-		EMOTION_CLASSIC_MAP.put("[呵呵]", R.drawable.ic_action_add);
+		EMOTION_CLASSIC_MAP.put("[呵呵]", R.drawable.ic_emotion);
 	}
 
 	/**

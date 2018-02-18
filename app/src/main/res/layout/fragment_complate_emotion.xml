@@ -20,7 +20,7 @@
             />
     </LinearLayout>
 
-    <com.time.cat.component.dialog.EmojiIndicatorView
+    <com.time.cat.mvp.view.emotion.EmojiIndicatorView
         android:id="@+id/ll_point_group"
         android:layout_width="match_parent"
         android:layout_height="30dp"

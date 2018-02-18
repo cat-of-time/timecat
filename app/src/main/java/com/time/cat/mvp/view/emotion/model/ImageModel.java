@@ -1,12 +1,13 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion.model;
 
 import android.graphics.drawable.Drawable;
 
 /**
- * Created by zejian
- * Time  16/1/5 下午5:57
- * Email shinezejian@163.com
- * Description:底部tab图片对象
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription 底部tab图片对象
+ * @usage null
  */
 public class ImageModel {
 

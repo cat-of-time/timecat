@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,10 +11,11 @@ import com.time.cat.util.DisplayUtils;
 import java.util.ArrayList;
 
 /**
- * Created by zejian
- * Time  16/1/8 下午3:19
- * Email shinezejian@163.com
- * Description:自定义表情底部指示器
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription 自定义表情底部指示器
+ * @usage null
  */
 public class EmojiIndicatorView extends LinearLayout {
 

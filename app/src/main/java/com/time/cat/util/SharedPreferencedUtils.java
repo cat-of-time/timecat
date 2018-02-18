@@ -1,17 +1,16 @@
-package com.time.cat.component.dialog;
+package com.time.cat.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-
 /**
- * Created by WuZeJian
- * Time：2015/9/14 7:55
- * Email：shinezejian@163.com
- * Description：SharedPreferenced工具类
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription SharedPreferenced工具类
+ * @usage null
  */
-
 public class SharedPreferencedUtils {
     public static SharedPreferences mPreference;
 

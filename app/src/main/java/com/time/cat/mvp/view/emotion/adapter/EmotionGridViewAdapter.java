@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.mvp.view.emotion.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -8,14 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.time.cat.R;
+import com.time.cat.util.EmotionUtils;
 
 import java.util.List;
 
 /**
- * Created by zejian
- * Time  16/1/7 下午4:46
- * Email shinezejian@163.com
- * Description:
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription null
+ * @usage null
  */
 public class EmotionGridViewAdapter extends BaseAdapter {
 
