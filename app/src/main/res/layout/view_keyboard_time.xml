@@ -5,46 +5,76 @@
         android:id="@+id/dialog_add_task_select_ll_time"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="left|center_vertical"
-            android:paddingVertical="3dp"
-            android:text="@string/label_important_urgent"
-            android:textColor="@color/red"/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:paddingVertical="3dp"
-            android:text="@string/label_important_not_urgent"
-            android:textColor="@color/orange"/>
+            <LinearLayout
+                android:layout_width="100dp"
+                android:id="@+id/select_ll_start"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:paddingVertical="3dp"
-            android:text="@string/label_not_important_urgent"
-            android:textColor="@color/blue"/>
+                <TextView
+                    android:id="@+id/select_tv_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingVertical="3dp"
+                    android:text="开始时间"
+                    android:textColor="@color/blue"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:paddingVertical="3dp"
-            android:text="@string/label_not_important_not_urgent"
-            android:textColor="@color/green"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/select_tv_start_time"
+                    android:text="11:15"
+                    android:textColor="@color/black"
+                    android:textSize="28sp"/>
+            </LinearLayout>
 
+            <TextView
+                android:id="@+id/select_tv_all_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:paddingVertical="3dp"
+                android:text="全天"
+                android:textColor="@color/red"/>
 
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+          android:id="@+id/select_ll_end"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingVertical="3dp"
+                    android:id="@+id/select_tv_end"
+                    android:text="结束时间"
+                    android:textColor="@color/gray"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/select_tv_end_time"
+                    android:text="11:15"
+                    android:textColor="@color/gray"
+                    android:textSize="28sp"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </merge>

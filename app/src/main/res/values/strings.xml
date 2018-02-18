@@ -508,4 +508,6 @@
     <string name="schedule_type_intervalrest_help">
         Birth control pills and other meds are taken for a while, and then there\'s a rest. This kind of task allows you to specify both periods and simplify those intakes.
     </string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

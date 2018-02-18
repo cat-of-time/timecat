@@ -117,7 +117,7 @@
                     android:background="#504faf50"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="提醒"
+                    android:text="不提醒"
                     android:textColor="@color/green"
                     android:textSize="10dp"
                     android:visibility="gone"/>

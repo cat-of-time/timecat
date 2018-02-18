@@ -112,9 +112,18 @@ public class DialogActivity extends BaseActivity implements
     // date选择面板
     private GridView dialog_add_task_select_gv_date;
 
+    // time选择面板
     private LinearLayout dialog_add_task_select_ll_time;
+    private TextView select_tv_all_day;
+    private LinearLayout select_ll_start;
+    private TextView select_tv_start;
+    private TextView select_tv_start_time;
+    private LinearLayout select_ll_end;
+    private TextView select_tv_end;
+    private TextView select_tv_end_time;
 
-    private LinearLayout dialog_add_task_select_ll_remind;
+    // 提醒选择面板
+    private GridView dialog_add_task_select_gv_remind;
 
     private LinearLayout dialog_add_task_select_ll_tag;
 
@@ -162,13 +171,22 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_select_gv_date = findViewById(R.id.dialog_add_task_select_gv_date);
         // time选择面板
         dialog_add_task_select_ll_time = findViewById(R.id.dialog_add_task_select_ll_time);
+        select_tv_all_day = findViewById(R.id.select_tv_all_day);
+        select_ll_start = findViewById(R.id.select_ll_start);
+        select_tv_start = findViewById(R.id.select_tv_start);
+        select_tv_start_time = findViewById(R.id.select_tv_start_time);
+        select_ll_end = findViewById(R.id.select_ll_end);
+        select_tv_end = findViewById(R.id.select_tv_end);
+        select_tv_end_time = findViewById(R.id.select_tv_end_time);
         // 提醒选择面板
-        dialog_add_task_select_ll_remind = findViewById(R.id.dialog_add_task_select_ll_remind);
+        dialog_add_task_select_gv_remind = findViewById(R.id.dialog_add_task_select_gv_remind);
         // 标签选择面板
         dialog_add_task_select_ll_tag = findViewById(R.id.dialog_add_task_select_ll_tag);
 
         setSelectImportantUrgentPanel();
         setSelectDatePanel();
+        setSelectTimePanel();
+        setSelectRemindPanel();
         setKeyboardManager();
     }
 
@@ -276,6 +294,84 @@ public class DialogActivity extends BaseActivity implements
     }
 
     /**
+     * 设置 提醒 选择面板
+     */
+    private void setSelectRemindPanel() {
+        String IMAGE_ITEM = "image_item";
+        String TEXT_ITEM = "text_item";
+        String[] arrText = new String[]{
+                "不提醒", "开始时", "开始前5分钟",
+                "开始前10分钟", "开始前15分钟", "开始前30分钟",
+                "开始前40分钟", "开始前60分钟", "其他"
+        };
+        int[] arrImages=new int[]{
+                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
+                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
+                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp
+        };
+        List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+
+        for (int i=0; i<9; i++) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put(IMAGE_ITEM, arrImages[i]);
+            map.put(TEXT_ITEM, arrText[i]);
+            list.add(map);
+        }
+
+        SimpleAdapter saImageItems = new SimpleAdapter(this,
+                list,
+                R.layout.view_keyboard_date_item,
+                new String[] { IMAGE_ITEM, TEXT_ITEM },
+                new int[] { R.id.dialog_add_task_select_iv, R.id.dialog_add_task_select_tv });
+        // 设置GridView的adapter。GridView继承于AbsListView。
+        dialog_add_task_select_gv_remind.setAdapter(saImageItems);
+        dialog_add_task_select_gv_remind.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // 根据元素位置获取对应的值
+                HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
+
+                String itemText=(String)item.get(TEXT_ITEM);
+                Object object=item.get(IMAGE_ITEM);
+                ToastUtil.show("You Select "+itemText);
+            }
+        });
+    }
+
+    /**
+     * 设置time选择面板
+     */
+    private void setSelectTimePanel() {
+        select_ll_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_tv_start.setTextColor(getResources().getColor(R.color.blue));
+                select_tv_start_time.setTextColor(getResources().getColor(R.color.black));
+                select_tv_end.setTextColor(getResources().getColor(R.color.gray));
+                select_tv_end_time.setTextColor(getResources().getColor(R.color.gray));
+                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+            }
+        });
+        select_ll_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_tv_start.setTextColor(getResources().getColor(R.color.gray));
+                select_tv_start_time.setTextColor(getResources().getColor(R.color.gray));
+                select_tv_end.setTextColor(getResources().getColor(R.color.blue));
+                select_tv_end_time.setTextColor(getResources().getColor(R.color.black));
+                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+            }
+        });
+        select_tv_all_day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_add_task_tv_time.setText("全天");
+            }
+        });
+
+    }
+
+    /**
      * 设置软键盘和选择面板的平滑交互
      */
     private void setKeyboardManager() {
@@ -291,7 +387,7 @@ public class DialogActivity extends BaseActivity implements
                 .addKeyboard(dialog_add_task_tv_important_urgent, dialog_add_task_select_ll_important_urgent)
                 .addKeyboard(dialog_add_task_tv_date, dialog_add_task_select_gv_date)
                 .addKeyboard(dialog_add_task_tv_time, dialog_add_task_select_ll_time)
-                .addKeyboard(dialog_add_task_tv_remind, dialog_add_task_select_ll_remind)
+                .addKeyboard(dialog_add_task_tv_remind, dialog_add_task_select_gv_remind)
                 .addKeyboard(dialog_add_task_tv_tag, dialog_add_task_select_ll_tag)
                 .create();
     }
