@@ -43,7 +43,7 @@ import com.time.cat.database.DB;
 import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.mvp.view.CustomPagerView;
+import com.time.cat.mvp.view.viewpaper.CustomPagerView;
 import com.time.cat.util.view.ScreenUtil;
 import com.time.cat.util.override.ToastUtil;
 

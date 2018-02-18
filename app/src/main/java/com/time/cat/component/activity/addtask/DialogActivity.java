@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.mvp.view.NoHorizontalScrollerViewPager;
+import com.time.cat.mvp.view.viewpaper.NoHorizontalScrollerViewPager;
 import com.time.cat.mvp.view.emotion.fragment.EmotiomComplateFragment;
 import com.time.cat.mvp.view.emotion.EmotionKeyboard;
 import com.time.cat.mvp.view.emotion.fragment.Fragment1;

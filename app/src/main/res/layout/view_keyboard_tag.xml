@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.time.cat.mvp.view.NoHorizontalScrollerViewPager
+        <com.time.cat.mvp.view.viewpaper.NoHorizontalScrollerViewPager
             android:id="@+id/select_vp_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"

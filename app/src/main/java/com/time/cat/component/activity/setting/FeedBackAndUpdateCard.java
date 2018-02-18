@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.component.activity.FeedbackActivity;
-import com.time.cat.component.activity.howtouse.HowToUseActivity;
+import com.time.cat.component.activity.about.FeedbackActivity;
+import com.time.cat.component.activity.intro.HowToUseActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.util.phone.NetWorkUtil;
 import com.time.cat.util.override.SnackBarUtil;

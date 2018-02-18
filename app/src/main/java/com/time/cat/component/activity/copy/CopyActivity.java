@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
-import com.time.cat.component.ArcTipViewController;
+import com.time.cat.mvp.view.arc_float_view.ArcTipViewController;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.override.ToastUtil;

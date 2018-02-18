@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.howtouse;
+package com.time.cat.component.activity.intro;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
-import com.time.cat.component.activity.IntroActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
 

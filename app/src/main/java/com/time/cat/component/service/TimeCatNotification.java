@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.component.activity.SplashActivity;
+import com.time.cat.component.activity.intro.SplashActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.util.ConstantUtil;

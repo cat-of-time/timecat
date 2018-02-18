@@ -1,4 +1,4 @@
-package com.time.cat.mvp.view;
+package com.time.cat.mvp.view.dialog;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -19,6 +19,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.time.cat.R;
+import com.time.cat.mvp.view.BlankDrawable;
 
 
 /**

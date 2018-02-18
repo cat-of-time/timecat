@@ -53,7 +53,7 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".component.activity.PreSettingActivity"
+            android:name=".component.activity.intro.PreSettingActivity"
             android:launchMode="singleTask"
             android:theme="@style/PreSettingTheme"
             android:windowSoftInputMode="adjustPan" />
@@ -136,7 +136,7 @@
         </service>
 
         <activity
-            android:name=".component.activity.SplashActivity"
+            android:name=".component.activity.intro.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
 
             <!-- <intent-filter> -->
@@ -150,7 +150,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".component.activity.IntroActivity"
+            android:name=".component.activity.intro.IntroActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:noHistory="true"
@@ -208,7 +208,7 @@
             android:process=":monitor"
             android:theme="@style/ScreenCaptureTheme" />
         <activity
-            android:name=".component.activity.DonateActivity"
+            android:name=".component.activity.about.DonateActivity"
             android:theme="@style/BaseAppTheme" />
 
         <receiver android:name=".component.WakeUpBroadcastReceiver">
@@ -247,13 +247,13 @@
             android:process=":monitor" />
 
         <activity
-            android:name=".component.activity.howtouse.HowToUseActivity"
+            android:name=".component.activity.intro.HowToUseActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.share.ShareAppManagerActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
-            android:name=".component.activity.FeedbackActivity"
+            android:name=".component.activity.about.FeedbackActivity"
             android:theme="@style/BaseAppTheme" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -318,7 +318,7 @@
             android:name=".component.activity.user.SignupActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".component.activity.AboutActivity"
+            android:name=".component.activity.about.AboutActivity"
             android:theme="@style/BaseAppTheme" />
         <activity android:name=".component.activity.user.UserDetailActivity" />
         <activity

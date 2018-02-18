@@ -28,7 +28,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.component.ArcTipViewController;
+import com.time.cat.mvp.view.arc_float_view.ArcTipViewController;
 import com.time.cat.component.activity.KeepAliveActivity;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.copy.CopyActivity;

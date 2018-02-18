@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <com.time.cat.mvp.view.NoHorizontalScrollerViewPager
+        <com.time.cat.mvp.view.viewpaper.NoHorizontalScrollerViewPager
             android:id="@+id/vp_emotionview_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"

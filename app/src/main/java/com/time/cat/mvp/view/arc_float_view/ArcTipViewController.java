@@ -1,4 +1,4 @@
-package com.time.cat.component;
+package com.time.cat.mvp.view.arc_float_view;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -34,8 +34,6 @@ import com.time.cat.component.activity.SettingFloatViewActivity;
 import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
 import com.time.cat.component.activity.addtask.DialogActivity;
-import com.time.cat.mvp.view.ArcMenu;
-import com.time.cat.mvp.view.PathMenu;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.UrlCountUtil;

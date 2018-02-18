@@ -37,7 +37,7 @@ import android.support.v4.util.Pair;
 
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.component.activity.AboutActivity;
+import com.time.cat.component.activity.about.AboutActivity;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBTaskItem;

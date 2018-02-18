@@ -1,4 +1,4 @@
-package com.time.cat.component.activity;
+package com.time.cat.component.activity.about;
 
 import android.Manifest;
 import android.os.Bundle;

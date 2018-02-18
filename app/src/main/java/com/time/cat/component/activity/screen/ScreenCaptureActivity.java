@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.component.ArcTipViewController;
+import com.time.cat.mvp.view.arc_float_view.ArcTipViewController;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.view.MarkSizeView;
 import com.time.cat.util.override.LogUtil;

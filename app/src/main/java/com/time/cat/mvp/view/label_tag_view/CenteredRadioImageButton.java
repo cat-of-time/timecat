@@ -1,4 +1,4 @@
-package com.time.cat.mvp.view.Label_n_Tag;
+package com.time.cat.mvp.view.label_tag_view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

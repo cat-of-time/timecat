@@ -39,7 +39,7 @@
             android:textSize="14sp"
             tools:text="A long-serving former solicitor-general has launched a withering assessment of Attorney-General George Brandis' relationship with the nation's second law officer."/>
 
-        <com.time.cat.mvp.view.Label_n_Tag.SegmentedRadioGroup
+        <com.time.cat.mvp.view.label_tag_view.SegmentedRadioGroup
             android:id="@+id/label_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,9 +103,9 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/label_not_important_not_urgent_color"
                 android:textSize="10sp"/>
-        </com.time.cat.mvp.view.Label_n_Tag.SegmentedRadioGroup>
+        </com.time.cat.mvp.view.label_tag_view.SegmentedRadioGroup>
 
-        <com.time.cat.mvp.view.Label_n_Tag.TagCloudView
+        <com.time.cat.mvp.view.label_tag_view.TagCloudView
             android:id="@+id/tag_cloud_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

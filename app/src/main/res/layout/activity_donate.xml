@@ -61,7 +61,7 @@
                 android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/my_weixin"
-                android:src="@drawable/wechat"/>
+                android:src="@drawable/donate_wechat"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/alipay"
+                android:src="@drawable/donate_alipay"
                 android:text="@string/my_zhifubao"/>
 
             <android.support.v7.widget.AppCompatTextView

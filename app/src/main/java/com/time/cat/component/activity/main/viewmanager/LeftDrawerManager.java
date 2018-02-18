@@ -30,7 +30,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.time.cat.AnimationSystem.ViewHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.component.activity.AboutActivity;
+import com.time.cat.component.activity.about.AboutActivity;
 import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.activity.user.LoginActivity;

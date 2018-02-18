@@ -1,4 +1,4 @@
-package com.time.cat.component.activity;
+package com.time.cat.component.activity.intro;
 
 import android.animation.Animator;
 import android.content.DialogInterface;
@@ -20,9 +20,9 @@ import com.time.cat.R;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.view.ColorTextView;
-import com.time.cat.mvp.view.Dialog;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.SimpleDialog;
+import com.time.cat.mvp.view.dialog.Dialog;
+import com.time.cat.mvp.view.dialog.DialogFragment;
+import com.time.cat.mvp.view.dialog.SimpleDialog;
 import com.time.cat.util.clipboard.ClipboardUtils;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.NotificationCheckUtil;

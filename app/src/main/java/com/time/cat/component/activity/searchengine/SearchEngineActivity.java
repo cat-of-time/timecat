@@ -19,9 +19,9 @@ import com.time.cat.component.activity.searchengine.listener.OnItemClickListener
 import com.time.cat.component.activity.searchengine.view.ListViewDecoration;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.model.APImodel.SearchEngine;
-import com.time.cat.mvp.view.Dialog;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.SimpleDialog;
+import com.time.cat.mvp.view.dialog.Dialog;
+import com.time.cat.mvp.view.dialog.DialogFragment;
+import com.time.cat.mvp.view.dialog.SimpleDialog;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.override.SnackBarUtil;

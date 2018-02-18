@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.component.activity.DonateActivity;
+import com.time.cat.component.activity.about.DonateActivity;
 import com.time.cat.util.override.ToastUtil;
 
 

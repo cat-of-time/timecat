@@ -1,4 +1,4 @@
-package com.time.cat.component.activity;
+package com.time.cat.component.activity.intro;
 
 import android.animation.Animator;
 import android.content.Intent;
@@ -28,7 +28,7 @@ import com.time.cat.util.override.ToastUtil;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import static com.time.cat.component.activity.SplashActivity.KEY;
+import static com.time.cat.component.activity.intro.SplashActivity.KEY;
 
 public class IntroActivity extends BaseActivity {
     private static final String INTRODUCED = "introduced";

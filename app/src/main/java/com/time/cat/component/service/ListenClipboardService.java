@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import com.shang.commonjar.contentProvider.Global;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.component.ArcTipViewController;
+import com.time.cat.mvp.view.arc_float_view.ArcTipViewController;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.util.ConstantUtil;

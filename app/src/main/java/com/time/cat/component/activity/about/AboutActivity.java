@@ -1,4 +1,4 @@
-package com.time.cat.component.activity;
+package com.time.cat.component.activity.about;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,13 +30,4 @@ public class AboutActivity extends BaseActivity {
             ft.add(R.id.fragment_holder, fragment).commit();
         }
     }
-
-//    protected AboutActivity setupToolbar(String title, int color){
-//        return setupToolbar(title, color);
-//    }
-//
-//    protected AboutActivity setupStatusBar(int color){
-//        ScreenUtils.setStatusBarColor(this, color);
-//        return this;
-//    }
 }

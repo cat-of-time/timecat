@@ -1,4 +1,4 @@
-package com.time.cat.component.activity;
+package com.time.cat.component.activity.intro;
 
 import android.content.Context;
 import android.content.Intent;

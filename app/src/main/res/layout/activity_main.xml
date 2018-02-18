@@ -60,7 +60,7 @@
 
         </com.time.cat.ThemeSystem.widgets.TintToolbar>
 
-        <com.time.cat.mvp.view.CustomPagerView
+        <com.time.cat.mvp.view.viewpaper.CustomPagerView
             android:id="@+id/main_viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

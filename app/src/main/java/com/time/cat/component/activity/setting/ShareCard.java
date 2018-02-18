@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.component.activity.FeedbackActivity;
+import com.time.cat.component.activity.about.FeedbackActivity;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;

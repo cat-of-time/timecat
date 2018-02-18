@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:background="@color/intro_bg"
               android:orientation="vertical"
-              tools:context="com.time.cat.component.activity.IntroActivity">
+              tools:context="com.time.cat.component.activity.intro.IntroActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

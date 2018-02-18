@@ -1,4 +1,4 @@
-package com.time.cat.mvp.view;
+package com.time.cat.mvp.view.dialog;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -30,6 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.time.cat.R;
+import com.time.cat.mvp.view.BlankDrawable;
 import com.time.cat.util.view.ThemeUtil;
 import com.time.cat.util.view.ViewUtil;
 

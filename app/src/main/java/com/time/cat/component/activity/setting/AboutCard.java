@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.time.cat.R;
 import com.time.cat.component.activity.DiyOcrKeyActivity;
-import com.time.cat.component.activity.DonateActivity;
+import com.time.cat.component.activity.about.DonateActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
-import com.time.cat.mvp.view.Dialog;
-import com.time.cat.mvp.view.DialogFragment;
-import com.time.cat.mvp.view.SimpleDialog;
+import com.time.cat.mvp.view.dialog.Dialog;
+import com.time.cat.mvp.view.dialog.DialogFragment;
+import com.time.cat.mvp.view.dialog.SimpleDialog;
 import com.time.cat.util.CountLinkMovementMethod;
 import com.time.cat.util.UrlCountUtil;
 

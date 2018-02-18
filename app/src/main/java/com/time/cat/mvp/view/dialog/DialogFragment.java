@@ -1,4 +1,4 @@
-package com.time.cat.mvp.view;
+package com.time.cat.mvp.view.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;

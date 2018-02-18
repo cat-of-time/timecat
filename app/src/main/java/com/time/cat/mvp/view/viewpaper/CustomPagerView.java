@@ -1,4 +1,4 @@
-package com.time.cat.mvp.view;
+package com.time.cat.mvp.view.viewpaper;
 
 import android.content.Context;
 import android.graphics.PointF;
