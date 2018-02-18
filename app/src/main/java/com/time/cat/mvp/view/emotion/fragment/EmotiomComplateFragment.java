@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.time.cat.R;
 import com.time.cat.component.base.BaseFragment;
-import com.time.cat.util.GlobalOnItemClickManagerUtils;
+import com.time.cat.util.GlobalOnItemClickManager;
 import com.time.cat.mvp.view.emotion.EmojiIndicatorView;
 import com.time.cat.mvp.view.emotion.adapter.EmotionGridViewAdapter;
 import com.time.cat.mvp.view.emotion.adapter.EmotionPagerAdapter;
@@ -154,7 +154,7 @@ public class EmotiomComplateFragment extends BaseFragment {
         EmotionGridViewAdapter adapter = new EmotionGridViewAdapter(getActivity(), emotionNames, itemWidth,emotion_map_type);
         gv.setAdapter(adapter);
         //设置全局点击事件
-        gv.setOnItemClickListener(GlobalOnItemClickManagerUtils.getInstance(getActivity())
+        gv.setOnItemClickListener(GlobalOnItemClickManager.getInstance(getActivity())
                 .getOnItemClickListener(emotion_map_type));
         return gv;
     }

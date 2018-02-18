@@ -329,7 +329,7 @@
             android:launchMode="singleInstance"
             android:theme="@style/TimeCatTheme" />
         <activity
-            android:name=".component.dialog.DialogActivity"
+            android:name=".component.activity.addtask.DialogActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/EditDialogStyle"

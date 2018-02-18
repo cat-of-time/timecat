@@ -4,7 +4,6 @@ package com.time.cat.util;
 import android.support.v4.util.ArrayMap;
 
 import com.time.cat.R;
-import com.time.cat.util.LogUtil;
 
 /**
  * @author dlink

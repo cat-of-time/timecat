@@ -13,20 +13,23 @@ import com.time.cat.mvp.view.emotion.adapter.EmotionGridViewAdapter;
  * @email linxy59@mail2.sysu.edu.cn
  * @date 2018/2/17
  * @discription 点击表情的全局监听管理类
- * @usage null
+ * @usage
+ *          GlobalOnItemClickManager globalOnItemClickManager = GlobalOnItemClickManager.getInstance(getActivity());
+ *          globalOnItemClickManager.attachToEditText(mEditText);
  */
-public class GlobalOnItemClickManagerUtils {
+public class GlobalOnItemClickManager {
 
-    private static GlobalOnItemClickManagerUtils instance;
-    private EditText mEditText;//输入框
+    private static GlobalOnItemClickManager instance;
     private static Context mContext;
+    //输入框
+    private EditText mEditText;
 
-    public static GlobalOnItemClickManagerUtils getInstance(Context context) {
+    public static GlobalOnItemClickManager getInstance(Context context) {
         mContext=context;
         if (instance == null) {
-            synchronized (GlobalOnItemClickManagerUtils.class) {
+            synchronized (GlobalOnItemClickManager.class) {
                 if(instance == null) {
-                    instance = new GlobalOnItemClickManagerUtils();
+                    instance = new GlobalOnItemClickManager();
                 }
             }
         }

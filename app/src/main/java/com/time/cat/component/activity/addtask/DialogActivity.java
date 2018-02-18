@@ -1,4 +1,4 @@
-package com.time.cat.component.dialog;
+package com.time.cat.component.activity.addtask;
 
 import android.app.Activity;
 import android.content.Context;
@@ -35,7 +35,7 @@ import com.time.cat.mvp.view.emotion.model.ImageModel;
 import com.time.cat.mvp.view.keyboardManager.SmartKeyboardManager;
 import com.time.cat.mvp.view.richText.TEditText;
 import com.time.cat.util.EmotionUtils;
-import com.time.cat.util.GlobalOnItemClickManagerUtils;
+import com.time.cat.util.GlobalOnItemClickManager;
 import com.time.cat.util.SharedPreferencedUtils;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.ViewUtil;
@@ -401,7 +401,7 @@ public class DialogActivity extends BaseActivity implements
 
     private void setSelectTagPanel() {
         replaceFragment();
-        GlobalOnItemClickManagerUtils globalOnItemClickManager = GlobalOnItemClickManagerUtils.getInstance(getActivity());
+        GlobalOnItemClickManager globalOnItemClickManager = GlobalOnItemClickManager.getInstance(getActivity());
         globalOnItemClickManager.attachToEditText(dialog_add_task_et_content);
 
         List<ImageModel> list = new ArrayList<>();
