@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
-    <com.time.cat.mvp.view.TimeCatLayoutWrapper
+    <com.time.cat.mvp.view.timecat.TimeCatLayoutWrapper
         android:id="@+id/timecat_wrap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

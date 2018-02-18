@@ -21,10 +21,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.time.cat.R;
-import com.time.cat.ThemeSystem.manager.ThemeManager;
+import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.TimeCatApp;
-import com.time.cat.util.ScreenUtils;
+import com.time.cat.util.ScreenUtil;
 import com.time.cat.util.StatusbarColorUtils;
 import com.time.cat.util.StringUtil;
 import com.time.cat.util.ThreadManager;
@@ -413,7 +413,7 @@ public class BaseActivity extends PermissionActivity {
     }
 
     protected BaseActivity setupStatusBar(int color) {
-        ScreenUtils.setStatusBarColor(this, color);
+        ScreenUtil.setStatusBarColor(this, color);
         return this;
     }
 

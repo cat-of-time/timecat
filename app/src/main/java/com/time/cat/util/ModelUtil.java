@@ -1,6 +1,6 @@
 package com.time.cat.util;
 
-import com.time.cat.ThemeSystem.manager.ThemeManager;
+import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 

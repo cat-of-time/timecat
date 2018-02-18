@@ -2,132 +2,232 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@android:color/white"
+        android:gravity="bottom"
         android:orientation="vertical">
-        <!-- title Label -->
-        <android.support.design.widget.TextInputLayout
+
+        <LinearLayout
+            android:id="@+id/dialog_add_task_ll_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/dialog_add_task_til_content"
-            android:layout_marginTop="10dp">
-
-            <android.support.v7.widget.AppCompatEditText
+            android:background="@android:color/white"
+            android:orientation="vertical">
+            <!-- title Label -->
+            <!-- content Label -->
+            <com.time.cat.mvp.view.richText.TEditText
+                android:id="@+id/dialog_add_task_et_title"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="32dp"
+                android:layout_above="@+id/dialog_add_task_til_content"
                 android:layout_marginLeft="@dimen/margin_auto"
                 android:layout_marginRight="@dimen/margin_auto"
-                android:hint="任务名称"
+                android:background="@null"
+                android:hint="标题"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_tiny"/>
-        </android.support.design.widget.TextInputLayout>
-        <!-- content Label -->
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/dialog_add_task_til_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/dialog_add_task_ll_footer">
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/dialog_add_task_et_content"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/dialog_add_task_til_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_auto"
-                android:layout_marginRight="@dimen/margin_auto"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:focusedByDefault="true"
-                android:gravity="top"
-                android:hint="任务内容"
-                android:inputType="textMultiLine"
-                android:maxHeight="200dp"
-                android:minHeight="120dp"
-                android:scrollHorizontally="false"
-                android:singleLine="false"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_body"/>
-        </android.support.design.widget.TextInputLayout>
+                android:layout_above="@id/dialog_add_task_ll_footer">
 
-        <LinearLayout
-            android:id="@+id/dialog_add_task_ll_footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/dialog_add_task_footer"
-            android:background="@color/transparent"
-            android:orientation="horizontal">
+                <com.time.cat.mvp.view.richText.TEditText
+                    android:id="@+id/dialog_add_task_et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_auto"
+                    android:layout_marginRight="@dimen/margin_auto"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:focusedByDefault="true"
+                    android:gravity="top"
+                    android:hint="内容"
+                    android:inputType="textMultiLine"
+                    android:maxHeight="200dp"
+                    android:minHeight="120dp"
+                    android:scrollHorizontally="false"
+                    android:singleLine="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_body"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginBottom="@dimen/margin_auto"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="@dimen/margin_auto"
-                android:layout_marginTop="@dimen/margin_auto"
-                android:background="#50f44336"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="重要且紧急"
-                android:textColor="@color/red"
-                android:textSize="10dp"/>
+            <LinearLayout
+                android:id="@+id/dialog_add_task_ll_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/dialog_add_task_footer"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginBottom="@dimen/margin_auto"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="@dimen/margin_auto"
-                android:layout_marginTop="@dimen/margin_auto"
-                android:background="#502196f3"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="02.07"
-                android:textColor="@color/blue"
-                android:textSize="10dp"/>
+                <TextView
+                    android:id="@+id/dialog_add_task_tv_important_urgent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="@dimen/margin_auto"
+                    android:background="#50f44336"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone"
+                    android:text="重要且紧急"
+                    android:textColor="@color/red"
+                    android:textSize="10dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginBottom="@dimen/margin_auto"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="@dimen/margin_auto"
-                android:layout_marginTop="@dimen/margin_auto"
-                android:background="#502196f3"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="当天"
-                android:textColor="@color/blue"
-                android:textSize="10dp"/>
+                <TextView
+                    android:id="@+id/dialog_add_task_tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="@dimen/margin_auto"
+                    android:background="#502196f3"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:visibility="gone"
+                    android:text="02.07"
+                    android:textColor="@color/blue"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:id="@+id/dialog_add_task_tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="@dimen/margin_auto"
+                    android:background="#502196f3"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="全天"
+                    android:textColor="@color/blue"
+                    android:visibility="gone"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:id="@+id/dialog_add_task_tv_remind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="@dimen/margin_auto"
+                    android:background="#504faf50"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="提醒"
+                    android:textColor="@color/green"
+                    android:textSize="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/dialog_add_task_tv_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="@dimen/margin_auto"
+                    android:background="#50ff9800"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="标签"
+                    android:textColor="@color/orange"
+                    android:textSize="10dp"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/dialog_add_task_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:paddingBottom="8dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/dialog_add_task_type_note"
+                        android:layout_width="40dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="笔记"
+                        android:textColor="#ee000000"
+                        android:textSize="@dimen/text_size_large"/>
+
+                    <TextView
+                        android:id="@+id/dialog_add_task_type_task"
+                        android:layout_width="40dp"
+                        android:layout_height="32dp"
+                        android:layout_alignEnd="@+id/dialog_add_task_type_note"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center"
+                        android:text="任务"
+                        android:textColor="#5e000000"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/dialog_add_task_type_clock"
+                        android:layout_width="40dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center"
+                        android:layout_alignEnd="@+id/dialog_add_task_type_task"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_weight="1"
+                        android:text="闹钟"
+                        android:textColor="#5e000000"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <com.rey.material.widget.Button
+                    android:id="@+id/dialog_add_task_footer_bt_submit"
+                    style="@style/LightRaiseWaveColorButtonRippleStyle"
+                    android:layout_width="72dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="提交"
+                    android:textAllCaps="false"
+                    android:background="@drawable/shape_bg_button"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_tiny"
+                    app:rd_enable="true"
+                    app:rd_style="@style/LightRaiseWaveColorButtonRippleStyle"/>
+            </RelativeLayout>
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/dialog_add_task_footer"
+        <LinearLayout
+            android:id="@+id/dialog_add_task_ll_extra"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="bottom"
-            android:paddingBottom="10dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <com.rey.material.widget.Button
-                android:id="@+id/dialog_add_task_footer_bt_submit"
-                style="@style/LightRaiseWaveColorButtonRippleStyle"
-                android:layout_width="80dp"
-                android:layout_height="36dp"
-                android:layout_alignParentEnd="true"
-                android:text="提交"
-                android:textAllCaps="false"
-                android:textSize="@dimen/text_size_tiny"
-                app:rd_enable="true"
-                app:v_styleId="@style/LightRaiseWaveColorButtonRippleStyle"/>
-        </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sdgjadfoigjnmfdiinvhodfugbolij"/>
+        </LinearLayout>
 
+        <include
+            layout="@layout/view_keyboard_important_urgent"/>
+        <include
+            layout="@layout/view_keyboard_date"/>
+        <include
+            layout="@layout/view_keyboard_time"/>
+        <include
+            layout="@layout/view_keyboard_remind"/>
+        <include
+            layout="@layout/view_keyboard_tag"/>
     </LinearLayout>
 </LinearLayout>

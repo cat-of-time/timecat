@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.time.cat.ThemeSystem.manager;
+package com.time.cat.ThemeSystem;
 
 import android.content.Context;
 import android.content.SharedPreferences;

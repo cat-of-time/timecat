@@ -1,0 +1,82 @@
+[
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 14,
+    "labelTopicType": 1,
+    "labelTopicValue": " #品牌[14|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 15,
+    "labelTopicType": 1,
+    "labelTopicValue": " #风格[15|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 16,
+    "labelTopicType": 1,
+    "labelTopicValue": " #款式[16|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 17,
+    "labelTopicType": 1,
+    "labelTopicValue": " #材质[17|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 18,
+    "labelTopicType": 1,
+    "labelTopicValue": " #价格[18|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 19,
+    "labelTopicType": 1,
+    "labelTopicValue": " #保暖性[19|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 20,
+    "labelTopicType": 1,
+    "labelTopicValue": " #透气性[20|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 21,
+    "labelTopicType": 1,
+    "labelTopicValue": " #搭配效果[21|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 22,
+    "labelTopicType": 1,
+    "labelTopicValue": " #当季流行[22|话题]# ",
+    "livingLabelId": null
+  },
+  {
+    "classId": null,
+    "interestLabelId": 15,
+    "labelTopicId": 23,
+    "labelTopicType": 1,
+    "labelTopicValue": " #纪念意义[23|话题]# ",
+    "livingLabelId": null
+  }
+]

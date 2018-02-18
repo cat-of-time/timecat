@@ -39,13 +39,13 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.nispok.snackbar.Snackbar;
 import com.time.cat.R;
-import com.time.cat.ThemeSystem.manager.ThemeManager;
+import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.util.AvatarMgr;
-import com.time.cat.util.ScreenUtils;
+import com.time.cat.util.ScreenUtil;
 import com.time.cat.util.Snack;
 
 import java.util.ArrayList;
@@ -336,7 +336,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
             int finalRadius = (int) Math.hypot(userAvatarBg.getWidth(), userAvatarBg.getHeight());
 
             // create the animator for this view (the start radius is zero)
-            Animator anim = ViewAnimationUtils.createCircularReveal(userAvatarBg, x, cy, ScreenUtils.dpToPx(getResources(), 100f), finalRadius);
+            Animator anim = ViewAnimationUtils.createCircularReveal(userAvatarBg, x, cy, ScreenUtil.dpToPx(getResources(), 100f), finalRadius);
             // make the view visible and start the animation
             userAvatarBg.setVisibility(View.VISIBLE);
             anim.setInterpolator(new DecelerateInterpolator());
@@ -358,10 +358,10 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
     private void updateAvatar(String avatar, int delay, final int duration, final int x) {
         userAvatar.setImageResource(AvatarMgr.res(avatar));
         color1 = user.color();
-        color2 = ScreenUtils.equivalentNoAlpha(color1, 0.7f);
+        color2 = ScreenUtil.equivalentNoAlpha(color1, 0.7f);
         avatarBackgroundColor = color1;
         gridContainer.setBackgroundColor(getResources().getColor(R.color.dark_grey_home));
-        ScreenUtils.setStatusBarColor(this, avatarBackgroundColor);
+        ScreenUtil.setStatusBarColor(this, avatarBackgroundColor);
         Log.e(TAG, "setStatusBarColor");
 
         if (delay > 0) {

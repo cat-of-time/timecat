@@ -1,4 +1,4 @@
-package com.time.cat.mvp.view;
+package com.time.cat.mvp.view.timecat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

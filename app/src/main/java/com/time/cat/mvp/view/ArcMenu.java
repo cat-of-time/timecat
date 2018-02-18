@@ -48,7 +48,7 @@ public class ArcMenu extends FrameLayout {
 
     private ImageView mHintView;
     private ViewGroup controlLayout;
-    private OnModeSelectedListener mOnModeSeleter;
+    private OnModeSelectedListener mOnModeSelector;
     private int mPosition;
 
     public ArcMenu(Context context) {
@@ -62,7 +62,7 @@ public class ArcMenu extends FrameLayout {
         applyAttrs(attrs);
     }
 
-    private static Animation createItemDisapperAnimation(final long duration, final boolean isClicked) {
+    private static Animation createItemDisappearAnimation(final long duration, final boolean isClicked) {
         AnimationSet animationSet = new AnimationSet(true);
         animationSet.addAnimation(new ScaleAnimation(1.0f, isClicked ? 2.0f : 0.0f, 1.0f, isClicked ? 2.0f : 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f));
         animationSet.addAnimation(new AlphaAnimation(1.0f, 0.0f));
@@ -102,7 +102,7 @@ public class ArcMenu extends FrameLayout {
                     mArcLayout.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (mOnModeSeleter != null) mOnModeSeleter.onModeSelected();
+                            if (mOnModeSelector != null) mOnModeSelector.onModeSelected();
                         }
                     }, 350);
 
@@ -131,17 +131,17 @@ public class ArcMenu extends FrameLayout {
         }
     }
 
-    public void applySizeChange(float persents) {
-        setArcLayoutSize((int) (ViewUtil.dp2px(146) * persents));
-        setMenuSize((int) (ViewUtil.dp2px(40) * persents));
-        setHintViewSize((int) (ViewUtil.dp2px(47) * persents));
-        int padding = (int) (ViewUtil.dp2px(10) * persents);
+    public void applySizeChange(float presents) {
+        setArcLayoutSize((int) (ViewUtil.dp2px(146) * presents));
+        setMenuSize((int) (ViewUtil.dp2px(40) * presents));
+        setHintViewSize((int) (ViewUtil.dp2px(47) * presents));
+        int padding = (int) (ViewUtil.dp2px(10) * presents);
         mHintView.setPadding(padding, padding, padding, padding);
-        mArcLayout.setMinRadius(persents);
+        mArcLayout.setMinRadius(presents);
     }
 
-    public void setMenuSize(int radiu) {
-        mArcLayout.setChildSize(radiu);
+    public void setMenuSize(int radium) {
+        mArcLayout.setChildSize(radium);
     }
 
     public void setHintViewSize(int width) {
@@ -218,7 +218,7 @@ public class ArcMenu extends FrameLayout {
     }
 
     private Animation bindItemAnimation(final View child, final boolean isClicked, final long duration) {
-        Animation animation = createItemDisapperAnimation(duration, isClicked);
+        Animation animation = createItemDisappearAnimation(duration, isClicked);
         child.setAnimation(animation);
 
         return animation;
@@ -316,7 +316,7 @@ public class ArcMenu extends FrameLayout {
     }
 
     public void setOnModeSelectedListener(OnModeSelectedListener onModeSelectedListener) {
-        mOnModeSeleter = onModeSelectedListener;
+        mOnModeSelector = onModeSelectedListener;
     }
 
     public interface OnModeSelectedListener {

@@ -1,0 +1,37 @@
+[
+  {
+    "labelId": 1,
+    "labelImage": "https://app.meechao.com/images/fdcf468cd4384d89b0d66c329f307583.png",
+    "labelValue": "上班"
+  },
+  {
+    "labelId": 2,
+    "labelImage": "https://app.meechao.com/images/2e21019ba0f94f46a0767c5c5afe4a03.png",
+    "labelValue": "周末"
+  },
+  {
+    "labelId": 3,
+    "labelImage": "https://app.meechao.com/images/bb274b787dcc44dfb52a7975ab591c3c.png",
+    "labelValue": "逛街"
+  },
+  {
+    "labelId": 4,
+    "labelImage": "https://app.meechao.com/images/3c218297090644c1b636b89c61867c35.png",
+    "labelValue": "聚会"
+  },
+  {
+    "labelId": 5,
+    "labelImage": "https://app.meechao.com/images/cd66dd2c8007432d9b7cc7235256d931.png",
+    "labelValue": "约会"
+  },
+  {
+    "labelId": 6,
+    "labelImage": "https://app.meechao.com/images/d5b2f4be64534e509a95031c987c8bf4.png",
+    "labelValue": "居家"
+  },
+  {
+    "labelId": 8,
+    "labelImage": "https://app.meechao.com/images/8ce5ec9b8ec740179b3013b2e68b2a60.png",
+    "labelValue": "旅行"
+  }
+]

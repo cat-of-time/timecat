@@ -15,7 +15,7 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.main.schedules.SchedulesHelpActivity;
 import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.util.ScreenUtils;
+import com.time.cat.util.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +99,7 @@ public class FabMenuManager implements View.OnClickListener {
         this.currentPage = currentPage;
 
         fab.setColorNormal(Color.parseColor("#ffffff"));
-        fab.setColorPressed(ScreenUtils.equivalentNoAlpha(Color.parseColor("#ffffff"), 0.5f));
+        fab.setColorPressed(ScreenUtil.equivalentNoAlpha(Color.parseColor("#ffffff"), 0.5f));
 
 //        fab.setColorNormalResId(getFabColor(currentPage));
 //        fab.setColorPressedResId(getFabPressedColor(currentPage));
@@ -219,7 +219,7 @@ public class FabMenuManager implements View.OnClickListener {
     public void onUserUpdate(DBUser u) {
         for (FloatingActionButton f : scheduleActions) {
             f.setColorNormal(u.color());
-            f.setColorPressed(ScreenUtils.equivalentNoAlpha(u.color(), 0.5f));
+            f.setColorPressed(ScreenUtil.equivalentNoAlpha(u.color(), 0.5f));
         }
         fabMenu.invalidate();
     }

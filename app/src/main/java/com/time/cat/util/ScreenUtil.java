@@ -46,12 +46,13 @@ import com.time.cat.R;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 
 
 /**
  * Created by joseangel.pineiro on 11/20/13.
  */
-public class ScreenUtils {
+public class ScreenUtil {
 
     private static Palette p;
 
@@ -65,17 +66,17 @@ public class ScreenUtils {
         return p;
     }
 
+    /**
+     * 获取屏幕宽度 单位：像素
+     *
+     * @return 屏幕宽度
+     */
     public static float getDensity(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
         return outMetrics.density;
     }
-
-    public static int alpha(int color, int alpha) {
-        return Color.argb(alpha, Color.red(color), Color.blue(color), Color.green(color));
-    }
-
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
@@ -89,7 +90,6 @@ public class ScreenUtils {
 
         return bitmap;
     }
-
 
     public static Bitmap getResizedBitmap(Context ctx, String pathOfInputImage, int dstWidth, int dstHeight) {
         try {
@@ -152,7 +152,6 @@ public class ScreenUtils {
 
     }
 
-
     public static int equivalentNoAlpha(int color, int background, float factor) {
 
         int r_background = Color.red(background);
@@ -192,7 +191,6 @@ public class ScreenUtils {
         win.setAttributes(winParams);
     }
 
-
     public static Materialize materialize(Activity activity) {
         return materialize(activity, R.color.android_blue_statusbar);
     }
@@ -205,11 +203,30 @@ public class ScreenUtils {
         return new MaterializeBuilder().withActivity(activity).withTintedStatusBar(true).withTranslucentStatusBar(true).withStatusBarColor(color).build();
     }
 
-    public static int getStatusBarHeight(Context ctx) {
+    /**
+     * 获取屏幕宽度 单位：像素
+     *
+     * @return 屏幕宽度
+     */
+    public static int getScreenWidth(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return displayMetrics.widthPixels;
+    }
+    /**
+     * 获取屏幕高度 单位：像素
+     *
+     * @return 屏幕高度
+     */
+    public static int getScreenHeight(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return displayMetrics.heightPixels;
+    }
+
+    public static int getStatusBarHeight(Context context) {
         int result = 0;
-        int resourceId = ctx.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            result = ctx.getResources().getDimensionPixelSize(resourceId);
+            result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
     }
@@ -217,6 +234,215 @@ public class ScreenUtils {
     public static int dpToPx(Resources r, float dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
+    /**
+     * dp 转 px
+     *
+     * @param dp
+     *            dp值
+     * @return 转换后的像素值
+     */
+    public static int dp2px(Activity activity, int dp) {
+        //0.5f 是四舍五入的偏移量
+        return (int) (dp * getDensity(activity) + 0.5f);
+    }
+    /**
+     * SP 转 Pixels
+     *
+     * @param sp      sp 字体大小
+     * @return pixels
+     */
+    public static float sp2Px(Activity activity, float sp) {
+        return sp * getDensity(activity);
+    }
+
+    public static int px2dip(Context context, float px) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (px / scale + 0.5f);
+    }
+
+    public static int dip2px(Context context, float dp) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
+    public static int alpha(int color, int alpha) {
+        return Color.argb(alpha, Color.red(color), Color.blue(color), Color.green(color));
+    }
+
+    private static final float ROUND_CEIL = 0.5f;
+    private static DisplayMetrics sDisplayMetrics;
+    private static Resources sResources;
+
+    /**
+     * 初始化操作
+     *
+     * @param context context
+     */
+    public static void init(Context context) {
+        sDisplayMetrics = context.getResources().getDisplayMetrics();
+        sResources = context.getResources();
+        sDefaultKeyboardHeight = context.getResources().getDimensionPixelSize(R.dimen.default_keyboard_height);
+    }
+
+    /**
+     * 获取屏幕宽度 单位：像素
+     *
+     * @return 屏幕宽度
+     */
+    public static int getScreenWidth() {
+        return sDisplayMetrics.widthPixels;
+    }
+
+    /**
+     * 获取屏幕高度 单位：像素
+     *
+     * @return 屏幕高度
+     */
+    public static int getScreenHeight() {
+        return sDisplayMetrics.heightPixels;
+    }
+
+    /**
+     * 获取默认软键盘高度 单位：像素
+     *
+     * @return 默认软键盘高度
+     */
+    public static int getDefaultKeyboardHeight() {
+        return sDefaultKeyboardHeight;
+    }
+
+    /**
+     * 获取屏幕宽度 单位：像素
+     *
+     * @return 屏幕宽度
+     */
+    public static float getDensity() {
+        return sDisplayMetrics.density;
+    }
+
+    /**
+     * dp 转 px
+     *
+     * @param dp dp值
+     *
+     * @return 转换后的像素值
+     */
+    public static int dp2px(int dp) {
+        return (int) (dp * sDisplayMetrics.density + ROUND_CEIL);
+    }
+
+    /**
+     * dp 转 px
+     *
+     * @param dp dp值
+     *
+     * @return 转换后的像素值
+     */
+    public static float dp2px(float dp) {
+        return dp * sDisplayMetrics.density + ROUND_CEIL;
+    }
+
+    /**
+     * px 转 dp
+     *
+     * @param px px值
+     *
+     * @return 转换后的dp值
+     */
+    public static int px2dp(int px) {
+        return (int) (px / sDisplayMetrics.density + ROUND_CEIL);
+    }
+
+    /**
+     * 获取状态栏高度
+     *
+     * @return 状态栏高度
+     */
+    public static int getStatusBarHeight() {
+        final int defaultHeightInDp = 19;
+        int height = DisplayUtils.dp2px(defaultHeightInDp);
+        try {
+            Class<?> c = Class.forName("com.android.internal.R$dimen");
+            Object obj = c.newInstance();
+            Field field = c.getField("status_bar_height");
+            height = sResources.getDimensionPixelSize(Integer.parseInt(field.get(obj).toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return height;
+    }
+
+    private static ScreenUtil screen;
+    private static float screenWidth = -1;
+    private static float screenHeight = -1;
+    private static int stateBarHeight = -1;
+    private static float density = 1;
+    private static float scale;
+    private static int sDefaultKeyboardHeight;
+
+    private ScreenUtil(Context mContext) {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(dm);
+        screenWidth = dm.widthPixels;
+        screenHeight = dm.heightPixels;
+        // 屏幕密度（0.75 / 1.0 / 1.5）
+        density = dm.density;
+        stateBarHeight = getStateBarHeight(mContext);
+        scale = mContext.getResources().getDisplayMetrics().density;
+    }
+
+    public static ScreenUtil getInstance(Context mContext) {
+        if (screen == null) {
+            synchronized (ScreenUtil.class) {
+                if (null == screen) {
+                    screen = new ScreenUtil(mContext);
+                }
+            }
+        }
+        return screen;
+    }
 
 
+    public static int getStateBarHeight() {
+        return stateBarHeight;
+    }
+
+    /**
+     * 获取状态栏高度
+     */
+    public static int getStateBarHeight(Context mContext) {
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x = 0, sbar = 0;
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            obj = c.newInstance();
+            field = c.getField("status_bar_height");
+            x = Integer.parseInt(field.get(obj).toString());
+            sbar = mContext.getResources().getDimensionPixelSize(x);
+            return sbar;
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return sbar;
+    }
+
+    public static int dip2px(float dipValue) {
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+    public static int px2dip(float pxValue) {
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+    /**
+     * SP 转 Pixels
+     *
+     * @param sp      sp 字体大小
+     * @return pixels
+     */
+    public static float sp2Px(float sp) {
+        return sp * scale;
+    }
 }

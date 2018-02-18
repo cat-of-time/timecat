@@ -40,7 +40,7 @@ public class SoftKeyBoardListener {
                 //根视图显示高度变小超过200，可以看作软键盘显示了
                 if (rootViewVisibleHeight - visibleHeight > 200) {
                     if (onSoftKeyBoardChangeListener != null) {
-                        onSoftKeyBoardChangeListener.keyBoardShow(rootViewVisibleHeight - visibleHeight);
+                        onSoftKeyBoardChangeListener.onKeyBoardShow(rootViewVisibleHeight - visibleHeight);
                     }
                     rootViewVisibleHeight = visibleHeight;
                     return;
@@ -49,7 +49,7 @@ public class SoftKeyBoardListener {
                 //根视图显示高度变大超过200，可以看作软键盘隐藏了
                 if (visibleHeight - rootViewVisibleHeight > 200) {
                     if (onSoftKeyBoardChangeListener != null) {
-                        onSoftKeyBoardChangeListener.keyBoardHide(visibleHeight - rootViewVisibleHeight);
+                        onSoftKeyBoardChangeListener.onKeyBoardHide(visibleHeight - rootViewVisibleHeight);
                     }
                     rootViewVisibleHeight = visibleHeight;
                     return;
@@ -64,9 +64,9 @@ public class SoftKeyBoardListener {
     }
 
     public interface OnSoftKeyBoardChangeListener {
-        void keyBoardShow(int height);
+        void onKeyBoardShow(int height);
 
-        void keyBoardHide(int height);
+        void onKeyBoardHide(int height);
     }
 
     public static void setListener(Activity activity, OnSoftKeyBoardChangeListener onSoftKeyBoardChangeListener) {

@@ -20,7 +20,7 @@ import com.time.cat.R;
 import com.time.cat.component.activity.setting.SettingActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.view.GuideView;
-import com.time.cat.mvp.view.TimeCatLayoutWrapper;
+import com.time.cat.mvp.view.timecat.TimeCatLayoutWrapper;
 import com.time.cat.util.ClipboardUtils;
 import com.time.cat.util.SnackBarUtil;
 import com.time.cat.util.ToastUtil;

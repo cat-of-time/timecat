@@ -169,14 +169,14 @@
         </activity>
         <activity
             android:name="com.time.cat.component.activity.main.MainActivity"
-            android:theme="@style/ColorTranslucentTheme"
             android:launchMode="singleInstance"
+            android:theme="@style/ColorTranslucentTheme"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name="com.time.cat.component.activity.SettingTimeCatActivity"
@@ -325,14 +325,20 @@
             android:theme="@style/Theme.Intro"/>
         <activity
             android:name=".component.activity.main.schedules.ScheduleCreateOrEditActivity"
-            android:theme="@style/TimeCatTheme"
             android:launchMode="singleInstance"
+            android:theme="@style/TimeCatTheme"/>
+        <activity
+            android:name=".component.dialog.DialogActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/EditDialogStyle"
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-            />
-        <activity android:name=".component.dialog.DialogActivity"
-                  android:configChanges="orientation|screenSize"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/EditDialogStyle"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

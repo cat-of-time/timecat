@@ -30,7 +30,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by joseangel.pineiro on 10/26/15.
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/2/17
+ * @discription null
+ * @usage null
  */
 public class AvatarMgr {
 

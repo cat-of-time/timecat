@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.time.cat.R;
-import com.time.cat.ThemeSystem.manager.ThemeManager;
+import com.time.cat.ThemeSystem.ThemeManager;
 
 
 /**

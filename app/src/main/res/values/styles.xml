@@ -452,4 +452,16 @@
         //点击空白处时是否销毁Activity
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
+
+    <!-- 带话题标签的输入框TEditText -->
+    <declare-styleable name="TEditText">
+        <!--话题标签文字颜色 未选中-->
+        <attr format="color" name="text_color_normal_topic"/>
+        <!--话题标签文字颜色 选中-->
+        <attr format="color" name="text_color_select_topic"/>
+        <!--话题标签的文字大小-->
+        <attr format="dimension" name="text_size_topic"/>
+        <!--标签匹配正则-->
+        <attr format="string" name="topic_regex"/>
+    </declare-styleable>
 </resources>

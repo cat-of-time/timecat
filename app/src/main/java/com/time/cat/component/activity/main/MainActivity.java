@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.time.cat.R;
-import com.time.cat.ThemeSystem.manager.ThemeManager;
+import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
@@ -44,7 +44,7 @@ import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.CustomPagerView;
-import com.time.cat.util.ScreenUtils;
+import com.time.cat.util.ScreenUtil;
 import com.time.cat.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -179,7 +179,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
     private void setToolBar() {
         toolbar = findViewById(R.id.main_toolbar);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(0, ScreenUtils.getStatusBarHeight(this), 0, 0);
+        layoutParams.setMargins(0, ScreenUtil.getStatusBarHeight(this), 0, 0);
         toolbar.setLayoutParams(layoutParams);
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();

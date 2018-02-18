@@ -40,7 +40,7 @@ import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.util.AvatarMgr;
 import com.time.cat.util.IconUtils;
-import com.time.cat.util.ScreenUtils;
+import com.time.cat.util.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -258,7 +258,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         currentUser = u;
         LayerDrawable layers = (LayerDrawable) headerResult.getHeaderBackgroundView().getDrawable();
         ColorDrawable color = (ColorDrawable) layers.findDrawableByLayerId(R.id.color_layer);
-        color.setColor(ScreenUtils.equivalentNoAlpha(u.color(), 1f));
+        color.setColor(ScreenUtil.equivalentNoAlpha(u.color(), 1f));
     }
 
     public Drawer getDrawer() {

@@ -1,4 +1,4 @@
-package com.time.cat.mvp.view;
+package com.time.cat.mvp.view.timecat;
 
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.time.cat.R;
+import com.time.cat.mvp.view.RectEvaluator;
 import com.time.cat.util.ViewUtil;
 
 class TimeCatHeader extends ViewGroup implements View.OnClickListener {

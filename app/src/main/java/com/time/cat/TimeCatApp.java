@@ -11,7 +11,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 
 import com.shang.commonjar.contentProvider.Global;
-import com.time.cat.ThemeSystem.manager.ThemeManager;
+import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.service.ListenClipboardService;
 import com.time.cat.component.service.TimeCatMonitorService;

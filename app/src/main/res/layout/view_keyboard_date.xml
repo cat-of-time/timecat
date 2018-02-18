@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_add_task_select_gv_date"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnWidth="90dip"
+    android:gravity="center"
+    android:horizontalSpacing="4dip"
+    android:numColumns="3"
+    android:verticalSpacing="4dip"/>
