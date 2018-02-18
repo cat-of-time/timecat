@@ -532,7 +532,7 @@ public class MainActivity extends BaseActivity implements
             activeUser.setColor(currentTheme);
             DB.users().saveAndFireEvent(activeUser);
             leftDrawer.updateHeaderBackground(activeUser);
-            fabMgr.onUserUpdate(activeUser);
+//            fabMgr.onUserUpdate(activeUser);
         }
     }
     //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
@@ -552,7 +552,7 @@ public class MainActivity extends BaseActivity implements
 //        navigation.getMenu().getItem(position).setChecked(true);
         adjustActionBar(fragmentNames[position]);
         leftDrawer.onPagerPositionChange(position);
-        fabMgr.onViewPagerItemChange(position);
+//        fabMgr.onViewPagerItemChange(position);
     }
 
     @Override
@@ -667,7 +667,7 @@ public class MainActivity extends BaseActivity implements
     public void onUserUpdate(DBUser user) {
 //        DB.users().setActive(user, this);
         leftDrawer.onUserUpdated(user);
-        fabMgr.onUserUpdate(user);
+//        fabMgr.onUserUpdate(user);
         refreshTheme(MainActivity.this, user.color());
     }
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
