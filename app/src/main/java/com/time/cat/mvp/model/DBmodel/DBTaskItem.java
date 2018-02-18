@@ -22,9 +22,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.database.DB;
 
-/**
- * Created by joseangel.pineiro on 7/9/14.
- */
 @DatabaseTable(tableName = "ScheduleItems")
 public class DBTaskItem {
 

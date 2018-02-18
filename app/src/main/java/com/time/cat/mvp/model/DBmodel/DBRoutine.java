@@ -27,9 +27,6 @@ import org.joda.time.LocalTime;
 
 import java.util.List;
 
-/**
- * Created by joseangel.pineiro
- */
 @DatabaseTable(tableName = "Routines")
 public class DBRoutine {
 

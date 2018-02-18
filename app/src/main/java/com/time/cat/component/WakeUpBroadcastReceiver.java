@@ -7,10 +7,6 @@ import android.content.Intent;
 import com.time.cat.component.service.ListenClipboardService;
 import com.time.cat.util.override.LogUtil;
 
-/**
- * Created by wangyan-pd on 2016/11/23.
- */
-
 public class WakeUpBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -9,8 +9,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,11 +27,12 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.time.cat.R;
 import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
+import com.time.cat.component.activity.about.SchedulesHelpActivity;
+import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.activity.main.routines.RoutinesListFragment;
 import com.time.cat.component.activity.main.schedules.SchedulesFragment;
-import com.time.cat.component.activity.main.schedules.SchedulesHelpActivity;
 import com.time.cat.component.activity.main.viewmanager.FabMenuManager;
 import com.time.cat.component.activity.main.viewmanager.LeftDrawerManager;
 import com.time.cat.component.activity.user.LoginActivity;
@@ -43,21 +42,33 @@ import com.time.cat.database.DB;
 import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.mvp.view.navigation.SpecialTab;
+import com.time.cat.mvp.view.navigation.SpecialTabRound;
 import com.time.cat.mvp.view.viewpaper.CustomPagerView;
-import com.time.cat.util.view.ScreenUtil;
 import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.view.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import me.majiajie.pagerbottomtabstrip.NavigationController;
+import me.majiajie.pagerbottomtabstrip.PageNavigationView;
+import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
+import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
+
 /**
  * @author dlink
  * @date 2018/1/19
  */
 @SuppressLint("SetTextI18n")
-public class MainActivity extends BaseActivity implements ActivityPresenter, OnDateChangeListener, DialogThemeFragment.ClickListener, ViewPager.OnPageChangeListener, BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements
+                                               ActivityPresenter,
+                                               OnDateChangeListener,
+                                               DialogThemeFragment.ClickListener,
+                                               ViewPager.OnPageChangeListener,
+                                               View.OnClickListener {
     private static final String TAG = "MainActivity";
     private static final int REQUEST_LOGIN = 0;
     /**
@@ -67,11 +78,8 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
      */
     final int[] canOpenDrawer = {0};
     Toolbar toolbar;
-    //-//<BottomNavigationView.OnNavigationItemSelectedListener>------------------------------------
     String[] fragmentNames;
-    //</生命周期>------------------------------------------------------------------------------------
     boolean active = false;
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     private ActionBar ab;
     private Menu menu;
     private LeftDrawerManager leftDrawer;
@@ -82,19 +90,19 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
     private CustomPagerView customPagerView;
     private CustomPagerViewAdapter customPagerViewAdapter;
 
-    private BottomNavigationView navigation;
+    private PageNavigationView navigation;
 
     private FloatingActionButton fab;
     private FloatingActionsMenu addButton;
     private FabMenuManager fabMgr;
-    //-//<SchedulesFragment.OnDateChangeListener>--------------------------------------------------------
     private boolean isToday;
-    //-//<Method called from the event bus>--------------------------------------------------------------------
     private Handler handler;
     private Queue<Object> pendingEvents = new LinkedList<>();
     private DBUser activeUser;
-    //<回调接口>-------------------------------------------------------------------------------------
-    private OnViewClickListener mViewClickListener;
+
+
+
+
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -128,20 +136,25 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
             onEvent(pendingEvents.poll());
         }
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
 
     @Override
     protected void onPause() {
         active = false;
         super.onPause();
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
+    //</生命周期>------------------------------------------------------------------------------------
 
+
+
+
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     @Override
     public void initView() {//必须调用
         switch (ThemeManager.getTheme(this)) {
@@ -160,9 +173,11 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         customPagerView = findViewById(R.id.main_viewpager);
         navigation = findViewById(R.id.main_navigation);
 
+
         setToolBar();
         setViewPager();
-        setFab();
+//        setFab();不要这个了
+        setNavigationBar();
     }
 
     /**
@@ -188,7 +203,6 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         ab.setTitle("");
     }
-    //-//</BottomNavigationView.OnNavigationItemSelectedListener>-----------------------------------
 
     /**
      * 多界面
@@ -200,13 +214,15 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
 
 //        RoutinesFragment routinesFragment = new RoutinesFragment();
         RoutinesListFragment routinesListFragment = new RoutinesListFragment();
+        NotesFragment notesFragment = new NotesFragment();
         PlansFragment plansFragment = new PlansFragment();
 
-        fragmentNames = new String[]{"SchedulesFragment", "RoutinesFragment", "PlansFragment"};
+        fragmentNames = new String[]{"SchedulesFragment", "RoutinesFragment", "NotesFragment", "PlansFragment"};
 
         customPagerViewAdapter = new CustomPagerViewAdapter(getSupportFragmentManager());
         customPagerViewAdapter.addFragment(schedulesFragment);
         customPagerViewAdapter.addFragment(routinesListFragment);
+        customPagerViewAdapter.addFragment(notesFragment);
         customPagerViewAdapter.addFragment(plansFragment);
         assert customPagerView != null;
         customPagerView.setAdapter(customPagerViewAdapter);
@@ -234,48 +250,144 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
             }
         }
     }
-    //-//</Activity>--------------------------------------------------------------------------------
+
+    private void setNavigationBar() {
+        NavigationController navigationController = navigation.custom()
+                .addItem(newItem(
+                        R.drawable.ic_schedules_black_24dp,
+                        R.drawable.ic_schedules_blue_24dp,
+                        getResources().getString(R.string.title_schedules)
+                ))
+                .addItem(newItem(
+                        R.drawable.ic_routines_black_24dp,
+                        R.drawable.ic_routines_blue_24dp,
+                        getResources().getString(R.string.title_routines)
+                ))
+                .addItem(newRoundItem(
+                        R.drawable.ic_add_black_24dp,
+                        R.drawable.ic_add_blue_24dp,
+                        getResources().getString(R.string.title_add)
+                ))
+                .addItem(newItem(
+                        R.drawable.ic_notes_black_24dp,
+                        R.drawable.ic_notes_blue_24dp,
+                        getResources().getString(R.string.title_notes)
+                ))
+                .addItem(newItem(
+                        R.drawable.ic_plans_active_black_24dp,
+                        R.drawable.ic_plans_active_blue_24dp,
+                        getResources().getString(R.string.title_plans)
+                ))
+                .build();
+
+        //自动适配ViewPager页面切换
+//        navigationController.setupWithViewPager(customPagerView);
+        navigationController.addTabItemSelectedListener(new OnTabItemSelectedListener() {
+            @Override
+            public void onSelected(int index, int old) {
+                //选中时触发
+                if (index == 2) {
+                    launchActivity(new Intent(MainActivity.this, DialogActivity.class));
+                } else if (index > 2) {
+                    customPagerView.setCurrentItem(index - 1);
+                    adjustActionBar(fragmentNames[index - 1]);
+                } else {
+                    customPagerView.setCurrentItem(index);
+                    adjustActionBar(fragmentNames[index]);
+                }
+
+            }
+
+            @Override
+            public void onRepeat(int index) {
+                //重复选中时触发
+            }
+        });
+    }
+
+    /**
+     * 正常tab
+     */
+    private BaseTabItem newItem(int drawable, int checkedDrawable, String text) {
+        SpecialTab mainTab = new SpecialTab(this);
+        mainTab.initialize(drawable, checkedDrawable, text);
+        mainTab.setTextDefaultColor(0xFF888888);
+        mainTab.setTextCheckedColor(0xFF009688);
+        return mainTab;
+    }
+
+    /**
+     * 圆形tab
+     */
+    private BaseTabItem newRoundItem(int drawable, int checkedDrawable, String text) {
+        SpecialTabRound mainTab = new SpecialTabRound(this);
+        mainTab.initialize(drawable, checkedDrawable, text);
+        mainTab.setTextDefaultColor(0xFF888888);
+        mainTab.setTextCheckedColor(0xFF009688);
+        return mainTab;
+    }
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
+
+
+
+
 
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {//必须调用
 
     }
-    //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
 
-    //-//<ViewPager.OnPageChangeListener>-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
     //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
         customPagerView.addOnPageChangeListener(this);
-        navigation.setOnNavigationItemSelectedListener(this);
         subscribeToEvents();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //点击BottomNavigationView的Item项，切换ViewPager页面
-        //menu/main_navigation.xml里加的android:orderInCategory属性就是下面item.getOrder()取的值
-        customPagerView.setCurrentItem(item.getOrder());
-        adjustActionBar(fragmentNames[item.getOrder()]);
-        return true;
-    }
 
+
+
+
+    //-//<BottomNavigationView.OnNavigationItemSelectedListener>------------------------------------
+    private void setMenuGroupVisibleByPosition(int position) {
+        int[] menuGroupSet = new int[] {
+                R.id.main_menu_schedulesFragment,
+                R.id.main_menu_routinesFragment,
+                R.id.main_menu_notesFragment,
+                R.id.main_menu_plansFragment
+        };
+        for (int i = 0 ; i < menuGroupSet.length; i++) {
+            if (i == position) {
+                menu.setGroupVisible(menuGroupSet[i], true);
+            } else {
+                menu.setGroupVisible(menuGroupSet[i], false);
+            }
+        }
+    }
     /**
      * 根据当前fragment来动态绑定右上角的button
      *
      * @param currentFragment 当前fragment
      */
     private void adjustActionBar(String currentFragment) {
+
         switch (currentFragment) {
             case "SchedulesFragment":
                 if (menu != null) {
-                    menu.setGroupVisible(R.id.main_menu_schedulesFragment, true);
-                    menu.setGroupVisible(R.id.main_menu_routinesFragment, false);
-                    menu.setGroupVisible(R.id.main_menu_plansFragment, false);
-//                    Log.i(TAG, "main_menu_schedulesFragment --> setGroupVisible");
+                    setMenuGroupVisibleByPosition(0);
                     //不是今天 ? 显示 : 不显示
                     if (!isToday) {
                         menu.findItem(R.id.main_menu_today).setVisible(true);
@@ -286,66 +398,28 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
                 break;
             case "RoutinesFragment":
                 if (menu != null) {
-                    menu.setGroupVisible(R.id.main_menu_schedulesFragment, false);
-                    menu.setGroupVisible(R.id.main_menu_routinesFragment, true);
-                    menu.setGroupVisible(R.id.main_menu_plansFragment, false);
-//                    Log.i(TAG, "main_menu_routinesFragment --> setGroupVisible");
+                    setMenuGroupVisibleByPosition(1);
+                }
+                break;
+            case "NotesFragment":
+                if (menu != null) {
+                    setMenuGroupVisibleByPosition(2);
                 }
                 break;
             case "PlansFragment":
                 if (menu != null) {
-                    menu.setGroupVisible(R.id.main_menu_schedulesFragment, false);
-                    menu.setGroupVisible(R.id.main_menu_routinesFragment, false);
-                    menu.setGroupVisible(R.id.main_menu_plansFragment, true);
-//                    Log.i(TAG, "main_menu_plansFragment --> setGroupVisible");
+                    setMenuGroupVisibleByPosition(3);
                 }
                 break;
         }
     }
+    //-//</BottomNavigationView.OnNavigationItemSelectedListener>-----------------------------------
+
+
+
+
 
     //-//<Activity>---------------------------------------------------------------------------------
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        this.menu = menu;
-        return super.onCreateOptionsMenu(menu);
-    }
-    //-//</ViewPager.OnPageChangeListener>----------------------------------------------------------
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // handle item selection
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                //Menu icon
-                leftDrawer.getDrawer().openDrawer();
-                return true;
-            case R.id.main_menu_today:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewTodayClick();
-                }
-                return true;
-            case R.id.main_menu_change_theme:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewChangeMarkThemeClick();
-                }
-                return true;
-            case R.id.main_menu_1:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewTodayClick();
-                }
-                return true;
-            case R.id.main_menu_2:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewChangeMarkThemeClick();
-                }
-                return true;
-            default:
-                launchActivity(new Intent(this, SchedulesHelpActivity.class));
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_LOGIN) {
@@ -361,7 +435,62 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
             }
         }
     }
-    //-//</SchedulesFragment.OnDateChangeListener>-------------------------------------------------------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        this.menu = menu;
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //Menu icon
+                leftDrawer.getDrawer().openDrawer();
+                return true;
+
+            // 以下是schedule menu group
+            case R.id.main_menu_today:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewTodayClick();
+                }
+                return true;
+            case R.id.main_menu_change_theme:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewChangeMarkThemeClick();
+                }
+                return true;
+            case R.id.main_menu_schedule_help:
+                launchActivity(new Intent(this, SchedulesHelpActivity.class));
+                return true;
+
+
+            // 以下是clock menu group
+            case R.id.main_menu_1:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewTodayClick();
+                }
+                return true;
+
+
+            // 以下是schedule plan group
+            case R.id.main_menu_2:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewChangeMarkThemeClick();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    //-//</Activity>--------------------------------------------------------------------------------
+
+
+
+
 
     //-//<DialogThemeFragment.ClickListener>--------------------------------------------------------
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -406,8 +535,13 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
             fabMgr.onUserUpdate(activeUser);
         }
     }
-    //-//</View.OnClickListener>--------------------------------------------------------------------
+    //-//</DialogThemeFragment.ClickListener>-------------------------------------------------------
 
+
+
+
+
+    //-//<ViewPager.OnPageChangeListener>-----------------------------------------------------------
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
@@ -415,7 +549,7 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
     @Override
     public void onPageSelected(int position) {
         //页面滑动的时候，改变BottomNavigationView的Item高亮
-        navigation.getMenu().getItem(position).setChecked(true);
+//        navigation.getMenu().getItem(position).setChecked(true);
         adjustActionBar(fragmentNames[position]);
         leftDrawer.onPagerPositionChange(position);
         fabMgr.onViewPagerItemChange(position);
@@ -444,7 +578,13 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
             }
         }
     }
+    //-//</ViewPager.OnPageChangeListener>----------------------------------------------------------
 
+
+
+
+
+    //-//<SchedulesFragment.OnDateChangeListener>--------------------------------------------------------
     @Override
     public void onDateChange(int year, int month, boolean isToday) {
         tvYear.setText(year + getString(R.string.calendar_year));
@@ -460,6 +600,11 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
             }
         }
     }
+    //-//</SchedulesFragment.OnDateChangeListener>--------------------------------------------------
+
+
+
+
 
     //-//<View.OnClickListener>---------------------------------------------------------------------
     @Override
@@ -467,8 +612,13 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         switch (view.getId()) {
         }
     }
-    //-//</Method called from the event bus>--------------------------------------------------------------------
+    //-//</View.OnClickListener>--------------------------------------------------------------------
 
+
+
+
+
+    //-//<Method called from the event bus>---------------------------------------------------------
     public void onEvent(final Object evt) {
         if (active) {
             handler.post(new Runnable() {
@@ -500,6 +650,9 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
             pendingEvents.add(evt);
         }
     }
+    //-//</Method called from the event bus>--------------------------------------------------------
+
+
 
     public void launchActivityDelayed(final Class<?> activityClazz, int delay) {
         new Handler().postDelayed(new Runnable() {
@@ -511,20 +664,17 @@ public class MainActivity extends BaseActivity implements ActivityPresenter, OnD
         }, delay);
 
     }
-
-    private void launchActivity(Intent i) {
-        startActivity(i);
-        this.overridePendingTransition(0, 0);
-    }
-    //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
-
     public void onUserUpdate(DBUser user) {
 //        DB.users().setActive(user, this);
         leftDrawer.onUserUpdated(user);
         fabMgr.onUserUpdate(user);
         refreshTheme(MainActivity.this, user.color());
     }
+    //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
 
+
+    //<回调接口>-------------------------------------------------------------------------------------
+    private OnViewClickListener mViewClickListener;
     public void setOnViewClickListener(OnViewClickListener onViewClickListener) {
         mViewClickListener = onViewClickListener;
     }

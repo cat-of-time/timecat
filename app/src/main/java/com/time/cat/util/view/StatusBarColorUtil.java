@@ -10,9 +10,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * Created by wangchende on 15-9-7.
- */
 public class StatusBarColorUtil {
     private static Method mSetStatusBarColorIcon;
     private static Method mSetStatusBarDarkIcon;

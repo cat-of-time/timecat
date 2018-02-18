@@ -6,9 +6,6 @@ import com.time.cat.TimeCatApp;
 
 import java.util.HashMap;
 
-/**
- * Created by penglu on 2015/12/17.
- */
 public class UrlCountUtil {
 
     //打点的点的定义统一在这里

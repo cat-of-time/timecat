@@ -8,9 +8,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import rx.Observable;
 
-/**
- * Created by wangyan-pd on 2017/1/9.
- */
+
 //Content-Disposition: form-data; name="smfile"; filename="1.png"
 //Content-Type: image/png
 public interface ImageUploadService {

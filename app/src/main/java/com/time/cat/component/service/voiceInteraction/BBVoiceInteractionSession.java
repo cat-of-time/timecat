@@ -15,9 +15,6 @@ import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.KeyPressedTipViewController;
 
-/**
- * Created by penglu on 2016/12/16.
- */
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class BBVoiceInteractionSession extends VoiceInteractionSession {

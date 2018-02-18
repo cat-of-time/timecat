@@ -26,10 +26,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by wangyan-pd on 2016/10/26.
- */
-
 public class RetrofitHelper {
     private static final String SEGMENT_URL = "http://api.bosonnlp.com/";
     private static final String YOUDAO_URL = "http://fanyi.youdao.com/";

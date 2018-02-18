@@ -445,4 +445,6 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
     <string name="title_schedules">Schedules</string>
     <string name="title_routines">Routines</string>
     <string name="title_plans">Plans</string>
+    <string name="title_notes">Notes</string>
+    <string name="title_add">Add</string>
 </resources>

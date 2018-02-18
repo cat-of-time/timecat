@@ -11,9 +11,6 @@ import com.time.cat.component.base.BaseActivity;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by penglu on 2017/1/4.
- */
 public class FeedbackActivity extends BaseActivity {
 
     @Override

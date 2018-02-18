@@ -19,9 +19,6 @@ import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 
-/**
- * Created by penglu on 2016/5/8.
- */
 public class BaseRecyclerFragment extends BaseFragment {
 
     protected RecyclerView cardList;

@@ -1,9 +1,5 @@
 package com.time.cat.NetworkSystem.api;
 
-/**
- * Created by wangyan-pd on 2017/1/16.
- */
-
 import com.time.cat.mvp.model.APImodel.ImageUpload;
 
 import retrofit2.http.Body;

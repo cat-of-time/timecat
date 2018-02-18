@@ -38,10 +38,6 @@ import com.time.cat.util.cropper.handler.CropImageView;
 
 import java.io.File;
 
-/**
- * Created by penglu on 2016/11/9.
- */
-
 public class SettingFloatViewActivity extends BaseActivity {
     private static final int BIGBANG_BACKGROUND_COLOR_ARRAY_RES = R.array.timecat_background_color;
 

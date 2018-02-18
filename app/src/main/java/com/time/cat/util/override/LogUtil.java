@@ -6,9 +6,7 @@ import android.util.Log;
 
 import com.time.cat.TimeCatApp;
 
-/**
- * Created by l4656_000 on 2015/11/28.
- */
+
 public class LogUtil {
 
     public static final String _TAG = "TimeCat";

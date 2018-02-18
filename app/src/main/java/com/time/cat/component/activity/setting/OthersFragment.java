@@ -3,10 +3,6 @@ package com.time.cat.component.activity.setting;
 import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 
-/**
- * Created by penglu on 2016/12/10.
- */
-
 public class OthersFragment extends BaseRecyclerFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {

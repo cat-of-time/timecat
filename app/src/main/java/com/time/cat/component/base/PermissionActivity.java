@@ -10,11 +10,10 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.List;
 
-/*
- * @创建者     Jrking
- * @创建时间   2016/4/15 16:18
- * @描述	      ${Activity基类 }
- * @更新描述   ${适配6.0权限问题}
+/**
+ * @author dlink
+ * @date 2018/2/2
+ * @discription Activity基类,适配6.0权限问题
  */
 public class PermissionActivity extends RxAppCompatActivity implements EasyPermissionsManager.PermissionCallbacks {
 

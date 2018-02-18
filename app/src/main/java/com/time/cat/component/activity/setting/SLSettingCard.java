@@ -35,10 +35,6 @@ import java.io.InputStream;
 
 import static com.shang.commonjar.contentProvider.SPHelperImpl.MAINSPNAME;
 
-
-/**
- * Created by penglu on 2015/11/23.
- */
 public class SLSettingCard extends AbsCard {
 
     public SLSettingCard(Context context) {

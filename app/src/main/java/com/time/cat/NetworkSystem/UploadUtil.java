@@ -1,9 +1,5 @@
 package com.time.cat.NetworkSystem;
 
-/**
- * Created by wangyan-pd on 2017/1/17.
- */
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;

@@ -24,11 +24,11 @@ import com.time.cat.R;
 import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.TimeCatApp;
-import com.time.cat.util.view.ScreenUtil;
-import com.time.cat.util.view.StatusBarColorUtil;
-import com.time.cat.util.string.StringUtil;
 import com.time.cat.util.ThreadManager;
 import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.string.StringUtil;
+import com.time.cat.util.view.ScreenUtil;
+import com.time.cat.util.view.StatusBarColorUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -41,7 +41,6 @@ import java.util.List;
  */
 public class BaseActivity extends PermissionActivity {
     private static final String TAG = "BaseActivity";
-    //<沉浸式状态栏>----------------------------------------------------------------------------------
     static int statusHeight;
     public Intent intent;
     /**
@@ -64,34 +63,12 @@ public class BaseActivity extends PermissionActivity {
      */
     private View contentViewGroup;
 
-    /**
-     * 获得状态栏的高度
-     *
-     * @param context
-     */
-    public static int getStatusBarHeight(Context context) {
-        if (statusHeight <= 0) {
-            try {
-                Class<?> clazz = Class.forName("com.android.internal.R$dimen");
-                Object object = clazz.newInstance();
-                int height = Integer.parseInt(clazz.getField("status_bar_height").get(object).toString());
-                statusHeight = context.getResources().getDimensionPixelSize(height);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return statusHeight;
-    }
 
-    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
-        Window win = activity.getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+    //<修饰系统自带>---------------------------------------------------------------------------
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        removeDialogFragment();
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -110,18 +87,20 @@ public class BaseActivity extends PermissionActivity {
         }
     }
 
-    public void switchFragment(Fragment fragment) {
-        if (currentFragment != null && currentFragment == fragment) {
-            return;
-        }
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        if (currentFragment != null) {
-            ft.hide(currentFragment);
-        }
-        ft.show(fragment);
-        ft.commitAllowingStateLoss();
-        currentFragment = fragment;
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "\n onResume <<<<<<<<<<<<<<<<<<<<<<<");
+        super.onResume();
+        isRunning = true;
+        Log.d(TAG, "onResume >>>>>>>>>>>>>>>>>>>>>>>>\n");
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "\n onPause <<<<<<<<<<<<<<<<<<<<<<<");
+        super.onPause();
+        isRunning = false;
+        Log.d(TAG, "onPause >>>>>>>>>>>>>>>>>>>>>>>>\n");
     }
 
     /**
@@ -150,25 +129,6 @@ public class BaseActivity extends PermissionActivity {
 //            }
 //        });
     }
-
-    @Override
-    protected void onResume() {
-        Log.d(TAG, "\n onResume <<<<<<<<<<<<<<<<<<<<<<<");
-        super.onResume();
-        isRunning = true;
-        Log.d(TAG, "onResume >>>>>>>>>>>>>>>>>>>>>>>>\n");
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d(TAG, "\n onPause <<<<<<<<<<<<<<<<<<<<<<<");
-        super.onPause();
-        isRunning = false;
-        Log.d(TAG, "onPause >>>>>>>>>>>>>>>>>>>>>>>>\n");
-    }
-
-
-    //<启动新Activity方法>---------------------------------------------------------------------------
 
     /**
      * 销毁并回收内存
@@ -201,6 +161,30 @@ public class BaseActivity extends PermissionActivity {
         Log.d(TAG, "onDestroy >>>>>>>>>>>>>>>>>>>>>>>>\n");
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return (super.onOptionsItemSelected(item));
+    }
+
+    public void switchFragment(Fragment fragment) {
+        if (currentFragment != null && currentFragment == fragment) {
+            return;
+        }
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        if (currentFragment != null) {
+            ft.hide(currentFragment);
+        }
+        ft.show(fragment);
+        ft.commitAllowingStateLoss();
+        currentFragment = fragment;
+    }
+
     public void registerFragment(int id, Fragment fragment) {
         if (currentFragment == fragment) {
             return;
@@ -216,14 +200,19 @@ public class BaseActivity extends PermissionActivity {
         currentFragment = fragment;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+    protected void removeDialogFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        List<Fragment> fragments = fm.getFragments();
+        if (fragments == null) {
+            return;
         }
-        return (super.onOptionsItemSelected(item));
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof DialogFragment) {
+                ft.remove(fragment);
+            }
+        }
+        ft.commitAllowingStateLoss();
     }
 
     protected void recoverFragment(String currentFragmentTag) {
@@ -244,32 +233,14 @@ public class BaseActivity extends PermissionActivity {
         Fragment current = fm.findFragmentByTag(currentFragmentTag);
         switchFragment(current);
     }
-    //</启动新Activity方法>---------------------------------------------------------------------------
+    //</修饰系统自带>---------------------------------------------------------------------------
 
 
-    //<运行线程>----------------------------------------------------------------------------------
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        removeDialogFragment();
-        super.onSaveInstanceState(outState);
-    }
 
-    protected void removeDialogFragment() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        List<Fragment> fragments = fm.getFragments();
-        if (fragments == null) {
-            return;
-        }
-        for (Fragment fragment : fragments) {
-            if (fragment instanceof DialogFragment) {
-                ft.remove(fragment);
-            }
-        }
-        ft.commitAllowingStateLoss();
-    }
 
+
+    //<启动新Activity方法>---------------------------------------------------------------------------
     /**
      * 打开新的Activity，向左滑入效果
      *
@@ -278,7 +249,6 @@ public class BaseActivity extends PermissionActivity {
     public void toActivity(Intent intent) {
         toActivity(intent, true);
     }
-    //</运行线程>----------------------------------------------------------------------------------
 
     /**
      * 打开新的Activity
@@ -330,6 +300,18 @@ public class BaseActivity extends PermissionActivity {
         });
     }
 
+    public void launchActivity(Intent i) {
+        startActivity(i);
+        this.overridePendingTransition(0, 0);
+    }
+    //</启动新Activity方法>---------------------------------------------------------------------------
+
+
+
+
+
+
+    //<运行线程>----------------------------------------------------------------------------------
     /**
      * 在UI线程中运行，建议用这个方法代替runOnUiThread
      *
@@ -368,6 +350,12 @@ public class BaseActivity extends PermissionActivity {
         }
         return handler;
     }
+    //</运行线程>----------------------------------------------------------------------------------
+
+
+
+
+
 
     /**
      * 获取Activity
@@ -444,6 +432,43 @@ public class BaseActivity extends PermissionActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+    }
+
+
+
+
+
+
+
+    //<沉浸式状态栏>----------------------------------------------------------------------------------
+    /**
+     * 获得状态栏的高度
+     *
+     * @param context
+     */
+    public static int getStatusBarHeight(Context context) {
+        if (statusHeight <= 0) {
+            try {
+                Class<?> clazz = Class.forName("com.android.internal.R$dimen");
+                Object object = clazz.newInstance();
+                int height = Integer.parseInt(clazz.getField("status_bar_height").get(object).toString());
+                statusHeight = context.getResources().getDimensionPixelSize(height);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return statusHeight;
+    }
+
+    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
+        Window win = activity.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 
     /**
@@ -576,7 +601,7 @@ public class BaseActivity extends PermissionActivity {
 //            e.printStackTrace();
         }
         // android6.0+系统
-        // 这个设置和在xml的style文件中用这个<item name="android:windowLightStatusBar">true</item>属性是一样的
+        // 这个设置和在xml的style文件中用这个<item_search_engine name="android:windowLightStatusBar">true</item_search_engine>属性是一样的
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (dark) {
                 getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);

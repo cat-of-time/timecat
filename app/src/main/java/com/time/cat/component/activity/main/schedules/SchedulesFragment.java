@@ -65,11 +65,11 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
     @SuppressWarnings("unused")
     private static final String TAG = "SchedulesFragment";
     private static final int[] labelColor = new int[]{
-//            getResources().getColor(R.color.label_important_urgent_color),
-//            getResources().getColor(R.color.label_important_not_urgent_color),
-//            getResources().getColor(R.color.label_not_important_urgent_color),
-//            getResources().getColor(R.color.label_not_important_not_urgent_color),
-            Color.parseColor("#f44336"), Color.parseColor("#ff8700"), Color.parseColor("#2196f3"), Color.parseColor("#4caf50"),};
+            Color.parseColor("#f44336"),
+            Color.parseColor("#ff8700"),
+            Color.parseColor("#2196f3"),
+            Color.parseColor("#4caf50")
+    };
     private static final int[] checkIds = new int[]{R.id.label_important_urgent, R.id.label_important_not_urgent, R.id.label_not_important_urgent, R.id.label_not_important_not_urgent,};
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
     private CoordinatorLayout content;

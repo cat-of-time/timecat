@@ -322,7 +322,7 @@
             android:theme="@style/BaseAppTheme" />
         <activity android:name=".component.activity.user.UserDetailActivity" />
         <activity
-            android:name=".component.activity.main.schedules.SchedulesHelpActivity"
+            android:name=".component.activity.about.SchedulesHelpActivity"
             android:theme="@style/Theme.Intro" />
         <activity
             android:name=".component.activity.main.schedules.ScheduleCreateOrEditActivity"

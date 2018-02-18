@@ -16,10 +16,6 @@ import com.time.cat.mvp.view.HintTextView;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 
-/**
- * Created by wangyan-pd on 2016/11/9.
- */
-
 public class TimeCatSettingCard extends AbsCard {
     private SwitchCompat browserSwitch;
     private SwitchCompat floatTriggerSwitch;

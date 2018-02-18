@@ -39,11 +39,6 @@ import com.time.cat.util.cropper.handler.CropImage;
 
 import static com.time.cat.component.activity.screen.CaptureResultActivity.HTTP_IMAGE_BAIDU_COM;
 
-
-/**
- * Created by wangyan-pd on 2016/11/9.
- */
-
 public class OcrActivity extends BaseActivity implements View.OnClickListener, CropHandler {
     private static final String TAG = OcrActivity.class.getName();
     private CropParams mCropParams;

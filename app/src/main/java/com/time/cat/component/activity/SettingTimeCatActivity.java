@@ -33,10 +33,6 @@ import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.view.ViewUtil;
 
-/**
- * Created by penglu on 2016/11/9.
- */
-
 public class SettingTimeCatActivity extends BaseActivity {
     private static final int TIMECAT_BACKGROUND_COLOR_ARRAY_RES = R.array.timecat_background_color;
 

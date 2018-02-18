@@ -7,10 +7,6 @@ import android.os.Build;
 
 import com.time.cat.util.override.LogUtil;
 
-
-/**
- * Created by penglu on 2016/8/29.
- */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class JobService extends android.app.job.JobService {
     private static final String TAG = "JobService";

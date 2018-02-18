@@ -37,10 +37,6 @@ import com.yanzhenjie.recyclerview.swipe.touch.OnItemMoveListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- * Created by wangyan-pd on 2016/11/19.
- */
-
 public class SearchEngineActivity extends BaseActivity {
     private Activity mContext;
 

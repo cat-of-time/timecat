@@ -11,10 +11,6 @@ import com.time.cat.R;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
 
-/**
- * Created by penglu on 2016/12/10.
- */
-
 public class PickWordFragment extends BaseRecyclerFragment {
 
     private MonitorSettingCard settingCard;

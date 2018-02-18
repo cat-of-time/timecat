@@ -2,10 +2,6 @@ package com.time.cat.component.activity.share;
 
 import android.content.pm.ResolveInfo;
 
-/**
- * Created by dim on 16/11/4.
- */
-
 public class ShareAppInfo {
 
     public boolean enable;

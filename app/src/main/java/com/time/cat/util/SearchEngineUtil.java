@@ -7,9 +7,6 @@ import com.time.cat.mvp.model.APImodel.SearchEngine;
 
 import java.util.ArrayList;
 
-/**
- * Created by wangyan-pd on 2016/12/3.
- */
 
 public class SearchEngineUtil {
     private static final String SEARCH_ENGINES = "search_engines_list";

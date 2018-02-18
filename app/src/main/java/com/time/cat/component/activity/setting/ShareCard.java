@@ -36,9 +36,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-/**
- * Created by penglu on 2015/11/23.
- */
 public class ShareCard extends FrameLayout {
     private Context mContext;
     private TextView shareTV;

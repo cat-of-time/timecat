@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.main.schedules;
+package com.time.cat.component.activity.about;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

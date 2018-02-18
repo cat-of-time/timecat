@@ -6,9 +6,6 @@ import android.view.View;
 import com.time.cat.TimeCatApp;
 
 
-/**
- * Created by l4656_000 on 2015/12/10.
- */
 public class SnackBarUtil {
     public static void show(View view, String str) {
         try {

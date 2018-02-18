@@ -26,10 +26,6 @@ import java.util.Set;
 import static com.time.cat.component.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
 import static com.time.cat.component.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
 
-/**
- * Created by penglu on 2016/12/7.
- */
-
 public class SelectionDbHelper extends SQLiteOpenHelper {
 
     public static final int VERSION = 1;

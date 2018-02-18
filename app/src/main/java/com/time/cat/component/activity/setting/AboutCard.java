@@ -21,9 +21,6 @@ import com.time.cat.mvp.view.dialog.SimpleDialog;
 import com.time.cat.util.CountLinkMovementMethod;
 import com.time.cat.util.UrlCountUtil;
 
-/**
- * Created by penglu on 2015/11/23.
- */
 public class AboutCard extends AbsCard {
     private TextView about;
     private TextView share;

@@ -16,10 +16,6 @@ import com.time.cat.util.override.SnackBarUtil;
 
 import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
-/**
- * Created by penglu on 2016/12/11.
- */
-
 public class GoToSettingCard extends AbsCard {
 
 

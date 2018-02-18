@@ -6,9 +6,6 @@ import android.content.Context;
 import android.os.Build;
 
 /**
- * Created by hcc on 2016/10/3 19:01
- * 100332338@qq.com
- * <p>
  * 复制剪贴工具类
  */
 public class ClipboardUtils {

@@ -24,9 +24,7 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 
-/**
- * Created by joseangel.pineiro on 2/17/15.
- */
+
 public class Snack {
 
     public static void show(String string, Activity activity, com.nispok.snackbar.Snackbar.SnackbarDuration duration) {

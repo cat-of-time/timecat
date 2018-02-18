@@ -20,9 +20,6 @@ import com.time.cat.component.activity.intro.HowToUseActivity;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.view.ViewUtil;
 
-/**
- * Created by penglu on 2015/11/23.
- */
 public class IntroCard extends FrameLayout {
     private Context mContext;
     private TextView shareTV;

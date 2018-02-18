@@ -25,9 +25,6 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.yanzhenjie.recyclerview.swipe.ResCompat;
 
-/**
- * Created by Yan Zhenjie on 2016/7/27.
- */
 public class ListViewDecoration extends RecyclerView.ItemDecoration {
 
     private Drawable mDrawable;

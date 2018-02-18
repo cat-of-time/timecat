@@ -8,9 +8,6 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.phone.NetWorkUtil;
 
-/**
- * Created by penglu on 2016/3/3.
- */
 public class UpdateUtil {
 
     static {

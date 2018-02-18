@@ -2,9 +2,6 @@ package com.time.cat.util.onestep.widget;
 
 import android.view.View;
 
-/**
- * Created by Gavin on 2016/10/19.
- */
 
 public class DropView {
 

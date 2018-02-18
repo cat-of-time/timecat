@@ -60,87 +60,28 @@
 
         </com.time.cat.ThemeSystem.widgets.TintToolbar>
 
-        <com.time.cat.mvp.view.viewpaper.CustomPagerView
-            android:id="@+id/main_viewpager"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/main_navigation"
-            android:layout_below="@+id/main_toolbar"/>
+            android:background="@android:color/white"
+            android:layout_below="@+id/main_toolbar">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            xmlns:fab="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="17dp"
-            fab:fab_colorNormal="#32ffffff"
-            fab:fab_colorPressed="#ffffff"
-            fab:fab_icon="@drawable/ic_action_add"
-            fab:fab_title="DBRoutine task"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
-            xmlns:fab="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/fab_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="17dp"
-            fab:fab_addButtonColorNormal="#32ffffff"
-            fab:fab_addButtonColorPressed="#ffffff"
-            fab:fab_addButtonPlusIconColor="#263238"
-            fab:fab_labelStyle="@style/menu_labels_style">
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_a"
-                android:layout_width="wrap_content"
+            <com.time.cat.mvp.view.viewpaper.CustomPagerView
+                android:id="@+id/main_viewpager"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/android_green_light_noalpha"
-                fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_alarm_white_48dp"
-                fab:fab_size="mini"/>
+                android:layout_above="@+id/main_navigation"/>
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/android_green_light_noalpha"
-                fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_history_white_48dp"
-                fab:fab_size="mini"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_c"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/android_green_light_noalpha"
-                fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_autorenew_white_48dp"
-                fab:fab_size="mini"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_d"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/android_green_light_noalpha"
-                fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_qrcode_white_48dp"
-                fab:fab_size="mini"/>
-
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/main_navigation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/main_navigation"/>
+            <me.majiajie.pagerbottomtabstrip.PageNavigationView
+                android:id="@+id/main_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:background="@android:color/transparent"/>
+        </RelativeLayout>
     </com.time.cat.ThemeSystem.widgets.TintRelativeLayout>
 </com.time.cat.ThemeSystem.widgets.TintConstraintLayout>
 

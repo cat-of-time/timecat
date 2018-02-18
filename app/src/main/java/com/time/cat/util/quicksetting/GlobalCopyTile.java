@@ -5,9 +5,6 @@ import android.service.quicksettings.TileService;
 
 import com.time.cat.component.activity.UniversalCopyActivity;
 
-/**
- * Created by wangyan-pd on 2017/1/12.
- */
 
 public class GlobalCopyTile extends TileService {
     private final int STATE_OFF = 0;

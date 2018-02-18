@@ -48,10 +48,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 
-
-/**
- * Created by joseangel.pineiro on 11/20/13.
- */
 public class ScreenUtil {
 
     private static Palette p;

@@ -13,11 +13,6 @@ import com.time.cat.R;
 
 import java.util.List;
 
-
-/**
- * Created by dim on 16/11/4.
- */
-
 public interface Adapter {
 
 

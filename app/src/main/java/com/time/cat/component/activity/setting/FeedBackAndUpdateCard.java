@@ -15,9 +15,6 @@ import com.time.cat.util.phone.NetWorkUtil;
 import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
 
-/**
- * Created by penglu on 2015/11/23.
- */
 public class FeedBackAndUpdateCard extends AbsCard {
     private TextView feedback;
     private TextView checkUpdate;

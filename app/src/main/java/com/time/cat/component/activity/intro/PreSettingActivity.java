@@ -32,10 +32,6 @@ import com.time.cat.util.UrlCountUtil;
 import static com.time.cat.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
 import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
-/**
- * Created by wangyan-pd on 2016/11/28.
- */
-
 public class PreSettingActivity extends BaseActivity {
     public static final String SHOW = "pre_is_show";
     private ColorTextView colorText;

@@ -31,10 +31,6 @@ import com.time.cat.util.UrlCountUtil;
 import static com.time.cat.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
 import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
-
-/**
- * Created by penglu on 2015/11/23.
- */
 public class FloatAndNotifySettingCard extends AbsCard {
     private static final String IS_LONG_PREESS_TIPS_SHOW = "show_long_pressed_tips";
 

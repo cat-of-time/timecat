@@ -23,13 +23,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by wangyan-pd on 2016/11/19.
- */
 public class DonateActivity extends BaseActivity {
     private static final String SAVE_PIC_PATH = Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED) ? Environment.getExternalStorageDirectory().getAbsolutePath() : "/mnt/sdcard";//保存到SD卡
     private static final String SAVE_REAL_PATH = SAVE_PIC_PATH + "/Pictures";//保存的确切位置
-    public static String zhifubao = "https://mobilecodec.donate_alipay.com/client_download.htm?qrcode=a6x08960yukqk4sjdmrwbd5";
+    public static String zhifubao = "https://qr.alipay.com/a6x08960yukqk4sjdmrwbd5";
     public static String qqJump = Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + "l6WK5VMFvgGLHSFojlShfda9Nsiq0R2t").toString();
 
     private TextView donateMsg;

@@ -46,9 +46,6 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by penglu on 2016/10/27.
- */
 public class CaptureResultActivity extends BaseActivity {
     public static final String HTTP_IMAGE_BAIDU_COM = "http://image.baidu.com/wiseshitu?rn=30&appid=0&tag=1&isMobile=1&";
     int alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);

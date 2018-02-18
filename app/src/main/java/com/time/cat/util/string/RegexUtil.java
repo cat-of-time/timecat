@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by wangyan-pd on 2016/11/25.
- */
 
 public class RegexUtil {
 

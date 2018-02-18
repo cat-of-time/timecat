@@ -16,9 +16,7 @@ import com.time.cat.R;
 import com.time.cat.component.activity.TotalSwitchActivity;
 import com.time.cat.util.ConstantUtil;
 
-/**
- * Created by wangyan-pd on 2017/1/12.
- */
+
 public class TotleSwitchTile extends TileService {
     private static final String LOG_TAG = TotleSwitchTile.class.getCanonicalName();
     private final int STATE_OFF = 0;

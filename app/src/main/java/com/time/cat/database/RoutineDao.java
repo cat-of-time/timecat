@@ -37,9 +37,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/**
- * Created by joseangel.pineiro on 3/26/15.
- */
 public class RoutineDao extends GenericDao<DBRoutine, Long> {
 
     public static final String TAG = "RoutineDao";

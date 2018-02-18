@@ -24,10 +24,6 @@ import com.time.cat.util.view.ViewUtil;
 
 import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
-
-/**
- * Created by penglu on 2015/11/23.
- */
 public class MonitorSettingCard extends AbsCard {
     public static final int SPINNER_ARRAY = R.array.click_or_long_click;
     private static final String TAG = "MonitorSettingCard";

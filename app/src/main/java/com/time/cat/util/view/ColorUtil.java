@@ -7,9 +7,7 @@ import android.support.annotation.AttrRes;
 
 import com.time.cat.util.string.CHexConverUtil;
 
-/**
- * Created by Administrator on 2016/12/3.
- */
+
 public class ColorUtil {
     public static int getPropertyTextColor(int color, int alpha) {
         if (alpha < 20) {
