@@ -34,7 +34,29 @@ public class TimeUtil {
         return formatDuring(end.getTime() - begin.getTime());
     }
 
-    public static Date formatGMTDateStr(String s) {
+    /**
+     * GMT时间格式化
+     * @param gmt_datetime "2018-02-19T16:11:11Z"
+     * @return Date对象,Date的时区仍为GMT
+     */
+    public static Date formatGMTDateStr(String gmt_datetime) {
+        //Time in GMT
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+        try {
+            return dateFormatGmt.parse(gmt_datetime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 本地时间格式化
+     * @param s "2018-02-19T16:11:11Z"
+     * @return Date对象,Date的时区仍为GMT
+     */
+    public static Date formatLocalDateStr(String s) {
         SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
 
