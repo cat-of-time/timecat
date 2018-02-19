@@ -33,7 +33,7 @@ public class DBRoutine {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TIME = "Time";
     public static final String COLUMN_NAME = "Name";
-    public static final String COLUMN_USER = "DBUser";
+    public static final String COLUMN_USER = "User";
 
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private Long id;

@@ -38,18 +38,26 @@ import com.google.gson.Gson;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.nispok.snackbar.Snackbar;
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
 import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
+import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.Snack;
 import com.time.cat.util.source.AvatarManager;
 import com.time.cat.util.view.ScreenUtil;
-import com.time.cat.util.override.Snack;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author dlink
@@ -59,8 +67,6 @@ import java.util.List;
 public class UserDetailActivity extends BaseActivity implements ActivityPresenter, GridView.OnItemClickListener {
     public static final String[] COLORS = new String[]{"#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#2ecc71", "#27ae60", "#e67e22", "#d35400", "#c0392b", "#e74c3c", "#2980b9", "#3498db", "#9b59b6", "#8e44ad", "#2c3e50", "#34495e"};
     private static final String TAG = "UserDetailActivity";
-    //</生命周期>------------------------------------------------------------------------------------
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     GridView avatarGrid;
     BaseAdapter adapter;
     DBUser user;
@@ -100,7 +106,17 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
     }
+    //</生命周期>------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     @Override
     public void initView() {//必须调用
         setStatusBarFullTransparent();
@@ -438,7 +454,33 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                 }
 
                 if (!TextUtils.isEmpty(user.name())) {
-                    DB.users().saveAndFireEvent(user);
+//                    DB.users().saveAndFireEvent(user);
+                    RetrofitHelper.getLoginService().update(user.getEmail(), ModelUtil.toAPIUser(user)) //获取Observable对象
+                            .compose(UserDetailActivity.this.bindToLifecycle())
+                            .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                            .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                            .doOnNext(new Action1<User>() {
+                                @Override
+                                public void call(User user) {
+                                    DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
+                                    Log.e(TAG, "保存用户信息到本地" + user.toString());
+                                }
+                            }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                            .subscribe(new Subscriber<User>() {
+                                @Override
+                                public void onCompleted() {
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    //请求失败
+                                    Log.e(TAG, e.toString());
+                                }
+
+                                @Override
+                                public void onNext(User user) {
+                                }
+                            });
                     refreshTheme(this, user.color());
                     supportFinishAfterTransition();
                 } else {

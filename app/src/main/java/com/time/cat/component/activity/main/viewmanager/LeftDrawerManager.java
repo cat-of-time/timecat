@@ -28,6 +28,7 @@ import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.time.cat.AnimationSystem.ViewHelper;
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.about.AboutActivity;
@@ -37,13 +38,22 @@ import com.time.cat.component.activity.user.LoginActivity;
 import com.time.cat.component.activity.user.UserDetailActivity;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
+import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.source.AvatarManager;
 import com.time.cat.util.view.IconUtil;
 import com.time.cat.util.view.ScreenUtil;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author dlink
@@ -64,7 +74,6 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
     public static final int PHARMACIES = 8;
     public static final int CALENDAR = 9;
     private static final String TAG = "LeftDrawerManager";
-    //-//<Drawer.OnDrawerItemClickListener>---------------------------------------------------------
     private static final int REQUEST_LOGIN = 0;
     private AccountHeader headerResult = null;
     private Drawer drawer = null;
@@ -102,32 +111,83 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         headerResult = new AccountHeaderBuilder().withActivity(mainActivity).withHeaderBackground(R.drawable.drawer_header).withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP).withCompactStyle(false).withProfiles(profiles).withAlternativeProfileHeaderSwitching(true).withThreeSmallProfileImages(true).withOnAccountHeaderListener(this).withSavedInstance(savedInstanceState).build();
 
         //Create the getDrawer
-        drawer = new DrawerBuilder().withActivity(mainActivity).withFullscreen(true).withToolbar(toolbar).withAccountHeader(headerResult).addDrawerItems(new PrimaryDrawerItem().withName(R.string.title_activity_home).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_home, R.color.black).alpha(110)).withIdentifier(HOME), new PrimaryDrawerItem().withName(R.string.title_activity_users).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_account_multiple, R.color.black).alpha(110)).withIdentifier(USERS), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.title_activity_schedules).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_calendar, R.color.black).alpha(110)).withIdentifier(SCHEDULES), new PrimaryDrawerItem().withName(R.string.title_activity_routines).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(110)).withIdentifier(ROUTINES), new PrimaryDrawerItem().withName(R.string.title_activity_plans).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(110)).withIdentifier(PLANS), new PrimaryDrawerItem().withName(R.string.title_activity_medicines).withEnabled(false).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_pill, R.color.black).alpha(38)).withIdentifier(MEDICINES), new PrimaryDrawerItem().withName(R.string.home_menu_pharmacies).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_map_marker_multiple, R.color.black).alpha(38)).withEnabled(false).withIdentifier(PHARMACIES), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.drawer_theme_option).withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_pin_assistant, R.color.black).alpha(110)).withIdentifier(THEME), new PrimaryDrawerItem().withName(R.string.drawer_settings_option).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_settings, R.color.black).alpha(130)).withIdentifier(SETTINGS), new DividerDrawerItem(), new PrimaryDrawerItem().withName(R.string.drawer_about_option).withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_information, R.color.black).alpha(110)).withIdentifier(ABOUT)).withOnDrawerItemClickListener(this).withOnDrawerListener(new Drawer.OnDrawerListener() {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                drawer.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            }
+        drawer = new DrawerBuilder()
+                .withActivity(mainActivity)
+                .withFullscreen(true)
+                .withToolbar(toolbar)
+                .withAccountHeader(headerResult)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName(R.string.title_activity_home)
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_home, R.color.black).alpha(110))
+                                .withIdentifier(HOME),
+                        new PrimaryDrawerItem().withName(R.string.title_activity_users)
+                                .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_account_multiple, R.color.black).alpha(110))
+                                .withIdentifier(USERS), new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName(R.string.title_activity_schedules)
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_calendar, R.color.black).alpha(110))
+                                .withIdentifier(SCHEDULES),
+                        new PrimaryDrawerItem().withName(R.string.title_activity_routines)
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(110))
+                                .withIdentifier(ROUTINES),
+                        new PrimaryDrawerItem().withName(R.string.title_activity_plans)
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(110))
+                                .withIdentifier(PLANS),
+                        new PrimaryDrawerItem().withName(R.string.title_activity_medicines)
+                                .withEnabled(false)
+                                .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_pill, R.color.black).alpha(38))
+                                .withIdentifier(MEDICINES),
+                        new PrimaryDrawerItem().withName(R.string.home_menu_pharmacies)
+                                .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_map_marker_multiple, R.color.black).alpha(38))
+                                .withEnabled(false)
+                                .withIdentifier(PHARMACIES),
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                drawer.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
-            }
+                        new DividerDrawerItem(),
 
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                View mContent = drawer.getDrawerLayout().getChildAt(0);
-                View mMenu = drawerView;
-                float scale = 1 - slideOffset;
+                        new PrimaryDrawerItem().withName(R.string.drawer_theme_option)
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_pin_assistant, R.color.black).alpha(110))
+                                .withIdentifier(THEME),
+                        new PrimaryDrawerItem().withName(R.string.drawer_settings_option)
+                                .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_settings, R.color.black).alpha(130))
+                                .withIdentifier(SETTINGS),
+
+                        new DividerDrawerItem(),
+
+                        new PrimaryDrawerItem().withName(R.string.drawer_about_option)
+                                .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_information, R.color.black).alpha(110))
+                                .withIdentifier(ABOUT))
+                .withOnDrawerItemClickListener(this)
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        drawer.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        drawer.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                        View mContent = drawer.getDrawerLayout().getChildAt(0);
+                        View mMenu = drawerView;
+                        float scale = 1 - slideOffset;
 //                        float rightScale = 0.8f + scale * 0.2f;
 //                        float leftScale = 1 - 0.3f * scale;
 //        Log.e(TAG, "\nscale:" + scale + "\nleftScale:" + leftScale + "\nrightScale:" + rightScale);
 
 //                        ViewHelper.setAlpha(mMenu, 0.6f + 0.4f * (1 - scale));
-                ViewHelper.setTranslationX(mContent, mMenu.getMeasuredWidth() * (1 - scale));
+                        ViewHelper.setTranslationX(mContent, mMenu.getMeasuredWidth() * (1 - scale));
 
-                mContent.invalidate();
-            }
-        }).withDelayOnDrawerClose(0).withStickyFooterShadow(true).withScrollToTopAfterClick(true).withSliderBackgroundColor(Color.TRANSPARENT).withSavedInstance(savedInstanceState).build();
+                        mContent.invalidate();
+                    }
+                })
+                .withDelayOnDrawerClose(0)
+                .withStickyFooterShadow(true)
+                .withScrollToTopAfterClick(true)
+                .withSliderBackgroundColor(Color.TRANSPARENT)
+                .withSavedInstance(savedInstanceState)
+                .build();
 
         DBUser u = DB.users().getActive(mainActivity);
         headerResult.setActiveProfile(u.id().intValue(), false);
@@ -140,6 +200,11 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
     }
 
+
+
+
+
+    //-//<Drawer.OnDrawerItemClickListener>---------------------------------------------------------
     @Override
     public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
 
@@ -247,6 +312,9 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 intent.putExtra("user_id", id);
                 launchActivity(intent);
             } else {
+                if (!login(ModelUtil.toAPIUser(user))) {
+                    return false;
+                }
                 DB.users().setActive(user, mainActivity);
                 updateHeaderBackground(user);
             }
@@ -308,18 +376,22 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
     public void onUserCreated(DBUser u) {
 
-        IProfile profile = genProfile(u);
+        IProfile profile = createProfile(u);
         headerResult.addProfiles(profile);
     }
 
     public void onUserUpdated(DBUser u) {
-        IProfile profile = genProfile(u);
+        IProfile profile = createProfile(u);
         headerResult.updateProfile(profile);
 
     }
 
     private void addCalendarItem() {
-        drawer.addItemAtPosition(new PrimaryDrawerItem().withName("Dispensación").withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_calendar_check, R.color.black).alpha(110)).withEnabled(true).withIdentifier(CALENDAR), 7);
+        drawer.addItemAtPosition(new PrimaryDrawerItem()
+                .withName("Description")
+                .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_calendar_check, R.color.black).alpha(110))
+                .withEnabled(true)
+                .withIdentifier(CALENDAR), 7);
     }
 
     private void launchActivity(Intent i) {
@@ -327,7 +399,54 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    private IProfile genProfile(DBUser u) {
-        return new ProfileDrawerItem().withIdentifier(u.id().intValue()).withName(u.name()).withEmail(u.getEmail()).withIcon(AvatarManager.res(u.avatar()));
+    private boolean login(User user) {
+        final boolean[] isSuccess = {false};
+        RetrofitHelper.getLoginService().login(user) //获取Observable对象
+                .compose(mainActivity.bindToLifecycle())
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<User>() {
+                    @Override
+                    public void call(User user) {
+                        //保存用户信息到本地
+                        try {
+                            DB.users().createOrUpdate(ModelUtil.toDBUser(user));
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        Log.i(TAG, user.toString());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        Log.e(TAG, e.toString());
+                        ToastUtil.show("登录失败");
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        //请求成功
+                        isSuccess[0] = true;
+                        Log.i(TAG, "登录成功" + user.toString());
+                        ToastUtil.show("登录成功");
+                    }
+                });
+        return isSuccess[0];
+    }
+
+    private IProfile createProfile(DBUser u) {
+        return new ProfileDrawerItem()
+                .withIdentifier(u.id().intValue())
+                .withName(u.name())
+                .withEmail(u.getEmail())
+                .withIcon(AvatarManager.res(u.avatar()));
     }
 }

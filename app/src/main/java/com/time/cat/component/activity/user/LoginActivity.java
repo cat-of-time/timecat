@@ -19,6 +19,8 @@ import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.ToastUtil;
 
+import java.sql.SQLException;
+
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -150,16 +152,25 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
 
+        User u = new User();
+        u.setEmail(email);
+        u.setUsername(email);
+        u.setPassword(password);
         // TODO: Implement your own authentication logic here.
         final boolean[] isSuccess = {false};
-        RetrofitHelper.getLoginService().login(email, password, false) //获取Observable对象
-                .compose(LoginActivity.this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+        RetrofitHelper.getLoginService().login(u) //获取Observable对象
+                .compose(LoginActivity.this.bindToLifecycle())
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                 .doOnNext(new Action1<User>() {
                     @Override
                     public void call(User user) {
                         //保存用户信息到本地
-                        DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
+                        try {
+                            DB.users().createOrUpdate(ModelUtil.toDBUser(user));
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                         Log.i(TAG, user.toString());
                     }
                 }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行

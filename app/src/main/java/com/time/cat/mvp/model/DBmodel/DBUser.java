@@ -57,7 +57,7 @@ public class DBUser {
     private int color = Color.parseColor("#3498db");
     // color是16进制数的int型表示，使用时可直接作color资源
 
-    @DatabaseField(columnName = COLUMN_EMAIL, canBeNull = false)
+    @DatabaseField(columnName = COLUMN_EMAIL, canBeNull = false, unique = true)
     private String email;
 //    @ForeignCollectionField
 //    private Collection<DBTask> DBTasks;

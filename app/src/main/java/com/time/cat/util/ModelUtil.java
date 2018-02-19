@@ -20,4 +20,10 @@ public class ModelUtil {
         dbUser.setDefault(true);
         return dbUser;
     }
+    public static User toAPIUser(DBUser dbUser) {
+        User user = new User();
+        user.setEmail(dbUser.getEmail());
+        user.setUsername(dbUser.name());
+        return user;
+    }
 }
