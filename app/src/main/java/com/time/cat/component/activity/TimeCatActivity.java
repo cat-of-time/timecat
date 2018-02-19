@@ -24,22 +24,23 @@ import android.widget.TextView;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
+import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.timecat.TimeCatLayout;
 import com.time.cat.mvp.view.timecat.TimeCatLayoutWrapper;
-import com.time.cat.util.clipboard.ClipboardUtils;
-import com.time.cat.util.view.ColorUtil;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.override.LogUtil;
-import com.time.cat.util.string.RegexUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.SharedIntentHelper;
-import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.time.cat.util.view.ViewUtil;
+import com.time.cat.util.clipboard.ClipboardUtils;
 import com.time.cat.util.onestep.AppsAdapter;
 import com.time.cat.util.onestep.ResolveInfoWrap;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.string.RegexUtil;
+import com.time.cat.util.view.ColorUtil;
+import com.time.cat.util.view.ViewUtil;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yanzhenjie.recyclerview.swipe.touch.OnItemMoveListener;
 
@@ -60,20 +61,16 @@ import rx.schedulers.Schedulers;
  */
 public class TimeCatActivity extends BaseActivity implements ActivityPresenter, TimeCatLayoutWrapper.ActionListener {
     public static final String TO_SPLIT_STR = "to_split_str";
+    public static final String IS_TRANSLATE = "is_translate";
     private static final String DEVIDER = "__DEVIDER___DEVIDER__";
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     private TimeCatLayout timeCatLayout;
     private TimeCatLayoutWrapper timeCatLayoutWrapper;
     private ContentLoadingProgressBar loading;
-    //</生命周期>-------------------------------------------------------------------------------------
     private SwipeMenuRecyclerView mAppsRecyclerView;
     private View mAppsRecyclerViewLL;
     private EditText toTrans;
     private EditText transResult;
     private RelativeLayout transRl;
-    private EditText add_task_et_title;
-    private EditText add_task_et_content;
-    private RelativeLayout add_task_rl;
     private int alpha;
     private int lastPickedColor;
     private boolean remainSymbol = true;
@@ -113,20 +110,32 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
             if (transRl != null) {
                 transRl.setVisibility(View.GONE);
             }
-            if (add_task_rl != null) {
-                add_task_rl.setVisibility(View.GONE);
-            }
         } else {
             super.onBackPressed();
         }
     }
+    //</生命周期>------------------------------------------------------------------------------------
 
+
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     @Override
     public void initView() {//必须调用
         boolean fullScreen = SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN, false);
         initContentView(fullScreen);
         initTextString();
         initTimeCatView(fullScreen);
+        if (getIntent().getBooleanExtra(IS_TRANSLATE, false)) {
+            onTrans(mSelectText);
+            findViewById(R.id.trans_again).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.trans_again).callOnClick();
+                    timeCatLayoutWrapper.setVisibility(View.GONE);
+                }
+            }, 500);
+        }
     }
 
     private void initContentView(boolean fullScreen) {
@@ -298,33 +307,39 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     }
 
     private void getSegment(String str) {
-        RetrofitHelper.getWordSegmentService().getWordSegsList(str).compose(this.bindToLifecycle()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).timeout(5000, TimeUnit.MILLISECONDS).subscribe(recommendInfo -> {
-            LogUtil.d(recommendInfo.toString());
-            List<String> txts = recommendInfo.get(0).getWord();
-            netWordSegments = txts;
-            timeCatLayout.reset();
-            for (String t : txts) {
-                timeCatLayout.addTextItem(t);
-            }
-            loading.hide();
-            timeCatLayoutWrapper.setVisibility(View.VISIBLE);
+        RetrofitHelper.getWordSegmentService()
+                .getWordSegsList(str)
+                .compose(this.bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(5000, TimeUnit.MILLISECONDS)
+                .subscribe(recommendInfo -> {
+                    LogUtil.d(recommendInfo.toString());
+                    List<String> txts = recommendInfo.get(0).getWord();
+                    netWordSegments = txts;
+                    timeCatLayout.reset();
+                    for (String t : txts) {
+                        timeCatLayout.addTextItem(t);
+                    }
+                    loading.hide();
+                    timeCatLayoutWrapper.setVisibility(View.VISIBLE);
 
-            if (!SPHelper.getBoolean(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, false)) {
-                ToastUtil.show(R.string.bb_long_press_toast);
-                SPHelper.save(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, true);
-            }
-        }, throwable -> {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    LogUtil.d(throwable.toString());
-                    ToastUtil.show(R.string.no_internet_for_fenci);
+                    if (!SPHelper.getBoolean(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, false)) {
+                        ToastUtil.show(R.string.bb_long_press_toast);
+                        SPHelper.save(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, true);
+                    }
+                }, throwable -> {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            LogUtil.d(throwable.toString());
+                            ToastUtil.show(R.string.no_internet_for_fenci);
 
-                    timeCatLayoutWrapper.onSwitchType(true);
-                }
-            });
+                            timeCatLayoutWrapper.onSwitchType(true);
+                        }
+                    });
 
-        });
+                });
     }
 
     @NonNull
@@ -515,83 +530,36 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         toTrans.setText(text);
         toTrans.setSelection(text.length());
         transResult.setText("正在翻译");
-        RetrofitHelper.getTranslationService().getTranslationItem(text.replaceAll("\n", "")).compose(TimeCatActivity.this.bindToLifecycle()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(recommendInfo -> {
-            List<String> transes = recommendInfo.getTranslation();
-            if (transes.size() > 0) {
-                String trans = transes.get(0);
-                transResult.setText(trans);
-            }
-            LogUtil.d(recommendInfo.toString());
-        }, throwable -> {
-            LogUtil.d(throwable.toString());
-        });
+        RetrofitHelper.getTranslationService()
+                .getTranslationItem(text.replaceAll("\n", ""))
+                .compose(TimeCatActivity.this.bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(recommendInfo -> {
+                    List<String> transes = recommendInfo.getTranslation();
+                    if (transes.size() > 0) {
+                        String trans = transes.get(0);
+                        transResult.setText(trans);
+                    }
+                    LogUtil.d(recommendInfo.toString());
+                }, throwable -> {
+                    LogUtil.d(throwable.toString());
+                });
     }
 
     @Override
     public void onAddTask(String text) {
-        if (mAppsRecyclerView != null) {
-            mAppsRecyclerViewLL.setVisibility(View.GONE);
-        }
         if (TextUtils.isEmpty(text)) {
+            ToastUtil.show("输入为空！");
             text = originString;
         }
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_ADDTASK);
-
-        if (add_task_rl == null) {
-            ViewStub viewStub = findViewById(R.id.task_view_stub);
-            viewStub.inflate();
-            add_task_rl = findViewById(R.id.add_task_rl);
-            add_task_et_title = findViewById(R.id.add_task_et_title);
-            add_task_et_content = findViewById(R.id.add_task_et_content);
-            TextView title = findViewById(R.id.add_task_tv_title);
-
-            title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
-            add_task_et_title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
-            add_task_et_content.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
-
-            findViewById(R.id.add_task_iv_cancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (timeCatLayoutWrapper != null && timeCatLayoutWrapper.getVisibility() == View.GONE) {
-                        boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
-                        if (mAppsRecyclerViewLL != null) {
-                            mAppsRecyclerViewLL.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
-                        }
-                        timeCatLayoutWrapper.setVisibility(View.VISIBLE);
-                        if (add_task_rl != null) {
-                            add_task_rl.setVisibility(View.GONE);
-                        }
-                    }
-                }
-            });
-            findViewById(R.id.add_task_iv_success).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ViewUtil.hideInputMethod(add_task_et_title);
-                    ViewUtil.hideInputMethod(add_task_et_content);
-
-                    if (!TextUtils.isEmpty(add_task_et_title.getText())) {
-                        String title = add_task_et_title.getText().toString();
-                        String content = add_task_et_content.getText().toString();
-                        addTask(title, content);
-                    } else {
-                        ToastUtil.show("任务标题必须非空！");
-                    }
-                }
-            });
-        }
-        timeCatLayoutWrapper.setVisibility(View.GONE);
-        add_task_rl.setVisibility(View.VISIBLE);
-
-        add_task_et_title.setText(text);
-        add_task_et_content.setText(text);
-        add_task_et_content.setSelection(text.length());
-    }
-
-    private void addTask(String title, String content) {
-        ToastUtil.show("添加任务成功");
+        String content = text;
+        Intent intent2TimeCat = new Intent(TimeCatActivity.this, DialogActivity.class);
+        intent2TimeCat.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent2TimeCat.putExtra(DialogActivity.TO_SAVE_STR, content);
+        startActivity(intent2TimeCat);
         finish();
-//        ToastUtil.show("添加任务失败");
     }
 
     @Override

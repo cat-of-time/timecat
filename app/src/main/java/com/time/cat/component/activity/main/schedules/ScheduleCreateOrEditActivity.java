@@ -30,15 +30,10 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements Activi
     @SuppressWarnings("unused")
     private static final String TAG = "ScheduleCreateActivity";
 
-
-    //<启动方法>-------------------------------------------------------------------------------------
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
     private int alpha;
     private int lastPickedColor;
-    //</启动方法>------------------------------------------------------------------------------------
     private AppCompatImageView add_task_iv_cancel;
     private AppCompatImageView add_task_iv_success;
-    //</生命周期>------------------------------------------------------------------------------------
     private EditText add_task_et_title;
     private EditText add_task_et_content;
     private TextView add_task_tv_important_urgent;
@@ -48,6 +43,10 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements Activi
     private LinearLayout add_task_select_ll_date;
     private LinearLayout add_task_select_ll_time;
 
+
+
+
+    //<启动方法>-------------------------------------------------------------------------------------
     /**
      * 启动这个Activity的Intent
      *
@@ -63,6 +62,11 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements Activi
     public Activity getActivity() {
         return this;
     }
+    //</启动方法>------------------------------------------------------------------------------------
+
+
+
+
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -91,7 +95,14 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements Activi
     protected void onDestroy() {
         super.onDestroy();
     }
+    //</生命周期>------------------------------------------------------------------------------------
 
+
+
+
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
     @Override
     public void initView() {//必须调用
         add_task_iv_cancel = findViewById(R.id.add_task_iv_cancel);
@@ -105,12 +116,19 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements Activi
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
 
 
+
+
+
+
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
     @Override
     public void initData() {//必须调用
 
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
+
+
+
 
 
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
@@ -179,6 +197,9 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements Activi
     //-//</Listener>-----------------------------------------------------------------------------
 
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
+
+
+
 
 
     //<内部类>---尽量少用----------------------------------------------------------------------------

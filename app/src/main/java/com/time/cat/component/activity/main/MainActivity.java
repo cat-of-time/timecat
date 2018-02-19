@@ -288,7 +288,9 @@ public class MainActivity extends BaseActivity implements
             public void onSelected(int index, int old) {
                 //选中时触发
                 if (index == 2) {
-                    launchActivity(new Intent(MainActivity.this, DialogActivity.class));
+                    Intent intent2DialogActivity = new Intent(MainActivity.this, DialogActivity.class);
+                    intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, "");
+                    startActivity(intent2DialogActivity);
                 } else if (index > 2) {
                     customPagerView.setCurrentItem(index - 1);
                     adjustActionBar(fragmentNames[index - 1]);

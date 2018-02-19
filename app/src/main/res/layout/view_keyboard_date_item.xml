@@ -23,6 +23,7 @@
         android:layout_margin="5dp"
         android:background="@color/transparent"
         android:text="今天"
+        android:textSize="12sp"
         android:textColor="@color/blue"/>
 
 </LinearLayout>

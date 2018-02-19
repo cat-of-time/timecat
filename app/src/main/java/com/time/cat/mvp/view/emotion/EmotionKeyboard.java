@@ -22,8 +22,14 @@ import com.time.cat.util.view.ScreenUtil;
  * @author dlink
  * @email linxy59@mail2.sysu.edu.cn
  * @date 2018/2/17
- * @discription null
- * @usage null
+ * @discription 管理软键盘和自定义面板的平滑过渡
+ * @usage
+ * EmotionKeyboard.with(this)
+ *                .setEmotionView(dialog_add_task_ll_extra)//绑定表情面板
+ *                .bindToContent(dialog_add_task_ll_content)//绑定内容view
+ *                .bindToEditText(dialog_add_task_et_title)//绑定EditView
+ *                .bindToEmotionButton(dialog_add_task_tv_tag)//绑定表情按钮
+ *                .build();
  */
 public class EmotionKeyboard {
     private final static String TAG = "EmotionKeyboard";

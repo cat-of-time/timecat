@@ -31,12 +31,12 @@ import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.SettingFloatViewActivity;
+import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
-import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.UrlCountUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.view.ViewUtil;
 
 import java.io.File;
@@ -352,7 +352,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         } else {
             icons = new int[]{
                     R.mipmap.ic_float_switch,
-                    R.mipmap.ic_float_addtask,
+                    R.drawable.ic_add_white_24dp,
                     R.mipmap.ic_float_copy,
                     R.drawable.ic_float_home,
                     R.mipmap.ic_float_screen
@@ -457,43 +457,10 @@ public class ArcTipViewController implements View.OnTouchListener {
                 break;
             case 1:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);
-//                Intent intent2ScheduleCreateOrEditActivity = new Intent();
-//                intent2ScheduleCreateOrEditActivity.setClass(mContext, ScheduleCreateOrEditActivity.class);
-//                intent2ScheduleCreateOrEditActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mContext.startActivity(intent2ScheduleCreateOrEditActivity);
-
-                Intent intent2DialogActivity = new Intent();
-                intent2DialogActivity.setClass(mContext, DialogActivity.class);
-                intent2DialogActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent2DialogActivity = new Intent(mContext, DialogActivity.class);
+                intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, "");
                 mContext.startActivity(intent2DialogActivity);
-//                DialogPlus dialogPlus = DialogPlus.newDialog(mContext)
-//                        .setAdapter(new SimpleAdapter(mContext, true))
-//                        .setCancelable(true)
-//                        .setOnDismissListener(new OnDismissListener() {
-//                            @Override
-//                            public void onDismiss(DialogPlus dialog) {
-//                            }
-//                        })
-//                        .setOnCancelListener(new OnCancelListener() {
-//                            @Override
-//                            public void onCancel(DialogPlus dialog) {
-//                            }
-//                        })
-//                        .setOnBackPressListener(new OnBackPressListener() {
-//                            @Override
-//                            public void onBackPressed(DialogPlus dialogPlus) {
-//                            }
-//                        })
-//                        .create();
-//
-//
-//                dialogPlus.show();
-
-//                Dialog adDialog = new Dialog(mContext.getApplicationContext(), R.style.DialogNoAnimation);
-//                adDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-//                View adDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_grid,null);
-//                adDialog.setContentView(adDialogView);
-//                adDialog.show();
                 break;
             case 2:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_COPY);
@@ -911,12 +878,6 @@ public class ArcTipViewController implements View.OnTouchListener {
         }
         float x = event.getRawX();
         float y = event.getRawY();
-//        Rect rect = new Rect();
-//        floatView.getGlobalVisibleRect(rect);
-//        if (!rect.contains((int) x, (int) y)) {
-//            showImage();
-//            setFloatViewToDefault();
-//        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
@@ -980,7 +941,6 @@ public class ArcTipViewController implements View.OnTouchListener {
         }
         return true;
     }
-
 
     private synchronized void updateViewPosition(float x, float y) {
         layoutParams.x = (int) (x);

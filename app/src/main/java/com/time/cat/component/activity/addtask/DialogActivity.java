@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
@@ -17,34 +19,43 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
+import com.time.cat.component.activity.TimeCatActivity;
+import com.time.cat.component.activity.WebActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.mvp.view.viewpaper.NoHorizontalScrollerViewPager;
-import com.time.cat.mvp.view.emotion.fragment.EmotiomComplateFragment;
-import com.time.cat.mvp.view.emotion.EmotionKeyboard;
-import com.time.cat.mvp.view.emotion.fragment.Fragment1;
-import com.time.cat.mvp.view.emotion.fragment.FragmentFactory;
 import com.time.cat.mvp.view.emotion.adapter.HorizontalRecyclerviewAdapter;
 import com.time.cat.mvp.view.emotion.adapter.NoHorizontalScrollerVPAdapter;
+import com.time.cat.mvp.view.emotion.fragment.EmotiomComplateFragment;
+import com.time.cat.mvp.view.emotion.fragment.Fragment1;
+import com.time.cat.mvp.view.emotion.fragment.FragmentFactory;
 import com.time.cat.mvp.view.emotion.model.ImageModel;
 import com.time.cat.mvp.view.keyboardManager.SmartKeyboardManager;
 import com.time.cat.mvp.view.richText.TEditText;
-import com.time.cat.util.view.EmotionUtil;
+import com.time.cat.mvp.view.viewpaper.NoHorizontalScrollerViewPager;
+import com.time.cat.util.ConstantUtil;
+import com.time.cat.util.SearchEngineUtil;
+import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.listener.GlobalOnItemClickManager;
 import com.time.cat.util.override.SharedPreferencedUtils;
 import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author dlink
@@ -56,6 +67,7 @@ public class DialogActivity extends BaseActivity implements
                                                  View.OnClickListener{
     @SuppressWarnings("unused")
     private static final String TAG = "DialogActivity ";
+    public static final String TO_SAVE_STR = "to_save_str";
 
 
     //<启动方法>-------------------------------------------------------------------------------------
@@ -90,11 +102,6 @@ public class DialogActivity extends BaseActivity implements
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
     //</生命周期>------------------------------------------------------------------------------------
 
 
@@ -111,6 +118,9 @@ public class DialogActivity extends BaseActivity implements
     private TextView dialog_add_task_type_note;
     private TextView dialog_add_task_type_task;
     private TextView dialog_add_task_type_clock;
+    private ImageView dialog_add_task_footer_iv_timecat;
+    private ImageView dialog_add_task_footer_iv_translate;
+    private ImageView dialog_add_task_footer_iv_search;
     private Button dialog_add_task_footer_bt_submit;
 
     private LinearLayout dialog_add_task_ll_content;
@@ -152,6 +162,9 @@ public class DialogActivity extends BaseActivity implements
     private RecyclerView recyclerview_horizontal;
     private HorizontalRecyclerviewAdapter horizontalRecyclerviewAdapter;
 
+    // 软键盘管理
+    SmartKeyboardManager mSmartKeyboardManager;
+
     @Override
     public void initView() {//必须调用
         setWindow();
@@ -182,6 +195,9 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_type_task = findViewById(R.id.dialog_add_task_type_task);
         dialog_add_task_type_clock = findViewById(R.id.dialog_add_task_type_clock);
 
+        dialog_add_task_footer_iv_timecat = findViewById(R.id.dialog_add_task_footer_iv_timecat);
+        dialog_add_task_footer_iv_translate = findViewById(R.id.dialog_add_task_footer_iv_translate);
+        dialog_add_task_footer_iv_search = findViewById(R.id.dialog_add_task_footer_iv_search);
         dialog_add_task_footer_bt_submit = findViewById(R.id.dialog_add_task_footer_bt_submit);
 
         dialog_add_task_ll_content = findViewById(R.id.dialog_add_task_ll_content);
@@ -285,16 +301,16 @@ public class DialogActivity extends BaseActivity implements
         String[] arrText = new String[]{
                 "今天", "明天", "后天",
                 "下周", "下月", "明年的今天",
-                "Picture 7", "Picture 8", "其他"
+                "其他"
         };
         int[] arrImages=new int[]{
                 R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
                 R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
-                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp
+                R.drawable.ic_alarm_black_48dp
         };
         List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 
-        for (int i=0; i<9; i++) {
+        for (int i=0; i<7; i++) {
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put(IMAGE_ITEM, arrImages[i]);
             map.put(TEXT_ITEM, arrText[i]);
@@ -317,6 +333,7 @@ public class DialogActivity extends BaseActivity implements
                 String itemText=(String)item.get(TEXT_ITEM);
                 Object object=item.get(IMAGE_ITEM);
                 ToastUtil.show("You Select "+itemText);
+                dialog_add_task_tv_date.setText(itemText);
             }
         });
     }
@@ -395,6 +412,7 @@ public class DialogActivity extends BaseActivity implements
                 String itemText=(String)item.get(TEXT_ITEM);
                 Object object=item.get(IMAGE_ITEM);
                 ToastUtil.show("You Select "+itemText);
+                dialog_add_task_tv_remind.setText(itemText);
             }
         });
     }
@@ -475,27 +493,11 @@ public class DialogActivity extends BaseActivity implements
         viewPager.setAdapter(adapter);
     }
 
-
-    /**
-     * 是否拦截返回键操作，如果此时表情布局未隐藏，先隐藏表情布局
-     *
-     * @return true则隐藏表情布局，拦截返回键操作
-     * false 则不拦截返回键操作
-     */
-//    public boolean isInterceptBackPress() {
-//        return mEmotionKeyboard.interceptBackPress();
-//    }
     /**
      * 设置软键盘和选择面板的平滑交互
      */
     private void setKeyboardManager() {
-        EmotionKeyboard.with(this)
-                .setEmotionView(dialog_add_task_ll_extra)//绑定表情面板
-                .bindToContent(dialog_add_task_ll_content)//绑定内容view
-                .bindToEditText(dialog_add_task_et_title)//绑定EditView
-                .bindToEmotionButton(dialog_add_task_tv_tag)//绑定表情按钮
-                .build();
-        SmartKeyboardManager mSmartKeyboardManager = new SmartKeyboardManager.Builder(this)
+        mSmartKeyboardManager = new SmartKeyboardManager.Builder(this)
                 .setContentView(dialog_add_task_ll_content)
                 .setEditText(dialog_add_task_et_content)
                 .addKeyboard(dialog_add_task_tv_important_urgent, dialog_add_task_select_ll_important_urgent)
@@ -510,9 +512,45 @@ public class DialogActivity extends BaseActivity implements
 
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
     int important_urgent_label;
+    private String title;
+    private String content;
     @Override
     public void initData() {//必须调用
         important_urgent_label = 0;
+        title = null;
+        content = null;
+        initTextString();
+    }
+
+    private void initTextString() {
+        Intent intent = getIntent();
+        String str = null;
+        try {
+            str = intent.getStringExtra(TO_SAVE_STR);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
+        if (TextUtils.isEmpty(str)) {
+            String action = intent.getAction();
+            String type = intent.getType();
+            if (Intent.ACTION_SEND.equals(action) && type != null) {
+                if ("text/plain".equals(type)) {
+                    String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                    str = sharedText;
+                }
+            }
+        }
+
+        if (TextUtils.isEmpty(str)) {
+            str = "";
+        }
+
+        title = str;
+        content = str;
+        dialog_add_task_et_title.setText(title);
+        dialog_add_task_et_content.setText(content);
+        dialog_add_task_et_content.setSelection(content.length());
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
@@ -553,6 +591,9 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_type_note.setOnClickListener(this);
         dialog_add_task_type_task.setOnClickListener(this);
         dialog_add_task_type_clock.setOnClickListener(this);
+        dialog_add_task_footer_iv_timecat.setOnClickListener(this);
+        dialog_add_task_footer_iv_translate.setOnClickListener(this);
+        dialog_add_task_footer_iv_search.setOnClickListener(this);
         dialog_add_task_footer_bt_submit.setOnClickListener(this);
     }
 
@@ -574,9 +615,9 @@ public class DialogActivity extends BaseActivity implements
                 dialog_add_task_tv_remind.setVisibility(View.GONE);
                 dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
                 type = Type.NOTE;
-                dialog_add_task_type_note.setTextColor(Color.parseColor("#ee000000"));
-                dialog_add_task_type_task.setTextColor(Color.parseColor("#5e000000"));
-                dialog_add_task_type_clock.setTextColor(Color.parseColor("#5e000000"));
+                dialog_add_task_type_note.setTextColor(Color.parseColor("#ee03a9f4"));
+                dialog_add_task_type_task.setTextColor(Color.parseColor("#3e000000"));
+                dialog_add_task_type_clock.setTextColor(Color.parseColor("#3e000000"));
                 dialog_add_task_type_note.setTextSize(18);
                 dialog_add_task_type_task.setTextSize(14);
                 dialog_add_task_type_clock.setTextSize(14);
@@ -588,9 +629,9 @@ public class DialogActivity extends BaseActivity implements
                 dialog_add_task_tv_remind.setVisibility(View.GONE);
                 dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
                 type = Type.TASK;
-                dialog_add_task_type_note.setTextColor(Color.parseColor("#5e000000"));
-                dialog_add_task_type_task.setTextColor(Color.parseColor("#ee000000"));
-                dialog_add_task_type_clock.setTextColor(Color.parseColor("#5e000000"));
+                dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
+                dialog_add_task_type_task.setTextColor(Color.parseColor("#ee03a9f4"));
+                dialog_add_task_type_clock.setTextColor(Color.parseColor("#3e000000"));
                 dialog_add_task_type_note.setTextSize(14);
                 dialog_add_task_type_task.setTextSize(18);
                 dialog_add_task_type_clock.setTextSize(14);
@@ -602,12 +643,93 @@ public class DialogActivity extends BaseActivity implements
                 dialog_add_task_tv_remind.setVisibility(View.VISIBLE);
                 dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
                 type = Type.CLOCK;
-                dialog_add_task_type_note.setTextColor(Color.parseColor("#5e000000"));
-                dialog_add_task_type_task.setTextColor(Color.parseColor("#5e000000"));
-                dialog_add_task_type_clock.setTextColor(Color.parseColor("#ee000000"));
+                dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
+                dialog_add_task_type_task.setTextColor(Color.parseColor("#3e000000"));
+                dialog_add_task_type_clock.setTextColor(Color.parseColor("#ee03a9f4"));
                 dialog_add_task_type_note.setTextSize(14);
                 dialog_add_task_type_task.setTextSize(14);
                 dialog_add_task_type_clock.setTextSize(18);
+                break;
+            case R.id.dialog_add_task_footer_iv_timecat:
+                content = dialog_add_task_et_content.getText().toString();
+                if (TextUtils.isEmpty(content)) {
+                    content = "";
+                    ToastUtil.show("输入为空！");
+                    break;
+                }
+                Intent intent2TimeCat = new Intent(DialogActivity.this, TimeCatActivity.class);
+                intent2TimeCat.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2TimeCat.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
+                startActivity(intent2TimeCat);
+                finish();
+                break;
+            case R.id.dialog_add_task_footer_iv_translate:
+                content = dialog_add_task_et_content.getText().toString();
+                if (TextUtils.isEmpty(content)) {
+                    content = "";
+                    ToastUtil.show("输入为空！");
+                    break;
+                }
+                Intent intent2Translate = new Intent(DialogActivity.this, TimeCatActivity.class);
+                intent2Translate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2Translate.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
+                intent2Translate.putExtra(TimeCatActivity.IS_TRANSLATE, true);
+                startActivity(intent2Translate);
+                finish();
+                break;
+            case R.id.dialog_add_task_footer_iv_search:
+                content = dialog_add_task_et_content.getText().toString();
+                if (TextUtils.isEmpty(content)) {
+                    content = "";
+                    ToastUtil.show("输入为空！");
+                    break;
+                }
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SEARCH);
+                boolean isUrl = false;
+                Uri uri = null;
+                try {
+                    Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = p.matcher(content);
+                    if (!matcher.matches()) {
+                        uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url + URLEncoder.encode(content, "utf-8"));
+                        isUrl = false;
+                    } else {
+                        uri = Uri.parse(content);
+                        if (!content.startsWith("http")) {
+                            content = "http://" + content;
+                        }
+                        isUrl = true;
+                    }
+
+                    boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
+                    Intent intent2Web;
+                    if (t) {
+                        intent2Web = new Intent();
+                        if (isUrl) {
+                            intent2Web.putExtra("url", content);
+                        } else {
+                            intent2Web.putExtra("query", content);
+                        }
+                        intent2Web.setClass(DialogActivity.this, WebActivity.class);
+                        startActivity(intent2Web);
+                    } else {
+                        intent2Web = new Intent(Intent.ACTION_VIEW, uri);
+                        intent2Web.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent2Web);
+                        finish();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Intent intent2web = new Intent();
+                    if (isUrl) {
+                        intent2web.putExtra("url", content);
+                    } else {
+                        intent2web.putExtra("query", content);
+                    }
+                    intent2web.setClass(DialogActivity.this, WebActivity.class);
+                    startActivity(intent2web);
+                    finish();
+                }
                 break;
             case R.id.dialog_add_task_footer_bt_submit:
                 String s = "";
@@ -634,15 +756,27 @@ public class DialogActivity extends BaseActivity implements
     //-//<Activity>---------------------------------------------------------------------------------
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        /*
+         * 拦截返回键操作，如果此时表情布局未隐藏，先隐藏表情布局
+         */
+        if (!mSmartKeyboardManager.interceptBackPressed()) {
+            super.onBackPressed();
+        }
     }
     //-//</Activity>-------------------------------------------------------------------------------
 
-    //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
+    //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
 
 
-    //<内部类>---尽量少用----------------------------------------------------------------------------
+    //<内部类>---尽量少用-----------------------------------------------------------------------------
 
-    //</内部类>---尽量少用---------------------------------------------------------------------------
+    //</内部类>---尽量少用----------------------------------------------------------------------------
 
+    //<外部调用>--------------------------------------------------------------------------------------
+
+    //</外部调用>-------------------------------------------------------------------------------------
+
+    //<内部封装方法>-----------------------------------------------------------------------------------
+
+    //</内部封装方法>----------------------------------------------------------------------------------
 }

@@ -17,8 +17,7 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="4dp"
         android:maxLines="1"
-        android:textSize="12sp"
-        />
+        android:textSize="12sp"/>
 
     <me.majiajie.pagerbottomtabstrip.internal.RoundMessageView
         android:id="@+id/messages"
