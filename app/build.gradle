@@ -171,6 +171,7 @@ dependencies {
     compile 'com.github.rey5137:material:1.2.4'
     // time picker
     compile 'com.doomonafireball.betterpickers:library:1.5.5'
+    compile 'com.contrarywind:Android-PickerView:3.2.7'
     // navigationBar
     compile 'me.majiajie:pager-bottom-tab-strip:2.2.5'
     // material getDrawer

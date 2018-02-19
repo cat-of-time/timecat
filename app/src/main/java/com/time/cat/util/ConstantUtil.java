@@ -152,4 +152,6 @@ public class ConstantUtil {
     //xp全局复制
     public static final String UNIVERSAL_COPY_BROADCAST_XP = "universal_copy_broadcast_xp";
 
+    // DialogActivity
+    public static final String UNIVERSAL_SAVE_COTENT = "universal_save_content";
 }

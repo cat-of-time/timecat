@@ -66,8 +66,9 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.rey.material.widget.TextView
                     android:id="@+id/dialog_add_task_tv_important_urgent"
+                    style="Material.Drawable.Ripple.Touch.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_marginEnd="5dp"
@@ -78,10 +79,12 @@
                     android:text="重要且紧急"
                     android:textColor="@color/red"
                     android:textSize="10dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    app:rd_enable="true"/>
 
-                <TextView
+                <com.rey.material.widget.TextView
                     android:id="@+id/dialog_add_task_tv_date"
+                    style="Material.Drawable.Ripple.Touch.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_marginEnd="5dp"
@@ -92,10 +95,12 @@
                     android:text="02.07"
                     android:textColor="@color/blue"
                     android:textSize="10dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    app:rd_enable="true"/>
 
-                <TextView
+                <com.rey.material.widget.TextView
                     android:id="@+id/dialog_add_task_tv_time"
+                    style="Material.Drawable.Ripple.Touch.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_marginEnd="5dp"
@@ -106,10 +111,12 @@
                     android:text="全天"
                     android:textColor="@color/blue"
                     android:textSize="10dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    app:rd_enable="true"/>
 
-                <TextView
+                <com.rey.material.widget.TextView
                     android:id="@+id/dialog_add_task_tv_remind"
+                    style="Material.Drawable.Ripple.Touch.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_marginEnd="5dp"
@@ -120,10 +127,12 @@
                     android:text="不提醒"
                     android:textColor="@color/green"
                     android:textSize="10dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    app:rd_enable="true"/>
 
-                <TextView
+                <com.rey.material.widget.TextView
                     android:id="@+id/dialog_add_task_tv_tag"
+                    style="Material.Drawable.Ripple.Touch.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_marginEnd="5dp"
@@ -133,7 +142,8 @@
                     android:padding="5dp"
                     android:text="标签"
                     android:textColor="@color/orange"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    app:rd_enable="true"/>
             </LinearLayout>
 
             <RelativeLayout
@@ -194,32 +204,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <com.rey.material.widget.ImageView
                         android:id="@+id/dialog_add_task_footer_iv_timecat"
+                        style="Material.Drawable.Ripple.Touch.Light"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:layout_toStartOf="@+id/dialog_add_task_footer_iv_translate"
-                        android:src="@drawable/ic_cat_blue_24dp"/>
+                        android:src="@drawable/ic_cat_blue_24dp"
+                        app:rd_enable="true"/>
 
-                    <ImageView
+                    <com.rey.material.widget.ImageView
                         android:id="@+id/dialog_add_task_footer_iv_translate"
+                        style="Material.Drawable.Ripple.Touch.Light"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:layout_toStartOf="@+id/dialog_add_task_footer_iv_search"
-                        android:src="@drawable/ic_translate_blue_24dp"/>
+                        android:src="@drawable/ic_translate_blue_24dp"
+                        app:rd_enable="true"/>
 
-                    <ImageView
+                    <com.rey.material.widget.ImageView
                         android:id="@+id/dialog_add_task_footer_iv_search"
+                        style="Material.Drawable.Ripple.Touch.Light"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:layout_toStartOf="@+id/dialog_add_task_footer_bt_submit"
-                        android:src="@drawable/ic_search_blue_24dp"/>
+                        android:src="@drawable/ic_search_blue_24dp"
+                        app:rd_enable="true"/>
 
                     <com.rey.material.widget.Button
                         android:id="@+id/dialog_add_task_footer_bt_submit"

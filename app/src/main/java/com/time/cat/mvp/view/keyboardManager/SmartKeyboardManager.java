@@ -426,8 +426,9 @@ public class SmartKeyboardManager {
     private void showSelectCustomKeyboard(View view) {
         view.setVisibility(View.VISIBLE);
         view.getLayoutParams().height = keyBoardHeight;
-        Log.e(TAG, "InputMethodUtils.getSupportSoftKeyboardHeight(mActivity) = " + InputMethodUtils.getSupportSoftKeyboardHeight(mActivity));
-        Log.e(TAG, "" + keyBoardHeight);
+//        Log.e(TAG, "InputMethodUtils.getSupportSoftKeyboardHeight(mActivity) = " + InputMethodUtils.getSupportSoftKeyboardHeight(mActivity));
+//        Log.e(TAG, "keyBoardHeight = " + keyBoardHeight);
+        //下面是动画效果，可能有用
 //        ObjectAnimator showAnimator = ObjectAnimator.ofFloat(view, "alpha", 0.0F, 1.0F);
 //        showAnimator.setDuration(DURATION_SWITCH_KEYBOARD);
 //        showAnimator.setInterpolator(new AccelerateDecelerateInterpolator());

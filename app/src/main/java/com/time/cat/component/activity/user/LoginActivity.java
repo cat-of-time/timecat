@@ -33,12 +33,10 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
     public static final String INTENT_USER_EMAIL = "intent_user_email";
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
-    EditText emailText;
-    EditText passwordText;
-    Button loginButton;
-    //</生命周期>------------------------------------------------------------------------------------
-    TextView signupLink;
+
+
+
+
 
     //<生命周期>------------------------------------------------------------------------------------
     @Override
@@ -76,7 +74,17 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
         // Disable going back to the MainActivity
         moveTaskToBack(true);
     }
+    //</生命周期>------------------------------------------------------------------------------------
 
+
+
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    EditText emailText;
+    EditText passwordText;
+    Button loginButton;
+    TextView signupLink;
     @Override
     public void initView() {
         emailText = findViewById(R.id.input_email);
@@ -87,12 +95,18 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
 
 
+
+
+
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {
         intent = new Intent(LoginActivity.this, MainActivity.class);
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+
+
+
 
 
     //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
@@ -229,6 +243,6 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
     //-//</View.OnClickListener>---------------------------------------------------------------------
 
 
-    //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
+    //</Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
 
 }

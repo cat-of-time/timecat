@@ -18,12 +18,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.lib.WheelView;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bigkoo.pickerview.listener.OnItemSelectedListener;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.TimeCatActivity;
@@ -49,7 +54,9 @@ import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
 
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -60,7 +67,7 @@ import java.util.regex.Pattern;
 /**
  * @author dlink
  * @date 2018/2/14
- * @discription
+ * @discription "添加"操作,用activity实现dialog
  */
 public class DialogActivity extends BaseActivity implements
                                                  ActivityPresenter,
@@ -102,6 +109,13 @@ public class DialogActivity extends BaseActivity implements
         initEvent();
         //</功能归类分区方法，必须调用>----------------------------------------------------------------
     }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+    }
+
     //</生命周期>------------------------------------------------------------------------------------
 
 
@@ -145,6 +159,8 @@ public class DialogActivity extends BaseActivity implements
     private LinearLayout select_ll_end;
     private TextView select_tv_end;
     private TextView select_tv_end_time;
+    private FrameLayout time_picker_fragment;
+    private TimePickerView pvTime;
 
     // 提醒选择面板
     private GridView dialog_add_task_select_gv_remind;
@@ -219,6 +235,7 @@ public class DialogActivity extends BaseActivity implements
         select_ll_end = findViewById(R.id.select_ll_end);
         select_tv_end = findViewById(R.id.select_tv_end);
         select_tv_end_time = findViewById(R.id.select_tv_end_time);
+        time_picker_fragment = findViewById(R.id.time_picker_fragment);
         // 提醒选择面板
         dialog_add_task_select_gv_remind = findViewById(R.id.dialog_add_task_select_gv_remind);
         // 标签选择面板
@@ -342,24 +359,85 @@ public class DialogActivity extends BaseActivity implements
      * 设置time选择面板
      */
     private void setSelectTimePanel() {
+        //时间选择器
+        pvTime = new TimePickerView.Builder(getActivity(), new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                //选中事件回调
+                // 这里回调过来的v,就是show()方法里面所添加的 View 参数，如果show的时候没有添加参数，v则为null
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                TextView tv = (TextView) v;
+                tv.setText(format.format(date));
+            }
+        })
+                .setLayoutRes(R.layout.view_keyboard_time_pickerview, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        WheelView hour = v.findViewById(R.id.hour);
+                        WheelView min = v.findViewById(R.id.min);
+                        hour.setOnItemSelectedListener(new OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(int index) {
+                                pvTime.returnData();
+                                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+                                if (is_setting_start_time) {
+                                    start_hour = index + 1;
+                                } else if (is_setting_end_time) {
+                                    end_hour = index + 1;
+                                }
+                            }
+                        });
+                        min.setOnItemSelectedListener(new OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(int index) {
+                                pvTime.returnData();
+                                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+                                if (is_setting_start_time) {
+                                    start_min = index + 1;
+                                } else if (is_setting_end_time) {
+                                    end_min = index + 1;
+                                }
+                            }
+                        });
+                    }
+                })
+                .setType(new boolean[]{false, false, false, true, true, false})
+                .setLabel("", "", "", "", "", "") //设置空字符串以隐藏单位提示   hide label
+                .setDividerColor(Color.DKGRAY)
+                .setContentSize(24)
+                .isDialog(false)
+                .setDecorView(time_picker_fragment)//非dialog模式下,设置ViewGroup, pickerView将会添加到这个ViewGroup中
+                .setBackgroundId(0x00000000)
+                .isCyclic(true)
+                .setLineSpacingMultiplier((float) 1.2)
+                .setTextXOffset(0, 0, 0, 0, 0, 0)
+                .setOutSideCancelable(false)
+                .build();
+        pvTime.show(select_tv_start_time, false);
         select_ll_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 select_tv_start.setTextColor(getResources().getColor(R.color.blue));
                 select_tv_start_time.setTextColor(getResources().getColor(R.color.black));
-                select_tv_end.setTextColor(getResources().getColor(R.color.gray));
-                select_tv_end_time.setTextColor(getResources().getColor(R.color.gray));
+                select_tv_end.setTextColor(Color.parseColor("#3e000000"));
+                select_tv_end_time.setTextColor(Color.parseColor("#3e000000"));
                 dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+                pvTime.show(select_tv_start_time, false);
+                is_setting_start_time = true;
+                is_setting_end_time = false;
             }
         });
         select_ll_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                select_tv_start.setTextColor(getResources().getColor(R.color.gray));
-                select_tv_start_time.setTextColor(getResources().getColor(R.color.gray));
+                select_tv_start.setTextColor(Color.parseColor("#3e000000"));
+                select_tv_start_time.setTextColor(Color.parseColor("#3e000000"));
                 select_tv_end.setTextColor(getResources().getColor(R.color.blue));
                 select_tv_end_time.setTextColor(getResources().getColor(R.color.black));
                 dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+                pvTime.show(select_tv_end_time, false);
+                is_setting_start_time = false;
+                is_setting_end_time = true;
             }
         });
         select_tv_all_day.setOnClickListener(new View.OnClickListener() {
@@ -417,6 +495,9 @@ public class DialogActivity extends BaseActivity implements
         });
     }
 
+    /**
+     * 设置 tag 选择面板
+     */
     private void setSelectTagPanel() {
         replaceFragment();
         GlobalOnItemClickManager globalOnItemClickManager = GlobalOnItemClickManager.getInstance(getActivity());
@@ -514,11 +595,27 @@ public class DialogActivity extends BaseActivity implements
     int important_urgent_label;
     private String title;
     private String content;
+    //用户是否编辑了title，编辑即视为有自定义的需求，取用户自定义的title，不再同步content里的到title
+    boolean isSelfEdit = false;
+    int start_hour;
+    int start_min;
+    int end_hour;
+    int end_min;
+    boolean is_setting_start_time;
+    boolean is_setting_end_time;
+
     @Override
     public void initData() {//必须调用
         important_urgent_label = 0;
         title = null;
         content = null;
+        Date date = new Date();
+        start_hour = date.getHours();
+        start_min = date.getMinutes();
+        end_hour = start_hour;
+        end_min = start_min;
+        is_setting_start_time = false;
+        is_setting_end_time = false;
         initTextString();
     }
 
@@ -540,10 +637,12 @@ public class DialogActivity extends BaseActivity implements
                     str = sharedText;
                 }
             }
+        } else {
+            SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, str);
         }
 
         if (TextUtils.isEmpty(str)) {
-            str = "";
+            str = SPHelper.getString(ConstantUtil.UNIVERSAL_SAVE_COTENT, "");
         }
 
         title = str;
@@ -551,14 +650,12 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_et_title.setText(title);
         dialog_add_task_et_content.setText(content);
         dialog_add_task_et_content.setSelection(content.length());
+        SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, str);
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
 
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
-    boolean isSelfEdit = false;
-    //用户是否编辑了title，编辑即视为有自定义的需求，取用户自定义的title，不再同步content里的到title
-
     @Override
     public void initEvent() {//必须调用
         dialog_add_task_et_title.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -581,6 +678,7 @@ public class DialogActivity extends BaseActivity implements
                 if (!isSelfEdit) {
                     dialog_add_task_et_title.setText(dialog_add_task_et_content.getText().toString());
                 }
+                SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, dialog_add_task_et_content.getText().toString());
             }
 
             @Override
@@ -745,7 +843,7 @@ public class DialogActivity extends BaseActivity implements
                         break;
                 }
                 dialog_add_task_footer_bt_submit.setClickable(false);
-                ToastUtil.show("成功添加["+ s +"]:" + dialog_add_task_et_content.getText().toString());
+                ToastUtil.show("成功添加[ "+ s +" ]:" + dialog_add_task_et_content.getText().toString());
                 finish();
                 break;
         }

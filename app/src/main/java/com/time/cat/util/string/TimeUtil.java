@@ -30,4 +30,6 @@ public class TimeUtil {
     public static String formatDuring(Date begin, Date end) {
         return formatDuring(end.getTime() - begin.getTime());
     }
+
+
 }

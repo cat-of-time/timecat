@@ -61,7 +61,12 @@ import java.util.List;
  * @discription SchedulesFragment
  */
 @SuppressLint("SetTextI18n")
-public class SchedulesFragment extends BaseFragment implements FragmentPresenter, OnSelectDateListener, View.OnClickListener, OnViewClickListener, AsyncExpandableListViewCallbacks<Task, Task> {
+public class SchedulesFragment extends BaseFragment implements
+                                                    FragmentPresenter,
+                                                    OnSelectDateListener,
+                                                    View.OnClickListener,
+                                                    OnViewClickListener,
+                                                    AsyncExpandableListViewCallbacks<Task, Task> {
     @SuppressWarnings("unused")
     private static final String TAG = "SchedulesFragment";
     private static final int[] labelColor = new int[]{
@@ -70,10 +75,13 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
             Color.parseColor("#2196f3"),
             Color.parseColor("#4caf50")
     };
-    private static final int[] checkIds = new int[]{R.id.label_important_urgent, R.id.label_important_not_urgent, R.id.label_not_important_urgent, R.id.label_not_important_not_urgent,};
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    private static final int[] checkIds = new int[]{
+            R.id.label_important_urgent,
+            R.id.label_important_not_urgent,
+            R.id.label_not_important_urgent,
+            R.id.label_not_important_not_urgent,
+    };
     private CoordinatorLayout content;
-    //</生命周期>------------------------------------------------------------------------------------
     private MonthPager monthPager;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
@@ -84,8 +92,10 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
     private CalendarDate currentDate;
     private int mCurrentPage = MonthPager.CURRENT_DAY_INDEX;
     private boolean onBindCollectionHeaderView;
-    //<回调接口>-------------------------------------------------------------------------------------
     private OnDateChangeListener mDateChangeListener;
+
+
+
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -107,7 +117,13 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
         super.onResume();
         ThemeUtils.refreshUI(getActivity(), null);
     }
+    //</生命周期>------------------------------------------------------------------------------------
 
+
+
+
+
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -144,7 +160,6 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
 
         return view;
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
 
     @Override
     public void initView() {//必须调用
@@ -181,7 +196,6 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
         markData.put("2017-6-10", "0");
         calendarAdapter.setMarkData(markData);
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
     /**
      * 初始化monthPager，MonthPager继承自ViewPager
@@ -230,22 +244,6 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
         });
     }
 
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
-    @Override
-    public void initData() {//必须调用
-        initCurrentDate();
-        initExpandableListViewData();
-//        if (inventory.getTotalItemCount() <= 0) {
-//            mAsyncExpandableListView.setVisibility(View.GONE);
-//            empty.setVisibility(View.VISIBLE);
-//        }
-//        else {
-//            mAsyncExpandableListView.setVisibility(View.VISIBLE);
-//            empty.setVisibility(View.GONE);
-//        }
-    }
-    //-//</View.OnClickListener>---------------------------------------------------------------------
-
     /**
      * 初始化currentDate
      */
@@ -283,6 +281,34 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
 
         mAsyncExpandableListView.updateInventory(inventory);
     }
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
+
+
+
+
+
+
+    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
+    @Override
+    public void initData() {//必须调用
+        initCurrentDate();
+        initExpandableListViewData();
+//        if (inventory.getTotalItemCount() <= 0) {
+//            mAsyncExpandableListView.setVisibility(View.GONE);
+//            empty.setVisibility(View.VISIBLE);
+//        }
+//        else {
+//            mAsyncExpandableListView.setVisibility(View.VISIBLE);
+//            empty.setVisibility(View.GONE);
+//        }
+    }
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
+
+
+
+
+
+
 
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
     @Override
@@ -296,6 +322,10 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
         switch (view.getId()) {
         }
     }
+    //-//</View.OnClickListener>---------------------------------------------------------------------
+
+
+
 
     //-//<AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
     @Override
@@ -336,7 +366,6 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
 
         onBindCollectionHeaderView = false;
     }
-    //-//</AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
 
     @Override
     public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder, int groupOrdinal, Task item) {
@@ -346,6 +375,10 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
         scheduleItemHolder.getTagCloudView().setTags(item.getTags());
         scheduleItemHolder.getLabelGroup().check(checkIds[item.getLabel()]);
     }
+    //-//</AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
+
+
+
 
     //-//<MainActivity.OnViewClickListener>---------------------------------------------------------------------
     @Override
@@ -374,7 +407,6 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
             mDateChangeListener.onDateChange(today.getYear(), today.getMonth(), today.isToday());
         }
     }
-    //-//</MainActivity.OnViewClickListener>---------------------------------------------------------------------
 
     private void refreshSelectBackground() {
         ThemeDayView themeDayView = new ThemeDayView(context, R.layout.view_calendar_custom_day_focus);
@@ -382,6 +414,10 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
         calendarAdapter.notifyDataSetChanged();
         calendarAdapter.notifyDataChanged(new CalendarDate());
     }
+    //-//</MainActivity.OnViewClickListener>---------------------------------------------------------------------
+
+
+
 
     //-//<OnSelectDateListener>---------------------------------------------------------------------
     @Override
@@ -398,6 +434,12 @@ public class SchedulesFragment extends BaseFragment implements FragmentPresenter
 
     //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
 
+
+
+
+
+
+    //<回调接口>-------------------------------------------------------------------------------------
     private void refreshClickDate(CalendarDate date) {
         currentDate = date;
         for (int i = 1; i <= 7; i++) {
