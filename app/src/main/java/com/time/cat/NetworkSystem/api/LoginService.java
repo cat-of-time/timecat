@@ -4,8 +4,8 @@ import com.time.cat.mvp.model.APImodel.User;
 
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -52,11 +52,15 @@ public interface LoginService {
     Observable<User> createUser(@Body User user);
 
     /**
+     * POST
      * {
      * "username": "q@q.com",
      * "email": "q@q.com",
      * "password": "1111"
      * }
+     * response
+     * 200成功 + user
+     * 401失败
      * @param user user
      * @return user
      */
@@ -65,11 +69,19 @@ public interface LoginService {
     Observable<User> login(@Body User user);
 
     /**
-     *
+     * PATCH 部分更新
+     * {
+     * "username": "q@q.com",
+     * "email": "q@q.com",
+     * "password": "1111"
+     * }
+     * response
+     * 200成功 + user
+     * 401失败
      * @param user user
      * @return user
      */
     @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
-    @PUT("/users/{email}")
+    @PATCH("/users/{email}/")
     Observable<User> update(@Path("email") String email, @Body User user);
 }

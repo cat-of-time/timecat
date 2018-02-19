@@ -7,6 +7,25 @@ import java.util.List;
  * @author dlink
  * @date 2018/1/25
  * @discription 日程类
+ * @usage [
+ * {
+ * "url": "http://example.com",
+"owner": "http://example.com",
+"created_datetime": "2018-02-19T16:11:11Z",
+"plan": "http://example.com",
+"title": "string",
+"content": "string",
+"label": 0,
+"tags": [
+"http://example.com"
+],
+"is_finished": true,
+"finished_datetime": "2018-02-19T16:11:11Z",
+"is_all_day": true,
+"begin_datetime": "2018-02-19T16:11:11Z",
+"end_datetime": "2018-02-19T16:11:11Z"
+}
+]
  */
 public class Task {
     public static final int LABEL_IMPORTANT_URGENT = 0;
@@ -16,17 +35,18 @@ public class Task {
 
     private static final long serialVersionUID = 1L;
 
+    private String url;// task的url 访问该url可返回该task
     private String title;//日程标题
     private String content;//日程内容
-    private String userID;//用户ID
+    private String owner;//用户ID
     private int label;//重要紧急标签
     private List<String> tags;//一般标签
-    private Date createTime;//创建时间
-    private Date finishTime;//完成时间
-    private Date startTime;//开始时间
-    private Date endTime;//结束时间
-    private boolean allDay;//是否全天，1 - 是，0 - 不是
-    private boolean isFinish;//是否完成，1 - 是，0 - 不是
+    private Date created_datetime;//创建时间
+    private Date finished_datetime;//完成时间
+    private Date begin_datetime;//开始时间
+    private Date end_datetime;//结束时间
+    private boolean is_all_day;//是否全天，1 - 是，0 - 不是
+    private boolean is_finished;//是否完成，1 - 是，0 - 不是
 
     public Task() {
     }
@@ -39,52 +59,52 @@ public class Task {
         this.title = title;
     }
 
-    public Date getStartTime() {
-        return this.startTime;
+    public Date getBegin_datetime() {
+        return this.begin_datetime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setBegin_datetime(Date begin_datetime) {
+        this.begin_datetime = begin_datetime;
     }
 
-    public Date getEndTime() {
-        return this.endTime;
+    public Date getEnd_datetime() {
+        return this.end_datetime;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEnd_datetime(Date end_datetime) {
+        this.end_datetime = end_datetime;
     }
 
-    public boolean getAllDay() {
-        return this.allDay;
+    public boolean getIs_all_day() {
+        return this.is_all_day;
     }
 
-    public void setAllDay(boolean allDay) {
-        this.allDay = allDay;
+    public void setIs_all_day(boolean is_all_day) {
+        this.is_all_day = is_all_day;
     }
 
-    public String getUserID() {
-        return this.userID;
+    public String getOwner() {
+        return this.owner;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
-    public Date getCreateTime() {
-        return this.createTime;
+    public Date getCreated_datetime() {
+        return this.created_datetime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreated_datetime(Date created_datetime) {
+        this.created_datetime = created_datetime;
     }
 
     public boolean getIsFinish() {
-        return isFinish;
+        return is_finished;
     }
 
     public void setIsFinish(boolean isFinish) {
-        this.isFinish = isFinish;
+        this.is_finished = isFinish;
     }
 
     public String getContent() {
@@ -111,11 +131,11 @@ public class Task {
         this.tags = tags;
     }
 
-    public Date getFinishTime() {
-        return finishTime;
+    public Date getFinished_datetime() {
+        return finished_datetime;
     }
 
-    public void setFinishTime(Date finishTime) {
-        this.finishTime = finishTime;
+    public void setFinished_datetime(Date finished_datetime) {
+        this.finished_datetime = finished_datetime;
     }
 }

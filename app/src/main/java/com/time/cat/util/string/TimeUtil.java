@@ -1,6 +1,9 @@
 package com.time.cat.util.string;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * @author dlink
@@ -29,6 +32,22 @@ public class TimeUtil {
      */
     public static String formatDuring(Date begin, Date end) {
         return formatDuring(end.getTime() - begin.getTime());
+    }
+
+    public static Date formatGMTDateStr(String s) {
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+//Local time zone
+        SimpleDateFormat dateFormatLocal = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+//Time in GMT
+        try {
+            return dateFormatLocal.parse( dateFormatGmt.format(new Date()) );
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

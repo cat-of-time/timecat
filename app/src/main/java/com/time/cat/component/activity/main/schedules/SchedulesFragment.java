@@ -272,8 +272,8 @@ public class SchedulesFragment extends BaseFragment implements
             task.setLabel(i % 4);
             task.setTitle(titles[i]);
             task.setIsFinish(i % 3 == 0);
-            task.setCreateTime(new Date(2018 - 1900, 0, i));//month = 0 是 1 月
-            task.setAllDay(i % 3 == 0);
+            task.setCreated_datetime(new Date(2018 - 1900, 0, i));//month = 0 是 1 月
+            task.setIs_all_day(i % 3 == 0);
 
 
             group_i.setHeaderItem(task);
@@ -359,7 +359,7 @@ public class SchedulesFragment extends BaseFragment implements
         scheduleHeaderViewHolder.getCalendarItemTitle().setText(headerItem.getTitle());
 
         Date today = new Date();
-        long during = today.getTime() - headerItem.getCreateTime().getTime();
+        long during = today.getTime() - headerItem.getCreated_datetime().getTime();
         long day = during / (1000 * 60 * 60 * 24);
 //        Log.e(TAG, during + getString(R.string.calendar_delay) + day + getString(R.string.calendar_day));
         scheduleHeaderViewHolder.getCalendarItemDelay().setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");

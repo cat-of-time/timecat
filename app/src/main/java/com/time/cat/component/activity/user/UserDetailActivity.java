@@ -48,9 +48,11 @@ import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.Snack;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.source.AvatarManager;
 import com.time.cat.util.view.ScreenUtil;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -455,6 +457,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
 
                 if (!TextUtils.isEmpty(user.name())) {
 //                    DB.users().saveAndFireEvent(user);
+                    final boolean[] isSuccess = {false};
                     RetrofitHelper.getLoginService().update(user.getEmail(), ModelUtil.toAPIUser(user)) //获取Observable对象
                             .compose(UserDetailActivity.this.bindToLifecycle())
                             .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -462,7 +465,11 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                             .doOnNext(new Action1<User>() {
                                 @Override
                                 public void call(User user) {
-                                    DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
+                                    try {
+                                        DB.users().createOrUpdate(ModelUtil.toDBUser(user));
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
+                                    }
                                     Log.e(TAG, "保存用户信息到本地" + user.toString());
                                 }
                             }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -479,10 +486,16 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
 
                                 @Override
                                 public void onNext(User user) {
+                                    isSuccess[0] = true;
+
                                 }
                             });
-                    refreshTheme(this, user.color());
-                    supportFinishAfterTransition();
+                    if (isSuccess[0]) {
+                        refreshTheme(this, user.color());
+                        supportFinishAfterTransition();
+                    } else {
+                        ToastUtil.show("保存失败");
+                    }
                 } else {
                     Snack.show("fail! plz try again!", this);
                 }

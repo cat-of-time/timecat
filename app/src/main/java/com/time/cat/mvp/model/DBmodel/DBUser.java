@@ -39,6 +39,8 @@ public class DBUser {
     public static final String COLUMN_AVATAR = "Avatar";
     public static final String COLUMN_COLOR = "Color";
     public static final String COLUMN_EMAIL = "Email";
+    public static final String COLUMN_PASSWORD = "Password";
+
 //TODO setting={}
 
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
@@ -59,6 +61,9 @@ public class DBUser {
 
     @DatabaseField(columnName = COLUMN_EMAIL, canBeNull = false, unique = true)
     private String email;
+
+    @DatabaseField(columnName = COLUMN_PASSWORD)
+    private String password = null;
 //    @ForeignCollectionField
 //    private Collection<DBTask> DBTasks;
 
@@ -113,5 +118,13 @@ public class DBUser {
     @Override
     public String toString() {
         return String.format("DBUser{id=%s, name=%s, email=%s, isDefault=%s, avatar=%s, color=%s}", String.valueOf(id), name, email, String.valueOf(isDefault), avatar, String.valueOf(color));
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

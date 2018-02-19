@@ -91,24 +91,31 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         boolean isPharmaEnabled = TimeCatApp.isPharmaModeEnabled(mainActivity);
 
         ArrayList<IProfile> profiles = new ArrayList<>();
-        profiles.add(new ProfileSettingDrawerItem().withName("添加用户").withDescription("管理他人的指导方针").withIcon(new IconicsDrawable(mainActivity, GoogleMaterial.Icon.gmd_account_add).sizeDp(24).paddingDp(5).colorRes(R.color.dark_grey_home)).withIdentifier(USER_ADD));
+        profiles.add(new ProfileSettingDrawerItem()
+                .withName("添加用户")
+                .withDescription("管理他人的指导方针")
+                .withIcon(new IconicsDrawable(mainActivity, GoogleMaterial.Icon.gmd_account_add).sizeDp(24).paddingDp(5).colorRes(R.color.dark_grey_home))
+                .withIdentifier(USER_ADD));
         for (DBUser p : DB.users().findAll()) {
             Log.d("LeftDrawer", "Adding user to getDrawer: " + p.name());
-            profiles.add(new ProfileDrawerItem().withIdentifier(p.id().intValue()).withName(p.name()).withEmail(p.getEmail()).withIcon(AvatarManager.res(p.avatar())));
+            profiles.add(new ProfileDrawerItem()
+                    .withIdentifier(p.id().intValue())
+                    .withName(p.name())
+                    .withEmail(p.getEmail())
+                    .withIcon(AvatarManager.res(p.avatar())));
         }
-//        DBUser u = new DBUser();
-//        u.setAvatar(AvatarManager.AVATAR_2);
-//        u.setColor(Color.YELLOW);
-//        u.setName("测试");
-//        u.setId((long) 5);
-//        Log.e(TAG, "Adding user to getDrawer: " + u.name());
-//        profiles.add(new ProfileDrawerItem()
-//                .withIdentifier(u.id().intValue())
-//                .withName(u.name())
-//                .withEmail(u.name() + "@timecat")
-//                .withIcon(AvatarManager.res(u.avatar())));
 
-        headerResult = new AccountHeaderBuilder().withActivity(mainActivity).withHeaderBackground(R.drawable.drawer_header).withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP).withCompactStyle(false).withProfiles(profiles).withAlternativeProfileHeaderSwitching(true).withThreeSmallProfileImages(true).withOnAccountHeaderListener(this).withSavedInstance(savedInstanceState).build();
+        headerResult = new AccountHeaderBuilder()
+                .withActivity(mainActivity)
+                .withHeaderBackground(R.drawable.drawer_header)
+                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
+                .withCompactStyle(false)
+                .withProfiles(profiles)
+                .withAlternativeProfileHeaderSwitching(true)
+                .withThreeSmallProfileImages(false)
+                .withOnAccountHeaderListener(this)
+                .withSavedInstance(savedInstanceState)
+                .build();
 
         //Create the getDrawer
         drawer = new DrawerBuilder()
@@ -218,7 +225,6 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 Intent intent = new Intent(mainActivity, LoginActivity.class);
                 mainActivity.startActivityForResult(intent, REQUEST_LOGIN);
                 mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-//                launchActivity(new Intent(mainActivity, UsersActivity.class));
                 drawer.setSelection(HOME, false);
                 break;
 
@@ -229,7 +235,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 mainActivity.showPagerItem(1, false);
                 break;
             case PLANS:
-                mainActivity.showPagerItem(2, false);
+                mainActivity.showPagerItem(3, false);
                 break;
             case MEDICINES:
 //                mainActivity.showPagerItem(2, false);
@@ -259,7 +265,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
             default:
                 return false;
         }
-        drawer.closeDrawer();
+//        drawer.closeDrawer();
         return true;
     }
     //-//</Drawer.OnDrawerItemClickListener>--------------------------------------------------------
@@ -298,7 +304,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
     @Override
     public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-//
+
         if (profile instanceof ProfileSettingDrawerItem) {
             Intent intent = new Intent(mainActivity, UserDetailActivity.class);
             launchActivity(intent);

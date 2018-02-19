@@ -24,6 +24,7 @@ public class ModelUtil {
         User user = new User();
         user.setEmail(dbUser.getEmail());
         user.setUsername(dbUser.name());
+        user.setPassword(dbUser.getPassword());
         return user;
     }
 }

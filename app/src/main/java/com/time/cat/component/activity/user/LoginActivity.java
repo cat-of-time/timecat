@@ -173,7 +173,8 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
                         }
                         Log.i(TAG, user.toString());
                     }
-                }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
