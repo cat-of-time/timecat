@@ -69,7 +69,7 @@ public class ScheduleCreateOrEditActivity extends BaseActivity implements Activi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#fff7ca"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
         int value = (int) ((alpha / 100.0f) * 255);
         CardView cardView = new CardView(this);
         cardView.setRadius(ViewUtil.dp2px(20));

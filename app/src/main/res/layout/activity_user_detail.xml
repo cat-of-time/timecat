@@ -201,6 +201,6 @@
         android:transitionName="fab"
         fab:fab_colorNormal="#efefef"
         fab:fab_colorPressed="#b7b7b7"
-        fab:fab_icon="@drawable/ic_autorenew_white_48dp"/>
+        fab:fab_icon="@drawable/ic_autorenew_white_24dp"/>
 
 </com.time.cat.ThemeSystem.widgets.TintRelativeLayout>

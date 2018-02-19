@@ -49,7 +49,7 @@
         android:layout_alignLeft="@+id/imageView2"
         android:layout_alignTop="@+id/imageView2"
         android:padding="10dp"
-        android:src="@drawable/ic_autorenew_white_48dp"/>
+        android:src="@drawable/ic_autorenew_white_24dp"/>
 
 
     <com.makeramen.RoundedImageView

@@ -34,7 +34,7 @@
         android:layout_marginRight="5dp"
         android:alpha="0.3"
         android:padding="10dp"
-        android:src="@drawable/ic_autorenew_white_48dp"/>
+        android:src="@drawable/ic_autorenew_white_24dp"/>
 
 
     <com.makeramen.RoundedImageView

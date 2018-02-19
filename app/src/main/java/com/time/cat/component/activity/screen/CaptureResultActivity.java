@@ -49,7 +49,7 @@ import java.util.Date;
 public class CaptureResultActivity extends BaseActivity {
     public static final String HTTP_IMAGE_BAIDU_COM = "http://image.baidu.com/wiseshitu?rn=30&appid=0&tag=1&isMobile=1&";
     int alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
-    int lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#fff7ca"));
+    int lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
     private ImageView capturedImage;
     private Bitmap bitmap;
     private TextView share, save, ocr, timecat, search;
@@ -83,7 +83,7 @@ public class CaptureResultActivity extends BaseActivity {
 
     private void init() {
         alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#fff7ca"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
 
         CardView cardView = new CardView(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_capture_result, null, false);

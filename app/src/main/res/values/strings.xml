@@ -512,4 +512,5 @@
     <string name="add_widget">Add widget</string>
     <string name="title_notes">笔记</string>
     <string name="title_add">添加</string>
+    <string name="main_menu_refresh_schedule">立即刷新</string>
 </resources>

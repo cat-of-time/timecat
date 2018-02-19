@@ -91,6 +91,7 @@ public class MainActivity extends BaseActivity implements
     private CustomPagerViewAdapter customPagerViewAdapter;
 
     private PageNavigationView navigation;
+    private NavigationController navigationController;
 
     private FloatingActionButton fab;
     private FloatingActionsMenu addButton;
@@ -252,7 +253,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void setNavigationBar() {
-        NavigationController navigationController = navigation.custom()
+        navigationController = navigation.custom()
                 .addItem(newItem(
                         R.drawable.ic_schedules_black_24dp,
                         R.drawable.ic_schedules_blue_24dp,
@@ -295,7 +296,6 @@ public class MainActivity extends BaseActivity implements
                     customPagerView.setCurrentItem(index);
                     adjustActionBar(fragmentNames[index]);
                 }
-
             }
 
             @Override
@@ -553,6 +553,11 @@ public class MainActivity extends BaseActivity implements
     public void onPageSelected(int position) {
         //页面滑动的时候，改变BottomNavigationView的Item高亮
 //        navigation.getMenu().getItem(position).setChecked(true);
+        if (position >= 2) {
+            navigationController.setSelect(position + 1);
+        } else if (position < 2) {
+            navigationController.setSelect(position);
+        }
         adjustActionBar(fragmentNames[position]);
         leftDrawer.onPagerPositionChange(position);
 //        fabMgr.onViewPagerItemChange(position);

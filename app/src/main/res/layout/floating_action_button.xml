@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/android_green_light_noalpha"
             fab:fab_colorPressed="@color/android_green"
-            fab:fab_icon="@drawable/ic_autorenew_white_48dp"
+            fab:fab_icon="@drawable/ic_autorenew_white_24dp"
             fab:fab_size="mini"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton

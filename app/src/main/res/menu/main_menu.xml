@@ -19,13 +19,13 @@
         <item
             android:id="@+id/main_menu_refresh_schedule"
             android:icon="@drawable/ic_autorenew_white_24dp"
-            android:title="@string/main_menu_change_theme"
+            android:title="@string/main_menu_refresh_schedule"
             android:visible="false"
             app:showAsAction="ifRoom"/>
         <item
+            android:id="@+id/main_menu_schedule_help"
             android:icon="@drawable/ic_help_white_48dp"
             android:title="@string/main_menu_more"
-            android:id="@+id/main_menu_schedule_help"
             app:showAsAction="always"/>
     </group>
     <group

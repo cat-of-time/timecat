@@ -7,9 +7,9 @@
         </shape>
     </item>
 
-    <item android:gravity="center_horizontal|top">
+    <item android:gravity="center" android:left="10dp" android:right="10dp">
         <shape android:shape="oval">
-            <size android:width="60dp" android:height="60dp"/>
+            <size android:width="40dp" android:height="40dp"/>
             <stroke android:color="#EEE" android:width="1dp"/>
             <solid android:color="#FFF"/>
         </shape>

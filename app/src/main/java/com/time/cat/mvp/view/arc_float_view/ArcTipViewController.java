@@ -350,7 +350,13 @@ public class ArcTipViewController implements View.OnTouchListener {
             icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_copy};
             contentDiscription = new String[]{mContext.getString(R.string.open_timecat), mContext.getString(R.string.notify_copy_title)};
         } else {
-            icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_addtask, R.mipmap.ic_float_copy, R.drawable.ic_float_home, R.mipmap.ic_float_screen};
+            icons = new int[]{
+                    R.mipmap.ic_float_switch,
+                    R.mipmap.ic_float_addtask,
+                    R.mipmap.ic_float_copy,
+                    R.drawable.ic_float_home,
+                    R.mipmap.ic_float_screen
+            };
             contentDiscription = new String[]{mContext.getString(R.string.open_timecat), "添加日程", mContext.getString(R.string.notify_copy_title), "转到主页", mContext.getString(R.string.notify_srceen_cap)};
         }
     }
@@ -362,20 +368,23 @@ public class ArcTipViewController implements View.OnTouchListener {
         applySizeChange();
         if (archMenu != null) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#FFF7CA")));
+                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
+                        SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")));
                 archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
             } else {
-                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#FFF7CA")), (int) (ViewUtil.dp2px(47) * present));
+                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
+                        SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")),
+                        (int) (ViewUtil.dp2px(47) * present));
                 archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
 
             }
-            archMenu.getHintView().setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
+            archMenu.getHintView().setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 90) / 100f);
             archMenu.getHintView().setContentDescription(mContext.getString(R.string.float_view_to_hide));
         }
         if (showTimeCat) {
-            mCurrentIconAlpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
+            mCurrentIconAlpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 90) / 100f;
         } else {
-            mCurrentIconAlpha = 0.6f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
+            mCurrentIconAlpha = 0.6f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 90) / 100f;
         }
         for (int i = 0; i < itemCount; i++) {
             ImageView item = new ImageView(acrFloatView.getContext());
@@ -384,10 +393,13 @@ public class ArcTipViewController implements View.OnTouchListener {
             item.setPadding(arcMenuPadding, arcMenuPadding, arcMenuPadding, arcMenuPadding);
             item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#FFF7CA")));
+                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
+                        SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")));
                 item.setBackgroundDrawable(circleColorDrawable);
             } else {
-                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#FFF7CA")), (int) (ViewUtil.dp2px(32) * present));
+                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
+                        SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")),
+                        (int) (ViewUtil.dp2px(32) * present));
                 item.setBackgroundDrawable(circleColorDrawable);
             }
 
@@ -400,7 +412,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                     item.setContentDescription(mContext.getString(R.string.close_timecat));
                 }
             } else {
-                item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
+                item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 90) / 100f);
             }
 
 

@@ -173,11 +173,11 @@
             android:name="com.time.cat.component.activity.main.MainActivity"
             android:launchMode="singleInstance"
             android:theme="@style/ColorTranslucentTheme">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".component.activity.SettingTimeCatActivity"
@@ -331,14 +331,15 @@
         <activity
             android:name=".component.activity.addtask.DialogActivity"
             android:configChanges="orientation|screenSize"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/EditDialogStyle"
             android:windowSoftInputMode="adjustNothing">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
         <receiver android:name=".TimeCatAppWidget">
             <intent-filter>

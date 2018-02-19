@@ -1,8 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="68dp"
-    android:background="@drawable/navigation_special_tab_round_bg"
-    >
+             android:layout_width="match_parent"
+             android:layout_height="68dp"
+             android:background="@drawable/navigation_special_tab_round_bg">
 
     <ImageView
         android:id="@+id/icon"
@@ -15,20 +14,19 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:maxLines="1"
-        android:layout_marginBottom="4dp"
         android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="4dp"
+        android:maxLines="1"
+        android:textSize="12sp"
         />
 
     <me.majiajie.pagerbottomtabstrip.internal.RoundMessageView
         android:id="@+id/messages"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:translationX="14dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="3dp"
-        />
+        android:translationX="14dp"/>
 
 </FrameLayout>
 

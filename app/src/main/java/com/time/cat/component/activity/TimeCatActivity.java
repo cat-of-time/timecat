@@ -131,7 +131,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
 
     private void initContentView(boolean fullScreen) {
         alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#fff7ca"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
         int value = (int) ((alpha / 100.0f) * 255);
 
         RegexUtil.refreshSymbolSelection();
