@@ -349,12 +349,15 @@ public class SchedulesFragment extends BaseFragment implements
 
         Date today = new Date();
         if (headerItem.getCreated_datetime() != "null" && headerItem.getCreated_datetime() != null && headerItem.getCreated_datetime() != "") {
-            long during = today.getTime() - TimeUtil.formatGMTDateStr(headerItem.getCreated_datetime()).getTime();
-            long day = during / (1000 * 60 * 60 * 24);
-            if (day >= 1) {
-                scheduleHeaderViewHolder.getCalendarItemDelay().setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
-            } else {
-                scheduleHeaderViewHolder.getCalendarItemDelay().setVisibility(View.INVISIBLE);
+            Date date = TimeUtil.formatGMTDateStr(headerItem.getCreated_datetime());
+            if (date != null) {
+                long during = today.getTime() - date.getTime();
+                long day = during / (1000 * 60 * 60 * 24);
+                if (day >= 1) {
+                    scheduleHeaderViewHolder.getCalendarItemDelay().setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
+                } else {
+                    scheduleHeaderViewHolder.getCalendarItemDelay().setVisibility(View.INVISIBLE);
+                }
             }
         }
         onBindCollectionHeaderView = false;
