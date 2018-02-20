@@ -8,6 +8,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -65,6 +66,10 @@ public interface TaskService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
     @GET("/")
     Observable<Task> getTask();
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @GET
+    Observable<Task> getTaskByUrl(@Url String task_url);
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
     @GET("/tasks/{id}/")

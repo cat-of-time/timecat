@@ -482,7 +482,7 @@ public class SchedulesFragment extends BaseFragment implements
                 return null;
             }
             for (int i = 0; i < params[0].size(); i++) {
-                RetrofitHelper.getTaskService().getTask(i+"")
+                RetrofitHelper.getTaskService().getTaskByUrl(params[0].get(i))
                         .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                         .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                         .doOnNext(new Action1<Task>() {
