@@ -98,7 +98,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 TableUtils.createTable(connectionSource, c);
             }
 
-//            createDefaultUser();
+            createDefaultUser();
 
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -109,8 +109,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private DBUser createDefaultUser() throws SQLException {
         // Create a default user
         DBUser user = new DBUser();
-        user.setName("TestUser");
-        user.setEmail("testuser@example.com");
+        user.setName("临时用户，必须登录才能正常使用");
+        user.setEmail("user@example.com");
         user.setDefault(true);
         getUserDao().create(user);
         return user;
@@ -173,7 +173,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 Log.d(DatabaseHelper.class.getName(), "Will try to recreate db...");
                 dropAndCreateAllTables();
-//                createDefaultUser();
+                createDefaultUser();
             } catch (Exception ex) {
                 throw new RuntimeException(e);
             }
