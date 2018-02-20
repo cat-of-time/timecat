@@ -3,11 +3,12 @@ package com.time.cat.NetworkSystem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.time.cat.NetworkSystem.api.ImageUploadService;
-import com.time.cat.NetworkSystem.api.LoginService;
 import com.time.cat.NetworkSystem.api.MicSoftOcrService;
 import com.time.cat.NetworkSystem.api.OcrService;
 import com.time.cat.NetworkSystem.api.PicUploadService;
+import com.time.cat.NetworkSystem.api.TaskService;
 import com.time.cat.NetworkSystem.api.TranslationService;
+import com.time.cat.NetworkSystem.api.UserService;
 import com.time.cat.NetworkSystem.api.WordSegmentService;
 import com.time.cat.TimeCatApp;
 import com.time.cat.util.override.LogUtil;
@@ -65,38 +66,121 @@ public class RetrofitHelper {
     }
 
     public static TranslationService getTranslationService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(YOUDAO_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(YOUDAO_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         return retrofit.create(TranslationService.class);
     }
 
     public static WordSegmentService getWordSegmentService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(SEGMENT_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SEGMENT_URL).client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         return retrofit.create(WordSegmentService.class);
     }
 
     public static OcrService getOcrService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(OCR_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(OCR_URL).client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         return retrofit.create(OcrService.class);
     }
 
     public static MicSoftOcrService getMicsoftOcrService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(MICSOFT_OCR_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(MICSOFT_OCR_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         return retrofit.create(MicSoftOcrService.class);
     }
 
     public static ImageUploadService getImageUploadService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(IMAGE_UPLOAD_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create(gson)).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IMAGE_UPLOAD_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
         return retrofit.create(ImageUploadService.class);
     }
 
     public static PicUploadService getPicUploadService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PIC_UPLOAD_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PIC_UPLOAD_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         return retrofit.create(PicUploadService.class);
     }
 
-    public static LoginService getLoginService() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).client(mOkHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
-        return retrofit.create(LoginService.class);
+    public static UserService getUserService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(UserService.class);
+    }
+
+    public static TaskService getTaskService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(TaskService.class);
+    }
+
+    public void example() {
+//        RetrofitHelper.getUserService().createUser(u) //获取Observable对象
+//                .compose(SignupActivity.this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+//                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+//                .doOnNext(new Action1<User>() {
+//                    @Override
+//                    public void call(User user) {
+////                        saveUser(user);//保存用户信息到本地
+//                        DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
+//                        android.util.Log.e(TAG, "保存用户信息到本地" + user.toString());
+//                    }
+//                }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+//                .subscribe(new Subscriber<User>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        //请求失败
+//                        android.util.Log.e(TAG, e.toString());
+//                        onSignupFailed();
+//                        progressDialog.dismiss();
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(User user) {
+//                        //请求成功
+//                        intent = new Intent(SignupActivity.this, MainActivity.class);
+//                        intent.putExtra(LoginActivity.INTENT_USER_EMAIL, user.getEmail());
+//                        setResult(RESULT_OK, intent);
+//                        onSignupSuccess();
+//                        progressDialog.dismiss();
+//                        android.util.Log.e(TAG, "请求成功" + user.toString());
+//                    }
+//                });
     }
 
     public static class Log implements HttpLoggingInterceptor.Logger {

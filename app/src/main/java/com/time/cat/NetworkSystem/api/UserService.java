@@ -14,7 +14,7 @@ import rx.Observable;
  * @date 2018/2/6
  * @discription 登录服务接口
  */
-public interface LoginService {
+public interface UserService {
     /**
      * POST
      * {

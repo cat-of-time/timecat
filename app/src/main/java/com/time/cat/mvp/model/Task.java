@@ -1,7 +1,9 @@
 package com.time.cat.mvp.model;
 
+import com.time.cat.util.string.TimeUtil;
+
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author dlink
@@ -40,17 +42,71 @@ public class Task {
     private String content;//日程内容
     private String owner;//用户ID
     private int label;//重要紧急标签
-    private List<String> tags;//一般标签
-    private Date created_datetime;//创建时间
-    private Date finished_datetime;//完成时间
-    private Date begin_datetime;//开始时间
-    private Date end_datetime;//结束时间
+    private ArrayList<String> tags;//一般标签
+    private String plan;//一般标签
+    private String created_datetime;//创建时间
+    private String finished_datetime;//完成时间
+    private String begin_datetime;//开始时间
+    private String end_datetime;//结束时间
     private boolean is_all_day;//是否全天，1 - 是，0 - 不是
     private boolean is_finished;//是否完成，1 - 是，0 - 不是
 
     public Task() {
+        // 默认
+        label = 0;
+//        created_datetime = TimeUtil.formatGMTDate(new Date());
+        is_all_day = true;
+        is_finished = false;
+        // require
+//        title = null;
+//        owner = null;
+//        tags = new ArrayList<>();
+//        plan = "";
+//        // optional
+//        content = "";
+//        url = "";
+//        finished_datetime = "";
+//        begin_datetime = "";
+//        end_datetime = "";
     }
 
+    public Task(String owner, String title) {
+        new Task(owner, title, "", "", "", "", "", new ArrayList<String>(), "");
+    }
+
+    public Task(String owner, String title, String content) {
+        new Task(owner, title, content, "", "", "", "", new ArrayList<String>(), "");
+    }
+
+    public Task(String owner, String title, String content, String url, String begin_datetime, String end_datetime,
+                String finished_datetime, ArrayList<String> tags, String plan) {
+        // 默认
+        this.label = 0;
+        this.created_datetime = TimeUtil.formatGMTDate(new Date());
+        this.is_all_day = true;
+        this.is_finished = false;
+        // require
+        this.title = title;
+        this.owner = owner;
+        // optional
+        this.content = content;
+        this.url = url;
+        this.tags = tags;
+        this.plan = plan;
+        this.finished_datetime = finished_datetime;
+        this.begin_datetime = begin_datetime;
+        this.end_datetime = end_datetime;
+    }
+
+//    public Task(Task task) {
+//        new Task(task.getOwner(), task.getTitle(), task.getContent(), task.getUrl(), task.getBegin_datetime(), task.getEnd_datetime(), task.getFinished_datetime(), task.getTags());
+//    }
+
+//    public Task(Task task, String title) {
+//
+//    }
+
+    //<getter and setter>---------------------------------------------------------------------------
     public String getTitle() {
         return this.title;
     }
@@ -59,19 +115,19 @@ public class Task {
         this.title = title;
     }
 
-    public Date getBegin_datetime() {
+    public String getBegin_datetime() {
         return this.begin_datetime;
     }
 
-    public void setBegin_datetime(Date begin_datetime) {
+    public void setBegin_datetime(String begin_datetime) {
         this.begin_datetime = begin_datetime;
     }
 
-    public Date getEnd_datetime() {
+    public String getEnd_datetime() {
         return this.end_datetime;
     }
 
-    public void setEnd_datetime(Date end_datetime) {
+    public void setEnd_datetime(String end_datetime) {
         this.end_datetime = end_datetime;
     }
 
@@ -91,11 +147,11 @@ public class Task {
         this.owner = owner;
     }
 
-    public Date getCreated_datetime() {
+    public String getCreated_datetime() {
         return this.created_datetime;
     }
 
-    public void setCreated_datetime(Date created_datetime) {
+    public void setCreated_datetime(String created_datetime) {
         this.created_datetime = created_datetime;
     }
 
@@ -123,19 +179,37 @@ public class Task {
         this.label = label;
     }
 
-    public List<String> getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 
-    public Date getFinished_datetime() {
+    public String getFinished_datetime() {
         return finished_datetime;
     }
 
-    public void setFinished_datetime(Date finished_datetime) {
+    public void setFinished_datetime(String finished_datetime) {
         this.finished_datetime = finished_datetime;
     }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
+    }
+    //</getter and setter>---------------------------------------------------------------------------
+
 }

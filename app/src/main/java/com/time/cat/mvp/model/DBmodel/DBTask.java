@@ -19,6 +19,7 @@
 package com.time.cat.mvp.model.DBmodel;
 
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.database.DB;
@@ -26,10 +27,10 @@ import com.time.cat.database.typeSerializers.BooleanArrayPersister;
 import com.time.cat.database.typeSerializers.LocalDatePersister;
 import com.time.cat.database.typeSerializers.LocalTimePersister;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,12 +58,14 @@ public class DBTask {
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_USER = "user_id";
-    public static final String COLUMN_TAG = "tag_id";
-    public static final String COLUMN_PLAN = "plan_id";
+    public static final String COLUMN_PLANS = "plans";
 
+    public static final String COLUMN_URL = "url";
+    public static final String COLUMN_OWNER = "owner";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_CONTENT = "content";
     public static final String COLUMN_LABEL = "label";
+    public static final String COLUMN_TAGS = "tags";
 
     public static final String COLUMN_IS_FINISHED = "is_finished";
     public static final String COLUMN_CREATED_DATETIME = "created_datetime";
@@ -71,6 +74,7 @@ public class DBTask {
     public static final String COLUMN_IS_ALL_DAY = "is_all_day";
     public static final String COLUMN_BEGIN_DATETIME = "begin_datetime";
     public static final String COLUMN_END_DATETIME = "end_datetime";
+
     public static final String COLUMN_DAYS = "Days";
     public static final String COLUMN_START = "Start";
     public static final String COLUMN_START_TIME = "Starttime";
@@ -78,6 +82,9 @@ public class DBTask {
     public static final String COLUMN_TYPE = "Type";
     public static final String COLUMN_CYCLE = "Cycle";
     public static final String COLUMN_SCANNED = "Scanned";
+
+
+
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     public Long id;//ID唯一主键
     @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
@@ -96,31 +103,137 @@ public class DBTask {
     public String cycle;
     @DatabaseField(columnName = COLUMN_SCANNED)
     public boolean scanned;
-    //必不为null
-    @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
-    DateTime created_datetime;//创建时间
+
+    //----------------------------------------------------------------------------------
+    @DatabaseField(columnName = COLUMN_URL)
+    private String url;// task的url 访问该url可返回该task
+    @DatabaseField(columnName = COLUMN_OWNER)
+    private String owner;//用户ID
     @DatabaseField(columnName = COLUMN_TITLE)
-    String title;//任务标题
-    //nullable，是否为null取决于业务情景
-    int plan_id;//计划外键
+    private String title;//日程标题
     @DatabaseField(columnName = COLUMN_CONTENT)
-    String content;//任务内容
+    private String content;//日程内容
     @DatabaseField(columnName = COLUMN_LABEL)
-    int label;//重要紧急标签，重要紧急=0，重要不紧急=1，紧急不重要=2，不重要不紧急=3
-    List<String> tags;//一般标签，["标签0","标签1","标签2"]
+    private int label;//重要紧急标签,重要紧急=0，重要不紧急=1，紧急不重要=2，不重要不紧急=3
+
+    @DatabaseField(columnName = COLUMN_TAGS, dataType= DataType.SERIALIZABLE)
+    private ArrayList<String> tags;//一般标签，["标签0","标签1","标签2"]
+
+    @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
+    private String created_datetime;//创建时间
+    @DatabaseField(columnName = COLUMN_FINISHED_DATETIME)
+    private String finished_datetime;//完成时间
     //is_finish默认false，finished_datetime默认为null
     @DatabaseField(columnName = COLUMN_IS_FINISHED)
-    boolean is_finish;//是否完成，true-完成，false-没有完成
-    @DatabaseField(columnName = COLUMN_FINISHED_DATETIME)
-    DateTime finished_datetime;//完成时间
+    private boolean is_finished;//是否完成，1 - 是，0 - 不是
+
     //is_all_day默认true，begin_datetime,end_datetime默认为null
     //isAllDay == true ? 忽略开始及结束时间的Time部分 : 不忽略
     @DatabaseField(columnName = COLUMN_IS_ALL_DAY)
-    boolean is_all_day = true;//是否全天，true-全天，false-不是全天
+    private boolean is_all_day;//是否全天，1 - 是，0 - 不是
     @DatabaseField(columnName = COLUMN_BEGIN_DATETIME)
-    DateTime begin_datetime;//开始时间
+    private String begin_datetime;//开始时间
     @DatabaseField(columnName = COLUMN_END_DATETIME)
-    DateTime end_datetime;//结束时间
+    private String end_datetime;//结束时间
+
+
+    //<getter and setter>---------------------------------------------------------------------------
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBegin_datetime() {
+        return this.begin_datetime;
+    }
+
+    public void setBegin_datetime(String begin_datetime) {
+        this.begin_datetime = begin_datetime;
+    }
+
+    public String getEnd_datetime() {
+        return this.end_datetime;
+    }
+
+    public void setEnd_datetime(String end_datetime) {
+        this.end_datetime = end_datetime;
+    }
+
+    public boolean getIs_all_day() {
+        return this.is_all_day;
+    }
+
+    public void setIs_all_day(boolean is_all_day) {
+        this.is_all_day = is_all_day;
+    }
+
+    public String getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getCreated_datetime() {
+        return this.created_datetime;
+    }
+
+    public void setCreated_datetime(String created_datetime) {
+        this.created_datetime = created_datetime;
+    }
+
+    public boolean getIsFinish() {
+        return is_finished;
+    }
+
+    public void setIsFinish(boolean isFinish) {
+        this.is_finished = isFinish;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getLabel() {
+        return label;
+    }
+
+    public void setLabel(int label) {
+        this.label = label;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getFinished_datetime() {
+        return finished_datetime;
+    }
+
+    public void setFinished_datetime(String finished_datetime) {
+        this.finished_datetime = finished_datetime;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    //</getter and setter>---------------------------------------------------------------------------
 
     public static List<DBTask> findAll() {
         return DB.schedules().findAll();

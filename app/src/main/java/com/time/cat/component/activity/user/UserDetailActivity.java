@@ -458,7 +458,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                 if (!TextUtils.isEmpty(user.name())) {
 //                    DB.users().saveAndFireEvent(user);
                     final boolean[] isSuccess = {false};
-                    RetrofitHelper.getLoginService().update(user.getEmail(), ModelUtil.toAPIUser(user)) //获取Observable对象
+                    RetrofitHelper.getUserService().update(user.getEmail(), ModelUtil.toAPIUser(user)) //获取Observable对象
                             .compose(UserDetailActivity.this.bindToLifecycle())
                             .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                             .observeOn(Schedulers.io())         //请求完成后在io线程中执行

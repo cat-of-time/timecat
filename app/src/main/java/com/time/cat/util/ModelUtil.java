@@ -2,7 +2,9 @@ package com.time.cat.util;
 
 import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.mvp.model.APImodel.User;
+import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.mvp.model.Task;
 import com.time.cat.util.source.AvatarManager;
 
 /**
@@ -26,5 +28,11 @@ public class ModelUtil {
         user.setUsername(dbUser.name());
         user.setPassword(dbUser.getPassword());
         return user;
+    }
+
+    public static DBTask toDBTask(Task task) {
+        DBTask dbTask = new DBTask();
+//        dbTask.
+        return dbTask;
     }
 }

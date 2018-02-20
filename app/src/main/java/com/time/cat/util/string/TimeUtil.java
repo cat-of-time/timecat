@@ -35,9 +35,11 @@ public class TimeUtil {
     }
 
     /**
-     * GMT时间格式化
+     * GMT时间格式化,返回Date对象
+     *
      * @param gmt_datetime "2018-02-19T16:11:11Z"
      * @return Date对象,Date的时区仍为GMT
+     * Mon Feb 19 16:11:11 UTC 2018
      */
     public static Date formatGMTDateStr(String gmt_datetime) {
         //Time in GMT
@@ -49,6 +51,20 @@ public class TimeUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 格式化为GMT时间字符串
+     *
+     * @param gmt_datetime "2018-02-19T16:11:11Z"
+     * @return Date对象,Date的时区仍为GMT
+     * Mon Feb 19 16:11:11 UTC 2018
+     */
+    public static String formatGMTDate(Date gmt_datetime) {
+        //Time in GMT
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return dateFormatGmt.format(gmt_datetime);
     }
 
     /**

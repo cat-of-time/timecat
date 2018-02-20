@@ -1,6 +1,7 @@
 package com.time.cat.component.activity.addtask;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -30,10 +32,15 @@ import com.bigkoo.pickerview.lib.WheelView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnItemSelectedListener;
 import com.shang.commonjar.contentProvider.SPHelper;
+import com.time.cat.NetworkSystem.ConstantURL;
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
 import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.WebActivity;
 import com.time.cat.component.base.BaseActivity;
+import com.time.cat.database.DB;
+import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.mvp.model.Task;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.emotion.adapter.HorizontalRecyclerviewAdapter;
 import com.time.cat.mvp.view.emotion.adapter.NoHorizontalScrollerVPAdapter;
@@ -45,11 +52,13 @@ import com.time.cat.mvp.view.keyboardManager.SmartKeyboardManager;
 import com.time.cat.mvp.view.richText.TEditText;
 import com.time.cat.mvp.view.viewpaper.NoHorizontalScrollerViewPager;
 import com.time.cat.util.ConstantUtil;
+import com.time.cat.util.ModelUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.listener.GlobalOnItemClickManager;
 import com.time.cat.util.override.SharedPreferencedUtils;
 import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
 
@@ -63,6 +72,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author dlink
@@ -378,6 +392,7 @@ public class DialogActivity extends BaseActivity implements
                         hour.setOnItemSelectedListener(new OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(int index) {
+                                is_all_day = false;
                                 pvTime.returnData();
                                 dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
                                 if (is_setting_start_time) {
@@ -390,6 +405,7 @@ public class DialogActivity extends BaseActivity implements
                         min.setOnItemSelectedListener(new OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(int index) {
+                                is_all_day = false;
                                 pvTime.returnData();
                                 dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
                                 if (is_setting_start_time) {
@@ -417,6 +433,7 @@ public class DialogActivity extends BaseActivity implements
         select_ll_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                is_all_day = false;
                 select_tv_start.setTextColor(getResources().getColor(R.color.blue));
                 select_tv_start_time.setTextColor(getResources().getColor(R.color.black));
                 select_tv_end.setTextColor(Color.parseColor("#3e000000"));
@@ -430,6 +447,7 @@ public class DialogActivity extends BaseActivity implements
         select_ll_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                is_all_day = false;
                 select_tv_start.setTextColor(Color.parseColor("#3e000000"));
                 select_tv_start_time.setTextColor(Color.parseColor("#3e000000"));
                 select_tv_end.setTextColor(getResources().getColor(R.color.blue));
@@ -443,6 +461,7 @@ public class DialogActivity extends BaseActivity implements
         select_tv_all_day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                is_all_day = true;
                 dialog_add_task_tv_time.setText("全天");
             }
         });
@@ -597,6 +616,7 @@ public class DialogActivity extends BaseActivity implements
     private String content;
     //用户是否编辑了title，编辑即视为有自定义的需求，取用户自定义的title，不再同步content里的到title
     boolean isSelfEdit = false;
+    boolean is_all_day = true;
     int start_hour;
     int start_min;
     int end_hour;
@@ -616,7 +636,10 @@ public class DialogActivity extends BaseActivity implements
         end_min = start_min;
         is_setting_start_time = false;
         is_setting_end_time = false;
+        type = Type.NOTE;
         initTextString();
+        select_tv_start_time.setText((start_hour<10?"0"+start_hour:start_hour) + ":" + (start_min<10?"0"+start_min:start_min));
+        select_tv_end_time.setText((end_hour<10?"0"+end_hour:end_hour) + ":" + (end_min<10?"0"+end_min:end_min));
     }
 
     private void initTextString() {
@@ -830,21 +853,72 @@ public class DialogActivity extends BaseActivity implements
                 }
                 break;
             case R.id.dialog_add_task_footer_bt_submit:
-                String s = "";
+                dialog_add_task_footer_bt_submit.setClickable(false);
+                final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setMessage("Saving Task...");
+                progressDialog.show();
+                DBUser activeUser = DB.users().getActive(this);
                 switch (type) {
                     case NOTE:
-                        s = "笔记";
+//                        s = "笔记";
                         break;
                     case TASK:
-                        s = "任务";
+                        Task task = new Task();
+                        task.setOwner(ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/");
+                        task.setTitle(title);
+                        task.setContent(content);
+                        task.setLabel(important_urgent_label);
+                        if (!is_all_day) {
+                            task.setIs_all_day(is_all_day);
+                            Date d = new Date();
+                            d.setHours(start_hour);
+                            d.setMinutes(start_min);
+                            task.setBegin_datetime(TimeUtil.formatGMTDate(d));
+                            d.setHours(end_hour);
+                            d.setMinutes(end_min);
+                            task.setEnd_datetime(TimeUtil.formatGMTDate(d));
+                        }
+                        RetrofitHelper.getTaskService().createTask(task) //获取Observable对象
+                                .compose(this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                                .doOnNext(new Action1<Task>() {
+                                    @Override
+                                    public void call(Task task) {
+                                        DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
+                                        Log.e(TAG, "保存任务信息到本地" + task.toString());
+                                    }
+                                })
+                                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                                .subscribe(new Subscriber<Task>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        //请求失败
+                                        progressDialog.dismiss();
+                                        ToastUtil.show("添加[ 任务 ]失败");
+                                        Log.e(TAG, e.toString());
+                                    }
+
+                                    @Override
+                                    public void onNext(Task task) {
+                                        //请求成功
+                                        progressDialog.dismiss();
+                                        ToastUtil.show("成功添加[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
+                                        finish();
+                                        Log.e(TAG, "请求成功" + task.toString());
+                                    }
+                                });
                         break;
                     case CLOCK:
-                        s = "时钟";
+//                        s = "时钟";
+                        ToastUtil.show("添加[ 闹钟 ]失败：功能未完善");
                         break;
                 }
-                dialog_add_task_footer_bt_submit.setClickable(false);
-                ToastUtil.show("成功添加[ "+ s +" ]:" + dialog_add_task_et_content.getText().toString());
-                finish();
                 break;
         }
     }

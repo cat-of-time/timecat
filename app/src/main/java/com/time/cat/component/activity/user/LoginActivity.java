@@ -158,7 +158,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
         u.setPassword(password);
         // TODO: Implement your own authentication logic here.
         final boolean[] isSuccess = {false};
-        RetrofitHelper.getLoginService().login(u) //获取Observable对象
+        RetrofitHelper.getUserService().login(u) //获取Observable对象
                 .compose(LoginActivity.this.bindToLifecycle())
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行

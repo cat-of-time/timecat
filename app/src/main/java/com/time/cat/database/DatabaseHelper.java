@@ -98,7 +98,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 TableUtils.createTable(connectionSource, c);
             }
 
-            createDefaultUser();
+//            createDefaultUser();
 
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -173,7 +173,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 Log.d(DatabaseHelper.class.getName(), "Will try to recreate db...");
                 dropAndCreateAllTables();
-                createDefaultUser();
+//                createDefaultUser();
             } catch (Exception ex) {
                 throw new RuntimeException(e);
             }

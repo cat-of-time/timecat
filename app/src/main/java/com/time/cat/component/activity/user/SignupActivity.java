@@ -126,7 +126,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
 
         final boolean[] isSuccess = {false};
         // TODO: Implement your own signup logic here.
-        RetrofitHelper.getLoginService().createUser(u) //获取Observable对象
+        RetrofitHelper.getUserService().createUser(u) //获取Observable对象
                 .compose(SignupActivity.this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                 .doOnNext(new Action1<User>() {
@@ -163,21 +163,6 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
                         Log.e(TAG, "请求成功" + user.toString());
                     }
                 });
-
-//        new android.os.Handler().postDelayed(
-//                new Runnable() {
-//                    public void run() {
-//                        // On complete call either onSignupSuccess or onSignupFailed
-//                        // depending on success
-//                        if (isSuccess[0]) {
-//                            onSignupSuccess();
-//                        } else {
-//                            onSignupFailed();
-//                        }
-//                        // onSignupFailed();
-//                        progressDialog.dismiss();
-//                    }
-//                }, 3000);
     }
 
     public void onSignupSuccess() {
