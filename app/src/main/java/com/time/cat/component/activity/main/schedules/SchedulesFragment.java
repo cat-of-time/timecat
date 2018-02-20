@@ -1,6 +1,5 @@
 package com.time.cat.component.activity.main.schedules;
 
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -15,10 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,15 +26,18 @@ import com.ldf.calendar.interf.OnSelectDateListener;
 import com.ldf.calendar.model.CalendarDate;
 import com.ldf.calendar.view.Calendar;
 import com.ldf.calendar.view.MonthPager;
+import com.time.cat.NetworkSystem.ConstantURL;
+import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseFragment;
+import com.time.cat.database.DB;
+import com.time.cat.mvp.model.APImodel.User;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Task;
 import com.time.cat.mvp.presenter.FragmentPresenter;
-import com.time.cat.mvp.view.label_tag_view.SegmentedRadioGroup;
-import com.time.cat.mvp.view.label_tag_view.TagCloudView;
 import com.time.cat.mvp.view.SmoothCheckBox;
 import com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListView;
 import com.time.cat.mvp.view.asyncExpandableListView.AsyncExpandableListViewCallbacks;
@@ -45,7 +45,7 @@ import com.time.cat.mvp.view.asyncExpandableListView.AsyncHeaderViewHolder;
 import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
-import com.time.cat.mvp.view.progressButton.CircularProgressButton;
+import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.ViewUtil;
@@ -55,6 +55,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author dlink
@@ -76,12 +81,6 @@ public class SchedulesFragment extends BaseFragment implements
             Color.parseColor("#2196f3"),
             Color.parseColor("#4caf50")
     };
-    private static final int[] checkIds = new int[]{
-            R.id.label_important_urgent,
-            R.id.label_important_not_urgent,
-            R.id.label_not_important_urgent,
-            R.id.label_not_important_not_urgent,
-    };
     private CoordinatorLayout content;
     private MonthPager monthPager;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
@@ -94,7 +93,7 @@ public class SchedulesFragment extends BaseFragment implements
     private int mCurrentPage = MonthPager.CURRENT_DAY_INDEX;
     private boolean onBindCollectionHeaderView;
     private OnDateChangeListener mDateChangeListener;
-
+    private DBUser dbUser;
 
 
 
@@ -245,6 +244,23 @@ public class SchedulesFragment extends BaseFragment implements
         });
     }
 
+
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
+
+
+
+
+
+
+    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
+    @Override
+    public void initData() {//必须调用
+        initCurrentDate();
+        dbUser = DB.users().getActive(context);
+        Log.e(TAG, dbUser.toString());
+        initExpandableListViewData();
+    }
+
     /**
      * 初始化currentDate
      */
@@ -265,43 +281,12 @@ public class SchedulesFragment extends BaseFragment implements
     private void initExpandableListViewData() {
 
         inventory = new CollectionView.Inventory<>();
-
-        for (int i = 0; i < 5; i++) {
-            CollectionView.InventoryGroup<Task, Task> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
-            String[] titles = getResources().getStringArray(R.array.titles);
-            Task task = new Task();
-            task.setLabel(i % 4);
-            task.setTitle(titles[i]);
-            task.setIsFinish(i % 3 == 0);
-            task.setCreated_datetime(TimeUtil.formatGMTDate(new Date(2018 - 1900, 0, i)));//month = 0 是 1 月
-            task.setIs_all_day(i % 3 == 0);
-
-
-            group_i.setHeaderItem(task);
+        ArrayList<String> task_urls = dbUser.getTasks();
+        if (task_urls != null && task_urls.size() > 0) {
+            AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
+            loadDataForHeader.execute(task_urls);
         }
-
-        mAsyncExpandableListView.updateInventory(inventory);
-    }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
-
-
-
-
-
-
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
-    @Override
-    public void initData() {//必须调用
-        initCurrentDate();
-        initExpandableListViewData();
-//        if (inventory.getTotalItemCount() <= 0) {
-//            mAsyncExpandableListView.setVisibility(View.GONE);
-//            empty.setVisibility(View.VISIBLE);
-//        }
-//        else {
-//            mAsyncExpandableListView.setVisibility(View.VISIBLE);
-//            empty.setVisibility(View.GONE);
-//        }
+//        mAsyncExpandableListView.updateInventory(inventory);
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
@@ -331,7 +316,8 @@ public class SchedulesFragment extends BaseFragment implements
     //-//<AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
     @Override
     public void onStartLoadingGroup(int groupOrdinal) {
-        new LoadDataTask(groupOrdinal, mAsyncExpandableListView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new LoadDataTaskContent(groupOrdinal, mAsyncExpandableListView)
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -359,22 +345,37 @@ public class SchedulesFragment extends BaseFragment implements
 
         scheduleHeaderViewHolder.getCalendarItemTitle().setText(headerItem.getTitle());
 
-        Date today = new Date();
-        long during = today.getTime() - TimeUtil.formatGMTDateStr(headerItem.getCreated_datetime()).getTime();
-        long day = during / (1000 * 60 * 60 * 24);
 //        Log.e(TAG, during + getString(R.string.calendar_delay) + day + getString(R.string.calendar_day));
-        scheduleHeaderViewHolder.getCalendarItemDelay().setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
 
+        Date today = new Date();
+        if (headerItem.getCreated_datetime() != "null" && headerItem.getCreated_datetime() != null && headerItem.getCreated_datetime() != "") {
+            long during = today.getTime() - TimeUtil.formatGMTDateStr(headerItem.getCreated_datetime()).getTime();
+            long day = during / (1000 * 60 * 60 * 24);
+            if (day >= 1) {
+                scheduleHeaderViewHolder.getCalendarItemDelay().setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
+            } else {
+                scheduleHeaderViewHolder.getCalendarItemDelay().setVisibility(View.INVISIBLE);
+            }
+        }
         onBindCollectionHeaderView = false;
     }
 
     @Override
     public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder, int groupOrdinal, Task item) {
         ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
-        scheduleItemHolder.getTextViewTitle().setText(item.getTitle());
         scheduleItemHolder.getTextViewContent().setText(item.getContent());
-        scheduleItemHolder.getTagCloudView().setTags(item.getTags());
-        scheduleItemHolder.getLabelGroup().check(checkIds[item.getLabel()]);
+        Date d = TimeUtil.formatGMTDateStr(item.getCreated_datetime());
+        scheduleItemHolder.getScheduleTaskTv_date().setText(d.getMonth() + " " + d.getDay());
+        scheduleItemHolder.setLabel(item.getLabel());
+        if (item.getIs_all_day()) {
+            scheduleItemHolder.getScheduleTaskTv_time().setText("全天");
+        } else {
+            d = TimeUtil.formatGMTDateStr(item.getBegin_datetime());
+            String begin_datetime = d.getHours() + ":" + d.getMinutes();
+            d = TimeUtil.formatGMTDateStr(item.getEnd_datetime());
+            String end_datetime = d.getHours() + ":" + d.getMinutes();
+            scheduleItemHolder.getScheduleTaskTv_time().setText(begin_datetime + "-" + end_datetime);
+        }
     }
     //-//</AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
 
@@ -462,46 +463,141 @@ public class SchedulesFragment extends BaseFragment implements
 
 
     //<内部类>---尽量少用----------------------------------------------------------------------------
-    private static class LoadDataTask extends AsyncTask<Void, Void, Void> {
+    private class LoadDataTaskHeader extends AsyncTask<ArrayList<String>, Void, ArrayList<Task>> {
+
+        private CollectionView.Inventory<Task, Task> inventory = null;
+
+        public LoadDataTaskHeader(CollectionView.Inventory<Task, Task> inventory) {
+            this.inventory = inventory;
+        }
+
+        @Override
+        protected ArrayList<Task> doInBackground(ArrayList<String>... params) {
+            //                Thread.sleep(1500);
+            ArrayList<Task> tasks = new ArrayList<>();
+            if (params.length <= 0) {
+                return null;
+            }
+            for (int i = 0; i < params[0].size(); i++) {
+                RetrofitHelper.getTaskService().getTask(i+"")
+                        .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                        .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                        .doOnNext(new Action1<Task>() {
+                            @Override
+                            public void call(Task task) {
+                                DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
+                                Log.e(TAG, "保存任务信息到本地" + task.toString());
+                            }
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                        .subscribe(new Subscriber<Task>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                //请求失败
+                                ToastUtil.show("失败");
+                                Log.e(TAG, e.toString() + "fail...");
+                            }
+
+                            @Override
+                            public void onNext(Task task) {
+                                //请求成功
+                                tasks.add(task);
+                                ToastUtil.show("成功");
+                                Log.e(TAG, "请求成功" + task.toString());
+                            }
+                        });
+                Log.e(TAG, "fetching task" + i);
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return tasks;
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<Task> tasks) {
+            if (inventory != null && tasks != null) {
+                for (int i = 0; i < tasks.size(); i++) {
+                    CollectionView.InventoryGroup<Task, Task> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
+                    group_i.setHeaderItem(tasks.get(i));
+                }
+                mAsyncExpandableListView.updateInventory(inventory);
+            }
+        }
+
+    }
+
+    private class LoadDataTaskContent extends AsyncTask<User, Void, List<Task>> {
 
         private final int mGroupOrdinal;
         private WeakReference<AsyncExpandableListView<Task, Task>> listviewRef = null;
 
-        public LoadDataTask(int groupOrdinal, AsyncExpandableListView<Task, Task> listview) {
+        public LoadDataTaskContent(int groupOrdinal, AsyncExpandableListView<Task, Task> listview) {
             mGroupOrdinal = groupOrdinal;
             listviewRef = new WeakReference<>(listview);
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        protected List<Task> doInBackground(User... params) {
+            //                Thread.sleep(1500);
+            ArrayList<String> task_urls = new ArrayList<>();
+            RetrofitHelper.getUserService().getUserByEmail(params[0].getEmail())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext(new Action1<User>() {
+                        @Override
+                        public void call(User user) {
+//                                task_urls = user.getTasks();
+                            Log.e(TAG, user.toString());
+                        }
+                    });
+//                        .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+//                        .subscribe(new Subscriber<User>() {
+//                            @Override
+//                            public void onCompleted() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                //请求失败
+//                                ToastUtil.show("获取数据失败");
+//                                Log.e(TAG, e.toString());
+//                            }
+//
+//                            @Override
+//                            public void onNext(User user) {
+//                                //请求成功
+//                                Log.e(TAG, "请求成功" + user.toString());
+//                            }
+//                        });
             return null;
         }
 
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(List<Task> item) {
             List<Task> items = new ArrayList<>();
             Task task = new Task();
             task.setTitle("Lawyers meet voluntary pro bono target for first time since 2013");
             task.setContent("A voluntary target for the amount of pro bono work done by Australian lawyers has been met for the first time since 2013. Key points: The Australian Pro Bono Centre's asks lawyers to do 35 hours of free community work a year; Pro bono services can help ...\n");
             task.setLabel(Task.LABEL_IMPORTANT_NOT_URGENT);
             ArrayList<String> tags = new ArrayList<>();
-            for (int i = 0; i < 4; i++) {
-                tags.add("标签" + i);
+            DBUser activeUser = DB.users().getActive(getActivity());
+            String owner = ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/";
+            for (int i = 0; i < 2; i++) {
+                tags.add("http://192.168.88.105:8000/tags/" + i + "/");
             }
             task.setTags(tags);
 
             items.add(task);
-//子任务
-//            task = new Task();
-//            task.setTitle("子任务标题");
-//            task.setContent("子任务内容");
-//            items.add(task);
 
             if (listviewRef.get() != null) {
                 listviewRef.get().onFinishLoadingGroup(mGroupOrdinal, items);
@@ -510,114 +606,64 @@ public class SchedulesFragment extends BaseFragment implements
 
     }
 
-    public static class ScheduleItemHolder extends RecyclerView.ViewHolder implements TagCloudView.OnTagClickListener, RadioGroup.OnCheckedChangeListener {
+
+    public static class ScheduleItemHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "ScheduleItemHolder";
 
-        private final TextView tvTitle;
         private final TextView tvContent;
-        private final TagCloudView tagCloudView;
-        private final SegmentedRadioGroup label_group;
-        private final CircularProgressButton circular_progress_btn;
-
+        private final TextView schedule_task_tv_label;
+        private final TextView schedule_task_tv_date;
+        private final TextView schedule_task_tv_time;
+        private final TextView schedule_task_tv_tag;
+        String[] text_color_set = new String[]{
+                "#f44336", "#ff9800", "#2196f3", "#4caf50"
+        };
+        String[] background_color_set = new String[]{
+                "#50f44336", "#50ff9800", "#502196f3", "#504caf50"
+        };
+        String[] label_str_set = new String[] {
+                "重要且紧急", "重要不紧急", "紧急不重要", "不重要不紧急",
+        };
         public ScheduleItemHolder(View v) {
             super(v);
-            tvTitle = v.findViewById(R.id.title);
-            tvContent = v.findViewById(R.id.description);
-            label_group = v.findViewById(R.id.label_group);
-            tagCloudView = v.findViewById(R.id.tag_cloud_view);
-            circular_progress_btn = v.findViewById(R.id.circular_progress_btn);
-            circular_progress_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (circular_progress_btn.getProgress() == 0) {
-                        simulateErrorProgress(circular_progress_btn);
-                    } else {
-                        circular_progress_btn.setProgress(0);
-                    }
-                }
-            });
-
-            tagCloudView.setOnTagClickListener(this);
-            tagCloudView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.e(TAG, "onClick tagCloudView");
-                }
-            });
-        }
-
-        public TextView getTextViewTitle() {
-            return tvTitle;
+            tvContent = v.findViewById(R.id.schedule_task_tv_content);
+            schedule_task_tv_label = v.findViewById(R.id.schedule_task_tv_label);
+            schedule_task_tv_date = v.findViewById(R.id.schedule_task_tv_date);
+            schedule_task_tv_time = v.findViewById(R.id.schedule_task_tv_time);
+            schedule_task_tv_tag = v.findViewById(R.id.schedule_task_tv_tag);
         }
 
         public TextView getTextViewContent() {
             return tvContent;
         }
 
-        public TagCloudView getTagCloudView() {
-            return tagCloudView;
+        public TextView getScheduleTaskTv_date() {
+            return schedule_task_tv_date;
         }
 
-        public SegmentedRadioGroup getLabelGroup() {
-            return label_group;
+        public TextView getScheduleTaskTv_label() {
+            return schedule_task_tv_label;
         }
 
-        private void simulateSuccessProgress(final CircularProgressButton button) {
-            ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 100);
-            widthAnimation.setDuration(1500);
-            widthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-            widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    Integer value = (Integer) animation.getAnimatedValue();
-                    button.setProgress(value);
-                }
-            });
-            widthAnimation.start();
+        public TextView getScheduleTaskTv_time() {
+            return schedule_task_tv_time;
         }
 
-        private void simulateErrorProgress(final CircularProgressButton button) {
-            ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 99);
-            widthAnimation.setDuration(1500);
-            widthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-            widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    Integer value = (Integer) animation.getAnimatedValue();
-                    button.setProgress(value);
-                    if (value == 99) {
-                        button.setProgress(-1);
-                    }
-                }
-            });
-            widthAnimation.start();
+        public TextView getScheduleTaskTv_tag() {
+            return schedule_task_tv_tag;
         }
 
-        //-//<TagCloudView.OnTagClickListener>------------------------------------------------------
-        @Override
-        public void onTagClick(int position) {
-            if (position == -1) {
-                Log.e(TAG, "onClick tagCloudView at --> 点击末尾文字");
-            } else {
-                Log.e(TAG, "onClick tagCloudView at --> 点击 position" + position);
-            }
+        public void setLabel(int label) {
+            schedule_task_tv_label.setText(label_str_set[label]);
+            schedule_task_tv_label.setTextColor(Color.parseColor(text_color_set[label]));
+            schedule_task_tv_label.setBackgroundColor(Color.parseColor(background_color_set[label]));
         }
-        //-//</TagCloudView.OnTagClickListener>------------------------------------------------------
-
-        //-//<RadioGroup.OnCheckedChangeListener>------------------------------------------------------
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.label_important_urgent:
-                case R.id.label_important_not_urgent:
-                case R.id.label_not_important_urgent:
-                case R.id.label_not_important_not_urgent:
-            }
-        }
-        //-//</RadioGroup.OnCheckedChangeListener>------------------------------------------------------
     }
 
-    public class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder implements AsyncExpandableListView.OnGroupStateChangeListener, SmoothCheckBox.OnCheckedChangeListener, View.OnClickListener {
+    public class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder implements
+                                                                        AsyncExpandableListView.OnGroupStateChangeListener,
+                                                                        SmoothCheckBox.OnCheckedChangeListener,
+                                                                        View.OnClickListener {
 
         private RelativeLayout calendar_item_ll;
         private SmoothCheckBox calendar_item_checkBox;

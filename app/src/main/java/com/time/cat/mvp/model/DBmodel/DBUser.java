@@ -20,9 +20,12 @@ package com.time.cat.mvp.model.DBmodel;
 
 import android.graphics.Color;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.util.source.AvatarManager;
+
+import java.util.ArrayList;
 
 
 /**
@@ -40,6 +43,9 @@ public class DBUser {
     public static final String COLUMN_COLOR = "Color";
     public static final String COLUMN_EMAIL = "Email";
     public static final String COLUMN_PASSWORD = "Password";
+    public static final String COLUMN_PLANS = "Plans";
+    public static final String COLUMN_TAGS = "Tags";
+    public static final String COLUMN_TASKS = "Tasks";
 
 //TODO setting={}
 
@@ -63,7 +69,14 @@ public class DBUser {
     private String email;
 
     @DatabaseField(columnName = COLUMN_PASSWORD)
-    private String password = null;
+    private String password;
+
+    @DatabaseField(columnName = COLUMN_PLANS, dataType = DataType.SERIALIZABLE)
+    private ArrayList<String> plans;
+    @DatabaseField(columnName = COLUMN_TAGS, dataType = DataType.SERIALIZABLE)
+    private ArrayList<String> tags;
+    @DatabaseField(columnName = COLUMN_TASKS, dataType = DataType.SERIALIZABLE)
+    private ArrayList<String> tasks;
 //    @ForeignCollectionField
 //    private Collection<DBTask> DBTasks;
 
@@ -115,16 +128,40 @@ public class DBUser {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return String.format("DBUser{id=%s, name=%s, email=%s, isDefault=%s, avatar=%s, color=%s}", String.valueOf(id), name, email, String.valueOf(isDefault), avatar, String.valueOf(color));
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public ArrayList<String> getPlans() {
+        return plans;
+    }
+
+    public void setPlans(ArrayList<String> plans) {
+        this.plans = plans;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
+    public ArrayList<String> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<String> tasks) {
+        this.tasks = tasks;
+    }
+
+    @Override
+    public String toString() {
+        return "DBUser{" + "id=" + id + ", name='" + name + '\'' + ", isDefault=" + isDefault + ", avatar='" + avatar + '\'' + ", color=" + color + ", email='" + email + '\'' + ", password='" + password + '\'' + ", plans=" + plans + ", tags=" + tags + ", tasks=" + tasks + '}';
     }
 }

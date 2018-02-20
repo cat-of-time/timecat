@@ -3,6 +3,7 @@ package com.time.cat.component.activity.user;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,7 +53,6 @@ import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.source.AvatarManager;
 import com.time.cat.util.view.ScreenUtil;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -456,8 +456,12 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                 }
 
                 if (!TextUtils.isEmpty(user.name())) {
-//                    DB.users().saveAndFireEvent(user);
-                    final boolean[] isSuccess = {false};
+                    final ProgressDialog progressDialog = new ProgressDialog(UserDetailActivity.this, R.style.AppTheme_Dark_Dialog);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setMessage("Saving...");
+                    progressDialog.show();
+                    DB.users().updateAndFireEvent(user);
+                    Log.e(TAG, "保存用户信息到本地\n" + user.toString());
                     RetrofitHelper.getUserService().update(user.getEmail(), ModelUtil.toAPIUser(user)) //获取Observable对象
                             .compose(UserDetailActivity.this.bindToLifecycle())
                             .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -465,14 +469,9 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                             .doOnNext(new Action1<User>() {
                                 @Override
                                 public void call(User user) {
-                                    try {
-                                        DB.users().createOrUpdate(ModelUtil.toDBUser(user));
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Log.e(TAG, "保存用户信息到本地" + user.toString());
                                 }
-                            }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                            })
+                            .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                             .subscribe(new Subscriber<User>() {
                                 @Override
                                 public void onCompleted() {
@@ -481,21 +480,19 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                                 @Override
                                 public void onError(Throwable e) {
                                     //请求失败
+                                    progressDialog.dismiss();
+                                    ToastUtil.show("保存失败！");
                                     Log.e(TAG, e.toString());
                                 }
 
                                 @Override
                                 public void onNext(User user) {
-                                    isSuccess[0] = true;
-
+                                    progressDialog.dismiss();
+                                    ToastUtil.show("保存成功！");
+                                    supportFinishAfterTransition();
                                 }
                             });
-                    if (isSuccess[0]) {
-                        refreshTheme(this, user.color());
-                        supportFinishAfterTransition();
-                    } else {
-                        ToastUtil.show("保存失败");
-                    }
+                    refreshTheme(this, user.color());
                 } else {
                     Snack.show("fail! plz try again!", this);
                 }

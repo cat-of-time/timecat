@@ -2,6 +2,8 @@ package com.time.cat.mvp.model.APImodel;
 
 import com.time.cat.mvp.model.Account;
 
+import java.util.ArrayList;
+
 /**
  * @author dlink
  * @date 2018/2/6
@@ -15,9 +17,9 @@ public class User {
     private String password;
     private boolean is_staff;
     private Account account;
-    private String[] plans;
-    private String[] tags;
-    private String[] tasks;
+    private ArrayList<String> plans;
+    private ArrayList<String> tags;
+    private ArrayList<String> tasks;
 
     public long getId() {
         return id;
@@ -75,32 +77,32 @@ public class User {
         this.is_staff = is_staff;
     }
 
-    public String[] getPlans() {
+    public ArrayList<String> getPlans() {
         return plans;
     }
 
-    public void setPlans(String[] plans) {
+    public void setPlans(ArrayList<String> plans) {
         this.plans = plans;
     }
 
-    public String[] getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 
-    public String[] getTasks() {
+    public ArrayList<String> getTasks() {
         return tasks;
     }
 
-    public void setTasks(String[] tasks) {
+    public void setTasks(ArrayList<String> tasks) {
         this.tasks = tasks;
     }
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", url='" + url + '\'' + ", account=" + account + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", is_staff=" + is_staff + ", plans='" + plans + '\'' + ", tags='" + tags + '\'' + '}';
+        return "User{" + "id=" + id + ", url='" + url + '\'' + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", is_staff=" + is_staff + ", account=" + account + ", plans=" + plans + ", tags=" + tags + ", tasks=" + tasks + '}';
     }
 }

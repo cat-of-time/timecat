@@ -3,6 +3,7 @@ package com.time.cat.NetworkSystem.api;
 import com.time.cat.mvp.model.APImodel.User;
 
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -84,4 +85,8 @@ public interface UserService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
     @PATCH("/users/{email}/")
     Observable<User> update(@Path("email") String email, @Body User user);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @GET("/users/{email}/")
+    Observable<User> getUserByEmail(@Path("email") String email);
 }

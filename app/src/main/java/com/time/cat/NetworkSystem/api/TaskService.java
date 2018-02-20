@@ -3,8 +3,11 @@ package com.time.cat.NetworkSystem.api;
 import com.time.cat.mvp.model.Task;
 
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -58,5 +61,18 @@ public interface TaskService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
     @POST("/tasks/")
     Observable<Task> createTask(@Body Task task);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @GET("/")
+    Observable<Task> getTask();
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @GET("/tasks/{id}/")
+    Observable<Task> getTask(@Path("id") String id);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @GET("/tasks/")
+    Observable<Task> getTaskForUser(@Query("owner") String user_url);
+
 
 }

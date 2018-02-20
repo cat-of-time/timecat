@@ -42,7 +42,7 @@ public class Task {
     private String content;//日程内容
     private String owner;//用户ID
     private int label;//重要紧急标签
-    private ArrayList<String> tags;//一般标签
+    private ArrayList<String> tags1;//一般标签
     private String plan;//一般标签
     private String created_datetime;//创建时间
     private String finished_datetime;//完成时间
@@ -91,7 +91,7 @@ public class Task {
         // optional
         this.content = content;
         this.url = url;
-        this.tags = tags;
+        this.tags1 = tags;
         this.plan = plan;
         this.finished_datetime = finished_datetime;
         this.begin_datetime = begin_datetime;
@@ -180,11 +180,11 @@ public class Task {
     }
 
     public ArrayList<String> getTags() {
-        return tags;
+        return tags1;
     }
 
     public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
+        this.tags1 = tags;
     }
 
     public String getFinished_datetime() {
@@ -212,4 +212,8 @@ public class Task {
     }
     //</getter and setter>---------------------------------------------------------------------------
 
+    @Override
+    public String toString() {
+        return "Task{" + "url='" + url + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", owner='" + owner + '\'' + ", label=" + label + ", tags=" + tags1 + ", plan='" + plan + '\'' + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + ", is_all_day=" + is_all_day + ", is_finished=" + is_finished + '}';
+    }
 }

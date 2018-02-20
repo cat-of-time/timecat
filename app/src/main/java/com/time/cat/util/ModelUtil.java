@@ -20,13 +20,18 @@ public class ModelUtil {
         dbUser.setAvatar(AvatarManager.AVATAR_4);
         dbUser.setColor(ThemeManager.CARD_THEME_0);
         dbUser.setDefault(true);
+        dbUser.setPlans(u.getPlans());
+        dbUser.setTags(u.getTags());
+        dbUser.setTasks(u.getTasks());
+//        dbUser.setPassword(u.getPassword());
         return dbUser;
     }
     public static User toAPIUser(DBUser dbUser) {
         User user = new User();
         user.setEmail(dbUser.getEmail());
+//        user.setId(dbUser.id());
         user.setUsername(dbUser.name());
-        user.setPassword(dbUser.getPassword());
+//        user.setPassword(dbUser.getPassword());
         return user;
     }
 

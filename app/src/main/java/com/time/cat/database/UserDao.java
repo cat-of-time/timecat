@@ -58,6 +58,16 @@ public class UserDao extends GenericDao<DBUser, Long> {
 
     }
 
+    public void updateAndFireEvent(DBUser u) {
+        Object event = new PersistenceEvents.UserUpdateEvent(u);
+        try {
+            update(u);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        TimeCatApp.eventBus().post(event);
+    }
+
     /// Mange active user through preferences
 
     public boolean isActive(DBUser u, Context ctx) {

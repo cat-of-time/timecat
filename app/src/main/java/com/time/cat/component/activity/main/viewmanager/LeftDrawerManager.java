@@ -46,7 +46,6 @@ import com.time.cat.util.source.AvatarManager;
 import com.time.cat.util.view.IconUtil;
 import com.time.cat.util.view.ScreenUtil;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +110,8 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withCompactStyle(false)
                 .withProfiles(profiles)
-                .withAlternativeProfileHeaderSwitching(true)
+                .withAlternativeProfileHeaderSwitching(false)
+                .withOnlyMainProfileImageVisible(true)
                 .withThreeSmallProfileImages(false)
                 .withOnAccountHeaderListener(this)
                 .withSavedInstance(savedInstanceState)
@@ -197,6 +197,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .build();
 
         DBUser u = DB.users().getActive(mainActivity);
+        Log.e(TAG, u.toString());
         headerResult.setActiveProfile(u.id().intValue(), false);
         updateHeaderBackground(u);
         drawer.setStatusBarColor(u.color());
@@ -318,9 +319,9 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 intent.putExtra("user_id", id);
                 launchActivity(intent);
             } else {
-                if (!login(ModelUtil.toAPIUser(user))) {
-                    return false;
-                }
+//                if (!login(ModelUtil.toAPIUser(user))) {
+//                    return false;
+//                }// TODO 本地不保存用户密码
                 DB.users().setActive(user, mainActivity);
                 updateHeaderBackground(user);
             }
@@ -415,11 +416,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                     @Override
                     public void call(User user) {
                         //保存用户信息到本地
-                        try {
-                            DB.users().createOrUpdate(ModelUtil.toDBUser(user));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        DB.users().updateAndFireEvent(ModelUtil.toDBUser(user));
                         Log.i(TAG, user.toString());
                     }
                 })

@@ -31,6 +31,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -356,7 +357,7 @@ public class DBTask {
 
     @Override
     public String toString() {
-        return "Task{" + "id=" + id + ", start=" + start + ", dose=" + dose + ", type=" + type + '}';
+        return "DBTask{" + "id=" + id + ", user=" + user + ", days=" + Arrays.toString(days) + ", start=" + start + ", startTime=" + startTime + ", dose=" + dose + ", type=" + type + ", cycle='" + cycle + '\'' + ", scanned=" + scanned + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + '}';
     }
 
     public String displayDose() {

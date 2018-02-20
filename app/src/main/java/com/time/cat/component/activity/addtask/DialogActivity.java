@@ -865,10 +865,15 @@ public class DialogActivity extends BaseActivity implements
                         break;
                     case TASK:
                         Task task = new Task();
-                        task.setOwner(ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/");
+                        String owner = ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/";
+                        task.setOwner(owner);
                         task.setTitle(title);
                         task.setContent(content);
                         task.setLabel(important_urgent_label);
+                        ArrayList<String> tags = new ArrayList<>();
+                        tags.add("http://192.168.88.105:8000/tags/1/");
+                        tags.add("http://192.168.88.105:8000/tags/2/");
+                        task.setTags(tags);
                         if (!is_all_day) {
                             task.setIs_all_day(is_all_day);
                             Date d = new Date();

@@ -143,6 +143,16 @@ public class RetrofitHelper {
         return retrofit.create(TaskService.class);
     }
 
+    public static TaskService getTaskService(String url) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(TaskService.class);
+    }
+
     public void example() {
 //        RetrofitHelper.getUserService().createUser(u) //获取Observable对象
 //                .compose(SignupActivity.this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行

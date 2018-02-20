@@ -21,6 +21,42 @@ import java.util.List;
  * @author dlink
  * @date 2018/1/26
  * @discription TagCloudView标签云
+ * @usage
+// 1.
+<com.time.cat.mvp.view.label_tag_view.TagCloudView
+    android:id="@+id/tag_cloud_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_tagcloudview_light_selector"
+    app:tcvBackground="@drawable/background_tag_selector"
+    app:tcvBorder="8dp"
+    app:tcvCanTagClick="false"
+    app:tcvItemBorderHorizontal="8dp"
+    app:tcvItemBorderVertical="6dp"
+    app:tcvSingleLine="false"
+    app:tcvTextColor="#42A5F5"/>
+// 2.
+tagCloudView.setOnTagClickListener(this);
+tagCloudView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.e(TAG, "onClick tagCloudView");
+        }
+    });
+// 3.
+
+    //-//<TagCloudView.OnTagClickListener>------------------------------------------------------
+    @Override
+    public void onTagClick(int position) {
+        if (position == -1) {
+            Log.e(TAG, "onClick tagCloudView at --> 点击末尾文字");
+        } else {
+            Log.e(TAG, "onClick tagCloudView at --> 点击 position" + position);
+        }
+    }
+    //-//</TagCloudView.OnTagClickListener>------------------------------------------------------
+
+
  */
 public class TagCloudView extends ViewGroup {
 
