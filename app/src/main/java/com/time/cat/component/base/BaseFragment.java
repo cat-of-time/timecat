@@ -236,4 +236,6 @@ public class BaseFragment extends Fragment {
     protected void setDefaultFragmentTitle(String title) {
 
     }
+
+    public void notifyDataChanged() {}
 }

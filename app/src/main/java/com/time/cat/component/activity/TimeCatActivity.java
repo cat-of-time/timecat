@@ -555,10 +555,10 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         }
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_ADDTASK);
         String content = text;
-        Intent intent2TimeCat = new Intent(TimeCatActivity.this, DialogActivity.class);
-        intent2TimeCat.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent2TimeCat.putExtra(DialogActivity.TO_SAVE_STR, content);
-        startActivity(intent2TimeCat);
+        Intent intent2DialogActivity = new Intent(TimeCatActivity.this, DialogActivity.class);
+        intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, content);
+        startActivity(intent2DialogActivity);
         finish();
     }
 

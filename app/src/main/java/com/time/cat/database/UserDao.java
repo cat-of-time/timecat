@@ -60,6 +60,14 @@ public class UserDao extends GenericDao<DBUser, Long> {
 
     }
 
+    public void createOrUpdateAndFireEvent(DBUser u) throws SQLException {
+
+        Object event = u.id() == null ? new PersistenceEvents.UserCreateEvent(u) : new PersistenceEvents.UserUpdateEvent(u);
+        createOrUpdate(u);
+        TimeCatApp.eventBus().post(event);
+
+    }
+
     public void updateAndFireEvent(DBUser u) {
         Object event = new PersistenceEvents.UserUpdateEvent(u);
         try {

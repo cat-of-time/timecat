@@ -21,6 +21,7 @@ import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.ToastUtil;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -166,15 +167,25 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
                 .doOnNext(new Action1<User>() {
                     @Override
                     public void call(User user) {
+                        Log.i(TAG, "返回的用户信息 --> " + user.toString());
                         //保存用户信息到本地
                         DBUser dbUser = ModelUtil.toDBUser(user);
                         dbUser.setPassword(password);
+                        List<DBUser> existing = null;
                         try {
-                            DB.users().createOrUpdate(dbUser);
+                            existing = DB.users().queryForEq("Email", dbUser.getEmail());
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        Log.i(TAG, user.toString());
+                        if (existing.size() > 0) {
+                            long id = existing.get(0).id();
+                            dbUser.setId(id);
+                            DB.users().updateAndFireEvent(dbUser);
+                            Log.i(TAG, "更新用户信息 --> updateAndFireEvent -- > " + dbUser.toString());
+                        } else {
+                            DB.users().saveAndFireEvent(dbUser);
+                            Log.i(TAG, "保存用户信息 --> saveAndFireEvent -- > " + dbUser.toString());
+                        }
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -201,22 +212,9 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
                         setResult(RESULT_OK, intent);
                         onLoginSuccess();
                         progressDialog.dismiss();
-                        Log.i(TAG, "请求成功" + user.toString());
+                        Log.i(TAG, "请求成功 -->" + user.toString());
                     }
                 });
-//        new android.os.Handler().postDelayed(
-//                new Runnable() {
-//                    public void run() {
-//                        // On complete call either onLoginSuccess or onLoginFailed
-//                        if (isSuccess[0]) {
-//                            onLoginSuccess();
-//                        } else {
-//                            onLoginFailed();
-//                        }
-//                        // onLoginFailed();
-//                        progressDialog.dismiss();
-//                    }
-//                }, 3000);
     }
 
     public void onLoginSuccess() {

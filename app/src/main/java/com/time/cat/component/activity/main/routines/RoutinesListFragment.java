@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.component.activity.main.schedules.AlarmScheduler;
+import com.time.cat.component.base.BaseFragment;
 import com.time.cat.database.DB;
 import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
@@ -30,7 +30,7 @@ import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import java.util.List;
 
 
-public class RoutinesListFragment extends Fragment {
+public class RoutinesListFragment extends BaseFragment {
 
 
     List<DBRoutine> mDBRoutines;
@@ -134,7 +134,7 @@ public class RoutinesListFragment extends Fragment {
                 // cancel routine alarm and delete it
                 AlarmScheduler.instance().onDeleteRoutine(r, getActivity());
                 DB.routines().deleteCascade(r, true);
-                notifyDataChange();
+                notifyDataChanged();
             }
         }).setNegativeButton(getString(R.string.dialog_no_option), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -145,7 +145,7 @@ public class RoutinesListFragment extends Fragment {
         alert.show();
     }
 
-    public void notifyDataChange() {
+    public void notifyDataChanged() {
         Log.d(getTag(), "Routines - Notify data change");
         new ReloadItemsTask().execute();
     }
@@ -166,7 +166,7 @@ public class RoutinesListFragment extends Fragment {
     @SuppressWarnings("unused")
     public void onEvent(Object evt) {
         if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
-            notifyDataChange();
+            notifyDataChanged();
         }
     }
 

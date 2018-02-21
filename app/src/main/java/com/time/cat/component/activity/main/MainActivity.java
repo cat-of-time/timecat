@@ -38,6 +38,7 @@ import com.time.cat.component.activity.main.viewmanager.FabMenuManager;
 import com.time.cat.component.activity.main.viewmanager.LeftDrawerManager;
 import com.time.cat.component.activity.user.LoginActivity;
 import com.time.cat.component.base.BaseActivity;
+import com.time.cat.component.base.BaseFragment;
 import com.time.cat.component.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
 import com.time.cat.events.PersistenceEvents;
@@ -605,8 +606,6 @@ public class MainActivity extends BaseActivity implements
         tvMonth.setText(month + "月");
         this.isToday = isToday;
         if (menu != null) {
-//            Log.i(TAG, "menu != null --> setting main_menu_today");
-            //不是今天 ? 显示 : 不显示
             if (!isToday) {
                 menu.findItem(R.id.main_menu_today).setVisible(true);
             } else {
@@ -642,21 +641,33 @@ public class MainActivity extends BaseActivity implements
                     if (evt instanceof PersistenceEvents.ModelCreateOrUpdateEvent) {
                         PersistenceEvents.ModelCreateOrUpdateEvent event = (PersistenceEvents.ModelCreateOrUpdateEvent) evt;
                         Log.d(TAG, "onEvent: " + event.clazz.getName());
-//                        ((DailyAgendaFragment) getViewPagerFragment(0)).notifyDataChange();
-//                        ((RoutinesListFragment) getViewPagerFragment(1)).notifyDataChange();
-//                        ((MedicinesListFragment) getViewPagerFragment(2)).notifyDataChange();
+//                        customPagerView.getAdapter().notifyDataSetChanged();
+//                        customPagerViewAdapter.notifyDataSetChanged();
+                        if (mViewClickListener != null) {
+                            mViewClickListener.onViewRefreshClick();
+                        }
+                        Log.e(TAG, "ModelCreateOrUpdateEvent --> customPagerViewAdapter.notifyDataSetChanged()");
                     } else if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
                         activeUser = ((PersistenceEvents.ActiveUserChangeEvent) evt).user;
                         onUserUpdate(activeUser);
+//                        customPagerView.getAdapter().notifyDataSetChanged();
+//                        customPagerViewAdapter.notifyDataSetChanged();
+                        if (mViewClickListener != null) {
+                            mViewClickListener.onViewRefreshClick();
+                        }
+                        Log.e(TAG, "ActiveUserChangeEvent --> customPagerViewAdapter.notifyDataSetChanged()");
                     } else if (evt instanceof PersistenceEvents.UserUpdateEvent) {
                         DBUser user = ((PersistenceEvents.UserUpdateEvent) evt).user;
                         onUserUpdate(user);
                         if (DB.users().isActive(user, MainActivity.this)) {
                             activeUser = user;
                         }
+                        DB.users().setActive(user, MainActivity.this);
                     } else if (evt instanceof PersistenceEvents.UserCreateEvent) {
                         DBUser created = ((PersistenceEvents.UserCreateEvent) evt).user;
                         leftDrawer.onUserCreated(created);
+                        onUserUpdate(created);
+                        DB.users().setActive(created, MainActivity.this);
                     }
                 }
             });
@@ -697,13 +708,13 @@ public class MainActivity extends BaseActivity implements
 
     //<内部类>---尽量少用----------------------------------------------------------------------------
     static class CustomPagerViewAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragments = new ArrayList<>();
+        private final List<BaseFragment> mFragments = new ArrayList<>();
 
         public CustomPagerViewAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        public void addFragment(Fragment fragment) {
+        public void addFragment(BaseFragment fragment) {
             mFragments.add(fragment);
         }
 
@@ -720,6 +731,13 @@ public class MainActivity extends BaseActivity implements
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             //super.destroyItem(container, position, object);
+            //截断， 使fragment持久化，提高性能
+        }
+
+        public void notifyDataChanged() {
+            for (int i = 0; i < getCount(); i++) {
+                mFragments.get(i).notifyDataChanged();
+            }
         }
     }
     //</内部类>---尽量少用---------------------------------------------------------------------------

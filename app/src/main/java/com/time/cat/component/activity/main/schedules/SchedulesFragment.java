@@ -3,6 +3,7 @@ package com.time.cat.component.activity.main.schedules;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
 import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
+import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseFragment;
@@ -45,7 +47,6 @@ import com.time.cat.mvp.view.asyncExpandableListView.AsyncHeaderViewHolder;
 import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
-import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.ViewUtil;
@@ -306,7 +307,7 @@ public class SchedulesFragment extends BaseFragment implements
                     public void call(User user) {
                         //保存用户信息到本地
                         DB.users().updateActiveUserAndFireEvent(dbUser, user);
-                        Log.i(TAG, user.toString());
+                        Log.i(TAG, dbUser.toString());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -328,7 +329,7 @@ public class SchedulesFragment extends BaseFragment implements
                         //请求成功
                         task_urls[0] = user.getTasks();
                         isSuccess[0] = true;
-                        Log.i(TAG, "更新用户信息成功" + user.toString());
+                        Log.i(TAG, "更新用户信息成功 --> " + user.toString());
                         ToastUtil.show("更新用户信息成功");
                     }
                 });
@@ -354,6 +355,13 @@ public class SchedulesFragment extends BaseFragment implements
         } else {
             setForceLoad(true);
         }
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        super.notifyDataChanged();
+        refreshData();
+        Log.e(TAG, "schedule fragment --> notifyDataChanged()");
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
@@ -574,7 +582,9 @@ public class SchedulesFragment extends BaseFragment implements
                         .doOnNext(new Action1<Task>() {
                             @Override
                             public void call(Task task) {
-                                DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
+                                // TODO 保存任务信息到本地, java.lang.RuntimeException: Error saving model
+                                // TODO abort at 32 in [INSERT INTO `Schedules` (`begin_datetime` ,`content` ,`created_datetime` ,`Cycle` ,`Days` ,`Dose` ,`end_datetime` ,`finished_datetime` ,`is_all_day` ,`is_finished` ,`label` ,`owner` ,`Scanned` ...
+//                                DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
 //                                Log.e(TAG, "保存任务信息到本地" + task.toString());
                             }
                         })
@@ -589,7 +599,7 @@ public class SchedulesFragment extends BaseFragment implements
                             public void onError(Throwable e) {
                                 //请求失败
                                 ToastUtil.show("失败");
-                                Log.e(TAG, count[0] + "   " + e.toString() + "fail...");
+                                Log.e(TAG, "count[0] == "+count[0] + " --> 失败 --> " + e.toString());
                                 count[0] -= 1;
                             }
 
@@ -599,7 +609,7 @@ public class SchedulesFragment extends BaseFragment implements
                                 tasks.add(task);
                                 ToastUtil.show("成功");
                                 count[0] -= 1;
-                                Log.e(TAG, "请求成功" + count[0] + "   " + task.toString());
+                                Log.e(TAG, "请求成功 --> count[0] == " + count[0] + " --> " + task.toString());
                             }
                         });
                 Log.e(TAG, "fetching task" + i);
@@ -616,7 +626,7 @@ public class SchedulesFragment extends BaseFragment implements
                 retryTimes--;
                 // 循环结束条件:上面的网络请求线程全部完成(count[0] == 0) 或 超过重试次数网络请求还没全部完成(retryTimes == 0)
             }
-            Log.e(TAG, "wait -> returning");
+            Log.e(TAG, "returning");
             return tasks;
         }
 
@@ -808,8 +818,10 @@ public class SchedulesFragment extends BaseFragment implements
                     .doOnNext(new Action1<Task>() {
                         @Override
                         public void call(Task task) {
-                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-                            Log.e(TAG, "保存任务信息到本地" + task.toString());
+                            // TODO 保存任务信息到本地, java.lang.RuntimeException: Error saving model
+                            // TODO abort at 32 in [INSERT INTO `Schedules` (`begin_datetime` ,`content` ,`created_datetime` ,`Cycle` ,`Days` ,`Dose` ,`end_datetime` ,`finished_datetime` ,`is_all_day` ,`is_finished` ,`label` ,`owner` ,`Scanned` ...
+//                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
+//                            Log.e(TAG, "保存任务信息到本地 --> " + task.toString());
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -823,14 +835,14 @@ public class SchedulesFragment extends BaseFragment implements
                         public void onError(Throwable e) {
                             //请求失败
                             ToastUtil.show("失败");
-                            Log.e(TAG, e.toString() + "fail...");
+                            Log.e(TAG, "失败 --> " + e.toString());
                         }
 
                         @Override
                         public void onNext(Task task) {
                             //请求成功
                             ToastUtil.show("同步成功");
-                            Log.e(TAG, "请求成功" + task.toString());
+                            Log.e(TAG, "同步成功 --> " + task.toString());
                         }
                     });
         }
@@ -842,6 +854,10 @@ public class SchedulesFragment extends BaseFragment implements
                     mAsyncExpandableListView.onGroupClicked(mGroupOrdinal);
                     break;
                 case R.id.calendar_item_rl_content_container:
+                    Intent intent2DialogActivity = new Intent(context, DialogActivity.class);
+                    intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, mAsyncExpandableListView.getHeader(mGroupOrdinal).getContent());
+                    startActivity(intent2DialogActivity);
                     ToastUtil.show("to Create a task");
                     break;
             }

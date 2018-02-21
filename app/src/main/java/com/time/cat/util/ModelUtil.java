@@ -28,14 +28,13 @@ public class ModelUtil {
     }
 
     public static DBUser toActiveDBUser(DBUser activeDBUser, User u) {
-        DBUser dbUser = activeDBUser;
-        dbUser.setEmail(u.getEmail());
-        dbUser.setName(u.getUsername());
-        dbUser.setPlans(u.getPlans());
-        dbUser.setTags(u.getTags());
-        dbUser.setTasks(u.getTasks());
+        activeDBUser.setEmail(u.getEmail());
+        activeDBUser.setName(u.getUsername());
+        activeDBUser.setPlans(u.getPlans());
+        activeDBUser.setTags(u.getTags());
+        activeDBUser.setTasks(u.getTasks());
 //        dbUser.setPassword(u.getPassword());
-        return dbUser;
+        return activeDBUser;
     }
 
     public static User toAPIUser(DBUser dbUser) {

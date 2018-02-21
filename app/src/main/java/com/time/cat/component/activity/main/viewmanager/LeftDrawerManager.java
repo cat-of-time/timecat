@@ -407,6 +407,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
     }
 
     private boolean login(DBUser dbUser) {
+        Log.e(TAG, "login dbUser -->" + dbUser.toString());
         final boolean[] isSuccess = {false};
         RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
                 .compose(mainActivity.bindToLifecycle())
