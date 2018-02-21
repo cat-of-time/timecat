@@ -8,10 +8,9 @@
     android:background="@color/theme_color_primary"
     tools:context="com.time.cat.component.activity.main.MainActivity">
 
-    <com.time.cat.ThemeSystem.widgets.TintRelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/theme_color_primary">
+        android:layout_height="match_parent">
 
         <com.time.cat.ThemeSystem.widgets.TintToolbar
             android:id="@+id/main_toolbar"
@@ -34,7 +33,7 @@
                     android:layout_height="match_parent"
                     android:gravity="bottom|center"
                     android:maxLines="1"
-                    android:text="17"
+                    android:text="1"
                     android:textColor="@color/white"
                     android:textSize="19.3sp"/>
 
@@ -63,25 +62,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:layout_below="@+id/main_toolbar">
+            android:layout_below="@+id/main_toolbar"
+            android:background="@android:color/white">
 
             <com.time.cat.mvp.view.viewpaper.CustomPagerView
                 android:id="@+id/main_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/main_navigation"/>
+                android:layout_height="match_parent"
+                android:layout_marginBottom="48dp"/>
+
+            <!--PageNavigationView的高度为48dp,那20dp是突出来的-->
 
             <me.majiajie.pagerbottomtabstrip.PageNavigationView
                 android:id="@+id/main_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
                 android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom"
                 android:layout_marginEnd="0dp"
                 android:layout_marginStart="0dp"
                 android:background="@android:color/transparent"/>
         </RelativeLayout>
-    </com.time.cat.ThemeSystem.widgets.TintRelativeLayout>
+    </RelativeLayout>
 </com.time.cat.ThemeSystem.widgets.TintConstraintLayout>
 

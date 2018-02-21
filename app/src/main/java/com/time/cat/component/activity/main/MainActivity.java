@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -554,7 +555,6 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onPageSelected(int position) {
         //页面滑动的时候，改变BottomNavigationView的Item高亮
-//        navigation.getMenu().getItem(position).setChecked(true);
         if (position >= 2) {
             navigationController.setSelect(position + 1);
         } else if (position < 2) {
@@ -713,6 +713,10 @@ public class MainActivity extends BaseActivity implements
             return mFragments.size();
         }
 
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            //super.destroyItem(container, position, object);
+        }
     }
     //</内部类>---尽量少用---------------------------------------------------------------------------
 

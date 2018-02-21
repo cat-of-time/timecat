@@ -143,28 +143,20 @@ public class RetrofitHelper {
         return retrofit.create(TaskService.class);
     }
 
-    public static TaskService getTaskService(String url) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .client(mOkHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        return retrofit.create(TaskService.class);
-    }
-
     public void example() {
 //        RetrofitHelper.getUserService().createUser(u) //获取Observable对象
-//                .compose(SignupActivity.this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+//                .compose(SignupActivity.this.bindToLifecycle())
+//                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
 //                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
 //                .doOnNext(new Action1<User>() {
 //                    @Override
 //                    public void call(User user) {
 ////                        saveUser(user);//保存用户信息到本地
 //                        DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
-//                        android.util.Log.e(TAG, "保存用户信息到本地" + user.toString());
+//                        Log.e(TAG, "保存用户信息到本地" + user.toString());
 //                    }
-//                }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+//                })
+//                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
 //                .subscribe(new Subscriber<User>() {
 //                    @Override
 //                    public void onCompleted() {
@@ -174,10 +166,9 @@ public class RetrofitHelper {
 //                    @Override
 //                    public void onError(Throwable e) {
 //                        //请求失败
-//                        android.util.Log.e(TAG, e.toString());
+//                        Log.e(TAG, e.toString());
 //                        onSignupFailed();
 //                        progressDialog.dismiss();
-//
 //                    }
 //
 //                    @Override
@@ -188,7 +179,7 @@ public class RetrofitHelper {
 //                        setResult(RESULT_OK, intent);
 //                        onSignupSuccess();
 //                        progressDialog.dismiss();
-//                        android.util.Log.e(TAG, "请求成功" + user.toString());
+//                        Log.e(TAG, "请求成功" + user.toString());
 //                    }
 //                });
     }

@@ -106,7 +106,7 @@ public class DBTask {
     public boolean scanned;
 
     //----------------------------------------------------------------------------------
-    @DatabaseField(columnName = COLUMN_URL)
+    @DatabaseField(columnName = COLUMN_URL, canBeNull = false, unique = true)
     private String url;// task的url 访问该url可返回该task
     @DatabaseField(columnName = COLUMN_OWNER)
     private String owner;//用户ID

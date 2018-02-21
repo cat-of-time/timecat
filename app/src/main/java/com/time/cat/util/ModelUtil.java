@@ -37,7 +37,17 @@ public class ModelUtil {
 
     public static DBTask toDBTask(Task task) {
         DBTask dbTask = new DBTask();
-//        dbTask.
+        dbTask.setContent(task.getContent());
+        dbTask.setCreated_datetime(task.getCreated_datetime());
+        dbTask.setFinished_datetime(task.getFinished_datetime());
+        dbTask.setBegin_datetime(task.getBegin_datetime());
+        dbTask.setEnd_datetime(task.getEnd_datetime());
+        dbTask.setIs_all_day(task.getIs_all_day());
+        dbTask.setIsFinish(task.getIsFinish());
+        dbTask.setUrl(task.getUrl());
+        dbTask.setTitle(task.getTitle());
+        dbTask.setOwner(task.getOwner());
+        dbTask.setLabel(task.getLabel());
         return dbTask;
     }
 }

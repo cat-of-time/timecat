@@ -8,6 +8,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -48,7 +49,7 @@ public interface UserService {
      *
      * @return user
      */
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("/users/")
     Observable<User> createUser(@Body User user);
 
@@ -65,7 +66,7 @@ public interface UserService {
      * @param user user
      * @return user
      */
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("/login/")
     Observable<User> login(@Body User user);
 
@@ -82,11 +83,15 @@ public interface UserService {
      * @param user user
      * @return user
      */
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @PATCH("/users/{email}/")
     Observable<User> update(@Path("email") String email, @Body User user);
 
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET("/users/{email}/")
     Observable<User> getUserByEmail(@Path("email") String email);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET
+    Observable<User> getUserByUrl(@Url String url);
 }

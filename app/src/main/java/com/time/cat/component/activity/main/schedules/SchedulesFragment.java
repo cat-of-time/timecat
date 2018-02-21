@@ -6,7 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -26,15 +26,14 @@ import com.ldf.calendar.interf.OnSelectDateListener;
 import com.ldf.calendar.model.CalendarDate;
 import com.ldf.calendar.view.Calendar;
 import com.ldf.calendar.view.MonthPager;
-import com.time.cat.NetworkSystem.ConstantURL;
 import com.time.cat.NetworkSystem.RetrofitHelper;
 import com.time.cat.R;
+import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseFragment;
 import com.time.cat.database.DB;
-import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Task;
 import com.time.cat.mvp.presenter.FragmentPresenter;
@@ -82,6 +81,7 @@ public class SchedulesFragment extends BaseFragment implements
             Color.parseColor("#4caf50")
     };
     private CoordinatorLayout content;
+    private ProgressBar progressBar;
     private MonthPager monthPager;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
@@ -94,7 +94,7 @@ public class SchedulesFragment extends BaseFragment implements
     private boolean onBindCollectionHeaderView;
     private OnDateChangeListener mDateChangeListener;
     private DBUser dbUser;
-
+    private Handler handler = new Handler();
 
 
     //<生命周期>-------------------------------------------------------------------------------------
@@ -124,12 +124,12 @@ public class SchedulesFragment extends BaseFragment implements
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
         context = getContext();
         content = view.findViewById(R.id.content);
+        progressBar = view.findViewById(R.id.progress_bar);
         monthPager = view.findViewById(R.id.calendar_view);
         //此处强行setViewHeight，毕竟你知道你的日历牌的高度
         monthPager.setViewHeight(Utils.dpi2px(context, 270));
@@ -152,6 +152,7 @@ public class SchedulesFragment extends BaseFragment implements
 
         mAsyncExpandableListView = view.findViewById(R.id.asyncExpandableCollectionView);
         mAsyncExpandableListView.setHasFixedSize(true);
+
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initData();
         initView();
@@ -242,8 +243,8 @@ public class SchedulesFragment extends BaseFragment implements
                 calendarAdapter.notifyDataSetChanged();
             }
         });
+        monthPager.setBackgroundColor(ThemeManager.getTheme(getActivity()));
     }
-
 
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
 
@@ -255,10 +256,23 @@ public class SchedulesFragment extends BaseFragment implements
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
     @Override
     public void initData() {//必须调用
-        initCurrentDate();
-        dbUser = DB.users().getActive(context);
-        Log.e(TAG, dbUser.toString());
-        initExpandableListViewData();
+        // 耗时操作 比如网络请求
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isPrepared()) {
+                    Log.w("initData", "目标已被回收");
+                    return;
+                }
+                initCurrentDate();
+                dbUser = DB.users().getActive(context);
+                Log.e(TAG, dbUser.toString());
+                initExpandableListViewData();
+                content.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        }, 1000);
+
     }
 
     /**
@@ -287,6 +301,22 @@ public class SchedulesFragment extends BaseFragment implements
             loadDataForHeader.execute(task_urls);
         }
 //        mAsyncExpandableListView.updateInventory(inventory);
+    }
+
+    public void refreshData() {
+
+        if (content != null) {
+            content.setVisibility(View.GONE);
+        }
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        if (isFragmentVisible()) {
+            initData();
+        } else {
+            setForceLoad(true);
+        }
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
@@ -368,7 +398,7 @@ public class SchedulesFragment extends BaseFragment implements
         ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
         scheduleItemHolder.getTextViewContent().setText(item.getContent());
         Date d = TimeUtil.formatGMTDateStr(item.getCreated_datetime());
-        scheduleItemHolder.getScheduleTaskTv_date().setText(d.getMonth() + " " + d.getDay());
+        scheduleItemHolder.getScheduleTaskTv_date().setText(d.getMonth() + "月" + d.getDay() + "日");
         scheduleItemHolder.setLabel(item.getLabel());
         if (item.getIs_all_day()) {
             scheduleItemHolder.getScheduleTaskTv_time().setText("全天");
@@ -410,6 +440,9 @@ public class SchedulesFragment extends BaseFragment implements
         }
         if (mDateChangeListener != null) {
             mDateChangeListener.onDateChange(today.getYear(), today.getMonth(), today.isToday());
+        }
+        if (monthPager != null) {
+            monthPager.setBackgroundColor(ThemeManager.getTheme(getActivity()));
         }
     }
 
@@ -476,7 +509,6 @@ public class SchedulesFragment extends BaseFragment implements
 
         @Override
         protected ArrayList<Task> doInBackground(ArrayList<String>... params) {
-            //                Thread.sleep(1500);
             ArrayList<Task> tasks = new ArrayList<>();
             if (params.length <= 0) {
                 return null;
@@ -538,7 +570,7 @@ public class SchedulesFragment extends BaseFragment implements
 
     }
 
-    private class LoadDataTaskContent extends AsyncTask<User, Void, List<Task>> {
+    private class LoadDataTaskContent extends AsyncTask<Void, Void, List<Task>> {
 
         private final int mGroupOrdinal;
         private WeakReference<AsyncExpandableListView<Task, Task>> listviewRef = null;
@@ -549,61 +581,17 @@ public class SchedulesFragment extends BaseFragment implements
         }
 
         @Override
-        protected List<Task> doInBackground(User... params) {
-            //                Thread.sleep(1500);
-            ArrayList<String> task_urls = new ArrayList<>();
-            RetrofitHelper.getUserService().getUserByEmail(params[0].getEmail())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext(new Action1<User>() {
-                        @Override
-                        public void call(User user) {
-//                                task_urls = user.getTasks();
-                            Log.e(TAG, user.toString());
-                        }
-                    });
-//                        .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-//                        .subscribe(new Subscriber<User>() {
-//                            @Override
-//                            public void onCompleted() {
-//
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                //请求失败
-//                                ToastUtil.show("获取数据失败");
-//                                Log.e(TAG, e.toString());
-//                            }
-//
-//                            @Override
-//                            public void onNext(User user) {
-//                                //请求成功
-//                                Log.e(TAG, "请求成功" + user.toString());
-//                            }
-//                        });
-            return null;
+        protected List<Task> doInBackground(Void... params) {
+            List<Task> items = new ArrayList<>();
+            items.add(listviewRef.get().getHeader(mGroupOrdinal));
+            return items;
         }
 
 
         @Override
-        protected void onPostExecute(List<Task> item) {
-            List<Task> items = new ArrayList<>();
-            Task task = new Task();
-            task.setTitle("Lawyers meet voluntary pro bono target for first time since 2013");
-            task.setContent("A voluntary target for the amount of pro bono work done by Australian lawyers has been met for the first time since 2013. Key points: The Australian Pro Bono Centre's asks lawyers to do 35 hours of free community work a year; Pro bono services can help ...\n");
-            task.setLabel(Task.LABEL_IMPORTANT_NOT_URGENT);
-            ArrayList<String> tags = new ArrayList<>();
-            DBUser activeUser = DB.users().getActive(getActivity());
-            String owner = ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/";
-            for (int i = 0; i < 2; i++) {
-                tags.add("http://192.168.88.105:8000/tags/" + i + "/");
-            }
-            task.setTags(tags);
-
-            items.add(task);
-
-            if (listviewRef.get() != null) {
-                listviewRef.get().onFinishLoadingGroup(mGroupOrdinal, items);
+        protected void onPostExecute(List<Task> tasks) {
+            if (listviewRef.get() != null && tasks != null) {
+                listviewRef.get().onFinishLoadingGroup(mGroupOrdinal, tasks);
             }
         }
 
