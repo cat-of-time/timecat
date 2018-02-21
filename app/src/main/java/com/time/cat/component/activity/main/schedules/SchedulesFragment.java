@@ -268,7 +268,7 @@ public class SchedulesFragment extends BaseFragment implements
                 }
                 initCurrentDate();
                 dbUser = DB.users().getActive(context);
-                Log.e(TAG, dbUser.toString());
+                Log.e(TAG, "active dbUser --> " + dbUser.toString());
                 initExpandableListViewData();
                 content.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
@@ -297,8 +297,6 @@ public class SchedulesFragment extends BaseFragment implements
     private void initExpandableListViewData() {
 
         inventory = new CollectionView.Inventory<>();
-        final ArrayList<String>[] task_urls = new ArrayList[]{dbUser.getTasks()};
-        final boolean[] isSuccess = {false};
         RetrofitHelper.getUserService().getUserByEmail(dbUser.getEmail()) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
@@ -327,18 +325,19 @@ public class SchedulesFragment extends BaseFragment implements
                     @Override
                     public void onNext(User user) {
                         //请求成功
-                        task_urls[0] = user.getTasks();
-                        isSuccess[0] = true;
                         Log.i(TAG, "更新用户信息成功 --> " + user.toString());
                         ToastUtil.show("更新用户信息成功");
                     }
                 });
-//        ArrayList<String> task_urls = dbUser.getTasks();
-        if (task_urls[0] != null && task_urls[0].size() > 0) {
+
+        ArrayList<String> task_urls = dbUser.getTasks();
+        if (task_urls != null && task_urls.size() > 0) {
             AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
-            loadDataForHeader.execute(task_urls[0]);
+            loadDataForHeader.execute(task_urls);
+        } else {
+            AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
+            loadDataForHeader.execute(new ArrayList<>());
         }
-//        mAsyncExpandableListView.updateInventory(inventory);
     }
 
     public void refreshData() {

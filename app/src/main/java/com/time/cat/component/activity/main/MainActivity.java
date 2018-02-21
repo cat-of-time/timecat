@@ -642,16 +642,16 @@ public class MainActivity extends BaseActivity implements
                         PersistenceEvents.ModelCreateOrUpdateEvent event = (PersistenceEvents.ModelCreateOrUpdateEvent) evt;
                         Log.d(TAG, "onEvent: " + event.clazz.getName());
 //                        customPagerView.getAdapter().notifyDataSetChanged();
-//                        customPagerViewAdapter.notifyDataSetChanged();
+                        customPagerViewAdapter.notifyDataSetChanged();
                         if (mViewClickListener != null) {
                             mViewClickListener.onViewRefreshClick();
                         }
-                        Log.e(TAG, "ModelCreateOrUpdateEvent --> customPagerViewAdapter.notifyDataSetChanged()");
+//                        Log.e(TAG, "ModelCreateOrUpdateEvent --> customPagerViewAdapter.notifyDataSetChanged()");
                     } else if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
                         activeUser = ((PersistenceEvents.ActiveUserChangeEvent) evt).user;
                         onUserUpdate(activeUser);
 //                        customPagerView.getAdapter().notifyDataSetChanged();
-//                        customPagerViewAdapter.notifyDataSetChanged();
+                        customPagerViewAdapter.notifyDataSetChanged();
                         if (mViewClickListener != null) {
                             mViewClickListener.onViewRefreshClick();
                         }
@@ -662,12 +662,13 @@ public class MainActivity extends BaseActivity implements
                         if (DB.users().isActive(user, MainActivity.this)) {
                             activeUser = user;
                         }
-                        DB.users().setActive(user, MainActivity.this);
+                        // 不要在UserUpdateEvent里setActive(),因为setActive()也是一个UserUpdateEvent,会造成递归update
+//                        DB.users().setActive(user, MainActivity.this);
                     } else if (evt instanceof PersistenceEvents.UserCreateEvent) {
                         DBUser created = ((PersistenceEvents.UserCreateEvent) evt).user;
                         leftDrawer.onUserCreated(created);
                         onUserUpdate(created);
-                        DB.users().setActive(created, MainActivity.this);
+//                        DB.users().setActive(created, MainActivity.this);
                     }
                 }
             });

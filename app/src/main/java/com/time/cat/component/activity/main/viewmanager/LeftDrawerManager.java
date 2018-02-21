@@ -312,18 +312,52 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
             return true;
         } else {
             Long id = (long) profile.getIdentifier();
-            DBUser user = DB.users().findById(id);
-            boolean isActive = DB.users().isActive(user, mainActivity);
+            DBUser dbUser = DB.users().findById(id);
+            boolean isActive = DB.users().isActive(dbUser, mainActivity);
             if (isActive) {
                 Intent intent = new Intent(mainActivity, UserDetailActivity.class);
                 intent.putExtra("user_id", id);
                 launchActivity(intent);
             } else {
-                if (!login(user)) {
-                    return false;
-                }// TODO 本地不保存用户密码
-                DB.users().setActive(user, mainActivity);
-                updateHeaderBackground(user);
+                Log.e(TAG, "login dbUser -->" + dbUser.toString());
+                RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
+                        .compose(mainActivity.bindToLifecycle())
+                        .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                        .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                        .doOnNext(new Action1<User>() {
+                            @Override
+                            public void call(User user) {
+                                //保存用户信息到本地
+                                DB.users().updateActiveUserAndFireEvent(dbUser, user);
+                                Log.i(TAG, user.toString());
+                            }
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                        .subscribe(new Subscriber<User>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                //请求失败
+                                Log.e(TAG, e.toString());
+                                ToastUtil.show("登录失败");
+                            }
+
+                            @Override
+                            public void onNext(User user) {
+                                //请求成功
+                                Log.i(TAG, "登录成功" + user.toString());
+                                ToastUtil.show("登录成功");
+                            }
+                        });
+                // 不管登录是否成功，都更新activeUser
+                DB.users().setActive(dbUser, mainActivity);
+                updateHeaderBackground(dbUser);
+                getDrawer().closeDrawer();
+                return true;
             }
         }
         return false;
@@ -407,6 +441,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
     }
 
     private boolean login(DBUser dbUser) {
+        //本方法已起用
         Log.e(TAG, "login dbUser -->" + dbUser.toString());
         final boolean[] isSuccess = {false};
         RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
@@ -443,6 +478,8 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                         ToastUtil.show("登录成功");
                     }
                 });
+        // 由于网络请求是异步，返回太快了，isSuccess[0] 一直为false，即使登录成功
+        Log.e(TAG, "isSuccess[0] == " + isSuccess[0]);
         return isSuccess[0];
     }
 
