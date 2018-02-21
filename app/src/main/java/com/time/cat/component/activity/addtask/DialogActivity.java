@@ -89,6 +89,8 @@ public class DialogActivity extends BaseActivity implements
     @SuppressWarnings("unused")
     private static final String TAG = "DialogActivity ";
     public static final String TO_SAVE_STR = "to_save_str";
+    public static final String TO_UPDATE_TASK = "to_update_task";
+    public static final String TO_UPDATE_NOTE = "to_update_note";
 
 
     //<启动方法>-------------------------------------------------------------------------------------

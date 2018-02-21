@@ -439,19 +439,20 @@ public class SchedulesFragment extends BaseFragment implements
         ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
         scheduleItemHolder.getTextViewContent().setText(item.getContent());
         Date d;
-        if (item.getBegin_datetime() != "null" && item.getEnd_datetime() != "null") {
+        if (item.getBegin_datetime() != "null" && item.getEnd_datetime() != "null"
+                && item.getBegin_datetime() != null && item.getEnd_datetime() != null) {
             d = TimeUtil.formatGMTDateStr(item.getBegin_datetime());
-            String begin_date = d.getMonth() + "月" + d.getDay() + "日";
+            String begin_date = TimeUtil.formatMonthDay(d);//d.getMonth() + "月" + d.getDay() + "日";
             d = TimeUtil.formatGMTDateStr(item.getEnd_datetime());
-            String end_date = d.getMonth() + "月" + d.getDay() + "日";
+            String end_date = TimeUtil.formatMonthDay(d);//d.getMonth() + "月" + d.getDay() + "日";
             scheduleItemHolder.getScheduleTaskTv_date().setText(begin_date + "-" + end_date);
-        } else if (item.getCreated_datetime() != "null") {
+        } else if (item.getCreated_datetime() != "null" && item.getCreated_datetime() != null) {
             d = TimeUtil.formatGMTDateStr(item.getCreated_datetime());
-            String created_date = d.getMonth() + "月" + d.getDay() + "日";
+            String created_date = TimeUtil.formatMonthDay(d);//d.getMonth() + "月" + d.getDay() + "日";
             scheduleItemHolder.getScheduleTaskTv_date().setText(created_date);
         } else {
             d = new Date();
-            String today = d.getMonth() + "月" + d.getDay() + "日";
+            String today = TimeUtil.formatMonthDay(d);//d.getMonth() + "月" + d.getDay() + "日";
             scheduleItemHolder.getScheduleTaskTv_date().setText(today);
         }
         scheduleItemHolder.setLabel(item.getLabel());
@@ -605,8 +606,51 @@ public class SchedulesFragment extends BaseFragment implements
                             @Override
                             public void onNext(Task task) {
                                 //请求成功
-                                tasks.add(task);
-                                ToastUtil.show("成功");
+
+                                // 需要显示的
+                                // 今天刚刚finished的
+                                // 顺延的
+                                // begin_datetime < today <= end_datetime
+                                boolean hasAddedTask = false;
+                                Date today = new Date();
+                                // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
+                                if (task.getIsFinish()) {
+                                    Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
+                                    if (finished_datetime != null) {
+                                        if (finished_datetime.getDay() == today.getDay()
+                                                && finished_datetime.getMonth() == today.getMonth()
+                                                && finished_datetime.getYear() == today.getYear()) {
+                                            tasks.add(task);
+                                            hasAddedTask = true;
+                                            Log.e(TAG, "add task, because task is finished today");
+                                        }
+                                    }
+                                }
+                                if (!task.getIs_all_day() && !hasAddedTask) {
+                                    Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
+                                    Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
+                                    if (begin_datetime != null && end_datetime != null) {
+                                        if (TimeUtil.isDateEarlier(begin_datetime, today)
+                                                && TimeUtil.isDateEarlier(today, end_datetime)) {
+                                            tasks.add(task);
+                                            hasAddedTask = true;
+                                            Log.e(TAG, "add task, because begin <= today <= end");
+                                        }
+                                    }
+                                }
+                                // 把顺延的添加到显示List并标记
+                                Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
+                                if (!hasAddedTask && created_datetime != null) {
+                                    long during = today.getTime() - created_datetime.getTime();
+                                    Log.e(TAG, "during == " + during);
+                                    Log.e(TAG, "today == " + today + " -- created_datetime == " + created_datetime);
+                                    if (during >= 0) {
+                                        if (task.getIs_all_day()) {
+                                            tasks.add(task);
+                                            Log.e(TAG, "add task, because of delay");
+                                        }
+                                    }
+                                }
                                 count[0] -= 1;
                                 Log.e(TAG, "请求成功 --> count[0] == " + count[0] + " --> " + task.toString());
                             }

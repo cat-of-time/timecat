@@ -65,13 +65,14 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
     public static final int SCHEDULES = 0;
     public static final int ROUTINES = 1;
     public static final int PLANS = 2;
-    public static final int MEDICINES = 3;
-    public static final int USERS = 4;
-    public static final int THEME = 5;
-    public static final int SETTINGS = 6;
-    public static final int ABOUT = 7;
-    public static final int PHARMACIES = 8;
-    public static final int CALENDAR = 9;
+    public static final int NOTES = 3;
+    public static final int MEDICINES = 4;
+    public static final int USERS = 5;
+    public static final int THEME = 6;
+    public static final int SETTINGS = 7;
+    public static final int ABOUT = 8;
+    public static final int PHARMACIES = 9;
+    public static final int CALENDAR = 10;
     private static final String TAG = "LeftDrawerManager";
     private static final int REQUEST_LOGIN = 0;
     private AccountHeader headerResult = null;
@@ -116,7 +117,8 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .withOnAccountHeaderListener(this)
                 .withSavedInstance(savedInstanceState)
                 .build();
-
+        Drawable noteIcon = mainActivity.getResources().getDrawable(R.drawable.ic_notes_black_24dp);
+        noteIcon.setAlpha(110);
         //Create the getDrawer
         drawer = new DrawerBuilder()
                 .withActivity(mainActivity)
@@ -129,15 +131,21 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                                 .withIdentifier(HOME),
                         new PrimaryDrawerItem().withName(R.string.title_activity_users)
                                 .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_account_multiple, R.color.black).alpha(110))
-                                .withIdentifier(USERS), new DividerDrawerItem(),
+                                .withIdentifier(USERS),
+                        new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.title_activity_schedules)
                                 .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_calendar, R.color.black).alpha(110))
                                 .withIdentifier(SCHEDULES),
                         new PrimaryDrawerItem().withName(R.string.title_activity_routines)
-                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(110))
+                                .withEnabled(false)
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(38))
                                 .withIdentifier(ROUTINES),
+                        new PrimaryDrawerItem().withName(R.string.title_activity_notes)
+                                .withIcon(noteIcon)
+                                .withIdentifier(NOTES),
                         new PrimaryDrawerItem().withName(R.string.title_activity_plans)
-                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(110))
+                                .withEnabled(false)
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(38))
                                 .withIdentifier(PLANS),
                         new PrimaryDrawerItem().withName(R.string.title_activity_medicines)
                                 .withEnabled(false)
@@ -235,6 +243,9 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
             case ROUTINES:
                 mainActivity.showPagerItem(1, false);
                 break;
+            case NOTES:
+                mainActivity.showPagerItem(2, false);
+                break;
             case PLANS:
                 mainActivity.showPagerItem(3, false);
                 break;
@@ -298,6 +309,9 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 drawer.setSelection(ROUTINES, false);
                 break;
             case 2:
+                drawer.setSelection(NOTES, false);
+                break;
+            case 3:
                 drawer.setSelection(PLANS, false);
                 break;
         }

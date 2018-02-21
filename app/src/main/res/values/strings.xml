@@ -470,6 +470,7 @@
     <string name="title_activity_schedules">Schedules</string>
     <string name="title_activity_routines">Routines</string>
     <string name="title_activity_plans">Plans</string>
+    <string name="title_activity_notes">Notes</string>
     <string name="title_activity_medicines">Medicines</string>
 
     <string name="home_menu_medicines">MEDICINES</string>

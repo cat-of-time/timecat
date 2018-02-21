@@ -28,6 +28,18 @@ public class TimeUtil {
         return days + " days " + hours + " hours " + minutes + " minutes " + seconds + " seconds ";
     }
 
+    public static long getDuringDay(long mss) {
+        return mss / (1000 * 60 * 60 * 24);
+    }
+
+    public static boolean isDateEarlier(Date dateEarly, Date date) {
+        if (dateEarly.getYear() <= date.getYear()
+                && dateEarly.getMonth() <= date.getMonth()
+                &&  dateEarly.getDay() <= date.getDay()) {
+            return true;
+        }
+        return false;
+    }
     /**
      * @param begin 时间段的开始
      * @param end   时间段的结束
@@ -48,13 +60,19 @@ public class TimeUtil {
     public static Date formatGMTDateStr(String gmt_datetime) {
         //Time in GMT
         SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+//        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
         try {
             return dateFormatGmt.parse(gmt_datetime);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String formatMonthDay(Date d) {
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("MM月dd日");
+//        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return dateFormatGmt.format(d);
     }
 
     /**
@@ -67,7 +85,7 @@ public class TimeUtil {
     public static String formatGMTDate(Date gmt_datetime) {
         //Time in GMT
         SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+//        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormatGmt.format(gmt_datetime);
     }
 
