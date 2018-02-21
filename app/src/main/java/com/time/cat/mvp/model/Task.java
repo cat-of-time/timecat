@@ -2,6 +2,7 @@ package com.time.cat.mvp.model;
 
 import com.time.cat.util.string.TimeUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -29,7 +30,7 @@ import java.util.Date;
 }
 ]
  */
-public class Task {
+public class Task implements Serializable{
     public static final int LABEL_IMPORTANT_URGENT = 0;
     public static final int LABEL_IMPORTANT_NOT_URGENT = 1;
     public static final int LABEL_NOT_IMPORTANT_URGENT = 2;

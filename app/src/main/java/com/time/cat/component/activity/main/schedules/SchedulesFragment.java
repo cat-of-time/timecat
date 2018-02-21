@@ -947,9 +947,13 @@ public class SchedulesFragment extends BaseFragment implements
                     mAsyncExpandableListView.onGroupClicked(mGroupOrdinal);
                     break;
                 case R.id.calendar_item_rl_content_container:
+                    Task task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
                     Intent intent2DialogActivity = new Intent(context, DialogActivity.class);
                     intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, mAsyncExpandableListView.getHeader(mGroupOrdinal).getContent());
+                    intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, task.getContent());
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(DialogActivity.TO_UPDATE_TASK, task);
+                    intent2DialogActivity.putExtras(bundle);
                     startActivity(intent2DialogActivity);
                     ToastUtil.show("to modify a task");
                     break;
