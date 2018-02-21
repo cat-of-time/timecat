@@ -26,12 +26,24 @@ public class ModelUtil {
 //        dbUser.setPassword(u.getPassword());
         return dbUser;
     }
+
+    public static DBUser toActiveDBUser(DBUser activeDBUser, User u) {
+        DBUser dbUser = activeDBUser;
+        dbUser.setEmail(u.getEmail());
+        dbUser.setName(u.getUsername());
+        dbUser.setPlans(u.getPlans());
+        dbUser.setTags(u.getTags());
+        dbUser.setTasks(u.getTasks());
+//        dbUser.setPassword(u.getPassword());
+        return dbUser;
+    }
+
     public static User toAPIUser(DBUser dbUser) {
         User user = new User();
         user.setEmail(dbUser.getEmail());
 //        user.setId(dbUser.id());
         user.setUsername(dbUser.name());
-//        user.setPassword(dbUser.getPassword());
+        user.setPassword(dbUser.getPassword());
         return user;
     }
 

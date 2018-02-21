@@ -15,6 +15,7 @@ import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.APImodel.User;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.ToastUtil;
@@ -166,8 +167,10 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
                     @Override
                     public void call(User user) {
                         //保存用户信息到本地
+                        DBUser dbUser = ModelUtil.toDBUser(user);
+                        dbUser.setPassword(password);
                         try {
-                            DB.users().createOrUpdate(ModelUtil.toDBUser(user));
+                            DB.users().createOrUpdate(dbUser);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }

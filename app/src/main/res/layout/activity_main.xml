@@ -17,43 +17,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/theme_color_primary"
-            android:minHeight="?attr/actionBarSize"
-            app:contentInsetStart="0.0dp"
-            app:layout_scrollFlags="enterAlways|scroll">
+            android:minHeight="?attr/actionBarSize">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/main_month_view"
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent"
-                    android:gravity="bottom|center"
-                    android:maxLines="1"
-                    android:text="1"
-                    android:textColor="@color/white"
-                    android:textSize="19.3sp"/>
-
-                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="14dp"
-                    android:gravity="bottom"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:maxLines="1"
-                    android:text="月"
+                    android:text="1月"
                     android:textColor="@color/white"
                     android:textSize="19.3sp"/>
 
                 <TextView
                     android:id="@+id/main_year_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:gravity="bottom"
                     android:text="2018年"
-                    android:textColor="@color/white"
+                    android:textColor="#8effffff"
                     android:textSize="13sp"/>
             </LinearLayout>
 

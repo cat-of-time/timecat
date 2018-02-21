@@ -57,6 +57,10 @@ public class CollectionView<T1, T2> extends RecyclerView {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void getInventoryByPosition(int Position) {
+        mInventory.getGroups().get(Position);
+    }
+
     public void notifyItemChanged(int position) {
         mAdapter.notifyItemChanged(position);
     }

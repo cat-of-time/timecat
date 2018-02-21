@@ -201,9 +201,9 @@ public class MainActivity extends BaseActivity implements
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
         assert ab != null;
+        ab.setTitle(null);
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        ab.setTitle("");
     }
 
     /**
@@ -472,6 +472,10 @@ public class MainActivity extends BaseActivity implements
             case R.id.main_menu_schedule_help:
                 launchActivity(new Intent(this, SchedulesHelpActivity.class));
                 return true;
+            case R.id.main_menu_refresh_schedule:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewRefreshClick();
+                }
 
 
             // 以下是clock menu group
@@ -598,7 +602,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onDateChange(int year, int month, boolean isToday) {
         tvYear.setText(year + getString(R.string.calendar_year));
-        tvMonth.setText(month + "");
+        tvMonth.setText(month + "月");
         this.isToday = isToday;
         if (menu != null) {
 //            Log.i(TAG, "menu != null --> setting main_menu_today");

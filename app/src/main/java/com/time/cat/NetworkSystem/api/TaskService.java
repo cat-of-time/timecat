@@ -6,6 +6,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -79,5 +80,7 @@ public interface TaskService {
     @GET("/tasks/")
     Observable<Task> getTaskForUser(@Query("owner") String user_url);
 
-
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @PUT
+    Observable<Task> putTaskByUrl(@Url String task_url, @Body Task task);
 }

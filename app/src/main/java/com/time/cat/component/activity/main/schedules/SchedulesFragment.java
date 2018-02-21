@@ -34,6 +34,7 @@ import com.time.cat.component.activity.main.listener.OnDateChangeListener;
 import com.time.cat.component.activity.main.listener.OnViewClickListener;
 import com.time.cat.component.base.BaseFragment;
 import com.time.cat.database.DB;
+import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Task;
 import com.time.cat.mvp.presenter.FragmentPresenter;
@@ -295,10 +296,46 @@ public class SchedulesFragment extends BaseFragment implements
     private void initExpandableListViewData() {
 
         inventory = new CollectionView.Inventory<>();
-        ArrayList<String> task_urls = dbUser.getTasks();
-        if (task_urls != null && task_urls.size() > 0) {
+        final ArrayList<String>[] task_urls = new ArrayList[]{dbUser.getTasks()};
+        final boolean[] isSuccess = {false};
+        RetrofitHelper.getUserService().getUserByEmail(dbUser.getEmail()) //获取Observable对象
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<User>() {
+                    @Override
+                    public void call(User user) {
+                        //保存用户信息到本地
+                        DB.users().updateActiveUserAndFireEvent(dbUser, user);
+                        Log.i(TAG, user.toString());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        Log.e(TAG, e.toString());
+                        ToastUtil.show("更新用户信息失败");
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        //请求成功
+                        task_urls[0] = user.getTasks();
+                        isSuccess[0] = true;
+                        Log.i(TAG, "更新用户信息成功" + user.toString());
+                        ToastUtil.show("更新用户信息成功");
+                    }
+                });
+//        ArrayList<String> task_urls = dbUser.getTasks();
+        if (task_urls[0] != null && task_urls[0].size() > 0) {
             AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
-            loadDataForHeader.execute(task_urls);
+            loadDataForHeader.execute(task_urls[0]);
         }
 //        mAsyncExpandableListView.updateInventory(inventory);
     }
@@ -374,9 +411,6 @@ public class SchedulesFragment extends BaseFragment implements
         scheduleHeaderViewHolder.getCalendarItemCheckBox().setChecked(headerItem.getIsFinish());
 
         scheduleHeaderViewHolder.getCalendarItemTitle().setText(headerItem.getTitle());
-
-//        Log.e(TAG, during + getString(R.string.calendar_delay) + day + getString(R.string.calendar_day));
-
         Date today = new Date();
         if (headerItem.getCreated_datetime() != "null" && headerItem.getCreated_datetime() != null && headerItem.getCreated_datetime() != "") {
             Date date = TimeUtil.formatGMTDateStr(headerItem.getCreated_datetime());
@@ -397,12 +431,26 @@ public class SchedulesFragment extends BaseFragment implements
     public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder, int groupOrdinal, Task item) {
         ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
         scheduleItemHolder.getTextViewContent().setText(item.getContent());
-        Date d = TimeUtil.formatGMTDateStr(item.getCreated_datetime());
-        scheduleItemHolder.getScheduleTaskTv_date().setText(d.getMonth() + "月" + d.getDay() + "日");
+        Date d;
+        if (item.getBegin_datetime() != "null" && item.getEnd_datetime() != "null") {
+            d = TimeUtil.formatGMTDateStr(item.getBegin_datetime());
+            String begin_date = d.getMonth() + "月" + d.getDay() + "日";
+            d = TimeUtil.formatGMTDateStr(item.getEnd_datetime());
+            String end_date = d.getMonth() + "月" + d.getDay() + "日";
+            scheduleItemHolder.getScheduleTaskTv_date().setText(begin_date + "-" + end_date);
+        } else if (item.getCreated_datetime() != "null") {
+            d = TimeUtil.formatGMTDateStr(item.getCreated_datetime());
+            String created_date = d.getMonth() + "月" + d.getDay() + "日";
+            scheduleItemHolder.getScheduleTaskTv_date().setText(created_date);
+        } else {
+            d = new Date();
+            String today = d.getMonth() + "月" + d.getDay() + "日";
+            scheduleItemHolder.getScheduleTaskTv_date().setText(today);
+        }
         scheduleItemHolder.setLabel(item.getLabel());
         if (item.getIs_all_day()) {
             scheduleItemHolder.getScheduleTaskTv_time().setText("全天");
-        } else {
+        } else if (item.getBegin_datetime() != "null" && item.getEnd_datetime() != "null") {
             d = TimeUtil.formatGMTDateStr(item.getBegin_datetime());
             String begin_datetime = d.getHours() + ":" + d.getMinutes();
             d = TimeUtil.formatGMTDateStr(item.getEnd_datetime());
@@ -424,6 +472,11 @@ public class SchedulesFragment extends BaseFragment implements
     @Override
     public void onViewChangeMarkThemeClick() {
         refreshSelectBackground();
+    }
+
+    @Override
+    public void onViewRefreshClick() {
+        refreshData();
     }
 
     private void refreshMonthPager() {
@@ -513,6 +566,7 @@ public class SchedulesFragment extends BaseFragment implements
             if (params.length <= 0) {
                 return null;
             }
+            final int[] count = {params[0].size()};
             for (int i = 0; i < params[0].size(); i++) {
                 RetrofitHelper.getTaskService().getTaskByUrl(params[0].get(i))
                         .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -521,7 +575,7 @@ public class SchedulesFragment extends BaseFragment implements
                             @Override
                             public void call(Task task) {
                                 DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-                                Log.e(TAG, "保存任务信息到本地" + task.toString());
+//                                Log.e(TAG, "保存任务信息到本地" + task.toString());
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -535,7 +589,8 @@ public class SchedulesFragment extends BaseFragment implements
                             public void onError(Throwable e) {
                                 //请求失败
                                 ToastUtil.show("失败");
-                                Log.e(TAG, e.toString() + "fail...");
+                                Log.e(TAG, count[0] + "   " + e.toString() + "fail...");
+                                count[0] -= 1;
                             }
 
                             @Override
@@ -543,19 +598,27 @@ public class SchedulesFragment extends BaseFragment implements
                                 //请求成功
                                 tasks.add(task);
                                 ToastUtil.show("成功");
-                                Log.e(TAG, "请求成功" + task.toString());
+                                count[0] -= 1;
+                                Log.e(TAG, "请求成功" + count[0] + "   " + task.toString());
                             }
                         });
                 Log.e(TAG, "fetching task" + i);
             }
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            Log.e(TAG, "waiting -->");
+            int retryTimes = 5; //重试次数
+            while (count[0] != 0 && retryTimes != 0) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.e(TAG, "retryTimes -->" + retryTimes);
+                retryTimes--;
+                // 循环结束条件:上面的网络请求线程全部完成(count[0] == 0) 或 超过重试次数网络请求还没全部完成(retryTimes == 0)
             }
+            Log.e(TAG, "wait -> returning");
             return tasks;
         }
-
 
         @Override
         protected void onPostExecute(ArrayList<Task> tasks) {
@@ -726,14 +789,50 @@ public class SchedulesFragment extends BaseFragment implements
 
         @Override
         public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
-//            Log.e(TAG, String.valueOf(onBindCollectionHeaderView));
             if (isChecked) {
                 ViewUtil.addClearCenterLine(calendar_item_title);
                 calendar_item_title.setTextColor(Color.GRAY);
+                mAsyncExpandableListView.getHeader(mGroupOrdinal).setIsFinish(true);
+                mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(TimeUtil.formatGMTDate(new Date()));
             } else {
                 ViewUtil.removeLine(calendar_item_title);
                 calendar_item_title.setTextColor(Color.BLACK);
+                mAsyncExpandableListView.getHeader(mGroupOrdinal).setIsFinish(false);
+                mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(null);
             }
+            Task task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
+            Log.e(TAG, "onCheckedChanged() --> header task -->" + task.toString());
+            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task)
+                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                    .doOnNext(new Action1<Task>() {
+                        @Override
+                        public void call(Task task) {
+                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
+                            Log.e(TAG, "保存任务信息到本地" + task.toString());
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                    .subscribe(new Subscriber<Task>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //请求失败
+                            ToastUtil.show("失败");
+                            Log.e(TAG, e.toString() + "fail...");
+                        }
+
+                        @Override
+                        public void onNext(Task task) {
+                            //请求成功
+                            ToastUtil.show("同步成功");
+                            Log.e(TAG, "请求成功" + task.toString());
+                        }
+                    });
         }
 
         @Override

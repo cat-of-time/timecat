@@ -16,6 +16,7 @@ import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.Account;
+import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.ToastUtil;
@@ -133,7 +134,9 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
                     @Override
                     public void call(User user) {
 //                        saveUser(user);//保存用户信息到本地
-                        DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
+                        DBUser dbUser = ModelUtil.toDBUser(user);
+                        dbUser.setPassword(password);
+                        DB.users().saveAndFireEvent(dbUser);
                         Log.e(TAG, "保存用户信息到本地" + user.toString());
                     }
                 }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行

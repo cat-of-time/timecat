@@ -319,9 +319,9 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 intent.putExtra("user_id", id);
                 launchActivity(intent);
             } else {
-//                if (!login(ModelUtil.toAPIUser(user))) {
-//                    return false;
-//                }// TODO 本地不保存用户密码
+                if (!login(user)) {
+                    return false;
+                }// TODO 本地不保存用户密码
                 DB.users().setActive(user, mainActivity);
                 updateHeaderBackground(user);
             }
@@ -406,9 +406,9 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    private boolean login(User user) {
+    private boolean login(DBUser dbUser) {
         final boolean[] isSuccess = {false};
-        RetrofitHelper.getUserService().login(user) //获取Observable对象
+        RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
                 .compose(mainActivity.bindToLifecycle())
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
@@ -416,7 +416,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                     @Override
                     public void call(User user) {
                         //保存用户信息到本地
-                        DB.users().updateAndFireEvent(ModelUtil.toDBUser(user));
+                        DB.users().updateActiveUserAndFireEvent(dbUser, user);
                         Log.i(TAG, user.toString());
                     }
                 })
