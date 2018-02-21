@@ -125,7 +125,7 @@ public class SchedulesFragment extends BaseFragment implements
 
 
 
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码------------------------------------
     @Override
     protected View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
@@ -247,15 +247,14 @@ public class SchedulesFragment extends BaseFragment implements
         });
         monthPager.setBackgroundColor(ThemeManager.getTheme(getActivity()));
     }
-
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
-
+    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
 
 
 
 
 
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
+
+    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
     @Override
     public void initData() {//必须调用
         // 耗时操作 比如网络请求
@@ -356,13 +355,59 @@ public class SchedulesFragment extends BaseFragment implements
         }
     }
 
+    private void refreshExpandableListViewData() {
+
+        inventory = new CollectionView.Inventory<>();
+        RetrofitHelper.getUserService().getUserByEmail(dbUser.getEmail()) //获取Observable对象
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<User>() {
+                    @Override
+                    public void call(User user) {
+                        //保存用户信息到本地
+                        DB.users().updateActiveUserAndFireEvent(dbUser, user);
+                        Log.i(TAG, dbUser.toString());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        Log.e(TAG, e.toString());
+                        ToastUtil.show("更新用户信息失败");
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        //请求成功
+                        Log.i(TAG, "更新用户信息成功 --> " + user.toString());
+                        ToastUtil.show("更新用户信息成功");
+                    }
+                });
+
+        ArrayList<String> task_urls = dbUser.getTasks();
+        if (task_urls != null && task_urls.size() > 0) {
+            AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
+            loadDataForHeader.execute(task_urls);
+        } else {
+            AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
+            loadDataForHeader.execute(new ArrayList<>());
+        }
+    }
+
     @Override
     public void notifyDataChanged() {
         super.notifyDataChanged();
         refreshData();
         Log.e(TAG, "schedule fragment --> notifyDataChanged()");
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
+    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
 
 
@@ -370,7 +415,7 @@ public class SchedulesFragment extends BaseFragment implements
 
 
 
-    //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
+    //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
         mAsyncExpandableListView.setCallbacks(this);
@@ -382,12 +427,12 @@ public class SchedulesFragment extends BaseFragment implements
         switch (view.getId()) {
         }
     }
-    //-//</View.OnClickListener>---------------------------------------------------------------------
+    //-//</View.OnClickListener>--------------------------------------------------------------------
 
 
 
 
-    //-//<AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
+    //-//<AsyncExpandableListViewCallbacks>---------------------------------------------------------
     @Override
     public void onStartLoadingGroup(int groupOrdinal) {
         new LoadDataTaskContent(groupOrdinal, mAsyncExpandableListView)
@@ -466,12 +511,12 @@ public class SchedulesFragment extends BaseFragment implements
             scheduleItemHolder.getScheduleTaskTv_time().setText(begin_datetime + "-" + end_datetime);
         }
     }
-    //-//</AsyncExpandableListViewCallbacks>---------------------------------------------------------------------
+    //-//</AsyncExpandableListViewCallbacks>--------------------------------------------------------
 
 
 
 
-    //-//<MainActivity.OnViewClickListener>---------------------------------------------------------------------
+    //-//<MainActivity.OnViewClickListener>---------------------------------------------------------
     @Override
     public void onViewTodayClick() {
         refreshMonthPager();
@@ -513,7 +558,7 @@ public class SchedulesFragment extends BaseFragment implements
         calendarAdapter.notifyDataSetChanged();
         calendarAdapter.notifyDataChanged(new CalendarDate());
     }
-    //-//</MainActivity.OnViewClickListener>---------------------------------------------------------------------
+    //-//</MainActivity.OnViewClickListener>--------------------------------------------------------
 
 
 
@@ -551,6 +596,7 @@ public class SchedulesFragment extends BaseFragment implements
         if (mDateChangeListener != null) {
             mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
         }
+        refreshExpandableListViewData();
     }
 
     public void setOnDateChangeListener(OnDateChangeListener DateChangeListener) {
@@ -611,8 +657,12 @@ public class SchedulesFragment extends BaseFragment implements
                                 // 今天刚刚finished的
                                 // 顺延的
                                 // begin_datetime < today <= end_datetime
-                                boolean hasAddedTask = false;
                                 Date today = new Date();
+                                if (currentDate != null) {
+                                    today = TimeUtil.transferCalendarDate(currentDate);
+                                    Log.e(TAG, "transfer --> " + today);
+                                }
+                                boolean hasAddedTask = false;
                                 // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
                                 if (task.getIsFinish()) {
                                     Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
@@ -644,7 +694,7 @@ public class SchedulesFragment extends BaseFragment implements
                                     long during = today.getTime() - created_datetime.getTime();
                                     Log.e(TAG, "during == " + during);
                                     Log.e(TAG, "today == " + today + " -- created_datetime == " + created_datetime);
-                                    if (during >= 0) {
+                                    if (TimeUtil.isDateEarlier(created_datetime, today)) {
                                         if (task.getIs_all_day()) {
                                             tasks.add(task);
                                             Log.e(TAG, "add task, because of delay");
@@ -901,7 +951,7 @@ public class SchedulesFragment extends BaseFragment implements
                     intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, mAsyncExpandableListView.getHeader(mGroupOrdinal).getContent());
                     startActivity(intent2DialogActivity);
-                    ToastUtil.show("to Create a task");
+                    ToastUtil.show("to modify a task");
                     break;
             }
         }

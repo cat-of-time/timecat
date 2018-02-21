@@ -613,6 +613,7 @@ public class DialogActivity extends BaseActivity implements
 
 
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
+
     int important_urgent_label;
     private String title;
     private String content;
@@ -669,6 +670,8 @@ public class DialogActivity extends BaseActivity implements
         if (TextUtils.isEmpty(str)) {
             str = SPHelper.getString(ConstantUtil.UNIVERSAL_SAVE_COTENT, "");
         }
+
+
 
         title = str;
         content = str;

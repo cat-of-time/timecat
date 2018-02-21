@@ -3,6 +3,8 @@ package com.time.cat.util.string;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.ldf.calendar.model.CalendarDate;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -87,6 +89,10 @@ public class TimeUtil {
         SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 //        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormatGmt.format(gmt_datetime);
+    }
+
+    public static Date transferCalendarDate(CalendarDate calendarDate) {
+        return new Date(calendarDate.getYear() - 1900, calendarDate.getMonth() - 1, calendarDate.getDay());
     }
 
     /**
