@@ -3,6 +3,8 @@ package com.time.cat.mvp.model.DBmodel;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * @author dlink
  * @email linxy59@mail2.sysu.edu.cn
@@ -11,7 +13,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @usage null
  */
 @DatabaseTable(tableName = "Notes")
-public class DBNote {
+public class DBNote implements Serializable {
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_URL = "Url";
     public static final String COLUMN_TITLE = "Title";

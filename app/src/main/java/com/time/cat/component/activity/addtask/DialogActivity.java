@@ -65,7 +65,6 @@ import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
 
 import java.net.URLEncoder;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -608,7 +607,7 @@ public class DialogActivity extends BaseActivity implements
 
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
     Task task;
-    Note note;
+    DBNote note;
     int important_urgent_label;
     private String title;
     private String content;
@@ -634,7 +633,7 @@ public class DialogActivity extends BaseActivity implements
     @Override
     public void initData() {//必须调用
         task = (Task) getIntent().getSerializableExtra(TO_UPDATE_TASK);
-        note = (Note) getIntent().getSerializableExtra(TO_UPDATE_NOTE);
+        note = (DBNote) getIntent().getSerializableExtra(TO_UPDATE_NOTE);
 
         important_urgent_label = 0;
         title = null;
@@ -911,21 +910,6 @@ public class DialogActivity extends BaseActivity implements
             ToastUtil.show("输入为空！");
             return;
         }
-        Intent intent2Translate = new Intent(DialogActivity.this, TimeCatActivity.class);
-        intent2Translate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent2Translate.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
-        intent2Translate.putExtra(TimeCatActivity.IS_TRANSLATE, true);
-        startActivity(intent2Translate);
-        finish();
-    }
-
-    private void onClickTranslate() {
-        content = dialog_add_task_et_content.getText().toString();
-        if (TextUtils.isEmpty(content)) {
-            content = "";
-            ToastUtil.show("输入为空！");
-            return;
-        }
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SEARCH);
         boolean isUrl = false;
         Uri uri = null;
@@ -972,6 +956,21 @@ public class DialogActivity extends BaseActivity implements
             startActivity(intent2web);
             finish();
         }
+    }
+
+    private void onClickTranslate() {
+        content = dialog_add_task_et_content.getText().toString();
+        if (TextUtils.isEmpty(content)) {
+            content = "";
+            ToastUtil.show("输入为空！");
+            return;
+        }
+        Intent intent2Translate = new Intent(DialogActivity.this, TimeCatActivity.class);
+        intent2Translate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent2Translate.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
+        intent2Translate.putExtra(TimeCatActivity.IS_TRANSLATE, true);
+        startActivity(intent2Translate);
+        finish();
     }
 
     private void onUpdateTask() {
@@ -1102,11 +1101,6 @@ public class DialogActivity extends BaseActivity implements
     }
 
     private void onUpdateNote() {
-        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Saving Task...");
-        progressDialog.show();
-
         title = dialog_add_task_et_title.getText().toString();
         content = dialog_add_task_et_content.getText().toString();
         note.setTitle(title);
@@ -1116,25 +1110,7 @@ public class DialogActivity extends BaseActivity implements
         tags.add("http://192.168.88.105:8000/tags/2/");
 //        note.setTags(tags);
         note.setUpdate_datetime(TimeUtil.formatGMTDate(new Date()));
-
-        DBNote dbNote = ModelUtil.toDBNote(note);
-        List<DBNote> existing = null;
-        try {
-            existing = DB.notes().queryForEq("Url", dbNote.getUrl());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (existing.size() > 0) {
-            long id = existing.get(0).getId();
-            dbNote.setId(id);
-            DB.notes().updateAndFireEvent(dbNote);
-            Log.i(TAG, "更新笔记信息 --> updateAndFireEvent -- > " + dbNote.toString());
-        } else {
-            DB.notes().saveAndFireEvent(dbNote);
-            Log.i(TAG, "保存笔记信息 --> saveAndFireEvent -- > " + dbNote.toString());
-        }
-        progressDialog.dismiss();
-
+        DB.notes().updateAndFireEvent(note);
         finish();
 
 //        RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task) //获取Observable对象
@@ -1174,11 +1150,6 @@ public class DialogActivity extends BaseActivity implements
     }
 
     private void onCreateNote() {
-        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Saving Task...");
-        progressDialog.show();
-
         Note note = new Note();
         DBUser activeUser = DB.users().getActive(this);
         String owner = ModelUtil.getOwnerUrl(activeUser);
@@ -1194,7 +1165,6 @@ public class DialogActivity extends BaseActivity implements
         tags.add("http://192.168.88.105:8000/tags/2/");
 //        note.setTags(tags);
         DB.notes().saveAndFireEvent(ModelUtil.toDBNote(note));
-        progressDialog.dismiss();
         Log.e(TAG, "saveAndFireEvent() --> " + ModelUtil.toDBNote(note).toString());
         Log.e(TAG, "DB.notes() --> " + DB.notes().findAll().toString());
 

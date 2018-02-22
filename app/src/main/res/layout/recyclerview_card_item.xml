@@ -29,12 +29,12 @@
             android:paddingRight="16dp">
 
             <TextView
+                android:id="@+id/notes_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="40dp"
                 android:ellipsize="end"
-                android:id="@+id/notes_tv_title"
                 android:singleLine="true"
                 android:text="Trip name"
                 android:textColor="#3E3E3E"/>
@@ -57,7 +57,7 @@
         android:id="@+id/expansionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:expansion_expanded="false">
+        app:expansion_expanded="true">
 
         <LinearLayout
             android:id="@+id/container"
@@ -65,18 +65,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#EEE"
+            <TextView
                 android:id="@+id/notes_et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEE"
                 android:gravity="top"
-                android:maxHeight="300dp"
-                android:inputType="textMultiLine"
                 android:lineSpacingMultiplier="1.2"
                 android:padding="10dp"
-                android:textSize="@dimen/text_size_medium"
-                android:text="content"/>
+                android:text="content"
+                android:textSize="@dimen/text_size_medium"/>
 
         </LinearLayout>
 
