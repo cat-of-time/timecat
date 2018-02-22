@@ -1,9 +1,12 @@
 package com.time.cat.util;
 
+import com.time.cat.NetworkSystem.ConstantURL;
 import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.mvp.model.APImodel.User;
+import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.mvp.model.Note;
 import com.time.cat.mvp.model.Task;
 import com.time.cat.util.source.AvatarManager;
 
@@ -60,5 +63,24 @@ public class ModelUtil {
         dbTask.setOwner(task.getOwner());
         dbTask.setLabel(task.getLabel());
         return dbTask;
+    }
+
+    public static DBNote toDBNote(Note note) {
+        DBNote dbNote = new DBNote();
+        dbNote.setContent(note.getContent());
+        dbNote.setCreated_datetime(note.getCreated_datetime());
+        dbNote.setUpdate_datetime(note.getUpdate_datetime());
+        dbNote.setUrl(note.getUrl());
+        dbNote.setTitle(note.getTitle());
+        dbNote.setOwner(note.getOwner());
+        return dbNote;
+    }
+
+    public static String getOwnerUrl(User u) {
+        return ConstantURL.BASE_URL_USERS + u.getEmail() + "/";
+    }
+
+    public static String getOwnerUrl(DBUser u) {
+        return ConstantURL.BASE_URL_USERS + u.getEmail() + "/";
     }
 }

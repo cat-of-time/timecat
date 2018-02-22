@@ -32,6 +32,7 @@
                 android:background="@null"
                 android:hint="标题"
                 android:singleLine="true"
+                android:ellipsize="end"
                 android:textColor="#3e000000"
                 android:textColorHighlight="@color/colorPrimary"
                 android:textSize="@dimen/text_size_tiny"/>

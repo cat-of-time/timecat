@@ -535,6 +535,11 @@ public class SchedulesFragment extends BaseFragment implements
         refreshData();
     }
 
+    @Override
+    public void onViewNoteRefreshClick() {
+
+    }
+
     private void refreshMonthPager() {
         CalendarDate today = new CalendarDate();
         if (calendarAdapter != null) {

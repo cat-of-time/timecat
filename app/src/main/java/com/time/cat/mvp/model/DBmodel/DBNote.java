@@ -1,6 +1,7 @@
-package com.time.cat.mvp.model;
+package com.time.cat.mvp.model.DBmodel;
 
-import java.io.Serializable;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * @author dlink
@@ -9,18 +10,43 @@ import java.io.Serializable;
  * @discription null
  * @usage null
  */
-public class Note implements Serializable {
-    private static final long serialVersionUID = 2L;
+@DatabaseTable(tableName = "Notes")
+public class DBNote {
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_URL = "Url";
+    public static final String COLUMN_TITLE = "Title";
+    public static final String COLUMN_CONTENT = "Content";
+    public static final String COLUMN_OWNER = "Owner";
+    public static final String COLUMN_CREATED_DATETIME = "created_datetime";
+    public static final String COLUMN_UPDATE_DATETIME = "update_datetime";
 
-    private String created_datetime;
+    @DatabaseField(columnName = COLUMN_ID, generatedId = true)
+    private long id;
+
+    @DatabaseField(columnName = COLUMN_URL)
     private String url;// note的url 访问该url可返回该note
+
+    @DatabaseField(columnName = COLUMN_TITLE)
     private String title;//笔记标题
+
+    @DatabaseField(columnName = COLUMN_CONTENT)
     private String content;//笔记内容
+
+    @DatabaseField(columnName = COLUMN_OWNER)
     private String owner;//用户ID
+
+    @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
+    private String created_datetime;
+
+    @DatabaseField(columnName = COLUMN_UPDATE_DATETIME)
     private String update_datetime;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUrl() {
@@ -57,7 +83,7 @@ public class Note implements Serializable {
 
     @Override
     public String toString() {
-        return "Note{" + "url='" + url + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", owner='" + owner + '\'' + '}';
+        return "DBNote{" + "id=" + id + ", url='" + url + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", owner='" + owner + '\'' + '}';
     }
 
     public String getCreated_datetime() {

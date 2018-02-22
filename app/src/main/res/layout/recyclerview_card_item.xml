@@ -5,85 +5,82 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <!--<android.support.v7.widget.CardView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="5dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_marginTop="5dp">-->
+
+
+    <com.github.florent37.expansionpanel.ExpansionHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp">
+        app:expansion_headerIndicator="@id/headerIndicator"
+        app:expansion_layout="@id/expansionLayout"
+        app:expansion_toggleOnClick="true">
 
-
-        <com.github.florent37.expansionpanel.ExpansionHeader
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:expansion_headerIndicator="@id/headerIndicator"
-            app:expansion_layout="@id/expansionLayout"
-            app:expansion_toggleOnClick="true">
+            android:layout_height="48dp"
+            android:background="@android:color/white"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@android:color/white"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="Trip name"
-                    android:textColor="#3E3E3E"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="120dp"
-                    android:text="Carribean cuise"
-                    android:textColor="#AAA"/>
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/headerIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp"/>
-
-            </RelativeLayout>
-
-        </com.github.florent37.expansionpanel.ExpansionHeader>
-
-        <com.github.florent37.expansionpanel.ExpansionLayout
-            android:id="@+id/expansionLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:expansion_expanded="false">
-
-            <LinearLayout
-                android:id="@+id/container"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="40dp"
+                android:ellipsize="end"
+                android:id="@+id/notes_tv_title"
+                android:singleLine="true"
+                android:text="Trip name"
+                android:textColor="#3E3E3E"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="#EEE"
-                    android:gravity="center"
-                    android:text="content"/>
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/headerIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp"/>
 
-            </LinearLayout>
+        </RelativeLayout>
 
-        </com.github.florent37.expansionpanel.ExpansionLayout>
+    </com.github.florent37.expansionpanel.ExpansionHeader>
+
+    <com.github.florent37.expansionpanel.ExpansionLayout
+        android:id="@+id/expansionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:expansion_expanded="false">
 
         <LinearLayout
-            android:id="@+id/dynamicLayoutContainer"
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-    </android.support.v7.widget.CardView>
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#EEE"
+                android:id="@+id/notes_et_content"
+                android:gravity="top"
+                android:maxHeight="300dp"
+                android:inputType="textMultiLine"
+                android:lineSpacingMultiplier="1.2"
+                android:padding="10dp"
+                android:textSize="@dimen/text_size_medium"
+                android:text="content"/>
+
+</LinearLayout>
+        </LinearLayout>
+
+    </com.github.florent37.expansionpanel.ExpansionLayout>
+
 </LinearLayout>

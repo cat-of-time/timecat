@@ -42,9 +42,9 @@
         android:id="@+id/main_menu_notesFragment"
         android:visible="false">
         <item
-            android:id="@+id/main_menu_3"
+            android:id="@+id/main_menu_note_refresh"
             android:icon="@drawable/ic_autorenew_white_24dp"
-            android:title="@string/main_menu_change_theme"
+            android:title="@string/main_menu_refresh_schedule"
             android:visible="false"
             app:showAsAction="ifRoom"/>
     </group>

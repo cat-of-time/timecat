@@ -137,6 +137,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
     //android support
+    //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
@@ -154,7 +155,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     //RxLifecycle
     compile 'com.trello:rxlifecycle-components:0.6.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.alibaba:fastjson:1.1.67.android'
     //tabLayout
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
@@ -208,4 +210,5 @@ dependencies {
     compile files('libs/AndroidScreenCap.jar')
     compile files('libs/securityguard-3.1.27.jar')
     compile files('libs/utdid4all-1.0.4.jar')
+    compile 'com.android.support:support-annotations:27.0.2'
 }

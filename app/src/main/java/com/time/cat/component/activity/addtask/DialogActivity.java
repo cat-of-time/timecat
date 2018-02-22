@@ -39,6 +39,7 @@ import com.time.cat.component.activity.TimeCatActivity;
 import com.time.cat.component.activity.WebActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
+import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Note;
 import com.time.cat.mvp.model.Task;
@@ -64,6 +65,7 @@ import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
 
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -795,259 +797,444 @@ public class DialogActivity extends BaseActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_add_task_type_note:
-                dialog_add_task_tv_important_urgent.setVisibility(View.GONE);
-                dialog_add_task_tv_date.setVisibility(View.GONE);
-                dialog_add_task_tv_time.setVisibility(View.GONE);
-                dialog_add_task_tv_remind.setVisibility(View.GONE);
-                dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
-                type = Type.NOTE;
-                dialog_add_task_type_note.setTextColor(Color.parseColor("#ee03a9f4"));
-                dialog_add_task_type_task.setTextColor(Color.parseColor("#3e000000"));
-                dialog_add_task_type_clock.setTextColor(Color.parseColor("#3e000000"));
-                dialog_add_task_type_note.setTextSize(18);
-                dialog_add_task_type_task.setTextSize(14);
-                dialog_add_task_type_clock.setTextSize(14);
+                onSelectTypeNote();
                 break;
             case R.id.dialog_add_task_type_task:
-                dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
-                dialog_add_task_tv_date.setVisibility(View.VISIBLE);
-                dialog_add_task_tv_time.setVisibility(View.VISIBLE);
-                dialog_add_task_tv_remind.setVisibility(View.GONE);
-                dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
-                type = Type.TASK;
-                dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
-                dialog_add_task_type_task.setTextColor(Color.parseColor("#ee03a9f4"));
-                dialog_add_task_type_clock.setTextColor(Color.parseColor("#3e000000"));
-                dialog_add_task_type_note.setTextSize(14);
-                dialog_add_task_type_task.setTextSize(18);
-                dialog_add_task_type_clock.setTextSize(14);
+                onSelectTypeTask();
                 break;
             case R.id.dialog_add_task_type_clock:
-                dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
-                dialog_add_task_tv_date.setVisibility(View.VISIBLE);
-                dialog_add_task_tv_time.setVisibility(View.VISIBLE);
-                dialog_add_task_tv_remind.setVisibility(View.VISIBLE);
-                dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
-                type = Type.CLOCK;
-                dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
-                dialog_add_task_type_task.setTextColor(Color.parseColor("#3e000000"));
-                dialog_add_task_type_clock.setTextColor(Color.parseColor("#ee03a9f4"));
-                dialog_add_task_type_note.setTextSize(14);
-                dialog_add_task_type_task.setTextSize(14);
-                dialog_add_task_type_clock.setTextSize(18);
+                onSelectTypeClock();
                 break;
             case R.id.dialog_add_task_footer_iv_timecat:
-                content = dialog_add_task_et_content.getText().toString();
-                if (TextUtils.isEmpty(content)) {
-                    content = "";
-                    ToastUtil.show("输入为空！");
-                    break;
-                }
-                Intent intent2TimeCat = new Intent(DialogActivity.this, TimeCatActivity.class);
-                intent2TimeCat.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent2TimeCat.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
-                startActivity(intent2TimeCat);
-                finish();
+                onClickTimeCat();
                 break;
             case R.id.dialog_add_task_footer_iv_translate:
-                content = dialog_add_task_et_content.getText().toString();
-                if (TextUtils.isEmpty(content)) {
-                    content = "";
-                    ToastUtil.show("输入为空！");
-                    break;
-                }
-                Intent intent2Translate = new Intent(DialogActivity.this, TimeCatActivity.class);
-                intent2Translate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent2Translate.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
-                intent2Translate.putExtra(TimeCatActivity.IS_TRANSLATE, true);
-                startActivity(intent2Translate);
-                finish();
+                onClickTranslate();
                 break;
             case R.id.dialog_add_task_footer_iv_search:
-                content = dialog_add_task_et_content.getText().toString();
-                if (TextUtils.isEmpty(content)) {
-                    content = "";
-                    ToastUtil.show("输入为空！");
-                    break;
-                }
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SEARCH);
-                boolean isUrl = false;
-                Uri uri = null;
-                try {
-                    Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = p.matcher(content);
-                    if (!matcher.matches()) {
-                        uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url + URLEncoder.encode(content, "utf-8"));
-                        isUrl = false;
-                    } else {
-                        uri = Uri.parse(content);
-                        if (!content.startsWith("http")) {
-                            content = "http://" + content;
-                        }
-                        isUrl = true;
-                    }
-
-                    boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
-                    Intent intent2Web;
-                    if (t) {
-                        intent2Web = new Intent();
-                        if (isUrl) {
-                            intent2Web.putExtra("url", content);
-                        } else {
-                            intent2Web.putExtra("query", content);
-                        }
-                        intent2Web.setClass(DialogActivity.this, WebActivity.class);
-                        startActivity(intent2Web);
-                    } else {
-                        intent2Web = new Intent(Intent.ACTION_VIEW, uri);
-                        intent2Web.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent2Web);
-                        finish();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Intent intent2web = new Intent();
-                    if (isUrl) {
-                        intent2web.putExtra("url", content);
-                    } else {
-                        intent2web.putExtra("query", content);
-                    }
-                    intent2web.setClass(DialogActivity.this, WebActivity.class);
-                    startActivity(intent2web);
-                    finish();
-                }
+                onClickSearch();
                 break;
             case R.id.dialog_add_task_footer_bt_submit:
                 dialog_add_task_footer_bt_submit.setClickable(false);
-                final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Saving Task...");
-                progressDialog.show();
-                DBUser activeUser = DB.users().getActive(this);
+                dialog_add_task_footer_bt_submit.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog_add_task_footer_bt_submit.setClickable(true);
+                    }
+                }, 3000);
                 switch (type) {
                     case NOTE:
-//                        s = "笔记";
+                        if (note != null) {
+                            onUpdateNote();
+                        } else {
+                            onCreateNote();
+                        }
                         break;
                     case TASK:
                         if (task != null) {
-                            title = dialog_add_task_et_title.getText().toString();
-                            content = dialog_add_task_et_content.getText().toString();
-                            task.setTitle(title);
-                            task.setContent(content);
-                            task.setLabel(important_urgent_label);
-                            ArrayList<String> tags = new ArrayList<>();
-                            tags.add("http://192.168.88.105:8000/tags/1/");
-                            tags.add("http://192.168.88.105:8000/tags/2/");
-                            task.setTags(tags);
-                            if (!is_all_day) {
-                                task.setIs_all_day(is_all_day);
-                                Date d = new Date();
-                                d.setHours(start_hour);
-                                d.setMinutes(start_min);
-                                task.setBegin_datetime(TimeUtil.formatGMTDate(d));
-                                d.setHours(end_hour);
-                                d.setMinutes(end_min);
-                                task.setEnd_datetime(TimeUtil.formatGMTDate(d));
-                            }
-                            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task) //获取Observable对象
-                                    .compose(this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
-                                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
-                                    .doOnNext(new Action1<Task>() {
-                                        @Override
-                                        public void call(Task task) {
-                                            //TODO 暂时不存到本地
-//                                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-//                                            Log.e(TAG, "保存任务信息到本地" + task.toString());
-                                        }
-                                    }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-                                    .subscribe(new Subscriber<Task>() {
-                                        @Override
-                                        public void onCompleted() {
-
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            //请求失败
-                                            progressDialog.dismiss();
-                                            ToastUtil.show("更新[ 任务 ]失败");
-                                            Log.e(TAG, e.toString());
-                                        }
-
-                                        @Override
-                                        public void onNext(Task task) {
-                                            //请求成功
-                                            progressDialog.dismiss();
-                                            ToastUtil.show("成功更新[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
-                                            finish();
-                                            Log.e(TAG, "请求成功" + task.toString());
-                                        }
-                                    });
+                            onUpdateTask();
                         } else {
-                            Task task = new Task();
-                            String owner = ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/";
-                            task.setOwner(owner);
-                            title = dialog_add_task_et_title.getText().toString();
-                            content = dialog_add_task_et_content.getText().toString();
-                            task.setTitle(title);
-                            task.setContent(content);
-                            task.setLabel(important_urgent_label);
-                            ArrayList<String> tags = new ArrayList<>();
-                            tags.add("http://192.168.88.105:8000/tags/1/");
-                            tags.add("http://192.168.88.105:8000/tags/2/");
-                            task.setTags(tags);
-                            if (!is_all_day) {
-                                task.setIs_all_day(is_all_day);
-                                Date d = new Date();
-                                d.setHours(start_hour);
-                                d.setMinutes(start_min);
-                                task.setBegin_datetime(TimeUtil.formatGMTDate(d));
-                                d.setHours(end_hour);
-                                d.setMinutes(end_min);
-                                task.setEnd_datetime(TimeUtil.formatGMTDate(d));
-                            }
-                            RetrofitHelper.getTaskService().createTask(task) //获取Observable对象
-                                    .compose(this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
-                                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
-                                    .doOnNext(new Action1<Task>() {
-                                        @Override
-                                        public void call(Task task) {
-                                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-                                            Log.e(TAG, "保存任务信息到本地" + task.toString());
-                                        }
-                                    }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-                                    .subscribe(new Subscriber<Task>() {
-                                        @Override
-                                        public void onCompleted() {
-
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            //请求失败
-                                            progressDialog.dismiss();
-                                            ToastUtil.show("添加[ 任务 ]失败");
-                                            Log.e(TAG, e.toString());
-                                        }
-
-                                        @Override
-                                        public void onNext(Task task) {
-                                            //请求成功
-                                            progressDialog.dismiss();
-                                            ToastUtil.show("成功添加[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
-                                            finish();
-                                            Log.e(TAG, "请求成功" + task.toString());
-                                        }
-                                    });
+                            onCreateTask();
                         }
                         break;
                     case CLOCK:
-//                        s = "时钟";
                         ToastUtil.show("添加[ 闹钟 ]失败：功能未完善");
                         break;
                 }
                 break;
         }
+    }
+
+    private void onSelectTypeNote() {
+        dialog_add_task_tv_important_urgent.setVisibility(View.GONE);
+        dialog_add_task_tv_date.setVisibility(View.GONE);
+        dialog_add_task_tv_time.setVisibility(View.GONE);
+        dialog_add_task_tv_remind.setVisibility(View.GONE);
+        dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
+        type = Type.NOTE;
+        dialog_add_task_type_note.setTextColor(Color.parseColor("#ee03a9f4"));
+        dialog_add_task_type_task.setTextColor(Color.parseColor("#3e000000"));
+        dialog_add_task_type_clock.setTextColor(Color.parseColor("#3e000000"));
+        dialog_add_task_type_note.setTextSize(18);
+        dialog_add_task_type_task.setTextSize(14);
+        dialog_add_task_type_clock.setTextSize(14);
+    }
+
+    private void onSelectTypeTask() {
+        dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_date.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_time.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_remind.setVisibility(View.GONE);
+        dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
+        type = Type.TASK;
+        dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
+        dialog_add_task_type_task.setTextColor(Color.parseColor("#ee03a9f4"));
+        dialog_add_task_type_clock.setTextColor(Color.parseColor("#3e000000"));
+        dialog_add_task_type_note.setTextSize(14);
+        dialog_add_task_type_task.setTextSize(18);
+        dialog_add_task_type_clock.setTextSize(14);
+    }
+
+    private void onSelectTypeClock() {
+        dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_date.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_time.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_remind.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
+        type = Type.CLOCK;
+        dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
+        dialog_add_task_type_task.setTextColor(Color.parseColor("#3e000000"));
+        dialog_add_task_type_clock.setTextColor(Color.parseColor("#ee03a9f4"));
+        dialog_add_task_type_note.setTextSize(14);
+        dialog_add_task_type_task.setTextSize(14);
+        dialog_add_task_type_clock.setTextSize(18);
+    }
+
+    private void onClickTimeCat() {
+        content = dialog_add_task_et_content.getText().toString();
+        if (TextUtils.isEmpty(content)) {
+            content = "";
+            ToastUtil.show("输入为空！");
+            return;
+        }
+        Intent intent2TimeCat = new Intent(DialogActivity.this, TimeCatActivity.class);
+        intent2TimeCat.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent2TimeCat.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
+        startActivity(intent2TimeCat);
+        finish();
+    }
+
+    private void onClickSearch() {
+        content = dialog_add_task_et_content.getText().toString();
+        if (TextUtils.isEmpty(content)) {
+            content = "";
+            ToastUtil.show("输入为空！");
+            return;
+        }
+        Intent intent2Translate = new Intent(DialogActivity.this, TimeCatActivity.class);
+        intent2Translate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent2Translate.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
+        intent2Translate.putExtra(TimeCatActivity.IS_TRANSLATE, true);
+        startActivity(intent2Translate);
+        finish();
+    }
+
+    private void onClickTranslate() {
+        content = dialog_add_task_et_content.getText().toString();
+        if (TextUtils.isEmpty(content)) {
+            content = "";
+            ToastUtil.show("输入为空！");
+            return;
+        }
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SEARCH);
+        boolean isUrl = false;
+        Uri uri = null;
+        try {
+            Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = p.matcher(content);
+            if (!matcher.matches()) {
+                uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url + URLEncoder.encode(content, "utf-8"));
+                isUrl = false;
+            } else {
+                uri = Uri.parse(content);
+                if (!content.startsWith("http")) {
+                    content = "http://" + content;
+                }
+                isUrl = true;
+            }
+
+            boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
+            Intent intent2Web;
+            if (t) {
+                intent2Web = new Intent();
+                if (isUrl) {
+                    intent2Web.putExtra("url", content);
+                } else {
+                    intent2Web.putExtra("query", content);
+                }
+                intent2Web.setClass(DialogActivity.this, WebActivity.class);
+                startActivity(intent2Web);
+            } else {
+                intent2Web = new Intent(Intent.ACTION_VIEW, uri);
+                intent2Web.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent2Web);
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Intent intent2web = new Intent();
+            if (isUrl) {
+                intent2web.putExtra("url", content);
+            } else {
+                intent2web.putExtra("query", content);
+            }
+            intent2web.setClass(DialogActivity.this, WebActivity.class);
+            startActivity(intent2web);
+            finish();
+        }
+    }
+
+    private void onUpdateTask() {
+        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Saving Task...");
+        progressDialog.show();
+
+        title = dialog_add_task_et_title.getText().toString();
+        content = dialog_add_task_et_content.getText().toString();
+        task.setTitle(title);
+        task.setContent(content);
+        task.setLabel(important_urgent_label);
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("http://192.168.88.105:8000/tags/1/");
+        tags.add("http://192.168.88.105:8000/tags/2/");
+        task.setTags(tags);
+        if (!is_all_day) {
+            task.setIs_all_day(is_all_day);
+            Date d = new Date();
+            d.setHours(start_hour);
+            d.setMinutes(start_min);
+            task.setBegin_datetime(TimeUtil.formatGMTDate(d));
+            d.setHours(end_hour);
+            d.setMinutes(end_min);
+            task.setEnd_datetime(TimeUtil.formatGMTDate(d));
+        }
+        RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task) //获取Observable对象
+                .compose(this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<Task>() {
+                    @Override
+                    public void call(Task task) {
+                        //TODO 暂时不存到本地
+//                                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
+//                                            Log.e(TAG, "保存任务信息到本地" + task.toString());
+                    }
+                }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<Task>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        progressDialog.dismiss();
+                        ToastUtil.show("更新[ 任务 ]失败");
+                        Log.e(TAG, e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Task task) {
+                        //请求成功
+                        progressDialog.dismiss();
+                        ToastUtil.show("成功更新[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
+                        finish();
+                        Log.e(TAG, "请求成功" + task.toString());
+                    }
+                });
+    }
+
+    private void onCreateTask() {
+        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Saving Task...");
+        progressDialog.show();
+
+        Task task = new Task();
+        DBUser activeUser = DB.users().getActive(this);
+        String owner = ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/";
+        task.setOwner(owner);
+        title = dialog_add_task_et_title.getText().toString();
+        content = dialog_add_task_et_content.getText().toString();
+        task.setTitle(title);
+        task.setContent(content);
+        task.setLabel(important_urgent_label);
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("http://192.168.88.105:8000/tags/1/");
+        tags.add("http://192.168.88.105:8000/tags/2/");
+        task.setTags(tags);
+        if (!is_all_day) {
+            task.setIs_all_day(is_all_day);
+            Date d = new Date();
+            d.setHours(start_hour);
+            d.setMinutes(start_min);
+            task.setBegin_datetime(TimeUtil.formatGMTDate(d));
+            d.setHours(end_hour);
+            d.setMinutes(end_min);
+            task.setEnd_datetime(TimeUtil.formatGMTDate(d));
+        }
+        RetrofitHelper.getTaskService().createTask(task) //获取Observable对象
+                .compose(this.bindToLifecycle())
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<Task>() {
+                    @Override
+                    public void call(Task task) {
+                        DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
+                        Log.e(TAG, "保存任务信息到本地" + task.toString());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<Task>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        progressDialog.dismiss();
+                        ToastUtil.show("添加[ 任务 ]失败");
+                        Log.e(TAG, e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Task task) {
+                        //请求成功
+                        progressDialog.dismiss();
+                        ToastUtil.show("成功添加[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
+                        finish();
+                        Log.e(TAG, "请求成功" + task.toString());
+                    }
+                });
+    }
+
+    private void onUpdateNote() {
+        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Saving Task...");
+        progressDialog.show();
+
+        title = dialog_add_task_et_title.getText().toString();
+        content = dialog_add_task_et_content.getText().toString();
+        note.setTitle(title);
+        note.setContent(content);
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("http://192.168.88.105:8000/tags/1/");
+        tags.add("http://192.168.88.105:8000/tags/2/");
+//        note.setTags(tags);
+        note.setUpdate_datetime(TimeUtil.formatGMTDate(new Date()));
+
+        DBNote dbNote = ModelUtil.toDBNote(note);
+        List<DBNote> existing = null;
+        try {
+            existing = DB.notes().queryForEq("Url", dbNote.getUrl());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbNote.setId(id);
+            DB.notes().updateAndFireEvent(dbNote);
+            Log.i(TAG, "更新笔记信息 --> updateAndFireEvent -- > " + dbNote.toString());
+        } else {
+            DB.notes().saveAndFireEvent(dbNote);
+            Log.i(TAG, "保存笔记信息 --> saveAndFireEvent -- > " + dbNote.toString());
+        }
+        progressDialog.dismiss();
+
+        finish();
+
+//        RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task) //获取Observable对象
+//                .compose(this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+//                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+//                .doOnNext(new Action1<Task>() {
+//                    @Override
+//                    public void call(Task task) {
+//                        //TODO 暂时不存到本地
+////                                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
+////                                            Log.e(TAG, "保存任务信息到本地" + task.toString());
+//                    }
+//                }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+//                .subscribe(new Subscriber<Task>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        //请求失败
+//                        progressDialog.dismiss();
+//                        ToastUtil.show("更新[ 任务 ]失败");
+//                        Log.e(TAG, e.toString());
+//                    }
+//
+//                    @Override
+//                    public void onNext(Task task) {
+//                        //请求成功
+//                        progressDialog.dismiss();
+//                        ToastUtil.show("成功更新[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
+//                        finish();
+//                        Log.e(TAG, "请求成功" + task.toString());
+//                    }
+//                });
+    }
+
+    private void onCreateNote() {
+        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Saving Task...");
+        progressDialog.show();
+
+        Note note = new Note();
+        DBUser activeUser = DB.users().getActive(this);
+        String owner = ModelUtil.getOwnerUrl(activeUser);
+        note.setOwner(owner);
+        title = dialog_add_task_et_title.getText().toString();
+        content = dialog_add_task_et_content.getText().toString();
+        note.setTitle(title);
+        note.setContent(content);
+        note.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
+        note.setUpdate_datetime(note.getCreated_datetime());
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("http://192.168.88.105:8000/tags/1/");
+        tags.add("http://192.168.88.105:8000/tags/2/");
+//        note.setTags(tags);
+        DB.notes().saveAndFireEvent(ModelUtil.toDBNote(note));
+        progressDialog.dismiss();
+        Log.e(TAG, "saveAndFireEvent() --> " + ModelUtil.toDBNote(note).toString());
+        Log.e(TAG, "DB.notes() --> " + DB.notes().findAll().toString());
+
+
+        finish();
+//        RetrofitHelper.getNoteService().createNote(note) //获取Observable对象
+//                .compose(this.bindToLifecycle())
+//                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+//                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+//                .doOnNext(new Action1<Note>() {
+//                    @Override
+//                    public void call(Note note) {
+//                        DB.notes().saveAndFireEvent(ModelUtil.toDBNote(note));
+//                        Log.e(TAG, "保存任务信息到本地" + note.toString());
+//                    }
+//                })
+//                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+//                .subscribe(new Subscriber<Note>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        //请求失败
+//                        progressDialog.dismiss();
+//                        ToastUtil.show("添加[ 任务 ]失败");
+//                        Log.e(TAG, e.toString());
+//                    }
+//
+//                    @Override
+//                    public void onNext(Note note) {
+//                        //请求成功
+//                        progressDialog.dismiss();
+//                        ToastUtil.show("成功添加[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
+//                        finish();
+//                        Log.e(TAG, "请求成功" + note.toString());
+//                    }
+//                });
     }
     //-//</View.OnClickListener>--------------------------------------------------------------------
 

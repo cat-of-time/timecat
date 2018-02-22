@@ -8,12 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_alignParentTop="true"
-        android:elevation="1dp"
-        android:alpha="0.6"
-        android:background="@drawable/shadow"/>
+        android:alpha="0.3"
+        android:background="@drawable/shadow"
+        android:elevation="1dp"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/notes_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

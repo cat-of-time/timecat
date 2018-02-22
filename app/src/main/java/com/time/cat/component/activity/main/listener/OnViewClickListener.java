@@ -10,5 +10,7 @@ public interface OnViewClickListener {
 
     void onViewRefreshClick();
 
+    void onViewNoteRefreshClick();
+
     void onViewChangeMarkThemeClick();
 }

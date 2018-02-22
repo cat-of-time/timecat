@@ -8,11 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_alignParentTop="true"
-        android:alpha="0.6"
+        android:alpha="0.3"
         android:background="@drawable/shadow"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="敬请期待..."
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="敬请期待..."/>
 </RelativeLayout>

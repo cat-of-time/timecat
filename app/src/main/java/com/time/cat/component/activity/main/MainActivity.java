@@ -217,7 +217,10 @@ public class MainActivity extends BaseActivity implements
 
 //        RoutinesFragment routinesFragment = new RoutinesFragment();
         RoutinesListFragment routinesListFragment = new RoutinesListFragment();
+
         NotesFragment notesFragment = new NotesFragment();
+        setOnViewClickListener(notesFragment);
+
         PlansFragment plansFragment = new PlansFragment();
 
         fragmentNames = new String[]{"SchedulesFragment", "RoutinesFragment", "NotesFragment", "PlansFragment"};
@@ -486,6 +489,12 @@ public class MainActivity extends BaseActivity implements
                 }
                 return true;
 
+            // 以下是note menu group
+            case R.id.main_menu_note_refresh:
+                if (mViewClickListener != null) {
+                    mViewClickListener.onViewNoteRefreshClick();
+                }
+                return true;
 
             // 以下是schedule plan group
             case R.id.main_menu_2:
@@ -642,19 +651,19 @@ public class MainActivity extends BaseActivity implements
                         PersistenceEvents.ModelCreateOrUpdateEvent event = (PersistenceEvents.ModelCreateOrUpdateEvent) evt;
                         Log.d(TAG, "onEvent: " + event.clazz.getName());
 //                        customPagerView.getAdapter().notifyDataSetChanged();
-                        customPagerViewAdapter.notifyDataSetChanged();
-                        if (mViewClickListener != null) {
-                            mViewClickListener.onViewRefreshClick();
-                        }
+                        customPagerViewAdapter.notifyDataChanged();
+//                        if (mViewClickListener != null) {
+//                            mViewClickListener.onViewRefreshClick();
+//                        }
 //                        Log.e(TAG, "ModelCreateOrUpdateEvent --> customPagerViewAdapter.notifyDataSetChanged()");
                     } else if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
                         activeUser = ((PersistenceEvents.ActiveUserChangeEvent) evt).user;
                         onUserUpdate(activeUser);
 //                        customPagerView.getAdapter().notifyDataSetChanged();
-                        customPagerViewAdapter.notifyDataSetChanged();
-                        if (mViewClickListener != null) {
-                            mViewClickListener.onViewRefreshClick();
-                        }
+                        customPagerViewAdapter.notifyDataChanged();
+//                        if (mViewClickListener != null) {
+//                            mViewClickListener.onViewRefreshClick();
+//                        }
                         Log.e(TAG, "ActiveUserChangeEvent --> customPagerViewAdapter.notifyDataSetChanged()");
                     } else if (evt instanceof PersistenceEvents.UserUpdateEvent) {
                         DBUser user = ((PersistenceEvents.UserUpdateEvent) evt).user;
@@ -669,6 +678,10 @@ public class MainActivity extends BaseActivity implements
                         leftDrawer.onUserCreated(created);
                         onUserUpdate(created);
 //                        DB.users().setActive(created, MainActivity.this);
+                    } else if (evt instanceof PersistenceEvents.NoteUpdateEvent) {
+                        customPagerViewAdapter.notifyDataChanged();
+                    } else if (evt instanceof PersistenceEvents.NoteCreateEvent) {
+                        customPagerViewAdapter.notifyDataChanged();
                     }
                 }
             });
@@ -693,6 +706,8 @@ public class MainActivity extends BaseActivity implements
     public void onUserUpdate(DBUser user) {
 //        DB.users().setActive(user, this);
         leftDrawer.onUserUpdated(user);
+        leftDrawer.updateHeaderBackground(user);
+
 //        fabMgr.onUserUpdate(user);
         refreshTheme(MainActivity.this, user.color());
     }

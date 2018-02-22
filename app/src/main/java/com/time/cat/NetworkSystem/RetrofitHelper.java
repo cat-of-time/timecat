@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.time.cat.NetworkSystem.api.ImageUploadService;
 import com.time.cat.NetworkSystem.api.MicSoftOcrService;
+import com.time.cat.NetworkSystem.api.NoteService;
 import com.time.cat.NetworkSystem.api.OcrService;
 import com.time.cat.NetworkSystem.api.PicUploadService;
 import com.time.cat.NetworkSystem.api.TaskService;
@@ -141,6 +142,16 @@ public class RetrofitHelper {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(TaskService.class);
+    }
+
+    public static NoteService getNoteService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(NoteService.class);
     }
 
     public void example() {
