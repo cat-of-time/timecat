@@ -139,12 +139,12 @@
             android:name=".component.activity.intro.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN"/> -->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN"/>
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-            <!-- </intent-filter> -->
+             <category android:name="android.intent.category.LAUNCHER"/>
+             </intent-filter>
             <intent-filter>
                 <action android:name="notify_universal_copy_broadcast" />
             </intent-filter>
@@ -173,17 +173,17 @@
             android:name="com.time.cat.component.activity.main.MainActivity"
             android:launchMode="singleInstance"
             android:theme="@style/ColorTranslucentTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
         <activity
-            android:name=".component.activity.SettingTimeCatActivity"
+            android:name=".component.activity.setting.SettingTimeCatActivity"
             android:theme="@style/ColorTranslucentTheme" />
         <activity
-            android:name=".component.activity.SettingFloatViewActivity"
+            android:name=".component.activity.setting.SettingFloatViewActivity"
             android:process=":monitor"
             android:theme="@style/ColorTranslucentTheme" />
         <activity
@@ -313,7 +313,7 @@
             android:theme="@style/KeepAliveActivtyTheme" />
         <activity
             android:name=".component.activity.user.LoginActivity"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".component.activity.user.SignupActivity"
             android:theme="@style/AppTheme.Dark" />

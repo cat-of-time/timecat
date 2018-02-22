@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.component.activity.SettingFloatViewActivity;
 import com.time.cat.component.activity.floatviewwhitelist.FloatViewWhiteListActivity;
 import com.time.cat.component.activity.intro.HowToUseActivity;
 import com.time.cat.component.base.baseCard.AbsCard;

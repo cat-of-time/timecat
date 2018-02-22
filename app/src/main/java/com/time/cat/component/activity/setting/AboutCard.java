@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.time.cat.R;
 import com.time.cat.component.activity.DiyOcrKeyActivity;
+import com.time.cat.component.activity.about.AboutActivity;
 import com.time.cat.component.activity.about.DonateActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.mvp.view.dialog.Dialog;
@@ -31,7 +32,8 @@ public class AboutCard extends AbsCard {
             switch (id) {
                 case R.id.about:
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_ABOUT);
-                    showAboutDialog();
+                    Intent intent2About = new Intent(mContext, AboutActivity.class);
+                    mContext.startActivity(intent2About);
                     break;
                 case R.id.share:
                     ShareCard.shareToWeChat(v, mContext);

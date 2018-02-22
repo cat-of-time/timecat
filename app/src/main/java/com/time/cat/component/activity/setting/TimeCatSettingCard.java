@@ -9,7 +9,6 @@ import android.widget.CompoundButton;
 
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.component.activity.SettingTimeCatActivity;
 import com.time.cat.component.activity.searchengine.SearchEngineActivity;
 import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.mvp.view.HintTextView;

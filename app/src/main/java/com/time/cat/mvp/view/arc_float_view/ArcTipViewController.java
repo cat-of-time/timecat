@@ -30,7 +30,7 @@ import com.flask.colorpicker.CircleColorDrawable;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.component.activity.SettingFloatViewActivity;
+import com.time.cat.component.activity.setting.SettingFloatViewActivity;
 import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;

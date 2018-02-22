@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.component.activity.SettingFloatViewActivity;
 import com.time.cat.component.activity.whitelist.SelectionDbHelper;
 import com.time.cat.component.base.baseCard.AbsCard;
 import com.time.cat.mvp.view.dialog.Dialog;

@@ -17,7 +17,7 @@
     <dimen name="tab_indicator_long_width">40dp</dimen>
 
     <dimen name="default_general_margin">10dp</dimen>
-    <dimen name="default_grow_margin">20dp</dimen>
+    <dimen name="default_grow_margin">10dp</dimen>
 
     <dimen name="text_size_huge">24sp</dimen>
     <dimen name="text_size_title">19sp</dimen>
