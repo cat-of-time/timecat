@@ -3,6 +3,7 @@ package com.time.cat.NetworkSystem.api;
 import com.time.cat.mvp.model.Task;
 
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -83,4 +84,8 @@ public interface TaskService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
     @PUT
     Observable<Task> putTaskByUrl(@Url String task_url, @Body Task task);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @DELETE
+    Observable<Task> deleteTaskByUrl(@Url String task_url);
 }

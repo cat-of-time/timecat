@@ -37,6 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="temp"
             android:textColor="@color/black"/>
     </RelativeLayout>

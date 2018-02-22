@@ -62,7 +62,7 @@ public class TimeCatLayoutWrapper extends FrameLayout {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.timecat_layout, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_timecat_layout, this);
 
         mTimeCatLayout = findViewById(R.id.timecat);
         mBottom = findViewById(R.id.bottom);

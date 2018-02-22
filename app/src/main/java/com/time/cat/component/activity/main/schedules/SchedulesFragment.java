@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.ldf.calendar.Utils;
 import com.ldf.calendar.component.CalendarAttr;
 import com.ldf.calendar.component.CalendarViewAdapter;
@@ -820,7 +823,7 @@ public class SchedulesFragment extends BaseFragment implements
     public class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder implements
                                                                         AsyncExpandableListView.OnGroupStateChangeListener,
                                                                         SmoothCheckBox.OnCheckedChangeListener,
-                                                                        View.OnClickListener {
+                                                                        View.OnClickListener, View.OnLongClickListener {
 
         private RelativeLayout calendar_item_ll;
         private SmoothCheckBox calendar_item_checkBox;
@@ -854,6 +857,7 @@ public class SchedulesFragment extends BaseFragment implements
 
             calendar_item_rl_container.setOnClickListener(this);
             calendar_item_rl_content_container.setOnClickListener(this);
+            calendar_item_rl_content_container.setOnLongClickListener(this);
         }
 
 
@@ -958,6 +962,56 @@ public class SchedulesFragment extends BaseFragment implements
                     ToastUtil.show("to modify a task");
                     break;
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (v.getId() == R.id.calendar_item_rl_content_container) {
+                // 长按显示删除按钮
+                new MaterialDialog.Builder(getActivity())
+                        .content("确定删除这个任务吗？")
+                        .positiveText("删除")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                Task task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
+                                Log.e(TAG, "onLongClick() --> 确定删除 task -->" + task.toString());
+                                RetrofitHelper.getTaskService().deleteTaskByUrl(task.getUrl())
+                                        .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                                        .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                                        .subscribe(new Subscriber<Task>() {
+                                            @Override
+                                            public void onCompleted() {
+
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+                                                //请求失败
+                                                ToastUtil.show("失败");
+                                                Log.e(TAG, "失败 --> " + e.toString());
+                                            }
+
+                                            @Override
+                                            public void onNext(Task task) {
+                                                //请求成功
+                                                ToastUtil.show("删除成功");
+                                                Log.e(TAG, "删除成功 --> " + task.toString());
+                                            }
+                                        });
+                            }
+                        })
+                        .negativeText("取消")
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                return true;
+            }
+            return false;
         }
     }
     //</内部类>---尽量少用---------------------------------------------------------------------------

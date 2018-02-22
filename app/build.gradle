@@ -161,6 +161,8 @@ dependencies {
     //recyclerview
     compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
     compile 'jp.wasabeef:recyclerview-animators:2.2.3'
+    // ExpansionPanel
+    compile 'com.github.florent37:expansionpanel:1.0.7'
     //floating action button
     compile 'com.getbase:floatingactionbutton:1.9.0'
     // round image view(for material getDrawer)
@@ -169,6 +171,8 @@ dependencies {
     compile 'com.nispok:snackbar:2.9.0'
     // material
     compile 'com.github.rey5137:material:1.2.4'
+    // material dialog
+    compile 'com.afollestad.material-dialogs:commons:0.9.6.0'
     // time picker
     compile 'com.doomonafireball.betterpickers:library:1.5.5'
     compile 'com.contrarywind:Android-PickerView:3.2.7'

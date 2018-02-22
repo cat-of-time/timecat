@@ -9,7 +9,7 @@
         android:layout_height="10dp"
         android:layout_alignParentTop="true"
         android:alpha="0.6"
-        android:background="@drawable/presentation_box_shadow_top"/>
+        android:background="@drawable/shadow"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
