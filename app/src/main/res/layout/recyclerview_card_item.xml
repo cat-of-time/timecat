@@ -70,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#EEE"
+                android:textColor="@color/black"
                 android:gravity="top"
                 android:lineSpacingMultiplier="1.2"
                 android:padding="10dp"
