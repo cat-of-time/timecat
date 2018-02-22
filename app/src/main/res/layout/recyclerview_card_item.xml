@@ -78,7 +78,6 @@
                 android:textSize="@dimen/text_size_medium"
                 android:text="content"/>
 
-</LinearLayout>
         </LinearLayout>
 
     </com.github.florent37.expansionpanel.ExpansionLayout>
