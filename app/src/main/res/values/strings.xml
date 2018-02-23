@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">时光猫</string>
-
+    <string name="ali_feedback_key">24780800</string>
+    <string name="ali_feedback_key_secret"></string>
+    <string name="unread_feed_back">有%s条未读回复反馈，点击查看</string>
 
     <string name="cancel">取消</string>
     <string name="about">关于</string>

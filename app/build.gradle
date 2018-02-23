@@ -201,6 +201,11 @@ dependencies {
     // intro
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
+    // 阿里百川用户反馈
+    compile 'com.aliyun.ams:alicloud-android-feedback:3.1.0@aar'
+    compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
+    compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
+    compile 'com.aliyun.ams:alicloud-android-utils:1.0.3'
     //project
     compile project(':lib')
     compile project(':commonjar')
@@ -209,6 +214,5 @@ dependencies {
     //files in libs/*
     compile files('libs/AndroidScreenCap.jar')
     compile files('libs/securityguard-3.1.27.jar')
-    compile files('libs/utdid4all-1.0.4.jar')
     compile 'com.android.support:support-annotations:27.0.2'
 }

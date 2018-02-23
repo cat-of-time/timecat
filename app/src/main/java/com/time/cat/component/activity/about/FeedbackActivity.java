@@ -2,14 +2,21 @@ package com.time.cat.component.activity.about;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
+import com.time.cat.TimeCatApp;
 import com.time.cat.component.base.BaseActivity;
+import com.time.cat.util.ConstantUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class FeedbackActivity extends BaseActivity {
 
@@ -24,20 +31,20 @@ public class FeedbackActivity extends BaseActivity {
 
     private void startFeedback() {
         //2.0的反馈sdk调用方式
-//        FeedbackAPI.init(TimeCatApp.getInstance(), ConstantUtil.ALI_APP_KEY);
-//
-//        FragmentManager fm = getSupportFragmentManager();
-//        final FragmentTransaction transaction = fm.beginTransaction();
-//        final Fragment feedback = FeedbackAPI.getFeedbackFragment();
-//        // must be called
-//        FeedbackAPI.setFeedbackFragment(new Callable() {
-//            @Override
-//            public Object call() throws Exception {
-//                transaction.replace(R.id.content, feedback);
-//                transaction.commit();
-//                return null;
-//            }
-//        }/*success callback*/, null/*fail callback*/);
+        FeedbackAPI.init(TimeCatApp.getInstance(), ConstantUtil.ALI_APP_KEY, ConstantUtil.ALI_APP_SECRET);
+
+        FragmentManager fm = getSupportFragmentManager();
+        final FragmentTransaction transaction = fm.beginTransaction();
+        final Fragment feedback = FeedbackAPI.getFeedbackFragment();
+        // must be called
+        FeedbackAPI.setFeedbackFragment(new Callable() {
+            @Override
+            public Object call() throws Exception {
+                transaction.replace(R.id.content, feedback);
+                transaction.commit();
+                return null;
+            }
+        }/*success callback*/, null/*fail callback*/);
 
 
 //        FeedbackAPI.initAnnoy(TimeCatApp.getInstance(), ConstantUtil.ALI_APP_KEY);
@@ -81,7 +88,7 @@ public class FeedbackActivity extends BaseActivity {
 
 //        FeedbackAPI.setCustomContact("null", false);
 
-//        FeedbackAPI.openFeedbackActivity(this);
+        FeedbackAPI.openFeedbackActivity();
         finish();
     }
 
@@ -99,4 +106,10 @@ public class FeedbackActivity extends BaseActivity {
         }, R.string.ask_again, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FeedbackAPI.cleanFeedbackFragment();
+        FeedbackAPI.cleanActivity();
+    }
 }

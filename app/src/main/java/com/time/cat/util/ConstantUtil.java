@@ -1,5 +1,8 @@
 package com.time.cat.util;
 
+import com.time.cat.R;
+import com.time.cat.TimeCatApp;
+
 public class ConstantUtil {
 
     public static final String CONTENT = "content://";
@@ -154,4 +157,7 @@ public class ConstantUtil {
 
     // DialogActivity
     public static final String UNIVERSAL_SAVE_COTENT = "universal_save_content";
+
+    public static final String ALI_APP_KEY = TimeCatApp.getInstance().getString(R.string.ali_feedback_key);
+    public static final String ALI_APP_SECRET = TimeCatApp.getInstance().getString(R.string.ali_feedback_key_secret);
 }
