@@ -30,12 +30,12 @@
     <string name="copy_mode_help">复制\n将选择的词句复制到剪贴板</string>
     <string name="remain_symbol">显示符号</string>
     <string name="choose_sentences_mode">选词模式\n通过滑动和点击来选择词句进行操作</string>
-    <string name="stringValue2">开启Time Cat之旅</string>
+    <string name="stringValue2">开启 Time Cat 之旅</string>
     <string name="stringValue3">从图库中选取图片识别</string>
     <string name="stringValue4">拍照识别</string>
     <string name="stringValue5">重新识别</string>
     <string name="stringValue6">一触即达，便捷你的生活！</string>
-    <string name="copyright">Copyright ©2018 Time Cat. All Rights  Reserved</string>
+    <string name="copyright">Copyright ©2018 Time Cat. All Rights Reserved</string>
     <string name="share_request_confirm_like">当然！</string>
     <string name="stringValue9">翻译结果</string>
     <string name="sorry_for_parse_fail">抱歉，解析失败</string>
@@ -64,7 +64,7 @@
     <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
     <string name="share_request_msg_dislike">愿意给我们一些建议吗？</string>
     <string name="share_request_msg_like">愿意分享给您的朋友吗？</string>
-    <string name="about_content">\t\t\t本产品是根据老罗的Big Bang进行设计开发的，旨在让更多用户体验到这种高效的操作方式！如果您觉得勉强好用，可以购买Smartisan M1体验更好的情怀！\n\t\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n\n版本号：%1$s</string>
+    <string name="about_content">\t\t本产品是在开源项目https://github.com/l465659833/Bigbang的基础上进行设计开发的，旨在提供简单高效的任务管理和时间管理功能，帮用户省时间省脑力！\n\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n\n版本号：%1$s</string>
     <string name="donate">我请作者吃辣条</string>
     <string name="donate_now">点击跳转支付宝</string>
     <string name="join_qq">点击加入内测群（601215164）</string>
