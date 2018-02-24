@@ -5,12 +5,10 @@ package com.time.cat.component.activity.main.listener;
  * @date 2018/1/25
  * @discription
  */
-public interface OnViewClickListener {
+public interface OnScheduleViewClickListener {
     void onViewTodayClick();
 
     void onViewRefreshClick();
-
-    void onViewNoteRefreshClick();
 
     void onViewChangeMarkThemeClick();
 }

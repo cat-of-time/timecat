@@ -25,9 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_tiny"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="@color/black"
             android:textSize="14sp"
-            tools:text=""/>
+            tools:text="content"/>
 
         <LinearLayout
             android:id="@+id/schedule_task_ll_footer"

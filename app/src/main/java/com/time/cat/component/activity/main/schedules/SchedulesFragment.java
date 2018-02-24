@@ -36,10 +36,11 @@ import com.time.cat.ThemeSystem.ThemeManager;
 import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
-import com.time.cat.component.activity.main.listener.OnViewClickListener;
+import com.time.cat.component.activity.main.listener.OnScheduleViewClickListener;
 import com.time.cat.component.base.BaseFragment;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.APImodel.User;
+import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Task;
 import com.time.cat.mvp.presenter.FragmentPresenter;
@@ -50,6 +51,7 @@ import com.time.cat.mvp.view.asyncExpandableListView.AsyncHeaderViewHolder;
 import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
+import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.ViewUtil;
@@ -75,7 +77,7 @@ public class SchedulesFragment extends BaseFragment implements
                                                     FragmentPresenter,
                                                     OnSelectDateListener,
                                                     View.OnClickListener,
-                                                    OnViewClickListener,
+                                                    OnScheduleViewClickListener,
                                                     AsyncExpandableListViewCallbacks<Task, Task> {
     @SuppressWarnings("unused")
     private static final String TAG = "SchedulesFragment";
@@ -111,10 +113,10 @@ public class SchedulesFragment extends BaseFragment implements
     @Override
     public void onPause() {
         super.onPause();
-        refreshMonthPager();
-        Utils.scrollTo(content, mAsyncExpandableListView, monthPager.getCellHeight(), 200);
-        calendarAdapter.switchToWeek(monthPager.getRowIndex());
-        ThemeUtils.refreshUI(getActivity(), null);
+//        refreshMonthPager();
+//        Utils.scrollTo(content, mAsyncExpandableListView, monthPager.getCellHeight(), 200);
+//        calendarAdapter.switchToWeek(monthPager.getRowIndex());
+//        ThemeUtils.refreshUI(getActivity(), null);
     }
 
     @Override
@@ -272,10 +274,9 @@ public class SchedulesFragment extends BaseFragment implements
                 dbUser = DB.users().getActive(context);
                 Log.e(TAG, "active dbUser --> " + dbUser.toString());
                 initExpandableListViewData();
-                content.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
+
             }
-        }, 1000);
+        }, 5000);
 
     }
 
@@ -338,8 +339,9 @@ public class SchedulesFragment extends BaseFragment implements
             loadDataForHeader.execute(task_urls);
         } else {
             AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
-            loadDataForHeader.execute(new ArrayList<>());
+            loadDataForHeader.execute(new ArrayList<String>());
         }
+        Log.e(TAG, "initExpandableListViewData --> dbUser.getTasks() --> " + task_urls);
     }
 
     public void refreshData() {
@@ -519,7 +521,7 @@ public class SchedulesFragment extends BaseFragment implements
 
 
 
-    //-//<MainActivity.OnViewClickListener>---------------------------------------------------------
+    //-//<MainActivity.OnScheduleViewClickListener>---------------------------------------------------------
     @Override
     public void onViewTodayClick() {
         refreshMonthPager();
@@ -533,11 +535,6 @@ public class SchedulesFragment extends BaseFragment implements
     @Override
     public void onViewRefreshClick() {
         refreshData();
-    }
-
-    @Override
-    public void onViewNoteRefreshClick() {
-
     }
 
     private void refreshMonthPager() {
@@ -566,7 +563,7 @@ public class SchedulesFragment extends BaseFragment implements
         calendarAdapter.notifyDataSetChanged();
         calendarAdapter.notifyDataChanged(new CalendarDate());
     }
-    //-//</MainActivity.OnViewClickListener>--------------------------------------------------------
+    //-//</MainActivity.OnScheduleViewClickListener>--------------------------------------------------------
 
 
 
@@ -636,10 +633,7 @@ public class SchedulesFragment extends BaseFragment implements
                         .doOnNext(new Action1<Task>() {
                             @Override
                             public void call(Task task) {
-                                // TODO 保存任务信息到本地, java.lang.RuntimeException: Error saving model
-                                // TODO abort at 32 in [INSERT INTO `Schedules` (`begin_datetime` ,`content` ,`created_datetime` ,`Cycle` ,`Days` ,`Dose` ,`end_datetime` ,`finished_datetime` ,`is_all_day` ,`is_finished` ,`label` ,`owner` ,`Scanned` ...
-//                                DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-//                                Log.e(TAG, "保存任务信息到本地" + task.toString());
+                                DB.schedules().safeSaveDBTask(task);
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -660,62 +654,13 @@ public class SchedulesFragment extends BaseFragment implements
                             @Override
                             public void onNext(Task task) {
                                 //请求成功
-
-                                // 需要显示的
-                                // 今天刚刚finished的
-                                // 顺延的
-                                // begin_datetime < today <= end_datetime
-                                Date today = new Date();
-                                if (currentDate != null) {
-                                    today = TimeUtil.transferCalendarDate(currentDate);
-                                    Log.e(TAG, "transfer --> " + today);
-                                }
-                                boolean hasAddedTask = false;
-                                // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
-                                if (task.getIsFinish()) {
-                                    Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
-                                    if (finished_datetime != null) {
-                                        if (finished_datetime.getDay() == today.getDay()
-                                                && finished_datetime.getMonth() == today.getMonth()
-                                                && finished_datetime.getYear() == today.getYear()) {
-                                            tasks.add(task);
-                                            hasAddedTask = true;
-                                            Log.e(TAG, "add task, because task is finished today");
-                                        }
-                                    }
-                                }
-                                if (!task.getIs_all_day() && !hasAddedTask) {
-                                    Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
-                                    Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
-                                    if (begin_datetime != null && end_datetime != null) {
-                                        if (TimeUtil.isDateEarlier(begin_datetime, today)
-                                                && TimeUtil.isDateEarlier(today, end_datetime)) {
-                                            tasks.add(task);
-                                            hasAddedTask = true;
-                                            Log.e(TAG, "add task, because begin <= today <= end");
-                                        }
-                                    }
-                                }
-                                // 把顺延的添加到显示List并标记
-                                Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
-                                if (!hasAddedTask && created_datetime != null) {
-                                    long during = today.getTime() - created_datetime.getTime();
-                                    Log.e(TAG, "during == " + during);
-                                    Log.e(TAG, "today == " + today + " -- created_datetime == " + created_datetime);
-                                    if (TimeUtil.isDateEarlier(created_datetime, today)) {
-                                        if (task.getIs_all_day()) {
-                                            tasks.add(task);
-                                            Log.e(TAG, "add task, because of delay");
-                                        }
-                                    }
-                                }
                                 count[0] -= 1;
-                                Log.e(TAG, "请求成功 --> count[0] == " + count[0] + " --> " + task.toString());
+                                Log.i(TAG, "请求成功 --> count[0] == " + count[0] + " --> " + task.toString());
                             }
                         });
-                Log.e(TAG, "fetching task" + i);
+                Log.w(TAG, "fetching task " + i);
             }
-            Log.e(TAG, "waiting -->");
+            Log.w(TAG, "waiting -->");
             int retryTimes = 5; //重试次数
             while (count[0] != 0 && retryTimes != 0) {
                 try {
@@ -723,11 +668,13 @@ public class SchedulesFragment extends BaseFragment implements
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.e(TAG, "retryTimes -->" + retryTimes);
+                Log.w(TAG, "retryTimes -->" + retryTimes);
                 retryTimes--;
                 // 循环结束条件:上面的网络请求线程全部完成(count[0] == 0) 或 超过重试次数网络请求还没全部完成(retryTimes == 0)
             }
-            Log.e(TAG, "returning");
+            Log.w(TAG, "returning -->");
+            List<DBTask> taskList = DB.schedules().findAll();
+            tasks = DBTaskFilter2Task(taskList);
             return tasks;
         }
 
@@ -740,8 +687,121 @@ public class SchedulesFragment extends BaseFragment implements
                 }
                 mAsyncExpandableListView.updateInventory(inventory);
             }
+            content.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
 
+        private ArrayList<Task> TaskFilter(ArrayList<Task> taskArrayList) {
+            ArrayList<Task> tasks = new ArrayList<>();
+            // 需要显示的
+            // 今天刚刚finished的
+            // 顺延的
+            // begin_datetime < today <= end_datetime
+            Date today = new Date();
+            if (currentDate != null) {
+                today = TimeUtil.transferCalendarDate(currentDate);
+                Log.i(TAG, "transfer --> " + today);
+            }
+            for (Task task : taskArrayList) {
+                boolean hasAddedTask = false;
+                // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
+                if (task.getIsFinish()) {
+                    Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
+                    if (finished_datetime != null) {
+                        if (finished_datetime.getDay() == today.getDay() && finished_datetime.getMonth() == today.getMonth() && finished_datetime.getYear() == today.getYear()) {
+                            tasks.add(task);
+                            hasAddedTask = true;
+                            Log.i(TAG, "add task, because task is finished today");
+                        }
+                    }
+                }
+                if (!task.getIs_all_day() && !hasAddedTask) {
+                    Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
+                    Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
+                    if (begin_datetime != null && end_datetime != null) {
+                        if (TimeUtil.isDateEarlier(begin_datetime, today) && TimeUtil.isDateEarlier(today, end_datetime)) {
+                            tasks.add(task);
+                            hasAddedTask = true;
+                            Log.i(TAG, "add task, because begin <= today <= end");
+                        }
+                    }
+                }
+                // 把顺延的添加到显示List并标记
+                Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
+                if (!hasAddedTask && created_datetime != null) {
+                    long during = today.getTime() - created_datetime.getTime();
+                    Log.i(TAG, "during == " + during);
+                    Log.i(TAG, "today == " + today + " -- created_datetime == " + created_datetime);
+                    if (TimeUtil.isDateEarlier(created_datetime, today)) {
+                        if (task.getIs_all_day()) {
+                            tasks.add(task);
+                            Log.i(TAG, "add task, because of delay");
+                        }
+                    }
+                }
+            }
+
+            return tasks;
+        }
+
+        private ArrayList<Task> DBTaskFilter2Task(List<DBTask> taskArrayList) {
+            ArrayList<Task> tasks = new ArrayList<>();
+            // 需要显示的
+            // 今天刚刚finished的
+            // 顺延的
+            // begin_datetime < today <= end_datetime
+            if (taskArrayList == null || taskArrayList.size() <= 0) {
+                return tasks;
+            }
+            Date today = new Date();
+            if (currentDate != null) {
+                today = TimeUtil.transferCalendarDate(currentDate);
+                Log.i(TAG, "transfer --> " + today);
+            }
+            for (DBTask task : taskArrayList) {
+                boolean hasAddedTask = false;
+                // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
+                if (task.getIsFinish()) {
+                    Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
+                    if (finished_datetime != null) {
+                        if (finished_datetime.getDay() == today.getDay() && finished_datetime.getMonth() == today.getMonth() && finished_datetime.getYear() == today.getYear()) {
+                            tasks.add(ModelUtil.toTask(task));
+                            hasAddedTask = true;
+                            Log.i(TAG, "add task, because task is finished today");
+                        }
+                    }
+                }
+                if (!task.getIs_all_day() && !hasAddedTask) {
+                    Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
+                    Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
+                    if (begin_datetime != null && end_datetime != null) {
+                        if (TimeUtil.isDateEarlier(begin_datetime, today) && TimeUtil.isDateEarlier(today, end_datetime)) {
+                            tasks.add(ModelUtil.toTask(task));
+                            hasAddedTask = true;
+                            Log.i(TAG, "add task, because begin <= today <= end");
+                        }
+                    }
+                }
+                // 把顺延的添加到显示List并标记
+                Log.e(TAG, "TimeUtil.formatGMTDateStr(task.getCreated_datetime())" + task.toString());
+                if (task.getCreated_datetime() != null || task.getCreated_datetime() != "null") {
+                    Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
+                    if (!hasAddedTask && created_datetime != null) {
+                        long during = today.getTime() - created_datetime.getTime();
+                        Log.i(TAG, "during == " + during);
+                        Log.i(TAG, "today == " + today + " -- created_datetime == " + created_datetime);
+                        if (TimeUtil.isDateEarlier(created_datetime, today)) {
+                            if (task.getIs_all_day()) {
+                                tasks.add(ModelUtil.toTask(task));
+                                Log.i(TAG, "add task, because of delay");
+                            }
+                        }
+                    }
+                }
+            }
+
+            return tasks;
+        }
     }
 
     private class LoadDataTaskContent extends AsyncTask<Void, Void, List<Task>> {
@@ -771,8 +831,7 @@ public class SchedulesFragment extends BaseFragment implements
 
     }
 
-
-    public static class ScheduleItemHolder extends RecyclerView.ViewHolder {
+    public class ScheduleItemHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "ScheduleItemHolder";
 
         private final TextView tvContent;
@@ -913,7 +972,7 @@ public class SchedulesFragment extends BaseFragment implements
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(null);
             }
             Task task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
-            Log.e(TAG, "onCheckedChanged() --> header task -->" + task.toString());
+            Log.i(TAG, "onCheckedChanged() --> header task -->" + task.toString());
             RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task)
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行

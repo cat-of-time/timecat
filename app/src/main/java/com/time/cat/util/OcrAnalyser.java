@@ -49,7 +49,8 @@ public class OcrAnalyser {
     }
 
     int currentIndex = 0;
-    VisionServiceRestClient client = new VisionServiceRestClient(keys.get(currentIndex));
+//    VisionServiceRestClient client = new VisionServiceRestClient(keys.get(currentIndex));
+    VisionServiceRestClient client = new VisionServiceRestClient("9e88939475894dec85a2019fd36243be");
 
     private String img_path;
     private boolean verticalOrientation = true;

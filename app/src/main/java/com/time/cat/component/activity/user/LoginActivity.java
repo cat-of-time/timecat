@@ -76,7 +76,8 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
     @Override
     public void onBackPressed() {
         // Disable going back to the MainActivity
-        moveTaskToBack(true);
+//        moveTaskToBack(true);
+        super.onBackPressed();
     }
     //</生命周期>------------------------------------------------------------------------------------
 
@@ -177,7 +178,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        if (existing.size() > 0) {
+                        if (existing != null && existing.size() > 0) {
                             long id = existing.get(0).id();
                             dbUser.setId(id);
                             DB.users().updateAndFireEvent(dbUser);

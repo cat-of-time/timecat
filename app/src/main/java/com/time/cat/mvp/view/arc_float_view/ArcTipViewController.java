@@ -34,6 +34,7 @@ import com.time.cat.component.activity.setting.SettingFloatViewActivity;
 import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.main.MainActivity;
 import com.time.cat.component.activity.screen.ScreenCaptureActivity;
+import com.time.cat.component.activity.viewtask.HistoryActivity;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.override.LogUtil;
@@ -351,13 +352,13 @@ public class ArcTipViewController implements View.OnTouchListener {
             contentDiscription = new String[]{mContext.getString(R.string.open_timecat), mContext.getString(R.string.notify_copy_title)};
         } else {
             icons = new int[]{
-                    R.mipmap.ic_float_switch,
+                    R.drawable.ic_history_white_24dp,
                     R.drawable.ic_add_white_24dp,
                     R.mipmap.ic_float_copy,
                     R.drawable.ic_float_home,
                     R.mipmap.ic_float_screen
             };
-            contentDiscription = new String[]{mContext.getString(R.string.open_timecat), "添加日程", mContext.getString(R.string.notify_copy_title), "转到主页", mContext.getString(R.string.notify_srceen_cap)};
+            contentDiscription = new String[]{"查看历史", "添加日程", mContext.getString(R.string.notify_copy_title), "转到主页", mContext.getString(R.string.notify_srceen_cap)};
         }
     }
 
@@ -446,14 +447,17 @@ public class ArcTipViewController implements View.OnTouchListener {
         switch (position) {
             case 0:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SWITCH);
-                showTimeCat = !showTimeCat;
-                SPHelper.save(ConstantUtil.TOTAL_SWITCH, showTimeCat);
-                if (mActionListener != null) {
-                    for (ActionListener listener : mActionListener) {
-                        listener.isShow(showTimeCat);
-                    }
-                }
-                initArcMenu(archMenu, icons);
+//                showTimeCat = !showTimeCat;
+//                SPHelper.save(ConstantUtil.TOTAL_SWITCH, showTimeCat);
+//                if (mActionListener != null) {
+//                    for (ActionListener listener : mActionListener) {
+//                        listener.isShow(showTimeCat);
+//                    }
+//                }
+//                initArcMenu(archMenu, icons);
+                Intent intent2History = new Intent(mContext, HistoryActivity.class);
+                intent2History.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent2History);
                 break;
             case 1:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);

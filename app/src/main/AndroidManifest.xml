@@ -341,6 +341,11 @@
                 <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
+        <activity android:name=".component.activity.viewtask.HistoryActivity"
+                  android:theme="@style/TimeCatTheme"
+                  android:launchMode="singleInstance"
+                  android:windowSoftInputMode="adjustNothing" />
+
         <receiver android:name=".TimeCatAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

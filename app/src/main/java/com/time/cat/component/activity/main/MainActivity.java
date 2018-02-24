@@ -31,7 +31,8 @@ import com.time.cat.ThemeSystem.utils.ThemeUtils;
 import com.time.cat.component.activity.about.SchedulesHelpActivity;
 import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.main.listener.OnDateChangeListener;
-import com.time.cat.component.activity.main.listener.OnViewClickListener;
+import com.time.cat.component.activity.main.listener.OnNoteViewClickListener;
+import com.time.cat.component.activity.main.listener.OnScheduleViewClickListener;
 import com.time.cat.component.activity.main.routines.RoutinesListFragment;
 import com.time.cat.component.activity.main.schedules.SchedulesFragment;
 import com.time.cat.component.activity.main.viewmanager.FabMenuManager;
@@ -491,8 +492,8 @@ public class MainActivity extends BaseActivity implements
 
             // 以下是note menu group
             case R.id.main_menu_note_refresh:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewNoteRefreshClick();
+                if (mNoteViewClickListener != null) {
+                    mNoteViewClickListener.onViewNoteRefreshClick();
                 }
                 return true;
 
@@ -583,6 +584,10 @@ public class MainActivity extends BaseActivity implements
     public void onPageScrollStateChanged(int state) {
 //        Log.e(TAG, "state" + state);
         if (customPagerView.getCurrentItem() == 0) {
+            if (canOpenDrawer[0] == 1) {
+                // 只要有canOpenDrawer[0] == 1,一定已经执行switch(state)case 0,且state==0时手势完毕
+//                leftDrawer.getDrawer().openDrawer();
+            }
             switch (state) {
                 case 1:
                     canOpenDrawer[0] = 0;
@@ -595,10 +600,6 @@ public class MainActivity extends BaseActivity implements
                     break;
                 default:
                     break;
-            }
-            if (canOpenDrawer[0] == 1) {
-                // 只要有canOpenDrawer[0] == 1,一定已经执行switch(state)case 0,且state==0时手势完毕
-                leftDrawer.getDrawer().openDrawer();
             }
         }
     }
@@ -715,9 +716,14 @@ public class MainActivity extends BaseActivity implements
 
 
     //<回调接口>-------------------------------------------------------------------------------------
-    private OnViewClickListener mViewClickListener;
-    public void setOnViewClickListener(OnViewClickListener onViewClickListener) {
+    private OnScheduleViewClickListener mViewClickListener;
+    public void setOnViewClickListener(OnScheduleViewClickListener onViewClickListener) {
         mViewClickListener = onViewClickListener;
+    }
+
+    private OnNoteViewClickListener mNoteViewClickListener;
+    public void setOnViewClickListener(OnNoteViewClickListener onViewClickListener) {
+        mNoteViewClickListener = onViewClickListener;
     }
     //</回调接口>-------------------------------------------------------------------------------------
 

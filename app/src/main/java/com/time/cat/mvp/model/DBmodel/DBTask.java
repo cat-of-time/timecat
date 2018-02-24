@@ -25,10 +25,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.database.DB;
 import com.time.cat.database.typeSerializers.BooleanArrayPersister;
 import com.time.cat.database.typeSerializers.LocalDatePersister;
-import com.time.cat.database.typeSerializers.LocalTimePersister;
 
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,11 +76,7 @@ public class DBTask {
 
     public static final String COLUMN_DAYS = "Days";
     public static final String COLUMN_START = "Start";
-    public static final String COLUMN_START_TIME = "Starttime";
-    public static final String COLUMN_DOSE = "Dose";
     public static final String COLUMN_TYPE = "Type";
-    public static final String COLUMN_CYCLE = "Cycle";
-    public static final String COLUMN_SCANNED = "Scanned";
 
 
 
@@ -94,19 +88,11 @@ public class DBTask {
     public boolean[] days = noWeekDays();
     @DatabaseField(columnName = COLUMN_START, persisterClass = LocalDatePersister.class)
     public LocalDate start;
-    @DatabaseField(columnName = COLUMN_START_TIME, persisterClass = LocalTimePersister.class)
-    public LocalTime startTime;
-    @DatabaseField(columnName = COLUMN_DOSE)
-    public float dose = 1f;
     @DatabaseField(columnName = COLUMN_TYPE)
     public int type = SCHEDULE_TYPE_EVERYDAY;
-    @DatabaseField(columnName = COLUMN_CYCLE)
-    public String cycle;
-    @DatabaseField(columnName = COLUMN_SCANNED)
-    public boolean scanned;
 
     //----------------------------------------------------------------------------------
-    @DatabaseField(columnName = COLUMN_URL, canBeNull = false, unique = true)
+    @DatabaseField(columnName = COLUMN_URL, unique = true)
     private String url;// task的url 访问该url可返回该task
     @DatabaseField(columnName = COLUMN_OWNER)
     private String owner;//用户ID
@@ -279,14 +265,6 @@ public class DBTask {
         this.start = start;
     }
 
-    public float dose() {
-        return dose;
-    }
-
-    public void setDose(float dose) {
-        this.dose = dose;
-    }
-
     public DBUser user() {
         return user;
     }
@@ -295,45 +273,9 @@ public class DBTask {
         this.user = user;
     }
 
-    public LocalTime startTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime t) {
-        startTime = t;
-    }
-
-    public boolean scanned() {
-        return scanned;
-    }
-
     // *************************************
     // DB queries
     // *************************************
-
-    public void setScanned(boolean scanned) {
-        this.scanned = scanned;
-    }
-
-    public int getCycleDays() {
-        if (cycle == null) {
-            return 0;
-        }
-        String[] parts = cycle.split(",");
-        return Integer.valueOf(parts[0]);
-    }
-
-    public int getCycleRest() {
-        if (cycle == null) {
-            return 0;
-        }
-        String[] parts = cycle.split(",");
-        return Integer.valueOf(parts[1]);
-    }
-
-    public void setCycle(int days, int rest) {
-        this.cycle = days + "," + rest;
-    }
 
     public List<DBTaskItem> items() {
         return DB.scheduleItems().findBySchedule(this);
@@ -357,29 +299,7 @@ public class DBTask {
 
     @Override
     public String toString() {
-        return "DBTask{" + "id=" + id + ", user=" + user + ", days=" + Arrays.toString(days) + ", start=" + start + ", startTime=" + startTime + ", dose=" + dose + ", type=" + type + ", cycle='" + cycle + '\'' + ", scanned=" + scanned + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + '}';
+        return "DBTask{" + "id=" + id + ", user=" + user + ", days=" + Arrays.toString(days) + ", start=" + start + ", type=" + type + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + '}';
     }
-
-    public String displayDose() {
-        int integerPart = (int) dose;
-        double fraction = dose - integerPart;
-
-        String fractionRational;
-        if (fraction == 0.125) {
-            fractionRational = "1/8";
-        } else if (fraction == 0.25) {
-            fractionRational = "1/4";
-        } else if (fraction == 0.5) {
-            fractionRational = "1/2";
-        } else if (fraction == 0.75) {
-            fractionRational = "3/4";
-        } else if (fraction == 0) {
-            return "" + ((int) dose);
-        } else {
-            return "" + dose;
-        }
-        return integerPart + "+" + fractionRational;
-    }
-
 }
 

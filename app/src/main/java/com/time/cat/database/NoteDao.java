@@ -18,13 +18,18 @@
 
 package com.time.cat.database;
 
+import android.util.Log;
+
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBNote;
+import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.Note;
+import com.time.cat.util.ModelUtil;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class NoteDao extends GenericDao<DBNote, Long> {
@@ -68,6 +73,31 @@ public class NoteDao extends GenericDao<DBNote, Long> {
             e.printStackTrace();
         }
         TimeCatApp.eventBus().post(event);
+    }
+
+    public void safeSaveDBNote(Note task) {
+        Log.i(TAG, "返回的任务信息 --> " + task.toString());
+        //保存用户信息到本地
+        DBNote dbNote = ModelUtil.toDBNote(task);
+        List<DBTask> existing = null;
+        try {
+            existing = DB.schedules().queryForEq("Url", dbNote.getUrl());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbNote.setId(id);
+            try {
+                DB.notes().update(dbNote);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            Log.i(TAG, "更新笔记信息 --> updateAndFireEvent -- > " + dbNote.toString());
+        } else {
+            DB.notes().saveAndFireEvent(dbNote);
+            Log.i(TAG, "保存笔记信息 --> saveAndFireEvent -- > " + dbNote.toString());
+        }
     }
 
     public void updateActiveUserAndFireEvent(DBNote activeDBNote, Note user) {

@@ -2,6 +2,7 @@ package com.time.cat.events;
 
 import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Task;
 
@@ -71,6 +72,22 @@ public class PersistenceEvents {
 
         public NoteUpdateEvent(DBNote note) {
             this.note = note;
+        }
+    }
+
+    public static class TaskCreateEvent {
+        public DBTask task;
+
+        public TaskCreateEvent(DBTask task) {
+            this.task = task;
+        }
+    }
+
+    public static class TaskUpdateEvent {
+        public DBTask task;
+
+        public TaskUpdateEvent(DBTask task) {
+            this.task = task;
         }
     }
 }

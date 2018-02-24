@@ -15,14 +15,14 @@ import android.text.TextUtils;
 import com.shang.commonjar.contentProvider.Global;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.mvp.view.arc_float_view.ArcTipViewController;
-import com.time.cat.component.activity.TimeCatActivity;
+import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.setting.SettingActivity;
+import com.time.cat.mvp.view.arc_float_view.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.override.LogUtil;
-import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.clipboard.ClipboardManagerCompat;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.ToastUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -207,14 +207,16 @@ public final class ListenClipboardService extends Service {
             LogUtil.d(TAG, "!isValidString || !matcher.find()" + content);
             return;
         }
-//        sLastContent = content;
-        Intent intent = new Intent(this, TimeCatActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.putExtra(TimeCatActivity.TO_SPLIT_STR,sLastContent);
-        intent.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
-//        startActivity(intent);
+        // 弃用
+//        Intent intent = new Intent(this, TimeCatActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
+        // 直接跳到添加页面
+        Intent intent2DialogActivity = new Intent(this, DialogActivity.class);
+        intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, content);
         //放到ArcTipViewController中触发试试
-        ArcTipViewController.getInstance().showTipViewForStartActivity(intent);
+        ArcTipViewController.getInstance().showTipViewForStartActivity(intent2DialogActivity);
     }
 
     private void adjustService() {

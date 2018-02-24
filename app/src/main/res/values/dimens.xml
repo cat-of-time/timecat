@@ -67,7 +67,7 @@
     <dimen name="timecat_card_corner">10dp</dimen>
 
     <dimen name="setting_timecat_activity_text_height">@dimen/height_small_32</dimen>
-    <dimen name="setting_timecat_activity_line_height">@dimen/height_normal</dimen>
+    <dimen name="setting_timecat_activity_line_height">32dp</dimen>
 
 
     <dimen name="white_list_name_height">@dimen/height_small_32</dimen>

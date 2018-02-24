@@ -3,15 +3,11 @@ package com.time.cat.component.activity.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +20,7 @@ import com.github.florent37.expansionpanel.ExpansionLayout;
 import com.github.florent37.expansionpanel.viewgroup.ExpansionLayoutCollection;
 import com.time.cat.R;
 import com.time.cat.component.activity.addtask.DialogActivity;
-import com.time.cat.component.activity.main.listener.OnViewClickListener;
+import com.time.cat.component.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.component.base.BaseFragment;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBNote;
@@ -45,7 +41,7 @@ import butterknife.ButterKnife;
  * @date 2018/1/25
  * @discription 笔记fragment
  */
-public class NotesFragment extends BaseFragment implements FragmentPresenter, OnViewClickListener {
+public class NotesFragment extends BaseFragment implements FragmentPresenter, OnNoteViewClickListener {
     @SuppressWarnings("unused")
     private static final String TAG = "NotesFragment";
 
@@ -105,15 +101,15 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
     public void refreshData() {
         List<DBNote> dbNoteList = DB.notes().findAll();
         List<DBNote> adapterDBNoteList = new ArrayList<>();
-        DBUser dbUser = DB.users().getActive(context);
-        for (int i = 0; i < dbNoteList.size(); i++) {
-            if ((dbNoteList.get(i).getOwner().equals(ModelUtil.getOwnerUrl(dbUser)))) {
-                adapterDBNoteList.add(dbNoteList.get(i));
+        if (context != null) {
+            DBUser dbUser = DB.users().getActive(context);
+            for (int i = 0; i < dbNoteList.size(); i++) {
+                if ((dbNoteList.get(i).getOwner().equals(ModelUtil.getOwnerUrl(dbUser)))) {
+                    adapterDBNoteList.add(dbNoteList.get(i));
+                }
             }
+            adapter.setItems(adapterDBNoteList);
         }
-        adapter.setItems(adapterDBNoteList);
-//        adapter.notifyDataSetChanged();
-        Log.e(TAG, "没有notify");
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
@@ -124,28 +120,12 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
 
     }
 
-    @Override
-    public void onViewTodayClick() {
 
-    }
-
-    @Override
-    public void onViewRefreshClick() {
-
-    }
-
+    //-//<Listener>------------------------------------------------------------------------------
     @Override
     public void onViewNoteRefreshClick() {
         refreshData();
     }
-
-    @Override
-    public void onViewChangeMarkThemeClick() {
-
-    }
-
-
-    //-//<Listener>------------------------------------------------------------------------------
     //-//</Listener>-----------------------------------------------------------------------------
 
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
@@ -218,10 +198,10 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
             DBNote note = list.get(position);
             notes_tv_title.setText(note.getTitle());
             // 排版，开头空两格。使用sSpannableStringBuilder,隐藏掉前面两个字符，达到缩进的错觉
-            SpannableStringBuilder span = new SpannableStringBuilder("缩进"+note.getContent());
-            span.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            notes_tv_content.setText(span);
+//            SpannableStringBuilder span = new SpannableStringBuilder("缩进"+note.getContent());
+//            span.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
+//                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            notes_tv_content.setText(note.getContent());
             notes_tv_title.setOnClickListener(this);
             notes_tv_title.setOnLongClickListener(this);
         }

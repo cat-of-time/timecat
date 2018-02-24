@@ -129,7 +129,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                         new PrimaryDrawerItem().withName(R.string.title_activity_home)
                                 .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_home, R.color.black).alpha(110))
                                 .withIdentifier(HOME),
-                        new PrimaryDrawerItem().withName(R.string.title_activity_users)
+                        new PrimaryDrawerItem().withName(R.string.title_activity_login)
                                 .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_account_multiple, R.color.black).alpha(110))
                                 .withIdentifier(USERS),
                         new DividerDrawerItem(),
