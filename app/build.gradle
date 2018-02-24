@@ -83,13 +83,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    def apkName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${releaseTime()}"
+                    def apkName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${releaseTime()}.apk"
                     outputFileName = apkName
                 }
             }
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable false
         }
     }
     // Specifies two flavor dimensions.
@@ -107,7 +106,7 @@ android {
 
     sourceSets{
         for_test{
-            java.srcDirs += ['src/Normal/java']
+            java.srcDirs += ['src/main/java']
         }
         coolapk{
             resources.srcDirs += ['src/coolapk/res']

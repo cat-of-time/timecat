@@ -28,6 +28,7 @@ import com.time.cat.database.typeSerializers.LocalDatePersister;
 
 import org.joda.time.LocalDate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +39,7 @@ import java.util.List;
  * @discription 任务类
  */
 @DatabaseTable(tableName = "Schedules")
-public class DBTask {
+public class DBTask implements Serializable{
 
     public static final int SCHEDULE_TYPE_EVERYDAY = 0; // DEFAULT
     public static final int SCHEDULE_TYPE_EVERYWEEK = 1;

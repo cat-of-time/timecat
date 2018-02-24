@@ -57,6 +57,7 @@ import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.ViewUtil;
 
 import java.lang.ref.WeakReference;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public class SchedulesFragment extends BaseFragment implements
                                                     OnSelectDateListener,
                                                     View.OnClickListener,
                                                     OnScheduleViewClickListener,
-                                                    AsyncExpandableListViewCallbacks<Task, Task> {
+                                                    AsyncExpandableListViewCallbacks<DBTask, DBTask> {
     @SuppressWarnings("unused")
     private static final String TAG = "SchedulesFragment";
     private static final int[] labelColor = new int[]{
@@ -93,8 +94,8 @@ public class SchedulesFragment extends BaseFragment implements
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
     private ArrayList<TextView> textViewList;
-    private AsyncExpandableListView<Task, Task> mAsyncExpandableListView;
-    private CollectionView.Inventory<Task, Task> inventory;
+    private AsyncExpandableListView<DBTask, DBTask> mAsyncExpandableListView;
+    private CollectionView.Inventory<DBTask, DBTask> inventory;
     private Context context;
     private CalendarDate currentDate;
     private int mCurrentPage = MonthPager.CURRENT_DAY_INDEX;
@@ -122,6 +123,7 @@ public class SchedulesFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        refreshData();
         ThemeUtils.refreshUI(getActivity(), null);
     }
     //</生命周期>------------------------------------------------------------------------------------
@@ -272,11 +274,12 @@ public class SchedulesFragment extends BaseFragment implements
                 }
                 initCurrentDate();
                 dbUser = DB.users().getActive(context);
-                Log.e(TAG, "active dbUser --> " + dbUser.toString());
+//                Log.e(TAG, "active dbUser --> " + dbUser.toString());
                 initExpandableListViewData();
-
+                content.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
-        }, 5000);
+        }, 500);
 
     }
 
@@ -308,7 +311,7 @@ public class SchedulesFragment extends BaseFragment implements
                     public void call(User user) {
                         //保存用户信息到本地
                         DB.users().updateActiveUserAndFireEvent(dbUser, user);
-                        Log.i(TAG, dbUser.toString());
+//                        Log.i(TAG, dbUser.toString());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -335,10 +338,10 @@ public class SchedulesFragment extends BaseFragment implements
 
         ArrayList<String> task_urls = dbUser.getTasks();
         if (task_urls != null && task_urls.size() > 0) {
-            AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
+            AsyncTask<ArrayList<String>, Void, ArrayList<DBTask>> loadDataForHeader = new LoadDataTaskHeader(inventory);
             loadDataForHeader.execute(task_urls);
         } else {
-            AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
+            AsyncTask<ArrayList<String>, Void, ArrayList<DBTask>> loadDataForHeader = new LoadDataTaskHeader(inventory);
             loadDataForHeader.execute(new ArrayList<String>());
         }
         Log.e(TAG, "initExpandableListViewData --> dbUser.getTasks() --> " + task_urls);
@@ -371,7 +374,7 @@ public class SchedulesFragment extends BaseFragment implements
                     public void call(User user) {
                         //保存用户信息到本地
                         DB.users().updateActiveUserAndFireEvent(dbUser, user);
-                        Log.i(TAG, dbUser.toString());
+//                        Log.i(TAG, dbUser.toString());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -398,10 +401,10 @@ public class SchedulesFragment extends BaseFragment implements
 
         ArrayList<String> task_urls = dbUser.getTasks();
         if (task_urls != null && task_urls.size() > 0) {
-            AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
+            AsyncTask<ArrayList<String>, Void, ArrayList<DBTask>> loadDataForHeader = new LoadDataTaskHeader(inventory);
             loadDataForHeader.execute(task_urls);
         } else {
-            AsyncTask<ArrayList<String>, Void, ArrayList<Task>> loadDataForHeader = new LoadDataTaskHeader(inventory);
+            AsyncTask<ArrayList<String>, Void, ArrayList<DBTask>> loadDataForHeader = new LoadDataTaskHeader(inventory);
             loadDataForHeader.execute(new ArrayList<>());
         }
     }
@@ -461,7 +464,7 @@ public class SchedulesFragment extends BaseFragment implements
     }
 
     @Override
-    public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder, int groupOrdinal, Task headerItem) {
+    public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder, int groupOrdinal, DBTask headerItem) {
         onBindCollectionHeaderView = true;
         ScheduleHeaderViewHolder scheduleHeaderViewHolder = (ScheduleHeaderViewHolder) holder;
         scheduleHeaderViewHolder.getCalendarItemCheckBox().setUncheckedStrokeColor(labelColor[headerItem.getLabel()]);
@@ -485,7 +488,7 @@ public class SchedulesFragment extends BaseFragment implements
     }
 
     @Override
-    public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder, int groupOrdinal, Task item) {
+    public void bindCollectionItemView(Context context, RecyclerView.ViewHolder holder, int groupOrdinal, DBTask item) {
         ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
         scheduleItemHolder.getTextViewContent().setText(item.getContent());
         Date d;
@@ -611,17 +614,17 @@ public class SchedulesFragment extends BaseFragment implements
 
 
     //<内部类>---尽量少用----------------------------------------------------------------------------
-    private class LoadDataTaskHeader extends AsyncTask<ArrayList<String>, Void, ArrayList<Task>> {
+    private class LoadDataTaskHeader extends AsyncTask<ArrayList<String>, Void, ArrayList<DBTask>> {
 
-        private CollectionView.Inventory<Task, Task> inventory = null;
+        private CollectionView.Inventory<DBTask, DBTask> inventory = null;
 
-        public LoadDataTaskHeader(CollectionView.Inventory<Task, Task> inventory) {
+        public LoadDataTaskHeader(CollectionView.Inventory<DBTask, DBTask> inventory) {
             this.inventory = inventory;
         }
 
         @Override
-        protected ArrayList<Task> doInBackground(ArrayList<String>... params) {
-            ArrayList<Task> tasks = new ArrayList<>();
+        protected ArrayList<DBTask> doInBackground(ArrayList<String>... params) {
+            ArrayList<DBTask> tasks = new ArrayList<>();
             if (params.length <= 0) {
                 return null;
             }
@@ -679,16 +682,15 @@ public class SchedulesFragment extends BaseFragment implements
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Task> tasks) {
+        protected void onPostExecute(ArrayList<DBTask> tasks) {
             if (inventory != null && tasks != null) {
                 for (int i = 0; i < tasks.size(); i++) {
-                    CollectionView.InventoryGroup<Task, Task> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
+                    CollectionView.InventoryGroup<DBTask, DBTask> group_i = inventory.newGroup(i); // groupOrdinal is the smallest, displayed first
                     group_i.setHeaderItem(tasks.get(i));
                 }
                 mAsyncExpandableListView.updateInventory(inventory);
             }
-            content.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
+
         }
 
         private ArrayList<Task> TaskFilter(ArrayList<Task> taskArrayList) {
@@ -744,8 +746,8 @@ public class SchedulesFragment extends BaseFragment implements
             return tasks;
         }
 
-        private ArrayList<Task> DBTaskFilter2Task(List<DBTask> taskArrayList) {
-            ArrayList<Task> tasks = new ArrayList<>();
+        private ArrayList<DBTask> DBTaskFilter2Task(List<DBTask> taskArrayList) {
+            ArrayList<DBTask> tasks = new ArrayList<>();
             // 需要显示的
             // 今天刚刚finished的
             // 顺延的
@@ -756,7 +758,6 @@ public class SchedulesFragment extends BaseFragment implements
             Date today = new Date();
             if (currentDate != null) {
                 today = TimeUtil.transferCalendarDate(currentDate);
-                Log.i(TAG, "transfer --> " + today);
             }
             for (DBTask task : taskArrayList) {
                 boolean hasAddedTask = false;
@@ -765,7 +766,7 @@ public class SchedulesFragment extends BaseFragment implements
                     Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
                     if (finished_datetime != null) {
                         if (finished_datetime.getDay() == today.getDay() && finished_datetime.getMonth() == today.getMonth() && finished_datetime.getYear() == today.getYear()) {
-                            tasks.add(ModelUtil.toTask(task));
+                            tasks.add(task);
                             hasAddedTask = true;
                             Log.i(TAG, "add task, because task is finished today");
                         }
@@ -776,23 +777,20 @@ public class SchedulesFragment extends BaseFragment implements
                     Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
                     if (begin_datetime != null && end_datetime != null) {
                         if (TimeUtil.isDateEarlier(begin_datetime, today) && TimeUtil.isDateEarlier(today, end_datetime)) {
-                            tasks.add(ModelUtil.toTask(task));
+                            tasks.add(task);
                             hasAddedTask = true;
                             Log.i(TAG, "add task, because begin <= today <= end");
                         }
                     }
                 }
                 // 把顺延的添加到显示List并标记
-                Log.e(TAG, "TimeUtil.formatGMTDateStr(task.getCreated_datetime())" + task.toString());
                 if (task.getCreated_datetime() != null || task.getCreated_datetime() != "null") {
                     Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
                     if (!hasAddedTask && created_datetime != null) {
                         long during = today.getTime() - created_datetime.getTime();
-                        Log.i(TAG, "during == " + during);
-                        Log.i(TAG, "today == " + today + " -- created_datetime == " + created_datetime);
                         if (TimeUtil.isDateEarlier(created_datetime, today)) {
                             if (task.getIs_all_day()) {
-                                tasks.add(ModelUtil.toTask(task));
+                                tasks.add(task);
                                 Log.i(TAG, "add task, because of delay");
                             }
                         }
@@ -804,26 +802,26 @@ public class SchedulesFragment extends BaseFragment implements
         }
     }
 
-    private class LoadDataTaskContent extends AsyncTask<Void, Void, List<Task>> {
+    private class LoadDataTaskContent extends AsyncTask<Void, Void, List<DBTask>> {
 
         private final int mGroupOrdinal;
-        private WeakReference<AsyncExpandableListView<Task, Task>> listviewRef = null;
+        private WeakReference<AsyncExpandableListView<DBTask, DBTask>> listviewRef = null;
 
-        public LoadDataTaskContent(int groupOrdinal, AsyncExpandableListView<Task, Task> listview) {
+        public LoadDataTaskContent(int groupOrdinal, AsyncExpandableListView<DBTask, DBTask> listview) {
             mGroupOrdinal = groupOrdinal;
             listviewRef = new WeakReference<>(listview);
         }
 
         @Override
-        protected List<Task> doInBackground(Void... params) {
-            List<Task> items = new ArrayList<>();
+        protected List<DBTask> doInBackground(Void... params) {
+            List<DBTask> items = new ArrayList<>();
             items.add(listviewRef.get().getHeader(mGroupOrdinal));
             return items;
         }
 
 
         @Override
-        protected void onPostExecute(List<Task> tasks) {
+        protected void onPostExecute(List<DBTask> tasks) {
             if (listviewRef.get() != null && tasks != null) {
                 listviewRef.get().onFinishLoadingGroup(mGroupOrdinal, tasks);
             }
@@ -960,6 +958,9 @@ public class SchedulesFragment extends BaseFragment implements
 
         @Override
         public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+//            if (mAsyncExpandableListView.getHeader(mGroupOrdinal).getIsFinish() == isChecked) {
+//                return;
+//            }
             if (isChecked) {
                 ViewUtil.addClearCenterLine(calendar_item_title);
                 calendar_item_title.setTextColor(Color.GRAY);
@@ -971,18 +972,16 @@ public class SchedulesFragment extends BaseFragment implements
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setIsFinish(false);
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(null);
             }
-            Task task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
+            DBTask task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
             Log.i(TAG, "onCheckedChanged() --> header task -->" + task.toString());
-            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task)
+            DB.schedules().safeSaveDBTask(task);
+
+            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), ModelUtil.toTask(task))
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Task>() {
                         @Override
                         public void call(Task task) {
-                            // TODO 保存任务信息到本地, java.lang.RuntimeException: Error saving model
-                            // TODO abort at 32 in [INSERT INTO `Schedules` (`begin_datetime` ,`content` ,`created_datetime` ,`Cycle` ,`Days` ,`Dose` ,`end_datetime` ,`finished_datetime` ,`is_all_day` ,`is_finished` ,`label` ,`owner` ,`Scanned` ...
-//                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-//                            Log.e(TAG, "保存任务信息到本地 --> " + task.toString());
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -995,8 +994,8 @@ public class SchedulesFragment extends BaseFragment implements
                         @Override
                         public void onError(Throwable e) {
                             //请求失败
-                            ToastUtil.show("失败");
-                            Log.e(TAG, "失败 --> " + e.toString());
+                            ToastUtil.show("网络请求失败，已保存到本地");
+                            Log.e(TAG, "网络请求失败 --> " + e.toString());
                         }
 
                         @Override
@@ -1015,7 +1014,7 @@ public class SchedulesFragment extends BaseFragment implements
                     mAsyncExpandableListView.onGroupClicked(mGroupOrdinal);
                     break;
                 case R.id.calendar_item_rl_content_container:
-                    Task task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
+                    DBTask task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
                     Intent intent2DialogActivity = new Intent(context, DialogActivity.class);
                     intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, task.getContent());
@@ -1038,8 +1037,13 @@ public class SchedulesFragment extends BaseFragment implements
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog dialog, DialogAction which) {
-                                Task task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
+                                DBTask task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
                                 Log.e(TAG, "onLongClick() --> 确定删除 task -->" + task.toString());
+                                try {
+                                    DB.schedules().delete(task);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
                                 RetrofitHelper.getTaskService().deleteTaskByUrl(task.getUrl())
                                         .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                                         .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1063,6 +1067,7 @@ public class SchedulesFragment extends BaseFragment implements
                                                 Log.e(TAG, "删除成功 --> " + task.toString());
                                             }
                                         });
+                                notifyDataChanged();
                             }
                         })
                         .negativeText("取消")

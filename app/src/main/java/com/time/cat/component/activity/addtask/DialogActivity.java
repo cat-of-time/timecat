@@ -2,7 +2,6 @@ package com.time.cat.component.activity.addtask;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -41,6 +40,7 @@ import com.time.cat.component.activity.WebActivity;
 import com.time.cat.component.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBNote;
+import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Note;
 import com.time.cat.mvp.model.Task;
@@ -607,7 +607,7 @@ public class DialogActivity extends BaseActivity implements
 
 
     //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
-    Task task;
+    DBTask task;
     DBNote note;
     int important_urgent_label;
     private String title;
@@ -634,7 +634,7 @@ public class DialogActivity extends BaseActivity implements
     @SuppressLint("SetTextI18n")
     @Override
     public void initData() {//必须调用
-        task = (Task) getIntent().getSerializableExtra(TO_UPDATE_TASK);
+        task = (DBTask) getIntent().getSerializableExtra(TO_UPDATE_TASK);
         note = (DBNote) getIntent().getSerializableExtra(TO_UPDATE_NOTE);
 
         important_urgent_label = 0;
@@ -698,7 +698,7 @@ public class DialogActivity extends BaseActivity implements
         SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, str);
     }
 
-    private void refreshViewByTask(Task task) {
+    private void refreshViewByTask(DBTask task) {
         important_urgent_label = task.getLabel();
         title = task.getTitle();
         content = task.getContent();
@@ -1002,11 +1002,6 @@ public class DialogActivity extends BaseActivity implements
     }
 
     private void onUpdateTask() {
-        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Saving Task...");
-        progressDialog.show();
-
         title = dialog_add_task_et_title.getText().toString();
         content = dialog_add_task_et_content.getText().toString();
         task.setTitle(title);
@@ -1026,10 +1021,10 @@ public class DialogActivity extends BaseActivity implements
             d.setMinutes(end_min);
             task.setEnd_datetime(TimeUtil.formatGMTDate(d));
         }
+        DB.schedules().safeSaveDBTask(task);
 
-        Log.e(TAG, "updateAndFireEvent --> " + ModelUtil.toDBTask(task));
-        RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task) //获取Observable对象
-                .compose(this.bindToLifecycle())
+        Log.e(TAG, "updateAndFireEvent --> " + task);
+        RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), ModelUtil.toTask(task)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                 .doOnNext(new Action1<Task>() {
@@ -1050,30 +1045,26 @@ public class DialogActivity extends BaseActivity implements
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        progressDialog.dismiss();
-                        DB.schedules().safeSaveDBTask(task);
                         ToastUtil.show("同步[ 任务 ]失败，保存到本地");
-                        finish();
                         Log.e(TAG, e.toString());
                     }
 
                     @Override
                     public void onNext(Task task) {
                         //请求成功
-                        progressDialog.dismiss();
                         ToastUtil.show("成功更新[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
-                        DB.schedules().safeSaveDBTask(task);
-                        finish();
                         Log.e(TAG, "请求成功" + task.toString());
                     }
                 });
+        finish();
+
     }
 
     private void onCreateTask() {
-        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Saving Task...");
-        progressDialog.show();
+//        final ProgressDialog progressDialog = new ProgressDialog(DialogActivity.this, R.style.AppTheme_Dark_Dialog);
+//        progressDialog.setIndeterminate(true);
+//        progressDialog.setMessage("Saving Task...");
+//        progressDialog.show();
 
         Task task = new Task();
         DBUser activeUser = DB.users().getActive(this);
@@ -1099,7 +1090,7 @@ public class DialogActivity extends BaseActivity implements
             d.setMinutes(end_min);
             task.setEnd_datetime(TimeUtil.formatGMTDate(d));
         }
-
+        DB.schedules().safeSaveDBTask(task);
 
         RetrofitHelper.getTaskService().createTask(task) //获取Observable对象
                 .compose(this.bindToLifecycle())
@@ -1108,8 +1099,6 @@ public class DialogActivity extends BaseActivity implements
                 .doOnNext(new Action1<Task>() {
                     @Override
                     public void call(Task task) {
-                        DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-                        Log.e(TAG, "保存任务信息到本地" + task.toString());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1122,23 +1111,21 @@ public class DialogActivity extends BaseActivity implements
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        progressDialog.dismiss();
-                        DB.schedules().safeSaveDBTask(task);
+//                        progressDialog.dismiss();
                         ToastUtil.show("添加[ 任务 ]失败");
-                        finish();
                         Log.e(TAG, e.toString());
                     }
 
                     @Override
                     public void onNext(Task task) {
                         //请求成功
-                        progressDialog.dismiss();
-                        DB.schedules().safeSaveDBTask(task);
+//                        progressDialog.dismiss();
                         ToastUtil.show("成功添加[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
-                        finish();
                         Log.e(TAG, "请求成功" + task.toString());
                     }
                 });
+        finish();
+
     }
 
     private void onUpdateNote() {

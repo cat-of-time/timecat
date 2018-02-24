@@ -333,7 +333,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 intent.putExtra("user_id", id);
                 launchActivity(intent);
             } else {
-                Log.e(TAG, "login dbUser -->" + dbUser.toString());
+//                Log.e(TAG, "login dbUser -->" + dbUser.toString());
                 RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
                         .compose(mainActivity.bindToLifecycle())
                         .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -456,7 +456,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
     private boolean login(DBUser dbUser) {
         //本方法已起用
-        Log.e(TAG, "login dbUser -->" + dbUser.toString());
+//        Log.e(TAG, "login dbUser -->" + dbUser.toString());
         final boolean[] isSuccess = {false};
         RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
                 .compose(mainActivity.bindToLifecycle())

@@ -182,10 +182,10 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
                             long id = existing.get(0).id();
                             dbUser.setId(id);
                             DB.users().updateAndFireEvent(dbUser);
-                            Log.i(TAG, "更新用户信息 --> updateAndFireEvent -- > " + dbUser.toString());
+//                            Log.i(TAG, "更新用户信息 --> updateAndFireEvent -- > " + dbUser.toString());
                         } else {
                             DB.users().saveAndFireEvent(dbUser);
-                            Log.i(TAG, "保存用户信息 --> saveAndFireEvent -- > " + dbUser.toString());
+//                            Log.i(TAG, "保存用户信息 --> saveAndFireEvent -- > " + dbUser.toString());
                         }
                     }
                 })

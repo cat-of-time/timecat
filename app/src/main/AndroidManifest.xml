@@ -325,10 +325,6 @@
             android:name=".component.activity.about.SchedulesHelpActivity"
             android:theme="@style/Theme.Intro" />
         <activity
-            android:name=".component.activity.main.schedules.ScheduleCreateOrEditActivity"
-            android:launchMode="singleInstance"
-            android:theme="@style/TimeCatTheme" />
-        <activity
             android:name=".component.activity.addtask.DialogActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleInstance"
