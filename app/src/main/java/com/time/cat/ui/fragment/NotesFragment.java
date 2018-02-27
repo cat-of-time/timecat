@@ -112,7 +112,7 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter,
         if (context != null) {
             DBUser dbUser = DB.users().getActive(context);
 
-            for (int i = 0; i < dbNoteList.size(); i++) {
+            for (int i = dbNoteList.size()-1; i >= 0; i--) {
                 if ((dbNoteList.get(i).getOwner().equals(ModelUtil.getOwnerUrl(dbUser)))) {
                     adapterDBNoteList.add(dbNoteList.get(i));
                 }
