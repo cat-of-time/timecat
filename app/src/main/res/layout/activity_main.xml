@@ -1,4 +1,4 @@
-<com.time.cat.ThemeSystem.widgets.TintConstraintLayout
+<com.time.cat.theme.widgets.TintConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_color_primary"
-    tools:context="com.time.cat.component.activity.main.MainActivity">
+    tools:context="com.time.cat.ui.activity.main.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.time.cat.ThemeSystem.widgets.TintToolbar
+        <com.time.cat.theme.widgets.TintToolbar
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                     android:textSize="13sp"/>
             </LinearLayout>
 
-        </com.time.cat.ThemeSystem.widgets.TintToolbar>
+        </com.time.cat.theme.widgets.TintToolbar>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -72,5 +72,5 @@
                 android:background="@android:color/transparent"/>
         </RelativeLayout>
     </RelativeLayout>
-</com.time.cat.ThemeSystem.widgets.TintConstraintLayout>
+</com.time.cat.theme.widgets.TintConstraintLayout>
 

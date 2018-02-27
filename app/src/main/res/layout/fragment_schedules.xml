@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.time.cat.ThemeSystem.widgets.TintLinearLayout
+    <com.time.cat.theme.widgets.TintLinearLayout
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:background="@color/theme_color_primary"
@@ -47,7 +47,7 @@
             style="@style/weekIndicatorStyle"
             android:text="六"/>
 
-    </com.time.cat.ThemeSystem.widgets.TintLinearLayout>
+    </com.time.cat.theme.widgets.TintLinearLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"

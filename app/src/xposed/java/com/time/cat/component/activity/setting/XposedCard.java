@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.setting;
+package com.time.cat.ui.activity.setting;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.component.base.baseCard.AbsCard;
+import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;

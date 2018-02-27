@@ -3,7 +3,7 @@ package com.time.cat.util.quicksetting;
 import android.content.Intent;
 import android.service.quicksettings.TileService;
 
-import com.time.cat.component.activity.UniversalCopyActivity;
+import com.time.cat.ui.activity.UniversalCopyActivity;
 
 
 public class GlobalCopyTile extends TileService {

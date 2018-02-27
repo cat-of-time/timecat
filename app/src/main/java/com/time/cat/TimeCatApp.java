@@ -11,10 +11,10 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 
 import com.shang.commonjar.contentProvider.Global;
-import com.time.cat.ThemeSystem.ThemeManager;
-import com.time.cat.ThemeSystem.utils.ThemeUtils;
-import com.time.cat.component.service.ListenClipboardService;
-import com.time.cat.component.service.TimeCatMonitorService;
+import com.time.cat.theme.ThemeManager;
+import com.time.cat.theme.utils.ThemeUtils;
+import com.time.cat.ui.service.ListenClipboardService;
+import com.time.cat.ui.service.TimeCatMonitorService;
 import com.time.cat.database.DB;
 import com.time.cat.database.UserDao;
 import com.time.cat.mvp.model.DBmodel.DBUser;

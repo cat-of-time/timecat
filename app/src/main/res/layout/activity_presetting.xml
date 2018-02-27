@@ -15,7 +15,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.time.cat.component.activity.setting.SettingActivity">
+        tools:context="com.time.cat.ui.activity.setting.SettingActivity">
 
         <com.time.cat.mvp.view.ColorTextView
             android:id="@+id/title"

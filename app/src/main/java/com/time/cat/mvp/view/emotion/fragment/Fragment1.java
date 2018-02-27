@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.component.base.BaseFragment;
+import com.time.cat.ui.base.BaseFragment;
 
 /**
  * @author dlink

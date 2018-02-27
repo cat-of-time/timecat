@@ -9,7 +9,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.time.cat.R;
-import com.time.cat.component.base.BaseFragment;
+import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.util.listener.GlobalOnItemClickManager;
 import com.time.cat.mvp.view.emotion.EmojiIndicatorView;
 import com.time.cat.mvp.view.emotion.adapter.EmotionGridViewAdapter;

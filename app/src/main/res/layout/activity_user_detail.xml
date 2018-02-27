@@ -1,4 +1,4 @@
-<com.time.cat.ThemeSystem.widgets.TintRelativeLayout
+<com.time.cat.theme.widgets.TintRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_color_primary"
-    tools:context="com.time.cat.component.activity.user.UserDetailActivity">
+    tools:context="com.time.cat.ui.activity.user.UserDetailActivity">
 
     <RelativeLayout
         android:id="@+id/top"
@@ -203,4 +203,4 @@
         fab:fab_colorPressed="#b7b7b7"
         fab:fab_icon="@drawable/ic_autorenew_white_24dp"/>
 
-</com.time.cat.ThemeSystem.widgets.TintRelativeLayout>
+</com.time.cat.theme.widgets.TintRelativeLayout>

@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="0dp"
-                tools:context="com.time.cat.component.activity.about.AboutActivity">
+                tools:context="com.time.cat.ui.activity.about.AboutActivity">
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context="com.time.cat.component.activity.intro.IntroActivity">
+            tools:context="com.time.cat.ui.activity.intro.IntroActivity">
 
 
             <LinearLayout

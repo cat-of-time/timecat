@@ -1,7 +1,7 @@
 package com.time.cat.util;
 
-import com.time.cat.NetworkSystem.ConstantURL;
-import com.time.cat.ThemeSystem.ThemeManager;
+import com.time.cat.network.ConstantURL;
+import com.time.cat.theme.ThemeManager;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBTask;

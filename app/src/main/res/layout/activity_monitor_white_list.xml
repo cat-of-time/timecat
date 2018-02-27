@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              tools:context=".component.activity.whitelist.WhiteListActivity"
+              tools:context=".ui.activity.whitelist.WhiteListActivity"
               tools:ignore="MergeRootFrame">
 
     <android.support.v7.widget.Toolbar

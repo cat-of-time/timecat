@@ -18,7 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.RotateAnimation;
 
-import com.time.cat.AnimationSystem.RotateAndTranslateAnimation;
+import com.time.cat.ui.animation.RotateAndTranslateAnimation;
 import com.time.cat.R;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.view.ViewUtil;
