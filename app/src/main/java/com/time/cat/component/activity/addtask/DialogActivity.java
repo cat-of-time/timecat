@@ -42,7 +42,6 @@ import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.mvp.model.Note;
 import com.time.cat.mvp.model.Task;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.emotion.adapter.HorizontalRecyclerviewAdapter;
@@ -71,6 +70,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -1178,22 +1178,30 @@ public class DialogActivity extends BaseActivity implements
     }
 
     private void onCreateNote() {
-        Note note = new Note();
+        DBNote dbNote = new DBNote();
         DBUser activeUser = DB.users().getActive(this);
         String owner = ModelUtil.getOwnerUrl(activeUser);
-        note.setOwner(owner);
+        dbNote.setOwner(owner);
         title = dialog_add_task_et_title.getText().toString();
         content = dialog_add_task_et_content.getText().toString();
-        note.setTitle(title);
-        note.setContent(content);
-        note.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
-        note.setUpdate_datetime(note.getCreated_datetime());
+        dbNote.setTitle(title);
+        dbNote.setContent(content);
+        dbNote.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
+        dbNote.setUpdate_datetime(dbNote.getCreated_datetime());
         ArrayList<String> tags = new ArrayList<>();
         tags.add("http://192.168.88.105:8000/tags/1/");
         tags.add("http://192.168.88.105:8000/tags/2/");
+        List<Integer> CardStackViewDataList = new ArrayList<>();
+        int[] CardStackViewData = getResources().getIntArray(R.array.card_stack_view_data);
+        for (int aCardStackViewData : CardStackViewData) {
+            CardStackViewDataList.add(aCardStackViewData);
+        }
+        Random random = new Random();
+        int randomColor = random.nextInt(CardStackViewDataList.size());
+        dbNote.setColor(CardStackViewDataList.get(randomColor));
 //        note.setTags(tags);
-        DB.notes().saveAndFireEvent(ModelUtil.toDBNote(note));
-        Log.e(TAG, "saveAndFireEvent() --> " + ModelUtil.toDBNote(note).toString());
+        DB.notes().saveAndFireEvent(dbNote);
+        Log.e(TAG, "saveAndFireEvent() --> " + dbNote.toString());
         Log.e(TAG, "DB.notes() --> " + DB.notes().findAll().toString());
 
 

@@ -21,6 +21,7 @@ public class DBNote implements Serializable {
     public static final String COLUMN_OWNER = "Owner";
     public static final String COLUMN_CREATED_DATETIME = "created_datetime";
     public static final String COLUMN_UPDATE_DATETIME = "update_datetime";
+    public static final String COLUMN_COLOR = "color";
 
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private long id;
@@ -42,6 +43,9 @@ public class DBNote implements Serializable {
 
     @DatabaseField(columnName = COLUMN_UPDATE_DATETIME)
     private String update_datetime;
+
+    @DatabaseField(columnName = COLUMN_COLOR)
+    private int color;
 
     public long getId() {
         return id;
@@ -83,11 +87,6 @@ public class DBNote implements Serializable {
         this.owner = owner;
     }
 
-    @Override
-    public String toString() {
-        return "DBNote{" + "id=" + id + ", url='" + url + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", owner='" + owner + '\'' + '}';
-    }
-
     public String getCreated_datetime() {
         return created_datetime;
     }
@@ -102,5 +101,18 @@ public class DBNote implements Serializable {
 
     public void setUpdate_datetime(String update_datetime) {
         this.update_datetime = update_datetime;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return "DBNote{" + "id=" + id + ", url='" + url + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", owner='" + owner + '\'' + ", created_datetime='" + created_datetime + '\'' + ", update_datetime='" + update_datetime + '\'' + ", color=" + color + '}';
     }
 }

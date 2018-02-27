@@ -12,14 +12,13 @@
         android:background="@drawable/shadow"
         android:elevation="1dp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/notes_rv"
+    <com.time.cat.mvp.view.card_stack_view.CardStackView
+        android:id="@+id/notes_csv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:background="@android:color/white"
+        android:clipToPadding="false"
+        android:padding="12dp"/>
 
 </RelativeLayout>
 

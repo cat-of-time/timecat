@@ -3,11 +3,10 @@ package com.time.cat.component.activity.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +15,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.github.florent37.expansionpanel.ExpansionLayout;
-import com.github.florent37.expansionpanel.viewgroup.ExpansionLayoutCollection;
 import com.time.cat.R;
 import com.time.cat.component.activity.addtask.DialogActivity;
 import com.time.cat.component.activity.main.listener.OnNoteViewClickListener;
@@ -26,6 +23,8 @@ import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.FragmentPresenter;
+import com.time.cat.mvp.view.card_stack_view.CardStackView;
+import com.time.cat.mvp.view.card_stack_view.StackAdapter;
 import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.ToastUtil;
 
@@ -41,14 +40,12 @@ import butterknife.ButterKnife;
  * @date 2018/1/25
  * @discription 笔记fragment
  */
-public class NotesFragment extends BaseFragment implements FragmentPresenter, OnNoteViewClickListener {
+public class NotesFragment extends BaseFragment implements FragmentPresenter,
+                                                           OnNoteViewClickListener,
+                                                           CardStackView.ItemExpendListener {
     @SuppressWarnings("unused")
     private static final String TAG = "NotesFragment";
 
-
-    @BindView(R.id.notes_rv)
-    RecyclerView recyclerView;
-    RecyclerAdapter adapter;
     Context context;
 
     //<生命周期>-------------------------------------------------------------------------------------
@@ -62,11 +59,9 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getContext();
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
-        recyclerView = view.findViewById(R.id.notes_rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new RecyclerAdapter();
-        recyclerView.setAdapter(adapter);
-        recyclerView.setNestedScrollingEnabled(false);
+
+        mStackView = view.findViewById(R.id.notes_csv);
+        cardStackViewAdapter = new CardStackViewAdapter(context);
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initData();
@@ -80,6 +75,9 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    private CardStackView mStackView;
+    private CardStackViewAdapter cardStackViewAdapter;
+
     @Override
     public void initView() {//必须调用
 
@@ -91,6 +89,7 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
     @Override
     public void initData() {//必须调用
         refreshData();
+        mStackView.setAdapter(cardStackViewAdapter);
     }
 
     @Override
@@ -100,15 +99,27 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
 
     public void refreshData() {
         List<DBNote> dbNoteList = DB.notes().findAll();
+        if (dbNoteList == null || dbNoteList.size() <= 0) {
+            return;
+        }
         List<DBNote> adapterDBNoteList = new ArrayList<>();
+
+        List<Integer> CardStackViewDataList = new ArrayList<>();
+        int[] CardStackViewData = getResources().getIntArray(R.array.card_stack_view_data);
+        for (int aCardStackViewData : CardStackViewData) {
+            CardStackViewDataList.add(aCardStackViewData);
+        }
         if (context != null) {
             DBUser dbUser = DB.users().getActive(context);
+
             for (int i = 0; i < dbNoteList.size(); i++) {
                 if ((dbNoteList.get(i).getOwner().equals(ModelUtil.getOwnerUrl(dbUser)))) {
                     adapterDBNoteList.add(dbNoteList.get(i));
                 }
             }
-            adapter.setItems(adapterDBNoteList);
+            if (adapterDBNoteList.size() > 0) {
+                cardStackViewAdapter.updateData(adapterDBNoteList);
+            }
         }
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
@@ -117,7 +128,7 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
-
+        mStackView.setItemExpendListener(this);
     }
 
 
@@ -128,86 +139,94 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
     }
     //-//</Listener>-----------------------------------------------------------------------------
 
+
+
+    //-//<CardStackView.ItemExpendListener>------------------------------------------------------------------------------
+    @Override
+    public void onItemExpend(boolean expend) {
+//        mActionButtonContainer.setVisibility(expend ? View.VISIBLE : View.GONE);
+    }
+    //-//</CardStackView.ItemExpendListener>-----------------------------------------------------------------------------
+
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
 
 
     //<内部类>---尽量少用----------------------------------------------------------------------------
-    public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
+    public class CardStackViewAdapter extends StackAdapter<DBNote> {
 
-        private final List<DBNote> list = new ArrayList<>();
+//        private final List<DBNote> list = new ArrayList<>();
 
-        private final ExpansionLayoutCollection expansionsCollection = new ExpansionLayoutCollection();
-
-        public RecyclerAdapter() {
-            expansionsCollection.openOnlyOne(true);
+        public CardStackViewAdapter(Context context) {
+            super(context);
         }
 
         @Override
-        public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new RecyclerHolder(LayoutInflater.from(getContext()).inflate(R.layout.recyclerview_card_item, parent, false));
+        public void bindView(DBNote data, int position, CardStackView.ViewHolder holder) {
+            if (holder instanceof ColorItemViewHolder) {
+                ColorItemViewHolder h = (ColorItemViewHolder) holder;
+                h.onBind(data, position);
+            }
         }
 
         @Override
-        public void onBindViewHolder(RecyclerHolder holder, int position) {
-            holder.bind(list, position);
-
-            expansionsCollection.add(holder.getExpansionLayout());
+        protected CardStackView.ViewHolder onCreateView(ViewGroup parent, int viewType) {
+            View view;
+            switch (viewType) {
+                default:
+                    view = getLayoutInflater().inflate(R.layout.item_list_card, parent, false);
+                    return new ColorItemViewHolder(view);
+            }
         }
 
         @Override
-        public int getItemCount() {
-            return list.size();
-        }
-
-        public void setItems(List<DBNote> items) {
-            this.list.clear();
-            this.list.addAll(items);
-            notifyDataSetChanged();
-        }
-        public void addItems(List<DBNote> items) {
-            this.list.addAll(items);
-            notifyDataSetChanged();
+        public int getItemViewType(int position) {
+            return R.layout.item_list_card;
         }
 
     }
 
-    public class RecyclerHolder extends RecyclerView.ViewHolder implements
-                                                                View.OnLongClickListener,
-                                                                View.OnClickListener {
-        @BindView(R.id.expansionLayout)
-        ExpansionLayout expansionLayout;
+    public class ColorItemViewHolder extends CardStackView.ViewHolder implements
+                                                                      View.OnLongClickListener,
+                                                                      View.OnClickListener {
+        @BindView(R.id.frame_list_card_item)
+        View mLayout;
+        @BindView(R.id.container_list_content)
+        View mContainerContent;
+        @BindView(R.id.text_list_card_title)
+        TextView mTextTitle;
 
         @BindView(R.id.notes_tv_title)
         TextView notes_tv_title;
 
-        @BindView(R.id.notes_et_content)
+        @BindView(R.id.notes_tv_content)
         TextView notes_tv_content;
 
-        List<DBNote> list;
-        int position;
+        DBNote dbNote;
 
-        public RecyclerHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public ColorItemViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
         }
 
-        public void bind(List<DBNote> list, int position) {
-            expansionLayout.collapse(false);
-            this.list = list;
-            this.position = position;
-            DBNote note = list.get(position);
-            notes_tv_title.setText(note.getTitle());
+        @Override
+        public void onItemExpand(boolean b) {
+            mContainerContent.setVisibility(b ? View.VISIBLE : View.GONE);
+        }
+
+        public void onBind(DBNote data, int position) {
+            mLayout.getBackground().setColorFilter(data.getColor(), PorterDuff.Mode.SRC_IN);
+
+            mTextTitle.setText(String.valueOf(position));
+
+            dbNote = data;
+            notes_tv_title.setText(dbNote.getTitle());
             // 排版，开头空两格。使用sSpannableStringBuilder,隐藏掉前面两个字符，达到缩进的错觉
 //            SpannableStringBuilder span = new SpannableStringBuilder("缩进"+note.getContent());
 //            span.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
 //                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            notes_tv_content.setText(note.getContent());
-            notes_tv_title.setOnClickListener(this);
+            notes_tv_content.setText(dbNote.getContent());
+            notes_tv_content.setOnClickListener(this);
             notes_tv_title.setOnLongClickListener(this);
-        }
-
-        public ExpansionLayout getExpansionLayout() {
-            return expansionLayout;
         }
 
         @Override
@@ -220,7 +239,6 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog dialog, DialogAction which) {
-                                DBNote dbNote = list.get(position);
                                 Log.e(TAG, "dbNote == " + dbNote.toString());
                                 try {
                                     DB.notes().delete(dbNote);
@@ -246,14 +264,13 @@ public class NotesFragment extends BaseFragment implements FragmentPresenter, On
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.notes_tv_title) {
+            if (v.getId() == R.id.notes_tv_content) {
 
-                DBNote note = list.get(position);
                 Intent intent2DialogActivity = new Intent(context, DialogActivity.class);
                 intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, note.getContent());
+                intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, dbNote.getContent());
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(DialogActivity.TO_UPDATE_NOTE, note);
+                bundle.putSerializable(DialogActivity.TO_UPDATE_NOTE, dbNote);
                 intent2DialogActivity.putExtras(bundle);
                 startActivity(intent2DialogActivity);
                 ToastUtil.show("to modify a note");
