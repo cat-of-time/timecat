@@ -25,7 +25,9 @@ import com.time.cat.util.override.Snack;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
-public class RoutineCreateOrEditFragment extends DialogFragment implements RadialTimePickerDialog.OnTimeSetListener, TimePickerDialogFragment.TimePickerDialogHandler {
+public class RoutineCreateOrEditFragment extends DialogFragment implements
+                                                                RadialTimePickerDialog.OnTimeSetListener,
+                                                                TimePickerDialogFragment.TimePickerDialogHandler {
 
     OnRoutineEditListener mRoutineEditCallback;
     DBRoutine mDBRoutine;

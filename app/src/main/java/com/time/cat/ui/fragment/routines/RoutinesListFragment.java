@@ -2,12 +2,11 @@ package com.time.cat.ui.fragment.routines;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +16,18 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.fragment.schedules.AlarmScheduler;
-import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.database.DB;
 import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
+import com.time.cat.ui.base.BaseFragment;
+import com.time.cat.ui.fragment.schedules.AlarmScheduler;
+import com.time.cat.util.override.LogUtil;
 
 import java.util.List;
 
@@ -108,16 +110,15 @@ public class RoutinesListFragment extends BaseFragment {
         overlay.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (view.getTag() != null) showDeleteConfirmationDialog((DBRoutine) view.getTag());
+                if (view.getTag() != null)
+                    showDeleteConfirmationDialog((DBRoutine) view.getTag());
                 return true;
             }
         });
         return item;
     }
 
-    void showDeleteConfirmationDialog(final DBRoutine r) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
+    void showDeleteConfirmationDialog(final DBRoutine  r) {
         String message;
 
 
@@ -128,21 +129,27 @@ public class RoutinesListFragment extends BaseFragment {
             //message = "Remove " + r.name() + " routine?";
             message = String.format(getString(R.string.remove_routine_message_short), r.name());
         }
-
-        builder.setMessage(message).setCancelable(true).setTitle(getString(R.string.remove_routine_dialog_title)).setPositiveButton(getString(R.string.dialog_yes_option), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // cancel routine alarm and delete it
-                AlarmScheduler.instance().onDeleteRoutine(r, getActivity());
-                DB.routines().deleteCascade(r, true);
-                notifyDataChanged();
-            }
-        }).setNegativeButton(getString(R.string.dialog_no_option), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
+        new MaterialDialog.Builder(getActivity())
+                .title(getString(R.string.remove_routine_dialog_title))
+                .content(message)
+                .positiveText(getString(R.string.dialog_yes_option))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        LogUtil.e("dbNote == " + r.toString());
+                        // cancel routine alarm and delete it
+                        AlarmScheduler.instance().onDeleteRoutine(r, getActivity());
+                        DB.routines().deleteCascade(r, true);
+                        notifyDataChanged();
+                    }
+                })
+                .negativeText(getString(R.string.dialog_no_option))
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     public void notifyDataChanged() {

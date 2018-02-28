@@ -325,7 +325,7 @@ public class MainActivity extends BaseActivity implements
         SpecialTab mainTab = new SpecialTab(this);
         mainTab.initialize(drawable, checkedDrawable, text);
         mainTab.setTextDefaultColor(0xFF888888);
-        mainTab.setTextCheckedColor(0xFF009688);
+        mainTab.setTextCheckedColor(0xFF03A9F4);
         return mainTab;
     }
 
@@ -336,7 +336,7 @@ public class MainActivity extends BaseActivity implements
         SpecialTabRound mainTab = new SpecialTabRound(this);
         mainTab.initialize(drawable, checkedDrawable, text);
         mainTab.setTextDefaultColor(0xFF888888);
-        mainTab.setTextCheckedColor(0xFF009688);
+        mainTab.setTextCheckedColor(0xff03A9F4);
         return mainTab;
     }
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------

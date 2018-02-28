@@ -484,9 +484,9 @@
     DBRoutinetine-->
     ]]>
     <string name="routines_list_empty_text">There are no routines yet.\n\nRoutines are times when you need to take care, like breakfast or dinner. You can reuse it for creating schedules faster.</string>
-    <string name="remove_routine_message_long">The DBRoutine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
-    <string name="remove_routine_message_short">Remove %1$s DBRoutine?</string>
-    <string name="remove_routine_dialog_title">Remove DBRoutine</string>
+    <string name="remove_routine_message_long">The Routine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
+    <string name="remove_routine_message_short">Remove %1$s Routine?</string>
+    <string name="remove_routine_dialog_title">Remove Routine</string>
     <string name="dialog_yes_option">Yes</string>
     <string name="dialog_no_option">No</string>
     <string name="reminder_cancelled_message">Reminder cancelled</string>
