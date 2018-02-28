@@ -1,6 +1,7 @@
 package com.time.cat.ui.fragment.notes.view;
 
 import com.time.cat.mvp.model.DBmodel.DBNote;
+import com.time.cat.mvpframework.view.BaseMvpView;
 
 import java.util.List;
 
@@ -11,6 +12,6 @@ import java.util.List;
  * @discription null
  * @usage null
  */
-public interface NotesFragmentAction {
+public interface NotesFragmentAction extends BaseMvpView {
     void refreshView(List<DBNote> adapterDBNoteList);
 }

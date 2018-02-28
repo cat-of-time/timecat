@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.time.cat.R;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.view.card_stack_view.CardStackView;
+import com.time.cat.mvpframework.factory.CreatePresenter;
 import com.time.cat.ui.activity.addtask.DialogActivity;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.base.BaseFragment;
@@ -25,27 +25,32 @@ import com.time.cat.util.override.ToastUtil;
 import java.sql.SQLException;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @author dlink
  * @date 2018/1/25
  * @discription 笔记fragment，只与view有关，业务逻辑下放给presenter
  */
-public class NotesFragment extends BaseFragment implements OnNoteViewClickListener,
-                                                           NotesFragmentAction, ColorItemViewHolder.ColorItemViewHolderAction, CardStackViewAdapter.CardStackViewAdapterAction, CardStackView.ItemExpendListener {
+@CreatePresenter(NotesPresenter.class)
+public class NotesFragment
+        extends BaseFragment<NotesFragmentAction, NotesPresenter>
+        implements OnNoteViewClickListener, NotesFragmentAction,
+                   ColorItemViewHolder.ColorItemViewHolderAction,
+                   CardStackViewAdapter.CardStackViewAdapterAction,
+                   CardStackView.ItemExpendListener {
     @SuppressWarnings("unused")
     private static final String TAG = "NotesFragment";
 
     Context context;
-    NotesPresenter notesPresenter;
     //<生命周期>-------------------------------------------------------------------------------------
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getContext();
-        notesPresenter = new NotesPresenter(this);
 
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
-        mStackView = view.findViewById(R.id.notes_csv);
+        ButterKnife.bind(this, view);
         setupStackView();
 
         return view;
@@ -57,12 +62,16 @@ public class NotesFragment extends BaseFragment implements OnNoteViewClickListen
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
-    private CardStackView mStackView;
+    @BindView(R.id.notes_csv)
+    CardStackView mStackView;
+
     private CardStackViewAdapter cardStackViewAdapter;
+
     private void setupStackView() {
         cardStackViewAdapter = new CardStackViewAdapter(context);
         cardStackViewAdapter.setCardStackViewAdapterAction(this);
-        notesPresenter.refresh();
+        getMvpPresenter().onAttachMvpView(this);
+        getMvpPresenter().refresh();
         // 等adapter和数据准备完毕再setAdapter
         mStackView.setAdapter(cardStackViewAdapter);
         mStackView.setItemExpendListener(this);
@@ -79,7 +88,7 @@ public class NotesFragment extends BaseFragment implements OnNoteViewClickListen
     //-//<Activity自动刷新>---------------------------------------------------------------------------
     @Override
     public void notifyDataChanged() {
-        notesPresenter.refresh();
+        getMvpPresenter().refresh();
     }
     //-//</Activity自动刷新>--------------------------------------------------------------------------
 
@@ -87,7 +96,7 @@ public class NotesFragment extends BaseFragment implements OnNoteViewClickListen
     //-//<用户强制刷新>------------------------------------------------------------------------------
     @Override
     public void onViewNoteRefreshClick() {
-        notesPresenter.refresh();
+        getMvpPresenter().refresh();
     }
     //-//</用户强制刷新>-----------------------------------------------------------------------------
 

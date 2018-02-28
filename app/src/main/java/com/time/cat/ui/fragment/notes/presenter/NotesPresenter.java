@@ -1,8 +1,12 @@
 package com.time.cat.ui.fragment.notes.presenter;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
 import com.time.cat.mvp.model.DBmodel.DBNote;
+import com.time.cat.mvpframework.presenter.BaseMvpPresenter;
 import com.time.cat.ui.fragment.notes.model.NotesDataManager;
-import com.time.cat.ui.fragment.notes.model.NotesDataManagerAction;
 import com.time.cat.ui.fragment.notes.view.NotesFragmentAction;
 
 import java.util.List;
@@ -14,22 +18,52 @@ import java.util.List;
  * @discription NotesFragment的View与Model的组装
  * @usage null
  */
-public class NotesPresenter implements NotesPresenterAction, NotesDataManager.OnDataChangeListener {
-    private NotesFragmentAction notesFragmentAction;
-    private NotesDataManagerAction notesDataManagerAction;
+public class NotesPresenter extends BaseMvpPresenter<NotesFragmentAction> implements NotesDataManager.OnDataChangeListener {
+    private static final String TAG = "MVP-NotesPresenter";
+    private NotesDataManager notesDataManagerAction;
 
-    public NotesPresenter(NotesFragmentAction notesFragmentAction) {
-        this.notesFragmentAction = notesFragmentAction;
+    public NotesPresenter() {
         this.notesDataManagerAction = new NotesDataManager();
     }
 
+    //<生命周期>-------------------------------------------------------------------------------------
     @Override
-    public void refresh() {
-        notesDataManagerAction.refreshData(this);
+    public void onCreatePresenter(@Nullable Bundle savedState) {
+        super.onCreatePresenter(savedState);
+        if(savedState != null){
+            Log.e(TAG,"RequestPresenter5  onCreatePresenter 测试  = " + savedState.getString("test2") );
+        }
     }
 
     @Override
-    public void onDataChange(List<DBNote> adapterDBNoteList) {
-        notesFragmentAction.refreshView(adapterDBNoteList);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.e("perfect-mvp","RequestPresenter5  onSaveInstanceState 测试 " );
+        outState.putString("test2","test_save2");
     }
+
+    @Override
+    public void onDestroyPresenter() {
+        super.onDestroyPresenter();
+    }
+    //</生命周期>------------------------------------------------------------------------------------
+
+
+
+    //<业务处理>-----外部只允许调用业务处理函数-----------------------------------------------------------
+    public void refresh() {
+        notesDataManagerAction.refreshData(this);
+    }
+    //</业务处理>-----外部只允许调用业务处理函数-----------------------------------------------------------
+
+
+
+    //<NotesDataManager.OnDataChangeListener>-----data层返回数据的回调接口-----------------------------
+    @Override
+    public void onDataChange(List<DBNote> adapterDBNoteList) {
+        if(getMvpView() != null) {
+            getMvpView().refreshView(adapterDBNoteList);
+        }
+    }
+    //</NotesDataManager.OnDataChangeListener>------------------------------------------------------
 }

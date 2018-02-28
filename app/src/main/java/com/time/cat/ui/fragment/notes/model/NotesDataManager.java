@@ -15,8 +15,8 @@ import java.util.List;
  * @discription model层，只与数据有关
  * @usage null
  */
-public class NotesDataManager implements NotesDataManagerAction {
-    @Override
+public class NotesDataManager {
+
     public void refreshData(OnDataChangeListener onDataChangeListener) {
         List<DBNote> dbNoteList = DB.notes().findAll();
         if (dbNoteList == null || dbNoteList.size() <= 0) {
