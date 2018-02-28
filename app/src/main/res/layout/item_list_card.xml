@@ -39,6 +39,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_toEndOf="@+id/text_list_card_title"
                 android:ellipsize="end"
+                android:lines="5"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="normal"
@@ -56,10 +57,10 @@
             android:id="@+id/notes_tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#111111"
-            android:padding="14dp"
             android:minHeight="160dp"
-            android:text="text"/>
+            android:padding="14dp"
+            android:text="text"
+            android:textColor="#111111"/>
     </LinearLayout>
 
 </LinearLayout>

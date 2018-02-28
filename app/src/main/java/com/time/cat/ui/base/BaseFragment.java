@@ -238,4 +238,8 @@ public class BaseFragment extends Fragment {
     }
 
     public void notifyDataChanged() {}
+
+    public String TAG() {
+        return getClass().getSimpleName();
+    }
 }

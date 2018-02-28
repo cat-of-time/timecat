@@ -48,7 +48,7 @@ import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.navigation.SpecialTab;
 import com.time.cat.mvp.view.navigation.SpecialTabRound;
 import com.time.cat.mvp.view.viewpaper.CustomPagerView;
-import com.time.cat.ui.fragment.NotesFragment;
+import com.time.cat.ui.fragment.notes.view.NotesFragment;
 import com.time.cat.ui.fragment.PlansFragment;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.view.ScreenUtil;

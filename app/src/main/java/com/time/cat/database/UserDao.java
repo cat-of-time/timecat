@@ -22,6 +22,7 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.j256.ormlite.dao.Dao;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.APImodel.User;
@@ -110,12 +111,32 @@ public class UserDao extends GenericDao<DBUser, Long> {
         }
     }
 
+    public DBUser getActive() {
+        long id = SPHelper.getLong(PREFERENCE_ACTIVE_USER, -1);
+        DBUser p;
+        if (id != -1) {
+            p = findById(id);
+            if (p == null) {
+                p = getDefault();
+                setActive(p);
+            }
+            return p;
+        } else {
+            return getDefault();
+        }
+    }
+
     public DBUser getDefault() {
         return findOneBy(DBUser.COLUMN_DEFAULT, true);
     }
 
     public void setActive(DBUser u, Context ctx) {
         PreferenceManager.getDefaultSharedPreferences(ctx).edit().putLong(PREFERENCE_ACTIVE_USER, u.id()).commit();
+        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
+    }
+
+    public void setActive(DBUser u) {
+        SPHelper.save(PREFERENCE_ACTIVE_USER, u.id());
         TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
     }
 

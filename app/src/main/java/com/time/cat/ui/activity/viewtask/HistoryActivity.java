@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.time.cat.R;
-import com.time.cat.ui.fragment.NotesFragment;
+import com.time.cat.ui.fragment.notes.view.NotesFragment;
 import com.time.cat.ui.fragment.PlansFragment;
 import com.time.cat.ui.fragment.schedules.SchedulesFragment;
 import com.time.cat.ui.base.BaseActivity;
