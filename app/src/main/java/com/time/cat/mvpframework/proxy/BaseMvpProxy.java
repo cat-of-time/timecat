@@ -66,7 +66,7 @@ public class BaseMvpProxy<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         if (mFactory != null) {
             if (mPresenter == null) {
                 mPresenter = mFactory.createMvpPresenter();
-                mPresenter.onCreatePersenter(mBundle == null ? null : mBundle.getBundle(PRESENTER_KEY));
+                mPresenter.onCreatePresenter(mBundle == null ? null : mBundle.getBundle(PRESENTER_KEY));
             }
         }
         Log.e("perfect-mvp","Proxy getMvpPresenter = " + mPresenter);
@@ -104,7 +104,7 @@ public class BaseMvpProxy<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         Log.e("perfect-mvp","Proxy onDestroy = ");
         if (mPresenter != null ) {
             onDetachMvpView();
-            mPresenter.onDestroyPersenter();
+            mPresenter.onDestroyPresenter();
             mPresenter = null;
         }
     }

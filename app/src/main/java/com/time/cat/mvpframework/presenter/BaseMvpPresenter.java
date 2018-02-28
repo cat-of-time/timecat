@@ -23,8 +23,8 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
      *
      * @param savedState 被意外销毁后重建后的Bundle
      */
-    public void onCreatePersenter(@Nullable Bundle savedState) {
-        Log.e("perfect-mvp","P onCreatePersenter = ");
+    public void onCreatePresenter(@Nullable Bundle savedState) {
+        Log.e("perfect-mvp","P onCreatePresenter = ");
     }
 
 
@@ -47,7 +47,7 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
     /**
      * Presenter被销毁时调用
      */
-    public void onDestroyPersenter() {
+    public void onDestroyPresenter() {
         Log.e("perfect-mvp","P onDestroy = ");
     }
 

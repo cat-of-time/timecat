@@ -10,15 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.time.cat.theme.utils.ThemeUtils;
 import com.time.cat.TimeCatApp;
+import com.time.cat.mvpframework.presenter.BaseMvpPresenter;
+import com.time.cat.mvpframework.view.AbstractFragment;
+import com.time.cat.mvpframework.view.BaseMvpView;
+import com.time.cat.theme.utils.ThemeUtils;
 
 /**
  * @author dlink
  * @date 2018/1/24
  * @discription 基础Fragment类,基类BaseFragment中的传递参数args可以供子类选择性使用
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> extends AbstractFragment<V, P> implements BaseMvpView{
 
     /**
      * Fragment title
@@ -49,6 +52,8 @@ public class BaseFragment extends Fragment {
     private boolean forceLoad = false;
 
     private Activity activity;
+    Context context;
+
     //传递过来的参数Bundle，供子类使用
     protected Bundle args;
 
@@ -72,7 +77,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 初始创建Fragment对象时调用
-     * @param savedInstanceState
+     * @param savedInstanceState savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,6 +110,8 @@ public class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        context = getContext();
+
         // 若 viewpager 不设置 setOffscreenPageLimit 或设置数量不够
         // 销毁的Fragment onCreateView 每次都会执行(但实体类没有从内存销毁)
         // 导致initData反复执行,所以这里注释掉
