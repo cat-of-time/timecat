@@ -7,12 +7,12 @@ import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.view.ScreenUtil;
 
 /**
@@ -212,7 +212,7 @@ public class KeyboardUtil {
 
         // excuse me?
         if (softInputHeight < 0) {
-            Log.e(TAG, "excuse me，键盘高度小于0？");
+            LogUtil.e("excuse me，键盘高度小于0？");
         }
 
         return softInputHeight;

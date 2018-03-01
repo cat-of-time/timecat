@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:textColor="@android:color/white"
+                android:textColor="#eff"
                 android:textSize="40sp"
                 android:textStyle="bold"
                 tools:text="12"/>
@@ -40,7 +40,7 @@
                 android:layout_toEndOf="@+id/text_list_card_title"
                 android:ellipsize="end"
                 android:lines="5"
-                android:textColor="@android:color/white"
+                android:textColor="#eff"
                 android:textSize="15sp"
                 android:textStyle="normal"
                 tools:text="text"/>

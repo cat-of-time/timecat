@@ -240,10 +240,10 @@ public class ForceTouchListener implements View.OnTouchListener {
     private void checkParam(float pressureLimit, long millisToVibrate){
         if(pressureLimit < 0 && pressureLimit > 1){
             setPressureLimit(DEFAULT_PRESSURE_LIMIT);
-            Log.e(TAG, "Invalid pressureLimit (float between 0 and 1), restored default: " + DEFAULT_PRESSURE_LIMIT);
+            LogUtil.e("Invalid pressureLimit (float between 0 and 1), restored default: " + DEFAULT_PRESSURE_LIMIT);
         }if(millisToVibrate < 0){
             setMillisToVibrate(DEFAULT_MILLIS_TO_VIBRATE);
-            Log.e(TAG, "Invalid millisToVibrate, restored default: " + DEFAULT_MILLIS_TO_VIBRATE + " millis");
+            LogUtil.e("Invalid millisToVibrate, restored default: " + DEFAULT_MILLIS_TO_VIBRATE + " millis");
         }
     }
 

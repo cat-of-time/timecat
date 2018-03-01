@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.time.cat.ui.activity.addtask.DialogActivity;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.fragment.notes.presenter.NotesPresenter;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 
 import java.sql.SQLException;
@@ -118,7 +118,7 @@ public class NotesFragment
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
-                        Log.e(TAG, "dbNote == " + dbNote.toString());
+                        LogUtil.e("dbNote == " + dbNote.toString());
                         try {
                             DB.notes().delete(dbNote);
                             ToastUtil.show("已删除");

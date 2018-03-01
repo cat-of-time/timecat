@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
 
+import com.time.cat.util.override.LogUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -139,10 +141,10 @@ public class UploadUtil {
                  * 获取响应码 200=成功 当响应成功，获取响应的流
                  */
                 int res = conn.getResponseCode();
-                Log.e(TAG, "response code:" + res);
+                LogUtil.e("response code:" + res);
                 // if(res==200)
                 // {
-                Log.e(TAG, "request success");
+                LogUtil.e("request success");
                 InputStream input = conn.getInputStream();
                 StringBuffer sb1 = new StringBuffer();
                 int ss;
@@ -150,7 +152,7 @@ public class UploadUtil {
                     sb1.append((char) ss);
                 }
                 result = sb1.toString();
-                Log.e(TAG, "result : " + result);
+                LogUtil.e("result : " + result);
                 // }
                 // else{
                 // Log.e(TAG, "request error");

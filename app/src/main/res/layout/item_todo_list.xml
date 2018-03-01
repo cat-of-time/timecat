@@ -39,6 +39,7 @@
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textSize="16sp"
             android:text="temp"
             android:textColor="@color/black"/>
     </RelativeLayout>

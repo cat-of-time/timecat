@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -32,16 +31,12 @@ import com.bigkoo.pickerview.lib.WheelView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnItemSelectedListener;
 import com.shang.commonjar.contentProvider.SPHelper;
-import com.time.cat.network.ConstantURL;
-import com.time.cat.network.RetrofitHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.TimeCatActivity;
-import com.time.cat.ui.activity.WebActivity;
-import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.mvp.model.Note;
 import com.time.cat.mvp.model.Task;
 import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.emotion.adapter.HorizontalRecyclerviewAdapter;
@@ -53,11 +48,17 @@ import com.time.cat.mvp.view.emotion.model.ImageModel;
 import com.time.cat.mvp.view.keyboardManager.SmartKeyboardManager;
 import com.time.cat.mvp.view.richText.TEditText;
 import com.time.cat.mvp.view.viewpaper.NoHorizontalScrollerViewPager;
+import com.time.cat.network.ConstantURL;
+import com.time.cat.network.RetrofitHelper;
+import com.time.cat.ui.activity.TimeCatActivity;
+import com.time.cat.ui.activity.WebActivity;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.ModelUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.listener.GlobalOnItemClickManager;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.SharedPreferencedUtils;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.TimeUtil;
@@ -65,6 +66,7 @@ import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
 
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -94,6 +96,7 @@ public class DialogActivity extends BaseActivity implements
     public static final String TO_SAVE_STR = "to_save_str";
     public static final String TO_UPDATE_TASK = "to_update_task";
     public static final String TO_UPDATE_NOTE = "to_update_note";
+    public static final String TO_UPDATE_ROUTINE = "to_update_ROUTINE";
 
 
     //<启动方法>-------------------------------------------------------------------------------------
@@ -312,7 +315,7 @@ public class DialogActivity extends BaseActivity implements
                     }
 
                     important_urgent_label = finalI;
-                    ToastUtil.show("important_urgent_label == " + finalI);
+//                    ToastUtil.show("important_urgent_label == " + finalI);
                 }
             });
         }
@@ -649,13 +652,13 @@ public class DialogActivity extends BaseActivity implements
         is_setting_end_time = false;
         type = Type.NOTE;
         initTextString();
-        Log.e(TAG, "initData --> ");
+        LogUtil.e("initData --> ");
         if (task != null) {
-            Log.e(TAG, "initData --> task != null --> " + task);
+            LogUtil.e("initData --> task != null --> " + task);
             refreshViewByTask(task);
         }
         if (note != null) {
-            Log.e(TAG, "initData --> note != null --> " + note);
+            LogUtil.e("initData --> note != null --> " + note);
             refreshViewByNote(note);
         }
         select_tv_start_time.setText((start_hour<10?"0"+start_hour:start_hour) + ":" + (start_min<10?"0"+start_min:start_min));
@@ -849,6 +852,8 @@ public class DialogActivity extends BaseActivity implements
                         dialog_add_task_footer_bt_submit.setClickable(true);
                     }
                 }, 3000);
+                title = dialog_add_task_et_title.getText().toString();
+                content = dialog_add_task_et_content.getText().toString();
                 switch (type) {
                     case NOTE:
                         if (note != null) {
@@ -918,7 +923,6 @@ public class DialogActivity extends BaseActivity implements
     }
 
     private void onClickTimeCat() {
-        content = dialog_add_task_et_content.getText().toString();
         if (TextUtils.isEmpty(content)) {
             content = "";
             ToastUtil.show("输入为空！");
@@ -932,7 +936,6 @@ public class DialogActivity extends BaseActivity implements
     }
 
     private void onClickSearch() {
-        content = dialog_add_task_et_content.getText().toString();
         if (TextUtils.isEmpty(content)) {
             content = "";
             ToastUtil.show("输入为空！");
@@ -987,7 +990,6 @@ public class DialogActivity extends BaseActivity implements
     }
 
     private void onClickTranslate() {
-        content = dialog_add_task_et_content.getText().toString();
         if (TextUtils.isEmpty(content)) {
             content = "";
             ToastUtil.show("输入为空！");
@@ -1002,8 +1004,6 @@ public class DialogActivity extends BaseActivity implements
     }
 
     private void onUpdateTask() {
-        title = dialog_add_task_et_title.getText().toString();
-        content = dialog_add_task_et_content.getText().toString();
         task.setTitle(title);
         task.setContent(content);
         task.setLabel(important_urgent_label);
@@ -1023,41 +1023,78 @@ public class DialogActivity extends BaseActivity implements
         }
         DB.schedules().safeSaveDBTask(task);
 
-        Log.e(TAG, "updateAndFireEvent --> " + task);
-        RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), ModelUtil.toTask(task)) //获取Observable对象
-                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
-                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
-                .doOnNext(new Action1<Task>() {
-                    @Override
-                    public void call(Task task) {
-                        //TODO 暂时不存到本地
-//                                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-//                                            Log.e(TAG, "保存任务信息到本地" + task.toString());
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-                .subscribe(new Subscriber<Task>() {
-                    @Override
-                    public void onCompleted() {
+        LogUtil.e("updateAndFireEvent --> " + task);
+        if (task.getUrl() == null) {
+            RetrofitHelper.getTaskService().createTask(ModelUtil.toTask(task)) //获取Observable对象
+                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                    .doOnNext(new Action1<Task>() {
+                        @Override
+                        public void call(Task task1) {
+                            // 将笔记的url保存下来
+                            try {
+                                DB.schedules().delete(task);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            DB.schedules().safeSaveTask(task1);
+                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + task1.toString());
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                    .subscribe(new Subscriber<Task>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        //请求失败
-                        ToastUtil.show("同步[ 任务 ]失败，保存到本地");
-                        Log.e(TAG, e.toString());
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            //请求失败
+                            ToastUtil.show("云端没有该任务，补充添加[ 任务 ]同步失败");
+                            LogUtil.e("云端没有该任务，补充添加[ 任务 ]同步失败" + e.toString());
+                        }
 
-                    @Override
-                    public void onNext(Task task) {
-                        //请求成功
-                        ToastUtil.show("成功更新[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
-                        Log.e(TAG, "请求成功" + task.toString());
-                    }
-                });
+                        @Override
+                        public void onNext(Task note) {
+                            //请求成功
+                            ToastUtil.show("云端没有该任务，成功补充添加[ 任务 ]:" + content);
+                            LogUtil.e("云端没有该任务，成功补充添加[ 任务 ]:" + note.toString());
+                        }
+                    });
+        } else {
+            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), ModelUtil.toTask(task)) //获取Observable对象
+                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                    .doOnNext(new Action1<Task>() {
+                        @Override
+                        public void call(Task task) {
+                            DB.schedules().safeSaveTask(task);
+                            LogUtil.e("保存任务信息到本地" + task.toString());
+                        }
+                    }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                    .subscribe(new Subscriber<Task>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //请求失败
+                            ToastUtil.show("同步[ 任务 ]失败，保存到本地");
+                            LogUtil.e(e.toString());
+                        }
+
+                        @Override
+                        public void onNext(Task task) {
+                            //请求成功
+                            ToastUtil.show("成功更新[ 任务 ]:" + content);
+                            LogUtil.e("请求成功" + task.toString());
+                        }
+                    });
+        }
         finish();
-
     }
 
     private void onCreateTask() {
@@ -1066,39 +1103,38 @@ public class DialogActivity extends BaseActivity implements
 //        progressDialog.setMessage("Saving Task...");
 //        progressDialog.show();
 
-        Task task = new Task();
-        DBUser activeUser = DB.users().getActive(this);
+        DBTask dbTask = new DBTask();
+        DBUser activeUser = DB.users().getActive();
         String owner = ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/";
-        task.setOwner(owner);
-        title = dialog_add_task_et_title.getText().toString();
-        content = dialog_add_task_et_content.getText().toString();
-        task.setTitle(title);
-        task.setContent(content);
-        task.setLabel(important_urgent_label);
+        dbTask.setOwner(owner);
+        dbTask.setTitle(title);
+        dbTask.setContent(content);
+        dbTask.setLabel(important_urgent_label);
         ArrayList<String> tags = new ArrayList<>();
         tags.add("http://192.168.88.105:8000/tags/1/");
         tags.add("http://192.168.88.105:8000/tags/2/");
-        task.setTags(tags);
-        task.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
+        dbTask.setTags(tags);
+        dbTask.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
         if (!is_all_day) {
-            task.setIs_all_day(is_all_day);
+            dbTask.setIs_all_day(is_all_day);
             Date d = new Date();
             d.setHours(start_hour);
             d.setMinutes(start_min);
-            task.setBegin_datetime(TimeUtil.formatGMTDate(d));
+            dbTask.setBegin_datetime(TimeUtil.formatGMTDate(d));
             d.setHours(end_hour);
             d.setMinutes(end_min);
-            task.setEnd_datetime(TimeUtil.formatGMTDate(d));
+            dbTask.setEnd_datetime(TimeUtil.formatGMTDate(d));
         }
-        DB.schedules().safeSaveDBTask(task);
+        DB.schedules().safeSaveDBTask(dbTask);
 
-        RetrofitHelper.getTaskService().createTask(task) //获取Observable对象
-                .compose(this.bindToLifecycle())
+        RetrofitHelper.getTaskService().createTask(ModelUtil.toTask(dbTask)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                 .doOnNext(new Action1<Task>() {
                     @Override
                     public void call(Task task) {
+                        // 将task的url保存下来
+                        DB.schedules().safeSaveTask(task);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1113,24 +1149,21 @@ public class DialogActivity extends BaseActivity implements
                         //请求失败
 //                        progressDialog.dismiss();
                         ToastUtil.show("添加[ 任务 ]失败");
-                        Log.e(TAG, e.toString());
+                        LogUtil.e(e.toString());
                     }
 
                     @Override
                     public void onNext(Task task) {
                         //请求成功
 //                        progressDialog.dismiss();
-                        ToastUtil.show("成功添加[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
-                        Log.e(TAG, "请求成功" + task.toString());
+                        ToastUtil.show("成功添加[ 任务 ]:" + content);
+                        LogUtil.e("成功添加[ 任务 ]: " + task.toString());
                     }
                 });
         finish();
-
     }
 
     private void onUpdateNote() {
-        title = dialog_add_task_et_title.getText().toString();
-        content = dialog_add_task_et_content.getText().toString();
         note.setTitle(title);
         note.setContent(content);
         ArrayList<String> tags = new ArrayList<>();
@@ -1139,51 +1172,87 @@ public class DialogActivity extends BaseActivity implements
 //        note.setTags(tags);
         note.setUpdate_datetime(TimeUtil.formatGMTDate(new Date()));
         DB.notes().updateAndFireEvent(note);
-        finish();
 
-//        RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), task) //获取Observable对象
-//                .compose(this.bindToLifecycle()).subscribeOn(Schedulers.newThread())//请求在新的线程中执行
-//                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
-//                .doOnNext(new Action1<Task>() {
-//                    @Override
-//                    public void call(Task task) {
-//                        //TODO 暂时不存到本地
-////                                            DB.schedules().saveAndFireEvent(ModelUtil.toDBTask(task));
-////                                            Log.e(TAG, "保存任务信息到本地" + task.toString());
-//                    }
-//                }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-//                .subscribe(new Subscriber<Task>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        //请求失败
-//                        progressDialog.dismiss();
-//                        ToastUtil.show("更新[ 任务 ]失败");
-//                        Log.e(TAG, e.toString());
-//                    }
-//
-//                    @Override
-//                    public void onNext(Task task) {
-//                        //请求成功
-//                        progressDialog.dismiss();
-//                        ToastUtil.show("成功更新[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
-//                        finish();
-//                        Log.e(TAG, "请求成功" + task.toString());
-//                    }
-//                });
+        if (note.getUrl() == null) {
+            RetrofitHelper.getNoteService().createNote(ModelUtil.toNote(note)) //获取Observable对象
+                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                    .doOnNext(new Action1<Note>() {
+                        @Override
+                        public void call(Note note1) {
+                            // 将笔记的url保存下来
+                            try {
+                                DB.notes().delete(note);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            DB.notes().safeSaveNote(note1);
+                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note1.toString());
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                    .subscribe(new Subscriber<Note>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //请求失败
+                            ToastUtil.show("云端没有该笔记，补充添加[ 笔记 ]同步失败");
+                            LogUtil.e("云端没有该笔记，补充添加[ 笔记 ]同步失败" + e.toString());
+                        }
+
+                        @Override
+                        public void onNext(Note note) {
+                            //请求成功
+                            ToastUtil.show("云端没有该笔记，成功补充添加[ 笔记 ]:" + content);
+                            LogUtil.e("云端没有该笔记，成功补充添加[ 笔记 ]:" + note.toString());
+                        }
+                    });
+        } else {
+            RetrofitHelper.getNoteService().putNoteByUrl(note.getUrl(), ModelUtil.toNote(note)) //获取Observable对象
+                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                    .doOnNext(new Action1<Note>() {
+                        @Override
+                        public void call(Note note) {
+                            // 将笔记的url保存下来
+                            DB.notes().safeSaveNote(note);
+                            LogUtil.e("保存任务信息到本地" + note.toString());
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                    .subscribe(new Subscriber<Note>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //请求失败
+                            ToastUtil.show("更新[ 笔记 ]失败");
+                            LogUtil.e("更新[ 笔记 ]失败:" + e.toString());
+                        }
+
+                        @Override
+                        public void onNext(Note note) {
+                            //请求成功
+                            ToastUtil.show("成功更新[ 笔记 ]:" + content);
+                            LogUtil.e("请求成功,成功更新[ 笔记 ]:" + note.toString());
+                        }
+                    });
+        }
+        finish();
     }
 
     private void onCreateNote() {
         DBNote dbNote = new DBNote();
-        DBUser activeUser = DB.users().getActive(this);
+        DBUser activeUser = DB.users().getActive();
         String owner = ModelUtil.getOwnerUrl(activeUser);
         dbNote.setOwner(owner);
-        title = dialog_add_task_et_title.getText().toString();
-        content = dialog_add_task_et_content.getText().toString();
         dbNote.setTitle(title);
         dbNote.setContent(content);
         dbNote.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
@@ -1201,46 +1270,41 @@ public class DialogActivity extends BaseActivity implements
         dbNote.setColor(CardStackViewDataList.get(randomColor));
 //        note.setTags(tags);
         DB.notes().saveAndFireEvent(dbNote);
-        Log.e(TAG, "saveAndFireEvent() --> " + dbNote.toString());
-        Log.e(TAG, "DB.notes() --> " + DB.notes().findAll().toString());
+        LogUtil.e("saveAndFireEvent() --> " + dbNote.toString());
+        LogUtil.e("DB.notes() --> " + DB.notes().findAll().toString());
 
+        RetrofitHelper.getNoteService().createNote(ModelUtil.toNote(dbNote)) //获取Observable对象
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<Note>() {
+                    @Override
+                    public void call(Note note) {
+                        DB.notes().safeSaveNote(note);
+                        LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note.toString());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<Note>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        ToastUtil.show("添加[ 笔记 ]同步失败");
+                        LogUtil.e(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Note note) {
+                        //请求成功
+                        ToastUtil.show("成功添加[ 笔记 ]:" + content);
+                        LogUtil.e("请求成功" + note.toString());
+                    }
+                });
         finish();
-//        RetrofitHelper.getNoteService().createNote(note) //获取Observable对象
-//                .compose(this.bindToLifecycle())
-//                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
-//                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
-//                .doOnNext(new Action1<Note>() {
-//                    @Override
-//                    public void call(Note note) {
-//                        DB.notes().saveAndFireEvent(ModelUtil.toDBNote(note));
-//                        Log.e(TAG, "保存任务信息到本地" + note.toString());
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-//                .subscribe(new Subscriber<Note>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        //请求失败
-//                        progressDialog.dismiss();
-//                        ToastUtil.show("添加[ 任务 ]失败");
-//                        Log.e(TAG, e.toString());
-//                    }
-//
-//                    @Override
-//                    public void onNext(Note note) {
-//                        //请求成功
-//                        progressDialog.dismiss();
-//                        ToastUtil.show("成功添加[ 任务 ]:" + dialog_add_task_et_content.getText().toString());
-//                        finish();
-//                        Log.e(TAG, "请求成功" + note.toString());
-//                    }
-//                });
     }
     //-//</View.OnClickListener>--------------------------------------------------------------------
 

@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.database.Observable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.view.ViewParent;
 import android.widget.OverScroller;
 
 import com.time.cat.R;
+import com.time.cat.util.override.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -336,7 +336,7 @@ public class CardStackView extends ViewGroup implements ScrollDelegate {
 
                 final int pointerIndex = ev.findPointerIndex(activePointerId);
                 if (pointerIndex == -1) {
-                    Log.e(TAG, "Invalid pointerId=" + activePointerId
+                    LogUtil.e("Invalid pointerId=" + activePointerId
                             + " in onInterceptTouchEvent");
                     break;
                 }
@@ -426,7 +426,7 @@ public class CardStackView extends ViewGroup implements ScrollDelegate {
             case MotionEvent.ACTION_MOVE:
                 final int activePointerIndex = ev.findPointerIndex(mActivePointerId);
                 if (activePointerIndex == -1) {
-                    Log.e(TAG, "Invalid pointerId=" + mActivePointerId + " in onTouchEvent");
+                    LogUtil.e("Invalid pointerId=" + mActivePointerId + " in onTouchEvent");
                     break;
                 }
 

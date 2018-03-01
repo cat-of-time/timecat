@@ -15,8 +15,8 @@ public class ConstantURL {
     //     public static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
     public static final String IMAGE_UPLOAD_URL = "https://sm.ms/";
     public static final String PIC_UPLOAD_URL = "https://yotuku.cn/";
-    public static final String BASE_URL = "http://192.168.88.105:8000/";
-    public static final String BASE_URL_USERS = "http://192.168.88.105:8000/users/";
-    public static final String BASE_URL_TASK = "http://192.168.88.105:8000/tasks/";
+    public static final String BASE_URL = "http://172.17.140.73:8000/";
+    public static final String BASE_URL_USERS = BASE_URL + "users/";
+    public static final String BASE_URL_TASK = BASE_URL + "tasks/";
 
 }

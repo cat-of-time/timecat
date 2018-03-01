@@ -121,7 +121,7 @@ public class XposedUniversalCopyHandler {
                 int var2 = displayMetrics.widthPixels;
                 ArrayList<CopyNode> nodeList = traverseNode(decirView, var2, var1);
                 for (CopyNode node:nodeList) {
-                    Log.e(TAG, "traverseNode result= " + node);
+                    LogUtil.e("traverseNode result= " + node);
                 }
                 if(nodeList.size() > 0) {
 //                    Intent intent = new Intent(activity, CopyActivity.class);

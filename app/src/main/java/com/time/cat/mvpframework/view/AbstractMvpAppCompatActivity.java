@@ -27,9 +27,9 @@ public class AbstractMvpAppCompatActivity<V extends BaseMvpView, P extends BaseM
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("perfect-mvp","V onCreate");
-        Log.e("perfect-mvp","V onCreate mProxy = " + mProxy);
-        Log.e("perfect-mvp","V onCreate this = " + this.hashCode());
+//        Log.e("perfect-mvp","V onCreate");
+//        Log.e("perfect-mvp","V onCreate mProxy = " + mProxy);
+//        Log.e("perfect-mvp","V onCreate this = " + this.hashCode());
         if(savedInstanceState != null){
             mProxy.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_SAVE_KEY));
         }
@@ -38,39 +38,39 @@ public class AbstractMvpAppCompatActivity<V extends BaseMvpView, P extends BaseM
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("perfect-mvp","V onResume");
+//        Log.e("perfect-mvp","V onResume");
         mProxy.onResume((V) this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("perfect-mvp","V onDestroy = " + isChangingConfigurations());
+//        Log.e("perfect-mvp","V onDestroy = " + isChangingConfigurations());
         mProxy.onDestroy();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.e("perfect-mvp","V onSaveInstanceState");
+//        Log.e("perfect-mvp","V onSaveInstanceState");
         outState.putBundle(PRESENTER_SAVE_KEY,mProxy.onSaveInstanceState());
     }
 
     @Override
     public void setPresenterFactory(PresenterMvpFactory<V, P> presenterFactory) {
-        Log.e("perfect-mvp","V setPresenterFactory");
+//        Log.e("perfect-mvp","V setPresenterFactory");
         mProxy.setPresenterFactory(presenterFactory);
     }
 
     @Override
     public PresenterMvpFactory<V, P> getPresenterFactory() {
-        Log.e("perfect-mvp","V getPresenterFactory");
+//        Log.e("perfect-mvp","V getPresenterFactory");
         return mProxy.getPresenterFactory();
     }
 
     @Override
     public P getMvpPresenter() {
-        Log.e("perfect-mvp","V getMvpPresenter");
+//        Log.e("perfect-mvp","V getMvpPresenter");
         return mProxy.getMvpPresenter();
     }
 }

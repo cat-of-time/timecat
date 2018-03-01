@@ -19,7 +19,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
@@ -37,10 +36,10 @@ import com.time.cat.ui.activity.setting.SettingActivity;
 import com.time.cat.ui.activity.whitelist.SelectionDbHelper;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.KeyPressedTipViewController;
-import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.RunningTaskUtil;
-import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.ToastUtil;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -472,7 +471,7 @@ public class TimeCatMonitorService extends AccessibilityService {
 
     @Override
     public void onInterrupt() {
-        Log.e(TAG, "onInterrupt");
+        LogUtil.e("onInterrupt");
     }
 
     private synchronized void getText(AccessibilityEvent event) {

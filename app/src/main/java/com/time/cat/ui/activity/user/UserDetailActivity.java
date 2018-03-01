@@ -39,15 +39,16 @@ import com.google.gson.Gson;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.nispok.snackbar.Snackbar;
-import com.time.cat.network.RetrofitHelper;
 import com.time.cat.R;
-import com.time.cat.theme.ThemeManager;
-import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.network.RetrofitHelper;
+import com.time.cat.theme.ThemeManager;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.Snack;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.source.AvatarManager;
@@ -124,7 +125,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
         setStatusBarFullTransparent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ThemeManager.getTheme(this));
-            Log.e(TAG, "setStatusBarColor");
+            LogUtil.e("setStatusBarColor");
         }
 
         top = findViewById(R.id.top);
@@ -380,7 +381,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
         avatarBackgroundColor = color1;
         gridContainer.setBackgroundColor(getResources().getColor(R.color.dark_grey_home));
         ScreenUtil.setStatusBarColor(this, avatarBackgroundColor);
-        Log.e(TAG, "setStatusBarColor");
+        LogUtil.e("setStatusBarColor");
 
         if (delay > 0) {
             userAvatarBg.postDelayed(new Runnable() {
@@ -461,7 +462,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                     progressDialog.setMessage("Saving...");
                     progressDialog.show();
                     DB.users().updateAndFireEvent(user);
-                    Log.e(TAG, "保存用户信息到本地\n" + user.toString());
+                    LogUtil.e("保存用户信息到本地\n" + user.toString());
                     RetrofitHelper.getUserService().update(user.getEmail(), ModelUtil.toAPIUser(user)) //获取Observable对象
                             .compose(UserDetailActivity.this.bindToLifecycle())
                             .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -482,7 +483,7 @@ public class UserDetailActivity extends BaseActivity implements ActivityPresente
                                     //请求失败
                                     progressDialog.dismiss();
                                     ToastUtil.show("保存失败！");
-                                    Log.e(TAG, e.toString());
+                                    LogUtil.e(e.toString());
                                 }
 
                                 @Override

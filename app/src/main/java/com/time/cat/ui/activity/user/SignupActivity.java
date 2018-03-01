@@ -9,16 +9,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.time.cat.network.RetrofitHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.main.MainActivity;
-import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.Account;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.network.RetrofitHelper;
+import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 
 import rx.Subscriber;
@@ -123,7 +124,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
         u.setUsername(email);
         u.setIs_staff(false);
         u.setPassword(password);
-        Log.e(TAG, u.toString());
+        LogUtil.e(u.toString());
 
         final boolean[] isSuccess = {false};
         // TODO: Implement your own signup logic here.
@@ -137,7 +138,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
                         DBUser dbUser = ModelUtil.toDBUser(user);
                         dbUser.setPassword(password);
                         DB.users().saveAndFireEvent(dbUser);
-                        Log.e(TAG, "保存用户信息到本地" + user.toString());
+                        LogUtil.e("保存用户信息到本地" + user.toString());
                     }
                 }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                 .subscribe(new Subscriber<User>() {
@@ -149,7 +150,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        Log.e(TAG, e.toString());
+                        LogUtil.e(e.toString());
                         onSignupFailed();
                         progressDialog.dismiss();
 
@@ -163,7 +164,7 @@ public class SignupActivity extends BaseActivity implements ActivityPresenter, V
                         setResult(RESULT_OK, intent);
                         onSignupSuccess();
                         progressDialog.dismiss();
-                        Log.e(TAG, "请求成功" + user.toString());
+                        LogUtil.e("请求成功" + user.toString());
                     }
                 });
     }

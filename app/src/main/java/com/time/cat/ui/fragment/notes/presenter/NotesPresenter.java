@@ -38,7 +38,7 @@ public class NotesPresenter extends BaseMvpPresenter<NotesFragmentAction> implem
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.e("perfect-mvp","RequestPresenter5  onSaveInstanceState 测试 " );
+//        Log.e("perfect-mvp","RequestPresenter5  onSaveInstanceState 测试 " );
         outState.putString("test2","test_save2");
     }
 

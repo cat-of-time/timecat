@@ -21,14 +21,12 @@ import com.microsoft.projectoxford.vision.contract.Word;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
-import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.mvp.model.APImodel.ImageUpload;
 import com.time.cat.mvp.view.dialog.DialogFragment;
 import com.time.cat.mvp.view.dialog.SimpleDialog;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.OcrAnalyser;
-import com.time.cat.util.override.SnackBarUtil;
-import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.cropper.BitmapUtil;
 import com.time.cat.util.cropper.CropHandler;
@@ -36,6 +34,9 @@ import com.time.cat.util.cropper.CropHelper;
 import com.time.cat.util.cropper.CropParams;
 import com.time.cat.util.cropper.ImageUriUtil;
 import com.time.cat.util.cropper.handler.CropImage;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.SnackBarUtil;
+import com.time.cat.util.override.ToastUtil;
 
 import static com.time.cat.ui.activity.screen.CaptureResultActivity.HTTP_IMAGE_BAIDU_COM;
 
@@ -199,7 +200,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             CropHelper.handleResult(this, requestCode, resultCode, data);
         }
         if (requestCode == 1) {
-            Log.e(TAG, "");
+            LogUtil.e("");
         }
     }
 

@@ -8,6 +8,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.time.cat.util.override.LogUtil;
+
 import java.io.File;
 
 /**
@@ -41,7 +43,7 @@ public class CropHelper {
                 boolean result = cacheFolder.mkdir();
                 Log.d(TAG, "generateUri " + cacheFolder + " result: " + (result ? "succeeded" : "failed"));
             } catch (Exception e) {
-                Log.e(TAG, "generateUri failed: " + cacheFolder, e);
+                LogUtil.e("generateUri failed: " + cacheFolder, e);
             }
         }
         String name = String.format("image-%d.jpg", System.currentTimeMillis());

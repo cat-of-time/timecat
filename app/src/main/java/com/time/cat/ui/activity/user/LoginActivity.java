@@ -9,15 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.time.cat.network.RetrofitHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.main.MainActivity;
-import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.network.RetrofitHelper;
+import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 
 import java.sql.SQLException;
@@ -67,7 +68,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
                     setResult(RESULT_OK, intent);
                     onLoginSuccess();
                 } else {
-                    Log.e(TAG, "onActivityResult --> data == null");
+                    LogUtil.e("onActivityResult --> data == null");
                 }
             }
         }
@@ -199,7 +200,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        Log.e(TAG, e.toString());
+                        LogUtil.e(e.toString());
                         onLoginFailed();
                         progressDialog.dismiss();
                     }
@@ -220,8 +221,8 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
 
     public void onLoginSuccess() {
         loginButton.setEnabled(false);
-//        Log.e(TAG, intent.toString());
-//        Log.e(TAG, intent.getStringExtra(INTENT_USER_EMAIL));
+//        LogUtil.e(intent.toString());
+//        LogUtil.e(intent.getStringExtra(INTENT_USER_EMAIL));
 
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         finish();

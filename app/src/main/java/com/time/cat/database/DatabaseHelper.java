@@ -32,6 +32,7 @@ import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBTaskItem;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.util.override.LogUtil;
 
 import java.sql.SQLException;
 
@@ -352,7 +353,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 TableUtils.dropTable(connectionSource, c, true);
             } catch (SQLException e) {
                 // ignore
-                Log.e(TAG, "Erro dropping table " + c.getSimpleName());
+                LogUtil.e("Erro dropping table " + c.getSimpleName());
             }
 
         }

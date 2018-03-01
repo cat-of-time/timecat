@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.time.cat.util.listener.SoftKeyBoardListener;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.view.DisplayUtil;
 import com.time.cat.util.view.ScreenUtil;
 
@@ -297,18 +298,18 @@ public class SmartKeyboardManager {
             @Override
             public void onClick(View v) {
                 if (value.isShown()) {
-                    Log.e(TAG, "value.isShown() == true");
+                    LogUtil.e("value.isShown() == true");
 //                    lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
                     //当前对应的自定义键盘 "显示"
                     hideCustomKeyboard(value, true);
 //                    unlockContentHeightDelayed();//软件盘显示后，释放内容高度
                 } else {
-                    Log.e(TAG, "value.isShown() == false");
+                    LogUtil.e("value.isShown() == false");
 
                     //当前对应的自定义键盘 "隐藏"
                     if (hasCustomKeyboardShown()) {
                         // 有自定义键盘在显示
-                        Log.e(TAG, "hasCustomKeyboardShown() == true");
+                        LogUtil.e("hasCustomKeyboardShown() == true");
 
                         lockContentHeight();
                         // step.1 隐藏当前显示的自定义键盘
@@ -320,7 +321,7 @@ public class SmartKeyboardManager {
                         showSelectCustomKeyboard(value);
                         unlockContentHeightDelayed();
                     } else {
-                        Log.e(TAG, "hasCustomKeyboardShown() == false");
+                        LogUtil.e("hasCustomKeyboardShown() == false");
                         // 没有自定义键盘显示
                         if (isSoftInputShown()) {
                             lockContentHeight();

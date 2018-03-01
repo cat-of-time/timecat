@@ -43,46 +43,6 @@ public class LogUtil {
         return false;
     }
 
-    public static void d(String msg) {
-        if (isDshow) Log.d(tag, msg);
-    }
-
-    public static void d(String tag, String msg) {
-        d(tag + "," + msg);
-    }
-
-    public static void e(String msg) {
-        if (isEshow) Log.e(tag, msg);
-    }
-
-    public static void e(String tag, String msg) {
-        e(tag + "," + msg);
-    }
-
-    public static void i(String msg) {
-        if (isIshow) Log.i(tag, msg);
-    }
-
-    public static void i(String tag, String msg) {
-        i(tag + "," + msg);
-    }
-
-    public static void w(String msg) {
-        if (isWshow) Log.w(tag, msg);
-    }
-
-    public static void w(String tag, String msg) {
-        w(tag + "," + msg);
-    }
-
-    public static void v(String msg) {
-        if (isVshow) Log.v(tag, msg);
-    }
-
-    public static void v(String tag, String msg) {
-        v(tag + "," + msg);
-    }
-
     /**
      * true:打开log  false:关闭所有的日志
      */
@@ -95,7 +55,7 @@ public class LogUtil {
 
     private String mClassName;
     private static LogUtil log;
-    private static final String USER_NAME = "@tool@";
+    private static final String USER_NAME = "@lxy ";
 
     private LogUtil(String name) {
         mClassName = name;
@@ -148,6 +108,26 @@ public class LogUtil {
         print(Log.ERROR, str);
     }
 
+    public static void i(Object str, Object str2) {
+        print(Log.INFO, str + ", " + str2);
+    }
+
+    public static void d(Object str, Object str2) {
+        print(Log.DEBUG, str + ", " + str2);
+    }
+
+    public static void v(Object str, Object str2) {
+        print(Log.VERBOSE, str + ", " + str2);
+    }
+
+    public static void w(Object str, Object str2) {
+        print(Log.WARN, str + ", " + str2);
+    }
+
+    public static void e(Object str, Object str2) {
+        print(Log.ERROR, str + ", " + str2);
+    }
+
     /**
      * 用于区分不同接口数据 打印传入参数
      *
@@ -164,7 +144,7 @@ public class LogUtil {
         }
         String name = log.getFunctionName();
         if (name != null) {
-            str = name + " - " + str;
+            str = String.format("%s -----> %s", name, str);
         }
 
         // Close the debug log When DEBUG is false

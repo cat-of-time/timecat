@@ -4,6 +4,7 @@ import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,16 @@ public class NotesDataManager {
         }
         List<DBNote> adapterDBNoteList = new ArrayList<>();
         DBUser dbUser = DB.users().getActive();
-
+        LogUtil.e("active dbUser = " + dbUser.toString());
+        LogUtil.e(dbNoteList);
         for (int i = dbNoteList.size()-1; i >= 0; i--) {
             if ((dbNoteList.get(i).getOwner().equals(ModelUtil.getOwnerUrl(dbUser)))) {
                 adapterDBNoteList.add(dbNoteList.get(i));
             }
         }
-        if (adapterDBNoteList.size() > 0) {
+        LogUtil.e(adapterDBNoteList);
+
+        if (adapterDBNoteList.size() >= 0) {
             if (onDataChangeListener != null) {
                 onDataChangeListener.onDataChange(adapterDBNoteList);
             }

@@ -52,6 +52,7 @@ import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
 import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.ViewUtil;
@@ -273,8 +274,8 @@ public class SchedulesFragment extends BaseFragment implements
                     return;
                 }
                 initCurrentDate();
-                dbUser = DB.users().getActive(context);
-//                Log.e(TAG, "active dbUser --> " + dbUser.toString());
+                dbUser = DB.users().getActive();
+//                LogUtil.e("active dbUser --> " + dbUser.toString());
                 initExpandableListViewData();
                 content.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
@@ -324,7 +325,7 @@ public class SchedulesFragment extends BaseFragment implements
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        Log.e(TAG, e.toString());
+                        LogUtil.e(e.toString());
                         ToastUtil.show("更新用户信息失败");
                     }
 
@@ -343,8 +344,9 @@ public class SchedulesFragment extends BaseFragment implements
         } else {
             AsyncTask<ArrayList<String>, Void, ArrayList<DBTask>> loadDataForHeader = new LoadDataTaskHeader(inventory);
             loadDataForHeader.execute(new ArrayList<String>());
+            LogUtil.e("null task list");
         }
-        Log.e(TAG, "initExpandableListViewData --> dbUser.getTasks() --> " + task_urls);
+        LogUtil.e("initExpandableListViewData --> dbUser.getTasks() --> " + task_urls);
     }
 
     public void refreshData() {
@@ -387,7 +389,7 @@ public class SchedulesFragment extends BaseFragment implements
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        Log.e(TAG, e.toString());
+                        LogUtil.e(e.toString());
                         ToastUtil.show("更新用户信息失败");
                     }
 
@@ -413,7 +415,7 @@ public class SchedulesFragment extends BaseFragment implements
     public void notifyDataChanged() {
         super.notifyDataChanged();
         refreshData();
-        Log.e(TAG, "schedule fragment --> notifyDataChanged()");
+        LogUtil.e("schedule fragment --> notifyDataChanged()");
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
@@ -624,7 +626,7 @@ public class SchedulesFragment extends BaseFragment implements
 
         @Override
         protected ArrayList<DBTask> doInBackground(ArrayList<String>... params) {
-            ArrayList<DBTask> tasks = new ArrayList<>();
+            ArrayList<DBTask> tasks;
             if (params.length <= 0) {
                 return null;
             }
@@ -636,7 +638,7 @@ public class SchedulesFragment extends BaseFragment implements
                         .doOnNext(new Action1<Task>() {
                             @Override
                             public void call(Task task) {
-                                DB.schedules().safeSaveDBTask(task);
+                                DB.schedules().safeSaveTask(task);
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -649,8 +651,8 @@ public class SchedulesFragment extends BaseFragment implements
                             @Override
                             public void onError(Throwable e) {
                                 //请求失败
-                                ToastUtil.show("失败");
-                                Log.e(TAG, "count[0] == "+count[0] + " --> 失败 --> " + e.toString());
+                                ToastUtil.show("数据同步到云端时出现错误");
+                                LogUtil.e("count[0] == "+count[0] + " --> 失败 --> " + e.toString());
                                 count[0] -= 1;
                             }
 
@@ -689,8 +691,9 @@ public class SchedulesFragment extends BaseFragment implements
                     group_i.setHeaderItem(tasks.get(i));
                 }
                 mAsyncExpandableListView.updateInventory(inventory);
+            } else {
+                mAsyncExpandableListView.updateInventory(new CollectionView.Inventory<>());
             }
-
         }
 
         private ArrayList<Task> TaskFilter(ArrayList<Task> taskArrayList) {
@@ -748,18 +751,24 @@ public class SchedulesFragment extends BaseFragment implements
 
         private ArrayList<DBTask> DBTaskFilter2Task(List<DBTask> taskArrayList) {
             ArrayList<DBTask> tasks = new ArrayList<>();
-            // 需要显示的
-            // 今天刚刚finished的
-            // 顺延的
-            // begin_datetime < today <= end_datetime
             if (taskArrayList == null || taskArrayList.size() <= 0) {
                 return tasks;
             }
+            // 需要显示的
+            // 首先是active user的
+            // 今天刚刚finished的
+            // 顺延的
+            // begin_datetime < today <= end_datetime
+            DBUser dbUser = DB.users().getActive();
+
             Date today = new Date();
             if (currentDate != null) {
                 today = TimeUtil.transferCalendarDate(currentDate);
             }
             for (DBTask task : taskArrayList) {
+                if (!task.getOwner().equals((ModelUtil.getOwnerUrl(dbUser)))) {
+                    continue;
+                }
                 boolean hasAddedTask = false;
                 // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
                 if (task.getIsFinish()) {
@@ -995,14 +1004,14 @@ public class SchedulesFragment extends BaseFragment implements
                         public void onError(Throwable e) {
                             //请求失败
                             ToastUtil.show("网络请求失败，已保存到本地");
-                            Log.e(TAG, "网络请求失败 --> " + e.toString());
+                            LogUtil.e("网络请求失败 --> " + e.toString());
                         }
 
                         @Override
                         public void onNext(Task task) {
                             //请求成功
                             ToastUtil.show("同步成功");
-                            Log.e(TAG, "同步成功 --> " + task.toString());
+                            LogUtil.e("同步成功 --> " + task.toString());
                         }
                     });
         }
@@ -1022,7 +1031,7 @@ public class SchedulesFragment extends BaseFragment implements
                     bundle.putSerializable(DialogActivity.TO_UPDATE_TASK, task);
                     intent2DialogActivity.putExtras(bundle);
                     startActivity(intent2DialogActivity);
-                    ToastUtil.show("to modify a task");
+                    ToastUtil.show("编辑任务");
                     break;
             }
         }
@@ -1038,7 +1047,7 @@ public class SchedulesFragment extends BaseFragment implements
                             @Override
                             public void onClick(MaterialDialog dialog, DialogAction which) {
                                 DBTask task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
-                                Log.e(TAG, "onLongClick() --> 确定删除 task -->" + task.toString());
+                                LogUtil.e("onLongClick() --> 确定删除 task -->" + task.toString());
                                 try {
                                     DB.schedules().delete(task);
                                 } catch (SQLException e) {
@@ -1056,15 +1065,15 @@ public class SchedulesFragment extends BaseFragment implements
                                             @Override
                                             public void onError(Throwable e) {
                                                 //请求失败
-                                                ToastUtil.show("失败");
-                                                Log.e(TAG, "失败 --> " + e.toString());
+                                                ToastUtil.show("删除操作同步失败");
+                                                LogUtil.e("删除操作同步失败 --> " + e.toString());
                                             }
 
                                             @Override
                                             public void onNext(Task task) {
                                                 //请求成功
                                                 ToastUtil.show("删除成功");
-                                                Log.e(TAG, "删除成功 --> " + task.toString());
+                                                LogUtil.e("删除成功 --> " + task.toString());
                                             }
                                         });
                                 notifyDataChanged();

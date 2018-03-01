@@ -3,6 +3,8 @@ package com.time.cat.util.string;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.time.cat.util.override.LogUtil;
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -550,7 +552,7 @@ public class StringUtil {
      */
     public static boolean isNumberOrAlpha(String s) {
         if (s == null) {
-            Log.e(TAG, "isNumberOrAlpha  s == null >> return false;");
+            LogUtil.e("isNumberOrAlpha  s == null >> return false;");
             return false;
         }
         Pattern pNumber = Pattern.compile("[0-9]*");

@@ -27,20 +27,21 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.time.cat.ui.animation.ViewHelper;
-import com.time.cat.network.RetrofitHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
+import com.time.cat.database.DB;
+import com.time.cat.mvp.model.APImodel.User;
+import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.network.RetrofitHelper;
 import com.time.cat.ui.activity.about.AboutActivity;
 import com.time.cat.ui.activity.main.MainActivity;
 import com.time.cat.ui.activity.setting.SettingActivity;
 import com.time.cat.ui.activity.user.LoginActivity;
 import com.time.cat.ui.activity.user.UserDetailActivity;
+import com.time.cat.ui.animation.ViewHelper;
 import com.time.cat.ui.dialog.DialogThemeFragment;
-import com.time.cat.database.DB;
-import com.time.cat.mvp.model.APImodel.User;
-import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.source.AvatarManager;
 import com.time.cat.util.view.IconUtil;
@@ -204,8 +205,8 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .withSavedInstance(savedInstanceState)
                 .build();
 
-        DBUser u = DB.users().getActive(mainActivity);
-        Log.e(TAG, u.toString());
+        DBUser u = DB.users().getActive();
+        LogUtil.e(u.toString());
         headerResult.setActiveProfile(u.id().intValue(), false);
         updateHeaderBackground(u);
         drawer.setStatusBarColor(u.color());
@@ -327,13 +328,13 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         } else {
             Long id = (long) profile.getIdentifier();
             DBUser dbUser = DB.users().findById(id);
-            boolean isActive = DB.users().isActive(dbUser, mainActivity);
+            boolean isActive = DB.users().isActive(dbUser);
             if (isActive) {
                 Intent intent = new Intent(mainActivity, UserDetailActivity.class);
                 intent.putExtra("user_id", id);
                 launchActivity(intent);
             } else {
-//                Log.e(TAG, "login dbUser -->" + dbUser.toString());
+//                LogUtil.e("login dbUser -->" + dbUser.toString());
                 RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
                         .compose(mainActivity.bindToLifecycle())
                         .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -356,7 +357,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                             @Override
                             public void onError(Throwable e) {
                                 //请求失败
-                                Log.e(TAG, e.toString());
+                                LogUtil.e(e.toString());
                                 ToastUtil.show("登录失败");
                             }
 
@@ -368,7 +369,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                             }
                         });
                 // 不管登录是否成功，都更新activeUser
-                DB.users().setActive(dbUser, mainActivity);
+                DB.users().setActive(dbUser);
                 updateHeaderBackground(dbUser);
                 getDrawer().closeDrawer();
                 return true;
@@ -456,7 +457,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
     private boolean login(DBUser dbUser) {
         //本方法已起用
-//        Log.e(TAG, "login dbUser -->" + dbUser.toString());
+//        LogUtil.e("login dbUser -->" + dbUser.toString());
         final boolean[] isSuccess = {false};
         RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
                 .compose(mainActivity.bindToLifecycle())
@@ -480,7 +481,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        Log.e(TAG, e.toString());
+                        LogUtil.e(e.toString());
                         ToastUtil.show("登录失败");
                     }
 
@@ -493,7 +494,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                     }
                 });
         // 由于网络请求是异步，返回太快了，isSuccess[0] 一直为false，即使登录成功
-        Log.e(TAG, "isSuccess[0] == " + isSuccess[0]);
+        LogUtil.e("isSuccess[0] == " + isSuccess[0]);
         return isSuccess[0];
     }
 

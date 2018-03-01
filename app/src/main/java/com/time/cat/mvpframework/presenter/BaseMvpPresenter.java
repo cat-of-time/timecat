@@ -2,7 +2,6 @@ package com.time.cat.mvpframework.presenter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.time.cat.mvpframework.view.BaseMvpView;
 
@@ -24,7 +23,7 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
      * @param savedState 被意外销毁后重建后的Bundle
      */
     public void onCreatePresenter(@Nullable Bundle savedState) {
-        Log.e("perfect-mvp","P onCreatePresenter = ");
+//        Log.e("perfect-mvp","P onCreatePresenter = ");
     }
 
 
@@ -33,7 +32,7 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
      */
     public void onAttachMvpView(V mvpView) {
         mView = mvpView;
-        Log.e("perfect-mvp","P onResume");
+//        Log.e("perfect-mvp","P onResume");
     }
 
     /**
@@ -41,14 +40,14 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
      */
     public void onDetachMvpView() {
         mView = null;
-        Log.e("perfect-mvp","P onDetachMvpView = ");
+//        Log.e("perfect-mvp","P onDetachMvpView = ");
     }
 
     /**
      * Presenter被销毁时调用
      */
     public void onDestroyPresenter() {
-        Log.e("perfect-mvp","P onDestroy = ");
+//        Log.e("perfect-mvp","P onDestroy = ");
     }
 
     /**
@@ -58,7 +57,7 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
      * @param outState
      */
     public void onSaveInstanceState(Bundle outState) {
-        Log.e("perfect-mvp","P onSaveInstanceState = ");
+//        Log.e("perfect-mvp","P onSaveInstanceState = ");
     }
 
     /**

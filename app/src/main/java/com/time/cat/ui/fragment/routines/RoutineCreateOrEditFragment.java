@@ -45,7 +45,7 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_create_or_edit_routine, container, false);
 
-        pColor = DB.users().getActive(getActivity()).color();
+        pColor = DB.users().getActive().color();
 
         mNameTextView = rootView.findViewById(R.id.routine_edit_name);
         timeButton = rootView.findViewById(R.id.button2);
@@ -150,7 +150,7 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
             // if creating
             else {
                 mDBRoutine = new DBRoutine(new LocalTime(hour, minute), name);
-                mDBRoutine.setUser(DB.users().getActive(getActivity()));
+                mDBRoutine.setUser(DB.users().getActive());
                 Log.d(getTag(), "DBRoutine created");
                 DB.routines().saveAndFireEvent(mDBRoutine);
                 if (mRoutineEditCallback != null) {

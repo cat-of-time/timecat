@@ -29,6 +29,7 @@ import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.LogUtil;
 
 import java.sql.SQLException;
 
@@ -91,28 +92,34 @@ public class UserDao extends GenericDao<DBUser, Long> {
 
     /// Mange active user through preferences
 
-    public boolean isActive(DBUser u, Context ctx) {
-        Long activeId = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
+//    public boolean isActive(DBUser u, Context ctx) {
+//        Long activeId = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
+//        return activeId.equals(u.id());
+//    }
+
+    public boolean isActive(DBUser u) {
+        Long activeId = SPHelper.getLong(PREFERENCE_ACTIVE_USER, -1);
         return activeId.equals(u.id());
     }
 
-    public DBUser getActive(Context ctx) {
-        long id = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
-        DBUser p;
-        if (id != -1) {
-            p = findById(id);
-            if (p == null) {
-                p = getDefault();
-                setActive(p, ctx);
-            }
-            return p;
-        } else {
-            return getDefault();
-        }
-    }
+//    public DBUser getActive(Context ctx) {
+//        long id = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
+//        DBUser p;
+//        if (id != -1) {
+//            p = findById(id);
+//            if (p == null) {
+//                p = getDefault();
+//                setActive(p, ctx);
+//            }
+//            return p;
+//        } else {
+//            return getDefault();
+//        }
+//    }
 
     public DBUser getActive() {
         long id = SPHelper.getLong(PREFERENCE_ACTIVE_USER, -1);
+        LogUtil.e(id);
         DBUser p;
         if (id != -1) {
             p = findById(id);
@@ -130,13 +137,14 @@ public class UserDao extends GenericDao<DBUser, Long> {
         return findOneBy(DBUser.COLUMN_DEFAULT, true);
     }
 
-    public void setActive(DBUser u, Context ctx) {
-        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putLong(PREFERENCE_ACTIVE_USER, u.id()).commit();
-        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
-    }
+//    public void setActive(DBUser u, Context ctx) {
+//        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putLong(PREFERENCE_ACTIVE_USER, u.id()).commit();
+//        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
+//    }
 
     public void setActive(DBUser u) {
         SPHelper.save(PREFERENCE_ACTIVE_USER, u.id());
+        LogUtil.e(u.id());
         TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
     }
 

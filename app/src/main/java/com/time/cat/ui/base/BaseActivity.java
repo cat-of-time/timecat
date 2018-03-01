@@ -21,10 +21,11 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.time.cat.R;
+import com.time.cat.TimeCatApp;
 import com.time.cat.theme.ThemeManager;
 import com.time.cat.theme.utils.ThemeUtils;
-import com.time.cat.TimeCatApp;
 import com.time.cat.util.ThreadManager;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.StringUtil;
 import com.time.cat.util.view.ScreenUtil;
@@ -113,6 +114,11 @@ public class BaseActivity extends PermissionActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
     public void finish() {
         super.finish();//必须写在最前才能显示自定义动画
 //        runUiThread(new Runnable() {
@@ -122,7 +128,7 @@ public class BaseActivity extends PermissionActivity {
 //                    try {
 //                        overridePendingTransition(enterAnim, exitAnim);
 //                    } catch (Exception e) {
-//                        Log.e(TAG, "finish overridePendingTransition(enterAnim, exitAnim);" +
+//                        LogUtil.e("finish overridePendingTransition(enterAnim, exitAnim);" +
 //                                " >> catch (Exception e) {  " + e.getMessage());
 //                    }
 //                }
@@ -341,7 +347,7 @@ public class BaseActivity extends PermissionActivity {
         name = StringUtil.getTrimedString(name);
         Handler handler = ThreadManager.getInstance().runThread(name, runnable);
         if (handler == null) {
-            Log.e(TAG, "runThread handler == null >> return null;");
+            LogUtil.e("runThread handler == null >> return null;");
             return null;
         }
 
@@ -426,7 +432,7 @@ public class BaseActivity extends PermissionActivity {
             default:
                 setStatusBarFontIconDark(false);
         }
-        Log.e(TAG, "refreshTheme------------------>");
+        LogUtil.e("refreshTheme------------------>");
         ThemeUtils.refreshUI(c, null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

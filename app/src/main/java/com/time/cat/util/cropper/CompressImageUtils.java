@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 
+import com.time.cat.util.override.LogUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -38,7 +40,7 @@ public class CompressImageUtils {
             boolean result = bitmap.compress(Bitmap.CompressFormat.JPEG, cropParams.compressQuality, out);
             Log.d(TAG, "Compress bitmap " + (result ? "succeed" : "failed"));
         } catch (Exception e) {
-            Log.e(TAG, "compressInputStreamToOutputStream", e);
+            LogUtil.e("compressInputStreamToOutputStream", e);
         } finally {
             if (bitmap != null) bitmap.recycle();
             try {

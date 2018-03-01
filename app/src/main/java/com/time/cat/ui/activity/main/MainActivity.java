@@ -26,21 +26,6 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.time.cat.R;
-import com.time.cat.theme.ThemeManager;
-import com.time.cat.theme.utils.ThemeUtils;
-import com.time.cat.ui.activity.about.SchedulesHelpActivity;
-import com.time.cat.ui.activity.addtask.DialogActivity;
-import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
-import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
-import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
-import com.time.cat.ui.fragment.routines.RoutinesListFragment;
-import com.time.cat.ui.fragment.schedules.SchedulesFragment;
-import com.time.cat.ui.activity.main.viewmanager.FabMenuManager;
-import com.time.cat.ui.activity.main.viewmanager.LeftDrawerManager;
-import com.time.cat.ui.activity.user.LoginActivity;
-import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.ui.base.BaseFragment;
-import com.time.cat.ui.dialog.DialogThemeFragment;
 import com.time.cat.database.DB;
 import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBUser;
@@ -48,8 +33,24 @@ import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.mvp.view.navigation.SpecialTab;
 import com.time.cat.mvp.view.navigation.SpecialTabRound;
 import com.time.cat.mvp.view.viewpaper.CustomPagerView;
-import com.time.cat.ui.fragment.notes.view.NotesFragment;
+import com.time.cat.theme.ThemeManager;
+import com.time.cat.theme.utils.ThemeUtils;
+import com.time.cat.ui.activity.about.SchedulesHelpActivity;
+import com.time.cat.ui.activity.addtask.DialogActivity;
+import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
+import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
+import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
+import com.time.cat.ui.activity.main.viewmanager.FabMenuManager;
+import com.time.cat.ui.activity.main.viewmanager.LeftDrawerManager;
+import com.time.cat.ui.activity.user.LoginActivity;
+import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.base.BaseFragment;
+import com.time.cat.ui.dialog.DialogThemeFragment;
 import com.time.cat.ui.fragment.PlansFragment;
+import com.time.cat.ui.fragment.notes.view.NotesFragment;
+import com.time.cat.ui.fragment.routines.RoutinesListFragment;
+import com.time.cat.ui.fragment.schedules.SchedulesFragment;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.view.ScreenUtil;
 
@@ -118,7 +119,7 @@ public class MainActivity extends BaseActivity implements
         setStatusBarFullTransparent();
         initDrawer(savedInstanceState);
         handler = new Handler();
-        activeUser = DB.users().getActive(this);
+        activeUser = DB.users().getActive();
         ThemeManager.setTheme(this, activeUser.color());
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
@@ -131,14 +132,13 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        DBUser u = DB.users().getActive(this);
+        DBUser u = DB.users().getActive();
         leftDrawer.onActivityResume(u);
         active = true;
         refreshTheme(this, u.color());
-
         // process pending events
         while (!pendingEvents.isEmpty()) {
-            Log.d(TAG, "Processing pending event...");
+            LogUtil.e("Processing pending event...");
             onEvent(pendingEvents.poll());
         }
     }
@@ -440,9 +440,9 @@ public class MainActivity extends BaseActivity implements
 
                 // TODO: Implement successful signup logic here
                 String email = data.getStringExtra(LoginActivity.INTENT_USER_EMAIL);
-                Log.e(TAG, email);
+                LogUtil.e(email);
                 activeUser = DB.users().findOneBy(DBUser.COLUMN_EMAIL, email);
-                DB.users().setActive(activeUser, this);
+                DB.users().setActive(activeUser);
                 // 设置用户登录后的界面
                 ToastUtil.show("登录成功！");
             }
@@ -519,7 +519,7 @@ public class MainActivity extends BaseActivity implements
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onConfirm(int currentTheme) {
-        Log.e(TAG, "onConfirm----------------->");
+        LogUtil.e("onConfirm----------------->");
         if (ThemeManager.getTheme(this) != currentTheme) {
             ThemeManager.setTheme(this, currentTheme);
             switch (currentTheme) {
@@ -531,7 +531,7 @@ public class MainActivity extends BaseActivity implements
                 default:
                     setStatusBarFontIconDark(false);
             }
-            Log.e(TAG, "setTheme------------------>");
+            LogUtil.e("setTheme------------------>");
             ThemeUtils.refreshUI(this, new ThemeUtils.ExtraRefreshable() {
                 @Override
                 public void refreshGlobal(Activity activity) {
@@ -551,7 +551,7 @@ public class MainActivity extends BaseActivity implements
             });
 
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-            activeUser = DB.users().getActive(this);
+            activeUser = DB.users().getActive();
             activeUser.setColor(currentTheme);
             DB.users().saveAndFireEvent(activeUser);
             leftDrawer.updateHeaderBackground(activeUser);
@@ -584,7 +584,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onPageScrollStateChanged(int state) {
-//        Log.e(TAG, "state" + state);
+//        LogUtil.e("state" + state);
         if (customPagerView.getCurrentItem() == 0) {
             if (canOpenDrawer[0] == 1) {
                 // 只要有canOpenDrawer[0] == 1,一定已经执行switch(state)case 0,且state==0时手势完毕
@@ -653,25 +653,16 @@ public class MainActivity extends BaseActivity implements
                     if (evt instanceof PersistenceEvents.ModelCreateOrUpdateEvent) {
                         PersistenceEvents.ModelCreateOrUpdateEvent event = (PersistenceEvents.ModelCreateOrUpdateEvent) evt;
                         Log.d(TAG, "onEvent: " + event.clazz.getName());
-//                        customPagerView.getAdapter().notifyDataSetChanged();
                         customPagerViewAdapter.notifyDataChanged();
-//                        if (mViewClickListener != null) {
-//                            mViewClickListener.onViewRefreshClick();
-//                        }
-//                        Log.e(TAG, "ModelCreateOrUpdateEvent --> customPagerViewAdapter.notifyDataSetChanged()");
                     } else if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
                         activeUser = ((PersistenceEvents.ActiveUserChangeEvent) evt).user;
                         onUserUpdate(activeUser);
-//                        customPagerView.getAdapter().notifyDataSetChanged();
                         customPagerViewAdapter.notifyDataChanged();
-//                        if (mViewClickListener != null) {
-//                            mViewClickListener.onViewRefreshClick();
-//                        }
-                        Log.e(TAG, "ActiveUserChangeEvent --> customPagerViewAdapter.notifyDataSetChanged()");
+                        LogUtil.e("ActiveUserChangeEvent --> customPagerViewAdapter.notifyDataSetChanged()");
                     } else if (evt instanceof PersistenceEvents.UserUpdateEvent) {
                         DBUser user = ((PersistenceEvents.UserUpdateEvent) evt).user;
                         onUserUpdate(user);
-                        if (DB.users().isActive(user, MainActivity.this)) {
+                        if (DB.users().isActive(user)) {
                             activeUser = user;
                         }
                         // 不要在UserUpdateEvent里setActive(),因为setActive()也是一个UserUpdateEvent,会造成递归update

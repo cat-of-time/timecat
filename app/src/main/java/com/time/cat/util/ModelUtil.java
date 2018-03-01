@@ -83,13 +83,24 @@ public class ModelUtil {
 
     public static DBNote toDBNote(Note note) {
         DBNote dbNote = new DBNote();
+        dbNote.setUrl(note.getUrl());
+        dbNote.setOwner(note.getOwner());
+        dbNote.setTitle(note.getTitle());
         dbNote.setContent(note.getContent());
         dbNote.setCreated_datetime(note.getCreated_datetime());
         dbNote.setUpdate_datetime(note.getUpdate_datetime());
-        dbNote.setUrl(note.getUrl());
-        dbNote.setTitle(note.getTitle());
-        dbNote.setOwner(note.getOwner());
         return dbNote;
+    }
+
+    public static Note toNote(DBNote dbNote) {
+        Note note = new Note();
+        note.setUrl(dbNote.getUrl());
+        note.setOwner(dbNote.getOwner());
+        note.setTitle(dbNote.getTitle());
+        note.setContent(dbNote.getContent());
+        note.setCreated_datetime(dbNote.getCreated_datetime());
+        note.setUpdate_datetime(dbNote.getUpdate_datetime());
+        return note;
     }
 
     public static String getOwnerUrl(User u) {

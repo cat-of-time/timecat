@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.time.cat.util.listener.SoftKeyBoardListener;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.view.ScreenUtil;
 
 /**
@@ -178,7 +178,7 @@ public class EmotionKeyboard {
         if (softInputHeight <= 0) {
             softInputHeight = getKeyBoardHeight();
         }
-        Log.e(TAG, ""+softInputHeight);
+        LogUtil.e(""+softInputHeight);
         mEmotionLayout.getLayoutParams().height = softInputHeight;
         mEmotionLayout.setVisibility(View.VISIBLE);
         hideSoftInput();
