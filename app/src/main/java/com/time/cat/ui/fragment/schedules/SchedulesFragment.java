@@ -1029,11 +1029,13 @@ public class SchedulesFragment extends BaseFragment implements
             if (isChecked) {
                 ViewUtil.addClearCenterLine(calendar_item_title);
                 calendar_item_title.setTextColor(Color.GRAY);
+                calendar_item_delay.setTextColor(Color.GRAY);
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setIsFinish(true);
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(TimeUtil.formatGMTDate(new Date()));
             } else {
                 ViewUtil.removeLine(calendar_item_title);
                 calendar_item_title.setTextColor(Color.BLACK);
+                calendar_item_delay.setTextColor(getResources().getColor(R.color.red));
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setIsFinish(false);
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(null);
             }
