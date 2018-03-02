@@ -247,7 +247,7 @@
                         android:layout_height="32dp"
                         android:layout_alignParentEnd="true"
                         android:background="@drawable/shape_bg_button"
-                        android:text="提交"
+                        android:text="创建"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_tiny"

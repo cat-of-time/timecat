@@ -50,7 +50,7 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder implements
     public void onBind(DBNote data, int position) {
         mLayout.getBackground().setColorFilter(data.getColor(), PorterDuff.Mode.SRC_IN);
 
-        mTextTitle.setText(String.valueOf(position + 1));
+        mTextTitle.setText(String.valueOf(position));
 
         dbNote = data;
         notes_tv_title.setText(dbNote.getTitle());

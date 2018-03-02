@@ -474,7 +474,7 @@ public class SchedulesFragment extends BaseFragment implements
 
         scheduleHeaderViewHolder.getCalendarItemTitle().setText(headerItem.getTitle());
         Date today = new Date();
-        if (headerItem.getCreated_datetime() != "null" && headerItem.getCreated_datetime() != null && headerItem.getCreated_datetime() != "") {
+        if (headerItem.getCreated_datetime() != null && headerItem.getCreated_datetime().length() > 0) {
             Date date = TimeUtil.formatGMTDateStr(headerItem.getCreated_datetime());
             if (date != null) {
                 long during = today.getTime() - date.getTime();

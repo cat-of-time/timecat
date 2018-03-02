@@ -20,6 +20,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -480,6 +483,7 @@ public class MainActivity extends BaseActivity implements
                 launchActivity(new Intent(this, SchedulesHelpActivity.class));
                 return true;
             case R.id.main_menu_refresh_schedule:
+                showRefreshAnimation(item);
                 if (mViewClickListener != null) {
                     mViewClickListener.onViewRefreshClick();
                 }
@@ -494,6 +498,7 @@ public class MainActivity extends BaseActivity implements
 
             // 以下是note menu group
             case R.id.main_menu_note_refresh:
+                showRefreshAnimation(item);
                 if (mNoteViewClickListener != null) {
                     mNoteViewClickListener.onViewNoteRefreshClick();
                 }
@@ -507,6 +512,45 @@ public class MainActivity extends BaseActivity implements
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected MenuItem refreshItem;
+
+    @SuppressLint("NewApi")
+    private void showRefreshAnimation(MenuItem item) {
+        hideRefreshAnimation();
+
+        refreshItem = item;
+
+        //这里使用一个ImageView设置成MenuItem的ActionView，这样我们就可以使用这个ImageView显示旋转动画了
+        ImageView refreshActionView = (ImageView) getLayoutInflater().inflate(R.layout.action_view, null);
+        refreshActionView.setImageResource(R.drawable.ic_autorenew_white_24dp);
+        refreshItem.setActionView(refreshActionView);
+
+        //显示刷新动画
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.refresh);
+        animation.setRepeatMode(Animation.RESTART);
+        animation.setRepeatCount(1);
+        refreshActionView.startAnimation(animation);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideRefreshAnimation();
+            }
+        }, 1000);
+    }
+
+    @SuppressLint("NewApi")
+    private void hideRefreshAnimation() {
+        if (refreshItem != null) {
+            View view = refreshItem.getActionView();
+            if (view != null) {
+                view.clearAnimation();
+                refreshItem.setActionView(null);
+            }
         }
     }
     //-//</Activity>--------------------------------------------------------------------------------

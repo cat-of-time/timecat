@@ -700,6 +700,7 @@ public class DialogActivity extends BaseActivity implements
         SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, str);
     }
 
+    @SuppressLint("SetTextI18n")
     private void refreshViewByTask(DBTask task) {
         important_urgent_label = task.getLabel();
         title = task.getTitle();
@@ -768,6 +769,7 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_type_note.setTextSize(14);
         dialog_add_task_type_task.setTextSize(18);
         dialog_add_task_type_clock.setTextSize(14);
+        dialog_add_task_footer_bt_submit.setText("修改");
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
 
@@ -889,6 +891,12 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_type_note.setTextSize(18);
         dialog_add_task_type_task.setTextSize(14);
         dialog_add_task_type_clock.setTextSize(14);
+        if (note != null) {
+            dialog_add_task_footer_bt_submit.setText("修改");
+        }
+        if (task != null) {
+            dialog_add_task_footer_bt_submit.setText("转化");
+        }
     }
 
     private void onSelectTypeTask() {
@@ -904,6 +912,12 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_type_note.setTextSize(14);
         dialog_add_task_type_task.setTextSize(18);
         dialog_add_task_type_clock.setTextSize(14);
+        if (task != null) {
+            dialog_add_task_footer_bt_submit.setText("修改");
+        }
+        if (note != null) {
+            dialog_add_task_footer_bt_submit.setText("转化");
+        }
     }
 
     private void onSelectTypeClock() {
