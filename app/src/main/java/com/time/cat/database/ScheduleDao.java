@@ -89,7 +89,11 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
             dbTask.setId(id);
-            DB.schedules().updateAndFireEvent(dbTask);
+            try {
+                DB.schedules().update(dbTask);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbTask.toString());
         } else {
             DB.schedules().save(dbTask);
@@ -97,13 +101,13 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
         }
     }
 
-    public void safeSaveDBTask(DBTask dbTask) {
-//        Log.i(TAG, "返回的任务信息 --> " + task.toString());
-//        //保存用户信息到本地
-//        DBTask dbTask = ModelUtil.toDBTask(task);
+    public void safeSaveTaskAndFireEvent(Task task) {
+        Log.i(TAG, "返回的任务信息 --> " + task.toString());
+        //保存用户信息到本地
+        DBTask dbTask = ModelUtil.toDBTask(task);
         List<DBTask> existing = null;
         try {
-            existing = DB.schedules().queryForEq(DBTask.COLUMN_CREATED_DATETIME, dbTask.getCreated_datetime());
+            existing = DB.schedules().queryForEq(DBTask.COLUMN_URL, task.getUrl());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,18 +117,15 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
             DB.schedules().updateAndFireEvent(dbTask);
             Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbTask.toString());
         } else {
-            DB.schedules().save(dbTask);
+            DB.schedules().saveAndFireEvent(dbTask);
             Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbTask.toString());
         }
     }
 
-    public void safeSaveDBTaskAndFireEvent(Task task) {
-        Log.i(TAG, "返回的任务信息 --> " + task.toString());
-        //保存用户信息到本地
-        DBTask dbTask = ModelUtil.toDBTask(task);
+    public void safeSaveDBTask(DBTask dbTask) {
         List<DBTask> existing = null;
         try {
-            existing = DB.schedules().queryForEq("url", dbTask.getUrl());
+            existing = DB.schedules().queryForEq(DBTask.COLUMN_CREATED_DATETIME, dbTask.getCreated_datetime());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -136,6 +137,24 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbTask.toString());
+        } else {
+            DB.schedules().save(dbTask);
+            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbTask.toString());
+        }
+    }
+
+    public void safeSaveDBTaskAndFireEvent(DBTask dbTask) {
+        List<DBTask> existing = null;
+        try {
+            existing = DB.schedules().queryForEq(DBTask.COLUMN_CREATED_DATETIME, dbTask.getCreated_datetime());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbTask.setId(id);
+            DB.schedules().updateAndFireEvent(dbTask);
             Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbTask.toString());
         } else {
             DB.schedules().saveAndFireEvent(dbTask);

@@ -66,7 +66,6 @@ import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
 
 import java.net.URLEncoder;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1011,8 +1010,8 @@ public class DialogActivity extends BaseActivity implements
         tags.add("http://192.168.88.105:8000/tags/1/");
         tags.add("http://192.168.88.105:8000/tags/2/");
         task.setTags(tags);
+        task.setIs_all_day(is_all_day);
         if (!is_all_day) {
-            task.setIs_all_day(is_all_day);
             Date d = new Date();
             d.setHours(start_hour);
             d.setMinutes(start_min);
@@ -1021,10 +1020,11 @@ public class DialogActivity extends BaseActivity implements
             d.setMinutes(end_min);
             task.setEnd_datetime(TimeUtil.formatGMTDate(d));
         }
-        DB.schedules().safeSaveDBTask(task);
+        DB.schedules().safeSaveDBTaskAndFireEvent(task);
 
         LogUtil.e("updateAndFireEvent --> " + task);
         if (task.getUrl() == null) {
+            // 离线创建的task是没有url的，这里要在服务器端新建一个一摸一样的，然后把url传过来
             RetrofitHelper.getTaskService().createTask(ModelUtil.toTask(task)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
@@ -1032,13 +1032,9 @@ public class DialogActivity extends BaseActivity implements
                         @Override
                         public void call(Task task1) {
                             // 将笔记的url保存下来
-                            try {
-                                DB.schedules().delete(task);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                            DB.schedules().safeSaveTask(task1);
-                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + task1.toString());
+                            task.setUrl(task1.getUrl());
+                            DB.schedules().safeSaveDBTaskAndFireEvent(task);
+                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + task.toString());
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1069,7 +1065,7 @@ public class DialogActivity extends BaseActivity implements
                     .doOnNext(new Action1<Task>() {
                         @Override
                         public void call(Task task) {
-                            DB.schedules().safeSaveTask(task);
+                            DB.schedules().safeSaveTaskAndFireEvent(task);
                             LogUtil.e("保存任务信息到本地" + task.toString());
                         }
                     }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1115,8 +1111,8 @@ public class DialogActivity extends BaseActivity implements
         tags.add("http://192.168.88.105:8000/tags/2/");
         dbTask.setTags(tags);
         dbTask.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
+        dbTask.setIs_all_day(is_all_day);
         if (!is_all_day) {
-            dbTask.setIs_all_day(is_all_day);
             Date d = new Date();
             d.setHours(start_hour);
             d.setMinutes(start_min);
@@ -1125,7 +1121,7 @@ public class DialogActivity extends BaseActivity implements
             d.setMinutes(end_min);
             dbTask.setEnd_datetime(TimeUtil.formatGMTDate(d));
         }
-        DB.schedules().safeSaveDBTask(dbTask);
+        DB.schedules().safeSaveDBTaskAndFireEvent(dbTask);
 
         RetrofitHelper.getTaskService().createTask(ModelUtil.toTask(dbTask)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -1134,7 +1130,8 @@ public class DialogActivity extends BaseActivity implements
                     @Override
                     public void call(Task task) {
                         // 将task的url保存下来
-                        DB.schedules().safeSaveTask(task);
+                        dbTask.setUrl(task.getUrl());
+                        DB.schedules().safeSaveDBTaskAndFireEvent(dbTask);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1181,12 +1178,8 @@ public class DialogActivity extends BaseActivity implements
                         @Override
                         public void call(Note note1) {
                             // 将笔记的url保存下来
-                            try {
-                                DB.notes().delete(note);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                            DB.notes().safeSaveNote(note1);
+                            note.setUrl(note1.getUrl());
+                            DB.notes().safeSaveDBNoteAndFireEvent(note);
                             LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note1.toString());
                         }
                     })
@@ -1219,7 +1212,7 @@ public class DialogActivity extends BaseActivity implements
                         @Override
                         public void call(Note note) {
                             // 将笔记的url保存下来
-                            DB.notes().safeSaveNote(note);
+                            DB.notes().safeSaveNoteAndFireEvent(note);
                             LogUtil.e("保存任务信息到本地" + note.toString());
                         }
                     })
@@ -1279,7 +1272,8 @@ public class DialogActivity extends BaseActivity implements
                 .doOnNext(new Action1<Note>() {
                     @Override
                     public void call(Note note) {
-                        DB.notes().safeSaveNote(note);
+                        dbNote.setUrl(note.getUrl());
+                        DB.notes().safeSaveDBNoteAndFireEvent(dbNote);
                         LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note.toString());
                     }
                 })

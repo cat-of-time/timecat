@@ -13,8 +13,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.time.cat.R;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBNote;
+import com.time.cat.mvp.model.Note;
 import com.time.cat.mvp.view.card_stack_view.CardStackView;
 import com.time.cat.mvpframework.factory.CreatePresenter;
+import com.time.cat.network.RetrofitHelper;
 import com.time.cat.ui.activity.addtask.DialogActivity;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.base.BaseFragment;
@@ -27,6 +29,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * @author dlink
@@ -117,7 +122,7 @@ public class NotesFragment
                 .positiveText("删除")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         LogUtil.e("dbNote == " + dbNote.toString());
                         try {
                             DB.notes().delete(dbNote);
@@ -126,6 +131,29 @@ public class NotesFragment
                             e.printStackTrace();
                             ToastUtil.show("删除失败");
                         }
+                        RetrofitHelper.getNoteService().deleteNoteByUrl(dbNote.getUrl())
+                                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                                .subscribe(new Subscriber<Note>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        //请求失败
+                                        ToastUtil.show("删除操作同步失败");
+                                        LogUtil.e("删除操作同步失败 --> " + e.toString());
+                                    }
+
+                                    @Override
+                                    public void onNext(Note note) {
+                                        //请求成功
+                                        ToastUtil.show("删除成功");
+                                        LogUtil.e("删除成功 --> " + note.toString());
+                                    }
+                                });
                         notifyDataChanged();
                     }
                 })

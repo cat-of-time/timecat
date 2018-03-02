@@ -2,6 +2,8 @@ package com.time.cat.network.api;
 
 import com.time.cat.mvp.model.Note;
 
+import java.util.ArrayList;
+
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -34,8 +36,8 @@ public interface NoteService {
     Observable<Note> putNoteByUrl(@Url String note_url, @Body Note note);
     //查
     @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @GET("/")
-    Observable<Note> getNotesAll();
+    @GET("/notes/")
+    Observable<ArrayList<Note>> getNotesAll();
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET

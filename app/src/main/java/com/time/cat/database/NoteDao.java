@@ -77,7 +77,7 @@ public class NoteDao extends GenericDao<DBNote, Long> {
         TimeCatApp.eventBus().post(event);
     }
 
-    public void safeSaveNote(Note note) {
+    public void safeSaveNoteAndFireEvent(Note note) {
         Log.i(TAG, "返回的任务信息 --> " + note.toString());
         //保存用户信息到本地
         DBNote dbNote = ModelUtil.toDBNote(note);
@@ -108,6 +108,42 @@ public class NoteDao extends GenericDao<DBNote, Long> {
         }
     }
 
+
+    public void safeSaveNote(Note note) {
+        Log.i(TAG, "返回的任务信息 --> " + note.toString());
+        //保存用户信息到本地
+        DBNote dbNote = ModelUtil.toDBNote(note);
+        List<DBNote> existing = null;
+        try {
+            existing = DB.notes().queryForEq(DBNote.COLUMN_URL, dbNote.getUrl());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbNote.setId(id);
+            int color = existing.get(0).getColor();
+            dbNote.setColor(color);
+            try {
+                DB.notes().update(dbNote);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            Log.i(TAG, "更新笔记信息 --> update -- > " + dbNote.toString());
+        } else {
+            List<Integer> CardStackViewDataList = new ArrayList<>();
+            int[] CardStackViewData = TimeCatApp.getInstance().getResources().getIntArray(R.array.card_stack_view_data);
+            for (int aCardStackViewData : CardStackViewData) {
+                CardStackViewDataList.add(aCardStackViewData);
+            }
+            Random random = new Random();
+            int randomColor = random.nextInt(CardStackViewDataList.size());
+            dbNote.setColor(CardStackViewDataList.get(randomColor));
+            DB.notes().save(dbNote);
+            Log.i(TAG, "保存笔记信息 --> save -- > " + dbNote.toString());
+        }
+    }
+
     public void safeSaveDBNote(DBNote dbNote) {
         List<DBNote> existing = null;
         try {
@@ -127,6 +163,27 @@ public class NoteDao extends GenericDao<DBNote, Long> {
             Log.i(TAG, "保存笔记信息 --> saveAndFireEvent -- > " + dbNote.toString());
         }
     }
+
+    public void safeSaveDBNoteAndFireEvent(DBNote dbNote) {
+        List<DBNote> existing = null;
+        try {
+            existing = DB.notes().queryForEq(DBNote.COLUMN_CREATED_DATETIME, dbNote.getCreated_datetime());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbNote.setId(id);
+            int color = existing.get(0).getColor();
+            dbNote.setColor(color);
+            DB.notes().updateAndFireEvent(dbNote);
+            Log.i(TAG, "更新笔记信息 --> updateAndFireEvent -- > " + dbNote.toString());
+        } else {
+            DB.notes().saveAndFireEvent(dbNote);
+            Log.i(TAG, "保存笔记信息 --> saveAndFireEvent -- > " + dbNote.toString());
+        }
+    }
+
 
     public void updateActiveUserAndFireEvent(DBNote activeDBNote, Note user) {
 //        Object event = new PersistenceEvents.UserUpdateEvent(activeDBNote);

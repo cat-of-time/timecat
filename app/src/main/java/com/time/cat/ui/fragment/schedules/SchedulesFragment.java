@@ -30,14 +30,7 @@ import com.ldf.calendar.interf.OnSelectDateListener;
 import com.ldf.calendar.model.CalendarDate;
 import com.ldf.calendar.view.Calendar;
 import com.ldf.calendar.view.MonthPager;
-import com.time.cat.network.RetrofitHelper;
 import com.time.cat.R;
-import com.time.cat.theme.ThemeManager;
-import com.time.cat.theme.utils.ThemeUtils;
-import com.time.cat.ui.activity.addtask.DialogActivity;
-import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
-import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
-import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBTask;
@@ -51,6 +44,12 @@ import com.time.cat.mvp.view.asyncExpandableListView.AsyncHeaderViewHolder;
 import com.time.cat.mvp.view.asyncExpandableListView.CollectionView;
 import com.time.cat.mvp.view.calendar.CustomDayView;
 import com.time.cat.mvp.view.calendar.ThemeDayView;
+import com.time.cat.network.RetrofitHelper;
+import com.time.cat.theme.ThemeManager;
+import com.time.cat.ui.activity.addtask.DialogActivity;
+import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
+import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
+import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.util.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
@@ -124,8 +123,9 @@ public class SchedulesFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        refreshData();
-        ThemeUtils.refreshUI(getActivity(), null);
+        //由activity通知，自己不再自动处理
+//        refreshData();
+//        ThemeUtils.refreshUI(getActivity(), null);
     }
     //</生命周期>------------------------------------------------------------------------------------
 
@@ -651,7 +651,7 @@ public class SchedulesFragment extends BaseFragment implements
                             @Override
                             public void onError(Throwable e) {
                                 //请求失败
-                                ToastUtil.show("数据同步到云端时出现错误");
+//                                ToastUtil.show("数据同步到云端时出现错误");
                                 LogUtil.e("count[0] == "+count[0] + " --> 失败 --> " + e.toString());
                                 count[0] -= 1;
                             }
@@ -660,24 +660,25 @@ public class SchedulesFragment extends BaseFragment implements
                             public void onNext(Task task) {
                                 //请求成功
                                 count[0] -= 1;
+//                                ToastUtil.show("成功获取任务");
                                 Log.i(TAG, "请求成功 --> count[0] == " + count[0] + " --> " + task.toString());
                             }
                         });
                 Log.w(TAG, "fetching task " + i);
             }
-            Log.w(TAG, "waiting -->");
-            int retryTimes = 5; //重试次数
-            while (count[0] != 0 && retryTimes != 0) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Log.w(TAG, "retryTimes -->" + retryTimes);
-                retryTimes--;
-                // 循环结束条件:上面的网络请求线程全部完成(count[0] == 0) 或 超过重试次数网络请求还没全部完成(retryTimes == 0)
-            }
-            Log.w(TAG, "returning -->");
+//            Log.w(TAG, "waiting -->");
+//            int retryTimes = 5; //重试次数
+//            while (count[0] != 0 && retryTimes != 0) {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                Log.w(TAG, "retryTimes -->" + retryTimes);
+//                retryTimes--;
+//                // 循环结束条件:上面的网络请求线程全部完成(count[0] == 0) 或 超过重试次数网络请求还没全部完成(retryTimes == 0)
+//            }
+//            Log.w(TAG, "returning -->");
             List<DBTask> taskList = DB.schedules().findAll();
             tasks = DBTaskFilter2Task(taskList);
             return tasks;
@@ -694,59 +695,6 @@ public class SchedulesFragment extends BaseFragment implements
             } else {
                 mAsyncExpandableListView.updateInventory(new CollectionView.Inventory<>());
             }
-        }
-
-        private ArrayList<Task> TaskFilter(ArrayList<Task> taskArrayList) {
-            ArrayList<Task> tasks = new ArrayList<>();
-            // 需要显示的
-            // 今天刚刚finished的
-            // 顺延的
-            // begin_datetime < today <= end_datetime
-            Date today = new Date();
-            if (currentDate != null) {
-                today = TimeUtil.transferCalendarDate(currentDate);
-                Log.i(TAG, "transfer --> " + today);
-            }
-            for (Task task : taskArrayList) {
-                boolean hasAddedTask = false;
-                // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
-                if (task.getIsFinish()) {
-                    Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
-                    if (finished_datetime != null) {
-                        if (finished_datetime.getDay() == today.getDay() && finished_datetime.getMonth() == today.getMonth() && finished_datetime.getYear() == today.getYear()) {
-                            tasks.add(task);
-                            hasAddedTask = true;
-                            Log.i(TAG, "add task, because task is finished today");
-                        }
-                    }
-                }
-                if (!task.getIs_all_day() && !hasAddedTask) {
-                    Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
-                    Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
-                    if (begin_datetime != null && end_datetime != null) {
-                        if (TimeUtil.isDateEarlier(begin_datetime, today) && TimeUtil.isDateEarlier(today, end_datetime)) {
-                            tasks.add(task);
-                            hasAddedTask = true;
-                            Log.i(TAG, "add task, because begin <= today <= end");
-                        }
-                    }
-                }
-                // 把顺延的添加到显示List并标记
-                Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
-                if (!hasAddedTask && created_datetime != null) {
-                    long during = today.getTime() - created_datetime.getTime();
-                    Log.i(TAG, "during == " + during);
-                    Log.i(TAG, "today == " + today + " -- created_datetime == " + created_datetime);
-                    if (TimeUtil.isDateEarlier(created_datetime, today)) {
-                        if (task.getIs_all_day()) {
-                            tasks.add(task);
-                            Log.i(TAG, "add task, because of delay");
-                        }
-                    }
-                }
-            }
-
-            return tasks;
         }
 
         private ArrayList<DBTask> DBTaskFilter2Task(List<DBTask> taskArrayList) {
@@ -781,7 +729,10 @@ public class SchedulesFragment extends BaseFragment implements
                         }
                     }
                 }
-                if (!task.getIs_all_day() && !hasAddedTask) {
+                LogUtil.e(task.getIs_all_day() + task.toString());
+                if (!task.getIs_all_day() && !hasAddedTask
+                        && task.getBegin_datetime() != null
+                        && task.getEnd_datetime() != null) {
                     Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
                     Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
                     if (begin_datetime != null && end_datetime != null) {
@@ -1045,7 +996,7 @@ public class SchedulesFragment extends BaseFragment implements
                         .positiveText("删除")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 DBTask task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
                                 LogUtil.e("onLongClick() --> 确定删除 task -->" + task.toString());
                                 try {

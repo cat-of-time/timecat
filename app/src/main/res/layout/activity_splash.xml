@@ -15,12 +15,18 @@
         android:id="@+id/contron_by_float"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/splash_iv"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:text="@string/stringValue6"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"/>
 
+    <ImageView
+        android:id="@+id/splash_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/hand_down_splash"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,12 +36,4 @@
         android:layout_marginBottom="@dimen/tab_indicator_small_width"
         android:text="@string/copyright"
         android:textColor="@color/colorPrimary"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/contron_by_float"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/default_general_margin"
-        android:src="@mipmap/hand_down_splash"/>
 </RelativeLayout>

@@ -26,7 +26,7 @@ public class CardStackViewAdapter extends StackAdapter<DBNote> {
     public void bindView(DBNote data, int position, CardStackView.ViewHolder holder) {
         if (holder instanceof ColorItemViewHolder) {
             ColorItemViewHolder h = (ColorItemViewHolder) holder;
-            h.onBind(data, position);
+            h.onBind(data, getItemCount() - position);
         }
     }
 
