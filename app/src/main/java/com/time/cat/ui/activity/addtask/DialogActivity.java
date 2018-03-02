@@ -745,7 +745,7 @@ public class DialogActivity extends BaseActivity implements
         dialog_add_task_tv_important_urgent.setText(label_str_set[task.getLabel()]);
         dialog_add_task_tv_important_urgent.setTextColor(Color.parseColor(text_color_set[task.getLabel()]));
         dialog_add_task_tv_important_urgent.setBackgroundColor(Color.parseColor(background_color_set[task.getLabel()]));
-
+        dialog_add_task_footer_bt_submit.setText("修改");
     }
 
     private void refreshViewByNote(DBNote note) {

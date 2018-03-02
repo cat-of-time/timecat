@@ -174,7 +174,7 @@
                         android:gravity="center"
                         android:text="笔记"
                         android:textColor="#ee03a9f4"
-                        android:textSize="@dimen/text_size_large"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/dialog_add_task_type_task"
@@ -182,7 +182,7 @@
                         android:layout_height="32dp"
                         android:layout_alignEnd="@+id/dialog_add_task_type_note"
                         android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="任务"
@@ -195,7 +195,7 @@
                         android:layout_height="32dp"
                         android:layout_alignEnd="@+id/dialog_add_task_type_task"
                         android:layout_gravity="center_vertical|end"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="闹钟"

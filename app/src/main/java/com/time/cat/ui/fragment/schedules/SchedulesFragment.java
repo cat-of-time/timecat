@@ -624,8 +624,9 @@ public class SchedulesFragment extends BaseFragment implements
             this.inventory = inventory;
         }
 
+        @SafeVarargs
         @Override
-        protected ArrayList<DBTask> doInBackground(ArrayList<String>... params) {
+        protected final ArrayList<DBTask> doInBackground(ArrayList<String>... params) {
             ArrayList<DBTask> tasks;
             if (params.length <= 0) {
                 return null;
@@ -680,7 +681,7 @@ public class SchedulesFragment extends BaseFragment implements
 //            }
 //            Log.w(TAG, "returning -->");
             List<DBTask> taskList = DB.schedules().findAll();
-            tasks = DBTaskFilter2Task(taskList);
+            tasks = sort(DBTaskFilter(taskList));
             return tasks;
         }
 
@@ -697,7 +698,7 @@ public class SchedulesFragment extends BaseFragment implements
             }
         }
 
-        private ArrayList<DBTask> DBTaskFilter2Task(List<DBTask> taskArrayList) {
+        private ArrayList<DBTask> DBTaskFilter(List<DBTask> taskArrayList) {
             ArrayList<DBTask> tasks = new ArrayList<>();
             if (taskArrayList == null || taskArrayList.size() <= 0) {
                 return tasks;
@@ -760,6 +761,104 @@ public class SchedulesFragment extends BaseFragment implements
 
             return tasks;
         }
+
+        private ArrayList<DBTask> sort(ArrayList<DBTask> taskArrayList) {
+            ArrayList<DBTask> sortedDBTaskList = new ArrayList<>();
+            if (taskArrayList == null || taskArrayList.size() <= 0) {
+                return sortedDBTaskList;
+            }
+            ArrayList<DBTask> label_0_DBTaskList = new ArrayList<>();
+            ArrayList<DBTask> label_1_DBTaskList = new ArrayList<>();
+            ArrayList<DBTask> label_2_DBTaskList = new ArrayList<>();
+            ArrayList<DBTask> label_3_DBTaskList = new ArrayList<>();
+            ArrayList<DBTask> finished_DBTaskList = new ArrayList<>();
+
+            for (DBTask dbTask : taskArrayList) {
+                if (dbTask.getIsFinish()) {
+                    finished_DBTaskList.add(dbTask);
+                    continue;
+                }
+                switch (dbTask.getLabel()) {
+                    case DBTask.LABEL_IMPORTANT_URGENT:
+                        label_0_DBTaskList.add(dbTask);
+                        break;
+                    case DBTask.LABEL_IMPORTANT_NOT_URGENT:
+                        label_1_DBTaskList.add(dbTask);
+                        break;
+                    case DBTask.LABEL_NOT_IMPORTANT_URGENT:
+                        label_2_DBTaskList.add(dbTask);
+                        break;
+                    case DBTask.LABEL_NOT_IMPORTANT_NOT_URGENT:
+                        label_3_DBTaskList.add(dbTask);
+                        break;
+                }
+            }
+            mergeSort2List(label_0_DBTaskList, sortedDBTaskList);
+            mergeSort2List(label_1_DBTaskList, sortedDBTaskList);
+            mergeSort2List(label_2_DBTaskList, sortedDBTaskList);
+            mergeSort2List(label_3_DBTaskList, sortedDBTaskList);
+            mergeSort2List(finished_DBTaskList, sortedDBTaskList);
+
+            return sortedDBTaskList;
+        }
+
+        private void reverse(ArrayList<DBTask> arr, int i, int j) {
+            while(i < j) {
+                DBTask temp = arr.get(i);
+                arr.set(i++, arr.get(j));
+                arr.set(j--, temp);
+//                int temp = arr[i];
+//                arr[i++] = arr[j];
+//                arr[j--] = temp;
+            }
+        }
+
+        // swap [bias, bias+headSize) and [bias+headSize, bias+headSize+endSize)
+        private void swapAdjacentBlocks(ArrayList<DBTask> arr, int bias, int oneSize, int anotherSize) {
+            reverse(arr, bias, bias + oneSize - 1);
+            reverse(arr, bias + oneSize, bias + oneSize + anotherSize - 1);
+            reverse(arr, bias, bias + oneSize + anotherSize - 1);
+        }
+
+        private void inplaceMerge(ArrayList<DBTask> arr, int l, int mid, int r) {
+            int i = l;     // 指示左侧有序串
+            int j = mid + 1; // 指示右侧有序串
+            while(i < j && j <= r) { //原地归并结束的条件。
+                while(i < j && isValid(arr, i, j)) {
+                    i++;
+                }
+                int index = j;
+                while(j <= r && isValid(arr, j, i)) {
+                    j++;
+                }
+                swapAdjacentBlocks(arr, i, index-i, j-index);
+                i += (j-index);
+            }
+        }
+
+        private boolean isValid(ArrayList<DBTask> arr, int i, int j) {
+            Date date_i = TimeUtil.formatGMTDateStr(arr.get(i).getCreated_datetime());
+            Date date_j = TimeUtil.formatGMTDateStr(arr.get(j).getCreated_datetime());
+            return (date_i != null ? date_i.getTime() : 0) <= (date_j != null ? date_j.getTime() : 0);
+        }
+
+        private void mergeSort(ArrayList<DBTask> arr, int l, int r) {
+            if(l < r) {
+                int mid = (l + r) / 2;
+                mergeSort(arr, l, mid);
+                mergeSort(arr, mid + 1, r);
+                inplaceMerge(arr, l, mid, r);
+            }
+        }
+
+        private void mergeSort2List(ArrayList<DBTask> taskArrayList, ArrayList<DBTask> result) {
+            if (taskArrayList == null || taskArrayList.size() <= 0) {
+                return;
+            }
+            mergeSort(taskArrayList, 0, taskArrayList.size()-1);
+            result.addAll(taskArrayList);
+        }
+
     }
 
     private class LoadDataTaskContent extends AsyncTask<Void, Void, List<DBTask>> {
@@ -845,7 +944,8 @@ public class SchedulesFragment extends BaseFragment implements
     public class ScheduleHeaderViewHolder extends AsyncHeaderViewHolder implements
                                                                         AsyncExpandableListView.OnGroupStateChangeListener,
                                                                         SmoothCheckBox.OnCheckedChangeListener,
-                                                                        View.OnClickListener, View.OnLongClickListener {
+                                                                        View.OnClickListener,
+                                                                        View.OnLongClickListener {
 
         private RelativeLayout calendar_item_ll;
         private SmoothCheckBox calendar_item_checkBox;

@@ -215,6 +215,6 @@ public class Task implements Serializable{
 
     @Override
     public String toString() {
-        return "Task{" + "url='" + url + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", owner='" + owner + '\'' + ", label=" + label + ", tags=" + tags + ", plan='" + plan + '\'' + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + ", is_all_day=" + is_all_day + ", is_finished=" + is_finished + '}';
+        return "Task{" + "url='" + url + '\'' + ", owner='" + owner + '\'' + ", label=" + label + ", tags=" + tags + ", plan='" + plan + '\'' + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + ", is_all_day=" + is_all_day + ", is_finished=" + is_finished + ", title='" + title + '\'' + ", content='" + content + '\''+ '}';
     }
 }
