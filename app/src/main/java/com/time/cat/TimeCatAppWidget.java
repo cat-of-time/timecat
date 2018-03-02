@@ -1,43 +1,215 @@
 package com.time.cat;
 
+import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
+import android.view.View;
 import android.widget.RemoteViews;
+
+import java.util.Calendar;
+
+import java.text.DateFormatSymbols;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class TimeCatAppWidget extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    private static final String ACTION_PREVIOUS_MONTH
+            = "com.time.cat.TimeCatAppWidget.action.PREVIOUS_MONTH";
+    private static final String ACTION_NEXT_MONTH
+            = "com.time.cat.TimeCatAppWidget.action.NEXT_MONTH";
+    private static final String ACTION_RESET_MONTH
+            = "com.time.cat.TimeCatAppWidget.action.RESET_MONTH";
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.time_cat_app_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+    private static final String PREF_MONTH = "month";
+    private static final String PREF_YEAR = "year";
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
+
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            drawWidget(context, appWidgetId);
+        }
+    }
+
+    private void redrawWidgets(Context context) {
+        int[] appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(
+                new ComponentName(context, TimeCatAppWidget.class));
+        for (int appWidgetId : appWidgetIds) {
+            drawWidget(context, appWidgetId);
         }
     }
 
     @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+
+        String action = intent.getAction();
+
+        if (ACTION_PREVIOUS_MONTH.equals(action)) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            Calendar cal = Calendar.getInstance();
+            int thisMonth = sp.getInt(PREF_MONTH, cal.get(Calendar.MONTH));
+            int thisYear = sp.getInt(PREF_YEAR, cal.get(Calendar.YEAR));
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.MONTH, thisMonth);
+            cal.set(Calendar.YEAR, thisYear);
+            cal.add(Calendar.MONTH, -1);
+            sp.edit()
+                    .putInt(PREF_MONTH, cal.get(Calendar.MONTH))
+                    .putInt(PREF_YEAR, cal.get(Calendar.YEAR))
+                    .apply();
+            redrawWidgets(context);
+
+        } else if (ACTION_NEXT_MONTH.equals(action)) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            Calendar cal = Calendar.getInstance();
+            int thisMonth = sp.getInt(PREF_MONTH, cal.get(Calendar.MONTH));
+            int thisYear = sp.getInt(PREF_YEAR, cal.get(Calendar.YEAR));
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.MONTH, thisMonth);
+            cal.set(Calendar.YEAR, thisYear);
+            cal.add(Calendar.MONTH, 1);
+            sp.edit()
+                    .putInt(PREF_MONTH, cal.get(Calendar.MONTH))
+                    .putInt(PREF_YEAR, cal.get(Calendar.YEAR))
+                    .apply();
+            redrawWidgets(context);
+
+        } else if (ACTION_RESET_MONTH.equals(action)) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            sp.edit().remove(PREF_MONTH).remove(PREF_YEAR).apply();
+            redrawWidgets(context);
+        }
     }
 
     @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
+                                          int appWidgetId, Bundle newOptions) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+        drawWidget(context, appWidgetId);
+    }
+
+    private void drawWidget(Context context, int appWidgetId) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        Resources res = context.getResources();
+        Bundle widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
+        boolean shortMonthName = false;
+        boolean mini = false;
+        int numWeeks = 6;
+        if (widgetOptions != null) {
+            int minWidthDp = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+            int minHeightDp = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+            shortMonthName = minWidthDp <= res.getInteger(R.integer.max_width_short_month_label_dp);
+            mini = minHeightDp <= res.getInteger(R.integer.max_height_mini_view_dp);
+            if (mini) {
+                numWeeks = minHeightDp <= res.getInteger(R.integer.max_height_mini_view_1_row_dp)
+                        ? 1 : 2;
+            }
+        }
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
+
+        Calendar cal = Calendar.getInstance();
+        int today = cal.get(Calendar.DAY_OF_YEAR);
+        int todayYear = cal.get(Calendar.YEAR);
+        int thisMonth;
+        if (!mini) {
+            thisMonth = sp.getInt(PREF_MONTH, cal.get(Calendar.MONTH));
+            int thisYear = sp.getInt(PREF_YEAR, cal.get(Calendar.YEAR));
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.MONTH, thisMonth);
+            cal.set(Calendar.YEAR, thisYear);
+        } else {
+            thisMonth = cal.get(Calendar.MONTH);
+        }
+        rv.setTextViewText(R.id.month_label, DateFormat.format(
+                shortMonthName ? "MMM yy" : "MMMM yyyy", cal));
+
+        if (!mini) {
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            int monthStartDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+            cal.add(Calendar.DAY_OF_MONTH, 1 - monthStartDayOfWeek);
+        } else {
+            int todayDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+            cal.add(Calendar.DAY_OF_MONTH, 1 - todayDayOfWeek);
+        }
+
+        rv.removeAllViews(R.id.calendar);
+
+        RemoteViews headerRowRv = new RemoteViews(context.getPackageName(),
+                R.layout.row_header);
+        DateFormatSymbols dfs = DateFormatSymbols.getInstance();
+        String[] weekdays = dfs.getShortWeekdays();
+        for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
+            RemoteViews dayRv = new RemoteViews(context.getPackageName(), R.layout.cell_header);
+            dayRv.setTextViewText(android.R.id.text1, weekdays[day]);
+            headerRowRv.addView(R.id.row_container, dayRv);
+        }
+        rv.addView(R.id.calendar, headerRowRv);
+
+        for (int week = 0; week < numWeeks; week++) {
+            RemoteViews rowRv = new RemoteViews(context.getPackageName(), R.layout.row_week);
+            for (int day = 0; day < 7; day++) {
+                boolean inMonth = cal.get(Calendar.MONTH) == thisMonth;
+                boolean inYear  = cal.get(Calendar.YEAR) == todayYear;
+                boolean isToday = inYear && inMonth && (cal.get(Calendar.DAY_OF_YEAR) == today);
+
+                boolean isFirstOfMonth = cal.get(Calendar.DAY_OF_MONTH) == 1;
+                int cellLayoutResId = R.layout.cell_day;
+                if (isToday) {
+                    cellLayoutResId = R.layout.cell_today;
+                } else if (inMonth) {
+                    cellLayoutResId = R.layout.cell_day_this_month;
+                }
+                RemoteViews cellRv = new RemoteViews(context.getPackageName(), cellLayoutResId);
+                cellRv.setTextViewText(android.R.id.text1,
+                        Integer.toString(cal.get(Calendar.DAY_OF_MONTH)));
+                if (isFirstOfMonth) {
+                    cellRv.setTextViewText(R.id.month_label, DateFormat.format("MMM", cal));
+                }
+                rowRv.addView(R.id.row_container, cellRv);
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            rv.addView(R.id.calendar, rowRv);
+        }
+
+        rv.setViewVisibility(R.id.prev_month_button, mini ? View.GONE : View.VISIBLE);
+        rv.setOnClickPendingIntent(R.id.prev_month_button,
+                PendingIntent.getBroadcast(context, 0,
+                        new Intent(context, TimeCatAppWidget.class)
+                                .setAction(ACTION_PREVIOUS_MONTH),
+                        PendingIntent.FLAG_UPDATE_CURRENT));
+        rv.setViewVisibility(R.id.next_month_button, mini ? View.GONE : View.VISIBLE);
+        rv.setOnClickPendingIntent(R.id.next_month_button,
+                PendingIntent.getBroadcast(context, 0,
+                        new Intent(context, TimeCatAppWidget.class)
+                                .setAction(ACTION_NEXT_MONTH),
+                        PendingIntent.FLAG_UPDATE_CURRENT));
+        rv.setOnClickPendingIntent(R.id.month_label,
+                PendingIntent.getBroadcast(context, 0,
+                        new Intent(context, TimeCatAppWidget.class)
+                                .setAction(ACTION_RESET_MONTH),
+                        PendingIntent.FLAG_UPDATE_CURRENT));
+        rv.setViewVisibility(R.id.month_bar, numWeeks <= 1 ? View.GONE : View.VISIBLE);
+        appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
 }
+
+
 
