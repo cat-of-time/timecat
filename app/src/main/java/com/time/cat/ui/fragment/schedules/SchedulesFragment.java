@@ -812,9 +812,6 @@ public class SchedulesFragment extends BaseFragment implements
                 DBTask temp = arr.get(i);
                 arr.set(i++, arr.get(j));
                 arr.set(j--, temp);
-//                int temp = arr[i];
-//                arr[i++] = arr[j];
-//                arr[j--] = temp;
             }
         }
 

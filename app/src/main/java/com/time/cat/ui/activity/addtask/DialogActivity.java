@@ -329,7 +329,7 @@ public class DialogActivity extends BaseActivity implements
         String TEXT_ITEM = "text_item";
         String[] arrText = new String[]{
                 "今天", "明天", "后天",
-                "下周", "下月", "明年的今天",
+                "下一周", "下个月", "明年的今天",
                 "其他"
         };
         int[] arrImages=new int[]{
@@ -617,6 +617,10 @@ public class DialogActivity extends BaseActivity implements
     //用户是否编辑了title，编辑即视为有自定义的需求，取用户自定义的title，不再同步content里的到title
     boolean isSelfEdit = false;
     boolean is_all_day = true;
+    int start_month;
+    int start_day;
+    int end_month;
+    int end_day;
     int start_hour;
     int start_min;
     int end_hour;

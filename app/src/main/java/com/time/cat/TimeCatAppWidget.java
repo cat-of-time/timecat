@@ -16,9 +16,8 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import java.util.Calendar;
-
 import java.text.DateFormatSymbols;
+import java.util.Calendar;
 
 /**
  * Implementation of App Widget functionality.
@@ -153,29 +152,29 @@ public class TimeCatAppWidget extends AppWidgetProvider {
         rv.removeAllViews(R.id.calendar);
 
         RemoteViews headerRowRv = new RemoteViews(context.getPackageName(),
-                R.layout.row_header);
+                R.layout.widget_row_header);
         DateFormatSymbols dfs = DateFormatSymbols.getInstance();
         String[] weekdays = dfs.getShortWeekdays();
         for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
-            RemoteViews dayRv = new RemoteViews(context.getPackageName(), R.layout.cell_header);
+            RemoteViews dayRv = new RemoteViews(context.getPackageName(), R.layout.widget_cell_header);
             dayRv.setTextViewText(android.R.id.text1, weekdays[day]);
             headerRowRv.addView(R.id.row_container, dayRv);
         }
         rv.addView(R.id.calendar, headerRowRv);
 
         for (int week = 0; week < numWeeks; week++) {
-            RemoteViews rowRv = new RemoteViews(context.getPackageName(), R.layout.row_week);
+            RemoteViews rowRv = new RemoteViews(context.getPackageName(), R.layout.widget_row_week);
             for (int day = 0; day < 7; day++) {
                 boolean inMonth = cal.get(Calendar.MONTH) == thisMonth;
                 boolean inYear  = cal.get(Calendar.YEAR) == todayYear;
                 boolean isToday = inYear && inMonth && (cal.get(Calendar.DAY_OF_YEAR) == today);
 
                 boolean isFirstOfMonth = cal.get(Calendar.DAY_OF_MONTH) == 1;
-                int cellLayoutResId = R.layout.cell_day;
+                int cellLayoutResId = R.layout.widget_cell_day;
                 if (isToday) {
-                    cellLayoutResId = R.layout.cell_today;
+                    cellLayoutResId = R.layout.widget_cell_today;
                 } else if (inMonth) {
-                    cellLayoutResId = R.layout.cell_day_this_month;
+                    cellLayoutResId = R.layout.widget_cell_day_this_month;
                 }
                 RemoteViews cellRv = new RemoteViews(context.getPackageName(), cellLayoutResId);
                 cellRv.setTextViewText(android.R.id.text1,
