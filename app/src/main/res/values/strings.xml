@@ -514,5 +514,7 @@
 
     <string name="previous_month">Previous month</string>
     <string name="next_month">Next month</string>
+    <string name="add_button">Add Button</string>
+    <string name="refresh_button">Refresh Button</string>
 
 </resources>
