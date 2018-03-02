@@ -19,7 +19,6 @@
 package com.time.cat.database;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -29,6 +28,7 @@ import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBTaskItem;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.util.override.LogUtil;
 
 import org.joda.time.LocalTime;
 
@@ -37,9 +37,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/**
- * Created by joseangel.pineiro on 3/26/15.
- */
 public class RoutineDao extends GenericDao<DBRoutine, Long> {
 
     public static final String TAG = "RoutineDao";
@@ -74,7 +71,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
 
 
     public List<DBRoutine> findAllForActiveUser(Context ctx) {
-        return findAll(DB.users().getActive(ctx));
+        return findAll(DB.users().getActive());
     }
 
     public List<DBRoutine> findAll(DBUser p) {
@@ -115,7 +112,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
 
             return queryBuilder().where().between(DBRoutine.COLUMN_TIME, time, endTime).query();
         } catch (Exception e) {
-            Log.e(TAG, "Error in findInHour", e);
+            LogUtil.e("Error in findInHour", e);
             throw new RuntimeException(e);
         }
     }

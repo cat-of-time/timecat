@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.time.cat.ThemeSystem.widgets.TintRelativeLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="51.4dp"
     android:layout_height="45dp"
-    android:background="@color/theme_color_primary"
+    android:background="@color/transparent"
     android:orientation="vertical">
 
     <View
@@ -38,4 +38,4 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/view_calendar_mark_background"
         android:visibility="visible"/>
-</com.time.cat.ThemeSystem.widgets.TintRelativeLayout>
+</RelativeLayout>

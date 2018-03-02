@@ -18,7 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Checkable;
 
 import com.time.cat.R;
-import com.time.cat.util.ViewUtil;
+import com.time.cat.util.view.ViewUtil;
 
 /**
  * @author dlink

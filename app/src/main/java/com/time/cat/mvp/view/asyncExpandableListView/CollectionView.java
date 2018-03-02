@@ -4,10 +4,11 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.time.cat.util.override.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,10 @@ public class CollectionView<T1, T2> extends RecyclerView {
     public void updateInventory(final Inventory<T1, T2> inventory) {
         mInventory = new Inventory<>(inventory);
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void getInventoryByPosition(int Position) {
+        mInventory.getGroups().get(Position);
     }
 
     public void notifyItemChanged(int position) {
@@ -130,7 +135,7 @@ public class CollectionView<T1, T2> extends RecyclerView {
             }
         };
         if (mCallbacks == null) {
-            Log.e(TAG, "Call to makeRow without an adapter installed");
+            LogUtil.e("Call to makeRow without an adapter installed");
             return placeHolder;
         }
 
@@ -381,7 +386,7 @@ public class CollectionView<T1, T2> extends RecyclerView {
                 }
 
             } else {
-                Log.e(TAG, "Invalid row passed to getItemViewType: " + position);
+                LogUtil.e("Invalid row passed to getItemViewType: " + position);
                 return 0;
             }
         }

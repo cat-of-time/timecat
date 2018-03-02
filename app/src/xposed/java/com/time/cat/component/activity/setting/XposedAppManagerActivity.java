@@ -1,4 +1,4 @@
-package com.time.cat.component.activity.setting;
+package com.time.cat.ui.activity.setting;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -23,9 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.time.cat.R;
-import com.time.cat.component.base.baseCard.DividerItemDecoration;
-import com.time.cat.component.activity.whitelist.AppListAdapter;
-import com.time.cat.component.base.BaseActivity;
+import com.time.cat.ui.base.baseCard.DividerItemDecoration;
+import com.time.cat.ui.activity.whitelist.AppListAdapter;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.shang.xposed.setting.StatusBarCompat;
@@ -37,8 +37,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.time.cat.component.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
-import static com.time.cat.component.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
+import static com.time.cat.ui.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
+import static com.time.cat.ui.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
 import static com.shang.xposed.XposedConstant.SP_NAME;
 
 

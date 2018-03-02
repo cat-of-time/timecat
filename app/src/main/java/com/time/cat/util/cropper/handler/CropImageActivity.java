@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import com.shang.utils.StatusBarCompat;
 import com.time.cat.R;
-import com.time.cat.component.base.BaseActivity;
+import com.time.cat.ui.base.BaseActivity;
 
 import java.io.File;
 import java.io.IOException;

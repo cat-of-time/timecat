@@ -16,9 +16,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-/**
- * Created by Gavin on 2016/10/19.
- */
 
 public class DragView extends ImageView {
 

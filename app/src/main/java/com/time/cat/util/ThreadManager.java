@@ -18,6 +18,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.string.StringUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +62,7 @@ public class ThreadManager {
      */
     public Handler runThread(String name, Runnable runnable) {
         if (StringUtil.isNotEmpty(name, true) == false || runnable == null) {
-            Log.e(TAG, "runThread  StringUtil.isNotEmpty(name, true) == false || runnable == null >> return");
+            LogUtil.e("runThread  StringUtil.isNotEmpty(name, true) == false || runnable == null >> return");
             return null;
         }
         name = StringUtil.getTrimedString(name);
@@ -141,7 +144,7 @@ public class ThreadManager {
      */
     private void destroyThread(ThreadBean tb) {
         if (tb == null) {
-            Log.e(TAG, "destroyThread  tb == null >> return;");
+            LogUtil.e("destroyThread  tb == null >> return;");
             return;
         }
 
@@ -161,14 +164,14 @@ public class ThreadManager {
      */
     public void destroyThread(Handler handler, Runnable runnable) {
         if (handler == null || runnable == null) {
-            Log.e(TAG, "destroyThread  handler == null || runnable == null >> return;");
+            LogUtil.e("destroyThread  handler == null || runnable == null >> return;");
             return;
         }
 
         try {
             handler.removeCallbacks(runnable);
         } catch (Exception e) {
-            Log.e(TAG, "onDestroy try { handler.removeCallbacks(runnable);...  >> catch  : " + e.getMessage());
+            LogUtil.e("onDestroy try { handler.removeCallbacks(runnable);...  >> catch  : " + e.getMessage());
         }
     }
 

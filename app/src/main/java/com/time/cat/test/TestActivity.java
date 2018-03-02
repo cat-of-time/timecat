@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.time.cat.R;
-import com.time.cat.ThemeSystem.manager.ThemeManager;
-import com.time.cat.component.base.BaseActivity;
+import com.time.cat.theme.ThemeManager;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.util.ToastUtil;
+import com.time.cat.util.override.ToastUtil;
 
 /**
  * @author dlink

@@ -1,8 +1,8 @@
 package com.time.cat.util;
 
-/**
- * Created by l4656_000 on 2015/11/30.
- */
+import com.time.cat.R;
+import com.time.cat.TimeCatApp;
+
 public class ConstantUtil {
 
     public static final String CONTENT = "content://";
@@ -155,4 +155,9 @@ public class ConstantUtil {
     //xp全局复制
     public static final String UNIVERSAL_COPY_BROADCAST_XP = "universal_copy_broadcast_xp";
 
+    // DialogActivity
+    public static final String UNIVERSAL_SAVE_COTENT = "universal_save_content";
+
+    public static final String ALI_APP_KEY = TimeCatApp.getInstance().getString(R.string.ali_feedback_key);
+    public static final String ALI_APP_SECRET = TimeCatApp.getInstance().getString(R.string.ali_feedback_key_secret);
 }

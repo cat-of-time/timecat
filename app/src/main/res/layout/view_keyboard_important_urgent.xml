@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/dialog_add_task_select_ll_important_urgent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/select_tv_important_urgent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="@string/label_important_urgent"
+            android:textColor="@color/red"/>
+
+        <TextView
+            android:id="@+id/select_tv_important_not_urgent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="@string/label_important_not_urgent"
+            android:textColor="@color/orange"/>
+
+        <TextView
+            android:id="@+id/select_tv_not_important_urgent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="@string/label_not_important_urgent"
+            android:textColor="@color/blue"/>
+
+        <TextView
+            android:id="@+id/select_tv_not_important_not_urgent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="@string/label_not_important_not_urgent"
+            android:textColor="@color/green"/>
+
+    </LinearLayout>
+</merge>

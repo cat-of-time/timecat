@@ -3,11 +3,8 @@ package com.time.cat.util.quicksetting;
 import android.content.Intent;
 import android.service.quicksettings.TileService;
 
-import com.time.cat.component.activity.screen.ScreenCaptureActivity;
+import com.time.cat.ui.activity.screen.ScreenCaptureActivity;
 
-/**
- * Created by wangyan-pd on 2017/1/12.
- */
 
 public class ScreenCaptureTile extends TileService {
     private final int STATE_OFF = 0;

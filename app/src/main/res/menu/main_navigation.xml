@@ -2,18 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:orderInCategory="0"
         android:icon="@drawable/ic_schedules_black_24dp"
+        android:orderInCategory="0"
         android:title="@string/title_schedules"/>
 
     <item
-        android:orderInCategory="1"
         android:icon="@drawable/ic_routines_black_24dp"
+        android:orderInCategory="1"
         android:title="@string/title_routines"/>
-
+    <!--<item-->
+        <!--android:orderInCategory="4"-->
+        <!--android:icon="@drawable/ic_add_black_24dp"-->
+        <!--android:title="@string/title_add"/>-->
     <item
         android:orderInCategory="2"
+        android:icon="@drawable/ic_notes_black_24dp"
+        android:title="@string/title_notes"/>
+
+    <item
         android:icon="@drawable/ic_plans_active_black_24dp"
+        android:orderInCategory="3"
         android:title="@string/title_plans"/>
 
 </menu>

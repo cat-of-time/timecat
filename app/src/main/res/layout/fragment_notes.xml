@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentTop="true"
+        android:alpha="0.3"
+        android:background="@drawable/shadow"
+        android:elevation="1dp"/>
+
+    <com.time.cat.mvp.view.card_stack_view.CardStackView
+        android:id="@+id/notes_csv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clipToPadding="false"
+        android:padding="12dp"/>
+
+</RelativeLayout>
+

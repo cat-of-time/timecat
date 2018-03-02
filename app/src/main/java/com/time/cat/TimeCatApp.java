@@ -11,10 +11,11 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 
 import com.shang.commonjar.contentProvider.Global;
-import com.time.cat.ThemeSystem.manager.ThemeManager;
-import com.time.cat.ThemeSystem.utils.ThemeUtils;
-import com.time.cat.component.service.ListenClipboardService;
-import com.time.cat.component.service.TimeCatMonitorService;
+import com.shang.commonjar.contentProvider.SPHelper;
+import com.time.cat.theme.ThemeManager;
+import com.time.cat.theme.utils.ThemeUtils;
+import com.time.cat.ui.service.ListenClipboardService;
+import com.time.cat.ui.service.TimeCatMonitorService;
 import com.time.cat.database.DB;
 import com.time.cat.database.UserDao;
 import com.time.cat.mvp.model.DBmodel.DBUser;
@@ -76,17 +77,17 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        Global.init(this);
+        ThemeUtils.setSwitchColor(this);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         // initialize SQLite engine
         initializeDatabase();
-
         if (!prefs.getBoolean("DEFAULT_DATA_INSERTED", false)) {
             DefaultDataGenerator.fillDBWithDummyData(getApplicationContext());
-            prefs.edit().putBoolean("DEFAULT_DATA_INSERTED", true).commit();
+            prefs.edit().putBoolean("DEFAULT_DATA_INSERTED", true).apply();
         }
 
-        ThemeUtils.setSwitchColor(this);
-        Global.init(this);
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
@@ -105,7 +106,8 @@ public class TimeCatApp extends Application implements ThemeUtils.switchColor {
         try {
             if (DB.users().countOf() == 1) {
                 DBUser p = DB.users().getDefault();
-                prefs.edit().putLong(UserDao.PREFERENCE_ACTIVE_USER, p.id()).commit();
+                SPHelper.save(UserDao.PREFERENCE_ACTIVE_USER, p.id());
+                prefs.edit().putLong(UserDao.PREFERENCE_ACTIVE_USER, p.id()).apply();
             }
         } catch (Exception e) {
             e.printStackTrace();

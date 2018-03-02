@@ -65,6 +65,8 @@ android {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        // ButterKnife
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
     buildTypes {
         debug {
@@ -81,13 +83,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    def apkName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${releaseTime()}"
+                    def apkName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${releaseTime()}.apk"
                     outputFileName = apkName
                 }
             }
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable false
         }
     }
     // Specifies two flavor dimensions.
@@ -105,7 +106,7 @@ android {
 
     sourceSets{
         for_test{
-            java.srcDirs += ['src/Normal/java']
+            java.srcDirs += ['src/main/java']
         }
         coolapk{
             resources.srcDirs += ['src/coolapk/res']
@@ -135,6 +136,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
     //android support
+    //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
@@ -152,11 +154,16 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     //RxLifecycle
     compile 'com.trello:rxlifecycle-components:0.6.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'com.alibaba:fastjson:1.1.67.android'
     //tabLayout
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
     //recyclerview
     compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
     compile 'jp.wasabeef:recyclerview-animators:2.2.3'
+    // ExpansionPanel
+    compile 'com.github.florent37:expansionpanel:1.0.7'
     //floating action button
     compile 'com.getbase:floatingactionbutton:1.9.0'
     // round image view(for material getDrawer)
@@ -165,9 +172,14 @@ dependencies {
     compile 'com.nispok:snackbar:2.9.0'
     // material
     compile 'com.github.rey5137:material:1.2.4'
+    // material dialog
+    compile 'com.afollestad.material-dialogs:commons:0.9.6.0'
     // time picker
     compile 'com.doomonafireball.betterpickers:library:1.5.5'
-    //material getDrawer
+    compile 'com.contrarywind:Android-PickerView:3.2.7'
+    // navigationBar
+    compile 'me.majiajie:pager-bottom-tab-strip:2.2.5'
+    // material getDrawer
     compile('com.mikepenz:materialdrawer:4.4.1@aar') {
         transitive = true
     }
@@ -188,6 +200,11 @@ dependencies {
     // intro
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
+    // 阿里百川用户反馈
+    compile 'com.aliyun.ams:alicloud-android-feedback:3.1.0@aar'
+    compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
+    compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
+    compile 'com.aliyun.ams:alicloud-android-utils:1.0.3'
     //project
     compile project(':lib')
     compile project(':commonjar')
@@ -196,5 +213,5 @@ dependencies {
     //files in libs/*
     compile files('libs/AndroidScreenCap.jar')
     compile files('libs/securityguard-3.1.27.jar')
-    compile files('libs/utdid4all-1.0.4.jar')
+    compile 'com.android.support:support-annotations:27.0.2'
 }

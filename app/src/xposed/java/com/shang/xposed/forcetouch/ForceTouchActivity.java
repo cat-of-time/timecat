@@ -138,7 +138,7 @@
 //     * Method invoked on ForceTouch detected
 //     */
 //    private void functionToInvokeOnForceTouch() {
-//        Log.e(TAG, "Function invoked forced!");
+//        LogUtil.e("Function invoked forced!");
 //    }
 //
 //
@@ -146,7 +146,7 @@
 //     * Method invoked on NormalTouch detected
 //     */
 //    private void functionToInvokeOnNormalTouch() {
-//        Log.e(TAG, "Function invoked normal!");
+//        LogUtil.e("Function invoked normal!");
 //    }
 //
 //

@@ -4,9 +4,7 @@ import android.graphics.Bitmap;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by Gavin on 2016/10/21.
- */
+
 public class DragDropHelper {
 
     private float mMotionDownX, mMotionDownY;

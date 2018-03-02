@@ -27,10 +27,12 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBTaskItem;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.util.override.LogUtil;
 
 import java.sql.SQLException;
 
@@ -49,7 +51,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // List of persisted classes to simplify table creation
     public Class<?>[] persistedClasses = new Class<?>[]{DBRoutine.class,
 //            Medicine.class,
-            DBTask.class, DBTaskItem.class,
+            DBTask.class, DBTaskItem.class, DBNote.class,
 //            DailyScheduleItem.class,
 //            Prescription.class,
             // v8
@@ -78,6 +80,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //    private Dao<PickupInfo, Long> pickupInfoDao = null;
     // the DAO object we use to access the users table
     private Dao<DBUser, Long> userDao = null;
+
+    private Dao<DBNote, Long> noteDao = null;
 
 
     public DatabaseHelper(Context context) {
@@ -109,8 +113,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private DBUser createDefaultUser() throws SQLException {
         // Create a default user
         DBUser user = new DBUser();
-        user.setName("TestUser");
-        user.setEmail("testuser@example.com");
+        user.setName("临时用户，必须登录才能正常使用");
+        user.setEmail("user@example.com");
         user.setDefault(true);
         getUserDao().create(user);
         return user;
@@ -313,51 +317,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return scheduleItemsDao;
     }
 
-//    /**
-//     * Returns the Database Access Object (DAO) for our DailyScheduleItem class. It will create it or just give the cached
-//     * value.
-//     */
-//    public Dao<DailyScheduleItem, Long> getDailyScheduleItemsDao() throws SQLException {
-//        if (dailyScheduleItemsDao == null) {
-//            dailyScheduleItemsDao = getDao(DailyScheduleItem.class);
-//        }
-//        return dailyScheduleItemsDao;
-//    }
-//
-//    /**
-//     * Returns the Database Access Object (DAO) for our DailyScheduleItem class. It will create it or just give the cached
-//     * value.
-//     */
-//    public Dao<Prescription, Long> getPrescriptionsDao() throws SQLException {
-//        if (prescriptionsDao == null) {
-//            prescriptionsDao = getDao(Prescription.class);
-//        }
-//        return prescriptionsDao;
-//    }
-//
-//    /**
-//     * Returns the Database Access Object (DAO) for our HomogeneousGroup class. It will create it or just give the cached
-//     * value.
-//     */
-//    public Dao<HomogeneousGroup, Long> getHomogeneousGroupsDao() throws SQLException {
-//        if (homogeneousGroupsDao == null) {
-//            homogeneousGroupsDao = getDao(HomogeneousGroup.class);
-//        }
-//        return homogeneousGroupsDao;
-//    }
-//
-//
-//    /**
-//     * Returns the Database Access Object (DAO) for our PickupInfo class. It will create it or just give the cached
-//     * value.
-//     */
-//    public Dao<PickupInfo, Long> getPickupInfosDao() throws SQLException {
-//        if (pickupInfoDao == null) {
-//            pickupInfoDao = getDao(PickupInfo.class);
-//        }
-//        return pickupInfoDao;
-//    }
-
     /**
      * Returns the Database Access Object (DAO) for our DBUser class. It will create it or just give the cached
      * value.
@@ -367,6 +326,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             userDao = getDao(DBUser.class);
         }
         return userDao;
+    }
+
+    /**
+     * Returns the Database Access Object (DAO) for our DBUser class. It will create it or just give the cached
+     * value.
+     */
+    public Dao<DBNote, Long> getNoteDao() throws SQLException {
+        if (noteDao == null) {
+            noteDao = getDao(DBNote.class);
+        }
+        return noteDao;
     }
 
     @Override
@@ -383,7 +353,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 TableUtils.dropTable(connectionSource, c, true);
             } catch (SQLException e) {
                 // ignore
-                Log.e(TAG, "Erro dropping table " + c.getSimpleName());
+                LogUtil.e("Erro dropping table " + c.getSimpleName());
             }
 
         }

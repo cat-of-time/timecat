@@ -27,9 +27,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/**
- * Created by joseangel.pineiro on 3/26/15.
- */
 public class ScheduleItemDao extends GenericDao<DBTaskItem, Long> {
 
 

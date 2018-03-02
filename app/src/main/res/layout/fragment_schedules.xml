@@ -1,65 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <LinearLayout
+    <com.time.cat.theme.widgets.TintLinearLayout
         android:layout_width="match_parent"
         android:layout_height="28dp"
-        android:background="#fff"
+        android:background="@color/theme_color_primary"
         android:orientation="horizontal">
 
-        <com.time.cat.ThemeSystem.widgets.TintTextView
+        <TextView
             android:id="@+id/weekIndicator_7"
             style="@style/weekIndicatorStyle"
-            android:background="@color/theme_color_primary"
             android:text="日"/>
 
-        <com.time.cat.ThemeSystem.widgets.TintTextView
+        <TextView
             android:id="@+id/weekIndicator_1"
             style="@style/weekIndicatorStyle"
-            android:background="@color/theme_color_primary"
             android:text="一"/>
 
-        <com.time.cat.ThemeSystem.widgets.TintTextView
+        <TextView
             android:id="@+id/weekIndicator_2"
             style="@style/weekIndicatorStyle"
-            android:background="@color/theme_color_primary"
             android:text="二"/>
 
-        <com.time.cat.ThemeSystem.widgets.TintTextView
+        <TextView
             android:id="@+id/weekIndicator_3"
             style="@style/weekIndicatorStyle"
-            android:background="@color/theme_color_primary"
             android:text="三"/>
 
-        <com.time.cat.ThemeSystem.widgets.TintTextView
+        <TextView
             android:id="@+id/weekIndicator_4"
             style="@style/weekIndicatorStyle"
-            android:background="@color/theme_color_primary"
             android:text="四"/>
 
-        <com.time.cat.ThemeSystem.widgets.TintTextView
+        <TextView
             android:id="@+id/weekIndicator_5"
             style="@style/weekIndicatorStyle"
-            android:background="@color/theme_color_primary"
             android:text="五"/>
 
-        <com.time.cat.ThemeSystem.widgets.TintTextView
+        <TextView
             android:id="@+id/weekIndicator_6"
             style="@style/weekIndicatorStyle"
-            android:background="@color/theme_color_primary"
             android:text="六"/>
 
-    </LinearLayout>
+    </com.time.cat.theme.widgets.TintLinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:progressDrawable="@color/blue"
+        android:layout_gravity="center"
+        android:paddingBottom="80dp"/>
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <com.ldf.calendar.view.MonthPager
             android:id="@+id/calendar_view"

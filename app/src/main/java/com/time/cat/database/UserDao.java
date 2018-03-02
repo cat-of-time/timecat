@@ -22,10 +22,14 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.j256.ormlite.dao.Dao;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
+import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.util.ModelUtil;
+import com.time.cat.util.override.LogUtil;
 
 import java.sql.SQLException;
 
@@ -58,21 +62,70 @@ public class UserDao extends GenericDao<DBUser, Long> {
 
     }
 
+    public void createOrUpdateAndFireEvent(DBUser u) throws SQLException {
+
+        Object event = u.id() == null ? new PersistenceEvents.UserCreateEvent(u) : new PersistenceEvents.UserUpdateEvent(u);
+        createOrUpdate(u);
+        TimeCatApp.eventBus().post(event);
+
+    }
+
+    public void updateAndFireEvent(DBUser u) {
+        Object event = new PersistenceEvents.UserUpdateEvent(u);
+        try {
+            update(u);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        TimeCatApp.eventBus().post(event);
+    }
+
+    public void updateActiveUserAndFireEvent(DBUser activeDBUser, User user) {
+        Object event = new PersistenceEvents.UserUpdateEvent(activeDBUser);
+        try {
+            update(ModelUtil.toActiveDBUser(activeDBUser, user));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        TimeCatApp.eventBus().post(event);
+    }
+
     /// Mange active user through preferences
 
-    public boolean isActive(DBUser u, Context ctx) {
-        Long activeId = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
+//    public boolean isActive(DBUser u, Context ctx) {
+//        Long activeId = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
+//        return activeId.equals(u.id());
+//    }
+
+    public boolean isActive(DBUser u) {
+        Long activeId = SPHelper.getLong(PREFERENCE_ACTIVE_USER, -1);
         return activeId.equals(u.id());
     }
 
-    public DBUser getActive(Context ctx) {
-        long id = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
+//    public DBUser getActive(Context ctx) {
+//        long id = PreferenceManager.getDefaultSharedPreferences(ctx).getLong(PREFERENCE_ACTIVE_USER, -1);
+//        DBUser p;
+//        if (id != -1) {
+//            p = findById(id);
+//            if (p == null) {
+//                p = getDefault();
+//                setActive(p, ctx);
+//            }
+//            return p;
+//        } else {
+//            return getDefault();
+//        }
+//    }
+
+    public DBUser getActive() {
+        long id = SPHelper.getLong(PREFERENCE_ACTIVE_USER, -1);
+        LogUtil.e(id);
         DBUser p;
         if (id != -1) {
             p = findById(id);
             if (p == null) {
                 p = getDefault();
-                setActive(p, ctx);
+                setActive(p);
             }
             return p;
         } else {
@@ -84,8 +137,14 @@ public class UserDao extends GenericDao<DBUser, Long> {
         return findOneBy(DBUser.COLUMN_DEFAULT, true);
     }
 
-    public void setActive(DBUser u, Context ctx) {
-        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putLong(PREFERENCE_ACTIVE_USER, u.id()).commit();
+//    public void setActive(DBUser u, Context ctx) {
+//        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putLong(PREFERENCE_ACTIVE_USER, u.id()).commit();
+//        TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
+//    }
+
+    public void setActive(DBUser u) {
+        SPHelper.save(PREFERENCE_ACTIVE_USER, u.id());
+        LogUtil.e(u.id());
         TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
     }
 

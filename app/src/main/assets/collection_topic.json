@@ -1,0 +1,208 @@
+[
+  {
+    "className": "风格",
+    "details": [
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 703,
+        "labelTopicType": 4,
+        "labelTopicValue": " #佛系穿搭[703|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 702,
+        "labelTopicType": 4,
+        "labelTopicValue": " #文艺小清新[702|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 701,
+        "labelTopicType": 4,
+        "labelTopicValue": " #学院派[701|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 700,
+        "labelTopicType": 4,
+        "labelTopicValue": " #运动风[700|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 699,
+        "labelTopicType": 4,
+        "labelTopicValue": " #欧美风[699|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 773,
+        "labelTopicType": 4,
+        "labelTopicValue": " #复古风[773|话题]# ",
+        "livingLabelId": null
+      }
+    ]
+  },
+  {
+    "className": "效果",
+    "details": [
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 774,
+        "labelTopicType": 4,
+        "labelTopicValue": " #显瘦[774|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 775,
+        "labelTopicType": 4,
+        "labelTopicValue": " #显白[775|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 776,
+        "labelTopicType": 4,
+        "labelTopicValue": " #显气质[776|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 777,
+        "labelTopicType": 4,
+        "labelTopicValue": " #显腿长[777|话题]# ",
+        "livingLabelId": null
+      }
+    ]
+  },
+  {
+    "className": "季节",
+    "details": [
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 778,
+        "labelTopicType": 4,
+        "labelTopicValue": " #冬季穿什么[778|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 779,
+        "labelTopicType": 4,
+        "labelTopicValue": " #夏日穿搭[779|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 780,
+        "labelTopicType": 4,
+        "labelTopicValue": " #春秋季穿什么[780|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 781,
+        "labelTopicType": 4,
+        "labelTopicValue": " #换季穿搭[781|话题]# ",
+        "livingLabelId": null
+      }
+    ]
+  },
+  {
+    "className": "人群",
+    "details": [
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 720,
+        "labelTopicType": 4,
+        "labelTopicValue": " #在北方怎么穿[720|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 714,
+        "labelTopicType": 4,
+        "labelTopicValue": " #在南方怎么穿[714|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 713,
+        "labelTopicType": 4,
+        "labelTopicValue": " #南北方穿搭差异[713|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 712,
+        "labelTopicType": 4,
+        "labelTopicValue": " #学生党[712|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 711,
+        "labelTopicType": 4,
+        "labelTopicValue": " #上班族[711|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 710,
+        "labelTopicType": 4,
+        "labelTopicValue": " #程序猿[710|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 709,
+        "labelTopicType": 4,
+        "labelTopicValue": " #设计狮[709|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 708,
+        "labelTopicType": 4,
+        "labelTopicValue": " #单身狗穿搭[708|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 707,
+        "labelTopicType": 4,
+        "labelTopicValue": " #情侣装[707|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 706,
+        "labelTopicType": 4,
+        "labelTopicValue": " #闺蜜穿搭[706|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 705,
+        "labelTopicType": 4,
+        "labelTopicValue": " #男性穿搭[705|话题]# ",
+        "livingLabelId": null
+      },
+      {
+        "interestLabelId": 6,
+        "labelTopicId": 704,
+        "labelTopicType": 4,
+        "labelTopicValue": " #女性穿搭[704|话题]# ",
+        "livingLabelId": null
+      }
+    ]
+  },
+  {
+    "className": "周末",
+    "details": []
+  }
+]

@@ -1,4 +1,4 @@
-<com.time.cat.ThemeSystem.widgets.TintConstraintLayout
+<com.time.cat.theme.widgets.TintConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,141 +6,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_color_primary"
-    tools:context="com.time.cat.component.activity.main.MainActivity">
+    tools:context="com.time.cat.ui.activity.main.MainActivity">
 
-    <com.time.cat.ThemeSystem.widgets.TintRelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/theme_color_primary">
+        android:layout_height="match_parent">
 
-        <com.time.cat.ThemeSystem.widgets.TintToolbar
+        <com.time.cat.theme.widgets.TintToolbar
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/theme_color_primary"
-            android:minHeight="?attr/actionBarSize"
-            app:contentInsetStart="0.0dp"
-            app:layout_scrollFlags="enterAlways|scroll">
+            android:minHeight="?attr/actionBarSize">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/main_month_view"
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent"
-                    android:gravity="bottom|center"
-                    android:maxLines="1"
-                    android:text="17"
-                    android:textColor="@color/white"
-                    android:textSize="19.3sp"/>
-
-                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="14dp"
-                    android:gravity="bottom"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:maxLines="1"
-                    android:text="月"
+                    android:text="1月"
                     android:textColor="@color/white"
                     android:textSize="19.3sp"/>
 
                 <TextView
                     android:id="@+id/main_year_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:gravity="bottom"
                     android:text="2018年"
-                    android:textColor="@color/white"
+                    android:textColor="#8effffff"
                     android:textSize="13sp"/>
             </LinearLayout>
 
-        </com.time.cat.ThemeSystem.widgets.TintToolbar>
+        </com.time.cat.theme.widgets.TintToolbar>
 
-        <com.time.cat.mvp.view.CustomPagerView
-            android:id="@+id/main_viewpager"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/main_navigation"
-            android:layout_below="@+id/main_toolbar"/>
+            android:layout_below="@+id/main_toolbar"
+            android:background="@android:color/white">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            xmlns:fab="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="17dp"
-            fab:fab_colorNormal="#32ffffff"
-            fab:fab_colorPressed="#ffffff"
-            fab:fab_icon="@drawable/ic_action_add"
-            fab:fab_title="DBRoutine task"/>
+            <com.time.cat.mvp.view.viewpaper.CustomPagerView
+                android:id="@+id/main_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="48dp"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
-            xmlns:fab="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/fab_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="17dp"
-            fab:fab_addButtonColorNormal="#32ffffff"
-            fab:fab_addButtonColorPressed="#ffffff"
-            fab:fab_addButtonPlusIconColor="#263238"
-            fab:fab_labelStyle="@style/menu_labels_style">
+            <!--PageNavigationView的高度为48dp,那20dp是突出来的-->
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_a"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/android_green_light_noalpha"
-                fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_alarm_white_48dp"
-                fab:fab_size="mini"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/android_green_light_noalpha"
-                fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_history_white_48dp"
-                fab:fab_size="mini"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_c"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/android_green_light_noalpha"
-                fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_autorenew_white_48dp"
-                fab:fab_size="mini"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_d"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/android_green_light_noalpha"
-                fab:fab_colorPressed="@color/android_green"
-                fab:fab_icon="@drawable/ic_qrcode_white_48dp"
-                fab:fab_size="mini"/>
-
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/main_navigation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/main_navigation"/>
-    </com.time.cat.ThemeSystem.widgets.TintRelativeLayout>
-</com.time.cat.ThemeSystem.widgets.TintConstraintLayout>
+            <me.majiajie.pagerbottomtabstrip.PageNavigationView
+                android:id="@+id/main_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:background="@android:color/transparent"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</com.time.cat.theme.widgets.TintConstraintLayout>
 

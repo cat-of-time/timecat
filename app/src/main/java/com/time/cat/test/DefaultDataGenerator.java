@@ -41,7 +41,7 @@ public class DefaultDataGenerator {
         if (DBRoutine.findAll().size() == 0 && DBTask.findAll().size() == 0) {
             try {
                 Log.d("DefaultDataGenerator", "Creating dummy data...");
-                DBUser u = DB.users().getActive(ctx);
+                DBUser u = DB.users().getActive();
                 new DBRoutine(u, new LocalTime(9, 0), "breakfast").save();
                 new DBRoutine(u, new LocalTime(13, 0), "lunch").save();
                 new DBRoutine(u, new LocalTime(21, 0), "dinner").save();

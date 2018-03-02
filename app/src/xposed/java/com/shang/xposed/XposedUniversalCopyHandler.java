@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.time.cat.component.activity.copy.CopyNode;
+import com.time.cat.ui.activity.copy.CopyNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,12 +121,12 @@ public class XposedUniversalCopyHandler {
                 int var2 = displayMetrics.widthPixels;
                 ArrayList<CopyNode> nodeList = traverseNode(decirView, var2, var1);
                 for (CopyNode node:nodeList) {
-                    Log.e(TAG, "traverseNode result= " + node);
+                    LogUtil.e("traverseNode result= " + node);
                 }
                 if(nodeList.size() > 0) {
 //                    Intent intent = new Intent(activity, CopyActivity.class);
                     Intent intent = new Intent();
-                    intent.setComponent(new ComponentName(XposedConstant.PACKAGE_NAME,"com.time.cat.component.activity.copy.CopyActivity"));
+                    intent.setComponent(new ComponentName(XposedConstant.PACKAGE_NAME,"com.time.cat.ui.activity.copy.CopyActivity"));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     Bundle bundle=new Bundle();
                     bundle.setClassLoader(CopyNode.class.getClassLoader());

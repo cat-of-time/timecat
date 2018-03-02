@@ -13,9 +13,6 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by wangyan-pd on 2016/12/21.
- */
 
 public class AppsAdapter extends SwipeMenuAdapter<AppsAdapter.MyViewHolder> {
     private final Context mContext;

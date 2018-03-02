@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">时光猫</string>
-
+    <string name="ali_feedback_key">24780800</string>
+    <string name="ali_feedback_key_secret">92115fc47a770e62b571c1cfe7c47a3d</string>
+    <string name="unread_feed_back">有%s条未读回复反馈，点击查看</string>
 
     <string name="cancel">取消</string>
     <string name="about">关于</string>
@@ -24,16 +26,16 @@
     <string name="share_mode_help">分享\n将选择的词句分享到其他APP</string>
     <string name="monitor_clipboard">监控剪贴板</string>
     <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者悬浮球或通知栏经常消失，程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。</string>
-    <string name="stringValue1">Time Cat 是您的快捷助手，您可以在任意app中对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
+    <string name="stringValue1">Time Cat 是您的快捷助手，您可以在任意app中一步创建笔记或日程，对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
     <string name="copy_mode_help">复制\n将选择的词句复制到剪贴板</string>
     <string name="remain_symbol">显示符号</string>
     <string name="choose_sentences_mode">选词模式\n通过滑动和点击来选择词句进行操作</string>
-    <string name="stringValue2">开启Time Cat之旅</string>
+    <string name="stringValue2">开启 Time Cat 之旅</string>
     <string name="stringValue3">从图库中选取图片识别</string>
     <string name="stringValue4">拍照识别</string>
     <string name="stringValue5">重新识别</string>
-    <string name="stringValue6">一触即达，便捷你的生活！</string>
-    <string name="copyright">Copyright ©2018 Time Cat. All Rights  Reserved</string>
+    <string name="stringValue6">送你最高效的时光喵~</string>
+    <string name="copyright">Copyright ©2018 Time Cat. All Rights Reserved</string>
     <string name="share_request_confirm_like">当然！</string>
     <string name="stringValue9">翻译结果</string>
     <string name="sorry_for_parse_fail">抱歉，解析失败</string>
@@ -62,10 +64,10 @@
     <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
     <string name="share_request_msg_dislike">愿意给我们一些建议吗？</string>
     <string name="share_request_msg_like">愿意分享给您的朋友吗？</string>
-    <string name="about_content">\t\t\t本产品是根据老罗的Big Bang进行设计开发的，旨在让更多用户体验到这种高效的操作方式！如果您觉得勉强好用，可以购买Smartisan M1体验更好的情怀！\n\t\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n\n版本号：%1$s</string>
+    <string name="about_content">\t\t本产品是在开源项目https://github.com/l465659833/Bigbang的基础上进行设计开发的，旨在提供简单高效的任务管理和时间管理功能，帮用户省时间省脑力！\n\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n\n版本号：%1$s</string>
     <string name="donate">我请作者吃辣条</string>
     <string name="donate_now">点击跳转支付宝</string>
-    <string name="join_qq">点击加入内测群（607702452）</string>
+    <string name="join_qq">点击加入内测群（601215164）</string>
     <string name="confirm">确认</string>
     <string name="share_request_cancel_dislike">算了吧...</string>
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
@@ -110,7 +112,7 @@
     <string name="not_foud_qq">未找到QQ</string>
     <string name="my_zhifubao">我的支付宝二维码</string>
     <string name="my_weixin">我的微信二维码</string>
-    <string name="thinks_for_donate">有您的支持，我们会越做越好的，欢迎加群(290017771或607702452)，给我们提建议</string>
+    <string name="thinks_for_donate">有您的支持，我们会越做越好的，欢迎加群(601215164)，给我们提建议</string>
     <string name="picture_saved">二维码已保存到本地相册</string>
     <string name="click_to_save_qrcord">点击二维码保存到相册</string>
 
@@ -466,10 +468,11 @@
     <string name="title_routines">生物钟</string>
     <string name="title_plans">计划</string>
     <string name="title_activity_home">Home</string>
-    <string name="title_activity_users">Users</string>
+    <string name="title_activity_login">Login</string>
     <string name="title_activity_schedules">Schedules</string>
     <string name="title_activity_routines">Routines</string>
     <string name="title_activity_plans">Plans</string>
+    <string name="title_activity_notes">Notes</string>
     <string name="title_activity_medicines">Medicines</string>
 
     <string name="home_menu_medicines">MEDICINES</string>
@@ -481,9 +484,9 @@
     DBRoutinetine-->
     ]]>
     <string name="routines_list_empty_text">There are no routines yet.\n\nRoutines are times when you need to take care, like breakfast or dinner. You can reuse it for creating schedules faster.</string>
-    <string name="remove_routine_message_long">The DBRoutine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
-    <string name="remove_routine_message_short">Remove %1$s DBRoutine?</string>
-    <string name="remove_routine_dialog_title">Remove DBRoutine</string>
+    <string name="remove_routine_message_long">The Routine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
+    <string name="remove_routine_message_short">Remove %1$s Routine?</string>
+    <string name="remove_routine_dialog_title">Remove Routine</string>
     <string name="dialog_yes_option">Yes</string>
     <string name="dialog_no_option">No</string>
     <string name="reminder_cancelled_message">Reminder cancelled</string>
@@ -511,6 +514,10 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
+
+    <string name="title_notes">笔记</string>
+    <string name="title_add">添加</string>
+    <string name="main_menu_refresh_schedule">立即刷新</string>
 
     <string name="previous_month">Previous month</string>
     <string name="next_month">Next month</string>

@@ -4,7 +4,7 @@
              android:layout_height="match_parent"
              android:orientation="vertical">
 
-    <com.time.cat.component.activity.setting.IntroCard
+    <com.time.cat.ui.activity.setting.IntroCard
         android:id="@+id/intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

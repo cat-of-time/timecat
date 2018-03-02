@@ -18,7 +18,7 @@
 
 package com.time.cat.database;
 
-import android.content.Context;
+import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
@@ -26,22 +26,22 @@ import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBTaskItem;
 import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.mvp.model.Task;
+import com.time.cat.util.ModelUtil;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/**
- * Created by joseangel.pineiro on 3/26/15.
- */
 public class ScheduleDao extends GenericDao<DBTask, Long> {
+    private static final String TAG = "ScheduleDao";
 
     public ScheduleDao(DatabaseHelper db) {
         super(db);
     }
 
-    public List<DBTask> findAllForActiveUser(Context ctx) {
-        return findAll(DB.users().getActive(ctx));
+    public List<DBTask> findAllForActiveUser() {
+        return findAll(DB.users().getActive());
     }
 
     public List<DBTask> findAll(DBUser p) {
@@ -64,6 +64,101 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
             return dbHelper.getSchedulesDao();
         } catch (SQLException e) {
             throw new RuntimeException("Error creating medicines dao", e);
+        }
+    }
+
+    public void updateAndFireEvent(DBTask task) {
+        try {
+            update(task);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        TimeCatApp.eventBus().post(new PersistenceEvents.TaskUpdateEvent(task));
+    }
+
+    public void safeSaveTask(Task task) {
+        Log.i(TAG, "返回的任务信息 --> " + task.toString());
+        //保存用户信息到本地
+        DBTask dbTask = ModelUtil.toDBTask(task);
+        List<DBTask> existing = null;
+        try {
+            existing = DB.schedules().queryForEq(DBTask.COLUMN_URL, task.getUrl());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbTask.setId(id);
+            try {
+                DB.schedules().update(dbTask);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbTask.toString());
+        } else {
+            DB.schedules().save(dbTask);
+            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbTask.toString());
+        }
+    }
+
+    public void safeSaveTaskAndFireEvent(Task task) {
+        Log.i(TAG, "返回的任务信息 --> " + task.toString());
+        //保存用户信息到本地
+        DBTask dbTask = ModelUtil.toDBTask(task);
+        List<DBTask> existing = null;
+        try {
+            existing = DB.schedules().queryForEq(DBTask.COLUMN_URL, task.getUrl());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbTask.setId(id);
+            DB.schedules().updateAndFireEvent(dbTask);
+            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbTask.toString());
+        } else {
+            DB.schedules().saveAndFireEvent(dbTask);
+            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbTask.toString());
+        }
+    }
+
+    public void safeSaveDBTask(DBTask dbTask) {
+        List<DBTask> existing = null;
+        try {
+            existing = DB.schedules().queryForEq(DBTask.COLUMN_CREATED_DATETIME, dbTask.getCreated_datetime());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbTask.setId(id);
+            try {
+                DB.schedules().update(dbTask);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbTask.toString());
+        } else {
+            DB.schedules().save(dbTask);
+            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbTask.toString());
+        }
+    }
+
+    public void safeSaveDBTaskAndFireEvent(DBTask dbTask) {
+        List<DBTask> existing = null;
+        try {
+            existing = DB.schedules().queryForEq(DBTask.COLUMN_CREATED_DATETIME, dbTask.getCreated_datetime());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbTask.setId(id);
+            DB.schedules().updateAndFireEvent(dbTask);
+            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbTask.toString());
+        } else {
+            DB.schedules().saveAndFireEvent(dbTask);
+            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbTask.toString());
         }
     }
 

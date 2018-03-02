@@ -55,4 +55,43 @@
         <item>C#</item>
         <item>JS</item>
     </string-array>
+
+    <integer-array name="card_stack_view_data">
+        <item >@color/back_green</item>
+        <item >@color/back_cyan</item>
+        <item >@color/back_pink</item>
+        <item >@color/back_ingo</item>
+        <item >@color/back_blue</item>
+        <item >@color/back_bluegreen</item>
+        <item >@color/back_oringe</item>
+        <item >@color/back_purple</item>
+        <item >@color/back_brown</item>
+        <item >@color/back_grey</item>
+        <item >@color/color_1</item>
+        <item >@color/color_2</item>
+        <item >@color/color_3</item>
+        <item >@color/color_4</item>
+        <item >@color/color_5</item>
+        <item >@color/color_6</item>
+        <item >@color/color_7</item>
+        <item >@color/color_8</item>
+        <item >@color/color_9</item>
+        <item >@color/color_10</item>
+        <item >@color/color_11</item>
+        <item >@color/color_12</item>
+        <item >@color/color_13</item>
+        <item >@color/color_14</item>
+        <item >@color/color_15</item>
+        <item >@color/color_16</item>
+        <item >@color/color_17</item>
+        <item >@color/color_18</item>
+        <item >@color/color_19</item>
+        <item >@color/color_20</item>
+        <item >@color/color_21</item>
+        <item >@color/color_22</item>
+        <item >@color/color_23</item>
+        <item >@color/color_24</item>
+        <item >@color/color_25</item>
+        <item >@color/color_26</item>
+    </integer-array>
 </resources>

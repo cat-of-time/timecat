@@ -264,7 +264,7 @@ public class TouchEventHandler {
                             @Override
                             public void run() {
                                 String text = getTextFromView(mCurrentView, filters);
-                                Log.e(TAG, "onSingleTapConfirmed text=" + text);
+                                LogUtil.e("onSingleTapConfirmed text=" + text);
                                 longPressedRunnable.setText(text);
                                 longPressedRunnable.run();
                             }

@@ -12,9 +12,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.time.cat.component.activity.TimeCatActivity;
-import com.time.cat.component.activity.share.ShareAppManagerActivity;
+import com.time.cat.ui.activity.TimeCatActivity;
+import com.time.cat.ui.activity.share.ShareAppManagerActivity;
 import com.time.cat.util.onestep.ResolveInfoWrap;
+import com.time.cat.util.override.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;

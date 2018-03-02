@@ -59,7 +59,8 @@ public class DB {
 //    private static PickupInfoDao Pickups;
     // users DAO
     private static UserDao users;
-
+    // notes DAO
+    private static NoteDao notes;
     /**
      * Initialize database and DAOs
      */
@@ -81,6 +82,7 @@ public class DB {
 //            Groups = new HomogeneousGroupDao(db);
 //            Pickups = new PickupInfoDao(db);
             users = new UserDao(db);
+            notes = new NoteDao(db);
             Log.v(TAG, "DB initialized " + DB.DB_NAME);
         }
 
@@ -143,6 +145,9 @@ public class DB {
 
     public static UserDao users() {
         return users;
+    }
+    public static NoteDao notes() {
+        return notes;
     }
 
     public static void dropAndCreateDatabase() {

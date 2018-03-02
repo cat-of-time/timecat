@@ -13,10 +13,10 @@ import com.microsoft.projectoxford.vision.contract.Word;
 import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 import com.microsoft.projectoxford.vision.rest.WebServiceRequest;
 import com.shang.commonjar.contentProvider.SPHelper;
-import com.time.cat.NetworkSystem.UploadUtil;
+import com.time.cat.network.UploadUtil;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.component.base.BaseActivity;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.mvp.model.APImodel.ImageUpload;
 
 import java.io.File;
@@ -49,7 +49,8 @@ public class OcrAnalyser {
     }
 
     int currentIndex = 0;
-    VisionServiceRestClient client = new VisionServiceRestClient(keys.get(currentIndex));
+//    VisionServiceRestClient client = new VisionServiceRestClient(keys.get(currentIndex));
+    VisionServiceRestClient client = new VisionServiceRestClient("9e88939475894dec85a2019fd36243be");
 
     private String img_path;
     private boolean verticalOrientation = true;

@@ -3,12 +3,12 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp">
 
-    <com.time.cat.mvp.view.ArcMenu
+    <com.time.cat.mvp.view.arc_float_view.ArcMenu
         android:id="@+id/arc_menu"
         android:layout_width="146dp"
         android:layout_height="146dp">
 
-    </com.time.cat.mvp.view.ArcMenu>
+    </com.time.cat.mvp.view.arc_float_view.ArcMenu>
 
 
 </RelativeLayout>
