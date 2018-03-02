@@ -481,6 +481,11 @@ public class SchedulesFragment extends BaseFragment implements
                 long day = during / (1000 * 60 * 60 * 24);
                 if (day >= 1) {
                     scheduleHeaderViewHolder.getCalendarItemDelay().setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
+                    if (headerItem.getIsFinish()) {
+                        scheduleHeaderViewHolder.getCalendarItemDelay().setTextColor(Color.GRAY);
+                    } else {
+                        scheduleHeaderViewHolder.getCalendarItemDelay().setTextColor(getResources().getColor(R.color.red));
+                    }
                 } else {
                     scheduleHeaderViewHolder.getCalendarItemDelay().setVisibility(View.INVISIBLE);
                 }
