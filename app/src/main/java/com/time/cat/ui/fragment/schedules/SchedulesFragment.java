@@ -477,6 +477,9 @@ public class SchedulesFragment extends BaseFragment implements
         if (headerItem.getCreated_datetime() != null && headerItem.getCreated_datetime().length() > 0) {
             Date date = TimeUtil.formatGMTDateStr(headerItem.getCreated_datetime());
             if (date != null) {
+                if (headerItem.getIsFinish()) {
+                    today = TimeUtil.formatGMTDateStr(headerItem.getFinished_datetime());
+                }
                 long during = today.getTime() - date.getTime();
                 long day = during / (1000 * 60 * 60 * 24);
                 if (day >= 1) {
@@ -728,12 +731,14 @@ public class SchedulesFragment extends BaseFragment implements
                 if (task.getIsFinish()) {
                     Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
                     if (finished_datetime != null) {
-                        if (finished_datetime.getDay() == today.getDay() && finished_datetime.getMonth() == today.getMonth() && finished_datetime.getYear() == today.getYear()) {
+                        if (finished_datetime.getDay() == today.getDay()
+                                && finished_datetime.getMonth() == today.getMonth()
+                                && finished_datetime.getYear() == today.getYear()) {
                             tasks.add(task);
-                            hasAddedTask = true;
                             Log.i(TAG, "add task, because task is finished today");
                         }
                     }
+                    hasAddedTask = true; // 只要是完成了的，之后都不再判断
                 }
                 LogUtil.e(task.getIs_all_day() + task.toString());
                 if (!task.getIs_all_day() && !hasAddedTask
@@ -1028,7 +1033,9 @@ public class SchedulesFragment extends BaseFragment implements
                 calendar_item_title.setTextColor(Color.GRAY);
                 calendar_item_delay.setTextColor(Color.GRAY);
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setIsFinish(true);
-                mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(TimeUtil.formatGMTDate(new Date()));
+                if (mAsyncExpandableListView.getHeader(mGroupOrdinal).getFinished_datetime() == null) {
+                    mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(TimeUtil.formatGMTDate(new Date()));
+                }
             } else {
                 ViewUtil.removeLine(calendar_item_title);
                 calendar_item_title.setTextColor(Color.BLACK);

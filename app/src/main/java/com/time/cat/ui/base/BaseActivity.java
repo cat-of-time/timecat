@@ -113,10 +113,10 @@ public class BaseActivity extends PermissionActivity {
         finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        moveTaskToBack(true);
+//    }
 
     @Override
     public void finish() {
