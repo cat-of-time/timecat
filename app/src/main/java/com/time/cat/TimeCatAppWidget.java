@@ -18,8 +18,6 @@ import android.widget.RemoteViews;
 
 import com.time.cat.ui.activity.addtask.DialogActivity;
 import com.time.cat.ui.service.RemoteViewServiceImp;
-import com.time.cat.util.override.LogUtil;
-import com.time.cat.util.override.ToastUtil;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
@@ -113,11 +111,11 @@ public class TimeCatAppWidget extends AppWidgetProvider {
             context.startActivity(intent2DialogActivity);
 
         } else if (ACTION_ITEM_CLICK.equals(action)) {
-            ToastUtil.show(intent.getIntExtra("position", 0) + "");
-            LogUtil.e(intent.getIntExtra("position", 0) + "");
+//            ToastUtil.show(intent.getIntExtra("position", 0) + "");
+//            LogUtil.e(intent.getIntExtra("position", 0) + "");
         } else if (ACTION_REFRESH_TASK.equals(action)) {
             redrawWidgets(context);
-            ToastUtil.show("action refresh");
+//            ToastUtil.show("action refresh");
         }
     }
 

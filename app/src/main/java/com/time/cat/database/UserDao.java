@@ -29,7 +29,6 @@ import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.util.model.ModelUtil;
-import com.time.cat.util.override.LogUtil;
 
 import java.sql.SQLException;
 
@@ -119,7 +118,7 @@ public class UserDao extends GenericDao<DBUser, Long> {
 
     public DBUser getActive() {
         long id = SPHelper.getLong(PREFERENCE_ACTIVE_USER, -1);
-        LogUtil.e(id);
+//        LogUtil.e(id);
         DBUser p;
         if (id != -1) {
             p = findById(id);
@@ -144,7 +143,7 @@ public class UserDao extends GenericDao<DBUser, Long> {
 
     public void setActive(DBUser u) {
         SPHelper.save(PREFERENCE_ACTIVE_USER, u.id());
-        LogUtil.e(u.id());
+//        LogUtil.e(u.id());
         TimeCatApp.eventBus().post(new PersistenceEvents.ActiveUserChangeEvent(u));
     }
 

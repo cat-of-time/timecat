@@ -432,7 +432,7 @@ public class BaseActivity extends PermissionActivity {
             default:
                 setStatusBarFontIconDark(false);
         }
-        LogUtil.e("refreshTheme------------------>");
+//        LogUtil.e("refreshTheme------------------>");
         ThemeUtils.refreshUI(c, null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

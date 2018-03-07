@@ -21,7 +21,6 @@ import com.time.cat.ui.activity.addtask.DialogActivity;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.fragment.notes.presenter.NotesPresenter;
-import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 
 import java.sql.SQLException;
@@ -123,7 +122,7 @@ public class NotesFragment
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        LogUtil.e("dbNote == " + dbNote.toString());
+//                        LogUtil.e("dbNote == " + dbNote.toString());
                         try {
                             DB.notes().delete(dbNote);
                             ToastUtil.show("已删除");
@@ -143,15 +142,15 @@ public class NotesFragment
                                     @Override
                                     public void onError(Throwable e) {
                                         //请求失败
-                                        ToastUtil.show("删除操作同步失败");
-                                        LogUtil.e("删除操作同步失败 --> " + e.toString());
+//                                        ToastUtil.show("删除操作同步失败");
+//                                        LogUtil.e("删除操作同步失败 --> " + e.toString());
                                     }
 
                                     @Override
                                     public void onNext(Note note) {
                                         //请求成功
-                                        ToastUtil.show("删除成功");
-                                        LogUtil.e("删除成功 --> " + note.toString());
+//                                        ToastUtil.show("删除成功");
+//                                        LogUtil.e("删除成功 --> " + note.toString());
                                     }
                                 });
                         notifyDataChanged();
@@ -175,7 +174,7 @@ public class NotesFragment
         bundle.putSerializable(DialogActivity.TO_UPDATE_NOTE, dbNote);
         intent2DialogActivity.putExtras(bundle);
         startActivity(intent2DialogActivity);
-        ToastUtil.show("to modify a note");
+        ToastUtil.show("修改笔记");
     }
 
     @Override

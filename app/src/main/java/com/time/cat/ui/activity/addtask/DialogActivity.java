@@ -655,13 +655,13 @@ public class DialogActivity extends BaseActivity implements
         is_setting_end_time = false;
         type = Type.NOTE;
         initTextString();
-        LogUtil.e("initData --> ");
+//        LogUtil.e("initData --> ");
         if (task != null) {
-            LogUtil.e("initData --> task != null --> " + task);
+//            LogUtil.e("initData --> task != null --> " + task);
             refreshViewByTask(task);
         }
         if (note != null) {
-            LogUtil.e("initData --> note != null --> " + note);
+//            LogUtil.e("initData --> note != null --> " + note);
             refreshViewByNote(note);
         }
         select_tv_start_time.setText((start_hour<10?"0"+start_hour:start_hour) + ":" + (start_min<10?"0"+start_min:start_min));
@@ -1041,7 +1041,7 @@ public class DialogActivity extends BaseActivity implements
         }
         DB.schedules().safeSaveDBTaskAndFireEvent(task);
 
-        LogUtil.e("updateAndFireEvent --> " + task);
+//        LogUtil.e("updateAndFireEvent --> " + task);
         if (task.getUrl() == null) {
             // 离线创建的task是没有url的，这里要在服务器端新建一个一摸一样的，然后把url传过来
             RetrofitHelper.getTaskService().createTask(ModelUtil.toTask(task)) //获取Observable对象
@@ -1066,15 +1066,15 @@ public class DialogActivity extends BaseActivity implements
                         @Override
                         public void onError(Throwable e) {
                             //请求失败
-                            ToastUtil.show("云端没有该任务，补充添加[ 任务 ]同步失败");
-                            LogUtil.e("云端没有该任务，补充添加[ 任务 ]同步失败" + e.toString());
+//                            ToastUtil.show("云端没有该任务，补充添加[ 任务 ]同步失败");
+//                            LogUtil.e("云端没有该任务，补充添加[ 任务 ]同步失败" + e.toString());
                         }
 
                         @Override
                         public void onNext(Task note) {
                             //请求成功
-                            ToastUtil.show("云端没有该任务，成功补充添加[ 任务 ]:" + content);
-                            LogUtil.e("云端没有该任务，成功补充添加[ 任务 ]:" + note.toString());
+//                            ToastUtil.show("云端没有该任务，成功补充添加[ 任务 ]:" + content);
+//                            LogUtil.e("云端没有该任务，成功补充添加[ 任务 ]:" + note.toString());
                         }
                     });
         } else {
@@ -1085,7 +1085,7 @@ public class DialogActivity extends BaseActivity implements
                         @Override
                         public void call(Task task) {
                             DB.schedules().safeSaveTaskAndFireEvent(task);
-                            LogUtil.e("保存任务信息到本地" + task.toString());
+//                            LogUtil.e("保存任务信息到本地" + task.toString());
                         }
                     }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                     .subscribe(new Subscriber<Task>() {
@@ -1097,18 +1097,19 @@ public class DialogActivity extends BaseActivity implements
                         @Override
                         public void onError(Throwable e) {
                             //请求失败
-                            ToastUtil.show("同步[ 任务 ]失败，保存到本地");
-                            LogUtil.e(e.toString());
+//                            ToastUtil.show("同步[ 任务 ]失败，保存到本地");
+//                            LogUtil.e(e.toString());
                         }
 
                         @Override
                         public void onNext(Task task) {
                             //请求成功
-                            ToastUtil.show("成功更新[ 任务 ]:" + content);
-                            LogUtil.e("请求成功" + task.toString());
+//                            ToastUtil.show("成功更新[ 任务 ]:" + content);
+//                            LogUtil.e("请求成功" + task.toString());
                         }
                     });
         }
+        ToastUtil.show("成功更新[ 任务 ]:" + content);
         finish();
     }
 
@@ -1164,18 +1165,20 @@ public class DialogActivity extends BaseActivity implements
                     public void onError(Throwable e) {
                         //请求失败
 //                        progressDialog.dismiss();
-                        ToastUtil.show("添加[ 任务 ]失败");
-                        LogUtil.e(e.toString());
+//                        ToastUtil.show("添加[ 任务 ]失败");
+//                        LogUtil.e(e.toString());
                     }
 
                     @Override
                     public void onNext(Task task) {
                         //请求成功
 //                        progressDialog.dismiss();
-                        ToastUtil.show("成功添加[ 任务 ]:" + content);
-                        LogUtil.e("成功添加[ 任务 ]: " + task.toString());
+//                        ToastUtil.show("成功添加[ 任务 ]:" + content);
+//                        LogUtil.e("成功添加[ 任务 ]: " + task.toString());
                     }
                 });
+        ToastUtil.show("成功添加[ 任务 ]:" + content);
+
         finish();
     }
 
@@ -1199,7 +1202,7 @@ public class DialogActivity extends BaseActivity implements
                             // 将笔记的url保存下来
                             note.setUrl(note1.getUrl());
                             DB.notes().safeSaveDBNoteAndFireEvent(note);
-                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note1.toString());
+//                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note1.toString());
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1212,15 +1215,15 @@ public class DialogActivity extends BaseActivity implements
                         @Override
                         public void onError(Throwable e) {
                             //请求失败
-                            ToastUtil.show("云端没有该笔记，补充添加[ 笔记 ]同步失败");
-                            LogUtil.e("云端没有该笔记，补充添加[ 笔记 ]同步失败" + e.toString());
+//                            ToastUtil.show("云端没有该笔记，补充添加[ 笔记 ]同步失败");
+//                            LogUtil.e("云端没有该笔记，补充添加[ 笔记 ]同步失败" + e.toString());
                         }
 
                         @Override
                         public void onNext(Note note) {
                             //请求成功
-                            ToastUtil.show("云端没有该笔记，成功补充添加[ 笔记 ]:" + content);
-                            LogUtil.e("云端没有该笔记，成功补充添加[ 笔记 ]:" + note.toString());
+//                            ToastUtil.show("云端没有该笔记，成功补充添加[ 笔记 ]:" + content);
+//                            LogUtil.e("云端没有该笔记，成功补充添加[ 笔记 ]:" + note.toString());
                         }
                     });
         } else {
@@ -1232,7 +1235,7 @@ public class DialogActivity extends BaseActivity implements
                         public void call(Note note) {
                             // 将笔记的url保存下来
                             DB.notes().safeSaveNoteAndFireEvent(note);
-                            LogUtil.e("保存任务信息到本地" + note.toString());
+//                            LogUtil.e("保存任务信息到本地" + note.toString());
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1245,18 +1248,20 @@ public class DialogActivity extends BaseActivity implements
                         @Override
                         public void onError(Throwable e) {
                             //请求失败
-                            ToastUtil.show("更新[ 笔记 ]失败");
-                            LogUtil.e("更新[ 笔记 ]失败:" + e.toString());
+//                            ToastUtil.show("更新[ 笔记 ]失败");
+//                            LogUtil.e("更新[ 笔记 ]失败:" + e.toString());
                         }
 
                         @Override
                         public void onNext(Note note) {
                             //请求成功
-                            ToastUtil.show("成功更新[ 笔记 ]:" + content);
-                            LogUtil.e("请求成功,成功更新[ 笔记 ]:" + note.toString());
+//                            ToastUtil.show("成功更新[ 笔记 ]:" + content);
+//                            LogUtil.e("请求成功,成功更新[ 笔记 ]:" + note.toString());
                         }
                     });
         }
+        ToastUtil.show("成功修改[ 笔记 ]:" + content);
+
         finish();
     }
 
@@ -1282,8 +1287,8 @@ public class DialogActivity extends BaseActivity implements
         dbNote.setColor(CardStackViewDataList.get(randomColor));
 //        note.setTags(tags);
         DB.notes().saveAndFireEvent(dbNote);
-        LogUtil.e("saveAndFireEvent() --> " + dbNote.toString());
-        LogUtil.e("DB.notes() --> " + DB.notes().findAll().toString());
+//        LogUtil.e("saveAndFireEvent() --> " + dbNote.toString());
+//        LogUtil.e("DB.notes() --> " + DB.notes().findAll().toString());
 
         RetrofitHelper.getNoteService().createNote(ModelUtil.toNote(dbNote)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -1293,7 +1298,7 @@ public class DialogActivity extends BaseActivity implements
                     public void call(Note note) {
                         dbNote.setUrl(note.getUrl());
                         DB.notes().safeSaveDBNoteAndFireEvent(dbNote);
-                        LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note.toString());
+//                        LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note.toString());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1306,17 +1311,18 @@ public class DialogActivity extends BaseActivity implements
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        ToastUtil.show("添加[ 笔记 ]同步失败");
-                        LogUtil.e(e.toString());
+//                        ToastUtil.show("添加[ 笔记 ]同步失败");
+//                        LogUtil.e(e.toString());
                     }
 
                     @Override
                     public void onNext(Note note) {
                         //请求成功
-                        ToastUtil.show("成功添加[ 笔记 ]:" + content);
-                        LogUtil.e("请求成功" + note.toString());
+//                        ToastUtil.show("成功添加[ 笔记 ]:" + content);
+//                        LogUtil.e("请求成功" + note.toString());
                     }
                 });
+        ToastUtil.show("成功添加[ 笔记 ]:" + content);
         finish();
     }
     //-//</View.OnClickListener>--------------------------------------------------------------------

@@ -563,7 +563,7 @@ public class MainActivity extends BaseActivity implements
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onConfirm(int currentTheme) {
-        LogUtil.e("onConfirm----------------->");
+//        LogUtil.e("onConfirm----------------->");
         if (ThemeManager.getTheme(this) != currentTheme) {
             ThemeManager.setTheme(this, currentTheme);
             switch (currentTheme) {
@@ -575,7 +575,7 @@ public class MainActivity extends BaseActivity implements
                 default:
                     setStatusBarFontIconDark(false);
             }
-            LogUtil.e("setTheme------------------>");
+//            LogUtil.e("setTheme------------------>");
             ThemeUtils.refreshUI(this, new ThemeUtils.ExtraRefreshable() {
                 @Override
                 public void refreshGlobal(Activity activity) {

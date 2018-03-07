@@ -325,15 +325,15 @@ public class SchedulesFragment extends BaseFragment implements
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        LogUtil.e(e.toString());
-                        ToastUtil.show("更新用户信息失败");
+//                        LogUtil.e(e.toString());
+//                        ToastUtil.show("更新用户信息失败");
                     }
 
                     @Override
                     public void onNext(User user) {
                         //请求成功
-                        Log.i(TAG, "更新用户信息成功 --> " + user.toString());
-                        ToastUtil.show("更新用户信息成功");
+//                        Log.i(TAG, "更新用户信息成功 --> " + user.toString());
+//                        ToastUtil.show("更新用户信息成功");
                     }
                 });
 
@@ -346,7 +346,7 @@ public class SchedulesFragment extends BaseFragment implements
             loadDataForHeader.execute(new ArrayList<String>());
             LogUtil.e("null task list");
         }
-        LogUtil.e("initExpandableListViewData --> dbUser.getTasks() --> " + task_urls);
+//        LogUtil.e("initExpandableListViewData --> dbUser.getTasks() --> " + task_urls);
     }
 
     public void refreshData() {
@@ -389,15 +389,15 @@ public class SchedulesFragment extends BaseFragment implements
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        LogUtil.e(e.toString());
-                        ToastUtil.show("更新用户信息失败");
+//                        LogUtil.e(e.toString());
+//                        ToastUtil.show("更新用户信息失败");
                     }
 
                     @Override
                     public void onNext(User user) {
                         //请求成功
-                        Log.i(TAG, "更新用户信息成功 --> " + user.toString());
-                        ToastUtil.show("更新用户信息成功");
+//                        Log.i(TAG, "更新用户信息成功 --> " + user.toString());
+//                        ToastUtil.show("更新用户信息成功");
                     }
                 });
 
@@ -415,7 +415,7 @@ public class SchedulesFragment extends BaseFragment implements
     public void notifyDataChanged() {
         super.notifyDataChanged();
         refreshData();
-        LogUtil.e("schedule fragment --> notifyDataChanged()");
+//        LogUtil.e("schedule fragment --> notifyDataChanged()");
     }
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
@@ -661,7 +661,7 @@ public class SchedulesFragment extends BaseFragment implements
                             public void onError(Throwable e) {
                                 //请求失败
 //                                ToastUtil.show("数据同步到云端时出现错误");
-                                LogUtil.e("count[0] == "+count[0] + " --> 失败 --> " + e.toString());
+//                                LogUtil.e("count[0] == "+count[0] + " --> 失败 --> " + e.toString());
                                 count[0] -= 1;
                             }
 
@@ -670,10 +670,10 @@ public class SchedulesFragment extends BaseFragment implements
                                 //请求成功
                                 count[0] -= 1;
 //                                ToastUtil.show("成功获取任务");
-                                Log.i(TAG, "请求成功 --> count[0] == " + count[0] + " --> " + task.toString());
+//                                Log.i(TAG, "请求成功 --> count[0] == " + count[0] + " --> " + task.toString());
                             }
                         });
-                Log.w(TAG, "fetching task " + i);
+//                Log.w(TAG, "fetching task " + i);
             }
 //            Log.w(TAG, "waiting -->");
 //            int retryTimes = 5; //重试次数
@@ -735,12 +735,12 @@ public class SchedulesFragment extends BaseFragment implements
                                 && finished_datetime.getMonth() == today.getMonth()
                                 && finished_datetime.getYear() == today.getYear()) {
                             tasks.add(task);
-                            Log.i(TAG, "add task, because task is finished today");
+//                            Log.i(TAG, "add task, because task is finished today");
                         }
                     }
                     hasAddedTask = true; // 只要是完成了的，之后都不再判断
                 }
-                LogUtil.e(task.getIs_all_day() + task.toString());
+//                LogUtil.e(task.getIs_all_day() + task.toString());
                 if (!task.getIs_all_day() && !hasAddedTask
                         && task.getBegin_datetime() != null
                         && task.getEnd_datetime() != null) {
@@ -750,7 +750,7 @@ public class SchedulesFragment extends BaseFragment implements
                         if (TimeUtil.isDateEarlier(begin_datetime, today) && TimeUtil.isDateEarlier(today, end_datetime)) {
                             tasks.add(task);
                             hasAddedTask = true;
-                            Log.i(TAG, "add task, because begin <= today <= end");
+//                            Log.i(TAG, "add task, because begin <= today <= end");
                         }
                     }
                 }
@@ -762,7 +762,7 @@ public class SchedulesFragment extends BaseFragment implements
                         if (TimeUtil.isDateEarlier(created_datetime, today)) {
                             if (task.getIs_all_day()) {
                                 tasks.add(task);
-                                Log.i(TAG, "add task, because of delay");
+//                                Log.i(TAG, "add task, because of delay");
                             }
                         }
                     }
@@ -1044,7 +1044,7 @@ public class SchedulesFragment extends BaseFragment implements
                 mAsyncExpandableListView.getHeader(mGroupOrdinal).setFinished_datetime(null);
             }
             DBTask task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
-            Log.i(TAG, "onCheckedChanged() --> header task -->" + task.toString());
+//            Log.i(TAG, "onCheckedChanged() --> header task -->" + task.toString());
             DB.schedules().safeSaveDBTask(task);
 
             RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), ModelUtil.toTask(task))
@@ -1065,15 +1065,15 @@ public class SchedulesFragment extends BaseFragment implements
                         @Override
                         public void onError(Throwable e) {
                             //请求失败
-                            ToastUtil.show("网络请求失败，已保存到本地");
-                            LogUtil.e("网络请求失败 --> " + e.toString());
+//                            ToastUtil.show("网络请求失败，已保存到本地");
+//                            LogUtil.e("网络请求失败 --> " + e.toString());
                         }
 
                         @Override
                         public void onNext(Task task) {
                             //请求成功
-                            ToastUtil.show("同步成功");
-                            LogUtil.e("同步成功 --> " + task.toString());
+//                            ToastUtil.show("同步成功");
+//                            LogUtil.e("同步成功 --> " + task.toString());
                         }
                     });
         }
@@ -1109,7 +1109,7 @@ public class SchedulesFragment extends BaseFragment implements
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 DBTask task = mAsyncExpandableListView.getHeader(mGroupOrdinal);
-                                LogUtil.e("onLongClick() --> 确定删除 task -->" + task.toString());
+//                                LogUtil.e("onLongClick() --> 确定删除 task -->" + task.toString());
                                 try {
                                     DB.schedules().delete(task);
                                 } catch (SQLException e) {
@@ -1127,15 +1127,15 @@ public class SchedulesFragment extends BaseFragment implements
                                             @Override
                                             public void onError(Throwable e) {
                                                 //请求失败
-                                                ToastUtil.show("删除操作同步失败");
-                                                LogUtil.e("删除操作同步失败 --> " + e.toString());
+//                                                ToastUtil.show("删除操作同步失败");
+//                                                LogUtil.e("删除操作同步失败 --> " + e.toString());
                                             }
 
                                             @Override
                                             public void onNext(Task task) {
                                                 //请求成功
-                                                ToastUtil.show("删除成功");
-                                                LogUtil.e("删除成功 --> " + task.toString());
+//                                                ToastUtil.show("删除成功");
+//                                                LogUtil.e("删除成功 --> " + task.toString());
                                             }
                                         });
                                 notifyDataChanged();

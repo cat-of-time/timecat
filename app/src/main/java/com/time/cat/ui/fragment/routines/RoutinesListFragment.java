@@ -136,7 +136,7 @@ public class RoutinesListFragment extends BaseFragment {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
-                        LogUtil.e("dbNote == " + r.toString());
+//                        LogUtil.e("dbNote == " + r.toString());
                         // cancel routine alarm and delete it
                         AlarmScheduler.instance().onDeleteRoutine(r, getActivity());
                         DB.routines().deleteCascade(r, true);

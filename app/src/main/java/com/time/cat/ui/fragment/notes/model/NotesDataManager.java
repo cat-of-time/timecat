@@ -6,8 +6,6 @@ import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Note;
 import com.time.cat.network.RetrofitHelper;
 import com.time.cat.util.model.ModelUtil;
-import com.time.cat.util.override.LogUtil;
-import com.time.cat.util.override.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,15 +48,15 @@ public class NotesDataManager {
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        ToastUtil.show("同步[ 笔记 ]到本地出现错误");
-                        LogUtil.e("同步[ 笔记 ]到本地出现错误" + e.toString());
+//                        ToastUtil.show("同步[ 笔记 ]到本地出现错误");
+//                        LogUtil.e("同步[ 笔记 ]到本地出现错误" + e.toString());
                     }
 
                     @Override
                     public void onNext(ArrayList<Note> task) {
                         //请求成功
-                        ToastUtil.show("成功同步[ 笔记 ]");
-                        LogUtil.e("成功同步[ 笔记 ]: " + task.toString());
+//                        ToastUtil.show("成功同步[ 笔记 ]");
+//                        LogUtil.e("成功同步[ 笔记 ]: " + task.toString());
                     }
                 });
 
@@ -69,14 +67,14 @@ public class NotesDataManager {
         }
         List<DBNote> adapterDBNoteList = new ArrayList<>();
         DBUser dbUser = DB.users().getActive();
-        LogUtil.e("active dbUser = " + dbUser.toString());
-        LogUtil.e(dbNoteList);
+//        LogUtil.e("active dbUser = " + dbUser.toString());
+//        LogUtil.e(dbNoteList);
         for (int i = dbNoteList.size()-1; i >= 0; i--) {
             if ((dbNoteList.get(i).getOwner().equals(ModelUtil.getOwnerUrl(dbUser)))) {
                 adapterDBNoteList.add(dbNoteList.get(i));
             }
         }
-        LogUtil.e(adapterDBNoteList);
+//        LogUtil.e(adapterDBNoteList);
 
         if (adapterDBNoteList.size() >= 0) {
             if (onDataChangeListener != null) {

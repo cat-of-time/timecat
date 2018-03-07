@@ -206,7 +206,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .build();
 
         DBUser u = DB.users().getActive();
-        LogUtil.e(u.toString());
+//        LogUtil.e(u.toString());
         headerResult.setActiveProfile(u.id().intValue(), false);
         updateHeaderBackground(u);
         drawer.setStatusBarColor(u.color());
@@ -494,7 +494,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                     }
                 });
         // 由于网络请求是异步，返回太快了，isSuccess[0] 一直为false，即使登录成功
-        LogUtil.e("isSuccess[0] == " + isSuccess[0]);
+//        LogUtil.e("isSuccess[0] == " + isSuccess[0]);
         return isSuccess[0];
     }
 

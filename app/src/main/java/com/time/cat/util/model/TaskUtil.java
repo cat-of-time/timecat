@@ -4,7 +4,6 @@ import com.ldf.calendar.model.CalendarDate;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.string.TimeUtil;
 
 import java.util.ArrayList;
@@ -49,12 +48,12 @@ public class TaskUtil {
                             && finished_datetime.getMonth() == today.getMonth()
                             && finished_datetime.getYear() == today.getYear()) {
                         tasks.add(task);
-                        LogUtil.i("add task, because task is finished today");
+//                        LogUtil.i("add task, because task is finished today");
                     }
                 }
                 hasAddedTask = true; // 只要是完成了的，之后都不再判断
             }
-            LogUtil.e(task.getIs_all_day() + task.toString());
+//            LogUtil.e(task.getIs_all_day() + task.toString());
             if (!task.getIs_all_day() && !hasAddedTask
                     && task.getBegin_datetime() != null
                     && task.getEnd_datetime() != null) {
@@ -64,7 +63,7 @@ public class TaskUtil {
                     if (TimeUtil.isDateEarlier(begin_datetime, today) && TimeUtil.isDateEarlier(today, end_datetime)) {
                         tasks.add(task);
                         hasAddedTask = true;
-                        LogUtil.i("add task, because begin <= today <= end");
+//                        LogUtil.i("add task, because begin <= today <= end");
                     }
                 }
             }
@@ -76,7 +75,7 @@ public class TaskUtil {
                     if (TimeUtil.isDateEarlier(created_datetime, today)) {
                         if (task.getIs_all_day()) {
                             tasks.add(task);
-                            LogUtil.i("add task, because of delay");
+//                            LogUtil.i("add task, because of delay");
                         }
                     }
                 }
