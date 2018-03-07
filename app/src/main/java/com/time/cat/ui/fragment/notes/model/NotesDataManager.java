@@ -5,7 +5,7 @@ import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Note;
 import com.time.cat.network.RetrofitHelper;
-import com.time.cat.util.ModelUtil;
+import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 

@@ -18,7 +18,7 @@ import com.time.cat.mvp.presenter.ActivityPresenter;
 import com.time.cat.network.RetrofitHelper;
 import com.time.cat.ui.activity.main.MainActivity;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.util.ModelUtil;
+import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 

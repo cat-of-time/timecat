@@ -40,7 +40,7 @@ import com.time.cat.ui.activity.user.LoginActivity;
 import com.time.cat.ui.activity.user.UserDetailActivity;
 import com.time.cat.ui.animation.ViewHelper;
 import com.time.cat.ui.dialog.DialogThemeFragment;
-import com.time.cat.util.ModelUtil;
+import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.source.AvatarManager;

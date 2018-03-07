@@ -1,4 +1,4 @@
-package com.time.cat.util;
+package com.time.cat.util.model;
 
 import com.time.cat.network.ConstantURL;
 import com.time.cat.theme.ThemeManager;
@@ -21,7 +21,7 @@ public class ModelUtil {
         dbUser.setEmail(u.getEmail());
         dbUser.setName(u.getUsername());
         dbUser.setAvatar(AvatarManager.AVATAR_4);
-        dbUser.setColor(ThemeManager.CARD_THEME_0);
+        dbUser.setColor(ThemeManager.CARD_HOPE);
         dbUser.setDefault(true);
         dbUser.setPlans(u.getPlans());
         dbUser.setTags(u.getTags());

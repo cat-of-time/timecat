@@ -1,9 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/month_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,56 +12,77 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/add_button"
+            android:id="@+id/widget_add_button"
             style="?android:borderlessButtonStyle"
             android:layout_width="24dp"
-            android:layout_height="match_parent"
+            android:layout_height="24dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
             android:contentDescription="@string/add_button"
-            android:src="@drawable/ic_add_button" />
+            android:padding="10dp"
+            android:src="@drawable/ic_action_add"/>
 
         <ImageButton
             android:id="@+id/prev_month_button"
             style="?android:borderlessButtonStyle"
             android:layout_width="24dp"
-            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_height="24dp"
+            android:layout_margin="10dp"
+            android:layout_toStartOf="@+id/month_label"
             android:contentDescription="@string/previous_month"
-            android:src="@drawable/ic_previous_month" />
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_left_white_24dp"/>
 
         <Button
             android:id="@+id/month_label"
             style="?android:borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center"
             android:textColor="@color/foreground_full"
-            android:textSize="20sp" />
+            android:textSize="18sp"/>
 
         <ImageButton
             android:id="@+id/next_month_button"
             style="?android:borderlessButtonStyle"
             android:layout_width="24dp"
-            android:layout_height="match_parent"
+            android:layout_height="24dp"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/month_label"
+            android:layout_centerVertical="true"
             android:contentDescription="@string/next_month"
-            android:src="@drawable/ic_next_month" />
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_right_white_24dp"/>
 
         <ImageButton
-            android:id="@+id/refresh_button"
+            android:id="@+id/widget_refresh_button"
             style="?android:borderlessButtonStyle"
             android:layout_width="24dp"
-            android:layout_height="match_parent"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
             android:contentDescription="@string/refresh_button"
-            android:src="@drawable/ic_refresh_button" />
+            android:padding="10dp"
+            android:src="@drawable/ic_autorenew_white_24dp"/>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical" />
+        android:orientation="vertical"/>
 
+    <ListView
+        android:id="@+id/widget_listview"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="#00000000"/>
 </LinearLayout>

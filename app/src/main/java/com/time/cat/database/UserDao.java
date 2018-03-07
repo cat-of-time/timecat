@@ -28,7 +28,7 @@ import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.APImodel.User;
 import com.time.cat.mvp.model.DBmodel.DBRoutine;
 import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.util.ModelUtil;
+import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 
 import java.sql.SQLException;

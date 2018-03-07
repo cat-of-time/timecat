@@ -301,6 +301,8 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <service android:name=".ui.service.RemoteViewServiceImp"
+                 android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
         <activity
             android:name=".ui.activity.KeepAliveActivity"
@@ -345,6 +347,12 @@
         <receiver android:name=".TimeCatAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.time.cat.TimeCatAppWidget.action.add"/>
+                <action android:name="com.time.cat.TimeCatAppWidget.action.list"/>
+                <action android:name="com.time.cat.TimeCatAppWidget.action.refresh"/>
+                <action android:name="com.time.cat.TimeCatAppWidget.action.PREVIOUS_MONTH"/>
+                <action android:name="com.time.cat.TimeCatAppWidget.action.NEXT_MONTH"/>
+                <action android:name="com.time.cat.TimeCatAppWidget.action.RESET_MONTH"/>
             </intent-filter>
 
             <meta-data

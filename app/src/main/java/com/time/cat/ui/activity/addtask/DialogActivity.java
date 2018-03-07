@@ -54,7 +54,7 @@ import com.time.cat.ui.activity.TimeCatActivity;
 import com.time.cat.ui.activity.WebActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.ModelUtil;
+import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.listener.GlobalOnItemClickManager;
@@ -878,6 +878,7 @@ public class DialogActivity extends BaseActivity implements
                         ToastUtil.show("添加[ 闹钟 ]失败：功能未完善");
                         break;
                 }
+                SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, "");
                 break;
         }
     }

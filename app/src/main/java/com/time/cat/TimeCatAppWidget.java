@@ -16,20 +16,33 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.time.cat.ui.activity.addtask.DialogActivity;
+import com.time.cat.ui.service.RemoteViewServiceImp;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.ToastUtil;
+
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class TimeCatAppWidget extends AppWidgetProvider {
 
-    private static final String ACTION_PREVIOUS_MONTH
+    public static final String ACTION_PREVIOUS_MONTH
             = "com.time.cat.TimeCatAppWidget.action.PREVIOUS_MONTH";
-    private static final String ACTION_NEXT_MONTH
+    public static final String ACTION_NEXT_MONTH
             = "com.time.cat.TimeCatAppWidget.action.NEXT_MONTH";
-    private static final String ACTION_RESET_MONTH
+    public static final String ACTION_RESET_MONTH
             = "com.time.cat.TimeCatAppWidget.action.RESET_MONTH";
+    public static final String ACTION_REFRESH_TASK
+            = "com.time.cat.TimeCatAppWidget.action.refresh";
+    public static final String ACTION_ADD
+            = "com.time.cat.TimeCatAppWidget.action.add";
+    public static final String ACTION_ITEM_CLICK
+            = "com.time.cat.TimeCatAppWidget.action.ITEM_CLICK";
 
     private static final String PREF_MONTH = "month";
     private static final String PREF_YEAR = "year";
@@ -92,6 +105,19 @@ public class TimeCatAppWidget extends AppWidgetProvider {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
             sp.edit().remove(PREF_MONTH).remove(PREF_YEAR).apply();
             redrawWidgets(context);
+
+        } else if (ACTION_ADD.equals(action)) {
+            Intent intent2DialogActivity = new Intent(context, DialogActivity.class);
+            intent2DialogActivity.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, "");
+            context.startActivity(intent2DialogActivity);
+
+        } else if (ACTION_ITEM_CLICK.equals(action)) {
+            ToastUtil.show(intent.getIntExtra("position", 0) + "");
+            LogUtil.e(intent.getIntExtra("position", 0) + "");
+        } else if (ACTION_REFRESH_TASK.equals(action)) {
+            redrawWidgets(context);
+            ToastUtil.show("action refresh");
         }
     }
 
@@ -151,8 +177,7 @@ public class TimeCatAppWidget extends AppWidgetProvider {
 
         rv.removeAllViews(R.id.calendar);
 
-        RemoteViews headerRowRv = new RemoteViews(context.getPackageName(),
-                R.layout.widget_row_header);
+        RemoteViews headerRowRv = new RemoteViews(context.getPackageName(), R.layout.widget_row_header);
         DateFormatSymbols dfs = DateFormatSymbols.getInstance();
         String[] weekdays = dfs.getShortWeekdays();
         for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
@@ -191,21 +216,39 @@ public class TimeCatAppWidget extends AppWidgetProvider {
         rv.setViewVisibility(R.id.prev_month_button, mini ? View.GONE : View.VISIBLE);
         rv.setOnClickPendingIntent(R.id.prev_month_button,
                 PendingIntent.getBroadcast(context, 0,
-                        new Intent(context, TimeCatAppWidget.class)
-                                .setAction(ACTION_PREVIOUS_MONTH),
+                        new Intent(context, TimeCatAppWidget.class).setAction(ACTION_PREVIOUS_MONTH),
                         PendingIntent.FLAG_UPDATE_CURRENT));
         rv.setViewVisibility(R.id.next_month_button, mini ? View.GONE : View.VISIBLE);
         rv.setOnClickPendingIntent(R.id.next_month_button,
                 PendingIntent.getBroadcast(context, 0,
-                        new Intent(context, TimeCatAppWidget.class)
-                                .setAction(ACTION_NEXT_MONTH),
+                        new Intent(context, TimeCatAppWidget.class).setAction(ACTION_NEXT_MONTH),
                         PendingIntent.FLAG_UPDATE_CURRENT));
+
         rv.setOnClickPendingIntent(R.id.month_label,
                 PendingIntent.getBroadcast(context, 0,
-                        new Intent(context, TimeCatAppWidget.class)
-                                .setAction(ACTION_RESET_MONTH),
+                        new Intent(context, TimeCatAppWidget.class).setAction(ACTION_RESET_MONTH),
                         PendingIntent.FLAG_UPDATE_CURRENT));
+
+        //创建一个广播，点击按钮发送该广播
+        rv.setOnClickPendingIntent(R.id.widget_add_button,
+                PendingIntent.getBroadcast(context, 0,
+                        new Intent(ACTION_ADD),
+                        PendingIntent.FLAG_UPDATE_CURRENT));
+        rv.setOnClickPendingIntent(R.id.widget_refresh_button,
+                PendingIntent.getBroadcast(context, 0,
+                        new Intent(context, TimeCatAppWidget.class).setAction(ACTION_REFRESH_TASK),
+                        PendingIntent.FLAG_UPDATE_CURRENT));
+
         rv.setViewVisibility(R.id.month_bar, numWeeks <= 1 ? View.GONE : View.VISIBLE);
+
+        //绑定service用来填充listview中的视图
+        rv.setRemoteAdapter(R.id.widget_listview, new Intent(context, RemoteViewServiceImp.class));
+        //添加item的点击事件
+        rv.setPendingIntentTemplate(R.id.widget_listview,
+                PendingIntent.getBroadcast(context, 0,
+                        new Intent(ACTION_ITEM_CLICK),
+                        PendingIntent.FLAG_CANCEL_CURRENT));
+
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
 }

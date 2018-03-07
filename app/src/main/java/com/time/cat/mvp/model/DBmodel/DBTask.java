@@ -19,6 +19,8 @@
 package com.time.cat.mvp.model.DBmodel;
 
 
+import android.graphics.Color;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -40,6 +42,12 @@ import java.util.List;
  */
 @DatabaseTable(tableName = "Schedules")
 public class DBTask implements Serializable{
+    public static final int[] labelColor = new int[]{
+            Color.parseColor("#f44336"),
+            Color.parseColor("#ff8700"),
+            Color.parseColor("#2196f3"),
+            Color.parseColor("#4caf50")
+    };
 
     public static final int SCHEDULE_TYPE_EVERYDAY = 0; // DEFAULT
     public static final int SCHEDULE_TYPE_EVERYWEEK = 1;

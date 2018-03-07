@@ -26,7 +26,7 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.events.PersistenceEvents;
 import com.time.cat.mvp.model.DBmodel.DBNote;
 import com.time.cat.mvp.model.Note;
-import com.time.cat.util.ModelUtil;
+import com.time.cat.util.model.ModelUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

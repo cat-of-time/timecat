@@ -50,7 +50,7 @@ import com.time.cat.ui.activity.addtask.DialogActivity;
 import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
 import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
 import com.time.cat.ui.base.BaseFragment;
-import com.time.cat.util.ModelUtil;
+import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.TimeUtil;
@@ -469,7 +469,7 @@ public class SchedulesFragment extends BaseFragment implements
     public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder, int groupOrdinal, DBTask headerItem) {
         onBindCollectionHeaderView = true;
         ScheduleHeaderViewHolder scheduleHeaderViewHolder = (ScheduleHeaderViewHolder) holder;
-        scheduleHeaderViewHolder.getCalendarItemCheckBox().setUncheckedStrokeColor(labelColor[headerItem.getLabel()]);
+        scheduleHeaderViewHolder.getCalendarItemCheckBox().setUncheckedStrokeColor(DBTask.labelColor[headerItem.getLabel()]);
         scheduleHeaderViewHolder.getCalendarItemCheckBox().setChecked(headerItem.getIsFinish());
 
         scheduleHeaderViewHolder.getCalendarItemTitle().setText(headerItem.getTitle());

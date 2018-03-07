@@ -27,7 +27,7 @@ import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.mvp.model.DBmodel.DBTaskItem;
 import com.time.cat.mvp.model.DBmodel.DBUser;
 import com.time.cat.mvp.model.Task;
-import com.time.cat.util.ModelUtil;
+import com.time.cat.util.model.ModelUtil;
 
 import java.sql.SQLException;
 import java.util.List;
