@@ -27,8 +27,8 @@
             android:id="@+id/prev_month_button"
             style="?android:borderlessButtonStyle"
             android:layout_width="24dp"
-            android:layout_centerVertical="true"
             android:layout_height="24dp"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:layout_toStartOf="@+id/month_label"
             android:contentDescription="@string/previous_month"
@@ -51,9 +51,9 @@
             style="?android:borderlessButtonStyle"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:layout_toEndOf="@+id/month_label"
-            android:layout_centerVertical="true"
             android:contentDescription="@string/next_month"
             android:padding="10dp"
             android:src="@drawable/ic_arrow_right_white_24dp"/>
@@ -63,13 +63,12 @@
             style="?android:borderlessButtonStyle"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:contentDescription="@string/refresh_button"
             android:padding="10dp"
             android:src="@drawable/ic_autorenew_white_24dp"/>
-
 
     </RelativeLayout>
 
@@ -83,6 +82,7 @@
     <ListView
         android:id="@+id/widget_listview"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="#00000000"/>
+        android:layout_height="180dp"
+        android:background="#00000000"
+        android:minHeight="90dp"/>
 </LinearLayout>

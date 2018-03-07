@@ -101,6 +101,8 @@ public class RemoteViewServiceImp extends RemoteViewsService {
                 if (date != null) {
                     if (dbTask.getIsFinish()) {
                         today = TimeUtil.formatGMTDateStr(dbTask.getFinished_datetime());
+                        remoteViews.setTextColor(R.id.widget_list_item_delay, Color.GRAY);
+                        remoteViews.setTextColor(R.id.widget_list_item_title, Color.GRAY);
                     }
                     assert today != null;
                     long during = today.getTime() - date.getTime();

@@ -142,8 +142,7 @@ public class TimeCatAppWidget extends AppWidgetProvider {
             shortMonthName = minWidthDp <= res.getInteger(R.integer.max_width_short_month_label_dp);
             mini = minHeightDp <= res.getInteger(R.integer.max_height_mini_view_dp);
             if (mini) {
-                numWeeks = minHeightDp <= res.getInteger(R.integer.max_height_mini_view_1_row_dp)
-                        ? 1 : 2;
+                numWeeks = 1;
             }
         }
 
@@ -239,7 +238,7 @@ public class TimeCatAppWidget extends AppWidgetProvider {
                         new Intent(context, TimeCatAppWidget.class).setAction(ACTION_REFRESH_TASK),
                         PendingIntent.FLAG_UPDATE_CURRENT));
 
-        rv.setViewVisibility(R.id.month_bar, numWeeks <= 1 ? View.GONE : View.VISIBLE);
+//        rv.setViewVisibility(R.id.month_bar, numWeeks <= 1 ? View.GONE : View.VISIBLE);
 
         //绑定service用来填充listview中的视图
         rv.setRemoteAdapter(R.id.widget_listview, new Intent(context, RemoteViewServiceImp.class));
