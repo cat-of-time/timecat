@@ -140,7 +140,7 @@ public class ShareCard extends FrameLayout {
             if (dir == null || dir.getAbsolutePath().equals("")) {
                 dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
             }
-            File pic = new File(dir, "timecat.jpg");
+            File pic = new File(dir, "timecat.png");
             pic.deleteOnExit();
             BitmapDrawable bitmapDrawable;
             if (Build.VERSION.SDK_INT < 22) {
@@ -157,7 +157,7 @@ public class ShareCard extends FrameLayout {
                 imageUris.add(Uri.fromFile(pic));
             } else {
                 //修复微信在7.0崩溃的问题
-                Uri uri = Uri.parse(android.provider.MediaStore.Images.Media.insertImage(context.getContentResolver(), pic.getAbsolutePath(), "timecat.jpg", null));
+                Uri uri = Uri.parse(android.provider.MediaStore.Images.Media.insertImage(context.getContentResolver(), pic.getAbsolutePath(), "timecat.png", null));
 //                ContentValues values = new ContentValues(1);
 //                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
 //                Uri uri = context.getContentResolver()

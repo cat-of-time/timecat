@@ -110,8 +110,8 @@
     <!--widget-->
     <dimen name="widget_margin">8dp</dimen>
     <integer name="max_width_short_month_label_dp">240</integer>
-    <integer name="max_height_mini_view_dp">360</integer>
-    <integer name="max_height_mini_view_1_row_dp">360</integer>
+    <integer name="max_height_mini_view_dp">240</integer>
+    <integer name="max_height_mini_view_1_row_dp">240</integer>
 
 
 

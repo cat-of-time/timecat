@@ -13,7 +13,6 @@ import com.time.cat.TimeCatAppWidget;
 import com.time.cat.database.DB;
 import com.time.cat.mvp.model.DBmodel.DBTask;
 import com.time.cat.util.model.TaskUtil;
-import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.string.TimeUtil;
 
 import java.util.Date;
@@ -40,7 +39,7 @@ public class RemoteViewServiceImp extends RemoteViewsService {
             public void run() {
 //                data = HttpUtils.getData();
                 data = TaskUtil.sort(TaskUtil.DBTaskFilter(DB.schedules().findAll(), new CalendarDate()));
-                LogUtil.e(data);
+//                LogUtil.e(data);
             }
         });
         thread.start();
