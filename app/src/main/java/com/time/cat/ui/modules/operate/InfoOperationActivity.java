@@ -85,7 +85,7 @@ import rx.schedulers.Schedulers;
 /**
  * @author dlink
  * @date 2018/2/14
- * @discription "添加"操作,用activity实现dialog
+ * @discription 信息操作页面,包括创建、修改、转化,用activity实现dialog
  */
 public class InfoOperationActivity extends BaseActivity implements
                                                  ActivityPresenter,

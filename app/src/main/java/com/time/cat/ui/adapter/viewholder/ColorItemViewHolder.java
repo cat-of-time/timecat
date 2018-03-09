@@ -1,4 +1,4 @@
-package com.time.cat.ui.fragment.notes.view;
+package com.time.cat.ui.adapter.viewholder;
 
 import android.graphics.PorterDuff;
 import android.util.Log;

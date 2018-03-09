@@ -154,6 +154,9 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit}"
     implementation "com.squareup.retrofit2:retrofit:${retrofit}"
+    // mvp 框架
+    implementation "net.grandcentrix.thirtyinch:thirtyinch:${thirtyinchVersion}"
+    implementation "net.grandcentrix.thirtyinch:thirtyinch-rx2:${thirtyinchVersion}"
     //RxLifecycle
     compile 'com.trello:rxlifecycle-components:0.6.1'
     compile 'com.jakewharton:butterknife:8.8.1'

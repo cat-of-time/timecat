@@ -1,4 +1,4 @@
-package com.time.cat.ui.fragment.notes.presenter;
+package com.time.cat.ui.modules.notes.presenter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,8 +6,8 @@ import android.util.Log;
 
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.ui.base.mvpframework.presenter.BaseMvpPresenter;
-import com.time.cat.ui.fragment.notes.model.NotesDataManager;
-import com.time.cat.ui.fragment.notes.view.NotesFragmentAction;
+import com.time.cat.ui.modules.notes.model.NotesDataManager;
+import com.time.cat.ui.modules.notes.view.NotesFragmentAction;
 
 import java.util.List;
 

@@ -50,7 +50,7 @@ import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.modules.theme.DialogThemeFragment;
 import com.time.cat.ui.modules.plans.PlansFragment;
-import com.time.cat.ui.fragment.notes.view.NotesFragment;
+import com.time.cat.ui.modules.notes.view.NotesFragment;
 import com.time.cat.ui.modules.routines.RoutinesListFragment;
 import com.time.cat.ui.modules.schedules.SchedulesFragment;
 import com.time.cat.util.override.LogUtil;

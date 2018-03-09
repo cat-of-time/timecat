@@ -1,4 +1,4 @@
-package com.time.cat.ui.fragment.notes.model;
+package com.time.cat.ui.modules.notes.model;
 
 import com.time.cat.data.database.DB;
 import com.time.cat.data.model.DBmodel.DBNote;
