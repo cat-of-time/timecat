@@ -4,7 +4,7 @@
              android:layout_height="match_parent"
              android:orientation="vertical">
 
-    <com.time.cat.ui.activity.setting.ShareCard
+    <com.time.cat.ui.modules.setting.ShareCard
         android:id="@+id/share"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

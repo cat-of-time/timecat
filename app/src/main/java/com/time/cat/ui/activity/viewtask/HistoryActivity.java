@@ -15,11 +15,11 @@ import android.view.ViewGroup;
 
 import com.time.cat.R;
 import com.time.cat.ui.fragment.notes.view.NotesFragment;
-import com.time.cat.ui.fragment.PlansFragment;
-import com.time.cat.ui.fragment.schedules.SchedulesFragment;
+import com.time.cat.ui.modules.plans.PlansFragment;
+import com.time.cat.ui.modules.schedules.SchedulesFragment;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.BaseFragment;
-import com.time.cat.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.view.ViewUtil;
 

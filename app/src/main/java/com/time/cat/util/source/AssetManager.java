@@ -4,9 +4,9 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.time.cat.TimeCatApp;
-import com.time.cat.mvp.model.entity.CollectionTopic;
-import com.time.cat.mvp.model.entity.EmojiBean;
-import com.time.cat.mvp.model.entity.TopicBean;
+import com.time.cat.data.model.entity.CollectionTopic;
+import com.time.cat.data.model.entity.EmojiBean;
+import com.time.cat.data.model.entity.TopicBean;
 import com.time.cat.util.override.LogUtil;
 
 import java.io.ByteArrayOutputStream;

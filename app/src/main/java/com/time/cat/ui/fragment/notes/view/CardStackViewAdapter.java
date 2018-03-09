@@ -5,9 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.time.cat.R;
-import com.time.cat.mvp.model.DBmodel.DBNote;
-import com.time.cat.mvp.view.card_stack_view.CardStackView;
-import com.time.cat.mvp.view.card_stack_view.StackAdapter;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.ui.widgets.card_stack_view.CardStackView;
+import com.time.cat.ui.widgets.card_stack_view.StackAdapter;
 
 /**
  * @author dlink

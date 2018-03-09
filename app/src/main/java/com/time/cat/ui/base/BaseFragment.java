@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.time.cat.TimeCatApp;
-import com.time.cat.mvpframework.presenter.BaseMvpPresenter;
-import com.time.cat.mvpframework.view.AbstractFragment;
-import com.time.cat.mvpframework.view.BaseMvpView;
-import com.time.cat.theme.utils.ThemeUtils;
+import com.time.cat.ui.base.mvpframework.presenter.BaseMvpPresenter;
+import com.time.cat.ui.base.mvpframework.view.AbstractFragment;
+import com.time.cat.ui.base.mvpframework.view.BaseMvpView;
+import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
 
 /**
  * @author dlink

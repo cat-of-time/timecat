@@ -28,7 +28,7 @@
         android:paddingRight="?attr/dialogPreferredPadding"
         android:paddingTop="?attr/dialogPreferredPadding">
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_pink"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_purple"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_blue"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_green"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -91,7 +91,7 @@
         android:paddingRight="?attr/dialogPreferredPadding"
         android:paddingTop="?attr/dialogPreferredPadding">
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_green_light"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -106,7 +106,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_yellow"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -121,7 +121,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_orange"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -136,7 +136,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_red"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -154,7 +154,7 @@
         android:paddingRight="?attr/dialogPreferredPadding"
         android:paddingTop="?attr/dialogPreferredPadding">
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_white"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -169,7 +169,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_black"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -184,7 +184,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_grey"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -199,7 +199,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintImageView
+        <com.time.cat.ui.widgets.theme.widgets.TintImageView
             android:id="@+id/theme_magenta"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -227,7 +227,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.time.cat.theme.widgets.TintButton
+        <com.time.cat.ui.widgets.theme.widgets.TintButton
             android:id="@+id/dialog_theme_cancel"
             style="?attr/buttonBarNegativeButtonStyle"
             android:layout_width="wrap_content"
@@ -237,7 +237,7 @@
             android:text="@string/cancel"
             android:textColor="@color/text_black"/>
 
-        <com.time.cat.theme.widgets.TintButton
+        <com.time.cat.ui.widgets.theme.widgets.TintButton
             android:id="@+id/dialog_theme_confirm"
             style="?attr/buttonBarPositiveButtonStyle"
             android:layout_width="wrap_content"

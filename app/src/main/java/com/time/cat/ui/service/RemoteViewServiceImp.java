@@ -10,8 +10,8 @@ import android.widget.RemoteViewsService;
 import com.ldf.calendar.model.CalendarDate;
 import com.time.cat.R;
 import com.time.cat.TimeCatAppWidget;
-import com.time.cat.database.DB;
-import com.time.cat.mvp.model.DBmodel.DBTask;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.util.model.TaskUtil;
 import com.time.cat.util.string.TimeUtil;
 

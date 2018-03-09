@@ -10,12 +10,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.database.DB;
-import com.time.cat.mvp.model.APImodel.User;
-import com.time.cat.mvp.model.Account;
-import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.network.RetrofitHelper;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.APImodel.User;
+import com.time.cat.data.model.APImodel.Account;
+import com.time.cat.data.model.DBmodel.DBUser;
+import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.data.network.RetrofitHelper;
 import com.time.cat.ui.activity.main.MainActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.model.ModelUtil;

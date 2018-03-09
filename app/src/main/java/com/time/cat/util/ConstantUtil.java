@@ -155,7 +155,7 @@ public class ConstantUtil {
     //xp全局复制
     public static final String UNIVERSAL_COPY_BROADCAST_XP = "universal_copy_broadcast_xp";
 
-    // DialogActivity
+    // InfoOperationActivity
     public static final String UNIVERSAL_SAVE_COTENT = "universal_save_content";
 
     public static final String ALI_APP_KEY = TimeCatApp.getInstance().getString(R.string.ali_feedback_key);

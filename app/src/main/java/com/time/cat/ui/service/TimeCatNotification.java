@@ -13,9 +13,9 @@ import android.widget.RemoteViews;
 
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.intro.SplashActivity;
+import com.time.cat.ui.modules.intro.SplashActivity;
 import com.time.cat.ui.activity.screen.ScreenCaptureActivity;
-import com.time.cat.ui.activity.setting.SettingActivity;
+import com.time.cat.ui.modules.setting.SettingActivity;
 import com.time.cat.util.ConstantUtil;
 
 

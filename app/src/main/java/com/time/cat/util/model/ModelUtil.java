@@ -1,13 +1,13 @@
 package com.time.cat.util.model;
 
-import com.time.cat.network.ConstantURL;
-import com.time.cat.theme.ThemeManager;
-import com.time.cat.mvp.model.APImodel.User;
-import com.time.cat.mvp.model.DBmodel.DBNote;
-import com.time.cat.mvp.model.DBmodel.DBTask;
-import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.mvp.model.Note;
-import com.time.cat.mvp.model.Task;
+import com.time.cat.data.network.ConstantURL;
+import com.time.cat.ui.widgets.theme.ThemeManager;
+import com.time.cat.data.model.APImodel.User;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBTask;
+import com.time.cat.data.model.DBmodel.DBUser;
+import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.util.source.AvatarManager;
 
 /**

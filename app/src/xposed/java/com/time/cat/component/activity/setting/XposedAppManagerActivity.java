@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.setting;
+package com.time.cat.ui.modules.setting;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -37,7 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.time.cat.ui.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
+import static com.time.cat.ui.modules.setting.MonitorSettingCard.SPINNER_ARRAY;
 import static com.time.cat.ui.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
 import static com.shang.xposed.XposedConstant.SP_NAME;
 

@@ -16,7 +16,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.time.cat.ui.activity.addtask.DialogActivity;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.service.RemoteViewServiceImp;
 
 import java.text.DateFormatSymbols;
@@ -105,9 +105,9 @@ public class TimeCatAppWidget extends AppWidgetProvider {
             redrawWidgets(context);
 
         } else if (ACTION_ADD.equals(action)) {
-            Intent intent2DialogActivity = new Intent(context, DialogActivity.class);
+            Intent intent2DialogActivity = new Intent(context, InfoOperationActivity.class);
             intent2DialogActivity.addFlags(FLAG_ACTIVITY_NEW_TASK);
-            intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, "");
+            intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, "");
             context.startActivity(intent2DialogActivity);
 
         } else if (ACTION_ITEM_CLICK.equals(action)) {

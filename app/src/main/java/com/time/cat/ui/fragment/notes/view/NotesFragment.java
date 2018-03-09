@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.time.cat.R;
-import com.time.cat.database.DB;
-import com.time.cat.mvp.model.DBmodel.DBNote;
-import com.time.cat.mvp.model.Note;
-import com.time.cat.mvp.view.card_stack_view.CardStackView;
-import com.time.cat.mvpframework.factory.CreatePresenter;
-import com.time.cat.network.RetrofitHelper;
-import com.time.cat.ui.activity.addtask.DialogActivity;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.ui.widgets.card_stack_view.CardStackView;
+import com.time.cat.ui.base.mvpframework.factory.CreatePresenter;
+import com.time.cat.data.network.RetrofitHelper;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.fragment.notes.presenter.NotesPresenter;
@@ -167,11 +167,11 @@ public class NotesFragment
 
     @Override
     public void onContentClick(DBNote dbNote) {
-        Intent intent2DialogActivity = new Intent(context, DialogActivity.class);
+        Intent intent2DialogActivity = new Intent(context, InfoOperationActivity.class);
         intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, dbNote.getContent());
+        intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, dbNote.getContent());
         Bundle bundle = new Bundle();
-        bundle.putSerializable(DialogActivity.TO_UPDATE_NOTE, dbNote);
+        bundle.putSerializable(InfoOperationActivity.TO_UPDATE_NOTE, dbNote);
         intent2DialogActivity.putExtras(bundle);
         startActivity(intent2DialogActivity);
         ToastUtil.show("修改笔记");

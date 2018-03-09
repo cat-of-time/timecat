@@ -11,7 +11,7 @@
         style="@style/hintTextViewRelativeLayoutSelector"
         android:duplicateParentState="false">
 
-        <com.time.cat.mvp.view.HintTextView
+        <com.time.cat.ui.widgets.HintTextView
             style="@style/hintTextViewInLayoutLeft"
             android:layout_width="match_parent"
             android:layout_centerVertical="true"
@@ -34,7 +34,7 @@
             android:layout_height="1px"
             android:background="@color/divider"/>
 
-        <com.time.cat.mvp.view.HintTextView
+        <com.time.cat.ui.widgets.HintTextView
             style="@style/hintTextViewInLayoutLeft"
             android:layout_width="match_parent"
             android:layout_centerVertical="true"
@@ -57,7 +57,7 @@
             android:layout_height="1px"
             android:background="@color/divider"/>
 
-        <com.time.cat.mvp.view.HintTextView
+        <com.time.cat.ui.widgets.HintTextView
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/auto_open_hint"
             app:msg="@string/auto_open"/>

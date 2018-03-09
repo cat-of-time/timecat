@@ -1,10 +1,10 @@
 package com.time.cat.ui.fragment.notes.model;
 
-import com.time.cat.database.DB;
-import com.time.cat.mvp.model.DBmodel.DBNote;
-import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.mvp.model.Note;
-import com.time.cat.network.RetrofitHelper;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBUser;
+import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.data.network.RetrofitHelper;
 import com.time.cat.util.model.ModelUtil;
 
 import java.util.ArrayList;

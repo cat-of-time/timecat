@@ -15,9 +15,9 @@ import android.text.TextUtils;
 import com.shang.commonjar.contentProvider.Global;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.addtask.DialogActivity;
-import com.time.cat.ui.activity.setting.SettingActivity;
-import com.time.cat.mvp.view.arc_float_view.ArcTipViewController;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
+import com.time.cat.ui.modules.setting.SettingActivity;
+import com.time.cat.ui.widgets.arc_float_view.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.clipboard.ClipboardManagerCompat;
@@ -212,9 +212,9 @@ public final class ListenClipboardService extends Service {
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.putExtra(TimeCatActivity.TO_SPLIT_STR, content);
         // 直接跳到添加页面
-        Intent intent2DialogActivity = new Intent(this, DialogActivity.class);
+        Intent intent2DialogActivity = new Intent(this, InfoOperationActivity.class);
         intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, content);
+        intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, content);
         //放到ArcTipViewController中触发试试
         ArcTipViewController.getInstance().showTipViewForStartActivity(intent2DialogActivity);
     }

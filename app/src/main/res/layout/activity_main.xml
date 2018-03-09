@@ -1,4 +1,4 @@
-<com.time.cat.theme.widgets.TintConstraintLayout
+<com.time.cat.ui.widgets.theme.widgets.TintConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.time.cat.theme.widgets.TintToolbar
+        <com.time.cat.ui.widgets.theme.widgets.TintToolbar
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                     android:textSize="13sp"/>
             </LinearLayout>
 
-        </com.time.cat.theme.widgets.TintToolbar>
+        </com.time.cat.ui.widgets.theme.widgets.TintToolbar>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:layout_below="@+id/main_toolbar"
             android:background="@android:color/white">
 
-            <com.time.cat.mvp.view.viewpaper.CustomPagerView
+            <com.time.cat.ui.widgets.viewpaper.CustomPagerView
                 android:id="@+id/main_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -72,5 +72,5 @@
                 android:background="@android:color/transparent"/>
         </RelativeLayout>
     </RelativeLayout>
-</com.time.cat.theme.widgets.TintConstraintLayout>
+</com.time.cat.ui.widgets.theme.widgets.TintConstraintLayout>
 

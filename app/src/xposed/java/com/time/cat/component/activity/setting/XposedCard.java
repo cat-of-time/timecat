@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.setting;
+package com.time.cat.ui.modules.setting;
 
 import android.content.Context;
 import android.content.Intent;

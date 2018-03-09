@@ -30,7 +30,7 @@
         style="@style/hintTextViewRelativeLayoutSelector"
         android:duplicateParentState="false">
 
-        <com.time.cat.mvp.view.HintTextView
+        <com.time.cat.ui.widgets.HintTextView
             android:id="@+id/monitor_click_tv"
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/monitor_click_into"

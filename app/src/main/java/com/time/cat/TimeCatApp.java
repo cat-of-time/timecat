@@ -12,13 +12,13 @@ import android.support.annotation.ColorRes;
 
 import com.shang.commonjar.contentProvider.Global;
 import com.shang.commonjar.contentProvider.SPHelper;
-import com.time.cat.theme.ThemeManager;
-import com.time.cat.theme.utils.ThemeUtils;
+import com.time.cat.ui.widgets.theme.ThemeManager;
+import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
 import com.time.cat.ui.service.ListenClipboardService;
 import com.time.cat.ui.service.TimeCatMonitorService;
-import com.time.cat.database.DB;
-import com.time.cat.database.UserDao;
-import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.database.UserDao;
+import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.test.DefaultDataGenerator;
 import com.time.cat.util.KeepAliveWatcher;
 import com.time.cat.util.onestep.AppManager;

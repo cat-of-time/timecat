@@ -22,10 +22,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
-import com.time.cat.database.DB;
-import com.time.cat.mvp.model.DBmodel.DBRoutine;
-import com.time.cat.mvp.model.DBmodel.DBTask;
-import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBRoutine;
+import com.time.cat.data.model.DBmodel.DBTask;
+import com.time.cat.data.model.DBmodel.DBUser;
 
 import org.joda.time.LocalTime;
 

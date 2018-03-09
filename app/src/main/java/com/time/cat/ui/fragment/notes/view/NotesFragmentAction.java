@@ -1,7 +1,7 @@
 package com.time.cat.ui.fragment.notes.view;
 
-import com.time.cat.mvp.model.DBmodel.DBNote;
-import com.time.cat.mvpframework.view.BaseMvpView;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.ui.base.mvpframework.view.BaseMvpView;
 
 import java.util.List;
 

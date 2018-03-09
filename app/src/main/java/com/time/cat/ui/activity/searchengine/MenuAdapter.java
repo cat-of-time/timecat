@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.activity.searchengine.listener.OnItemClickListener;
-import com.time.cat.mvp.model.APImodel.SearchEngine;
+import com.time.cat.data.model.APImodel.SearchEngine;
 import com.time.cat.util.ConstantUtil;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
 

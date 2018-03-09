@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.time.cat.mvp.model.DBmodel.DBNote;
-import com.time.cat.mvpframework.presenter.BaseMvpPresenter;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.ui.base.mvpframework.presenter.BaseMvpPresenter;
 import com.time.cat.ui.fragment.notes.model.NotesDataManager;
 import com.time.cat.ui.fragment.notes.view.NotesFragmentAction;
 

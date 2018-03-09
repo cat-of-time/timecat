@@ -12,7 +12,7 @@
         android:background="@drawable/shadow"
         android:elevation="1dp"/>
 
-    <com.time.cat.mvp.view.card_stack_view.CardStackView
+    <com.time.cat.ui.widgets.card_stack_view.CardStackView
         android:id="@+id/notes_csv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

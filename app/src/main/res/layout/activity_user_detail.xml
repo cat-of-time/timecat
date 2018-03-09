@@ -1,4 +1,4 @@
-<com.time.cat.theme.widgets.TintRelativeLayout
+<com.time.cat.ui.widgets.theme.widgets.TintRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -203,4 +203,4 @@
         fab:fab_colorPressed="#b7b7b7"
         fab:fab_icon="@drawable/ic_autorenew_white_24dp"/>
 
-</com.time.cat.theme.widgets.TintRelativeLayout>
+</com.time.cat.ui.widgets.theme.widgets.TintRelativeLayout>

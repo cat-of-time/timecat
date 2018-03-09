@@ -3,7 +3,7 @@ package com.time.cat.util;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shang.commonjar.contentProvider.SPHelper;
-import com.time.cat.mvp.model.APImodel.SearchEngine;
+import com.time.cat.data.model.APImodel.SearchEngine;
 
 import java.util.ArrayList;
 

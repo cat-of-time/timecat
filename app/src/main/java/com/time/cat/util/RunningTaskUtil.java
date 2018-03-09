@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.mvp.view.dialog.Dialog;
-import com.time.cat.mvp.view.dialog.DialogFragment;
-import com.time.cat.mvp.view.dialog.SimpleDialog;
+import com.time.cat.ui.widgets.dialog.Dialog;
+import com.time.cat.ui.widgets.dialog.DialogFragment;
+import com.time.cat.ui.widgets.dialog.SimpleDialog;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.SnackBarUtil;
 

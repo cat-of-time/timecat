@@ -48,12 +48,12 @@
             android:value="${UMENG_CHANNEL_VALUE}" />
 
         <activity
-            android:name=".ui.activity.setting.SettingActivity"
+            android:name=".ui.modules.setting.SettingActivity"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.activity.intro.PreSettingActivity"
+            android:name=".ui.modules.intro.PreSettingActivity"
             android:launchMode="singleTask"
             android:theme="@style/PreSettingTheme"
             android:windowSoftInputMode="adjustPan" />
@@ -136,7 +136,7 @@
         </service>
 
         <activity
-            android:name=".ui.activity.intro.SplashActivity"
+            android:name=".ui.modules.intro.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
 
              <intent-filter>
@@ -150,7 +150,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.intro.IntroActivity"
+            android:name=".ui.modules.intro.IntroActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:noHistory="true"
@@ -180,10 +180,10 @@
             <!--</intent-filter>-->
         </activity>
         <activity
-            android:name=".ui.activity.setting.SettingTimeCatActivity"
+            android:name=".ui.modules.setting.SettingTimeCatActivity"
             android:theme="@style/ColorTranslucentTheme" />
         <activity
-            android:name=".ui.activity.setting.SettingFloatViewActivity"
+            android:name=".ui.modules.setting.SettingFloatViewActivity"
             android:process=":monitor"
             android:theme="@style/ColorTranslucentTheme" />
         <activity
@@ -208,7 +208,7 @@
             android:process=":monitor"
             android:theme="@style/ScreenCaptureTheme" />
         <activity
-            android:name=".ui.activity.about.DonateActivity"
+            android:name=".ui.modules.about.DonateActivity"
             android:theme="@style/BaseAppTheme" />
 
         <receiver android:name=".ui.WakeUpBroadcastReceiver">
@@ -247,13 +247,13 @@
             android:process=":monitor" />
 
         <activity
-            android:name=".ui.activity.intro.HowToUseActivity"
+            android:name=".ui.modules.intro.HowToUseActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".ui.activity.share.ShareAppManagerActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
-            android:name=".ui.activity.about.FeedbackActivity"
+            android:name=".ui.modules.about.FeedbackActivity"
             android:theme="@style/BaseAppTheme" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -320,14 +320,14 @@
             android:name=".ui.activity.user.SignupActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".ui.activity.about.AboutActivity"
+            android:name=".ui.modules.about.AboutActivity"
             android:theme="@style/BaseAppTheme" />
         <activity android:name=".ui.activity.user.UserDetailActivity" />
         <activity
-            android:name=".ui.activity.about.SchedulesHelpActivity"
+            android:name=".ui.modules.about.SchedulesHelpActivity"
             android:theme="@style/Theme.Intro" />
         <activity
-            android:name=".ui.activity.addtask.DialogActivity"
+            android:name=".ui.modules.operate.InfoOperationActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"

@@ -22,13 +22,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shang.commonjar.contentProvider.SPHelper;
-import com.time.cat.network.RetrofitHelper;
+import com.time.cat.data.network.RetrofitHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.addtask.DialogActivity;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.mvp.view.timecat.TimeCatLayout;
-import com.time.cat.mvp.view.timecat.TimeCatLayoutWrapper;
+import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.widgets.timecat.TimeCatLayout;
+import com.time.cat.ui.widgets.timecat.TimeCatLayoutWrapper;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.SharedIntentHelper;
@@ -555,9 +555,9 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         }
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_ADDTASK);
         String content = text;
-        Intent intent2DialogActivity = new Intent(TimeCatActivity.this, DialogActivity.class);
+        Intent intent2DialogActivity = new Intent(TimeCatActivity.this, InfoOperationActivity.class);
         intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, content);
+        intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, content);
         startActivity(intent2DialogActivity);
         finish();
     }

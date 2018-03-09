@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 
-import com.time.cat.mvp.view.emotion.adapter.EmotionGridViewAdapter;
+import com.time.cat.ui.widgets.emotion.adapter.EmotionGridViewAdapter;
 import com.time.cat.util.string.SpanStringUtils;
 
 /**

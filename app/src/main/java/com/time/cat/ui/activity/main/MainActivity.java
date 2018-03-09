@@ -29,17 +29,17 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.time.cat.R;
-import com.time.cat.database.DB;
-import com.time.cat.events.PersistenceEvents;
-import com.time.cat.mvp.model.DBmodel.DBUser;
-import com.time.cat.mvp.presenter.ActivityPresenter;
-import com.time.cat.mvp.view.navigation.SpecialTab;
-import com.time.cat.mvp.view.navigation.SpecialTabRound;
-import com.time.cat.mvp.view.viewpaper.CustomPagerView;
-import com.time.cat.theme.ThemeManager;
-import com.time.cat.theme.utils.ThemeUtils;
-import com.time.cat.ui.activity.about.SchedulesHelpActivity;
-import com.time.cat.ui.activity.addtask.DialogActivity;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.events.PersistenceEvents;
+import com.time.cat.data.model.DBmodel.DBUser;
+import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
+import com.time.cat.ui.widgets.navigation.SpecialTab;
+import com.time.cat.ui.widgets.navigation.SpecialTabRound;
+import com.time.cat.ui.widgets.viewpaper.CustomPagerView;
+import com.time.cat.ui.widgets.theme.ThemeManager;
+import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
+import com.time.cat.ui.modules.about.SchedulesHelpActivity;
 import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
@@ -48,11 +48,11 @@ import com.time.cat.ui.activity.main.viewmanager.LeftDrawerManager;
 import com.time.cat.ui.activity.user.LoginActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.BaseFragment;
-import com.time.cat.ui.dialog.DialogThemeFragment;
-import com.time.cat.ui.fragment.PlansFragment;
+import com.time.cat.ui.modules.theme.DialogThemeFragment;
+import com.time.cat.ui.modules.plans.PlansFragment;
 import com.time.cat.ui.fragment.notes.view.NotesFragment;
-import com.time.cat.ui.fragment.routines.RoutinesListFragment;
-import com.time.cat.ui.fragment.schedules.SchedulesFragment;
+import com.time.cat.ui.modules.routines.RoutinesListFragment;
+import com.time.cat.ui.modules.schedules.SchedulesFragment;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.view.ScreenUtil;
@@ -299,8 +299,8 @@ public class MainActivity extends BaseActivity implements
             public void onSelected(int index, int old) {
                 //选中时触发
                 if (index == 2) {
-                    Intent intent2DialogActivity = new Intent(MainActivity.this, DialogActivity.class);
-                    intent2DialogActivity.putExtra(DialogActivity.TO_SAVE_STR, "");
+                    Intent intent2DialogActivity = new Intent(MainActivity.this, InfoOperationActivity.class);
+                    intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, "");
                     startActivity(intent2DialogActivity);
                 } else if (index > 2) {
                     customPagerView.setCurrentItem(index - 1);
@@ -315,7 +315,7 @@ public class MainActivity extends BaseActivity implements
             public void onRepeat(int index) {
                 //重复选中时触发
                 if (index == 2) {
-                    launchActivity(new Intent(MainActivity.this, DialogActivity.class));
+                    launchActivity(new Intent(MainActivity.this, InfoOperationActivity.class));
                 }
             }
         });

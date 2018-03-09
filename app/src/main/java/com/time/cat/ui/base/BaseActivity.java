@@ -22,11 +22,10 @@ import android.view.WindowManager;
 
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.theme.ThemeManager;
-import com.time.cat.theme.utils.ThemeUtils;
+import com.time.cat.ui.widgets.theme.ThemeManager;
+import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
 import com.time.cat.util.ThreadManager;
 import com.time.cat.util.override.LogUtil;
-import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.StringUtil;
 import com.time.cat.util.view.ScreenUtil;
 import com.time.cat.util.view.StatusBarColorUtil;
@@ -103,20 +102,6 @@ public class BaseActivity extends PermissionActivity {
         isRunning = false;
         Log.d(TAG, "onPause >>>>>>>>>>>>>>>>>>>>>>>>\n");
     }
-
-    /**
-     * 一般用于对不支持的数据的处理，比如onCreate中获取到不能接受的id(id<=0)可以这样处理
-     */
-    public void finishWithError(String error) {
-        ToastUtil.show(error);
-//        enterAnim = exitAnim = R.anim.null_anim;
-        finish();
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//        moveTaskToBack(true);
-//    }
 
     @Override
     public void finish() {

@@ -1,9 +1,9 @@
 package com.time.cat.util.model;
 
 import com.ldf.calendar.model.CalendarDate;
-import com.time.cat.database.DB;
-import com.time.cat.mvp.model.DBmodel.DBTask;
-import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBTask;
+import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.util.string.TimeUtil;
 
 import java.util.ArrayList;

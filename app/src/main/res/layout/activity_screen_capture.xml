@@ -4,7 +4,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <com.time.cat.mvp.view.MarkSizeView
+    <com.time.cat.ui.widgets.MarkSizeView
         android:id="@+id/mark_size"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

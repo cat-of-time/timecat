@@ -26,7 +26,7 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.time.cat.R;
-import com.time.cat.mvp.view.MarkSizeView;
+import com.time.cat.ui.widgets.MarkSizeView;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.view.ViewUtil;

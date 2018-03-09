@@ -22,7 +22,7 @@
             <!-- content Label -->
 
 
-            <com.time.cat.mvp.view.richText.TEditText
+            <com.time.cat.ui.widgets.richText.TEditText
                 android:id="@+id/dialog_add_task_et_title"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
@@ -37,7 +37,7 @@
                 android:textColorHighlight="@color/colorPrimary"
                 android:textSize="@dimen/text_size_tiny"/>
 
-            <com.time.cat.mvp.view.richText.TEditText
+            <com.time.cat.ui.widgets.richText.TEditText
                 android:id="@+id/dialog_add_task_et_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

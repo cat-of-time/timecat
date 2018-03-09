@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:background="@color/white">
 
-        <com.time.cat.mvp.view.SmoothCheckBox
+        <com.time.cat.ui.widgets.SmoothCheckBox
             android:id="@+id/calendar_item_checkBox"
             android:layout_width="20dp"
             android:layout_height="20dp"

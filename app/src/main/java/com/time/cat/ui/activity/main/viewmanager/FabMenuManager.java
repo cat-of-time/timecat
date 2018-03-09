@@ -13,8 +13,8 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.ui.activity.main.MainActivity;
-import com.time.cat.ui.activity.about.SchedulesHelpActivity;
-import com.time.cat.mvp.model.DBmodel.DBUser;
+import com.time.cat.ui.modules.about.SchedulesHelpActivity;
+import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.util.view.ScreenUtil;
 
 import java.util.ArrayList;
