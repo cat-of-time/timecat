@@ -151,7 +151,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     //Retrofit2
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit}"
+    implementation "com.squareup.retrofit2:adapter-rxjava:${retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit}"
     implementation "com.squareup.retrofit2:retrofit:${retrofit}"
     // mvp 框架

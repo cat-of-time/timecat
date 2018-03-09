@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.notes.view;
+package com.time.cat.ui.modules.notes;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,17 +12,16 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.time.cat.R;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.network.RetrofitHelper;
+import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.adapter.CardStackViewAdapter;
 import com.time.cat.ui.adapter.viewholder.ColorItemViewHolder;
-import com.time.cat.ui.widgets.card_stack_view.CardStackView;
-import com.time.cat.ui.base.mvpframework.factory.CreatePresenter;
-import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.modules.operate.InfoOperationActivity;
-import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.base.BaseFragment;
-import com.time.cat.ui.modules.notes.presenter.NotesPresenter;
+import com.time.cat.ui.base.mvpframework.factory.CreatePresenter;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
+import com.time.cat.ui.widgets.card_stack_view.CardStackView;
 import com.time.cat.util.override.ToastUtil;
 
 import java.sql.SQLException;

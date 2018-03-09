@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.notes.view;
+package com.time.cat.ui.modules.notes;
 
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.ui.base.mvpframework.view.BaseMvpView;
