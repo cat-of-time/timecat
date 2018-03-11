@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_area"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/content_input"
+        android:textColor="#333"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:inputType="textMultiLine|textLongMessage"
+        android:padding="16dp"
+        android:scrollHorizontally="false"
+        android:scrollbars="none"
+        android:layout_marginBottom="48dp"
+        android:background="#00000000"/>
+    <include layout="@layout/editor_actionbar"/>
+</RelativeLayout>
