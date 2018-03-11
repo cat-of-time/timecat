@@ -68,6 +68,9 @@ android {
         // ButterKnife
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
     buildTypes {
         debug {
             minifyEnabled false
@@ -196,6 +199,8 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.2.1'
     // ormlite
     compile 'com.j256.ormlite:ormlite-android:4.45'
+    // event bus
+    compile 'org.greenrobot:eventbus:3.1.1'
     // intro
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
