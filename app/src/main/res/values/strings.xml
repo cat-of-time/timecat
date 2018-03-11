@@ -536,4 +536,185 @@
     <string name="add_button">Add Button</string>
     <string name="refresh_button">Refresh Button</string>
 
+
+
+    <!-- navigation drawer -->
+    <!-- navigation drawer item -->
+    <string name="drawer_item_sync">同步</string>
+    <string name="drawer_item_theme">主题</string>
+    <string name="drawer_item_help">帮助</string>
+    <string name="drawer_item_settings">设置</string>
+    <!-- navigation drawer item -->
+
+    <!-- dialog -->
+    <string name="dialog_message_alert_user">抱歉，暂时不支持同步</string>
+    <!-- navigation drawer -->
+
+    <!-- drawer toggle -->
+    <string name="toggle_drawer_open">Open Drawer</string>
+    <string name="toggle_drawer_close">Close Drawer</string>
+
+
+    <!-- file list fragment -->
+    <string name="toast_message_sdcard_unavailable">SD card不可用</string>
+    <string name="list_empty">没有找到任何文件\n点击右下角按钮新建文件</string>
+
+    <!-- menu -->
+    <string name="menu_item_search">搜索</string>
+
+    <!-- sort options -->
+    <string name="menu_item_sort">排序</string>
+    <string name="choice_item_create_time_sort">按创建时间</string>
+    <string name="choice_item_modify_time_sort">按修改时间</string>
+    <string name="choice_item_title_sort">按标题</string>
+
+    <!-- show options -->
+    <string name="menu_item_display_option">查看选项</string>
+    <string name="choice_item_file_ext">文件后缀</string>
+    <string name="choice_item_file_size">文件大小</string>
+
+    <!-- search hint -->
+    <string name="search_hint">搜索文件</string>
+
+    <!-- action mode menu -->
+    <string name="action_mode_menu_item_select_all">全选</string>
+    <string name="action_mode_menu_item_delete">删除</string>
+    <string name="dialog_message_delete_files_confirm">要删除选中的文件吗？</string>
+    <!-- file list fragment -->
+
+
+    <!-- edit fragment -->
+    <!-- menu text -->
+    <string name="menu_item_undo">撤销</string>
+    <string name="menu_item_redo">恢复</string>
+    <string name="menu_item_preview">预览</string>
+    <string name="menu_item_save">保存</string>
+    <string name="menu_item_rename">重命名</string>
+    <string name="menu_item_delete">删除</string>
+    <string name="menu_item_clear_all">清除所有</string>
+    <string name="menu_item_docs">Markdown 语法</string>
+    <string name="menu_item_statistics">统计</string>
+    <string name="menu_item_edit">编辑</string>
+
+    <string name="toast_message_deleted">已删除</string>
+    <string name="toast_message_delete_error">文件删除失败</string>
+    <string name="toast_message_cleared">内容已清除</string>
+
+    <!-- edit fragment toolbar menu item dialog -->
+    <!-- save file -->
+    <string name="dialog_title_save_file">保存文件</string>
+    <string name="dialog_et_hint_file_name">文件名</string>
+    <string name="dialog_tv_file_extension">.md</string>
+    <string name="dialog_btn_save">保存</string>
+
+    <!-- rename file -->
+    <string name="dialog_title_rename_file">重命名</string>
+    <string name="dialog_et_hint_new_file_name">新的文件名</string>
+    <string name="dialog_btn_rename">重命名</string>
+
+    <!-- clear all -->
+    <string name="toast_content_empty">内容为空</string>
+    <string name="dialog_message_clear_all">确定要清除所有内容吗？</string>
+
+    <!-- markdown docs fragment toolbar title -->
+    <string name="docs_fragment_tb_title">Markdown 语法手册</string>
+
+    <!-- statistics -->
+    <string name="dialog_title_statistics">统计信息</string>
+    <string name="dialog_tv_bold_text">总字符数</string>
+    <string name="dialog_tv_char_count">10</string>
+    <string name="dialog_tv_char_unit">个字符</string>
+
+    <!-- editor toolbar dialog -->
+    <string name="dialog_btn_insert">插入</string>
+
+    <!-- insert link -->
+    <string name="dialog_title_insert_link">插入链接</string>
+    <string name="dialog_et_hint_link_display_text">显示文本（默认：Link）</string>
+    <string name="dialog_et_hint_link_content">链接</string>
+
+    <!-- insert image -->
+    <string name="dialog_item_text_local_image">本地图片</string>
+    <string name="dialog_item_text_internet_image">网络图片</string>
+    <string name="dialog_title_insert_image">插入图片</string>
+    <string name="dialog_et_hint_image_display_text">显示文本（默认：Image）</string>
+    <string name="dialog_et_hint_image_uri">图片链接</string>
+
+    <!-- insert block code -->
+    <string name="editor_dialog_title_insert_block_code">插入代码块</string>
+    <string name="dialog_et_hint_language_name">编程语言名称</string>
+
+    <!-- dialog toast -->
+    <string name="toast_saved">已保存</string>
+    <string name="toast_does_not_select">没有选择图片</string>
+    <string name="toast_file_name_can_not_empty">文件名不能为空</string>
+    <string name="toast_file_name_exists">文件名已存在，请重新输入</string>
+    <!-- edit fragment -->
+
+
+    <!-- preference -->
+    <!-- preference key -->
+    <string name="pref_key_language">language</string>
+    <string name="pref_key_custom_editor">custom_editor</string>
+    <string name="pref_key_sync">sync</string>
+    <string name="pref_key_network">network</string>
+    <string name="pref_key_feedback">feedback</string>
+    <string name="pref_key_bug_report">bug_report</string>
+    <string name="pref_key_rating">rating</string>
+    <string name="pref_key_check_update">check_update</string>
+    <string name="pref_key_about">about</string>
+
+    <!--preference title and summary-->
+    <string name="category_title_display">显示</string>
+    <string name="category_title_editor">编辑器</string>
+    <string name="category_title_storage_sync">同步</string>
+    <string name="category_title_feedback">使用反馈</string>
+    <string name="category_title_others">其它</string>
+
+    <string name="pref_summary_default">默认</string>
+    <string name="pref_title_language">语言</string>
+    <string name="pref_summary_language">跟随系统</string>
+    <string name="pref_title_custom_editor">自定义工具栏</string>
+    <string name="pref_title_sync">同步</string>
+    <string name="pref_summary_sync">自动同步</string>
+    <string name="pref_title_wifi_sync">仅在WIFI下同步</string>
+    <string name="pref_summary_wifi_sync">使用WIFI</string>
+    <string name="pref_summary_4g_sync">使用4G/3G/2G</string>
+    <string name="pref_title_feedback">意见反馈</string>
+    <string name="pref_title_bug_report">错误报告</string>
+    <string name="pref_title_rate">应用评分</string>
+    <string name="pref_title_check_update">检查更新</string>
+    <string name="pref_summary_current_version">当前版本 v1.0</string>
+    <string name="pref_title_about">关于</string>
+
+    <string name="issue_page">https://github.com/zeleven/mua/issues</string>
+
+    <!-- language list preference item text -->
+    <string name="pref_array_item_auto">跟随系统</string>
+    <string name="pref_array_item_english">英文</string>
+    <string name="pref_array_item_chinese_s">简体中文</string>
+    <string name="pref_array_item_chinese_t">繁体中文</string>
+
+    <!-- sync list preference item text -->
+    <string name="pref_array_item_sync_auto">自动同步</string>
+    <string name="pref_array_item_sync_remind">提醒同步</string>
+    <string name="pref_array_item_sync_manual">手动同步</string>
+
+    <!--about fragment-->
+    <string name="app_describe">开源的Markdown编辑器</string>
+    <string name="app_version_text">当前版本</string>
+    <string name="app_version_number">1.0</string>
+    <string name="project_link">项目源码</string>
+    <string name="contact_me">联系作者</string>
+    <string name="bottom_text">Under MIT license.</string>
+    <!-- about fragment bottom sheet menu -->
+    <string name="menu_item_title_email">Email</string>
+    <string name="menu_item_title_github">GitHub</string>
+    <string name="menu_item_title_zhihu">知乎</string>
+    <!-- preference -->
+
+
+    <!--test content-->
+    <string name="test_long_title">这是一个标题，一个非常长的标题，长到看不到尽头，真的特别长，后面的根本看不到，后面还有很多内容你根本就看不到的，不信再看</string>
+    <string name="test_long_content">这是一段文章摘要，一段非常长的文章摘要，一样是长到没有尽头，到底是有多长呢，你继续往后看就知道有多长了，我不知道写什么了，就这样看看可不可以吧，要是不可以那就再长一点</string>
 </resources>

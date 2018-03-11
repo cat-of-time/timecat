@@ -94,4 +94,11 @@
         <item >@color/color_25</item>
         <item >@color/color_26</item>
     </integer-array>
+
+    <!--toolbar menu item array-->
+    <string-array name="sort_options">
+        <item>@string/choice_item_modify_time_sort</item>
+        <item>@string/choice_item_create_time_sort</item>
+        <item>@string/choice_item_title_sort</item>
+    </string-array>
 </resources>
