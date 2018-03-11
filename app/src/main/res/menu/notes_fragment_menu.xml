@@ -2,25 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/main_menu_today"
-        android:icon="@drawable/ic_today_white_24dp"
-        android:title="@string/main_menu_today"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/main_menu_change_theme"
-        android:icon="@drawable/ic_change_white_24dp"
-        android:title="@string/main_menu_change_theme"
-        android:visible="true"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/main_menu_refresh_schedule"
+        android:id="@+id/main_menu_note_refresh"
         android:icon="@drawable/ic_autorenew_white_24dp"
         android:title="@string/main_menu_refresh_schedule"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/main_menu_schedule_help"
-        android:icon="@drawable/ic_help_white_48dp"
-        android:title="@string/main_menu_more"
         app:showAsAction="always"/>
 </menu>
