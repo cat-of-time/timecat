@@ -1,10 +1,13 @@
-package io.github.zeleven.mua;
+package com.time.cat.ui.modules.editor;
 
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
+import com.time.cat.R;
+import com.time.cat.data.model.events.ContentChangedEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

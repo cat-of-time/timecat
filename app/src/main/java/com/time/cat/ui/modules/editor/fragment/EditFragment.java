@@ -1,4 +1,4 @@
-package io.github.zeleven.mua;
+package com.time.cat.ui.modules.editor;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.time.cat.R;
+import com.time.cat.data.model.events.ContentChangedEvent;
+import com.time.cat.helper.StorageHelper;
+import com.time.cat.util.FileUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

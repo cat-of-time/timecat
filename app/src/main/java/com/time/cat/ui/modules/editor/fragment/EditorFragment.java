@@ -1,4 +1,4 @@
-package io.github.zeleven.mua;
+package com.time.cat.ui.modules.editor;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,13 +8,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.time.cat.R;
+import com.time.cat.data.Constants;
+import com.time.cat.util.FileUtils;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
 public class EditorFragment extends BaseEditorFragment {
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.editor_viewpager) ViewPager editorViewPager;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.editor_viewpager)
+    ViewPager editorViewPager;
 
     @Override
     public int getLayoutId() {
