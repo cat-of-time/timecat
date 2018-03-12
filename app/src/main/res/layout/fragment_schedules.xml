@@ -1,53 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-
-    <com.time.cat.ui.widgets.theme.widgets.TintLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:background="@color/theme_color_primary"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/weekIndicator_7"
-            style="@style/weekIndicatorStyle"
-            android:text="日"/>
-
-        <TextView
-            android:id="@+id/weekIndicator_1"
-            style="@style/weekIndicatorStyle"
-            android:text="一"/>
-
-        <TextView
-            android:id="@+id/weekIndicator_2"
-            style="@style/weekIndicatorStyle"
-            android:text="二"/>
-
-        <TextView
-            android:id="@+id/weekIndicator_3"
-            style="@style/weekIndicatorStyle"
-            android:text="三"/>
-
-        <TextView
-            android:id="@+id/weekIndicator_4"
-            style="@style/weekIndicatorStyle"
-            android:text="四"/>
-
-        <TextView
-            android:id="@+id/weekIndicator_5"
-            style="@style/weekIndicatorStyle"
-            android:text="五"/>
-
-        <TextView
-            android:id="@+id/weekIndicator_6"
-            style="@style/weekIndicatorStyle"
-            android:text="六"/>
-
-    </com.time.cat.ui.widgets.theme.widgets.TintLinearLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -59,66 +15,115 @@
         android:layout_gravity="center"
         android:paddingBottom="80dp"/>
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/content"
+    <com.haibin.calendarview.CalendarLayout
+        android:id="@+id/calendarLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:background="#fff"
+        android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible">
+        app:calendar_content_view_id="@+id/asyncExpandableCollectionView">
 
-        <com.ldf.calendar.view.MonthPager
-            android:id="@+id/calendar_view"
+        <com.haibin.calendarview.CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:background="#fff">
-        </com.ldf.calendar.view.MonthPager>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="#fff"
+            app:current_month_lunar_text_color="#CFCFCF"
+            app:current_month_text_color="#333333"
+            app:max_year="2020"
+            app:min_year="2004"
+            app:month_view="com.time.cat.ui.widgets.calendar.CustomMonthView"
+            app:month_view_show_mode="mode_only_current"
+            app:other_month_lunar_text_color="#e1e1e1"
+            app:other_month_text_color="#e1e1e1"
+            app:scheme_text="假"
+            app:scheme_text_color="#333"
+            app:scheme_theme_color="#128c4b"
+            app:selected_lunar_text_color="#fff"
+            app:selected_text_color="#fff"
+            app:selected_theme_color="#046cea"
+            app:week_background="#fff"
+            app:week_text_color="#e1e1e1"
+            app:week_view="com.time.cat.ui.widgets.calendar.CustomWeekView"
+            app:year_view_day_text_color="#333333"
+            app:year_view_day_text_size="9sp"
+            app:year_view_month_text_color="#ff0000"
+            app:year_view_month_text_size="20sp"
+            app:year_view_scheme_color="#f17706"/>
 
         <com.time.cat.ui.widgets.asyncExpandableListView.AsyncExpandableListView
             android:id="@+id/asyncExpandableCollectionView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="45dp"
             android:background="@color/white"
             android:clipChildren="false"
             android:clipToPadding="false"
             app:layout_behavior="com.ldf.calendar.behavior.RecyclerViewBehavior"/>
-        <!-- paddingBottom或者magin距离必须是MonthPager高度的1/6-->
-        <!-- RecyclerView的高度必须是MatchParent-->
-        <!-- RecyclerView的background必须是非透明-->
-
-
-        <!--<LinearLayout-->
-        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:id="@android:id/empty"-->
+    </com.haibin.calendarview.CalendarLayout>
+    <!--<android.support.design.widget.CoordinatorLayout-->
+        <!--android:id="@+id/content"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginTop="50dp"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:orientation="vertical">-->
+        <!--android:layout_weight="1"-->
+        <!--android:visibility="gone"-->
+        <!--tools:visibility="visible">-->
 
-        <!--<ImageView-->
-        <!--android:id="@+id/imageView10"-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="150dp"-->
-        <!--android:alpha="0.3"-->
-        <!--android:src="@drawable/ic_intro_schedules"/>-->
+        <!--<com.ldf.calendar.view.MonthPager-->
+            <!--android:id="@+id/calendar_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="270dp"-->
+            <!--android:background="#fff">-->
+        <!--</com.ldf.calendar.view.MonthPager>-->
 
-        <!--<TextView-->
-        <!--android:id="@+id/textView10"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:alpha="0.9"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:padding="30dp"-->
-        <!--android:text="@string/schedules_list_empty_text"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-        <!--android:textColor="#aaa"-->
-        <!--android:textSize="16dp"/>-->
+        <!--<com.time.cat.ui.widgets.asyncExpandableListView.AsyncExpandableListView-->
+            <!--android:id="@+id/asyncExpandableCollectionView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:layout_marginBottom="45dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:clipChildren="false"-->
+            <!--android:clipToPadding="false"-->
+            <!--app:layout_behavior="com.ldf.calendar.behavior.RecyclerViewBehavior"/>-->
+        <!--&lt;!&ndash; paddingBottom或者magin距离必须是MonthPager高度的1/6&ndash;&gt;-->
+        <!--&lt;!&ndash; RecyclerView的高度必须是MatchParent&ndash;&gt;-->
+        <!--&lt;!&ndash; RecyclerView的background必须是非透明&ndash;&gt;-->
 
-        <!--</LinearLayout>-->
 
-    </android.support.design.widget.CoordinatorLayout>
+        <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@android:id/empty"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginTop="50dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center_horizontal"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:orientation="vertical">&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/imageView10"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="150dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="150dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:alpha="0.3"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:src="@drawable/ic_intro_schedules"/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/textView10"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:alpha="0.9"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center_horizontal"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:padding="30dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="@string/schedules_list_empty_text"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textAlignment="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textAppearance="?android:attr/textAppearanceMedium"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="#aaa"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textSize="16dp"/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+    <!--</android.support.design.widget.CoordinatorLayout>-->
 </LinearLayout>
