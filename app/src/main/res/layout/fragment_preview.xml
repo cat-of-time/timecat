@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentTop="true"
+        android:alpha="0.3"
+        android:background="@drawable/shadow"
+        android:elevation="1dp"/>
+
     <WebView
         android:id="@+id/markdown_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scrollbars="none"/>
 </RelativeLayout>
