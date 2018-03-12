@@ -1,4 +1,4 @@
-package com.fastaccess.helper;
+package com.time.cat.helper;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.fastaccess.App;
+import com.time.cat.TimeCatApp;
 
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class PrefHelper {
         if (InputHelper.isEmpty(key)) {
             throw new NullPointerException("Key must not be null! (key = " + key + "), (value = " + value + ")");
         }
-        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(App.getInstance()).edit();
+        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance()).edit();
         if (InputHelper.isEmpty(value)) {
             clearKey(key);
             return;
@@ -49,40 +49,40 @@ public class PrefHelper {
     }
 
     @Nullable public static String getString(@NonNull String key) {
-        return PreferenceManager.getDefaultSharedPreferences(App.getInstance()).getString(key, null);
+        return PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance()).getString(key, null);
     }
 
     public static boolean getBoolean(@NonNull String key) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance());
         return preferences.getAll().get(key) instanceof Boolean && preferences.getBoolean(key, false);
     }
 
     public static int getInt(@NonNull String key) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance());
         return preferences.getAll().get(key) instanceof Integer ? preferences.getInt(key, 0) : -1;
     }
 
     public static long getLong(@NonNull String key) {
-        return PreferenceManager.getDefaultSharedPreferences(App.getInstance()).getLong(key, 0);
+        return PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance()).getLong(key, 0);
     }
 
     public static float getFloat(@NonNull String key) {
-        return PreferenceManager.getDefaultSharedPreferences(App.getInstance()).getFloat(key, 0);
+        return PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance()).getFloat(key, 0);
     }
 
     public static void clearKey(@NonNull String key) {
-        PreferenceManager.getDefaultSharedPreferences(App.getInstance()).edit().remove(key).apply();
+        PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance()).edit().remove(key).apply();
     }
 
     public static boolean isExist(@NonNull String key) {
-        return PreferenceManager.getDefaultSharedPreferences(App.getInstance()).contains(key);
+        return PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance()).contains(key);
     }
 
     public static void clearPrefs() {
-        PreferenceManager.getDefaultSharedPreferences(App.getInstance()).edit().clear().apply();
+        PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance()).edit().clear().apply();
     }
 
     public static Map<String, ?> getAll() {
-        return PreferenceManager.getDefaultSharedPreferences(App.getInstance()).getAll();
+        return PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance()).getAll();
     }
 }

@@ -1,11 +1,11 @@
-package com.fastaccess.helper;
+package com.time.cat.helper;
 
 import android.support.annotation.NonNull;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 /**

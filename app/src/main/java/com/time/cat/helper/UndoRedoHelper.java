@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.editor;
+package com.time.cat.helper;
 
 import android.content.SharedPreferences;
 import android.text.Editable;

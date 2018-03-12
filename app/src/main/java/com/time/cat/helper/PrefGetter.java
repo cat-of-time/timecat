@@ -1,4 +1,4 @@
-package com.fastaccess.helper;
+package com.time.cat.helper;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,9 +8,9 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.fastaccess.App;
-import com.fastaccess.BuildConfig;
-import com.fastaccess.R;
+import com.time.cat.BuildConfig;
+import com.time.cat.R;
+import com.time.cat.TimeCatApp;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -277,7 +277,7 @@ public class PrefGetter {
     }
 
     @ThemeType public static int getThemeType() {
-        return getThemeType(App.getInstance().getResources());
+        return getThemeType(TimeCatApp.getInstance().getResources());
     }
 
     @ThemeColor public static int getThemeColor(@NonNull Context context) {

@@ -1,9 +1,9 @@
-package com.fastaccess.helper;
+package com.time.cat.helper;
 
 import android.os.Build;
 
-import com.fastaccess.App;
 import com.jaredrummler.android.device.DeviceName;
+import com.time.cat.TimeCatApp;
 
 import io.reactivex.Observable;
 
@@ -22,7 +22,7 @@ public class DeviceNameGetter {
     private DeviceNameGetter() {}
 
     public void loadDevice() {
-        DeviceName.with(App.getInstance())
+        DeviceName.with(TimeCatApp.getInstance())
                 .request((info, error) -> {
                     if (error == null && null != info) {
                         deviceName = info.marketName;
@@ -39,7 +39,7 @@ public class DeviceNameGetter {
 
     private String blockingDeviceName() {
         return (String) Observable.fromPublisher(s -> {
-            DeviceName.with(App.getInstance())
+            DeviceName.with(TimeCatApp.getInstance())
                     .request((info, error) -> {
                         if (error == null && info != null) s.onNext(info.marketName);
                         else s.onError(error);
