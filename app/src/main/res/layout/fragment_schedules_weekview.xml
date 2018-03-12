@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"/>
 
-    <com.simplemobiletools.calendar.views.MyScrollView
+    <com.time.cat.ui.widgets.weekview.MyScrollView
         android:id="@+id/week_events_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -82,7 +82,7 @@
 
             </LinearLayout>
         </RelativeLayout>
-    </com.simplemobiletools.calendar.views.MyScrollView>
+    </com.time.cat.ui.widgets.weekview.MyScrollView>
 
     <RelativeLayout
         android:id="@+id/week_top_holder"

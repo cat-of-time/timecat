@@ -82,7 +82,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="48dp"/>
-
+            <!--<FrameLayout-->
+                <!--android:id="@+id/main_fragments"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginBottom="48dp"/>-->
             <!--PageNavigationView的高度为48dp,那20dp是突出来的-->
 
             <me.majiajie.pagerbottomtabstrip.PageNavigationView
