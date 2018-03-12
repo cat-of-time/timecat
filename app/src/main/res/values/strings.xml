@@ -749,4 +749,16 @@
     <string name="amber_theme_mode" translatable="false">Amber</string>
     <string name="orange_theme_mode" translatable="false">Orange</string>
     <string name="deep_orange_theme_mode" translatable="false">Deep Orange</string>
+
+    <string name="monday_letter">M</string>
+    <string name="tuesday_letter">T</string>
+    <string name="wednesday_letter">W</string>
+    <string name="thursday_letter">T</string>
+    <string name="friday_letter">F</string>
+    <string name="saturday_letter">S</string>
+    <string name="sunday_letter">S</string>
+
+
+    <!-- Weekly view -->
+    <string name="week">Week</string>
 </resources>

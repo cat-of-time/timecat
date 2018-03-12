@@ -261,4 +261,8 @@
         <attr name="group_padding_right" format="dimension" />
         <attr name="group_has_header" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="SmallMonthView">
+        <attr name="days" format="integer"/>
+    </declare-styleable>
 </resources>
