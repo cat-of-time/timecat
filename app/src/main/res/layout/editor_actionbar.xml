@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@android:color/white"
-    android:layout_alignParentBottom="true">
+              android:id="@+id/vLine"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentBottom="true"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="#ddd"
-        android:layout_above="@+id/toolbar_buttons"/>
+        android:layout_above="@+id/toolbar_buttons"
+        android:background="#ddd"/>
 
     <HorizontalScrollView
         android:id="@+id/toolbar_buttons"
@@ -22,41 +24,50 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton android:id="@+id/heading"
-                android:src="@drawable/ic_title"
-                style="@style/EditorActionBarButton"/>
-
-            <ImageButton android:id="@+id/bold"
-                android:src="@drawable/ic_bold"
-                style="@style/EditorActionBarButton" />
-
-            <ImageButton android:id="@+id/italic"
-                android:src="@drawable/ic_italic"
-                style="@style/EditorActionBarButton" />
-
-            <ImageButton android:id="@+id/code"
-                android:src="@drawable/ic_code"
-                style="@style/EditorActionBarButton" />
-
-            <ImageButton android:id="@+id/quote"
+            <ImageButton
+                android:id="@+id/heading"
                 style="@style/EditorActionBarButton"
-                android:src="@drawable/ic_quote" />
+                android:src="@drawable/ic_title"/>
 
-            <ImageButton android:id="@+id/list_number"
-                android:src="@drawable/ic_list_number"
-                style="@style/EditorActionBarButton" />
+            <ImageButton
+                android:id="@+id/bold"
+                style="@style/EditorActionBarButton"
+                android:src="@drawable/ic_bold"/>
 
-            <ImageButton android:id="@+id/list_bullet"
-                android:src="@drawable/ic_list_bullet"
-                style="@style/EditorActionBarButton" />
+            <ImageButton
+                android:id="@+id/italic"
+                style="@style/EditorActionBarButton"
+                android:src="@drawable/ic_italic"/>
 
-            <ImageButton android:id="@+id/link"
-                android:src="@drawable/ic_link"
-                style="@style/EditorActionBarButton" />
+            <ImageButton
+                android:id="@+id/code"
+                style="@style/EditorActionBarButton"
+                android:src="@drawable/ic_code"/>
 
-            <ImageButton android:id="@+id/image"
-                android:src="@drawable/ic_image"
-                style="@style/EditorActionBarButton" />
+            <ImageButton
+                android:id="@+id/quote"
+                style="@style/EditorActionBarButton"
+                android:src="@drawable/ic_quote"/>
+
+            <ImageButton
+                android:id="@+id/list_number"
+                style="@style/EditorActionBarButton"
+                android:src="@drawable/ic_list_number"/>
+
+            <ImageButton
+                android:id="@+id/list_bullet"
+                style="@style/EditorActionBarButton"
+                android:src="@drawable/ic_list_bullet"/>
+
+            <ImageButton
+                android:id="@+id/link"
+                style="@style/EditorActionBarButton"
+                android:src="@drawable/ic_link"/>
+
+            <ImageButton
+                android:id="@+id/image"
+                style="@style/EditorActionBarButton"
+                android:src="@drawable/ic_image"/>
 
         </LinearLayout>
 
