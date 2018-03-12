@@ -1,6 +1,5 @@
 <com.time.cat.ui.widgets.theme.widgets.TintConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -26,24 +25,48 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/main_month_view"
+                    android:id="@+id/tv_month_day"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="1月"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="3月11日"
                     android:textColor="@color/white"
-                    android:textSize="19.3sp"/>
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry"/>
 
-                <TextView
-                    android:id="@+id/main_year_view"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:gravity="bottom"
-                    android:text="2018年"
-                    android:textColor="#8effffff"
-                    android:textSize="13sp"/>
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/tv_month_day"
+                    android:orientation="vertical"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="12dp"
+                    tools:ignore="RelativeOverlap">
+
+                    <TextView
+                        android:id="@+id/tv_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="2018"
+                        android:textColor="#8effffff"
+                        android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_lunar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="初一"
+                        android:textColor="#8effffff"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp"/>
+                </LinearLayout>
             </LinearLayout>
 
         </com.time.cat.ui.widgets.theme.widgets.TintToolbar>
