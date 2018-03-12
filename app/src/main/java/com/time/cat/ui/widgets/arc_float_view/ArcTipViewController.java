@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -30,11 +31,12 @@ import com.flask.colorpicker.CircleColorDrawable;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.modules.operate.InfoOperationActivity;
-import com.time.cat.ui.modules.setting.SettingFloatViewActivity;
-import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.data.Constants;
 import com.time.cat.ui.activity.screen.ScreenCaptureActivity;
 import com.time.cat.ui.activity.viewtask.HistoryActivity;
+import com.time.cat.ui.modules.editor.EditorActivity;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
+import com.time.cat.ui.modules.setting.SettingFloatViewActivity;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.override.LogUtil;
@@ -355,10 +357,10 @@ public class ArcTipViewController implements View.OnTouchListener {
                     R.drawable.ic_history_white_24dp,
                     R.drawable.ic_add_white_24dp,
                     R.mipmap.ic_float_copy,
-                    R.drawable.ic_float_home,
+                    R.drawable.ic_bookmark_white_24dp,
                     R.mipmap.ic_float_screen
             };
-            contentDiscription = new String[]{"查看历史", "添加日程", mContext.getString(R.string.notify_copy_title), "转到主页", mContext.getString(R.string.notify_srceen_cap)};
+            contentDiscription = new String[]{"查看历史", "添加日程", mContext.getString(R.string.notify_copy_title), "Markdown", mContext.getString(R.string.notify_srceen_cap)};
         }
     }
 
@@ -473,7 +475,10 @@ public class ArcTipViewController implements View.OnTouchListener {
             case 3:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);
                 Intent intent2MainActivity = new Intent();
-                intent2MainActivity.setClass(mContext, MainActivity.class);
+                Bundle args = new Bundle();
+                args.putBoolean(Constants.BUNDLE_KEY_FROM_FILE, false);
+                intent2MainActivity.putExtras(args);
+                intent2MainActivity.setClass(mContext, EditorActivity.class);
                 intent2MainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent2MainActivity);
                 break;
