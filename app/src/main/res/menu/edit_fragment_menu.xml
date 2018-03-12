@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/undo"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/undo"
+        android:icon="@drawable/ic_undo_white_24dp"
         android:title="@string/menu_item_undo"
-        android:icon="@drawable/ic_undo"
-        app:showAsAction="always" />
-    <item android:id="@+id/redo"
-        android:title="@string/menu_item_redo"
-        android:icon="@drawable/ic_redo"
-        app:showAsAction="always" />
-    <item android:id="@+id/preview"
-        android:title="@string/menu_item_preview"
-        android:icon="@drawable/ic_preview"
         app:showAsAction="always"/>
-    <item android:id="@+id/save"
-        android:title="@string/menu_item_save"/>
-    <item android:id="@+id/rename"
-        android:title="@string/menu_item_rename"
-        android:enabled="false"/>
-    <item android:id="@+id/delete"
-        android:title="@string/menu_item_delete"
-        android:enabled="false"/>
-    <item android:id="@+id/clear_all"
+    <item
+        android:id="@+id/redo"
+        android:icon="@drawable/ic_redo_white_24dp"
+        android:title="@string/menu_item_redo"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/preview"
+        android:icon="@drawable/ic_preview_white_24dp"
+        android:title="@string/menu_item_preview"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/save"
+        android:title="@string/menu_item_save"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/rename"
+        android:enabled="false"
+        android:title="@string/menu_item_rename"/>
+    <item
+        android:id="@+id/delete"
+        android:enabled="false"
+        android:title="@string/menu_item_delete"/>
+    <item
+        android:id="@+id/clear_all"
         android:title="@string/menu_item_clear_all"/>
-    <item android:id="@+id/md_docs"
+    <item
+        android:id="@+id/md_docs"
         android:title="@string/menu_item_docs"/>
-    <item android:id="@+id/statistics"
+    <item
+        android:id="@+id/statistics"
         android:title="@string/menu_item_statistics"/>
 </menu>
