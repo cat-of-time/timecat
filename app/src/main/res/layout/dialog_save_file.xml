@@ -12,6 +12,7 @@
             android:id="@+id/file_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:hint="@string/dialog_et_hint_file_name"
             android:layout_centerVertical="true"/>
         <TextView
