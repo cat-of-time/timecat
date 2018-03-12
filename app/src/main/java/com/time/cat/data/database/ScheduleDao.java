@@ -22,14 +22,17 @@ import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
-import com.time.cat.data.model.events.PersistenceEvents;
+import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBTaskItem;
 import com.time.cat.data.model.DBmodel.DBUser;
-import com.time.cat.data.model.APImodel.Task;
+import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.util.model.ModelUtil;
+import com.time.cat.util.string.TimeUtil;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -57,6 +60,21 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
         }
     }
 
+
+    public List<DBTask> findBetween(String start, String end) {
+        Date start_date = TimeUtil.formatGMTDateStr(start);
+        Date end_date = TimeUtil.formatGMTDateStr(start);
+        List<DBTask> dbTaskList = findAllForActiveUser();
+        List<DBTask> result = new ArrayList<>();
+        for (DBTask dbTask : dbTaskList) {
+            Date begin_datetime = TimeUtil.formatGMTDateStr(dbTask.getBegin_datetime());
+            Date end_datetime= TimeUtil.formatGMTDateStr(dbTask.getEnd_datetime());
+            if (TimeUtil.isDateEarlier(start_date, begin_datetime) && TimeUtil.isDateEarlier(end_datetime, end_date)) {
+                result.add(dbTask);
+            }
+        }
+        return result;
+    }
 
     @Override
     public Dao<DBTask, Long> getConcreteDao() {
