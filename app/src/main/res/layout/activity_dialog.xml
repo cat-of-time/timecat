@@ -21,37 +21,50 @@
             <!-- title Label -->
             <!-- content Label -->
 
-
-            <com.time.cat.ui.widgets.richText.TEditText
-                android:id="@+id/dialog_add_task_et_title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/dialog_add_task_et_content"
                 android:layout_marginLeft="@dimen/margin_auto"
                 android:layout_marginRight="@dimen/margin_auto"
-                android:background="@null"
-                android:hint="标题"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textColor="#3e000000"
-                android:textColorHighlight="@color/colorPrimary"
-                android:textSize="@dimen/text_size_tiny"/>
+                android:orientation="horizontal">
+
+                <com.time.cat.ui.widgets.richText.TEditText
+                    android:id="@+id/dialog_add_task_et_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_weight="0.9"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="标题"
+                    android:singleLine="true"
+                    android:textColor="#3e000000"
+                    android:textColorHighlight="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_tiny"/>
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/to_editor"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/ic_mode_edit"/>
+            </LinearLayout>
 
             <com.time.cat.ui.widgets.richText.TEditText
                 android:id="@+id/dialog_add_task_et_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingMultiplier="1.2"
                 android:layout_marginLeft="@dimen/margin_auto"
                 android:layout_marginRight="@dimen/margin_auto"
+                android:background="@null"
                 android:backgroundTint="@color/colorPrimary"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:focusedByDefault="true"
                 android:gravity="top"
-                android:background="@null"
                 android:hint="内容"
                 android:inputType="textMultiLine"
+                android:lineSpacingMultiplier="1.2"
                 android:maxHeight="200dp"
                 android:minHeight="120dp"
                 android:padding="0dp"
