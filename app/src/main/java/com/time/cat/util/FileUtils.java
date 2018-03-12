@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.editor;
+package com.time.cat.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.time.cat.R;
+import com.time.cat.data.model.entity.FileEntity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

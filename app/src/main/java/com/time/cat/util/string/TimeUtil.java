@@ -37,7 +37,7 @@ public class TimeUtil {
     public static boolean isDateEarlier(Date dateEarly, Date date) {
         if (dateEarly.getYear() <= date.getYear()
                 && dateEarly.getMonth() <= date.getMonth()
-                &&  dateEarly.getDay() <= date.getDay()) {
+                &&  dateEarly.getDate() <= date.getDate()) {
             return true;
         }
         return false;
@@ -95,6 +95,9 @@ public class TimeUtil {
         return new Date(calendarDate.getYear() - 1900, calendarDate.getMonth() - 1, calendarDate.getDay());
     }
 
+    public static Date transferCalendarDate(com.haibin.calendarview.Calendar calendarDate) {
+        return new Date(calendarDate.getYear() - 1900, calendarDate.getMonth() - 1, calendarDate.getDay());
+    }
     /**
      * 本地时间格式化
      * @param s "2018-02-19T16:11:11Z"
