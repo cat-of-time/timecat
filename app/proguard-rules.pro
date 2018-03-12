@@ -39,7 +39,6 @@
 -keep public class * extends android.app.backup.BackupAgentHelper # 保持哪些类不被混淆
 -keep public class * extends android.preference.Preference        # 保持哪些类不被混淆
 -keep public class com.android.vending.licensing.ILicensingService    # 保持哪些类不被混淆
-
 -keepclasseswithmembernames class * {  # 保持 native 方法不被混淆
     native <methods>;
 }

@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'idea'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 buildscript {
     repositories {
         mavenCentral()
@@ -125,6 +127,7 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    mavenCentral()
 }
 idea {
     module {
@@ -215,7 +218,6 @@ dependencies {
     //calendar
     compile 'com.haibin:calendarview:3.2.7'
     compile 'com.github.bumptech.glide:glide:4.5.0'
-
     // 阿里百川用户反馈
     compile 'com.aliyun.ams:alicloud-android-feedback:3.1.0@aar'
     compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
@@ -229,4 +231,6 @@ dependencies {
     //files in libs/*
     compile files('libs/AndroidScreenCap.jar')
     compile files('libs/securityguard-3.1.27.jar')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.simplemobiletools:commons:3.14.1'
 }
