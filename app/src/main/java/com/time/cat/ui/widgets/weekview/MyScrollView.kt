@@ -1,4 +1,4 @@
-package com.simplemobiletools.calendar.views
+package com.time.cat.ui.widgets.weekview
 
 import android.content.Context
 import android.util.AttributeSet

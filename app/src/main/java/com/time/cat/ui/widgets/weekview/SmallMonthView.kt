@@ -1,4 +1,4 @@
-package com.simplemobiletools.calendar.views
+package com.time.cat.ui.widgets.weekview
 
 import android.content.Context
 import android.content.res.Configuration
@@ -6,12 +6,11 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.simplemobiletools.calendar.R
-import com.simplemobiletools.calendar.extensions.config
-import com.simplemobiletools.calendar.helpers.MEDIUM_ALPHA
-import com.simplemobiletools.calendar.models.DayYearly
 import com.simplemobiletools.commons.extensions.adjustAlpha
 import com.simplemobiletools.commons.extensions.getAdjustedPrimaryColor
+import com.time.cat.R
+import com.time.cat.data.Constants.MEDIUM_ALPHA
+import com.time.cat.helper.config
 import java.util.*
 
 class SmallMonthView(context: Context, attrs: AttributeSet, defStyle: Int) : View(context, attrs, defStyle) {
