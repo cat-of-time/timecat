@@ -16,6 +16,19 @@ import java.util.Date;
  * @usage null
  */
 public class DateUtil {
+
+    public static int getYear() {
+        return Calendar.getInstance().get(Calendar.YEAR);
+    }
+
+    public static int getMonth() {
+        return Calendar.getInstance().get(Calendar.MONTH) + 1;
+    }
+
+    public static int getDay() {
+        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+    }
+
     /**
      * 比较日期大小
      * @param dateStr0
