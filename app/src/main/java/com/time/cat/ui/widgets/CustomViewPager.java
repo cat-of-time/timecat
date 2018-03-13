@@ -1,4 +1,4 @@
-package io.github.zeleven.mua;
+package com.time.cat.ui.widgets;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -15,7 +15,7 @@ public class CustomViewPager extends ViewPager {
 
     public CustomViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.swipeable = false;
+        this.swipeable = true;
     }
 
     @Override
