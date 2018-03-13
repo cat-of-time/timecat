@@ -40,6 +40,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.StyleRes;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -267,8 +268,8 @@ public class ThemeUtils {
 
     @SuppressLint("RestrictedApi")
     public static Drawable getWrapperDrawable(Drawable drawable) {
-        if (drawable instanceof android.support.v4.graphics.drawable.DrawableWrapper) {
-            return ((android.support.v4.graphics.drawable.DrawableWrapper) drawable).getWrappedDrawable();
+        if (drawable instanceof DrawableWrapper) {
+            return ((DrawableWrapper) drawable).getWrappedDrawable();
         } else if (drawable instanceof android.support.v7.graphics.drawable.DrawableWrapper) {
             return ((android.support.v7.graphics.drawable.DrawableWrapper) drawable).getWrappedDrawable();
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && drawable instanceof android.graphics.drawable.DrawableWrapper) {
