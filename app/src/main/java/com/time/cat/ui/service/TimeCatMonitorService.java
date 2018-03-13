@@ -27,13 +27,13 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.widgets.arc_float_view.ArcTipViewController;
 import com.time.cat.ui.activity.KeepAliveActivity;
 import com.time.cat.ui.activity.TimeCatActivity;
 import com.time.cat.ui.activity.copy.CopyActivity;
 import com.time.cat.ui.activity.copy.CopyNode;
-import com.time.cat.ui.modules.setting.SettingActivity;
+import com.time.cat.ui.activity.main.MainActivity;
 import com.time.cat.ui.activity.whitelist.SelectionDbHelper;
+import com.time.cat.ui.widgets.arc_float_view.ArcTipViewController;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.KeyPressedTipViewController;
 import com.time.cat.util.RunningTaskUtil;
@@ -101,7 +101,7 @@ public class TimeCatMonitorService extends AccessibilityService {
 
         @Override
         public boolean longPressed() {
-            Intent intent = new Intent(TimeCatMonitorService.this, SettingActivity.class);
+            Intent intent = new Intent(TimeCatMonitorService.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return true;
