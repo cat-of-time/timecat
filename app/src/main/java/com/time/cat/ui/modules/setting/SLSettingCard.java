@@ -186,7 +186,7 @@ public class SLSettingCard extends AbsCard {
         File dbDir = new File(file.getParentFile(), "databases");
         File spDir = new File(file.getParentFile(), "shared_prefs");
 
-        File desDir = new File(Environment.getExternalStorageDirectory() + File.separator + "quannengfenci/backup");
+        File desDir = new File(Environment.getExternalStorageDirectory() + File.separator + "timecat/backup");
 
         try {
             IOUtil.copyFile(dbDir.getAbsolutePath(), new File(desDir, "databases").getAbsolutePath());
@@ -207,7 +207,7 @@ public class SLSettingCard extends AbsCard {
         LogUtil.d("imei=" + imei);
         LogUtil.d("cpu=" + cpu);
 
-        File desOCRFile = new File(Environment.getExternalStorageDirectory() + File.separator + "quannengfenci/backup/OCR/ocr.txt");
+        File desOCRFile = new File(Environment.getExternalStorageDirectory() + File.separator + "timecat/backup/OCR/ocr.txt");
         desOCRFile.getParentFile().mkdirs();
         String ocrEncrypt = AESUtils.encrypt(imei + cpu, ocr);
         InputStream inputStream = new ByteArrayInputStream(ocrEncrypt.getBytes());
@@ -236,9 +236,9 @@ public class SLSettingCard extends AbsCard {
         File spDir = new File(file.getParentFile().getAbsolutePath() + "/shared_prefs");
 
 
-        File desDbDir = new File(Environment.getExternalStorageDirectory() + File.separator + "quannengfenci/backup/databases");
-        File desSpFile = new File(Environment.getExternalStorageDirectory() + File.separator + "quannengfenci/backup/shared_prefs");
-        File floatViewFile = new File(Environment.getExternalStorageDirectory() + File.separator + "quannengfenci/backup/", "floatview.png");
+        File desDbDir = new File(Environment.getExternalStorageDirectory() + File.separator + "timecat/backup/databases");
+        File desSpFile = new File(Environment.getExternalStorageDirectory() + File.separator + "timecat/backup/shared_prefs");
+        File floatViewFile = new File(Environment.getExternalStorageDirectory() + File.separator + "timecat/backup/", "floatview.png");
 
         if (floatViewFile.exists()) {
             try {
@@ -276,7 +276,7 @@ public class SLSettingCard extends AbsCard {
         LogUtil.d("imei=" + imei);
         LogUtil.d("cpu=" + cpu);
 
-        File desOCRFile = new File(Environment.getExternalStorageDirectory() + File.separator + "quannengfenci/backup/OCR/ocr.txt");
+        File desOCRFile = new File(Environment.getExternalStorageDirectory() + File.separator + "timecat/backup/OCR/ocr.txt");
         if (!desOCRFile.exists()) {
             return;
         }
