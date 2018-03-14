@@ -11,4 +11,6 @@ public interface OnScheduleViewClickListener {
     void onViewRefreshClick();
 
     void onViewChangeMarkThemeClick();
+
+    void onViewExpand();
 }

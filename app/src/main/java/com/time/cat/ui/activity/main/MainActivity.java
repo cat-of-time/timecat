@@ -20,44 +20,44 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.haibin.calendarview.Calendar;
 import com.time.cat.R;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.data.model.DBmodel.DBUser;
-import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
-import com.time.cat.ui.modules.operate.InfoOperationActivity;
-import com.time.cat.ui.widgets.navigation.SpecialTab;
-import com.time.cat.ui.widgets.navigation.SpecialTabRound;
-import com.time.cat.ui.widgets.viewpaper.CustomPagerView;
-import com.time.cat.ui.widgets.theme.ThemeManager;
-import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
-import com.time.cat.ui.modules.about.SchedulesHelpActivity;
+import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
+import com.time.cat.ui.activity.main.listener.OnPlanViewClickListener;
 import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
 import com.time.cat.ui.activity.main.viewmanager.FabMenuManager;
 import com.time.cat.ui.activity.main.viewmanager.LeftDrawerManager;
 import com.time.cat.ui.activity.user.LoginActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.BaseFragment;
-import com.time.cat.ui.modules.theme.DialogThemeFragment;
-import com.time.cat.ui.modules.plans.PlansFragment;
+import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.modules.about.SchedulesHelpActivity;
 import com.time.cat.ui.modules.notes.NotesFragment;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
+import com.time.cat.ui.modules.plans.FileListFragment;
 import com.time.cat.ui.modules.routines.RoutinesListFragment;
 import com.time.cat.ui.modules.schedules.SchedulesFragment;
+import com.time.cat.ui.modules.theme.DialogThemeFragment;
+import com.time.cat.ui.widgets.navigation.SpecialTab;
+import com.time.cat.ui.widgets.navigation.SpecialTabRound;
+import com.time.cat.ui.widgets.theme.ThemeManager;
+import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
+import com.time.cat.ui.widgets.viewpaper.CustomPagerView;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.view.ScreenUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -93,8 +93,9 @@ public class MainActivity extends BaseActivity implements
     private Menu menu;
     private LeftDrawerManager leftDrawer;
 
-    private TextView tvYear;
-    private TextView tvMonth;
+    private TextView mTextMonthDay;
+    private TextView mTextYear;
+    private TextView mTextLunar;
 
     private CustomPagerView customPagerView;
     private CustomPagerViewAdapter customPagerViewAdapter;
@@ -176,16 +177,22 @@ public class MainActivity extends BaseActivity implements
                 setStatusBarFontIconDark(false);
         }
 
-        tvYear = findViewById(R.id.main_year_view);
-        tvMonth = findViewById(R.id.main_month_view);
+        mTextMonthDay = findViewById(R.id.tv_month_day);
+        mTextYear = findViewById(R.id.tv_year);
+        mTextLunar = findViewById(R.id.tv_lunar);
+//        mTextCurrentDay = findViewById(R.id.tv_current_day);
 
         customPagerView = findViewById(R.id.main_viewpager);
         navigation = findViewById(R.id.main_navigation);
 
+        Calendar c = new Calendar();
+        mTextYear.setText(String.valueOf(c.getYear()));
+        mTextMonthDay.setText(c.getMonth() + "月" + c.getDay() + "日");
+        mTextLunar.setText("今日");
+//        mTextCurrentDay.setText(String.valueOf(mCalendarView.getCurDay()));
 
         setToolBar();
         setViewPager();
-//        setFab();不要这个了
         setNavigationBar();
     }
 
@@ -205,6 +212,10 @@ public class MainActivity extends BaseActivity implements
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0, ScreenUtil.getStatusBarHeight(this), 0, 0);
         toolbar.setLayoutParams(layoutParams);
+//        toolbar.setContentInsetsAbsolute(0,0);
+        toolbar.setContentInsetEndWithActions(0);
+        toolbar.setContentInsetsRelative(0, 0);
+        toolbar.setContentInsetStartWithNavigation(0);
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
         assert ab != null;
@@ -221,13 +232,15 @@ public class MainActivity extends BaseActivity implements
         schedulesFragment.setOnDateChangeListener(this);
         setOnViewClickListener(schedulesFragment);
 
-//        RoutinesFragment routinesFragment = new RoutinesFragment();
         RoutinesListFragment routinesListFragment = new RoutinesListFragment();
+//        SFragment routinesListFragment = new SFragment();
 
         NotesFragment notesFragment = new NotesFragment();
         setOnViewClickListener(notesFragment);
 
-        PlansFragment plansFragment = new PlansFragment();
+//        PlansFragment plansFragment = new PlansFragment();
+        FileListFragment fileListFragment = new FileListFragment();
+        setOnViewClickListener(fileListFragment);
 
         fragmentNames = new String[]{"SchedulesFragment", "RoutinesFragment", "NotesFragment", "PlansFragment"};
 
@@ -235,7 +248,7 @@ public class MainActivity extends BaseActivity implements
         customPagerViewAdapter.addFragment(schedulesFragment);
         customPagerViewAdapter.addFragment(routinesListFragment);
         customPagerViewAdapter.addFragment(notesFragment);
-        customPagerViewAdapter.addFragment(plansFragment);
+        customPagerViewAdapter.addFragment(fileListFragment);
         assert customPagerView != null;
         customPagerView.setAdapter(customPagerViewAdapter);
         customPagerView.setCurrentItem(0);
@@ -314,6 +327,14 @@ public class MainActivity extends BaseActivity implements
             @Override
             public void onRepeat(int index) {
                 //重复选中时触发
+//                if (index == 0) {
+//                    WeekFragmentsHolder weekFragmentsHolder = new WeekFragmentsHolder();
+//                    Bundle bundle = new Bundle();
+//                    weekFragmentsHolder.setArguments(bundle);
+//                    customPagerViewAdapter.replace(index, weekFragmentsHolder);
+////                    customPagerView.setAdapter(customPagerViewAdapter);
+//                    LogUtil.e("repeat to change");
+//                }
                 if (index == 2) {
                     launchActivity(new Intent(MainActivity.this, InfoOperationActivity.class));
                 }
@@ -370,6 +391,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void initEvent() {//必须调用
         customPagerView.addOnPageChangeListener(this);
+        mTextMonthDay.setOnClickListener(this);
         subscribeToEvents();
     }
 
@@ -456,6 +478,15 @@ public class MainActivity extends BaseActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         this.menu = menu;
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mPlanViewClickListener != null) {
+                    mPlanViewClickListener.initSearchView(menu, MainActivity.this);
+                }
+            }
+        }, 1000);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -470,29 +501,38 @@ public class MainActivity extends BaseActivity implements
 
             // 以下是schedule menu group
             case R.id.main_menu_today:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewTodayClick();
+                View refreshActionView = getLayoutInflater().inflate(R.layout.menu_action_today, null);
+                TextView textView = refreshActionView.findViewById(R.id.tv_current_day);
+                Date d = new Date();
+                textView.setText(String.valueOf(d.getDate()));
+                item.setActionView(refreshActionView);
+                refreshActionView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mScheduleViewClickListener != null) {
+                            mScheduleViewClickListener.onViewTodayClick();
+                        }
+                    }
+                });
+                if (mScheduleViewClickListener != null) {
+                    mScheduleViewClickListener.onViewTodayClick();
                 }
                 return true;
-            case R.id.main_menu_change_theme:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewChangeMarkThemeClick();
+            case R.id.main_menu_refresh_schedule:
+                showRefreshAnimation(item);
+                if (mScheduleViewClickListener != null) {
+                    mScheduleViewClickListener.onViewRefreshClick();
                 }
                 return true;
             case R.id.main_menu_schedule_help:
                 launchActivity(new Intent(this, SchedulesHelpActivity.class));
                 return true;
-            case R.id.main_menu_refresh_schedule:
-                showRefreshAnimation(item);
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewRefreshClick();
-                }
 
 
             // 以下是clock menu group
             case R.id.main_menu_1:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewTodayClick();
+                if (mScheduleViewClickListener != null) {
+                    mScheduleViewClickListener.onViewTodayClick();
                 }
                 return true;
 
@@ -505,9 +545,9 @@ public class MainActivity extends BaseActivity implements
                 return true;
 
             // 以下是schedule plan group
-            case R.id.main_menu_2:
-                if (mViewClickListener != null) {
-                    mViewClickListener.onViewChangeMarkThemeClick();
+            case R.id.main_menu_plan_sort:
+                if (mPlanViewClickListener != null) {
+                    mPlanViewClickListener.onViewSortClick();
                 }
                 return true;
             default:
@@ -515,44 +555,6 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    protected MenuItem refreshItem;
-
-    @SuppressLint("NewApi")
-    private void showRefreshAnimation(MenuItem item) {
-        hideRefreshAnimation();
-
-        refreshItem = item;
-
-        //这里使用一个ImageView设置成MenuItem的ActionView，这样我们就可以使用这个ImageView显示旋转动画了
-        ImageView refreshActionView = (ImageView) getLayoutInflater().inflate(R.layout.action_view, null);
-        refreshActionView.setImageResource(R.drawable.ic_autorenew_white_24dp);
-        refreshItem.setActionView(refreshActionView);
-
-        //显示刷新动画
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.refresh);
-        animation.setRepeatMode(Animation.RESTART);
-        animation.setRepeatCount(1);
-        refreshActionView.startAnimation(animation);
-
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideRefreshAnimation();
-            }
-        }, 1000);
-    }
-
-    @SuppressLint("NewApi")
-    private void hideRefreshAnimation() {
-        if (refreshItem != null) {
-            View view = refreshItem.getActionView();
-            if (view != null) {
-                view.clearAnimation();
-                refreshItem.setActionView(null);
-            }
-        }
-    }
     //-//</Activity>--------------------------------------------------------------------------------
 
 
@@ -623,7 +625,6 @@ public class MainActivity extends BaseActivity implements
         }
         adjustActionBar(fragmentNames[position]);
         leftDrawer.onPagerPositionChange(position);
-//        fabMgr.onViewPagerItemChange(position);
     }
 
     @Override
@@ -657,9 +658,12 @@ public class MainActivity extends BaseActivity implements
 
     //-//<SchedulesFragment.OnDateChangeListener>--------------------------------------------------------
     @Override
-    public void onDateChange(int year, int month, boolean isToday) {
-        tvYear.setText(year + getString(R.string.calendar_year));
-        tvMonth.setText(month + "月");
+    public void onDateChange(Calendar calendar) {
+        mTextLunar.setVisibility(View.VISIBLE);
+        mTextYear.setVisibility(View.VISIBLE);
+        mTextMonthDay.setText(calendar.getMonth() + "月" + calendar.getDay() + "日");
+        mTextYear.setText(String.valueOf(calendar.getYear()));
+        mTextLunar.setText(calendar.getLunar());
         this.isToday = isToday;
         if (menu != null) {
             if (!isToday) {
@@ -679,6 +683,10 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_month_day:
+                if (mScheduleViewClickListener != null) {
+                    mScheduleViewClickListener.onViewExpand();
+                }
         }
     }
     //-//</View.OnClickListener>--------------------------------------------------------------------
@@ -710,12 +718,12 @@ public class MainActivity extends BaseActivity implements
                             activeUser = user;
                         }
                         // 不要在UserUpdateEvent里setActive(),因为setActive()也是一个UserUpdateEvent,会造成递归update
-//                        DB.users().setActive(user, MainActivity.this);
+//                        DB.users().setActive(user, EditorActivity.this);
                     } else if (evt instanceof PersistenceEvents.UserCreateEvent) {
                         DBUser created = ((PersistenceEvents.UserCreateEvent) evt).user;
                         leftDrawer.onUserCreated(created);
                         onUserUpdate(created);
-//                        DB.users().setActive(created, MainActivity.this);
+//                        DB.users().setActive(created, EditorActivity.this);
                     } else if (evt instanceof PersistenceEvents.NoteUpdateEvent) {
                         customPagerViewAdapter.notifyDataChanged();
                     } else if (evt instanceof PersistenceEvents.NoteCreateEvent) {
@@ -753,14 +761,19 @@ public class MainActivity extends BaseActivity implements
 
 
     //<回调接口>-------------------------------------------------------------------------------------
-    private OnScheduleViewClickListener mViewClickListener;
+    private OnScheduleViewClickListener mScheduleViewClickListener;
     public void setOnViewClickListener(OnScheduleViewClickListener onViewClickListener) {
-        mViewClickListener = onViewClickListener;
+        mScheduleViewClickListener = onViewClickListener;
     }
 
     private OnNoteViewClickListener mNoteViewClickListener;
     public void setOnViewClickListener(OnNoteViewClickListener onViewClickListener) {
         mNoteViewClickListener = onViewClickListener;
+    }
+
+    private OnPlanViewClickListener mPlanViewClickListener;
+    public void setOnViewClickListener(OnPlanViewClickListener onViewClickListener) {
+        mPlanViewClickListener = onViewClickListener;
     }
     //</回调接口>-------------------------------------------------------------------------------------
 
@@ -791,6 +804,11 @@ public class MainActivity extends BaseActivity implements
         public void destroyItem(ViewGroup container, int position, Object object) {
             //super.destroyItem(container, position, object);
             //截断， 使fragment持久化，提高性能
+        }
+
+        public void replace(int position, BaseFragment baseFragment) {
+            mFragments.set(position, baseFragment);
+            notifyDataSetChanged();
         }
 
         public void notifyDataChanged() {
