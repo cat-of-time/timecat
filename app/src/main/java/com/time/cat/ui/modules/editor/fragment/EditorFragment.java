@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.editor;
+package com.time.cat.ui.modules.editor.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.time.cat.R;
 import com.time.cat.data.Constants;
+import com.time.cat.ui.modules.editor.EditorAction;
 import com.time.cat.util.FileUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -90,6 +91,10 @@ public class EditorFragment extends BaseEditorFragment {
             } else {
                 fragment = new PreviewFragment();
             }
+//            WeekFragmentsHolder weekFragmentsHolder = new WeekFragmentsHolder();
+//            Bundle bundle = new Bundle();
+////        bundle.putString(WEEK_START_DATE_TIME, "0");
+//            weekFragmentsHolder.setArguments(bundle);
             return fragment;
         }
 

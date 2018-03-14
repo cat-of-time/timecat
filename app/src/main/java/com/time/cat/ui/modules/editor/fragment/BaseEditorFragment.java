@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.editor;
+package com.time.cat.ui.modules.editor.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
