@@ -2,12 +2,12 @@ package com.time.cat.ui.widgets.weekview
 
 import android.content.Context
 import com.time.cat.data.WEEK_SECONDS
-import com.time.cat.data.model.DBmodel.Event
+import com.time.cat.data.database.DB
+import com.time.cat.data.model.DBmodel.DBTask
 import com.time.cat.ui.modules.schedules_weekview.WeeklyCalendar
-import java.util.*
 
 class WeeklyCalendarImpl(val mCallback: WeeklyCalendar, val mContext: Context) {
-    var mEvents = ArrayList<Event>()
+    var mEvents = DB.schedules().findAll()
 
     fun updateWeeklyCalendar(weekStartTS: Int) {
         val startTS = weekStartTS
@@ -16,6 +16,6 @@ class WeeklyCalendarImpl(val mCallback: WeeklyCalendar, val mContext: Context) {
 //            mEvents = it as ArrayList<Event>
 //            mCallback.updateWeeklyCalendar(it)
 //        }TODO
-        mCallback.updateWeeklyCalendar(mEvents)
+        mCallback.updateWeeklyCalendar(mEvents as ArrayList<DBTask>)
     }
 }
