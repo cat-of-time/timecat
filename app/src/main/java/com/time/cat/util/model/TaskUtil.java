@@ -19,6 +19,22 @@ import java.util.List;
  */
 public class TaskUtil {
 
+    public static ArrayList<DBTask> filterByTag(ArrayList<DBTask> dbTasks, ArrayList<String> tags) {
+        ArrayList<DBTask> dbTaskArrayList = new ArrayList<>();
+        for (DBTask dbTask : dbTasks) {
+            for (String tag : dbTask.getTags()) {
+                if (tags.toString().contains(tag)) {
+                    dbTaskArrayList.add(dbTask);
+                }
+            }
+        }
+        return dbTaskArrayList;
+    }
+
+    public static ArrayList<DBTask> filter(ArrayList<DBTask> dbTasks) {
+        return dbTasks;
+    }
+
     public static ArrayList<DBTask> DBTaskFilter(List<DBTask> taskArrayList, CalendarDate currentDate) {
         ArrayList<DBTask> tasks = new ArrayList<>();
         if (taskArrayList == null || taskArrayList.size() <= 0) {
