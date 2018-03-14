@@ -1,5 +1,6 @@
 package com.time.cat.ui.base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,9 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
+import com.time.cat.ui.activity.main.MainActivity;
 import com.time.cat.ui.widgets.theme.ThemeManager;
 import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
 import com.time.cat.util.ThreadManager;
@@ -426,6 +431,53 @@ public class BaseActivity extends PermissionActivity {
     }
 
 
+    protected MenuItem refreshItem;
+
+    @SuppressLint("NewApi")
+    public void showRefreshAnimation(MenuItem item) {
+        hideRefreshAnimation();
+
+        refreshItem = item;
+
+        //这里使用一个ImageView设置成MenuItem的ActionView，这样我们就可以使用这个ImageView显示旋转动画了
+        ImageView refreshActionView = (ImageView) getLayoutInflater().inflate(R.layout.action_view, null);
+        refreshActionView.setImageResource(R.drawable.ic_autorenew_white_24dp);
+        refreshItem.setActionView(refreshActionView);
+
+        //显示刷新动画
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.refresh);
+        animation.setRepeatMode(Animation.RESTART);
+        animation.setRepeatCount(1);
+        refreshActionView.startAnimation(animation);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideRefreshAnimation();
+            }
+        }, 1000);
+    }
+
+    @SuppressLint("NewApi")
+    private void hideRefreshAnimation() {
+        if (refreshItem != null) {
+            View view = refreshItem.getActionView();
+            if (view != null) {
+                view.clearAnimation();
+                refreshItem.setActionView(null);
+            }
+        }
+    }
+
+    protected void onRestartApp() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAndRemoveTask();
+        }
+    }
 
 
 

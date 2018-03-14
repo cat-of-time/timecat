@@ -1,20 +1,31 @@
 package com.time.cat.ui.base;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
+import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.ui.base.mvpframework.presenter.BaseMvpPresenter;
 import com.time.cat.ui.base.mvpframework.view.AbstractFragment;
 import com.time.cat.ui.base.mvpframework.view.BaseMvpView;
 import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
+
+import butterknife.ButterKnife;
 
 /**
  * @author dlink
@@ -23,40 +34,15 @@ import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
  */
 public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> extends AbstractFragment<V, P> implements BaseMvpView{
 
-    /**
-     * Fragment title
-     */
-    public String fragmentTitle;
-    /**
-     * 是否可见状态 为了避免和{@link Fragment#isVisible()}冲突 换个名字
-     */
-    private boolean isFragmentVisible;
-    /**
-     * 标志位，View已经初始化完成。
-     * isPrepared还是准一些,isAdded有可能出现onCreateView没走完但是isAdded了
-     */
-    private boolean isPrepared;
-    /**
-     * 是否第一次加载
-     */
-    private boolean isFirstLoad = true;
-    /**
-     * <pre>
-     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
-     * 一般用于PagerAdapter需要刷新各个子Fragment的场景
-     * 不要new 新的 PagerAdapter 而采取reset数据的方式
-     * 所以要求Fragment重新走initData方法
-     * 故使用 {@link BaseFragment#setForceLoad(boolean)}来让Fragment下次执行initData
-     * </pre>
-     */
-    private boolean forceLoad = false;
-
     private Activity activity;
+    protected AppCompatActivity appCompatActivity; // context object
     Context context;
-
+    protected View view; // fragment view object
     //传递过来的参数Bundle，供子类使用
     protected Bundle args;
 
+
+    //<公共生命周期>------------------------------------------------------------------------------<([{
     /**
      * 创建fragment的静态方法，方便传递参数
      * @param args 传递的参数
@@ -88,13 +74,6 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         }
     }
 
-    public Context getContext() {
-        if (activity == null) {
-            return TimeCatApp.getInstance();
-        }
-        return activity;
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -107,26 +86,111 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         super.onResume();
     }
 
+    public Context getContext() {
+        if (activity == null) {
+            return TimeCatApp.getInstance();
+        }
+        return activity;
+    }
+
+    public String TAG() {
+        return getClass().getSimpleName();
+    }
+
+    /**
+     * 被ViewPager移出的Fragment 下次显示时会从getArguments()中重新获取数据
+     * 所以若需要刷新被移除Fragment内的数据需要重新put数据 eg:
+     * Bundle args = getArguments();
+     *      if (args != null) {
+     *      args.putParcelable(KEY, info);
+     * }
+     * 可以不用重载
+     */
+    public void initVariables(Bundle bundle) {}
+    //</公共生命周期>-----------------------------------------------------------------------------}])>
+
+
+
+
+
+    //<配置变量，有两种：懒加载、自带标题>------------------------------------------------------------<([{
+    public void FragmentConfig(boolean hasToolBar, boolean lazyLoad){
+        this.hasToolBar = hasToolBar;
+        this.lazyLoad = lazyLoad;
+    }
+
+
+    boolean hasToolBar = false;
+    /**
+     * Fragment title
+     */
+    public String fragmentTitle;
+    protected Toolbar toolbar;
+    protected String toolbarTitle;
+    /**
+     * If true, set back arrow in toolbar.
+     */
+    protected boolean setDisplayHomeAsUpEnabled = true;
+
+
+    boolean lazyLoad = false;
+    /**
+     * 是否可见状态 为了避免和{@link Fragment#isVisible()}冲突 换个名字
+     */
+    private boolean isFragmentVisible;
+    /**
+     * 标志位，View已经初始化完成。
+     * isPrepared还是准一些,isAdded有可能出现onCreateView没走完但是isAdded了
+     */
+    private boolean isPrepared;
+    /**
+     * 是否第一次加载
+     */
+    private boolean isFirstLoad = true;
+    /**
+     * <pre>
+     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
+     * 一般用于PagerAdapter需要刷新各个子Fragment的场景
+     * 不要new 新的 PagerAdapter 而采取reset数据的方式
+     * 所以要求Fragment重新走initData方法
+     * 故使用 {@link BaseFragment#setForceLoad(boolean)}来让Fragment下次执行initData
+     * </pre>
+     */
+    private boolean forceLoad = false;
+    //<配置变量，有两种：懒加载、自带标题>------------------------------------------------------------}])>
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getContext();
+        appCompatActivity = (AppCompatActivity) getActivity();
+        if (lazyLoad && !hasToolBar) {
+            // 若 viewpager 不设置 setOffscreenPageLimit 或设置数量不够
+            // 销毁的Fragment onCreateView 每次都会执行(但实体类没有从内存销毁)
+            // 导致initData反复执行,所以这里注释掉
+            // isFirstLoad = true;
 
-        // 若 viewpager 不设置 setOffscreenPageLimit 或设置数量不够
-        // 销毁的Fragment onCreateView 每次都会执行(但实体类没有从内存销毁)
-        // 导致initData反复执行,所以这里注释掉
-        // isFirstLoad = true;
-
-        // 取消 isFirstLoad = true的注释 , 因为上述的initData本身就是应该执行的
-        // onCreateView执行 证明被移出过FragmentManager initData确实要执行.
-        // 如果这里有数据累加的Bug 请在initViews方法里初始化您的数据 比如 list.clear();
-        isFirstLoad = true;
-        View view = initViews(inflater, container, savedInstanceState);
-        isPrepared = true;
-        lazyLoad();
+            // 取消 isFirstLoad = true的注释 , 因为上述的initData本身就是应该执行的
+            // onCreateView执行 证明被移出过FragmentManager initData确实要执行.
+            // 如果这里有数据累加的Bug 请在initViews方法里初始化您的数据 比如 list.clear();
+            isFirstLoad = true;
+            view = initViews(inflater, container, savedInstanceState);
+            isPrepared = true;
+            lazyLoad();
+        } else if (!lazyLoad && hasToolBar) {
+            view = inflater.inflate(getLayoutId(), container, false);
+            ButterKnife.bind(this, view);
+            initView();
+        }
         return view;
     }
 
+
+
+
+    //<lazy load>-------------------------------------------------------------------------------<([{
     /**
      * 如果是与ViewPager一起使用，调用的是setUserVisibleHint
      *
@@ -159,6 +223,12 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isPrepared = false;
+    }
+
     protected void onVisible() {
         isFragmentVisible = true;
         lazyLoad();
@@ -182,38 +252,15 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        isPrepared = false;
-    }
-
-    /**
-     * 被ViewPager移出的Fragment 下次显示时会从getArguments()中重新获取数据
-     * 所以若需要刷新被移除Fragment内的数据需要重新put数据 eg:
-     * Bundle args = getArguments();
-     * if (args != null) {
-     * args.putParcelable(KEY, info);
-     * }
-     */
-    public void initVariables(Bundle bundle) {}
-
-    protected View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = null;
-        return v;
-    }
-
-    protected void initData() {}
-
-    public boolean isPrepared() {
-        return isPrepared;
-    }
-
     /**
      * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
      */
     public void setForceLoad(boolean forceLoad) {
         this.forceLoad = forceLoad;
+    }
+
+    public boolean isPrepared() {
+        return isPrepared;
     }
 
     public boolean isFirstLoad() {
@@ -224,6 +271,34 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         return isFragmentVisible;
     }
 
+    /**
+     * 如果使用lazy load，必须重载
+     * @param inflater inflater
+     * @param container container
+     * @param savedInstanceState savedInstanceState
+     * @return view
+     */
+    protected View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return null;
+    }
+
+    /**
+     * 如果使用lazy load，必须重载
+     */
+    protected void initData() {}
+
+    /**
+     * 如果使用lazy load，必须重载
+     */
+    public void notifyDataChanged() {}
+    //<lazy load>-------------------------------------------------------------------------------}])>
+
+
+
+
+
+
+    //<自带标题>---------------------------------------------------------------------------------<([{
     public String getTitle() {
         if (null == fragmentTitle) {
             setDefaultFragmentTitle(null);
@@ -241,12 +316,79 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
      * @param title 一般用于显示在TabLayout的标题
      */
     protected void setDefaultFragmentTitle(String title) {
-
+        setTitle(title);
     }
 
-    public void notifyDataChanged() {}
-
-    public String TAG() {
-        return getClass().getSimpleName();
+    /**
+     * 如果自带标题，必须重载
+     * Get resource id of layout
+     * @return resource id
+     */
+    public int getLayoutId(){
+        return R.layout.wait_for_update;
     }
+
+    /**
+     * 如果自带标题，必须重载并super.initView()调用
+     * Init view component
+     */
+    public void initView() {
+        toolbar = view.findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            if (toolbarTitle != null) {
+                toolbar.setTitle(toolbarTitle);
+            }
+            appCompatActivity.setSupportActionBar(toolbar);
+            if (setDisplayHomeAsUpEnabled) {
+                appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+        }
+    }
+    //<自带标题>---------------------------------------------------------------------------------}])>
+
+
+
+
+
+    //<刷新menu>--------------------------------------------------------------------------------<([{
+    protected MenuItem refreshItem;
+
+    @SuppressLint("NewApi")
+    public void showRefreshAnimation(MenuItem item) {
+        hideRefreshAnimation();
+
+        refreshItem = item;
+
+        //这里使用一个ImageView设置成MenuItem的ActionView，这样我们就可以使用这个ImageView显示旋转动画了
+        ImageView refreshActionView = (ImageView) getLayoutInflater().inflate(R.layout.action_view, null);
+        refreshActionView.setImageResource(R.drawable.ic_autorenew_white_24dp);
+        refreshItem.setActionView(refreshActionView);
+
+        //显示刷新动画
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.refresh);
+        animation.setRepeatMode(Animation.RESTART);
+        animation.setRepeatCount(1);
+        refreshActionView.startAnimation(animation);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideRefreshAnimation();
+            }
+        }, 1000);
+    }
+
+    @SuppressLint("NewApi")
+    private void hideRefreshAnimation() {
+        if (refreshItem != null) {
+            View view = refreshItem.getActionView();
+            if (view != null) {
+                view.clearAnimation();
+                refreshItem.setActionView(null);
+            }
+        }
+    }
+    //<刷新menu>--------------------------------------------------------------------------------}])>
+
 }
