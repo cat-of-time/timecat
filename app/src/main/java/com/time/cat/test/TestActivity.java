@@ -16,7 +16,7 @@ import com.time.cat.util.override.ToastUtil;
  * @discription TestActivity
  */
 public class TestActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "EditorActivity";
     //-//<Activity>---------------------------------------------------------------------------------
     private static final int REQUEST_LOGIN = 0;
 
