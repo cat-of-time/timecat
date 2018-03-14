@@ -1,11 +1,12 @@
-package com.simplemobiletools.calendar.helpers
+package com.time.cat.helper
 
+import android.Manifest.permission.VIBRATE
 import android.content.Context
 import android.media.RingtoneManager
 import android.text.format.DateFormat
-import com.simplemobiletools.calendar.R
-import com.simplemobiletools.calendar.extensions.scheduleCalDAVSync
 import com.simplemobiletools.commons.helpers.BaseConfig
+import com.time.cat.R
+import com.time.cat.data.*
 import java.util.*
 
 class Config(context: Context) : BaseConfig(context) {
@@ -32,11 +33,11 @@ class Config(context: Context) : BaseConfig(context) {
         set(displayWeekNumbers) = prefs.edit().putBoolean(WEEK_NUMBERS, displayWeekNumbers).apply()
 
     var startWeeklyAt: Int
-        get() = prefs.getInt(START_WEEKLY_AT, 7)
+        get() = prefs.getInt(START_WEEKLY_AT, 5)
         set(startWeeklyAt) = prefs.edit().putInt(START_WEEKLY_AT, startWeeklyAt).apply()
 
     var endWeeklyAt: Int
-        get() = prefs.getInt(END_WEEKLY_AT, 23)
+        get() = prefs.getInt(END_WEEKLY_AT, 24)
         set(endWeeklyAt) = prefs.edit().putInt(END_WEEKLY_AT, endWeeklyAt).apply()
 
     var vibrateOnReminder: Boolean
@@ -83,12 +84,12 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getInt(FONT_SIZE, FONT_SIZE_MEDIUM)
         set(size) = prefs.edit().putInt(FONT_SIZE, size).apply()
 
-    var caldavSync: Boolean
-        get() = prefs.getBoolean(CALDAV_SYNC, false)
-        set(caldavSync) {
-            context.scheduleCalDAVSync(caldavSync)
-            prefs.edit().putBoolean(CALDAV_SYNC, caldavSync).apply()
-        }
+//    var caldavSync: Boolean
+//        get() = prefs.getBoolean(CALDAV_SYNC, false)
+//        set(caldavSync) {
+//            context.scheduleCalDAVSync(caldavSync)
+//            prefs.edit().putBoolean(CALDAV_SYNC, caldavSync).apply()
+//        }
 
     var caldavSyncedCalendarIDs: String
         get() = prefs.getString(CALDAV_SYNCED_CALENDAR_IDS, "")

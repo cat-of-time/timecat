@@ -1,10 +1,7 @@
-package com.simplemobiletools.calendar.helpers
+package com.time.cat.helper
 
 import android.content.Context
-import com.simplemobiletools.calendar.R
-import com.simplemobiletools.calendar.extensions.config
-import com.simplemobiletools.calendar.extensions.getNowSeconds
-import com.simplemobiletools.calendar.extensions.seconds
+import com.time.cat.R
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
@@ -76,9 +73,9 @@ object Formatter {
 
     fun getDayCodeFromDateTime(dateTime: DateTime) = dateTime.toString(DAYCODE_PATTERN)
 
-    fun getDateTimeFromTS(ts: Int) = DateTime(ts * 1000L, DateTimeZone.getDefault())
+    fun getDateTimeFromTS(ts: Int) = DateTime(ts+0L, DateTimeZone.getDefault())
 
-    fun getUTCDateTimeFromTS(ts: Int) = DateTime(ts * 1000L, DateTimeZone.UTC)
+    fun getUTCDateTimeFromTS(ts: Int) = DateTime(ts, DateTimeZone.UTC)
 
     // use manually translated month names, as DateFormat and Joda have issues with a lot of languages
     fun getMonthName(context: Context, id: Int) = context.resources.getStringArray(R.array.months)[id - 1]
