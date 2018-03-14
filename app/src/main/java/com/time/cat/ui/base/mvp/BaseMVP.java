@@ -19,9 +19,9 @@ import io.reactivex.functions.Consumer;
  * @discription null
  * @usage null
  */
-public interface BaseMvp {
+public interface BaseMVP {
 
-    interface FAView extends TiView, OnScrollTopListener {
+    interface View extends TiView {
 
         @CallOnMainThread void showProgress(@StringRes int resId);
 
@@ -29,11 +29,13 @@ public interface BaseMvp {
 
         @CallOnMainThread void hideProgress();
 
+
         @CallOnMainThread void showMessage(@StringRes int titleRes, @StringRes int msgRes);
 
         @CallOnMainThread void showMessage(@NonNull String titleRes, @NonNull String msgRes);
 
         @CallOnMainThread void showErrorMessage(@NonNull String msgRes);
+
 
         boolean isLoggedIn();
 
@@ -50,7 +52,7 @@ public interface BaseMvp {
         void onOpenUrlInBrowser();
     }
 
-    interface FAPresenter {
+    interface Presenter {
 
         void onSaveInstanceState(Bundle outState);
 
@@ -71,8 +73,6 @@ public interface BaseMvp {
         <T> void makeRestCall(@NonNull Observable<T> observable, @NonNull Consumer<T> onNext);
 
         <T> void makeRestCall(@NonNull Observable<T> observable, @NonNull Consumer<T> onNext, boolean cancelable);
-
-        void onCheckGitHubStatus();
     }
 
     interface PaginationListener<P> {
@@ -87,7 +87,4 @@ public interface BaseMvp {
         boolean onCallApi(int page, @Nullable P parameter);
     }
 
-    interface OnScrollTopListener {
-        void onScrollTop(int index);
-    }
 }

@@ -1,4 +1,4 @@
-package com.fastaccess.ui.base;
+package com.time.cat.ui.base.mvp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,9 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.evernote.android.state.StateSaver;
-import com.fastaccess.data.dao.model.Login;
-import com.fastaccess.ui.base.mvp.BaseMvp;
-import com.fastaccess.ui.base.mvp.presenter.BasePresenter;
 
 import net.grandcentrix.thirtyinch.TiFragment;
 
@@ -26,35 +23,46 @@ import butterknife.Unbinder;
  * Created by Kosh on 27 May 2016, 7:54 PM
  */
 
-public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePresenter<V>> extends TiFragment<P, V> implements BaseMvp.FAView {
+public abstract class BaseFragment<V extends BaseMVP.View, P extends BasePresenter<V>> extends TiFragment<P, V> implements BaseMVP.View {
 
-    protected BaseMvp.FAView callback;
+    protected BaseMVP.View callback;
 
-    @Nullable private Unbinder unbinder;
+    @Nullable
+    private Unbinder unbinder;
 
-    @LayoutRes protected abstract int fragmentLayout();
-
+    @LayoutRes
+    protected abstract int fragmentLayout();
     protected abstract void onFragmentCreated(@NonNull View view, @Nullable Bundle savedInstanceState);
 
-    @Override public void onAttach(Context context) {
+
+
+
+
+
+    //<公共生命周期>---------------------------------------------------------------------------------<([{
+    @Override
+    public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof BaseMvp.FAView) {
-            callback = (BaseMvp.FAView) context;
+        if (context instanceof BaseMVP.View) {
+            callback = (BaseMVP.View) context;
         }
     }
 
-    @Override public void onDetach() {
+    @Override
+    public void onDetach() {
         super.onDetach();
         callback = null;
     }
 
-    @Override public void onSaveInstanceState(Bundle outState) {
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         StateSaver.saveInstanceState(this, outState);
         getPresenter().onSaveInstanceState(outState);
     }
 
-    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null && !savedInstanceState.isEmpty()) {
             StateSaver.restoreInstanceState(this, savedInstanceState);
@@ -63,7 +71,9 @@ public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePrese
         getPresenter().setEnterprise(isEnterprise());
     }
 
-    @SuppressLint("RestrictedApi") @Nullable @Override
+    @SuppressLint("RestrictedApi")
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (fragmentLayout() != 0) {
             final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), getContext().getTheme());
@@ -75,77 +85,94 @@ public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePrese
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (Login.getUser() != null) {
-            onFragmentCreated(view, savedInstanceState);
-        }
+//        if (Login.getUser() != null) {
+        onFragmentCreated(view, savedInstanceState);
+//        }
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         if (unbinder != null) unbinder.unbind();
     }
+    //<公共生命周期>-------------------------------------------------------------------------------}])>
 
-    @Override public void showProgress(@StringRes int resId) {
+
+
+
+
+
+    //<BaseMVP.View>---------------------------------------------------------------------------------<([{
+    @Override
+    public void showProgress(@StringRes int resId) {
         callback.showProgress(resId);
     }
 
-    @Override public void showBlockingProgress(int resId) {
+    @Override
+    public void showBlockingProgress(int resId) {
         callback.showBlockingProgress(resId);
     }
 
-    @Override public void hideProgress() {
+    @Override
+    public void hideProgress() {
         if (callback != null) callback.hideProgress();
     }
 
-    @Override public void showMessage(@StringRes int titleRes, @StringRes int msgRes) {
+    @Override
+    public void showMessage(@StringRes int titleRes, @StringRes int msgRes) {
         callback.showMessage(titleRes, msgRes);
     }
 
-    @Override public void showMessage(@NonNull String titleRes, @NonNull String msgRes) {
+    @Override
+    public void showMessage(@NonNull String titleRes, @NonNull String msgRes) {
         callback.showMessage(titleRes, msgRes);
     }
 
-    @Override public void showErrorMessage(@NonNull String msgRes) {
+    @Override
+    public void showErrorMessage(@NonNull String msgRes) {
         callback.showErrorMessage(msgRes);
     }
 
-    @Override public boolean isLoggedIn() {
+    @Override
+    public boolean isLoggedIn() {
         return callback.isLoggedIn();
     }
 
-    @Override public void onRequireLogin() {
+    @Override
+    public void onRequireLogin() {
         callback.onRequireLogin();
     }
 
-    @Override public void onMessageDialogActionClicked(boolean isOk, @Nullable Bundle bundle) {}
-
-    @Override public void onDialogDismissed() {}
-
-    @Override public void onLogoutPressed() {
+    @Override
+    public void onLogoutPressed() {
         callback.onLogoutPressed();
     }
 
-    @Override public void onThemeChanged() {
+    @Override
+    public void onThemeChanged() {
         callback.onThemeChanged();
     }
 
-    @Override public void onOpenSettings() {
+    @Override
+    public void onOpenSettings() {
         callback.onOpenSettings();
     }
 
-    @Override public void onScrollTop(int index) {}
-
-    @Override public boolean isEnterprise() {
+    @Override
+    public boolean isEnterprise() {
         return callback != null && callback.isEnterprise();
     }
 
-    @Override public void onOpenUrlInBrowser() {
+    @Override
+    public void onOpenUrlInBrowser() {
         callback.onOpenUrlInBrowser();
     }
 
     protected boolean isSafe() {
         return getView() != null && getActivity() != null && !getActivity().isFinishing();
     }
+    //<BaseMVP.View>-------------------------------------------------------------------------------}])>
 }
