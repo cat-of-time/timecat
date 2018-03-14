@@ -1,6 +1,6 @@
-package com.simplemobiletools.calendar.helpers
+package com.time.cat.data
 
-import com.simplemobiletools.calendar.R
+import com.time.cat.R
 
 const val LOW_ALPHA = .3f
 const val MEDIUM_ALPHA = .6f

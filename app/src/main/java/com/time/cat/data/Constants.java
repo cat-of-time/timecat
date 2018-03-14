@@ -1,4 +1,4 @@
-package io.github.zeleven.mua;
+package com.time.cat.data;
 
 public class Constants {
     public static final String MY_EMAIL = "chengsmo@outlook.com";
@@ -10,4 +10,8 @@ public class Constants {
     public static final String BUNDLE_KEY_SAVED = "SAVED";
     public static final String BUNDLE_KEY_FILE_NAME = "FILE_NAME";
     public static final String BUNDLE_KEY_FILE_PATH = "FILE_PATH";
+
+    public static int REFRESH_CODE = 64;
+    public static final int REQUEST_CODE = 2016;
+    public static final float MEDIUM_ALPHA = .6f;
 }
