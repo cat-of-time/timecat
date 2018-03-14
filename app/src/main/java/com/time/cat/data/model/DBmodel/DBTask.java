@@ -27,12 +27,14 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.data.database.DB;
 import com.time.cat.data.database.typeSerializers.BooleanArrayPersister;
 import com.time.cat.data.database.typeSerializers.LocalDatePersister;
+import com.time.cat.util.string.TimeUtil;
 
 import org.joda.time.LocalDate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,13 +43,8 @@ import java.util.List;
  * @discription 任务类
  */
 @DatabaseTable(tableName = "Schedules")
-public class DBTask implements Serializable{
-    public static final int[] labelColor = new int[]{
-            Color.parseColor("#f44336"),
-            Color.parseColor("#ff8700"),
-            Color.parseColor("#2196f3"),
-            Color.parseColor("#4caf50")
-    };
+public class DBTask implements Serializable {
+    public static final int[] labelColor = new int[]{Color.parseColor("#f44336"), Color.parseColor("#ff8700"), Color.parseColor("#2196f3"), Color.parseColor("#4caf50")};
 
     public static final int SCHEDULE_TYPE_EVERYDAY = 0; // DEFAULT
     public static final int SCHEDULE_TYPE_EVERYWEEK = 1;
@@ -88,7 +85,6 @@ public class DBTask implements Serializable{
     public static final String COLUMN_TYPE = "Type";
 
 
-
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     public Long id;//ID唯一主键
     @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
@@ -112,8 +108,8 @@ public class DBTask implements Serializable{
     @DatabaseField(columnName = COLUMN_LABEL)
     private int label;//重要紧急标签,重要紧急=0，重要不紧急=1，紧急不重要=2，不重要不紧急=3
 
-    @DatabaseField(columnName = COLUMN_TAGS, dataType= DataType.SERIALIZABLE)
-    private ArrayList<String> tags;//一般标签，["标签0","标签1","标签2"]
+    @DatabaseField(columnName = COLUMN_TAGS, dataType = DataType.SERIALIZABLE)
+    private ArrayList<String> tags;//一般标签，["/tags/1","/tags/2","/tags/3"]
 
     @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
     private String created_datetime;//创建时间
@@ -294,21 +290,45 @@ public class DBTask implements Serializable{
         DB.schedules().save(this);
     }
 
-    public void deleteCascade() {
-        DB.schedules().deleteCascade(this, false);
-    }
-
-    public boolean[] getLegacyDays() {
-        return days;
-    }
-
-    public boolean repeatsHourly() {
-        return type == SCHEDULE_TYPE_EVERYHOUR;
-    }
-
     @Override
     public String toString() {
         return "DBTask{" + "id=" + id + ", user=" + user + ", days=" + Arrays.toString(days) + ", start=" + start + ", type=" + type + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + '}';
+    }
+
+    public long getBeginTs() {
+        Date d = TimeUtil.formatGMTDateStr(begin_datetime);
+        if (d != null) {
+            return d.getTime();
+        } else {
+            return -1;
+        }
+    }
+
+    public long getEndTs() {
+        Date d = TimeUtil.formatGMTDateStr(end_datetime);
+        if (d != null) {
+            return d.getTime();
+        } else {
+            return -1;
+        }
+    }
+
+    public long getCreateTs() {
+        Date d = TimeUtil.formatGMTDateStr(created_datetime);
+        if (d != null) {
+            return d.getTime();
+        } else {
+            return -1;
+        }
+    }
+
+    public long getFinishedTs() {
+        Date d = TimeUtil.formatGMTDateStr(finished_datetime);
+        if (d != null) {
+            return d.getTime();
+        } else {
+            return -1;
+        }
     }
 }
 

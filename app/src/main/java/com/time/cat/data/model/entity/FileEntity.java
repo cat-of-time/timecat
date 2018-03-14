@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.editor;
+package com.time.cat.data.model.entity;
 
 public class FileEntity {
     private String name;
