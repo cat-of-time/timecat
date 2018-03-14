@@ -1,7 +1,7 @@
-package com.time.cat.ui.modules.editor;
+package com.time.cat.ui.adapter;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.time.cat.R;
 import com.time.cat.data.Constants;
+import com.time.cat.data.model.entity.FileEntity;
 import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.modules.editor.EditorActivity;
+import com.time.cat.util.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,20 +59,17 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new EditorFragment();
-
+                Intent intent2MainActivity = new Intent();
                 Bundle args = new Bundle();
                 args.putBoolean(Constants.BUNDLE_KEY_SAVED, true);
                 args.putBoolean(Constants.BUNDLE_KEY_FROM_FILE, true);
                 args.putString(Constants.BUNDLE_KEY_FILE_NAME,
                         FileUtils.stripExtension(entity.getName()));
                 args.putString(Constants.BUNDLE_KEY_FILE_PATH, entity.getAbsolutePath());
+                intent2MainActivity.putExtras(args);
+                intent2MainActivity.setClass(context, EditorActivity.class);
+                context.startActivity(intent2MainActivity);
 
-                fragment.setArguments(args);
-                context.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, fragment)
-                        .addToBackStack(null)
-                        .commit();
             }
         });
     }

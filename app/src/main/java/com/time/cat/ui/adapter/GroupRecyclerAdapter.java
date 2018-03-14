@@ -1,9 +1,6 @@
-package com.haibin.calendarviewproject.group;
+package com.time.cat.ui.adapter;
 
 import android.content.Context;
-
-
-import com.haibin.calendarviewproject.base.adapter.BaseRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,7 +25,7 @@ public abstract class GroupRecyclerAdapter<Parent, Child> extends BaseRecyclerAd
     /**
      * 返回特定的标题
      */
-     Parent getGroup(int groupPosition) {
+    public Parent getGroup(int groupPosition) {
         return mGroupTitles.get(groupPosition);
     }
 
@@ -37,7 +34,7 @@ public abstract class GroupRecyclerAdapter<Parent, Child> extends BaseRecyclerAd
      *
      * @return 组的数量
      */
-     int getGroupCount() {
+    public int getGroupCount() {
         return mGroupTitles.size();
     }
 
@@ -47,7 +44,7 @@ public abstract class GroupRecyclerAdapter<Parent, Child> extends BaseRecyclerAd
      * @param groupPosition groupPosition
      * @return 某一组的数量
      */
-     int getChildCount(int groupPosition) {
+    public int getChildCount(int groupPosition) {
         if (mGroupTitles == null || mGroups.size() == 0)
             return 0;
         if (mGroups.get(mGroupTitles.get(groupPosition)) == null)
