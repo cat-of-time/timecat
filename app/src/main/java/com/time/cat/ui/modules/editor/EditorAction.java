@@ -1,4 +1,4 @@
-package io.github.zeleven.mua;
+package com.time.cat.ui.modules.editor;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +10,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.time.cat.R;
+import com.time.cat.helper.UndoRedoHelper;
+import com.time.cat.ui.modules.about.EditorHelpFragment;
+import com.time.cat.util.FileUtils;
 
 import java.io.File;
 
@@ -291,7 +296,7 @@ public class EditorAction {
     public void checkDocs() {
         ((AppCompatActivity) context).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new HelpFragment())
+                .replace(R.id.fragment_container, new EditorHelpFragment())
                 .addToBackStack(null)
                 .commit();
     }

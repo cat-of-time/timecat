@@ -1,27 +1,31 @@
-package io.github.zeleven.mua;
+package com.time.cat.ui.modules.editor;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+
+import com.time.cat.R;
+import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.modules.editor.fragment.EditorFragment;
 
 import java.util.Locale;
 
 import butterknife.BindString;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class EditorActivity extends BaseActivity {
     @BindString(R.string.app_name) String appName;
     private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
 
         // get default shared preferences
@@ -31,8 +35,12 @@ public class MainActivity extends AppCompatActivity {
         settingLanguage();
 
         // open file list fragment
-        getSupportFragmentManager().beginTransaction().replace(
-                R.id.fragment_container, new FileListFragment()).commit();
+        final Fragment fragment = new EditorFragment();
+        Bundle args = getIntent().getExtras();
+        fragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 
     @Override
