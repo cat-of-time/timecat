@@ -1,5 +1,7 @@
 package com.time.cat.ui.modules.operate;
 
+import com.time.cat.ui.base.mvp.BasePresenter;
+
 /**
  * @author dlink
  * @email linxy59@mail2.sysu.edu.cn
@@ -7,5 +9,6 @@ package com.time.cat.ui.modules.operate;
  * @discription null
  * @usage null
  */
-public class InfoOperationPresenter {
+public class InfoOperationPresenter extends BasePresenter<InfoOperationMVP.View> implements InfoOperationMVP.Presenter{
+
 }

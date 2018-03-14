@@ -32,13 +32,20 @@ import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnItemSelectedListener;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
+import com.time.cat.data.Constants;
 import com.time.cat.data.database.DB;
+import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
-import com.time.cat.data.model.APImodel.Note;
-import com.time.cat.data.model.APImodel.Task;
+import com.time.cat.data.network.ConstantURL;
+import com.time.cat.data.network.RetrofitHelper;
+import com.time.cat.ui.activity.TimeCatActivity;
+import com.time.cat.ui.activity.WebActivity;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.modules.editor.EditorActivity;
 import com.time.cat.ui.widgets.emotion.adapter.HorizontalRecyclerviewAdapter;
 import com.time.cat.ui.widgets.emotion.adapter.NoHorizontalScrollerVPAdapter;
 import com.time.cat.ui.widgets.emotion.fragment.EmotiomComplateFragment;
@@ -48,16 +55,11 @@ import com.time.cat.ui.widgets.emotion.model.ImageModel;
 import com.time.cat.ui.widgets.keyboardManager.SmartKeyboardManager;
 import com.time.cat.ui.widgets.richText.TEditText;
 import com.time.cat.ui.widgets.viewpaper.NoHorizontalScrollerViewPager;
-import com.time.cat.data.network.ConstantURL;
-import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.activity.TimeCatActivity;
-import com.time.cat.ui.activity.WebActivity;
-import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ConstantUtil;
-import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.listener.GlobalOnItemClickManager;
+import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.SharedPreferencedUtils;
 import com.time.cat.util.override.ToastUtil;
@@ -87,11 +89,12 @@ import rx.schedulers.Schedulers;
  * @date 2018/2/14
  * @discription 信息操作页面,包括创建、修改、转化,用activity实现dialog
  */
-public class InfoOperationActivity extends BaseActivity implements
-                                                 ActivityPresenter,
-                                                 View.OnClickListener{
-    @SuppressWarnings("unused")
-    private static final String TAG = "InfoOperationActivity ";
+//public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, InfoOperationPresenter>
+//        implements InfoOperationMVP.View,
+//                   ActivityPresenter,
+//                   View.OnClickListener{
+public class InfoOperationActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener{
+
     public static final String TO_SAVE_STR = "to_save_str";
     public static final String TO_UPDATE_TASK = "to_update_task";
     public static final String TO_UPDATE_NOTE = "to_update_note";
@@ -110,12 +113,26 @@ public class InfoOperationActivity extends BaseActivity implements
         return new Intent(context, InfoOperationActivity.class);
     }
 
-    @Override
     public Activity getActivity() {
         return this;
     }
     //</启动方法>------------------------------------------------------------------------------------
 
+
+//    @Override
+//    protected int layout() {
+//        return R.layout.activity_dialog;
+//    }
+//
+//    @Override
+//    protected boolean isTransparent() {
+//        return false;
+//    }
+//
+//    @Override
+//    protected boolean canBack() {
+//        return true;
+//    }
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
@@ -143,6 +160,7 @@ public class InfoOperationActivity extends BaseActivity implements
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
     private TEditText dialog_add_task_et_title;
     private TEditText dialog_add_task_et_content;
+    private ImageView to_editor;
 
     private TextView dialog_add_task_tv_important_urgent;
     private TextView dialog_add_task_tv_date;
@@ -208,7 +226,7 @@ public class InfoOperationActivity extends BaseActivity implements
 
         dialog_add_task_et_title = findViewById(R.id.dialog_add_task_et_title);
         dialog_add_task_et_content = findViewById(R.id.dialog_add_task_et_content);
-
+        to_editor = findViewById(R.id.to_editor);
         //获取焦点 光标出现
         dialog_add_task_et_content.setFocusable(true);
         dialog_add_task_et_content.setFocusableInTouchMode(true);
@@ -781,6 +799,7 @@ public class InfoOperationActivity extends BaseActivity implements
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
+        to_editor.setOnClickListener(this);
         dialog_add_task_et_title.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -820,6 +839,12 @@ public class InfoOperationActivity extends BaseActivity implements
         dialog_add_task_footer_bt_submit.setOnClickListener(this);
     }
 
+//    @NonNull
+//    @Override
+//    public InfoOperationPresenter providePresenter() {
+//        return new InfoOperationPresenter();
+//    }
+
 
     //-//<View.OnClickListener>---------------------------------------------------------------------
     public enum Type {
@@ -831,6 +856,14 @@ public class InfoOperationActivity extends BaseActivity implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.to_editor:
+                Intent intent2MainActivity = new Intent();
+                Bundle args = new Bundle();
+                args.putBoolean(Constants.BUNDLE_KEY_FROM_FILE, false);
+                intent2MainActivity.putExtras(args);
+                intent2MainActivity.setClass(this, EditorActivity.class);
+                startActivity(intent2MainActivity);
+                break;
             case R.id.dialog_add_task_type_note:
                 onSelectTypeNote();
                 break;
@@ -1140,6 +1173,9 @@ public class InfoOperationActivity extends BaseActivity implements
             d.setHours(end_hour);
             d.setMinutes(end_min);
             dbTask.setEnd_datetime(TimeUtil.formatGMTDate(d));
+        } else {
+            dbTask.setBegin_datetime(TimeUtil.formatGMTDate(new Date()));
+            dbTask.setEnd_datetime(TimeUtil.formatGMTDate(new Date()));
         }
         DB.schedules().safeSaveDBTaskAndFireEvent(dbTask);
 
