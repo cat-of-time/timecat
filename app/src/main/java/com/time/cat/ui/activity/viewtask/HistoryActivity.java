@@ -14,12 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.time.cat.R;
-import com.time.cat.ui.modules.notes.NotesFragment;
-import com.time.cat.ui.modules.plans.PlansFragment;
-import com.time.cat.ui.modules.schedules.SchedulesFragment;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.modules.notes.NotesFragment;
+import com.time.cat.ui.modules.schedules.SchedulesFragment;
+import com.time.cat.ui.modules.schedules_weekview.WeekFragmentsHolder;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.view.ViewUtil;
 
@@ -87,7 +86,7 @@ public class HistoryActivity extends BaseActivity implements ActivityPresenter{
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private List<BaseFragment> fragmentList;
+    private List<Fragment> fragmentList;
     private List<String> fragmentTitles;
 
     @Override
@@ -140,7 +139,12 @@ public class HistoryActivity extends BaseActivity implements ActivityPresenter{
 
         fragmentList.add(new SchedulesFragment());
         fragmentList.add(new NotesFragment());
-        fragmentList.add(new PlansFragment());
+        WeekFragmentsHolder weekFragmentsHolder = new WeekFragmentsHolder();
+        Bundle bundle = new Bundle();
+//        bundle.putString(WEEK_START_DATE_TIME, "0");
+        weekFragmentsHolder.setArguments(bundle);
+        fragmentList.add(weekFragmentsHolder);
+
 
         fragmentTitles.add("任务");
         fragmentTitles.add("笔记");
