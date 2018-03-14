@@ -1,7 +1,6 @@
 package com.time.cat.ui.modules.schedules;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,8 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,19 +20,19 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.ldf.calendar.Utils;
-import com.ldf.calendar.component.CalendarAttr;
-import com.ldf.calendar.component.CalendarViewAdapter;
-import com.ldf.calendar.interf.OnSelectDateListener;
-import com.ldf.calendar.model.CalendarDate;
-import com.ldf.calendar.view.Calendar;
-import com.ldf.calendar.view.MonthPager;
+import com.haibin.calendarview.Calendar;
+import com.haibin.calendarview.CalendarLayout;
+import com.haibin.calendarview.CalendarView;
 import com.time.cat.R;
 import com.time.cat.data.database.DB;
+import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.APImodel.User;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
-import com.time.cat.data.model.APImodel.Task;
+import com.time.cat.data.network.RetrofitHelper;
+import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
+import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
+import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvp.presenter.FragmentPresenter;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.widgets.SmoothCheckBox;
@@ -43,13 +40,7 @@ import com.time.cat.ui.widgets.asyncExpandableListView.AsyncExpandableListView;
 import com.time.cat.ui.widgets.asyncExpandableListView.AsyncExpandableListViewCallbacks;
 import com.time.cat.ui.widgets.asyncExpandableListView.AsyncHeaderViewHolder;
 import com.time.cat.ui.widgets.asyncExpandableListView.CollectionView;
-import com.time.cat.ui.widgets.calendar.CustomDayView;
-import com.time.cat.ui.widgets.calendar.ThemeDayView;
-import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.widgets.theme.ThemeManager;
-import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
-import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
-import com.time.cat.ui.base.BaseFragment;
+import com.time.cat.util.date.DateUtil;
 import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
@@ -60,7 +51,6 @@ import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import rx.Subscriber;
@@ -76,56 +66,29 @@ import rx.schedulers.Schedulers;
 @SuppressLint("SetTextI18n")
 public class SchedulesFragment extends BaseFragment implements
                                                     FragmentPresenter,
-                                                    OnSelectDateListener,
-                                                    View.OnClickListener,
+                                                    CalendarView.OnDateSelectedListener,
+                                                    CalendarView.OnYearChangeListener,
                                                     OnScheduleViewClickListener,
                                                     AsyncExpandableListViewCallbacks<DBTask, DBTask> {
-    @SuppressWarnings("unused")
-    private static final String TAG = "SchedulesFragment";
-    private static final int[] labelColor = new int[]{
-            Color.parseColor("#f44336"),
-            Color.parseColor("#ff8700"),
-            Color.parseColor("#2196f3"),
-            Color.parseColor("#4caf50")
-    };
-    private CoordinatorLayout content;
+
     private ProgressBar progressBar;
-    private MonthPager monthPager;
-    private ArrayList<Calendar> currentCalendars = new ArrayList<>();
-    private CalendarViewAdapter calendarAdapter;
-    private ArrayList<TextView> textViewList;
+    private CalendarLayout mCalendarLayout;
+    private CalendarView mCalendarView;
+    private int mYear;
+    private Calendar currentCalendar;
+    private Calendar today;
     private AsyncExpandableListView<DBTask, DBTask> mAsyncExpandableListView;
     private CollectionView.Inventory<DBTask, DBTask> inventory;
     private Context context;
-    private CalendarDate currentDate;
-    private int mCurrentPage = MonthPager.CURRENT_DAY_INDEX;
-    private boolean onBindCollectionHeaderView;
-    private OnDateChangeListener mDateChangeListener;
     private DBUser dbUser;
     private Handler handler = new Handler();
 
 
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-//        refreshMonthPager();
-//        Utils.scrollTo(content, mAsyncExpandableListView, monthPager.getCellHeight(), 200);
-//        calendarAdapter.switchToWeek(monthPager.getRowIndex());
-//        ThemeUtils.refreshUI(getActivity(), null);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //由activity通知，自己不再自动处理
-//        refreshData();
-//        ThemeUtils.refreshUI(getActivity(), null);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentConfig(false, true);
     }
     //</生命周期>------------------------------------------------------------------------------------
 
@@ -138,27 +101,10 @@ public class SchedulesFragment extends BaseFragment implements
     protected View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
         context = getContext();
-        content = view.findViewById(R.id.content);
         progressBar = view.findViewById(R.id.progress_bar);
-        monthPager = view.findViewById(R.id.calendar_view);
-        //此处强行setViewHeight，毕竟你知道你的日历牌的高度
-        monthPager.setViewHeight(Utils.dpi2px(context, 270));
+        mCalendarView = view.findViewById(R.id.calendarView);
+        mCalendarLayout = view.findViewById(R.id.calendarLayout);
 
-        textViewList = new ArrayList<>();
-        TextView weekIndicator_7 = view.findViewById(R.id.weekIndicator_7);
-        TextView weekIndicator_1 = view.findViewById(R.id.weekIndicator_1);
-        TextView weekIndicator_2 = view.findViewById(R.id.weekIndicator_2);
-        TextView weekIndicator_3 = view.findViewById(R.id.weekIndicator_3);
-        TextView weekIndicator_4 = view.findViewById(R.id.weekIndicator_4);
-        TextView weekIndicator_5 = view.findViewById(R.id.weekIndicator_5);
-        TextView weekIndicator_6 = view.findViewById(R.id.weekIndicator_6);
-        textViewList.add(weekIndicator_7);
-        textViewList.add(weekIndicator_1);
-        textViewList.add(weekIndicator_2);
-        textViewList.add(weekIndicator_3);
-        textViewList.add(weekIndicator_4);
-        textViewList.add(weekIndicator_5);
-        textViewList.add(weekIndicator_6);
 
         mAsyncExpandableListView = view.findViewById(R.id.asyncExpandableCollectionView);
         mAsyncExpandableListView.setHasFixedSize(true);
@@ -174,86 +120,6 @@ public class SchedulesFragment extends BaseFragment implements
 
     @Override
     public void initView() {//必须调用
-        initCalendarView();
-        initMonthPager();
-        Utils.scrollTo(content, mAsyncExpandableListView, monthPager.getCellHeight(), 200);
-        calendarAdapter.switchToWeek(monthPager.getRowIndex());
-    }
-
-    /**
-     * 初始化CustomDayView，并作为CalendarViewAdapter的参数传入
-     */
-    private void initCalendarView() {
-        CustomDayView customDayView = new CustomDayView(context, R.layout.view_calendar_custom_day);
-        calendarAdapter = new CalendarViewAdapter(context, this, CalendarAttr.CalendarType.WEEK, CalendarAttr.WeekArrayType.Sunday, customDayView);
-        calendarAdapter.setOnCalendarTypeChangedListener(new CalendarViewAdapter.OnCalendarTypeChanged() {
-            @Override
-            public void onCalendarTypeChanged(CalendarAttr.CalendarType type) {
-                mAsyncExpandableListView.scrollToPosition(0);
-            }
-        });
-        initMarkData();
-    }
-
-    /**
-     * 初始化标记数据，HashMap的形式，可自定义
-     * 如果存在异步的话，在使用setMarkData之后调用 calendarAdapter.notifyDataChanged();
-     */
-    private void initMarkData() {
-        HashMap<String, String> markData = new HashMap<>();
-        markData.put("2017-8-9", "1");
-        markData.put("2017-7-9", "0");
-        markData.put("2017-6-9", "1");
-        markData.put("2017-6-10", "0");
-        calendarAdapter.setMarkData(markData);
-    }
-
-    /**
-     * 初始化monthPager，MonthPager继承自ViewPager
-     */
-    private void initMonthPager() {
-        monthPager.setAdapter(calendarAdapter);
-        monthPager.setCurrentItem(MonthPager.CURRENT_DAY_INDEX);
-        monthPager.setPageTransformer(false, new ViewPager.PageTransformer() {
-            @Override
-            public void transformPage(View page, float position) {
-                position = (float) Math.sqrt(1 - Math.abs(position));
-                page.setAlpha(position);
-            }
-        });
-        monthPager.addOnPageChangeListener(new MonthPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                mCurrentPage = position;
-                currentCalendars = calendarAdapter.getPagers();
-                if (currentCalendars.get(position % currentCalendars.size()) != null) {
-                    CalendarDate date = currentCalendars.get(position % currentCalendars.size()).getSeedDate();
-                    currentDate = date;
-                    for (int i = 1; i <= 7; i++) {
-                        if (i == currentDate.getDayOfWeek()) {
-                            textViewList.get(i - 1).setTextColor(Color.WHITE);
-                        } else {
-                            textViewList.get(i - 1).setTextColor(Color.BLACK);
-                        }
-                    }
-                    if (mDateChangeListener != null) {
-                        mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
-                    }
-                } else {
-                    refreshMonthPager();
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                calendarAdapter.notifyDataSetChanged();
-            }
-        });
-        monthPager.setBackgroundColor(ThemeManager.getTheme(getActivity()));
     }
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
 
@@ -277,7 +143,7 @@ public class SchedulesFragment extends BaseFragment implements
                 dbUser = DB.users().getActive();
 //                LogUtil.e("active dbUser --> " + dbUser.toString());
                 initExpandableListViewData();
-                content.setVisibility(View.VISIBLE);
+                mCalendarLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
             }
         }, 500);
@@ -288,17 +154,23 @@ public class SchedulesFragment extends BaseFragment implements
      * 初始化currentDate
      */
     private void initCurrentDate() {
-        currentDate = new CalendarDate();
-        for (int i = 1; i <= 7; i++) {
-            if (i == currentDate.getDayOfWeek()) {
-                textViewList.get(i - 1).setTextColor(Color.WHITE);
-            } else {
-                textViewList.get(i - 1).setTextColor(Color.BLACK);
-            }
-        }
-        if (mDateChangeListener != null) {
-            mDateChangeListener.onDateChange(currentDate.getYear(), currentDate.getMonth(), currentDate.isToday());
-        }
+        today = mCalendarView.getSelectedCalendar();
+        currentCalendar = today;
+        mYear = mCalendarView.getCurYear();
+        List<Calendar> schemes = new ArrayList<>();
+        int year = mCalendarView.getCurYear();
+        int month = mCalendarView.getCurMonth();
+
+        schemes.add(getSchemeCalendar(year, month, 3, 0xFF40db25, "假"));
+        schemes.add(getSchemeCalendar(year, month, 6, 0xFFe69138, "事"));
+        schemes.add(getSchemeCalendar(year, month, 10, 0xFFdf1356, "议"));
+        schemes.add(getSchemeCalendar(year, month, 11, 0xFFedc56d, "记"));
+        schemes.add(getSchemeCalendar(year, month, 14, 0xFFedc56d, "记"));
+        schemes.add(getSchemeCalendar(year, month, 15, 0xFFaacc44, "假"));
+        schemes.add(getSchemeCalendar(year, month, 18, 0xFFbc13f0, "记"));
+        schemes.add(getSchemeCalendar(year, month, 25, 0xFF13acf0, "假"));
+        schemes.add(getSchemeCalendar(year, month, 27, 0xFF13acf0, "多"));
+        mCalendarView.setSchemeDate(schemes);
     }
 
     private void initExpandableListViewData() {
@@ -351,8 +223,8 @@ public class SchedulesFragment extends BaseFragment implements
 
     public void refreshData() {
 
-        if (content != null) {
-            content.setVisibility(View.GONE);
+        if (mCalendarLayout != null) {
+            mCalendarLayout.setVisibility(View.GONE);
         }
         if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
@@ -415,8 +287,22 @@ public class SchedulesFragment extends BaseFragment implements
     public void notifyDataChanged() {
         super.notifyDataChanged();
         refreshData();
-//        LogUtil.e("schedule fragment --> notifyDataChanged()");
     }
+
+
+    private Calendar getSchemeCalendar(int year, int month, int day, int color, String text) {
+        Calendar calendar = new Calendar();
+        calendar.setYear(year);
+        calendar.setMonth(month);
+        calendar.setDay(day);
+        calendar.setSchemeColor(color);//如果单独标记颜色、则会使用这个颜色
+        calendar.setScheme(text);
+        calendar.addScheme(new Calendar.Scheme());
+        calendar.addScheme(0xFF008800, "假");
+        calendar.addScheme(0xFF008800, "节");
+        return calendar;
+    }
+
     //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
 
 
@@ -428,17 +314,10 @@ public class SchedulesFragment extends BaseFragment implements
     //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
+        mCalendarView.setOnDateSelectedListener(this);
+        mCalendarView.setOnYearChangeListener(this);
         mAsyncExpandableListView.setCallbacks(this);
     }
-
-    //-//<View.OnClickListener>---------------------------------------------------------------------
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-        }
-    }
-    //-//</View.OnClickListener>--------------------------------------------------------------------
-
 
 
 
@@ -467,7 +346,6 @@ public class SchedulesFragment extends BaseFragment implements
 
     @Override
     public void bindCollectionHeaderView(Context context, AsyncHeaderViewHolder holder, int groupOrdinal, DBTask headerItem) {
-        onBindCollectionHeaderView = true;
         ScheduleHeaderViewHolder scheduleHeaderViewHolder = (ScheduleHeaderViewHolder) holder;
         scheduleHeaderViewHolder.getCalendarItemCheckBox().setUncheckedStrokeColor(DBTask.labelColor[headerItem.getLabel()]);
         scheduleHeaderViewHolder.getCalendarItemCheckBox().setChecked(headerItem.getIsFinish());
@@ -494,7 +372,6 @@ public class SchedulesFragment extends BaseFragment implements
                 }
             }
         }
-        onBindCollectionHeaderView = false;
     }
 
     @Override
@@ -537,62 +414,57 @@ public class SchedulesFragment extends BaseFragment implements
     //-//<MainActivity.OnScheduleViewClickListener>---------------------------------------------------------
     @Override
     public void onViewTodayClick() {
-        refreshMonthPager();
+        mCalendarView.scrollToCurrent();
+        if (mDateChangeListener != null) {
+            if (today == null) {
+                Calendar calendar = getSchemeCalendar(DateUtil.getYear(), DateUtil.getMonth(), DateUtil.getDay(), 0xFF40db25, "假");
+                mDateChangeListener.onDateChange(calendar);
+            } else {
+                mDateChangeListener.onDateChange(today);
+            }
+        }
     }
 
     @Override
-    public void onViewChangeMarkThemeClick() {
-        refreshSelectBackground();
-    }
+    public void onViewChangeMarkThemeClick() { }
 
     @Override
     public void onViewRefreshClick() {
         refreshData();
     }
 
-    private void refreshMonthPager() {
-        CalendarDate today = new CalendarDate();
-        if (calendarAdapter != null) {
-            calendarAdapter.notifyDataChanged(today);
+    @Override
+    public void onViewExpand() {
+        if (!mCalendarLayout.isExpand()) {
+            mCalendarView.showYearSelectLayout(mYear);
+            return;
         }
-        for (int i = 1; i <= 7; i++) {
-            if (i == today.getDayOfWeek()) {
-                textViewList.get(i - 1).setTextColor(Color.WHITE);
-            } else {
-                textViewList.get(i - 1).setTextColor(Color.BLACK);
-            }
-        }
-        if (mDateChangeListener != null) {
-            mDateChangeListener.onDateChange(today.getYear(), today.getMonth(), today.isToday());
-        }
-        if (monthPager != null) {
-            monthPager.setBackgroundColor(ThemeManager.getTheme(getActivity()));
-        }
-    }
-
-    private void refreshSelectBackground() {
-        ThemeDayView themeDayView = new ThemeDayView(context, R.layout.view_calendar_custom_day_focus);
-        calendarAdapter.setCustomDayRenderer(themeDayView);
-        calendarAdapter.notifyDataSetChanged();
-        calendarAdapter.notifyDataChanged(new CalendarDate());
+        mCalendarView.showYearSelectLayout(mYear);
     }
     //-//</MainActivity.OnScheduleViewClickListener>--------------------------------------------------------
 
 
 
 
-    //-//<OnSelectDateListener>---------------------------------------------------------------------
+
+    //-//<CalendarView>---------------------------------------------------------------------
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onSelectDate(CalendarDate date) {
-        refreshClickDate(date);
+    public void onDateSelected(Calendar calendar, boolean isClick) {
+        currentCalendar = calendar;
+        if (mDateChangeListener != null) {
+            mDateChangeListener.onDateChange(calendar);
+        }
+        mYear = calendar.getYear();
+        if (dbUser != null) refreshExpandableListViewData();
     }
 
+
     @Override
-    public void onSelectOtherMonth(int offset) {
-        //偏移量 -1表示刷新成上一个月数据 ， 1表示刷新成下一个月数据
-        monthPager.selectOtherMonth(offset);
+    public void onYearChange(int year) {
+//        mTextMonthDay.setText(String.valueOf(year));
     }
-    //-//</OnSelectDateListener>--------------------------------------------------------------------
+    //-//</CalendarView>--------------------------------------------------------------------
 
     //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
 
@@ -602,21 +474,7 @@ public class SchedulesFragment extends BaseFragment implements
 
 
     //<回调接口>-------------------------------------------------------------------------------------
-    private void refreshClickDate(CalendarDate date) {
-        currentDate = date;
-        for (int i = 1; i <= 7; i++) {
-            if (i == currentDate.getDayOfWeek()) {
-                textViewList.get(i - 1).setTextColor(Color.WHITE);
-            } else {
-                textViewList.get(i - 1).setTextColor(Color.BLACK);
-            }
-        }
-        if (mDateChangeListener != null) {
-            mDateChangeListener.onDateChange(date.getYear(), date.getMonth(), date.isToday());
-        }
-        refreshExpandableListViewData();
-    }
-
+    private OnDateChangeListener mDateChangeListener;
     public void setOnDateChangeListener(OnDateChangeListener DateChangeListener) {
         mDateChangeListener = DateChangeListener;
     }
@@ -719,8 +577,8 @@ public class SchedulesFragment extends BaseFragment implements
             DBUser dbUser = DB.users().getActive();
 
             Date today = new Date();
-            if (currentDate != null) {
-                today = TimeUtil.transferCalendarDate(currentDate);
+            if (currentCalendar != null) {
+                today = TimeUtil.transferCalendarDate(currentCalendar);
             }
             for (DBTask task : taskArrayList) {
                 if (!task.getOwner().equals((ModelUtil.getOwnerUrl(dbUser)))) {
@@ -731,7 +589,7 @@ public class SchedulesFragment extends BaseFragment implements
                 if (task.getIsFinish()) {
                     Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
                     if (finished_datetime != null) {
-                        if (finished_datetime.getDay() == today.getDay()
+                        if (finished_datetime.getDate() == today.getDate()
                                 && finished_datetime.getMonth() == today.getMonth()
                                 && finished_datetime.getYear() == today.getYear()) {
                             tasks.add(task);
