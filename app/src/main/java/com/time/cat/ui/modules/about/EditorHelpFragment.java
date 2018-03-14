@@ -1,22 +1,31 @@
-package io.github.zeleven.mua;
+package com.time.cat.ui.modules.about;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Toast;
+
+import com.time.cat.R;
+import com.time.cat.ui.base.BaseFragment;
 
 import java.util.Locale;
 
 import butterknife.BindString;
 import butterknife.BindView;
 
-public class HelpFragment extends BaseFragment {
+public class EditorHelpFragment extends BaseFragment {
     @BindString(R.string.drawer_item_help) String TITLE;
     @BindView(R.id.docs_webview) WebView webView;
 
     private SharedPreferences sharedPreferences;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentConfig(true, false);
+    }
 
     @Override
     public int getLayoutId() {
@@ -27,7 +36,7 @@ public class HelpFragment extends BaseFragment {
     public void initView() {
         toolbarTitle = TITLE;
         super.initView();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appCompatActivity);
         setWebView();
     }
 
@@ -40,7 +49,7 @@ public class HelpFragment extends BaseFragment {
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebChromeClient(new WebChromeClient());
-        String value = sharedPreferences.getString("language", "");
+        String value = sharedPreferences.getString("language", "zh");
         Locale locale;
         if (value.equals("auto")) {
             locale = Locale.getDefault();
