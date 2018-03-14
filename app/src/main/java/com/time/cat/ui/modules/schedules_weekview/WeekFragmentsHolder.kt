@@ -1,4 +1,4 @@
-package com.simplemobiletools.calendar.fragments
+package com.time.cat.ui.modules.schedules_weekview
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -7,21 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.simplemobiletools.calendar.R
-import com.simplemobiletools.calendar.activities.MainActivity
-import com.simplemobiletools.calendar.adapters.MyWeekPagerAdapter
-import com.simplemobiletools.calendar.extensions.config
-import com.simplemobiletools.calendar.extensions.seconds
-import com.simplemobiletools.calendar.helpers.Formatter
-import com.simplemobiletools.calendar.helpers.WEEK_SECONDS
-import com.simplemobiletools.calendar.helpers.WEEK_START_DATE_TIME
-import com.simplemobiletools.calendar.interfaces.WeekFragmentListener
-import com.simplemobiletools.calendar.views.MyScrollView
-import kotlinx.android.synthetic.main.fragment_week_holder.*
-import kotlinx.android.synthetic.main.fragment_week_holder.view.*
+import com.time.cat.R
+import com.time.cat.data.WEEK_SECONDS
+import com.time.cat.data.WEEK_START_DATE_TIME
+import com.time.cat.helper.Formatter
+import com.time.cat.helper.config
+import com.time.cat.helper.seconds
+import com.time.cat.ui.activity.main.MainActivity
+import com.time.cat.ui.base.BaseFragment
+import com.time.cat.ui.base.mvpframework.presenter.BaseMvpPresenter
+import com.time.cat.ui.base.mvpframework.view.BaseMvpView
+import com.time.cat.ui.widgets.weekview.MyScrollView
+import kotlinx.android.synthetic.main.fragment_schedules_weekview_holder.*
+import kotlinx.android.synthetic.main.fragment_schedules_weekview_holder.view.*
 import org.joda.time.DateTime
 
-class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
+class WeekFragmentsHolder : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvpView>>(), WeekFragmentListener {
     private val PREFILLED_WEEKS = 61
 
     private var weekHolder: ViewGroup? = null
@@ -33,13 +34,13 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val dateTimeString = arguments?.getString(WEEK_START_DATE_TIME) ?: ""
+        val dateTimeString = arguments?.getString(WEEK_START_DATE_TIME) ?: getThisWeekDateTime()
         currentWeekTS = (DateTime.parse(dateTimeString) ?: DateTime()).seconds()
         thisWeekTS = currentWeekTS
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        weekHolder = inflater.inflate(R.layout.fragment_week_holder, container, false) as ViewGroup
+        weekHolder = inflater.inflate(R.layout.fragment_schedules_weekview_holder, container, false) as ViewGroup
         weekHolder!!.background = ColorDrawable(context!!.config.backgroundColor)
         setupFragment()
         return weekHolder
@@ -75,7 +76,7 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
                     currentWeekTS = weekTSs[position]
                     val shouldGoToTodayBeVisible = shouldGoToTodayBeVisible()
                     if (isGoToTodayVisible != shouldGoToTodayBeVisible) {
-                        (activity as? MainActivity)?.toggleGoToTodayVisibility(shouldGoToTodayBeVisible)
+//                        (activity as? MainActivity)?.toggleGoToTodayVisibility(shouldGoToTodayBeVisible)TODO
                         isGoToTodayVisible = shouldGoToTodayBeVisible
                     }
 
@@ -93,6 +94,14 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
         })
         weekHolder!!.week_view_hours_scrollview.setOnTouchListener { view, motionEvent -> true }
         updateActionBarTitle()
+    }
+
+    private fun getThisWeekDateTime(): String {
+        var thisweek = DateTime().withDayOfWeek(1).withTimeAtStartOfDay().minusDays(1)
+        if (DateTime().minusDays(7).seconds() > thisweek.seconds()) {
+            thisweek = thisweek.plusDays(7)
+        }
+        return thisweek.toString()
     }
 
     private fun getWeekTimestamps(targetSeconds: Int): List<Int> {
@@ -120,23 +129,23 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
         (activity as? MainActivity)?.supportActionBar?.subtitle = "${getString(R.string.week)} ${startDateTime.plusDays(3).weekOfWeekyear}"
     }
 
-    override fun goToToday() {
+    fun goToToday() {
         currentWeekTS = thisWeekTS
         setupFragment()
     }
 
-    override fun refreshEvents() {
+    fun refreshEvents() {
         val viewPager = weekHolder?.week_view_view_pager
         (viewPager?.adapter as? MyWeekPagerAdapter)?.updateCalendars(viewPager.currentItem)
     }
 
-    override fun shouldGoToTodayBeVisible() = currentWeekTS != thisWeekTS
+    fun shouldGoToTodayBeVisible() = currentWeekTS != thisWeekTS
 
-    override fun updateActionBarTitle() {
+    fun updateActionBarTitle() {
         setupWeeklyActionbarTitle(currentWeekTS)
     }
 
-    override fun getNewEventDayCode() = Formatter.getDayCodeFromTS(currentWeekTS)
+    fun getNewEventDayCode() = Formatter.getDayCodeFromTS(currentWeekTS)
 
     override fun scrollTo(y: Int) {
         weekHolder!!.week_view_hours_scrollview.scrollY = y

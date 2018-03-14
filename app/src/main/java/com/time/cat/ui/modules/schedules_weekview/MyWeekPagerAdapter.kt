@@ -1,13 +1,11 @@
-package com.simplemobiletools.calendar.adapters
+package com.time.cat.ui.modules.schedules_weekview
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.util.SparseArray
-import com.simplemobiletools.calendar.fragments.WeekFragment
-import com.simplemobiletools.calendar.helpers.WEEK_START_TIMESTAMP
-import com.simplemobiletools.calendar.interfaces.WeekFragmentListener
+import com.time.cat.data.WEEK_START_TIMESTAMP
 
 class MyWeekPagerAdapter(fm: FragmentManager, val mWeekTimestamps: List<Int>, val mListener: WeekFragmentListener) : FragmentStatePagerAdapter(fm) {
     private val mFragments = SparseArray<WeekFragment>()

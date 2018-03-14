@@ -17,9 +17,9 @@ import com.time.cat.ui.base.mvp.presenter.FragmentPresenter;
  * @discription null
  * @usage null
  */
-public class fragment_schedule_week extends BaseFragment implements FragmentPresenter{
+public class SchedulesWeekFragment extends BaseFragment implements FragmentPresenter{
     @SuppressWarnings("unused")
-    private static final String TAG = "fragment_schedule_week";
+    private static final String TAG = "SchedulesWeekFragment";
 
 
     //<生命周期>-------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-package com.simplemobiletools.calendar.interfaces
+package com.time.cat.ui.modules.schedules_weekview
 
 interface WeekFragmentListener {
     fun scrollTo(y: Int)

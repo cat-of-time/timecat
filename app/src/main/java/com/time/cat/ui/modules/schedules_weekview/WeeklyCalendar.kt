@@ -1,7 +1,7 @@
-package com.simplemobiletools.calendar.interfaces
+package com.time.cat.ui.modules.schedules_weekview
 
-import com.simplemobiletools.calendar.models.Event
+import com.time.cat.data.model.DBmodel.DBTask
 
 interface WeeklyCalendar {
-    fun updateWeeklyCalendar(events: ArrayList<Event>)
+    fun updateWeeklyCalendar(events: ArrayList<DBTask>)
 }
