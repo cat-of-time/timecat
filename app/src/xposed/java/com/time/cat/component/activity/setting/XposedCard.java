@@ -16,12 +16,12 @@ import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.ViewUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
 import static android.content.Context.MODE_WORLD_READABLE;
 import static com.time.cat.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
-import static com.shang.xposed.XposedConstant.SP_DOBLUE_CLICK;
-import static com.shang.xposed.XposedConstant.SP_NAME;
+import static com.timecat.xposed.XposedConstant.SP_DOBLUE_CLICK;
+import static com.timecat.xposed.XposedConstant.SP_NAME;
 
 /**
  * Created by wangyan-pd on 2016/11/25.
@@ -73,7 +73,7 @@ public class XposedCard extends AbsCard implements View.OnClickListener{
 
         mPreferences = context.getSharedPreferences(SP_NAME, MODE_WORLD_READABLE);
         int t = mPreferences.getInt(SP_DOBLUE_CLICK,1000);
-        //int t = SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL, ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
+        //int t = SPHelper.getInt(Constants.DOUBLE_CLICK_INTERVAL, Constants.DEFAULT_DOUBLE_CLICK_INTERVAL);
         String text = mContext.getString(R.string.double_click_intercal);
         text = text.replace("#", "<font color=\"#009688\">" + t + "</font>");
         mDoubleClick.setText(Html.fromHtml(text));

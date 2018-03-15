@@ -28,7 +28,7 @@ import com.time.cat.ui.activity.whitelist.AppListAdapter;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
-import com.shang.xposed.setting.StatusBarCompat;
+import com.timecat.xposed.setting.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,7 +39,7 @@ import java.util.Set;
 
 import static com.time.cat.ui.modules.setting.MonitorSettingCard.SPINNER_ARRAY;
 import static com.time.cat.ui.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
-import static com.shang.xposed.XposedConstant.SP_NAME;
+import static com.timecat.xposed.XposedConstant.SP_NAME;
 
 
 public class XposedAppManagerActivity extends BaseActivity {

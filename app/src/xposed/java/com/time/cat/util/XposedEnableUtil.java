@@ -1,7 +1,7 @@
 package com.time.cat.util;
 
 
-import com.shang.xposed.XposedEnable;
+import com.timecat.xposed.XposedEnable;
 
 public class XposedEnableUtil {
 
