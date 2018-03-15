@@ -1,4 +1,4 @@
-package com.shang.xposed.forcetouch;
+package com.timecat.xposed.forcetouch;
 
 /**
  * Created by Michele on 22/10/2016.

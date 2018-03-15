@@ -1,4 +1,4 @@
-package com.shang.xposed;
+package com.timecat.xposed;
 
 import android.content.Context;
 import android.content.Intent;
@@ -384,7 +384,7 @@ public class TouchEventHandler {
     public boolean hookAllTouchEvent(View v, MotionEvent event, List<Filter> filters, boolean needVerify, int anInt) {
         BIG_BANG_RESPONSE_TIME = anInt;
         boolean handle = false;
-          Log.e("shang","event:"+event);
+          Log.e("timecat","event:"+event);
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View targetTextView = getTargetTextView(v, event, filters);
             if (targetTextView != null) {
