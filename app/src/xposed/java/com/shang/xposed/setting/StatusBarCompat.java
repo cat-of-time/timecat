@@ -1,4 +1,4 @@
-package com.shang.xposed.setting;
+package com.timecat.xposed.setting;
 
 import android.app.Activity;
 import android.os.Build;

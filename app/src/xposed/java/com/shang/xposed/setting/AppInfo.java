@@ -1,4 +1,4 @@
-package com.shang.xposed.setting;
+package com.timecat.xposed.setting;
 
 import android.content.pm.ApplicationInfo;
 
