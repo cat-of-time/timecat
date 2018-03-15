@@ -1,4 +1,4 @@
-package com.shang.xposed;
+package com.timecat.xposed;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,10 +22,10 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.shang.xposed.TouchEventHandler.BIG_BANG_RESPONSE_TIME;
-import static com.shang.xposed.XposedConstant.PACKAGE_NAME;
-import static com.shang.xposed.XposedConstant.SP_DOBLUE_CLICK;
-import static com.shang.xposed.XposedConstant.SP_NAME;
+import static com.timecat.xposed.TouchEventHandler.BIG_BANG_RESPONSE_TIME;
+import static com.timecat.xposed.XposedConstant.PACKAGE_NAME;
+import static com.timecat.xposed.XposedConstant.SP_DOBLUE_CLICK;
+import static com.timecat.xposed.XposedConstant.SP_NAME;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 /**
@@ -48,7 +48,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        Log.e("shang", "xposed-packageName:" + loadPackageParam.packageName);
+        Log.e("timecat", "xposed-packageName:" + loadPackageParam.packageName);
         setXpoedEnable(loadPackageParam);
 //        if (!new File("/data/data/"+PACKAGE_NAME).exists())
 //            return;
@@ -121,7 +121,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 //                Context context = (Context) param.thisObject;
 //
 //                Intent intent = new Intent();
-//                intent.setAction("com.shang.bigbang.wake");
+//                intent.setAction("com.timecat.bigbang.wake");
 //                intent.addCategory(Intent.CATEGORY_DEFAULT);
 //                context.sendBroadcast(intent);
 //            }
@@ -136,7 +136,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
     private void setXpoedEnable(XC_LoadPackage.LoadPackageParam loadPackageParam) throws ClassNotFoundException {
         if (loadPackageParam.packageName.equals(PACKAGE_NAME)) {
-            findAndHookMethod(loadPackageParam.classLoader.loadClass("com.shang.xposed.XposedEnable"), "isEnable", new XC_MethodReplacement() {
+            findAndHookMethod(loadPackageParam.classLoader.loadClass("com.timecat.xposed.XposedEnable"), "isEnable", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
                     return true;
@@ -252,7 +252,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             View view = (View) param.thisObject;
             MotionEvent event = (MotionEvent) param.args[0];
 
-            Log.e("shang", "xposed-packageName:" + event);
+            Log.e("timecat", "xposed-packageName:" + event);
 
             if (isKeyBoardOrLauncher(view.getContext(), packageName))
                 return;
@@ -331,7 +331,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             Activity activity = (Activity) param.thisObject;
             View view = activity.findViewById(android.R.id.content);
             MotionEvent event = (MotionEvent) param.args[0];
-          //  Log.e("shang", "activityTouchEvent: " + event);
+          //  Log.e("timecat", "activityTouchEvent: " + event);
             //mTouchHandler.hookTouchEvent(view, event, mFilters, false);
         }
     }
