@@ -16,8 +16,8 @@
 //import android.widget.Toast;
 //
 //
-//import com.shang.xposed.R;
-//import com.shang.xposed.setting.StatusBarCompat;
+//import com.timecat.xposed.R;
+//import com.timecat.xposed.setting.StatusBarCompat;
 //
 //import java.util.HashMap;
 //

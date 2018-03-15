@@ -1,4 +1,4 @@
-package com.shang.xposed.setting;
+package com.timecat.xposed.setting;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.shang.xposed.R;
+import com.timecat.xposed.R;
 
 import java.util.List;
 

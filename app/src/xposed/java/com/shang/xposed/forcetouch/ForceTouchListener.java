@@ -1,4 +1,4 @@
-package com.shang.xposed.forcetouch;
+package com.timecat.xposed.forcetouch;
 
 import android.content.Context;
 import android.os.Handler;
