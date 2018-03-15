@@ -36,6 +36,12 @@
             android:title="@string/main_menu_change_theme"
             android:visible="false"
             app:showAsAction="ifRoom"/>
+
+        <item
+            android:id="@+id/main_menu_routines_help"
+            android:icon="@drawable/ic_help_white_48dp"
+            android:title="@string/main_menu_more"
+            app:showAsAction="always"/>
     </group>
     <group
         android:id="@+id/main_menu_notesFragment"
