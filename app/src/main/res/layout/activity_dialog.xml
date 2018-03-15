@@ -18,15 +18,12 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="vertical">
-            <!-- title Label -->
-            <!-- content Label -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/dialog_add_task_et_content"
                 android:layout_marginLeft="@dimen/margin_auto"
-                android:layout_marginRight="@dimen/margin_auto"
                 android:orientation="horizontal">
 
                 <com.time.cat.ui.widgets.richText.TEditText
@@ -268,20 +265,6 @@
                         app:rd_style="@style/LightRaiseWaveColorButtonRippleStyle"/>
                 </RelativeLayout>
             </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/dialog_add_task_ll_extra"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="敬请期待..."/>
         </LinearLayout>
 
         <include

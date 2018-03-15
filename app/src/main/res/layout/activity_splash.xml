@@ -34,6 +34,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/tab_indicator_small_width"
-        android:text="@string/copyright"
+        android:text="@string/timecat_copyright"
         android:textColor="@color/colorPrimary"/>
 </RelativeLayout>

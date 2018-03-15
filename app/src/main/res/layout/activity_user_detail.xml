@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_color_primary"
-    tools:context="com.time.cat.ui.activity.user.UserDetailActivity">
+    tools:context=".ui.modules.user.UserDetailActivity">
 
     <RelativeLayout
         android:id="@+id/top"

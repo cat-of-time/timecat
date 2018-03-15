@@ -1,39 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tablayout"
+    <FrameLayout
+        android:id="@+id/fragments_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_tablayout_height"
-        app:tabBackground="?attr/colorPrimary"
-        app:tabIndicatorColor="@color/text_color"
-        app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="@color/text_color"
-        app:tabTextAppearance="@style/tab_text_apparence"
-        app:tabTextColor="@color/text_color_half_trans"/>
+        android:layout_above="@+id/history_bottom_container"
+        android:layout_height="match_parent"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tablayout">
+        android:layout_height="40dp"
+        android:id="@+id/history_bottom_container"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <View
+        <com.rey.material.widget.ImageView
+            android:id="@+id/history_schedules"
+            style="Material.Drawable.Ripple.Touch.Light"
             android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_alignParentTop="true"
-            android:alpha="0.3"
-            android:background="@drawable/shadow"
-            android:elevation="1dp"/>
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            app:rd_enable="true"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@drawable/ic_schedules_black_24dp"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/container"
+        <com.rey.material.widget.ImageView
+            android:id="@+id/history_routines"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </RelativeLayout>
-</LinearLayout>
+            style="Material.Drawable.Ripple.Touch.Light"
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            app:rd_enable="true"
+            android:src="@drawable/ic_routines_black_24dp"/>
+
+        <com.rey.material.widget.ImageView
+            android:id="@+id/history_notes"
+            android:layout_width="match_parent"
+            app:rd_enable="true"
+            android:layout_gravity="center"
+            style="Material.Drawable.Ripple.Touch.Light"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@drawable/ic_notes_black_24dp"/>
+
+        <com.rey.material.widget.ImageView
+            android:id="@+id/history_plans"
+            android:layout_width="match_parent"
+            app:rd_enable="true"
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            style="Material.Drawable.Ripple.Touch.Light"
+            android:src="@drawable/ic_plans_active_black_24dp"/>
+    </LinearLayout>
+</RelativeLayout>
