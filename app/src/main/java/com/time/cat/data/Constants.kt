@@ -1,140 +1,152 @@
 package com.time.cat.data
 
 import com.time.cat.R
+import com.time.cat.TimeCatApp
 
-const val LOW_ALPHA = .3f
-const val MEDIUM_ALPHA = .6f
-const val STORED_LOCALLY_ONLY = 0
+object ConstantUtil {
 
-const val DAY_CODE = "day_code"
-const val YEAR_LABEL = "year"
-const val EVENT_ID = "event_id"
-const val EVENT_OCCURRENCE_TS = "event_occurrence_ts"
-const val NEW_EVENT_START_TS = "new_event_start_ts"
-const val WEEK_START_TIMESTAMP = "week_start_timestamp"
-const val NEW_EVENT_SET_HOUR_DURATION = "new_event_set_hour_duration"
-const val WEEK_START_DATE_TIME = "week_start_date_time"
-const val CALDAV = "Caldav"
-const val OPEN_MONTH = "open_month"
+    val CONTENT = "content://"
+    val AUTHORITY = "com.time.cat"
+    val SEPARATOR = "/"
+    val CONTENT_URI = CONTENT + AUTHORITY
 
-const val MONTHLY_VIEW = 1
-const val YEARLY_VIEW = 2
-const val EVENTS_LIST_VIEW = 3
-const val WEEKLY_VIEW = 4
-const val DAILY_VIEW = 5
+    val BROADCAST_RELOAD_SETTING = "broadcast_reload_setting"
+    val BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED = "broadcast_timecat_monitor_service_modified"
 
-const val REMINDER_OFF = -1
+    val BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED = "broadcast_clipboard_listen_service_modified"
 
-const val DAY = 86400
-const val WEEK = 604800
-const val MONTH = 2592001    // exact value not taken into account, Joda is used for adding months and years
-const val YEAR = 31536000
+    val BROADCAST_SET_TO_CLIPBOARD = "broadcast_set_to_clipboard"
+    val BROADCAST_SET_TO_CLIPBOARD_MSG = "broadcast_set_to_clipboard_msg"
 
-const val DAY_MINUTES = 24 * 60
-const val DAY_SECONDS = 24 * 60 * 60
-const val WEEK_SECONDS = 7 * DAY_SECONDS
 
-// Shared Preferences
-const val USE_24_HOUR_FORMAT = "use_24_hour_format"
-const val SUNDAY_FIRST = "sunday_first"
-const val WEEK_NUMBERS = "week_numbers"
-const val START_WEEKLY_AT = "start_weekly_at"
-const val END_WEEKLY_AT = "end_weekly_at"
-const val VIBRATE = "vibrate"
-const val REMINDER_SOUND = "reminder_sound"
-const val VIEW = "view"
-const val REMINDER_MINUTES = "reminder_minutes"
-const val REMINDER_MINUTES_2 = "reminder_minutes_2"
-const val REMINDER_MINUTES_3 = "reminder_minutes_3"
-const val DISPLAY_EVENT_TYPES = "display_event_types"
-const val FONT_SIZE = "font_size"
-const val CALDAV_SYNC = "caldav_sync"
-const val CALDAV_SYNCED_CALENDAR_IDS = "caldav_synced_calendar_ids"
-const val LAST_USED_CALDAV_CALENDAR = "last_used_caldav_calendar"
-const val SNOOZE_DELAY = "snooze_delay"
-const val DISPLAY_PAST_EVENTS = "display_past_events"
-const val REPLACE_DESCRIPTION = "replace_description"
-const val USE_SAME_SNOOZE = "use_same_snooze"
+    //shareCard
+    val HAD_SHARED = "had_shared"
+    val SETTING_OPEN_TIMES = "setting_open_times"
 
-val letterIDs = intArrayOf(R.string.sunday_letter, R.string.monday_letter, R.string.tuesday_letter, R.string.wednesday_letter,
-        R.string.thursday_letter, R.string.friday_letter, R.string.saturday_letter)
+    //FunctionSettingCard
+    val MONITOR_CLIP_BOARD = "monitor_clip_board"
+    val MONITOR_CLICK = "monitor_click"
+    val TOTAL_SWITCH = "total_switch"
+    val SHOW_FLOAT_VIEW = "show_float_view"
+    val REMAIN_SYMBOL = "remain_symbol"
+    val REMAIN_SECTION = "remain_section"
+    val DEFAULT_LOCAL = "default_local"
 
-// repeat_rule for weekly repetition
-const val MONDAY = 1
-const val TUESDAY = 2
-const val WEDNESDAY = 4
-const val THURSDAY = 8
-const val FRIDAY = 16
-const val SATURDAY = 32
-const val SUNDAY = 64
-const val EVERY_DAY = 127
 
-// repeat_rule for monthly repetition
-const val REPEAT_MONTH_SAME_DAY = 1                   // ie 25th every month
-const val REPEAT_MONTH_ORDER_WEEKDAY_USE_LAST = 2     // ie every xth sunday. 4th if a month has 4 sundays, 5th if 5
-const val REPEAT_MONTH_LAST_DAY = 3                   // ie every last day of the month
-const val REPEAT_MONTH_ORDER_WEEKDAY = 4              // ie every 4th sunday, even if a month has 4 sundays only (will stay 4th even at months with 5)
+    val AUTO_OPEN_SETTING = "auto_open_setting"
 
-// special event flags
-const val FLAG_ALL_DAY = 1
+    //floatview
+    val FLOAT_SWITCH_STATE = "float_switch_state"
+    val FLOAT_VIEW_LAND_X = "float_view_land_x"
+    val FLOAT_VIEW_LAND_Y = "float_view_land_Y"
+    val FLOAT_VIEW_PORT_X = "float_view_port_x"
+    val FLOAT_VIEW_PORT_Y = "float_view_port_y"
 
-// constants related to ICS file exporting / importing
-const val BEGIN_CALENDAR = "BEGIN:VCALENDAR"
-const val END_CALENDAR = "END:VCALENDAR"
-const val CALENDAR_PRODID = "PRODID:-//Simple Mobile Tools//NONSGML Event Calendar//EN"
-const val CALENDAR_VERSION = "VERSION:2.0"
-const val BEGIN_EVENT = "BEGIN:VEVENT"
-const val END_EVENT = "END:VEVENT"
-const val BEGIN_ALARM = "BEGIN:VALARM"
-const val END_ALARM = "END:VALARM"
-const val DTSTART = "DTSTART"
-const val DTEND = "DTEND"
-const val LAST_MODIFIED = "LAST-MODIFIED"
-const val DURATION = "DURATION:"
-const val SUMMARY = "SUMMARY"
-const val DESCRIPTION = "DESCRIPTION:"
-const val UID = "UID:"
-const val ACTION = "ACTION:"
-const val TRIGGER = "TRIGGER:"
-const val RRULE = "RRULE:"
-const val CATEGORIES = "CATEGORIES:"
-const val STATUS = "STATUS:"
-const val EXDATE = "EXDATE"
-const val BYDAY = "BYDAY"
-const val BYMONTHDAY = "BYMONTHDAY"
-const val LOCATION = "LOCATION:"
 
-// this tag isn't a standard ICS tag, but there's no official way of adding a category color in an ics file
-const val CATEGORY_COLOR = "CATEGORY_COLOR:"
+    val IS_SHOW_NOTIFY = "is_show_notify"
+    val NOTIFY_DISABLED_IGNORE = "notify_disabled_ignore"
 
-const val DISPLAY = "DISPLAY"
-const val FREQ = "FREQ"
-const val UNTIL = "UNTIL"
-const val COUNT = "COUNT"
-const val INTERVAL = "INTERVAL"
-const val CONFIRMED = "CONFIRMED"
-const val VALUE = "VALUE"
-const val DATE = "DATE"
 
-const val DAILY = "DAILY"
-const val WEEKLY = "WEEKLY"
-const val MONTHLY = "MONTHLY"
-const val YEARLY = "YEARLY"
+    //FeedBackAndUpdateCard
 
-const val MO = "MO"
-const val TU = "TU"
-const val WE = "WE"
-const val TH = "TH"
-const val FR = "FR"
-const val SA = "SA"
-const val SU = "SU"
+    //MonitorSettingCard
+    val TEXT_ONLY = "text_only"
+    val QQ_SELECTION = "qq_selection"
+    val WEIXIN_SELECTION = "weixin_selection"
+    val OTHER_SELECTION = "other_selection"
 
-// font sizes
-const val FONT_SIZE_SMALL = 0
-const val FONT_SIZE_MEDIUM = 1
-const val FONT_SIZE_LARGE = 2
+    val BROWSER_SELECTION = "browser_selection"
 
-const val SOURCE_SIMPLE_CALENDAR = "simple-calendar"
-const val SOURCE_IMPORTED_ICS = "imported-ics"
-const val SOURCE_CONTACT_BIRTHDAY = "contact-birthday"
-const val SOURCE_CONTACT_ANNIVERSARY = "contact-anniversary"
+
+    val Setting_content_Changes = "tencent_contents_change"
+    val SHOW_TENCENT_SETTINGS = "tencent_settings"
+
+
+    val ONLINE_CONFIG_OPEN_UPDATE = "online_config_open_update"
+    val DOUBLE_CLICK_INTERVAL = "double_click_interval"
+    val DEFAULT_DOUBLE_CLICK_INTERVAL = 1000
+
+
+    //SettingTimeCatActivity
+    val TEXT_SIZE = "text_size"
+    val LINE_MARGIN = "line_margin"
+    val ITEM_MARGIN = "item_margin"
+    val ITEM_PADDING = "item_padding"
+    val TIMECAT_ALPHA = "timecat_alpha"
+    val USE_LOCAL_WEBVIEW = "use_local_webview"
+    val USE_FLOAT_VIEW_TRIGGER = "use_float_view_trigger"
+    val TIMECAT_DIY_BG_COLOR = "timecat_diy_bg_color"
+    val IS_FULL_SCREEN = "is_full_screen"
+    val IS_STICK_HEADER = "is_stick_header"
+    val IS_STICK_SHAREBAR = "is_stick_sharebar"
+    val AUTO_ADD_BLANKS = "auto_add_blanks"
+    val TREAT_BLANKS_AS_SYMBOL = "treat_blanks_as_symbol"
+
+
+    val FLOATVIEW_SIZE = "floatview_size_"
+    val FLOATVIEW_ALPHA = "floatview_alpha"
+    val FLOATVIEW_DIY_BG_COLOR = "floatview_diy_bg_color"
+    val FLOATVIEW_IS_STICK = "floatview_is_stick"
+
+
+    val DEFAULT_TEXT_SIZE = 14
+    val DEFAULT_LINE_MARGIN = 8
+    val DEFAULT_ITEM_MARGIN = 0
+    val DEFAULT_ITEM_PADDING = 10
+
+
+    //whiteListActivity
+    val WHITE_LIST_COUNT = "white_list_count"
+    val WHITE_LIST = "white_list"
+    val REFRESH_WHITE_LIST_BROADCAST = "refresh_white_list_broadcast"
+
+
+    //Float whiteList Activity
+    val FLOAT_WHITE_LIST_COUNT = "float_white_list_count"
+    val FLOAT_WHITE_LIST = "float_white_list_"
+    val FLOAT_REFRESH_WHITE_LIST_BROADCAST = "float_refresh_white_list_broadcast"
+
+    val HAS_ADDED_LAUNCHER_AS_WHITE_LIST = "has_added_launcher_as_white_list"
+
+
+    val UNIVERSAL_COPY_BROADCAST = "universal_copy_broadcast"
+    val UNIVERSAL_COPY_BROADCAST_DELAY = "universal_copy_broadcast_delay"
+    val SCREEN_CAPTURE_OVER_BROADCAST = "screen_capture_over_broadcast"
+
+
+    val TOTAL_SWITCH_BROADCAST = "total_switch_broadcast"
+    val MONITOR_CLICK_BROADCAST = "monitor_click_broadcast"
+    val MONITOR_CLIPBOARD_BROADCAST = "monitor_clipboard_broadcast"
+
+    val NOTIFY_UNIVERSAL_COPY_BROADCAST = "notify_universal_copy_broadcast"
+    val NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST = "notify_screen_capture_over_broadcast"
+
+    val OCR_TIME = "ocr_time"
+    val OCR_TIME_TO_ALERT = 5
+    val SHOULD_SHOW_DIY_OCR = "should_show_diy_ocr"
+
+    val DIY_OCR_KEY = "diy_ocr_key"
+
+
+    val EFFECT_AFTER_REBOOT_BROADCAST = "effect_after_reboot_broadcast"
+
+    val LONG_PRESS_KEY_INDEX = "long_press_key_index"
+
+    val SHARE_APPS_DIS = "share_app_dis"
+    val HAD_ENTER_INTRO = "had_enter_intro"
+    val SHARE_APP_INDEX = "share_app_index"
+
+    val HAD_SHOW_LONG_PRESS_TOAST = "had_show_long_press_toast"
+
+    //copyActivity
+    val IS_FULL_SCREEN_COPY = "is_full_screen_copy"
+
+    //xp全局复制
+    val UNIVERSAL_COPY_BROADCAST_XP = "universal_copy_broadcast_xp"
+
+    // InfoOperationActivity
+    val UNIVERSAL_SAVE_COTENT = "universal_save_content"
+
+    val ALI_APP_KEY = TimeCatApp.getInstance().getString(R.string.ali_feedback_key)
+    val ALI_APP_SECRET = TimeCatApp.getInstance().getString(R.string.ali_feedback_key_secret)
+}
