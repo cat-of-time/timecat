@@ -3,50 +3,10 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/white">
 
-    <View
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_alignParentTop="true"
-        android:alpha="0.3"
-        android:background="@drawable/shadow"
-        android:elevation="1dp"/>
-
-    <ListView
-        android:id="@+id/routines_list"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/white"
-        android:divider="#E0EAEF"
-        android:dividerHeight="0dp"
-        android:scrollbars="none"/>
-
-    <LinearLayout
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:alpha="0.3"
-            android:src="@drawable/ic_intro_alarm"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.9"
-            android:gravity="center_horizontal"
-            android:padding="30dp"
-            android:text="@string/routines_list_empty_text"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#aaa"
-            android:textSize="16dp"/>
-
-    </LinearLayout>
+        android:layout_height="match_parent">
+    </FrameLayout>
 
 </RelativeLayout>

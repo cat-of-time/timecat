@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/base_toolbar"/>
 
     <com.time.cat.ui.widgets.CustomViewPager
         android:id="@+id/editor_viewpager"

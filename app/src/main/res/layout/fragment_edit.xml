@@ -4,6 +4,7 @@
                 android:id="@+id/edit_area"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
@@ -14,8 +15,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_above="@+id/vLine"
+        android:background="@color/white"
         android:layout_height="match_parent"
+        android:layout_above="@+id/vLine"
         tools:ignore="UnknownId">
 
         <EditText
@@ -23,9 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00000000"
-            android:minHeight="400dp"
             android:gravity="top"
             android:inputType="textMultiLine|textLongMessage"
+            android:minHeight="400dp"
             android:padding="16dp"
             android:scrollHorizontally="false"
             android:scrollbars="none"
