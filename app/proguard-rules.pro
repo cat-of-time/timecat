@@ -153,11 +153,11 @@ public static final int *;
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
--keep class com.shang.xposed.* { *; }
--keep class com.shang.xposed.** { *; }
+-keep class timecat.xposed.* { *; }
+-keep class timecat.xposed.** { *; }
 
--keep class com.shang.* { *; }
--keep class com.shang.** { *; }
+-keep class timecat.* { *; }
+-keep class timecat.** { *; }
 
 -keep class com.time.cat.mvp.view.timecat.TimeCatHeader$BoundWrapper{*;}
 
