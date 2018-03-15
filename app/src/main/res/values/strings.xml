@@ -35,7 +35,7 @@
     <string name="stringValue4">拍照识别</string>
     <string name="stringValue5">重新识别</string>
     <string name="stringValue6">送你最高效的时光喵~</string>
-    <string name="copyright">Copyright ©2018 Time Cat. All Rights Reserved</string>
+    <string name="timecat_copyright">Copyright ©2018 Time Cat. All Rights Reserved</string>
     <string name="share_request_confirm_like">当然！</string>
     <string name="stringValue9">翻译结果</string>
     <string name="sorry_for_parse_fail">抱歉，解析失败</string>
@@ -523,6 +523,24 @@
     <string name="schedule_type_intervalrest_help">
         Birth control pills and other meds are taken for a while, and then there\'s a rest. This kind of task allows you to specify both periods and simplify those intakes.
     </string>
+
+
+    <string name="routine_type_help_title">
+        You are about to create a routine, choose the one that best suits your needs!
+    </string>
+
+    <string name="routine_type_routines_help">
+        This kind of task lets you bind intakes to your routines, such as: \"Every day at breakfast and dinner, excluding sundays\", or \"Every 3 days, with lunch.\"
+    </string>
+
+    <string name="routine_type_hourly_help">
+        Hourly schedules are intended to those intakes that repeat by a certain period, such as: \"Every 8 hours\".\n\nSet the time of the first intake and go on.
+    </string>
+
+    <string name="routine_type_intervalrest_help">
+        Birth control pills and other meds are taken for a while, and then there\'s a rest. This kind of task allows you to specify both periods and simplify those intakes.
+    </string>
+
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
@@ -761,4 +779,10 @@
 
     <!-- Weekly view -->
     <string name="week">Week</string>
+
+    <string name="schedules_task_view">日程视图</string>
+    <string name="schedules_four_view">四象限视图</string>
+
+    <string name="routines_card_view">卡片视图</string>
+    <string name="routines_week_view">星期视图</string>
 </resources>
