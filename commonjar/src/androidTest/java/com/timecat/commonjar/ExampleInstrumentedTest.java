@@ -1,4 +1,4 @@
-package com.shang.commonjar;
+package com.timecat.commonjar;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.shang.commonjar.test", appContext.getPackageName());
+        assertEquals("com.timecat.commonjar.test", appContext.getPackageName());
     }
 }
