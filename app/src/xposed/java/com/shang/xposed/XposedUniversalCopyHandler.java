@@ -1,4 +1,4 @@
-package com.shang.xposed;
+package com.timecat.xposed;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -18,12 +18,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.time.cat.ui.activity.copy.CopyNode;
+import com.time.cat.ui.modules.copy.CopyNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.shang.xposed.XposedConstant.UNIVERSAL_COPY_BROADCAST_XP;
+import static com.timecat.xposed.XposedConstant.UNIVERSAL_COPY_BROADCAST_XP;
 
 /**
  * Created by penglu on 2017/1/4.
@@ -126,7 +126,7 @@ public class XposedUniversalCopyHandler {
                 if(nodeList.size() > 0) {
 //                    Intent intent = new Intent(activity, CopyActivity.class);
                     Intent intent = new Intent();
-                    intent.setComponent(new ComponentName(XposedConstant.PACKAGE_NAME,"com.time.cat.ui.activity.copy.CopyActivity"));
+                    intent.setComponent(new ComponentName(XposedConstant.PACKAGE_NAME,"com.time.cat.ui.modules.copy.CopyActivity"));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     Bundle bundle=new Bundle();
                     bundle.setClassLoader(CopyNode.class.getClassLoader());
