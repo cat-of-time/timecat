@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.share;
+package com.time.cat.ui.modules.share;
 
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -18,7 +18,7 @@ import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.data.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.SharedIntentHelper;
 import com.time.cat.util.onestep.ResolveInfoWrap;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
@@ -167,7 +167,7 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
                 disApps.add(appInfo.appName);
             }
         }
-        getSharedPreferences(SHARE_APPS, ContextThemeWrapper.MODE_PRIVATE).edit().putStringSet(ConstantUtil.SHARE_APPS_DIS, disApps).apply();
+        getSharedPreferences(SHARE_APPS, ContextThemeWrapper.MODE_PRIVATE).edit().putStringSet(Constants.INSTANCE.getSHARE_APPS_DIS(), disApps).apply();
         super.finish();
     }
 
@@ -175,7 +175,7 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDisAppSet = getSharedPreferences(SHARE_APPS, ContextThemeWrapper.MODE_PRIVATE).getStringSet(ConstantUtil.SHARE_APPS_DIS, mDisAppSet);
+            mDisAppSet = getSharedPreferences(SHARE_APPS, ContextThemeWrapper.MODE_PRIVATE).getStringSet(Constants.INSTANCE.getSHARE_APPS_DIS(), mDisAppSet);
         }
 
         @Override

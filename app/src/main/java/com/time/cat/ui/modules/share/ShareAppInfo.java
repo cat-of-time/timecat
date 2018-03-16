@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.share;
+package com.time.cat.ui.modules.share;
 
 import android.content.pm.ResolveInfo;
 

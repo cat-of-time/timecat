@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.share;
+package com.time.cat.ui.modules.share;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
