@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.screen;
+package com.time.cat.ui.modules.screen;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

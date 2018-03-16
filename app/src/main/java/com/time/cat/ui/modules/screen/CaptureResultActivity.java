@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.screen;
+package com.time.cat.ui.modules.screen;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,7 +33,7 @@ import com.time.cat.data.model.APImodel.ImageUpload;
 import com.time.cat.ui.widgets.dialog.DialogFragment;
 import com.time.cat.ui.widgets.dialog.SimpleDialog;
 import com.time.cat.util.view.ColorUtil;
-import com.time.cat.data.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.OcrAnalyser;
 import com.time.cat.util.override.ToastUtil;
@@ -48,8 +48,8 @@ import java.util.Date;
 
 public class CaptureResultActivity extends BaseActivity {
     public static final String HTTP_IMAGE_BAIDU_COM = "http://image.baidu.com/wiseshitu?rn=30&appid=0&tag=1&isMobile=1&";
-    int alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
-    int lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
+    int alpha = SPHelper.getInt(Constants.INSTANCE.getTIMECAT_ALPHA(), 100);
+    int lastPickedColor = SPHelper.getInt(Constants.INSTANCE.getTIMECAT_DIY_BG_COLOR(), Color.parseColor("#01579B"));
     private ImageView capturedImage;
     private Bitmap bitmap;
     private TextView share, save, ocr, timecat, search;
@@ -82,8 +82,8 @@ public class CaptureResultActivity extends BaseActivity {
     }
 
     private void init() {
-        alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
+        alpha = SPHelper.getInt(Constants.INSTANCE.getTIMECAT_ALPHA(), 100);
+        lastPickedColor = SPHelper.getInt(Constants.INSTANCE.getTIMECAT_DIY_BG_COLOR(), Color.parseColor("#01579B"));
 
         CardView cardView = new CardView(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_capture_result, null, false);
@@ -219,10 +219,10 @@ public class CaptureResultActivity extends BaseActivity {
         ocr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
+                if (SPHelper.getInt(Constants.INSTANCE.getOCR_TIME(), 0) == Constants.INSTANCE.getOCR_TIME_TO_ALERT()) {
                     showBeyondQuoteDialog();
-                    int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
-                    SPHelper.save(ConstantUtil.OCR_TIME, time);
+                    int time = SPHelper.getInt(Constants.INSTANCE.getOCR_TIME(), 0) + 1;
+                    SPHelper.save(Constants.INSTANCE.getOCR_TIME(), time);
                     return;
                 }
                 ToastUtil.i(R.string.ocr_recognize);
@@ -237,7 +237,7 @@ public class CaptureResultActivity extends BaseActivity {
 
                     @Override
                     public void onFail(Throwable throwable) {
-                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                        if (SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "").equals("")) {
                             ToastUtil.e(getResources().getString(R.string.ocr_useup_toast));
                         } else {
                             ToastUtil.e(throwable.getMessage());
@@ -252,10 +252,10 @@ public class CaptureResultActivity extends BaseActivity {
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_TIMECAT);
                 if (TextUtils.isEmpty(ocrResult.getText())) {
-                    if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
+                    if (SPHelper.getInt(Constants.INSTANCE.getOCR_TIME(), 0) == Constants.INSTANCE.getOCR_TIME_TO_ALERT()) {
                         showBeyondQuoteDialog();
-                        int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
-                        SPHelper.save(ConstantUtil.OCR_TIME, time);
+                        int time = SPHelper.getInt(Constants.INSTANCE.getOCR_TIME(), 0) + 1;
+                        SPHelper.save(Constants.INSTANCE.getOCR_TIME(), time);
                         return;
                     }
                     ToastUtil.i(R.string.ocr_recognize);
@@ -280,7 +280,7 @@ public class CaptureResultActivity extends BaseActivity {
                         @Override
                         public void onFail(Throwable throwable) {
 
-                            if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                            if (SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "").equals("")) {
                                 ToastUtil.e(getResources().getString(R.string.ocr_useup_toast));
                             } else {
                                 ToastUtil.e(throwable.getMessage());
