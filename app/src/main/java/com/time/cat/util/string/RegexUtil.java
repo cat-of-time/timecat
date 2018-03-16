@@ -1,7 +1,7 @@
 package com.time.cat.util.string;
 
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.time.cat.util.ConstantUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.time.cat.data.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class RegexUtil {
     public static String SYMBOL_REX = SYMBOL_REX_WITH_BLANK;
 
     public static void refreshSymbolSelection() {
-        boolean b = SPHelper.getBoolean(ConstantUtil.TREAT_BLANKS_AS_SYMBOL, true);
+        boolean b = SPHelper.getBoolean(Constants.INSTANCE.getTREAT_BLANKS_AS_SYMBOL(), true);
         if (b) {
             SYMBOL_REX = SYMBOL_REX_WITH_BLANK;
         } else {
