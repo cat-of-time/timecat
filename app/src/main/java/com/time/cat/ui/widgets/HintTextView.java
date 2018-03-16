@@ -60,7 +60,7 @@ public class HintTextView extends LinearLayout {
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        LayoutInflater.from(context).inflate(R.layout.hint_text_view_layout, this);
+        LayoutInflater.from(context).inflate(R.layout.view_hint_text_view_layout, this);
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.HintTextView);
             int length = typedArray.getIndexCount();
