@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.time.cat.R;
 import com.time.cat.data.model.events.ContentChangedEvent;
-import com.time.cat.helper.StorageHelper;
+import com.time.cat.data.StorageHelper;
 import com.time.cat.ui.modules.editor.EditorAction;
-import com.time.cat.ui.modules.editor.SaveFileTask;
+import com.time.cat.data.async.SaveFileTask;
 import com.time.cat.util.FileUtils;
 
 import org.greenrobot.eventbus.EventBus;

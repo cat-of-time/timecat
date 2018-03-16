@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 
 public class HowToUseActivity extends BaseActivity {
     public static final String GO_TO_OPEN_FROM_OUTER = "go_to_open_from_outer";
@@ -28,7 +28,7 @@ public class HowToUseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_use);
 
-        SPHelper.save(ConstantUtil.HAD_ENTER_INTRO, true);
+        SPHelper.save(Constants.INSTANCE.getHAD_ENTER_INTRO(), true);
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
 

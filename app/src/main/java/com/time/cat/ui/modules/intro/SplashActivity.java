@@ -6,12 +6,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.ui.activity.main.MainActivity;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.UrlCountUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -41,14 +41,14 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         try {
             Intent intent = getIntent();
-            if (intent.getAction().equals(ConstantUtil.NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST)) {
+            if (intent.getAction().equals(Constants.INSTANCE.getNOTIFY_SCREEN_CAPTURE_OVER_BROADCAST())) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_NOFITY_SCREEN);
-                sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
+                sendBroadcast(new Intent(Constants.INSTANCE.getSCREEN_CAPTURE_OVER_BROADCAST()));
                 finish();
                 return;
-            } else if (intent.getAction().equals(ConstantUtil.NOTIFY_UNIVERSAL_COPY_BROADCAST)) {
+            } else if (intent.getAction().equals(Constants.INSTANCE.getNOTIFY_UNIVERSAL_COPY_BROADCAST())) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_NOFITY_COPY);
-                sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
+                sendBroadcast(new Intent(Constants.INSTANCE.getUNIVERSAL_COPY_BROADCAST()));
                 finish();
                 return;
             }

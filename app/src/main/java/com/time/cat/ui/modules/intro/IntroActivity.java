@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.modules.setting.SettingActivity;
 import com.time.cat.ui.base.BaseActivity;
@@ -106,7 +106,7 @@ public class IntroActivity extends BaseActivity {
             } else {
                 if (!TextUtils.isEmpty(text)) {
                     ClipboardUtils.setText(getApplicationContext(), text);
-                    ToastUtil.show(R.string.copyed);
+                    ToastUtil.ok(R.string.copyed);
                 }
             }
 
@@ -342,7 +342,7 @@ public class IntroActivity extends BaseActivity {
         mJumpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show(R.string.jump_toast);
+                ToastUtil.i(R.string.jump_toast);
                 Intent intent = new Intent();
                 intent.setClass(IntroActivity.this, SettingActivity.class);
                 startActivity(intent);

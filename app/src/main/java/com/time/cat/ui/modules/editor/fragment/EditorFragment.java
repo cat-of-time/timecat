@@ -91,10 +91,6 @@ public class EditorFragment extends BaseEditorFragment {
             } else {
                 fragment = new PreviewFragment();
             }
-//            WeekFragmentsHolder weekFragmentsHolder = new WeekFragmentsHolder();
-//            Bundle bundle = new Bundle();
-////        bundle.putString(WEEK_START_DATE_TIME, "0");
-//            weekFragmentsHolder.setArguments(bundle);
             return fragment;
         }
 
