@@ -1,8 +1,12 @@
 package com.time.cat.util.override;
 
+import android.app.Activity;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.time.cat.TimeCatApp;
 
 
@@ -44,5 +48,16 @@ public class SnackBarUtil {
         show(view, TimeCatApp.getInstance().getString(str), TimeCatApp.getInstance().getString(cancel), listener);
     }
 
+    public static void show(String string, Activity activity, com.nispok.snackbar.Snackbar.SnackbarDuration duration) {
 
+        SnackbarManager.show(com.nispok.snackbar.Snackbar.with(activity.getApplicationContext()).type(SnackbarType.MULTI_LINE).duration(duration).text(string), activity);
+    }
+
+    public static void show(String string, Activity activity) {
+        show(string, activity, com.nispok.snackbar.Snackbar.SnackbarDuration.LENGTH_SHORT);
+    }
+
+    public static void show(@StringRes int string, Activity activity) {
+        show(activity.getResources().getString(string), activity, com.nispok.snackbar.Snackbar.SnackbarDuration.LENGTH_SHORT);
+    }
 }
