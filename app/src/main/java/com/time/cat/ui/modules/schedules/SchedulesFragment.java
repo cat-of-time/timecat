@@ -24,14 +24,18 @@ import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 import com.time.cat.R;
+import com.time.cat.data.async.LoadContentDataTask;
 import com.time.cat.data.database.DB;
+import com.time.cat.data.database.ScheduleDao;
 import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.APImodel.User;
+import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.network.RetrofitHelper;
 import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
 import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
+import com.time.cat.ui.adapter.viewholder.ScheduleItemHolder;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvp.presenter.FragmentPresenter;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
@@ -41,13 +45,11 @@ import com.time.cat.ui.widgets.asyncExpandableListView.AsyncExpandableListViewCa
 import com.time.cat.ui.widgets.asyncExpandableListView.AsyncHeaderViewHolder;
 import com.time.cat.ui.widgets.asyncExpandableListView.CollectionView;
 import com.time.cat.util.date.DateUtil;
-import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.ViewUtil;
 
-import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -218,7 +220,6 @@ public class SchedulesFragment extends BaseFragment implements
             loadDataForHeader.execute(new ArrayList<String>());
             LogUtil.e("null task list");
         }
-//        LogUtil.e("initExpandableListViewData --> dbUser.getTasks() --> " + task_urls);
     }
 
     public void refreshData() {
@@ -324,7 +325,7 @@ public class SchedulesFragment extends BaseFragment implements
     //-//<AsyncExpandableListViewCallbacks>---------------------------------------------------------
     @Override
     public void onStartLoadingGroup(int groupOrdinal) {
-        new LoadDataTaskContent(groupOrdinal, mAsyncExpandableListView)
+        new LoadContentDataTask(groupOrdinal, mAsyncExpandableListView)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -411,7 +412,7 @@ public class SchedulesFragment extends BaseFragment implements
 
 
 
-    //-//<MainActivity.OnScheduleViewClickListener>---------------------------------------------------------
+    //-//<MainActivity.OnScheduleViewClickListener>-------------------------------------------------
     @Override
     public void onViewTodayClick() {
         mCalendarView.scrollToCurrent();
@@ -441,14 +442,13 @@ public class SchedulesFragment extends BaseFragment implements
         }
         mCalendarView.showYearSelectLayout(mYear);
     }
-    //-//</MainActivity.OnScheduleViewClickListener>--------------------------------------------------------
+    //-//</MainActivity.OnScheduleViewClickListener>------------------------------------------------
 
 
 
 
 
     //-//<CalendarView>---------------------------------------------------------------------
-    @SuppressLint("SetTextI18n")
     @Override
     public void onDateSelected(Calendar calendar, boolean isClick) {
         currentCalendar = calendar;
@@ -458,7 +458,6 @@ public class SchedulesFragment extends BaseFragment implements
         mYear = calendar.getYear();
         if (dbUser != null) refreshExpandableListViewData();
     }
-
 
     @Override
     public void onYearChange(int year) {
@@ -531,23 +530,10 @@ public class SchedulesFragment extends BaseFragment implements
 //                                Log.i(TAG, "请求成功 --> count[0] == " + count[0] + " --> " + task.toString());
                             }
                         });
-//                Log.w(TAG, "fetching task " + i);
             }
-//            Log.w(TAG, "waiting -->");
-//            int retryTimes = 5; //重试次数
-//            while (count[0] != 0 && retryTimes != 0) {
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                Log.w(TAG, "retryTimes -->" + retryTimes);
-//                retryTimes--;
-//                // 循环结束条件:上面的网络请求线程全部完成(count[0] == 0) 或 超过重试次数网络请求还没全部完成(retryTimes == 0)
-//            }
-//            Log.w(TAG, "returning -->");
             List<DBTask> taskList = DB.schedules().findAll();
-            tasks = sort(DBTaskFilter(taskList));
+            Date date = TimeUtil.transferCalendarDate(currentCalendar);
+            tasks = ScheduleDao.sort(ScheduleDao.DBTaskFilter(taskList, date));
             return tasks;
         }
 
@@ -562,247 +548,6 @@ public class SchedulesFragment extends BaseFragment implements
             } else {
                 mAsyncExpandableListView.updateInventory(new CollectionView.Inventory<>());
             }
-        }
-
-        private ArrayList<DBTask> DBTaskFilter(List<DBTask> taskArrayList) {
-            ArrayList<DBTask> tasks = new ArrayList<>();
-            if (taskArrayList == null || taskArrayList.size() <= 0) {
-                return tasks;
-            }
-            // 需要显示的
-            // 首先是active user的
-            // 今天刚刚finished的
-            // 顺延的
-            // begin_datetime < today <= end_datetime
-            DBUser dbUser = DB.users().getActive();
-
-            Date today = new Date();
-            if (currentCalendar != null) {
-                today = TimeUtil.transferCalendarDate(currentCalendar);
-            }
-            for (DBTask task : taskArrayList) {
-                if (!task.getOwner().equals((ModelUtil.getOwnerUrl(dbUser)))) {
-                    continue;
-                }
-                boolean hasAddedTask = false;
-                // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
-                if (task.getIsFinish()) {
-                    Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
-                    if (finished_datetime != null) {
-                        if (finished_datetime.getDate() == today.getDate()
-                                && finished_datetime.getMonth() == today.getMonth()
-                                && finished_datetime.getYear() == today.getYear()) {
-                            tasks.add(task);
-//                            Log.i(TAG, "add task, because task is finished today");
-                        }
-                    }
-                    hasAddedTask = true; // 只要是完成了的，之后都不再判断
-                }
-//                LogUtil.e(task.getIs_all_day() + task.toString());
-                if (!task.getIs_all_day() && !hasAddedTask
-                        && task.getBegin_datetime() != null
-                        && task.getEnd_datetime() != null) {
-                    Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
-                    Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
-                    if (begin_datetime != null && end_datetime != null) {
-                        if (TimeUtil.isDateEarlier(begin_datetime, today) && TimeUtil.isDateEarlier(today, end_datetime)) {
-                            tasks.add(task);
-                            hasAddedTask = true;
-//                            Log.i(TAG, "add task, because begin <= today <= end");
-                        }
-                    }
-                }
-                // 把顺延的添加到显示List并标记
-                if (task.getCreated_datetime() != null || task.getCreated_datetime() != "null") {
-                    Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
-                    if (!hasAddedTask && created_datetime != null) {
-                        long during = today.getTime() - created_datetime.getTime();
-                        if (TimeUtil.isDateEarlier(created_datetime, today)) {
-                            if (task.getIs_all_day()) {
-                                tasks.add(task);
-//                                Log.i(TAG, "add task, because of delay");
-                            }
-                        }
-                    }
-                }
-            }
-
-            return tasks;
-        }
-
-        private ArrayList<DBTask> sort(ArrayList<DBTask> taskArrayList) {
-            ArrayList<DBTask> sortedDBTaskList = new ArrayList<>();
-            if (taskArrayList == null || taskArrayList.size() <= 0) {
-                return sortedDBTaskList;
-            }
-            ArrayList<DBTask> label_0_DBTaskList = new ArrayList<>();
-            ArrayList<DBTask> label_1_DBTaskList = new ArrayList<>();
-            ArrayList<DBTask> label_2_DBTaskList = new ArrayList<>();
-            ArrayList<DBTask> label_3_DBTaskList = new ArrayList<>();
-            ArrayList<DBTask> finished_DBTaskList = new ArrayList<>();
-
-            for (DBTask dbTask : taskArrayList) {
-                if (dbTask.getIsFinish()) {
-                    finished_DBTaskList.add(dbTask);
-                    continue;
-                }
-                switch (dbTask.getLabel()) {
-                    case DBTask.LABEL_IMPORTANT_URGENT:
-                        label_0_DBTaskList.add(dbTask);
-                        break;
-                    case DBTask.LABEL_IMPORTANT_NOT_URGENT:
-                        label_1_DBTaskList.add(dbTask);
-                        break;
-                    case DBTask.LABEL_NOT_IMPORTANT_URGENT:
-                        label_2_DBTaskList.add(dbTask);
-                        break;
-                    case DBTask.LABEL_NOT_IMPORTANT_NOT_URGENT:
-                        label_3_DBTaskList.add(dbTask);
-                        break;
-                }
-            }
-            mergeSort2List(label_0_DBTaskList, sortedDBTaskList);
-            mergeSort2List(label_1_DBTaskList, sortedDBTaskList);
-            mergeSort2List(label_2_DBTaskList, sortedDBTaskList);
-            mergeSort2List(label_3_DBTaskList, sortedDBTaskList);
-            mergeSort2List(finished_DBTaskList, sortedDBTaskList);
-
-            return sortedDBTaskList;
-        }
-
-        private void reverse(ArrayList<DBTask> arr, int i, int j) {
-            while(i < j) {
-                DBTask temp = arr.get(i);
-                arr.set(i++, arr.get(j));
-                arr.set(j--, temp);
-            }
-        }
-
-        // swap [bias, bias+headSize) and [bias+headSize, bias+headSize+endSize)
-        private void swapAdjacentBlocks(ArrayList<DBTask> arr, int bias, int oneSize, int anotherSize) {
-            reverse(arr, bias, bias + oneSize - 1);
-            reverse(arr, bias + oneSize, bias + oneSize + anotherSize - 1);
-            reverse(arr, bias, bias + oneSize + anotherSize - 1);
-        }
-
-        private void inplaceMerge(ArrayList<DBTask> arr, int l, int mid, int r) {
-            int i = l;     // 指示左侧有序串
-            int j = mid + 1; // 指示右侧有序串
-            while(i < j && j <= r) { //原地归并结束的条件。
-                while(i < j && isValid(arr, i, j)) {
-                    i++;
-                }
-                int index = j;
-                while(j <= r && isValid(arr, j, i)) {
-                    j++;
-                }
-                swapAdjacentBlocks(arr, i, index-i, j-index);
-                i += (j-index);
-            }
-        }
-
-        private boolean isValid(ArrayList<DBTask> arr, int i, int j) {
-            Date date_i = TimeUtil.formatGMTDateStr(arr.get(i).getCreated_datetime());
-            Date date_j = TimeUtil.formatGMTDateStr(arr.get(j).getCreated_datetime());
-            return (date_i != null ? date_i.getTime() : 0) <= (date_j != null ? date_j.getTime() : 0);
-        }
-
-        private void mergeSort(ArrayList<DBTask> arr, int l, int r) {
-            if(l < r) {
-                int mid = (l + r) / 2;
-                mergeSort(arr, l, mid);
-                mergeSort(arr, mid + 1, r);
-                inplaceMerge(arr, l, mid, r);
-            }
-        }
-
-        private void mergeSort2List(ArrayList<DBTask> taskArrayList, ArrayList<DBTask> result) {
-            if (taskArrayList == null || taskArrayList.size() <= 0) {
-                return;
-            }
-            mergeSort(taskArrayList, 0, taskArrayList.size()-1);
-            result.addAll(taskArrayList);
-        }
-
-    }
-
-    private class LoadDataTaskContent extends AsyncTask<Void, Void, List<DBTask>> {
-
-        private final int mGroupOrdinal;
-        private WeakReference<AsyncExpandableListView<DBTask, DBTask>> listviewRef = null;
-
-        public LoadDataTaskContent(int groupOrdinal, AsyncExpandableListView<DBTask, DBTask> listview) {
-            mGroupOrdinal = groupOrdinal;
-            listviewRef = new WeakReference<>(listview);
-        }
-
-        @Override
-        protected List<DBTask> doInBackground(Void... params) {
-            List<DBTask> items = new ArrayList<>();
-            items.add(listviewRef.get().getHeader(mGroupOrdinal));
-            return items;
-        }
-
-
-        @Override
-        protected void onPostExecute(List<DBTask> tasks) {
-            if (listviewRef.get() != null && tasks != null) {
-                listviewRef.get().onFinishLoadingGroup(mGroupOrdinal, tasks);
-            }
-        }
-
-    }
-
-    public class ScheduleItemHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = "ScheduleItemHolder";
-
-        private final TextView tvContent;
-        private final TextView schedule_task_tv_label;
-        private final TextView schedule_task_tv_date;
-        private final TextView schedule_task_tv_time;
-        private final TextView schedule_task_tv_tag;
-        String[] text_color_set = new String[]{
-                "#f44336", "#ff9800", "#2196f3", "#4caf50"
-        };
-        String[] background_color_set = new String[]{
-                "#50f44336", "#50ff9800", "#502196f3", "#504caf50"
-        };
-        String[] label_str_set = new String[] {
-                "重要且紧急", "重要不紧急", "紧急不重要", "不重要不紧急",
-        };
-        public ScheduleItemHolder(View v) {
-            super(v);
-            tvContent = v.findViewById(R.id.schedule_task_tv_content);
-            schedule_task_tv_label = v.findViewById(R.id.schedule_task_tv_label);
-            schedule_task_tv_date = v.findViewById(R.id.schedule_task_tv_date);
-            schedule_task_tv_time = v.findViewById(R.id.schedule_task_tv_time);
-            schedule_task_tv_tag = v.findViewById(R.id.schedule_task_tv_tag);
-        }
-
-        public TextView getTextViewContent() {
-            return tvContent;
-        }
-
-        public TextView getScheduleTaskTv_date() {
-            return schedule_task_tv_date;
-        }
-
-        public TextView getScheduleTaskTv_label() {
-            return schedule_task_tv_label;
-        }
-
-        public TextView getScheduleTaskTv_time() {
-            return schedule_task_tv_time;
-        }
-
-        public TextView getScheduleTaskTv_tag() {
-            return schedule_task_tv_tag;
-        }
-
-        public void setLabel(int label) {
-            schedule_task_tv_label.setText(label_str_set[label]);
-            schedule_task_tv_label.setTextColor(Color.parseColor(text_color_set[label]));
-            schedule_task_tv_label.setBackgroundColor(Color.parseColor(background_color_set[label]));
         }
     }
 
@@ -905,7 +650,7 @@ public class SchedulesFragment extends BaseFragment implements
 //            Log.i(TAG, "onCheckedChanged() --> header task -->" + task.toString());
             DB.schedules().safeSaveDBTask(task);
 
-            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), ModelUtil.toTask(task))
+            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), Converter.toTask(task))
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Task>() {
@@ -951,7 +696,7 @@ public class SchedulesFragment extends BaseFragment implements
                     bundle.putSerializable(InfoOperationActivity.TO_UPDATE_TASK, task);
                     intent2DialogActivity.putExtras(bundle);
                     startActivity(intent2DialogActivity);
-                    ToastUtil.show("编辑任务");
+                    ToastUtil.i("编辑任务");
                     break;
             }
         }
