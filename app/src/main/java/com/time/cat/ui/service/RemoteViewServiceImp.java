@@ -7,12 +7,11 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.ldf.calendar.model.CalendarDate;
 import com.time.cat.R;
 import com.time.cat.TimeCatAppWidget;
 import com.time.cat.data.database.DB;
+import com.time.cat.data.database.ScheduleDao;
 import com.time.cat.data.model.DBmodel.DBTask;
-import com.time.cat.util.model.TaskUtil;
 import com.time.cat.util.string.TimeUtil;
 
 import java.util.Date;
@@ -37,9 +36,7 @@ public class RemoteViewServiceImp extends RemoteViewsService {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-//                data = HttpUtils.getData();
-                data = TaskUtil.sort(TaskUtil.DBTaskFilter(DB.schedules().findAll(), new CalendarDate()));
-//                LogUtil.e(data);
+                data = ScheduleDao.sort(ScheduleDao.DBTaskFilter(DB.schedules().findAll(), new Date()));
             }
         });
         thread.start();

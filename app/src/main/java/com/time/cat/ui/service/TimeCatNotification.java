@@ -11,12 +11,12 @@ import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.modules.intro.SplashActivity;
-import com.time.cat.ui.activity.screen.ScreenCaptureActivity;
+import com.time.cat.ui.modules.screen.ScreenCaptureActivity;
 import com.time.cat.ui.modules.setting.SettingActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 
 
 public class TimeCatNotification {
@@ -78,10 +78,10 @@ public class TimeCatNotification {
         // 在2.3到5.1以前, 通知栏的背景是黑色的, 所以RemoteView的背景色可以设置为透明
         contentView = new RemoteViews(mContext.getPackageName(), R.layout.notification_trans);
 
-        boolean isRun = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
+        boolean isRun = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
 
-        boolean clipborad = SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD, true);
-        boolean click = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true);
+        boolean clipborad = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLIP_BOARD(), true);
+        boolean click = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLICK(), true);
 
 
         String totalSwitch = !isRun ? mContext.getString(R.string.notify_total_switch_off) : mContext.getString(R.string.notify_total_switch_on);
@@ -101,7 +101,7 @@ public class TimeCatNotification {
         //SettingActivity的跳转， 在SDK 3.0 （11）之上
         try {
             contentView.setViewVisibility(R.id.total_switch, View.VISIBLE);
-            contentView.setOnClickPendingIntent(R.id.total_switch, createPendingIntent(mContext.getPackageName(), 123456, ConstantUtil.TOTAL_SWITCH_BROADCAST));
+            contentView.setOnClickPendingIntent(R.id.total_switch, createPendingIntent(mContext.getPackageName(), 123456, Constants.INSTANCE.getTOTAL_SWITCH_BROADCAST()));
             contentView.setTextViewText(R.id.total_switch, totalSwitch);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 contentView.setTextViewCompoundDrawables(R.id.total_switch, 0, totalSwitccRes, 0, 0);
@@ -109,7 +109,7 @@ public class TimeCatNotification {
             contentView.setTextColor(R.id.total_switch, mContext.getResources().getColor(totalSwitccColor));
 
             contentView.setViewVisibility(R.id.monitor_click, View.VISIBLE);
-            contentView.setOnClickPendingIntent(R.id.monitor_click, createPendingIntent(mContext.getPackageName(), 123457, ConstantUtil.MONITOR_CLICK_BROADCAST));
+            contentView.setOnClickPendingIntent(R.id.monitor_click, createPendingIntent(mContext.getPackageName(), 123457, Constants.INSTANCE.getMONITOR_CLICK_BROADCAST()));
             contentView.setTextViewText(R.id.monitor_click, monitorClick);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 contentView.setTextViewCompoundDrawables(R.id.monitor_click, 0, monitorClickRes, 0, 0);
@@ -117,7 +117,7 @@ public class TimeCatNotification {
             contentView.setTextColor(R.id.monitor_click, mContext.getResources().getColor(monitorClickColor));
 
             contentView.setViewVisibility(R.id.monitor_clipboard, View.VISIBLE);
-            contentView.setOnClickPendingIntent(R.id.monitor_clipboard, createPendingIntent(mContext.getPackageName(), 123458, ConstantUtil.MONITOR_CLIPBOARD_BROADCAST));
+            contentView.setOnClickPendingIntent(R.id.monitor_clipboard, createPendingIntent(mContext.getPackageName(), 123458, Constants.INSTANCE.getMONITOR_CLIPBOARD_BROADCAST()));
             contentView.setTextViewText(R.id.monitor_clipboard, monitorClipboard);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 contentView.setTextViewCompoundDrawables(R.id.monitor_clipboard, 0, monitorClipboardRes, 0, 0);
@@ -125,13 +125,13 @@ public class TimeCatNotification {
             contentView.setTextColor(R.id.monitor_clipboard, mContext.getResources().getColor(monitorClipboardColor));
 
             contentView.setViewVisibility(R.id.universal_copy, View.VISIBLE);
-            contentView.setOnClickPendingIntent(R.id.universal_copy, createPendingIntent(mContext, SplashActivity.class, ConstantUtil.NOTIFY_UNIVERSAL_COPY_BROADCAST));
+            contentView.setOnClickPendingIntent(R.id.universal_copy, createPendingIntent(mContext, SplashActivity.class, Constants.INSTANCE.getNOTIFY_UNIVERSAL_COPY_BROADCAST()));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 contentView.setTextViewCompoundDrawables(R.id.universal_copy, 0, R.drawable.notify_copy, 0, 0);
             }
 
             contentView.setViewVisibility(R.id.screen_cap, View.VISIBLE);
-            contentView.setOnClickPendingIntent(R.id.screen_cap, createPendingIntent(mContext, ScreenCaptureActivity.class, ConstantUtil.NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST));
+            contentView.setOnClickPendingIntent(R.id.screen_cap, createPendingIntent(mContext, ScreenCaptureActivity.class, Constants.INSTANCE.getNOTIFY_SCREEN_CAPTURE_OVER_BROADCAST()));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 contentView.setTextViewCompoundDrawables(R.id.screen_cap, 0, R.drawable.notify_screen, 0, 0);
             }

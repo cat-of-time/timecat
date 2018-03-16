@@ -11,8 +11,8 @@ import android.os.Handler;
 import android.service.voice.VoiceInteractionSession;
 import android.view.KeyEvent;
 
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.time.cat.util.ConstantUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.time.cat.data.Constants;
 import com.time.cat.util.KeyPressedTipViewController;
 
 
@@ -43,7 +43,7 @@ public class BBVoiceInteractionSession extends VoiceInteractionSession {
     @Override
     public void onShow(Bundle args, int showFlags) {
         super.onShow(args, showFlags);
-        if (2 == SPHelper.getInt(ConstantUtil.LONG_PRESS_KEY_INDEX, 0)) {
+        if (2 == SPHelper.getInt(Constants.INSTANCE.getLONG_PRESS_KEY_INDEX(), 0)) {
             KeyPressedTipViewController.getInstance().show(new KeyPressedTipViewController.CloseListener() {
                 @Override
                 public void onRemove() {
