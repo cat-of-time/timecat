@@ -1,4 +1,4 @@
-package com.shang.commonjar.contentProvider;
+package com.timecat.commonjar.contentProvider;
 
 /**
  * Created by l4656_000 on 2015/11/30.

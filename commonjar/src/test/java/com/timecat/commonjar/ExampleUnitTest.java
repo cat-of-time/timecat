@@ -1,4 +1,4 @@
-package com.shang.commonjar;
+package com.timecat.commonjar;
 
 import org.junit.Test;
 

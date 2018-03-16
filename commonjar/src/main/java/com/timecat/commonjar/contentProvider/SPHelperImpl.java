@@ -1,4 +1,4 @@
-package com.shang.commonjar.contentProvider;
+package com.timecat.commonjar.contentProvider;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,12 +7,12 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_BOOLEAN;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_FLOAT;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_INT;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_LONG;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_STRING;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_STRING_SET;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_BOOLEAN;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_FLOAT;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_INT;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_LONG;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_STRING;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_STRING_SET;
 
 public class SPHelperImpl {
     public static final String MAINSPNAME = "SPHelper_sp_main";

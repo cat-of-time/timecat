@@ -1,4 +1,4 @@
-package com.shang.commonjar.contentProvider;
+package com.timecat.commonjar.contentProvider;
 
 import android.annotation.TargetApi;
 import android.app.Application;
@@ -14,22 +14,22 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.shang.commonjar.contentProvider.ConstantUtil.CONTENT_URI;
-import static com.shang.commonjar.contentProvider.ConstantUtil.CURSOR_COLUMN_NAME;
-import static com.shang.commonjar.contentProvider.ConstantUtil.CURSOR_COLUMN_TYPE;
-import static com.shang.commonjar.contentProvider.ConstantUtil.CURSOR_COLUMN_VALUE;
-import static com.shang.commonjar.contentProvider.ConstantUtil.NULL_STRING;
-import static com.shang.commonjar.contentProvider.ConstantUtil.SEPARATOR;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_BOOLEAN;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_CLEAN;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_CONTAIN;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_FLOAT;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_GET_ALL;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_INT;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_LONG;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_STRING;
-import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_STRING_SET;
-import static com.shang.commonjar.contentProvider.ConstantUtil.VALUE;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.CONTENT_URI;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.CURSOR_COLUMN_NAME;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.CURSOR_COLUMN_TYPE;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.CURSOR_COLUMN_VALUE;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.NULL_STRING;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.SEPARATOR;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_BOOLEAN;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_CLEAN;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_CONTAIN;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_FLOAT;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_GET_ALL;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_INT;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_LONG;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_STRING;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.TYPE_STRING_SET;
+import static com.timecat.commonjar.contentProvider.ConstantUtil.VALUE;
 
 
 public class SPHelper {

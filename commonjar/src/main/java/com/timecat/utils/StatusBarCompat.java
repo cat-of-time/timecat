@@ -1,4 +1,4 @@
-package com.shang.utils;
+package com.timecat.utils;
 
 import android.app.Activity;
 import android.os.Build;
