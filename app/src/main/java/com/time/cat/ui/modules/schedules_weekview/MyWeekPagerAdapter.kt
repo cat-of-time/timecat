@@ -7,7 +7,14 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.util.SparseArray
 import com.time.cat.data.WEEK_START_TIMESTAMP
 
-class MyWeekPagerAdapter(fm: FragmentManager, val mWeekTimestamps: List<Int>, val mListener: WeekFragmentListener) : FragmentStatePagerAdapter(fm) {
+/**
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/3/15
+ * @description null
+ * @usage null
+ */
+class MyWeekPagerAdapter(fm: FragmentManager, val mWeekTimestamps: List<Long>, val mListener: WeekFragmentListener) : FragmentStatePagerAdapter(fm) {
     private val mFragments = SparseArray<WeekFragment>()
 
     override fun getCount() = mWeekTimestamps.size
@@ -15,7 +22,7 @@ class MyWeekPagerAdapter(fm: FragmentManager, val mWeekTimestamps: List<Int>, va
     override fun getItem(position: Int): Fragment {
         val bundle = Bundle()
         val weekTimestamp = mWeekTimestamps[position]
-        bundle.putInt(WEEK_START_TIMESTAMP, weekTimestamp)
+        bundle.putLong(WEEK_START_TIMESTAMP, weekTimestamp)
 
         val fragment = WeekFragment()
         fragment.arguments = bundle

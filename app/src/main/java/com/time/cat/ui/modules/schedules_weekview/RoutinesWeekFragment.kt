@@ -26,10 +26,10 @@ import org.joda.time.DateTime
  * @author dlink
  * @email linxy59@mail2.sysu.edu.cn
  * @date 2018/3/15
- * @description null
+ * @description 生物钟页面的星期视图，用来管理课程、吃药时间、定期总结、定期运动、生物钟等
  * @usage null
  */
-class SchedulesWeekFragment : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvpView>>(), WeekFragmentListener {
+class RoutinesWeekFragment : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvpView>>(), WeekFragmentListener {
     private val PREFILLED_WEEKS = 61
 
     private var weekHolder: ViewGroup? = null
@@ -48,7 +48,7 @@ class SchedulesWeekFragment : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvp
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         weekHolder = inflater.inflate(R.layout.fragment_schedules_weekview_holder, container, false) as ViewGroup
-        weekHolder!!.background = ColorDrawable(context!!.config.backgroundColor)
+        weekHolder!!.background = ColorDrawable(context!!.config.weekViewBackground)
         setupFragment()
         return weekHolder
     }
@@ -57,12 +57,12 @@ class SchedulesWeekFragment : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvp
         val weekTSs = getWeekTimestamps(currentWeekTS)
         val weeklyAdapter = MyWeekPagerAdapter(activity!!.supportFragmentManager, weekTSs, this)
 
-        val textColor = context!!.config.textColor
+        val textColor = context!!.config.weekViewTextColor
         weekHolder!!.week_view_hours_holder.removeAllViews()
         val hourDateTime = DateTime().withDate(2000, 1, 1).withTime(0, 0, 0, 0)
         for (i in 1..23) {
             val formattedHours = Formatter.getHours(context!!, hourDateTime.withHourOfDay(i))
-            (layoutInflater.inflate(R.layout.weekly_view_hour_textview, null, false) as TextView).apply {
+            (layoutInflater.inflate(R.layout.week_view_hour_textview, null, false) as TextView).apply {
                 text = formattedHours
                 setTextColor(textColor)
                 weekHolder!!.week_view_hours_holder.addView(this)
@@ -87,7 +87,7 @@ class SchedulesWeekFragment : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvp
                         isGoToTodayVisible = shouldGoToTodayBeVisible
                     }
 
-                    setupWeeklyActionbarTitle(weekTSs[position])
+//                    setupWeeklyActionbarTitle(weekTSs[position])
                 }
             })
             currentItem = defaultWeeklyPage
@@ -149,7 +149,7 @@ class SchedulesWeekFragment : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvp
     fun shouldGoToTodayBeVisible() = currentWeekTS != thisWeekTS
 
     fun updateActionBarTitle() {
-        setupWeeklyActionbarTitle(currentWeekTS)
+//        setupWeeklyActionbarTitle(currentWeekTS)
     }
 
     fun getNewEventDayCode() = Formatter.getDayCodeFromTS(currentWeekTS)
