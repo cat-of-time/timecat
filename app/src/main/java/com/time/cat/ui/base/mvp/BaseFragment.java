@@ -1,6 +1,7 @@
 package com.time.cat.ui.base.mvp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.evernote.android.state.StateSaver;
+import com.time.cat.TimeCatApp;
 
 import net.grandcentrix.thirtyinch.TiFragment;
 
@@ -23,23 +25,22 @@ import butterknife.Unbinder;
  * Created by Kosh on 27 May 2016, 7:54 PM
  */
 
-public abstract class BaseFragment<V extends BaseMVP.View, P extends BasePresenter<V>> extends TiFragment<P, V> implements BaseMVP.View {
+public abstract class BaseFragment<V extends BaseMVP.View, P extends BasePresenter<V>> extends TiFragment<P, V>
+        implements BaseMVP.View {
 
     protected BaseMVP.View callback;
 
     @Nullable
     private Unbinder unbinder;
+    Context context;
+    private Activity activity;
 
     @LayoutRes
     protected abstract int fragmentLayout();
-    protected abstract void onFragmentCreated(@NonNull View view, @Nullable Bundle savedInstanceState);
 
 
 
-
-
-
-    //<公共生命周期>---------------------------------------------------------------------------------<([{
+    //<公共生命周期>------------------------------------------------------------------------------<([{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -75,6 +76,8 @@ public abstract class BaseFragment<V extends BaseMVP.View, P extends BasePresent
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        context = getContext();
+        activity = getActivity();
         if (fragmentLayout() != 0) {
             final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), getContext().getTheme());
             LayoutInflater themeAwareInflater = inflater.cloneInContext(contextThemeWrapper);
@@ -85,12 +88,11 @@ public abstract class BaseFragment<V extends BaseMVP.View, P extends BasePresent
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        if (Login.getUser() != null) {
-        onFragmentCreated(view, savedInstanceState);
-//        }
+    public Context getContext() {
+        if (activity == null) {
+            return TimeCatApp.getInstance();
+        }
+        return activity;
     }
 
     @Override
@@ -98,14 +100,14 @@ public abstract class BaseFragment<V extends BaseMVP.View, P extends BasePresent
         super.onDestroyView();
         if (unbinder != null) unbinder.unbind();
     }
-    //<公共生命周期>-------------------------------------------------------------------------------}])>
+    //<公共生命周期>------------------------------------------------------------------------------}])>
 
 
 
 
 
 
-    //<BaseMVP.View>---------------------------------------------------------------------------------<([{
+    //<BaseMVP.View>----------------------------------------------------------------------------<([{
     @Override
     public void showProgress(@StringRes int resId) {
         callback.showProgress(resId);

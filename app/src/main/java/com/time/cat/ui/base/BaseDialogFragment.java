@@ -15,8 +15,8 @@
 //
 //import com.evernote.android.state.StateSaver;
 //import com.time.cat.R;
-//import com.time.cat.helper.AppHelper;
-//import com.time.cat.helper.PrefGetter;
+//import com.time.cat.data.AppHelper;
+//import com.time.cat.data.PrefGetter;
 //import com.time.cat.ui.base.mvp.BaseMVP;
 //import com.time.cat.ui.base.mvp.BasePresenter;
 //

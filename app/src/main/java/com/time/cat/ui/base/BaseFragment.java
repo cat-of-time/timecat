@@ -93,10 +93,6 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         return activity;
     }
 
-    public String TAG() {
-        return getClass().getSimpleName();
-    }
-
     /**
      * 被ViewPager移出的Fragment 下次显示时会从getArguments()中重新获取数据
      * 所以若需要刷新被移除Fragment内的数据需要重新put数据 eg:
@@ -179,7 +175,7 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
             view = initViews(inflater, container, savedInstanceState);
             isPrepared = true;
             lazyLoad();
-        } else if (!lazyLoad && hasToolBar) {
+        } else {
             view = inflater.inflate(getLayoutId(), container, false);
             ButterKnife.bind(this, view);
             initView();

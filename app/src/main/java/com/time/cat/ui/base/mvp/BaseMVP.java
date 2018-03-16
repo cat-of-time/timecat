@@ -22,18 +22,14 @@ import io.reactivex.functions.Consumer;
 public interface BaseMVP {
 
     interface View extends TiView {
-
+        @CallOnMainThread void showProgress(int resId, boolean cancelable);
         @CallOnMainThread void showProgress(@StringRes int resId);
-
         @CallOnMainThread void showBlockingProgress(@StringRes int resId);
-
         @CallOnMainThread void hideProgress();
 
 
         @CallOnMainThread void showMessage(@StringRes int titleRes, @StringRes int msgRes);
-
         @CallOnMainThread void showMessage(@NonNull String titleRes, @NonNull String msgRes);
-
         @CallOnMainThread void showErrorMessage(@NonNull String msgRes);
 
 
@@ -50,6 +46,10 @@ public interface BaseMVP {
         boolean isEnterprise();
 
         void onOpenUrlInBrowser();
+
+        boolean isAlive();
+
+        boolean isRunning();
     }
 
     interface Presenter {
@@ -73,18 +73,6 @@ public interface BaseMVP {
         <T> void makeRestCall(@NonNull Observable<T> observable, @NonNull Consumer<T> onNext);
 
         <T> void makeRestCall(@NonNull Observable<T> observable, @NonNull Consumer<T> onNext, boolean cancelable);
-    }
-
-    interface PaginationListener<P> {
-        int getCurrentPage();
-
-        int getPreviousTotal();
-
-        void setCurrentPage(int page);
-
-        void setPreviousTotal(int previousTotal);
-
-        boolean onCallApi(int page, @Nullable P parameter);
     }
 
 }

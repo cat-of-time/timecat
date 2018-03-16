@@ -7,5 +7,18 @@ package com.time.cat.ui.base.mvp;
  * @discription null
  * @usage null
  */
-public class BaseLazyLoadPresenter {
+public abstract class BaseLazyLoadPresenter<V extends BaseLazyLoadMVP.View>
+        extends BasePresenter<V> implements BaseLazyLoadMVP.Presenter {
+    @Override
+    public void refreshData() {
+        getViewOrThrow().showProgress();
+
+        if (getViewOrThrow().isFragmentVisible()) {
+            lazyLoadData();
+        } else {
+            getViewOrThrow().setForceLoad(true);
+        }
+    }
+
+    public abstract void lazyLoadData();
 }

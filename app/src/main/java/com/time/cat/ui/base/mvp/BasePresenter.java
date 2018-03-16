@@ -7,7 +7,7 @@ import android.support.annotation.StringRes;
 
 import com.evernote.android.state.StateSaver;
 import com.time.cat.R;
-import com.time.cat.helper.RxHelper;
+import com.time.cat.data.network.RxHelper;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 import net.grandcentrix.thirtyinch.rx2.RxTiPresenterDisposableHandler;
@@ -109,7 +109,9 @@ public class BasePresenter<V extends BaseMVP.View> extends TiPresenter<V> implem
 
     @Override
     public <T> void makeRestCall(@NonNull Observable<T> observable, @NonNull Consumer<T> onNext, boolean cancelable) {
-        manageDisposable(RxHelper.getObservable(observable).doOnSubscribe(disposable -> onSubscribed(cancelable)).subscribe(onNext, this::onError, () -> apiCalled = true));
+        manageDisposable(RxHelper.getObservable(observable)
+                .doOnSubscribe(disposable -> onSubscribed(cancelable))
+                .subscribe(onNext, this::onError, () -> apiCalled = true));
     }
 
     @StringRes
