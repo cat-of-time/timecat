@@ -30,9 +30,9 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.string.RegexUtil;
 import com.time.cat.util.view.ViewUtil;
 
@@ -51,14 +51,14 @@ public class TimeCatLayout extends ViewGroup implements TimeCatHeader.ActionList
     private static final int DEFAULT_TEXT_COLOR_RES = R.color.timecat_item_text;
     private static final int DEFAULT_TEXT_BG_RES = R.drawable.item_background;
     private static final int DEFAULT_SECTION_TEXT_BG_RES = R.drawable.item_background_section;
-    boolean autoAddBlanks = SPHelper.getBoolean(ConstantUtil.AUTO_ADD_BLANKS, false);
+    boolean autoAddBlanks = SPHelper.getBoolean(Constants.INSTANCE.getAUTO_ADD_BLANKS(), false);
     ItemState mItemState;
     private int mLineSpace;
     private int mItemSpace;
     private int mTextColorRes;
     private int mSectionTextBgRes;
     private int mTextSize;
-    private int mTextPadding = (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING);
+    private int mTextPadding = (int) ViewUtil.dp2px(Constants.INSTANCE.getDEFAULT_ITEM_PADDING());
     private int mTextPaddingPort = (int) ViewUtil.dp2px(5);
     private int mTextBgRes;
     private Item mTargetItem;
