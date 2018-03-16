@@ -11,10 +11,10 @@ import android.service.quicksettings.TileService;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.activity.TotalSwitchActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 
 
 public class TotleSwitchTile extends TileService {
@@ -25,7 +25,7 @@ public class TotleSwitchTile extends TileService {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean enable = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
+            boolean enable = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
             toggleState = enable ? STATE_ON : STATE_OFF;
         }
     };
@@ -34,7 +34,7 @@ public class TotleSwitchTile extends TileService {
     public void onCreate() {
         super.onCreate();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED);
+        intentFilter.addAction(Constants.INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED());
         try {
             registerReceiver(receiver, intentFilter);
         } catch (Exception e) {
