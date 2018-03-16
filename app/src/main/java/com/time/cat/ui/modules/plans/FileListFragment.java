@@ -28,13 +28,13 @@ import android.widget.Toast;
 import com.time.cat.R;
 import com.time.cat.data.Constants;
 import com.time.cat.data.model.entity.FileEntity;
-import com.time.cat.helper.StorageHelper;
+import com.time.cat.data.StorageHelper;
 import com.time.cat.ui.activity.main.listener.OnPlanViewClickListener;
 import com.time.cat.ui.adapter.FilesAdapter;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.modules.editor.EditorActivity;
+import com.time.cat.data.async.QueryTask;
 import com.time.cat.ui.modules.editor.fragment.EditorFragment;
-import com.time.cat.ui.modules.editor.QueryTask;
 import com.time.cat.util.FileUtils;
 import com.time.cat.util.override.ToastUtil;
 
@@ -166,7 +166,7 @@ public class FileListFragment extends BaseFragment implements OnPlanViewClickLis
                 emptyList.setVisibility(View.VISIBLE);
             } else {
                 emptyList.setVisibility(View.GONE);
-                adapter = new FilesAdapter(entityList);
+                adapter = new FilesAdapter(entityList, appCompatActivity);
                 fileListRecyclerView.setLayoutManager(new LinearLayoutManager(appCompatActivity));
                 fileListRecyclerView.setItemAnimator(new DefaultItemAnimator());
                 fileListRecyclerView.addItemDecoration(new DividerItemDecoration(appCompatActivity,
@@ -238,7 +238,7 @@ public class FileListFragment extends BaseFragment implements OnPlanViewClickLis
                             }
                         }).execute();
                     } else {
-                        ToastUtil.show(R.string.toast_message_sdcard_unavailable);
+                        ToastUtil.e(R.string.toast_message_sdcard_unavailable);
                     }
                 }
                 return false;
