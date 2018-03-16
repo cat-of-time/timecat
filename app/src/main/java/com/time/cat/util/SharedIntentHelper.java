@@ -12,8 +12,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.time.cat.data.Constants;
 import com.time.cat.ui.activity.TimeCatActivity;
-import com.time.cat.ui.activity.share.ShareAppManagerActivity;
+import com.time.cat.ui.modules.share.ShareAppManagerActivity;
 import com.time.cat.util.onestep.ResolveInfoWrap;
 import com.time.cat.util.override.ToastUtil;
 
@@ -37,7 +38,7 @@ public class SharedIntentHelper {
     }
 
     private static void resort(List<ResolveInfoWrap> list, Context context) {
-        String appIndexs = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getString(ConstantUtil.SHARE_APP_INDEX, "");
+        String appIndexs = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getString(Constants.INSTANCE.getSHARE_APP_INDEX(), "");
         ArrayList<String> strings = null;
         if (!TextUtils.isEmpty(appIndexs)) {
             try {
@@ -83,12 +84,12 @@ public class SharedIntentHelper {
             if (!string.contains(name)) string.add(name);
         }
         context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).edit().
-                putString(ConstantUtil.SHARE_APP_INDEX, new Gson().toJson(string)).apply();
+                putString(Constants.INSTANCE.getSHARE_APP_INDEX(), new Gson().toJson(string)).apply();
     }
 
     private static List<ResolveInfoWrap> removeDisApps(List<ResolveInfoWrap> list, Context context) {
         Set<String> names = new HashSet<>();
-        names = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getStringSet(ConstantUtil.SHARE_APPS_DIS, names);
+        names = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getStringSet(Constants.INSTANCE.getSHARE_APPS_DIS(), names);
 
 
         List<ResolveInfoWrap> removedResolveInfoWraps = new ArrayList<>();
@@ -183,7 +184,7 @@ public class SharedIntentHelper {
             intentArrayList.add(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + paramString)));
         }
         if (intentArrayList.size() < 0) {
-            ToastUtil.show("未能找到可以分享的应用");
+            ToastUtil.w("未能找到可以分享的应用");
             return;
         }
 
@@ -191,7 +192,7 @@ public class SharedIntentHelper {
 //        extraIntents = intentArrayList.toArray(extraIntents);
         Intent firstIntent = intentArrayList.remove(0); // assuming you will have at least one Intent
         if (firstIntent == null) {
-            ToastUtil.show("未能找到可以分享的应用");
+            ToastUtil.w("未能找到可以分享的应用");
             return;
         }
         Intent openInChooser = Intent.createChooser(firstIntent, "分享到");

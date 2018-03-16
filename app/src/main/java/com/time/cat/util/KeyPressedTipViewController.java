@@ -24,10 +24,11 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.activity.screen.ScreenCaptureActivity;
+import com.time.cat.data.Constants;
+import com.time.cat.ui.modules.screen.ScreenCaptureActivity;
 import com.time.cat.ui.widgets.KeyRelativeLayout;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.view.ViewUtil;
@@ -129,10 +130,10 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
             return;
         }
 
-        boolean isRun = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
+        boolean isRun = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
 
-        boolean clipborad = SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD, true);
-        boolean click = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true);
+        boolean clipborad = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLIP_BOARD(), true);
+        boolean click = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLICK(), true);
 
 
         String totalSwitch = !isRun ? mContext.getString(R.string.notify_total_switch_off) : mContext.getString(R.string.notify_total_switch_on);
@@ -210,7 +211,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_KEY_PRESS_TIPVIEW_SWITCH);
                 refreshViewState(false);
-                mContext.sendBroadcast(new Intent(ConstantUtil.TOTAL_SWITCH_BROADCAST));
+                mContext.sendBroadcast(new Intent(Constants.INSTANCE.getTOTAL_SWITCH_BROADCAST()));
             }
         });
 
@@ -220,7 +221,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_KEY_PRESS_TIPVIEW_CLICK);
                 refreshViewState(false);
-                mContext.sendBroadcast(new Intent(ConstantUtil.MONITOR_CLICK_BROADCAST));
+                mContext.sendBroadcast(new Intent(Constants.INSTANCE.getMONITOR_CLICK_BROADCAST()));
             }
         });
 
@@ -229,7 +230,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_KEY_PRESS_TIPVIEW_CLIPBOARD);
                 refreshViewState(false);
-                mContext.sendBroadcast(new Intent(ConstantUtil.MONITOR_CLIPBOARD_BROADCAST));
+                mContext.sendBroadcast(new Intent(Constants.INSTANCE.getMONITOR_CLIPBOARD_BROADCAST()));
             }
         });
 
@@ -239,7 +240,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_KEY_PRESS_TIPVIEW_COPY);
                 //这里不用动画，免得引起
                 remove();
-                mContext.sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
+                mContext.sendBroadcast(new Intent(Constants.INSTANCE.getUNIVERSAL_COPY_BROADCAST()));
             }
         });
 
@@ -475,7 +476,7 @@ public class KeyPressedTipViewController implements View.OnTouchListener {
     }
 
     public void updateTriggerType() {
-        keyPressIndex = SPHelper.getInt(ConstantUtil.LONG_PRESS_KEY_INDEX, 0);
+        keyPressIndex = SPHelper.getInt(Constants.INSTANCE.getLONG_PRESS_KEY_INDEX(), 0);
         switch (keyPressIndex) {
             case 1:
                 currentKeyCode = KeyEvent.KEYCODE_BACK;

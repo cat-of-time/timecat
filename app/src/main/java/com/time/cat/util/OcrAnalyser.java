@@ -12,7 +12,8 @@ import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
 import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 import com.microsoft.projectoxford.vision.rest.WebServiceRequest;
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.time.cat.data.Constants;
 import com.time.cat.data.network.UploadUtil;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
@@ -63,7 +64,7 @@ public class OcrAnalyser {
                     //返回403
                     currentIndex = (currentIndex + 1) % keys.size();
                     client = new VisionServiceRestClient(keys.get(currentIndex));
-                    if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                    if (SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "").equals("")) {
                         subscriber.onError(new IOException(TimeCatApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
                     } else {
                         subscriber.onError(new IOException("time out"));
@@ -104,7 +105,7 @@ public class OcrAnalyser {
                         //返回403
                         currentIndex = (currentIndex + 1) % keys.size();
                         client = new VisionServiceRestClient(keys.get(currentIndex));
-                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                        if (SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "").equals("")) {
                             subscriber.onError(new IOException(TimeCatApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
                         } else {
                             subscriber.onError(new IOException("time out"));
@@ -166,20 +167,20 @@ public class OcrAnalyser {
 
     public void analyse(BaseActivity activity, String img_path, boolean isVertical, CallBack callback) {
 //        TextRecognizer textRecognizer = new TextRecognizer.Builder(context).build();
-        String diykey = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
+        String diykey = SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "");
         if (!TextUtils.isEmpty(diykey) && !keys.contains(diykey)) {
-            keys.add(0, SPHelper.getString(ConstantUtil.DIY_OCR_KEY, ""));
+            keys.add(0, SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), ""));
             currentIndex = 0;
             client = new VisionServiceRestClient(keys.get(currentIndex));
         }
         if (callback == null) return;
-        int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
-        SPHelper.save(ConstantUtil.OCR_TIME, time);
+        int time = SPHelper.getInt(Constants.INSTANCE.getOCR_TIME(), 0) + 1;
+        SPHelper.save(Constants.INSTANCE.getOCR_TIME(), time);
         this.img_path = img_path;
         this.verticalOrientation = isVertical;
         Observable.create(onSubscribe).subscribeOn(Schedulers.io()).compose(activity.bindToLifecycle()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> callback.onSuccess(s), throwable -> {
             callback.onFail(throwable);
-            SPHelper.save(ConstantUtil.SHOULD_SHOW_DIY_OCR, true);
+            SPHelper.save(Constants.INSTANCE.getSHOULD_SHOW_DIY_OCR(), true);
         });
     }
 

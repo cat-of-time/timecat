@@ -210,7 +210,7 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
                         link[0].onClick(widget);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        ToastUtil.show(R.string.not_foud_qq);
+                        ToastUtil.e(R.string.not_foud_qq);
                     }
                     if (((URLSpan) link[0]).getURL() != null) {
                         if (DonateActivity.zhifubao.startsWith(((URLSpan) link[0]).getURL())) {
