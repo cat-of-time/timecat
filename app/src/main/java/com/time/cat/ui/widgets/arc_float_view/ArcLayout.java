@@ -18,7 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.RotateAnimation;
 
-import com.time.cat.ui.animation.RotateAndTranslateAnimation;
+import com.time.cat.ui.widgets.animation.RotateAndTranslateAnimation;
 import com.time.cat.R;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.view.ViewUtil;
@@ -418,7 +418,7 @@ public class ArcLayout extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.e("shang-path-menu-layout", "" + event);
+        Log.e("timecat-path-menu-layout", "" + event);
         return super.onTouchEvent(event);
     }
 }
