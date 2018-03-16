@@ -30,7 +30,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.shang.utils.StatusBarCompat;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
 
