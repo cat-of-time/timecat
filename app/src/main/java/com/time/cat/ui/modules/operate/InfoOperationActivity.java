@@ -30,12 +30,13 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.lib.WheelView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnItemSelectedListener;
-import com.shang.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.data.Constants;
+import com.time.cat.data.SharedPreferenceHelper;
 import com.time.cat.data.database.DB;
 import com.time.cat.data.model.APImodel.Note;
 import com.time.cat.data.model.APImodel.Task;
+import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
@@ -55,17 +56,16 @@ import com.time.cat.ui.widgets.emotion.model.ImageModel;
 import com.time.cat.ui.widgets.keyboardManager.SmartKeyboardManager;
 import com.time.cat.ui.widgets.richText.TEditText;
 import com.time.cat.ui.widgets.viewpaper.NoHorizontalScrollerViewPager;
-import com.time.cat.util.ConstantUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.listener.GlobalOnItemClickManager;
-import com.time.cat.util.model.ModelUtil;
 import com.time.cat.util.override.LogUtil;
-import com.time.cat.util.override.SharedPreferencedUtils;
 import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.string.StringUtil;
 import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -119,21 +119,6 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     //</启动方法>------------------------------------------------------------------------------------
 
 
-//    @Override
-//    protected int layout() {
-//        return R.layout.activity_dialog;
-//    }
-//
-//    @Override
-//    protected boolean isTransparent() {
-//        return false;
-//    }
-//
-//    @Override
-//    protected boolean canBack() {
-//        return true;
-//    }
-
     //<生命周期>-------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +162,6 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     private Button dialog_add_task_footer_bt_submit;
 
     private LinearLayout dialog_add_task_ll_content;
-    private LinearLayout dialog_add_task_ll_extra;
 
     // 重要紧急选择面板
     private LinearLayout dialog_add_task_select_ll_important_urgent;
@@ -256,7 +240,6 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_footer_bt_submit = findViewById(R.id.dialog_add_task_footer_bt_submit);
 
         dialog_add_task_ll_content = findViewById(R.id.dialog_add_task_ll_content);
-        dialog_add_task_ll_extra = findViewById(R.id.dialog_add_task_ll_extra);
         // 重要紧急选择面板
         dialog_add_task_select_ll_important_urgent = findViewById(R.id.dialog_add_task_select_ll_important_urgent);
         select_tv_important_urgent = findViewById(R.id.select_tv_important_urgent);
@@ -288,6 +271,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         setSelectRemindPanel();
         setSelectTagPanel();
         setKeyboardManager();
+
     }
 
     /**
@@ -379,7 +363,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 
                 String itemText=(String)item.get(TEXT_ITEM);
                 Object object=item.get(IMAGE_ITEM);
-                ToastUtil.show("You Select "+itemText);
+                ToastUtil.i("You Select "+itemText);
                 dialog_add_task_tv_date.setText(itemText);
             }
         });
@@ -412,9 +396,9 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                                 pvTime.returnData();
                                 dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
                                 if (is_setting_start_time) {
-                                    start_hour = index + 1;
+                                    start_hour = index;
                                 } else if (is_setting_end_time) {
-                                    end_hour = index + 1;
+                                    end_hour = index;
                                 }
                             }
                         });
@@ -425,9 +409,9 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                                 pvTime.returnData();
                                 dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
                                 if (is_setting_start_time) {
-                                    start_min = index + 1;
+                                    start_min = index;
                                 } else if (is_setting_end_time) {
-                                    end_min = index + 1;
+                                    end_min = index;
                                 }
                             }
                         });
@@ -524,7 +508,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 
                 String itemText=(String)item.get(TEXT_ITEM);
                 Object object=item.get(IMAGE_ITEM);
-                ToastUtil.show("You Select "+itemText);
+                ToastUtil.i("You Select "+itemText);
                 dialog_add_task_tv_remind.setText(itemText);
             }
         });
@@ -557,7 +541,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 
         //记录底部默认选中第一个
         CurrentPosition = 0;
-        SharedPreferencedUtils.setInteger(getActivity(), CURRENT_POSITION_FLAG, CurrentPosition);
+        SharedPreferenceHelper.setInteger(getActivity(), CURRENT_POSITION_FLAG, CurrentPosition);
 
         //底部tab
         horizontalRecyclerviewAdapter = new HorizontalRecyclerviewAdapter(getActivity(), list);
@@ -569,13 +553,13 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
             @Override
             public void onItemClick(View view, int position, List<ImageModel> datas) {
                 //获取先前被点击tab
-                int oldPosition = SharedPreferencedUtils.getInteger(getActivity(), CURRENT_POSITION_FLAG, 0);
+                int oldPosition = SharedPreferenceHelper.getInteger(getActivity(), CURRENT_POSITION_FLAG, 0);
                 //修改背景颜色的标记
                 datas.get(oldPosition).isSelected = false;
                 //记录当前被选中tab下标
                 CurrentPosition = position;
                 datas.get(CurrentPosition).isSelected = true;
-                SharedPreferencedUtils.setInteger(getActivity(), CURRENT_POSITION_FLAG, CurrentPosition);
+                SharedPreferenceHelper.setInteger(getActivity(), CURRENT_POSITION_FLAG, CurrentPosition);
                 //通知更新，这里我们选择性更新就行了
                 horizontalRecyclerviewAdapter.notifyItemChanged(oldPosition);
                 horizontalRecyclerviewAdapter.notifyItemChanged(CurrentPosition);
@@ -705,11 +689,11 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 }
             }
         } else {
-            SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, str);
+            SPHelper.save(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), str);
         }
 
         if (TextUtils.isEmpty(str)) {
-            str = SPHelper.getString(ConstantUtil.UNIVERSAL_SAVE_COTENT, "");
+            str = SPHelper.getString(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), "");
         }
 
 
@@ -719,7 +703,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_et_title.setText(title);
         dialog_add_task_et_content.setText(content);
         dialog_add_task_et_content.setSelection(content.length());
-        SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, str);
+        SPHelper.save(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), str);
     }
 
     @SuppressLint("SetTextI18n")
@@ -822,7 +806,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 }
                 content = dialog_add_task_et_content.getText().toString();
 
-                SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, dialog_add_task_et_content.getText().toString());
+                SPHelper.save(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), dialog_add_task_et_content.getText().toString());
             }
 
             @Override
@@ -892,6 +876,10 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 }, 3000);
                 title = dialog_add_task_et_title.getText().toString();
                 content = dialog_add_task_et_content.getText().toString();
+                if (StringUtil.isEmail(title)) {
+                    ToastUtil.e("标题不能为空！");
+                    break;
+                }
                 switch (type) {
                     case NOTE:
                         if (note != null) {
@@ -908,10 +896,12 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                         }
                         break;
                     case CLOCK:
-                        ToastUtil.show("添加[ 闹钟 ]失败：功能未完善");
+                        ToastUtil.e("添加[ 闹钟 ]失败：功能未完善");
                         break;
                 }
-                SPHelper.save(ConstantUtil.UNIVERSAL_SAVE_COTENT, "");
+                SPHelper.save(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), "");
+                ViewUtil.hideInputMethod(dialog_add_task_et_title);
+                ViewUtil.hideInputMethod(dialog_add_task_et_content);
                 break;
         }
     }
@@ -976,7 +966,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     private void onClickTimeCat() {
         if (TextUtils.isEmpty(content)) {
             content = "";
-            ToastUtil.show("输入为空！");
+            ToastUtil.w("输入为空！");
             return;
         }
         Intent intent2TimeCat = new Intent(InfoOperationActivity.this, TimeCatActivity.class);
@@ -989,7 +979,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     private void onClickSearch() {
         if (TextUtils.isEmpty(content)) {
             content = "";
-            ToastUtil.show("输入为空！");
+            ToastUtil.w("输入为空！");
             return;
         }
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_SEARCH);
@@ -999,7 +989,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
             Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
             Matcher matcher = p.matcher(content);
             if (!matcher.matches()) {
-                uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url + URLEncoder.encode(content, "utf-8"));
+                uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(Constants.INSTANCE.getBROWSER_SELECTION(), 0)).url + URLEncoder.encode(content, "utf-8"));
                 isUrl = false;
             } else {
                 uri = Uri.parse(content);
@@ -1009,7 +999,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 isUrl = true;
             }
 
-            boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
+            boolean t = SPHelper.getBoolean(Constants.INSTANCE.getUSE_LOCAL_WEBVIEW(), true);
             Intent intent2Web;
             if (t) {
                 intent2Web = new Intent();
@@ -1043,7 +1033,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     private void onClickTranslate() {
         if (TextUtils.isEmpty(content)) {
             content = "";
-            ToastUtil.show("输入为空！");
+            ToastUtil.w("输入为空！");
             return;
         }
         Intent intent2Translate = new Intent(InfoOperationActivity.this, TimeCatActivity.class);
@@ -1077,7 +1067,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 //        LogUtil.e("updateAndFireEvent --> " + task);
         if (task.getUrl() == null) {
             // 离线创建的task是没有url的，这里要在服务器端新建一个一摸一样的，然后把url传过来
-            RetrofitHelper.getTaskService().createTask(ModelUtil.toTask(task)) //获取Observable对象
+            RetrofitHelper.getTaskService().createTask(Converter.toTask(task)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Task>() {
@@ -1111,7 +1101,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                         }
                     });
         } else {
-            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), ModelUtil.toTask(task)) //获取Observable对象
+            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), Converter.toTask(task)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Task>() {
@@ -1142,7 +1132,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                         }
                     });
         }
-        ToastUtil.show("成功更新[ 任务 ]:" + content);
+        ToastUtil.ok("成功更新[ 任务 ]:" + content);
         finish();
     }
 
@@ -1179,7 +1169,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         }
         DB.schedules().safeSaveDBTaskAndFireEvent(dbTask);
 
-        RetrofitHelper.getTaskService().createTask(ModelUtil.toTask(dbTask)) //获取Observable对象
+        RetrofitHelper.getTaskService().createTask(Converter.toTask(dbTask)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                 .doOnNext(new Action1<Task>() {
@@ -1213,7 +1203,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 //                        LogUtil.e("成功添加[ 任务 ]: " + task.toString());
                     }
                 });
-        ToastUtil.show("成功添加[ 任务 ]:" + content);
+        ToastUtil.ok("成功添加[ 任务 ]:" + content);
 
         finish();
     }
@@ -1229,7 +1219,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         DB.notes().updateAndFireEvent(note);
 
         if (note.getUrl() == null) {
-            RetrofitHelper.getNoteService().createNote(ModelUtil.toNote(note)) //获取Observable对象
+            RetrofitHelper.getNoteService().createNote(Converter.toNote(note)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Note>() {
@@ -1263,7 +1253,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                         }
                     });
         } else {
-            RetrofitHelper.getNoteService().putNoteByUrl(note.getUrl(), ModelUtil.toNote(note)) //获取Observable对象
+            RetrofitHelper.getNoteService().putNoteByUrl(note.getUrl(), Converter.toNote(note)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Note>() {
@@ -1296,7 +1286,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                         }
                     });
         }
-        ToastUtil.show("成功修改[ 笔记 ]:" + content);
+        ToastUtil.ok("成功修改[ 笔记 ]:" + content);
 
         finish();
     }
@@ -1304,7 +1294,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     private void onCreateNote() {
         DBNote dbNote = new DBNote();
         DBUser activeUser = DB.users().getActive();
-        String owner = ModelUtil.getOwnerUrl(activeUser);
+        String owner = Converter.getOwnerUrl(activeUser);
         dbNote.setOwner(owner);
         dbNote.setTitle(title);
         dbNote.setContent(content);
@@ -1326,7 +1316,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 //        LogUtil.e("saveAndFireEvent() --> " + dbNote.toString());
 //        LogUtil.e("DB.notes() --> " + DB.notes().findAll().toString());
 
-        RetrofitHelper.getNoteService().createNote(ModelUtil.toNote(dbNote)) //获取Observable对象
+        RetrofitHelper.getNoteService().createNote(Converter.toNote(dbNote)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                 .doOnNext(new Action1<Note>() {
@@ -1358,7 +1348,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 //                        LogUtil.e("请求成功" + note.toString());
                     }
                 });
-        ToastUtil.show("成功添加[ 笔记 ]:" + content);
+        ToastUtil.ok("成功添加[ 笔记 ]:" + content);
         finish();
     }
     //-//</View.OnClickListener>--------------------------------------------------------------------
