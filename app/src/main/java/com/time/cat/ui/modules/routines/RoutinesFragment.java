@@ -1,14 +1,17 @@
 package com.time.cat.ui.modules.routines;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.Fragment;
 
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvp.presenter.FragmentPresenter;
+import com.time.cat.ui.modules.schedules_weekview.RoutinesWeekFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.time.cat.data.Constants.ROUTINES_VIEW_TYPE;
 
 /**
  * @author dlink
@@ -21,18 +24,47 @@ public class RoutinesFragment extends BaseFragment implements FragmentPresenter 
 
 
     //<生命周期>-------------------------------------------------------------------------------------
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+    public int getLayoutId() {
+        return R.layout.fragment_routines;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateViewPager();
     }
     //</生命周期>------------------------------------------------------------------------------------
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    private List<Fragment> fragmentList;
+
     @Override
     public void initView() {//必须调用
+        super.initView();
+        fragmentList = new ArrayList<>();
+        fragmentList.add(new RoutinesWeekFragment());
+        updateViewPager();
+    }
 
+    private void updateViewPager() {
+        Fragment fragment = getFragments();
+        for (Fragment fragment1:fragmentList) {
+            getChildFragmentManager().beginTransaction().remove(fragment1).commitNow();
+        }
+        fragmentList.clear();
+        fragmentList.add(fragment);
+        getChildFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commitNow();
+    }
+
+
+    private Fragment getFragments() {
+        if (SPHelper.getInt(ROUTINES_VIEW_TYPE, 0) == 0) {
+            return new RoutinesWeekFragment();
+        } else {
+            return new RoutinesListFragment();
+        }
     }
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
 
@@ -51,8 +83,12 @@ public class RoutinesFragment extends BaseFragment implements FragmentPresenter 
 
     }
 
+    @Override
+    public void notifyDataChanged() {
+        updateViewPager();
+    }
 
-    //-//<Listener>------------------------------------------------------------------------------
+//-//<Listener>------------------------------------------------------------------------------
     //-//</Listener>-----------------------------------------------------------------------------
 
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------

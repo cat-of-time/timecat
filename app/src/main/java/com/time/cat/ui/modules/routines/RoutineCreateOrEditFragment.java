@@ -20,7 +20,7 @@ import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.data.database.DB;
 import com.time.cat.data.model.DBmodel.DBRoutine;
-import com.time.cat.util.override.Snack;
+import com.time.cat.util.override.SnackBarUtil;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
@@ -158,7 +158,7 @@ public class RoutineCreateOrEditFragment extends DialogFragment implements
                 }
             }
         } else {
-            Snack.show("please type a name", getActivity());
+            SnackBarUtil.show("please type a name", getActivity());
         }
     }
 
