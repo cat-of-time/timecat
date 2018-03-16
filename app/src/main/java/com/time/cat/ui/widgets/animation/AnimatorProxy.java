@@ -1,4 +1,4 @@
-package com.time.cat.ui.animation;
+package com.time.cat.ui.widgets.animation;
 
 import android.graphics.Camera;
 import android.graphics.Matrix;

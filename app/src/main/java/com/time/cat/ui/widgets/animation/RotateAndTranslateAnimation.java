@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.time.cat.ui.animation;
+package com.time.cat.ui.widgets.animation;
 
 import android.view.animation.Animation;
 import android.view.animation.Transformation;

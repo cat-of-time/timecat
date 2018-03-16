@@ -1,9 +1,9 @@
-package com.time.cat.ui.animation;
+package com.time.cat.ui.widgets.animation;
 
 import android.view.View;
 
-import static com.time.cat.ui.animation.AnimatorProxy.NEEDS_PROXY;
-import static com.time.cat.ui.animation.AnimatorProxy.wrap;
+import static com.time.cat.ui.widgets.animation.AnimatorProxy.NEEDS_PROXY;
+import static com.time.cat.ui.widgets.animation.AnimatorProxy.wrap;
 
 public final class ViewHelper {
     private ViewHelper() {
