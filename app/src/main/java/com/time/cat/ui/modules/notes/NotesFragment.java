@@ -126,10 +126,10 @@ public class NotesFragment
 //                        LogUtil.e("dbNote == " + dbNote.toString());
                         try {
                             DB.notes().delete(dbNote);
-                            ToastUtil.show("已删除");
+                            ToastUtil.ok("已删除");
                         } catch (SQLException e) {
                             e.printStackTrace();
-                            ToastUtil.show("删除失败");
+                            ToastUtil.e("删除失败");
                         }
                         RetrofitHelper.getNoteService().deleteNoteByUrl(dbNote.getUrl())
                                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -175,7 +175,7 @@ public class NotesFragment
         bundle.putSerializable(InfoOperationActivity.TO_UPDATE_NOTE, dbNote);
         intent2DialogActivity.putExtras(bundle);
         startActivity(intent2DialogActivity);
-        ToastUtil.show("修改笔记");
+        ToastUtil.i("修改笔记");
     }
 
     @Override

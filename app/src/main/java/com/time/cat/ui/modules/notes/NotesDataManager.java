@@ -5,7 +5,7 @@ import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.model.APImodel.Note;
 import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.util.model.ModelUtil;
+import com.time.cat.data.model.Converter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,14 +67,11 @@ public class NotesDataManager {
         }
         List<DBNote> adapterDBNoteList = new ArrayList<>();
         DBUser dbUser = DB.users().getActive();
-//        LogUtil.e("active dbUser = " + dbUser.toString());
-//        LogUtil.e(dbNoteList);
         for (int i = dbNoteList.size()-1; i >= 0; i--) {
-            if ((dbNoteList.get(i).getOwner().equals(ModelUtil.getOwnerUrl(dbUser)))) {
+            if ((dbNoteList.get(i).getOwner().equals(Converter.getOwnerUrl(dbUser)))) {
                 adapterDBNoteList.add(dbNoteList.get(i));
             }
         }
-//        LogUtil.e(adapterDBNoteList);
 
         if (adapterDBNoteList.size() >= 0) {
             if (onDataChangeListener != null) {
