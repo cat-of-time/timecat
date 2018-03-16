@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.activity.whitelist.SelectionDbHelper;
 import com.time.cat.ui.base.baseCard.AbsCard;
@@ -21,7 +21,7 @@ import com.time.cat.ui.widgets.dialog.Dialog;
 import com.time.cat.ui.widgets.dialog.DialogFragment;
 import com.time.cat.ui.widgets.dialog.SimpleDialog;
 import com.time.cat.util.string.AESUtils;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.IOUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.phone.NativeHelper;
@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static com.shang.commonjar.contentProvider.SPHelperImpl.MAINSPNAME;
+import static com.timecat.commonjar.contentProvider.SPHelperImpl.MAINSPNAME;
 
 public class SLSettingCard extends AbsCard {
 
@@ -156,9 +156,9 @@ public class SLSettingCard extends AbsCard {
     }
 
     private void defaultSettings() {
-        String ocr = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
+        String ocr = SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "");
         SPHelper.clear();
-        SPHelper.save(ConstantUtil.DIY_OCR_KEY, ocr);
+        SPHelper.save(Constants.INSTANCE.getDIY_OCR_KEY(), ocr);
         IOUtil.delete(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH);
         SelectionDbHelper helper = new SelectionDbHelper(mContext);
         helper.deleteAll();
@@ -167,9 +167,9 @@ public class SLSettingCard extends AbsCard {
             spDir.delete();
         }
 
-        mContext.sendBroadcast(new Intent(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST));
+        mContext.sendBroadcast(new Intent(Constants.INSTANCE.getEFFECT_AFTER_REBOOT_BROADCAST()));
 
-        ToastUtil.show(R.string.effect_after_reboot);
+        ToastUtil.ok(R.string.effect_after_reboot);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -179,8 +179,8 @@ public class SLSettingCard extends AbsCard {
     }
 
     private void saveSettings() {
-        String ocr = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
-        SPHelper.save(ConstantUtil.DIY_OCR_KEY, "");
+        String ocr = SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "");
+        SPHelper.save(Constants.INSTANCE.getDIY_OCR_KEY(), "");
 
         File file = mContext.getFilesDir();
         File dbDir = new File(file.getParentFile(), "databases");
@@ -192,15 +192,15 @@ public class SLSettingCard extends AbsCard {
             IOUtil.copyFile(dbDir.getAbsolutePath(), new File(desDir, "databases").getAbsolutePath());
             IOUtil.copyFile(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH, new File(desDir, "floatview.png").getAbsolutePath());
             IOUtil.copyFile(spDir.getAbsolutePath(), new File(desDir, "shared_prefs").getAbsolutePath());
-            ToastUtil.show(R.string.save_success);
+            ToastUtil.ok(R.string.save_success);
         } catch (IOException e) {
-            ToastUtil.show(R.string.save_fail);
+            ToastUtil.e(R.string.save_fail);
         }
-        SPHelper.save(ConstantUtil.DIY_OCR_KEY, ocr);
+        SPHelper.save(Constants.INSTANCE.getDIY_OCR_KEY(), ocr);
     }
 
     private void saveOCR() {
-        String ocr = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
+        String ocr = SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "");
         String imei = NativeHelper.getImei(mContext);
         String cpu = NativeHelper.getCpuAbi();
         LogUtil.d("ocr=" + ocr);
@@ -213,9 +213,9 @@ public class SLSettingCard extends AbsCard {
         InputStream inputStream = new ByteArrayInputStream(ocrEncrypt.getBytes());
         try {
             IOUtil.saveToFile(inputStream, desOCRFile);
-            ToastUtil.show(R.string.save_success);
+            ToastUtil.ok(R.string.save_success);
         } catch (IOException e) {
-            ToastUtil.show(R.string.save_fail);
+            ToastUtil.e(R.string.save_fail);
         } finally {
             try {
                 inputStream.close();
@@ -258,7 +258,7 @@ public class SLSettingCard extends AbsCard {
             }
         }
 
-        String ocrOrigin = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
+        String ocrOrigin = SPHelper.getString(Constants.INSTANCE.getDIY_OCR_KEY(), "");
         if (desSpFile.exists()) {
             SPHelper.clear();
             IOUtil.deleteDirs(spDir.getAbsolutePath());
@@ -303,8 +303,8 @@ public class SLSettingCard extends AbsCard {
         }
         saveOcrKeyWithSP(ocr);
 
-        mContext.sendBroadcast(new Intent(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST));
-        ToastUtil.show(toast + toastEnd);
+        mContext.sendBroadcast(new Intent(Constants.INSTANCE.getEFFECT_AFTER_REBOOT_BROADCAST()));
+        ToastUtil.i(toast + toastEnd);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -315,7 +315,7 @@ public class SLSettingCard extends AbsCard {
 
     private void saveOcrKeyWithSP(String ocrKey) {
         SharedPreferences sp = mContext.getSharedPreferences(MAINSPNAME, Context.MODE_PRIVATE);
-        sp.edit().putString(ConstantUtil.DIY_OCR_KEY, ocrKey).commit();
+        sp.edit().putString(Constants.INSTANCE.getDIY_OCR_KEY(), ocrKey).apply();
     }
 
 }

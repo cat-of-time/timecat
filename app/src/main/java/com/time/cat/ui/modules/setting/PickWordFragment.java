@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 
 public class PickWordFragment extends BaseRecyclerFragment {
 
@@ -17,7 +17,7 @@ public class PickWordFragment extends BaseRecyclerFragment {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean isChecked = intent.getBooleanExtra(ConstantUtil.SHOW_TENCENT_SETTINGS, true);
+            boolean isChecked = intent.getBooleanExtra(Constants.INSTANCE.getSHOW_TENCENT_SETTINGS(), true);
             if (isChecked) {
                 int index = 0;
                 if (!newAdapter.containsView(settingCard)) index = cardViews.size();
@@ -43,7 +43,7 @@ public class PickWordFragment extends BaseRecyclerFragment {
         settingCard = new MonitorSettingCard(getActivity());
         cardViews.add(new GoToSettingCard(getActivity()));
         cardViews.add(new FunctionSettingCard(getActivity()));
-        if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true)) {
+        if (SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLICK(), true)) {
             cardViews.add(settingCard);
         }
         initLocalBroadcast();
@@ -52,7 +52,7 @@ public class PickWordFragment extends BaseRecyclerFragment {
 
     private void initLocalBroadcast() {
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ConstantUtil.Setting_content_Changes);
+        intentFilter.addAction(Constants.INSTANCE.getSetting_content_Changes());
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, intentFilter);
     }
 

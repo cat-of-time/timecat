@@ -8,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.base.baseCard.AbsCard;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.override.SnackBarUtil;
-
-import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
 public class GoToSettingCard extends AbsCard {
 
@@ -60,18 +58,18 @@ public class GoToSettingCard extends AbsCard {
         autoOpenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(ConstantUtil.AUTO_OPEN_SETTING, isChecked);
+                SPHelper.save(Constants.INSTANCE.getAUTO_OPEN_SETTING(), isChecked);
             }
         });
         findViewById(R.id.auto_open_rl).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 autoOpenSwitch.setChecked(!autoOpenSwitch.isChecked());
-                mContext.sendBroadcast(new Intent(BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
+                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
             }
         });
 
-        autoOpenSwitch.setChecked(SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING, false));
+        autoOpenSwitch.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getAUTO_OPEN_SETTING(), false));
     }
 
 }

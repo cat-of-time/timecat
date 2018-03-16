@@ -23,10 +23,10 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.modules.about.FeedbackActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.view.ViewUtil;
@@ -72,7 +72,7 @@ public class ShareCard extends FrameLayout {
                     } else if (state == 1) {
                         // TODO: 2016/2/27 分享
                         shareToWeChat(v, mContext);
-                        SPHelper.save(ConstantUtil.HAD_SHARED, true);
+                        SPHelper.save(Constants.INSTANCE.getHAD_SHARED(), true);
                         UrlCountUtil.onEvent(UrlCountUtil.CLICK_SHARE_CARD_SHARE);
                         hide();
                     } else {

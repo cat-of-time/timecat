@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.activity.OcrActivity;
 import com.time.cat.ui.base.baseCard.AbsCard;
@@ -22,12 +22,9 @@ import com.time.cat.ui.service.TimeCatMonitorService;
 import com.time.cat.ui.widgets.dialog.DialogFragment;
 import com.time.cat.ui.widgets.HintTextView;
 import com.time.cat.ui.widgets.dialog.SimpleDialog;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
-
-import static com.time.cat.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
-import static com.time.cat.util.ConstantUtil.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED;
 
 public class FunctionSettingCard extends AbsCard {
     private static final String IS_LONG_PREESS_TIPS_SHOW = "show_long_pressed_tips";
@@ -131,13 +128,13 @@ public class FunctionSettingCard extends AbsCard {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 monitorClipBoard = isChecked;
-                SPHelper.save(ConstantUtil.MONITOR_CLIP_BOARD, monitorClipBoard);
+                SPHelper.save(Constants.INSTANCE.getMONITOR_CLIP_BOARD(), monitorClipBoard);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_CLIPBOARD, isChecked);
 
                 if (monitorClipBoard) {
                     mContext.startService(new Intent(context, ListenClipboardService.class));
                 }
-                mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
+                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
             }
         });
 
@@ -150,7 +147,7 @@ public class FunctionSettingCard extends AbsCard {
 
                 monitorClick = isChecked;
                 sendTencentSettingsBroadcast(isChecked);
-                SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
+                SPHelper.save(Constants.INSTANCE.getMONITOR_CLICK(), monitorClick);
                 if (monitorClick) {
                     mContext.startService(new Intent(context, TimeCatMonitorService.class));
                     if (!TimeCatMonitorService.isAccessibilitySettingsOn(mContext)) {
@@ -158,7 +155,7 @@ public class FunctionSettingCard extends AbsCard {
                         handler.postDelayed(showAccess, 2000);
                     }
                 }
-                mContext.sendBroadcast(new Intent(BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
+                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
 
                 monitorClickRl.setClickable(false);
                 handler.postDelayed(new Runnable() {
@@ -176,7 +173,7 @@ public class FunctionSettingCard extends AbsCard {
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_TOTAL_SWITCH, isChecked);
 
                 totalSwitch = isChecked;
-                SPHelper.save(ConstantUtil.TOTAL_SWITCH, totalSwitch);
+                SPHelper.save(Constants.INSTANCE.getTOTAL_SWITCH(), totalSwitch);
                 if (isClickTotalSwitch) {
                     if (totalSwitch) {
                         SnackBarUtil.show(buttonView, mContext.getString(R.string.timecat_open));
@@ -189,8 +186,8 @@ public class FunctionSettingCard extends AbsCard {
                         SnackBarUtil.show(buttonView, mContext.getString(R.string.timecat_close));
                     }
                 }
-                mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
-                mContext.sendBroadcast(new Intent(BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
+                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
+                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
 //                if (totalSwitch){
 //                    requestFloatViewTv.setVisibility(GONE);
 //                }else {
@@ -262,15 +259,15 @@ public class FunctionSettingCard extends AbsCard {
 
     private void sendTencentSettingsBroadcast(boolean isChecked) {
         Intent intent = new Intent();
-        intent.setAction(ConstantUtil.Setting_content_Changes);
-        intent.putExtra(ConstantUtil.SHOW_TENCENT_SETTINGS, isChecked);
+        intent.setAction(Constants.INSTANCE.getSetting_content_Changes());
+        intent.putExtra(Constants.INSTANCE.getSHOW_TENCENT_SETTINGS(), isChecked);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
     private void refresh() {
-        totalSwitch = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
-        monitorClipBoard = SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD, true);
-        monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true);
+        totalSwitch = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
+        monitorClipBoard = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLIP_BOARD(), true);
+        monitorClick = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLICK(), true);
 
         monitorClipBoardSwitch.setChecked(monitorClipBoard);
         monitorClickSwitch.setChecked(monitorClick);

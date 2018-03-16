@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.activity.searchengine.SearchEngineActivity;
 import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.ui.widgets.HintTextView;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.UrlCountUtil;
 
 public class TimeCatSettingCard extends AbsCard {
@@ -27,8 +27,8 @@ public class TimeCatSettingCard extends AbsCard {
     }
 
     private void refresh() {
-        browserSwitch.setChecked(SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true));
-        floatTriggerSwitch.setChecked(SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER, true));
+        browserSwitch.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getUSE_LOCAL_WEBVIEW(), true));
+        floatTriggerSwitch.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getUSE_FLOAT_VIEW_TRIGGER(), true));
         floatTriggerHintTextView.setShowHint(!floatTriggerSwitch.isChecked());
         floatTriggerHintTextView.setShowAnimation(true);
     }
@@ -56,7 +56,7 @@ public class TimeCatSettingCard extends AbsCard {
         browserSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
-                SPHelper.save(ConstantUtil.USE_LOCAL_WEBVIEW, isChecked);
+                SPHelper.save(Constants.INSTANCE.getUSE_LOCAL_WEBVIEW(), isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_USE_BUILTIN_BROWSER, isChecked);
             }
         });
@@ -72,7 +72,7 @@ public class TimeCatSettingCard extends AbsCard {
         floatTriggerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(ConstantUtil.USE_FLOAT_VIEW_TRIGGER, isChecked);
+                SPHelper.save(Constants.INSTANCE.getUSE_FLOAT_VIEW_TRIGGER(), isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_FLOAT_VIEW_TRIGGER, isChecked);
                 floatTriggerHintTextView.setShowHint(!isChecked);
             }

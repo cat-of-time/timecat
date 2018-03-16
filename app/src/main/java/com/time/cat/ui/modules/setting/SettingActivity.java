@@ -23,14 +23,14 @@ import android.view.ViewStub;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.alibaba.sdk.android.feedback.util.IUnreadCountCallback;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.ui.modules.about.FeedbackActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.BaseFragment;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.UrlCountUtil;
 
 import java.util.ArrayList;
@@ -40,8 +40,6 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
-
-import static com.time.cat.util.ConstantUtil.BROADCAST_RELOAD_SETTING;
 
 
 public class SettingActivity extends BaseActivity {
@@ -73,9 +71,9 @@ public class SettingActivity extends BaseActivity {
             }
         }).subscribe(s -> {
             if (s.equals("")) {
-                boolean hadEnterIntro = SPHelper.getBoolean(ConstantUtil.HAD_ENTER_INTRO, false);
-                boolean hasShared = SPHelper.getBoolean(ConstantUtil.HAD_SHARED, false);
-                int openTimes = SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES, 0);
+                boolean hadEnterIntro = SPHelper.getBoolean(Constants.INSTANCE.getHAD_ENTER_INTRO(), false);
+                boolean hasShared = SPHelper.getBoolean(Constants.INSTANCE.getHAD_SHARED(), false);
+                int openTimes = SPHelper.getInt(Constants.INSTANCE.getSETTING_OPEN_TIMES(), 0);
 
                 if (!hadEnterIntro) {
                     ViewStub viewStub = findViewById(R.id.intro_card);
@@ -110,8 +108,8 @@ public class SettingActivity extends BaseActivity {
 
         checkPermission();
 
-        int openTimes = SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES, 0);
-        SPHelper.save(ConstantUtil.SETTING_OPEN_TIMES, openTimes + 1);
+        int openTimes = SPHelper.getInt(Constants.INSTANCE.getSETTING_OPEN_TIMES(), 0);
+        SPHelper.save(Constants.INSTANCE.getSETTING_OPEN_TIMES(), openTimes + 1);
     }
 
     private void initViewPager() {
@@ -184,7 +182,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void checkFeedbackAnswer() {
-        FeedbackAPI.init(TimeCatApp.getInstance(), ConstantUtil.ALI_APP_KEY, ConstantUtil.ALI_APP_SECRET);
+        FeedbackAPI.init(TimeCatApp.getInstance(), Constants.INSTANCE.getALI_APP_KEY(), Constants.INSTANCE.getALI_APP_SECRET());
         FeedbackAPI.getFeedbackUnreadCount(new IUnreadCountCallback() {
 
             @Override
@@ -229,6 +227,6 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        sendBroadcast(new Intent(BROADCAST_RELOAD_SETTING));
+        sendBroadcast(new Intent(INSTANCE.getBROADCAST_RELOAD_SETTING()));
     }
 }
