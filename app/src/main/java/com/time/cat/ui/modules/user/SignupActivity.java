@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.user;
+package com.time.cat.ui.modules.user;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
