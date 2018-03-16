@@ -53,6 +53,12 @@ public class SpecialTab extends BaseTabItem {
         }
     }
 
+    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+        View view = getChildAt(0);
+        if (view != null){
+            view.setOnLongClickListener(onLongClickListener);
+        }
+    }
     /**
      * 方便初始化的方法
      * @param drawableRes           默认状态的图标
