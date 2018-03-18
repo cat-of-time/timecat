@@ -51,14 +51,14 @@ public class TimeCatLayout extends ViewGroup implements TimeCatHeader.ActionList
     private static final int DEFAULT_TEXT_COLOR_RES = R.color.timecat_item_text;
     private static final int DEFAULT_TEXT_BG_RES = R.drawable.item_background;
     private static final int DEFAULT_SECTION_TEXT_BG_RES = R.drawable.item_background_section;
-    boolean autoAddBlanks = SPHelper.getBoolean(Constants.INSTANCE.getAUTO_ADD_BLANKS(), false);
+    boolean autoAddBlanks = SPHelper.getBoolean(Constants.AUTO_ADD_BLANKS, false);
     ItemState mItemState;
     private int mLineSpace;
     private int mItemSpace;
     private int mTextColorRes;
     private int mSectionTextBgRes;
     private int mTextSize;
-    private int mTextPadding = (int) ViewUtil.dp2px(Constants.INSTANCE.getDEFAULT_ITEM_PADDING());
+    private int mTextPadding = (int) ViewUtil.dp2px(Constants.DEFAULT_ITEM_PADDING);
     private int mTextPaddingPort = (int) ViewUtil.dp2px(5);
     private int mTextBgRes;
     private Item mTargetItem;

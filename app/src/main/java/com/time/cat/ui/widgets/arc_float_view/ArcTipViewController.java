@@ -161,8 +161,8 @@ public class ArcTipViewController implements View.OnTouchListener {
         mContext = application;
         mWindowManager = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
 
-        MAX_LENGTH = DEFAULT_MAX_LENGTH * SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100) / 100f;
-        MIN_LENGTH = DEFAULT_MIN_LENGTH * SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100) / 100f;
+        MAX_LENGTH = DEFAULT_MAX_LENGTH * SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100) / 100f;
+        MIN_LENGTH = DEFAULT_MIN_LENGTH * SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100) / 100f;
 
         int resourceId = application.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
@@ -194,11 +194,11 @@ public class ArcTipViewController implements View.OnTouchListener {
                             } else {
                                 isMovingToEdge = false;
                                 if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
-                                    SPHelper.save(Constants.INSTANCE.getFLOAT_VIEW_PORT_X(), layoutParams.x);
-                                    SPHelper.save(Constants.INSTANCE.getFLOAT_VIEW_PORT_Y(), layoutParams.y);
+                                    SPHelper.save(Constants.FLOAT_VIEW_PORT_X, layoutParams.x);
+                                    SPHelper.save(Constants.FLOAT_VIEW_PORT_Y, layoutParams.y);
                                 } else {
-                                    SPHelper.save(Constants.INSTANCE.getFLOAT_VIEW_LAND_X(), layoutParams.x);
-                                    SPHelper.save(Constants.INSTANCE.getFLOAT_VIEW_LAND_Y(), layoutParams.y);
+                                    SPHelper.save(Constants.FLOAT_VIEW_LAND_X, layoutParams.x);
+                                    SPHelper.save(Constants.FLOAT_VIEW_LAND_Y, layoutParams.y);
                                 }
                             }
                             break;
@@ -212,14 +212,14 @@ public class ArcTipViewController implements View.OnTouchListener {
                             acrFloatView.setOnTouchListener(ArcTipViewController.this);
                             floatImageView.setContentDescription(mContext.getString(R.string.float_view_hide));
                             LinearLayout.LayoutParams layoutParams_ = (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
-                            layoutParams_.width = (int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100) / 100f);
+                            layoutParams_.width = (int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100) / 100f);
                             layoutParams_.height = ViewUtil.dp2px(MIN_LENGTH);
                             layoutParams_.gravity = Gravity.NO_GRAVITY;
                             floatImageView.setLayoutParams(layoutParams_);
                             floatImageView.setPadding(0, 0, 0, 0);
                             //TODO 不贴边的问题
 //                            layoutParams.width = (int) ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE);
-                            reuseSavedWindowMangerPosition((int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100) / 100f), ViewUtil.dp2px(MIN_LENGTH));
+                            reuseSavedWindowMangerPosition((int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100) / 100f), ViewUtil.dp2px(MIN_LENGTH));
                             updateViewPosition(layoutParams.x, layoutParams.y);
 
                             break;
@@ -229,7 +229,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         };
 
         mActionListener = new ArrayList<>();
-        mScaledTouchSlop = (int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100) / 100f);
+        mScaledTouchSlop = (int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100) / 100f);
         initView();
         applySizeChange();
         isRemoved = true;
@@ -241,7 +241,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 
     public void showTipViewForStartActivity(Intent intent) {
 
-        boolean floatTrigger = SPHelper.getBoolean(Constants.INSTANCE.getUSE_FLOAT_VIEW_TRIGGER(), true);
+        boolean floatTrigger = SPHelper.getBoolean(Constants.USE_FLOAT_VIEW_TRIGGER, true);
         if (!floatTrigger) {
             //直接打开timecat
             try {
@@ -316,8 +316,8 @@ public class ArcTipViewController implements View.OnTouchListener {
     }
 
     private void initView() {
-        showTimeCat = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
-        isStick = SPHelper.getBoolean(Constants.INSTANCE.getFLOATVIEW_IS_STICK(), false);
+        showTimeCat = SPHelper.getBoolean(Constants.TOTAL_SWITCH, true);
+        isStick = SPHelper.getBoolean(Constants.FLOATVIEW_IS_STICK, false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             Point point = new Point();
@@ -329,9 +329,9 @@ public class ArcTipViewController implements View.OnTouchListener {
             mScreenHeight = mWindowManager.getDefaultDisplay().getHeight();
         }
         if (showTimeCat) {
-            mCurrentIconAlpha = SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 70) / 100f;
+            mCurrentIconAlpha = SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 70) / 100f;
         } else {
-            mCurrentIconAlpha = 0.6f * SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 70) / 100f;
+            mCurrentIconAlpha = 0.6f * SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 70) / 100f;
         }
 
         iconFloatView = (LinearLayout) View.inflate(mContext, R.layout.arc_float_icon, null);
@@ -372,29 +372,29 @@ public class ArcTipViewController implements View.OnTouchListener {
     }
 
     private void initArcMenu(ArcMenu menu, int[] itemDrawables) {
-        float present = SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100.0f) / 100;
+        float present = SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100.0f) / 100;
         menu.removeAllItemViews();
         final int itemCount = itemDrawables.length;
         applySizeChange();
         if (archMenu != null) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
-                        SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_DIY_BG_COLOR(), Color.parseColor("#01579B")));
+                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")));
                 archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
             } else {
                 CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
-                        SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_DIY_BG_COLOR(), Color.parseColor("#01579B")),
+                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")),
                         (int) (ViewUtil.dp2px(47) * present));
                 archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
 
             }
-            archMenu.getHintView().setAlpha(SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 90) / 100f);
+            archMenu.getHintView().setAlpha(SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 90) / 100f);
             archMenu.getHintView().setContentDescription(mContext.getString(R.string.float_view_to_hide));
         }
         if (showTimeCat) {
-            mCurrentIconAlpha = SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 90) / 100f;
+            mCurrentIconAlpha = SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 90) / 100f;
         } else {
-            mCurrentIconAlpha = 0.6f * SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 90) / 100f;
+            mCurrentIconAlpha = 0.6f * SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 90) / 100f;
         }
         for (int i = 0; i < itemCount; i++) {
             ImageView item = new ImageView(acrFloatView.getContext());
@@ -404,11 +404,11 @@ public class ArcTipViewController implements View.OnTouchListener {
             item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
-                        SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_DIY_BG_COLOR(), Color.parseColor("#01579B")));
+                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")));
                 item.setBackgroundDrawable(circleColorDrawable);
             } else {
                 CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
-                        SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_DIY_BG_COLOR(), Color.parseColor("#01579B")),
+                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")),
                         (int) (ViewUtil.dp2px(32) * present));
                 item.setBackgroundDrawable(circleColorDrawable);
             }
@@ -422,7 +422,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                     item.setContentDescription(mContext.getString(R.string.close_timecat));
                 }
             } else {
-                item.setAlpha(SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 90) / 100f);
+                item.setAlpha(SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 90) / 100f);
             }
 
 
@@ -440,7 +440,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     }
 
     private void applySizeChange() {
-        float persent = SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100.0f) / 100;
+        float persent = SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100.0f) / 100;
         padding = (int) (ViewUtil.dp2px(3) * persent);
         arcMenuPadding = (int) (ViewUtil.dp2px(12) * persent);
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) archMenu.getLayoutParams();
@@ -473,7 +473,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 break;
             case 2:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_COPY);
-                mContext.sendBroadcast(new Intent(Constants.INSTANCE.getUNIVERSAL_COPY_BROADCAST()));
+                mContext.sendBroadcast(new Intent(Constants.UNIVERSAL_COPY_BROADCAST));
                 break;
             case 3:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);
@@ -502,7 +502,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     }
 
     public void syncStates() {
-        showTimeCat = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
+        showTimeCat = SPHelper.getBoolean(Constants.TOTAL_SWITCH, true);
         initArcMenu(archMenu, icons);
         if (iconFloatView != null) {
             iconFloatView.setAlpha(mCurrentIconAlpha);
@@ -665,7 +665,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     }
 
     public void showHideFloatImageView() {
-        if (!SPHelper.getBoolean(Constants.INSTANCE.getSHOW_FLOAT_VIEW(), false)) return;
+        if (!SPHelper.getBoolean(Constants.SHOW_FLOAT_VIEW, false)) return;
         if (layoutParams == null) reuseSavedWindowMangerPosition();
         if (isRemoved) {
             isRemoved = false;
@@ -767,11 +767,11 @@ public class ArcTipViewController implements View.OnTouchListener {
             rotation = mWindowManager.getDefaultDisplay().getRotation();
             int x = 0, y = 0;
             if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
-                x = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_PORT_X(), mScreenWidth);
-                y = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_PORT_Y(), mScreenHeight / 2);
+                x = SPHelper.getInt(Constants.FLOAT_VIEW_PORT_X, mScreenWidth);
+                y = SPHelper.getInt(Constants.FLOAT_VIEW_PORT_Y, mScreenHeight / 2);
             } else {
-                x = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_LAND_X(), mScreenWidth);
-                y = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_LAND_Y(), mScreenHeight / 2);
+                x = SPHelper.getInt(Constants.FLOAT_VIEW_LAND_X, mScreenWidth);
+                y = SPHelper.getInt(Constants.FLOAT_VIEW_LAND_Y, mScreenHeight / 2);
             }
 
             layoutParams = new WindowManager.LayoutParams(w, h, type, flags, PixelFormat.TRANSLUCENT);
@@ -789,14 +789,14 @@ public class ArcTipViewController implements View.OnTouchListener {
         isRemoved = true;
         isChangedColor = true;
         if (showTimeCat) {
-            mCurrentIconAlpha = SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 70) / 100f;
+            mCurrentIconAlpha = SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 70) / 100f;
         } else {
-            mCurrentIconAlpha = 0.6f * SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 70) / 100f;
+            mCurrentIconAlpha = 0.6f * SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 70) / 100f;
         }
-        mScaledTouchSlop = (int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100) / 100f);
-        MAX_LENGTH = DEFAULT_MAX_LENGTH * SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100) / 100f;
-        MIN_LENGTH = DEFAULT_MIN_LENGTH * SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100) / 100f;
-        isStick = SPHelper.getBoolean(Constants.INSTANCE.getFLOATVIEW_IS_STICK(), false);
+        mScaledTouchSlop = (int) (ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE) * SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100) / 100f);
+        MAX_LENGTH = DEFAULT_MAX_LENGTH * SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100) / 100f;
+        MIN_LENGTH = DEFAULT_MIN_LENGTH * SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100) / 100f;
+        isStick = SPHelper.getBoolean(Constants.FLOATVIEW_IS_STICK, false);
         remove();
         acrFloatView = null;
         remove();
@@ -847,11 +847,11 @@ public class ArcTipViewController implements View.OnTouchListener {
                     mScreenHeight = mWindowManager.getDefaultDisplay().getHeight();
                 }
                 if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
-                    x = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_PORT_X(), layoutParams.x);
-                    y = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_PORT_Y(), layoutParams.y);
+                    x = SPHelper.getInt(Constants.FLOAT_VIEW_PORT_X, layoutParams.x);
+                    y = SPHelper.getInt(Constants.FLOAT_VIEW_PORT_Y, layoutParams.y);
                 } else {
-                    x = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_LAND_X(), layoutParams.x);
-                    y = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_LAND_Y(), layoutParams.y);
+                    x = SPHelper.getInt(Constants.FLOAT_VIEW_LAND_X, layoutParams.x);
+                    y = SPHelper.getInt(Constants.FLOAT_VIEW_LAND_Y, layoutParams.y);
                 }
                 layoutParams.x = x;
                 layoutParams.y = y;
@@ -943,11 +943,11 @@ public class ArcTipViewController implements View.OnTouchListener {
                 }
                 mTouchStartX = mTouchStartY = 0;
                 if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
-                    SPHelper.save(Constants.INSTANCE.getFLOAT_VIEW_PORT_X(), layoutParams.x);
-                    SPHelper.save(Constants.INSTANCE.getFLOAT_VIEW_PORT_Y(), layoutParams.y);
+                    SPHelper.save(Constants.FLOAT_VIEW_PORT_X, layoutParams.x);
+                    SPHelper.save(Constants.FLOAT_VIEW_PORT_Y, layoutParams.y);
                 } else {
-                    SPHelper.save(Constants.INSTANCE.getFLOAT_VIEW_LAND_X(), layoutParams.x);
-                    SPHelper.save(Constants.INSTANCE.getFLOAT_VIEW_LAND_Y(), layoutParams.y);
+                    SPHelper.save(Constants.FLOAT_VIEW_LAND_X, layoutParams.x);
+                    SPHelper.save(Constants.FLOAT_VIEW_LAND_Y, layoutParams.y);
                 }
                 moveToEdge();
 
@@ -995,11 +995,11 @@ public class ArcTipViewController implements View.OnTouchListener {
                     mScreenHeight = mWindowManager.getDefaultDisplay().getHeight();
                 }
                 if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
-                    x = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_PORT_X(), layoutParams.x);
-                    y = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_PORT_Y(), layoutParams.y);
+                    x = SPHelper.getInt(Constants.FLOAT_VIEW_PORT_X, layoutParams.x);
+                    y = SPHelper.getInt(Constants.FLOAT_VIEW_PORT_Y, layoutParams.y);
                 } else {
-                    x = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_LAND_X(), layoutParams.x);
-                    y = SPHelper.getInt(Constants.INSTANCE.getFLOAT_VIEW_LAND_Y(), layoutParams.y);
+                    x = SPHelper.getInt(Constants.FLOAT_VIEW_LAND_X, layoutParams.x);
+                    y = SPHelper.getInt(Constants.FLOAT_VIEW_LAND_Y, layoutParams.y);
                 }
                 layoutParams.x = x;
                 layoutParams.y = y;
