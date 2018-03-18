@@ -167,7 +167,7 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
                 disApps.add(appInfo.appName);
             }
         }
-        getSharedPreferences(SHARE_APPS, ContextThemeWrapper.MODE_PRIVATE).edit().putStringSet(Constants.INSTANCE.getSHARE_APPS_DIS(), disApps).apply();
+        getSharedPreferences(SHARE_APPS, ContextThemeWrapper.MODE_PRIVATE).edit().putStringSet(Constants.SHARE_APPS_DIS, disApps).apply();
         super.finish();
     }
 
@@ -175,7 +175,7 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDisAppSet = getSharedPreferences(SHARE_APPS, ContextThemeWrapper.MODE_PRIVATE).getStringSet(Constants.INSTANCE.getSHARE_APPS_DIS(), mDisAppSet);
+            mDisAppSet = getSharedPreferences(SHARE_APPS, ContextThemeWrapper.MODE_PRIVATE).getStringSet(Constants.SHARE_APPS_DIS, mDisAppSet);
         }
 
         @Override
