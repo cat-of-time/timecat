@@ -186,7 +186,7 @@ public class SchedulesFragment extends BaseFragment implements
                     public void call(User user) {
                         //保存用户信息到本地
                         DB.users().updateActiveUserAndFireEvent(dbUser, user);
-//                        Log.i(TAG, dbUser.toString());
+//                        LogUtil.i(dbUser.toString());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -425,9 +425,6 @@ public class SchedulesFragment extends BaseFragment implements
             }
         }
     }
-
-    @Override
-    public void onViewChangeMarkThemeClick() { }
 
     @Override
     public void onViewRefreshClick() {

@@ -5,12 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.data.model.DBmodel.DBRoutine;
 import com.time.cat.data.model.DBmodel.DBTask;
+import com.time.cat.util.override.ToastUtil;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -50,7 +50,7 @@ public class NotificationEventReceiver extends BroadcastReceiver {
                 routineId = intent.getLongExtra(TimeCatApp.INTENT_EXTRA_ROUTINE_ID, -1);
                 if (routineId != -1) {
                     AlarmScheduler.instance().onIntakeCancelled(DBRoutine.findById(routineId), date, context);
-                    Toast.makeText(context, context.getString(R.string.reminder_cancelled_message), Toast.LENGTH_SHORT).show();
+                    ToastUtil.w(context.getString(R.string.reminder_cancelled_message));
                 }
                 break;
 
@@ -60,7 +60,7 @@ public class NotificationEventReceiver extends BroadcastReceiver {
                 if (scheduleId != -1 && scheduleTime != null) {
                     LocalTime t = DateTimeFormat.forPattern("kk:mm").parseLocalTime(scheduleTime);
                     AlarmScheduler.instance().onIntakeCancelled(DBTask.findById(scheduleId), t, date, context);
-                    Toast.makeText(context, context.getString(R.string.reminder_cancelled_message), Toast.LENGTH_SHORT).show();
+                    ToastUtil.i(context.getString(R.string.reminder_cancelled_message));
                 }
                 break;
 

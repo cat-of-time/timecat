@@ -353,6 +353,8 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 R.layout.view_keyboard_date_item,
                 new String[] { IMAGE_ITEM, TEXT_ITEM },
                 new int[] { R.id.dialog_add_task_select_iv, R.id.dialog_add_task_select_tv });
+        Date d = new Date();
+        dialog_add_task_tv_date.setText(((d.getMonth()+1)<9?"0"+(d.getMonth()+1):(d.getMonth()+1))+":"+(d.getDate()<9?"0"+d.getDate():d.getDate()));
         // 设置GridView的adapter。GridView继承于AbsListView。
         dialog_add_task_select_gv_date.setAdapter(saImageItems);
         dialog_add_task_select_gv_date.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -365,6 +367,37 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 Object object=item.get(IMAGE_ITEM);
                 ToastUtil.i("You Select "+itemText);
                 dialog_add_task_tv_date.setText(itemText);
+                Date date = new Date();
+                switch (position) {
+                    case 0:
+                        start_month = end_month = date.getMonth();
+                        start_day = end_day = date.getDate();
+                        break;
+                    case 1:
+                        date = new Date(date.getTime() + Constants.DAY_MILLI_SECONDS);
+                        start_month = end_month = date.getMonth();
+                        start_day = end_day = date.getDate();
+                        break;
+                    case 2:
+                        date = new Date(date.getTime() + 2 * Constants.DAY_MILLI_SECONDS);
+                        start_month = end_month = date.getMonth();
+                        start_day = end_day = date.getDate();
+                        break;
+                    case 3:
+                        date = new Date(date.getTime() + 7 * Constants.DAY_MILLI_SECONDS);
+                        start_month = end_month = date.getMonth();
+                        start_day = end_day = date.getDate();
+                        break;
+                    case 4:
+                        date = new Date(date.getTime() + Constants.DAY_MILLI_SECONDS);
+                        start_month = end_month = date.getMonth();
+                        start_day = end_day = date.getDate();
+                        break;
+                    case 5:
+                        start_month = end_month = date.getMonth();
+                        start_day = end_day = date.getDate();
+                        break;
+                }
             }
         });
     }
@@ -653,6 +686,8 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         start_min = date.getMinutes();
         end_hour = start_hour;
         end_min = start_min;
+        start_month = end_month = date.getMonth();
+        start_day = end_day = date.getDate();
         is_setting_start_time = false;
         is_setting_end_time = false;
         type = Type.NOTE;
@@ -689,11 +724,11 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 }
             }
         } else {
-            SPHelper.save(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), str);
+            SPHelper.save(Constants.UNIVERSAL_SAVE_COTENT, str);
         }
 
         if (TextUtils.isEmpty(str)) {
-            str = SPHelper.getString(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), "");
+            str = SPHelper.getString(Constants.UNIVERSAL_SAVE_COTENT, "");
         }
 
 
@@ -703,7 +738,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_et_title.setText(title);
         dialog_add_task_et_content.setText(content);
         dialog_add_task_et_content.setSelection(content.length());
-        SPHelper.save(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), str);
+        SPHelper.save(Constants.UNIVERSAL_SAVE_COTENT, str);
     }
 
     @SuppressLint("SetTextI18n")
@@ -717,8 +752,12 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
             Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
             Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
             if (begin_datetime!=null&&end_datetime!=null) {
+                start_month = begin_datetime.getMonth();
+                start_day = begin_datetime.getDate();
                 start_hour = begin_datetime.getHours();
                 start_min=begin_datetime.getMinutes();
+                end_month = end_datetime.getMonth();
+                end_day = end_datetime.getDate();
                 end_hour= end_datetime.getHours();
                 end_min = end_datetime.getMinutes();
                 dialog_add_task_tv_time.setText(
@@ -806,7 +845,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 }
                 content = dialog_add_task_et_content.getText().toString();
 
-                SPHelper.save(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), dialog_add_task_et_content.getText().toString());
+                SPHelper.save(Constants.UNIVERSAL_SAVE_COTENT, dialog_add_task_et_content.getText().toString());
             }
 
             @Override
@@ -899,7 +938,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                         ToastUtil.e("添加[ 闹钟 ]失败：功能未完善");
                         break;
                 }
-                SPHelper.save(Constants.INSTANCE.getUNIVERSAL_SAVE_COTENT(), "");
+                SPHelper.save(Constants.UNIVERSAL_SAVE_COTENT, "");
                 ViewUtil.hideInputMethod(dialog_add_task_et_title);
                 ViewUtil.hideInputMethod(dialog_add_task_et_content);
                 break;
@@ -989,7 +1028,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
             Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
             Matcher matcher = p.matcher(content);
             if (!matcher.matches()) {
-                uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(Constants.INSTANCE.getBROWSER_SELECTION(), 0)).url + URLEncoder.encode(content, "utf-8"));
+                uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(Constants.BROWSER_SELECTION, 0)).url + URLEncoder.encode(content, "utf-8"));
                 isUrl = false;
             } else {
                 uri = Uri.parse(content);
@@ -999,7 +1038,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 isUrl = true;
             }
 
-            boolean t = SPHelper.getBoolean(Constants.INSTANCE.getUSE_LOCAL_WEBVIEW(), true);
+            boolean t = SPHelper.getBoolean(Constants.USE_LOCAL_WEBVIEW, true);
             Intent intent2Web;
             if (t) {
                 intent2Web = new Intent();
@@ -1053,8 +1092,16 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         tags.add("http://192.168.88.105:8000/tags/2/");
         task.setTags(tags);
         task.setIs_all_day(is_all_day);
+
+        Date d = new Date();
+        d.setMonth(start_month);
+        d.setDate(start_day);
+        task.setBegin_datetime(TimeUtil.formatGMTDate(d));
+        d.setMonth(end_month);
+        d.setDate(end_day);
+        task.setEnd_datetime(TimeUtil.formatGMTDate(d));
+
         if (!is_all_day) {
-            Date d = new Date();
             d.setHours(start_hour);
             d.setMinutes(start_min);
             task.setBegin_datetime(TimeUtil.formatGMTDate(d));
@@ -1154,9 +1201,17 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         tags.add("http://192.168.88.105:8000/tags/2/");
         dbTask.setTags(tags);
         dbTask.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
+
+        Date d = new Date();
+        d.setMonth(start_month);
+        d.setDate(start_day);
+        dbTask.setBegin_datetime(TimeUtil.formatGMTDate(d));
+        d.setMonth(end_month);
+        d.setDate(end_day);
+        dbTask.setEnd_datetime(TimeUtil.formatGMTDate(d));
+
         dbTask.setIs_all_day(is_all_day);
         if (!is_all_day) {
-            Date d = new Date();
             d.setHours(start_hour);
             d.setMinutes(start_min);
             dbTask.setBegin_datetime(TimeUtil.formatGMTDate(d));
