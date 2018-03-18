@@ -29,18 +29,12 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
  */
 public class TimeCatAppWidget extends AppWidgetProvider {
 
-    public static final String ACTION_PREVIOUS_MONTH
-            = "com.time.cat.TimeCatAppWidget.action.PREVIOUS_MONTH";
-    public static final String ACTION_NEXT_MONTH
-            = "com.time.cat.TimeCatAppWidget.action.NEXT_MONTH";
-    public static final String ACTION_RESET_MONTH
-            = "com.time.cat.TimeCatAppWidget.action.RESET_MONTH";
-    public static final String ACTION_REFRESH_TASK
-            = "com.time.cat.TimeCatAppWidget.action.refresh";
-    public static final String ACTION_ADD
-            = "com.time.cat.TimeCatAppWidget.action.add";
-    public static final String ACTION_ITEM_CLICK
-            = "com.time.cat.TimeCatAppWidget.action.ITEM_CLICK";
+    public static final String ACTION_PREVIOUS_MONTH = "com.time.cat.TimeCatAppWidget.action.PREVIOUS_MONTH";
+    public static final String ACTION_NEXT_MONTH = "com.time.cat.TimeCatAppWidget.action.NEXT_MONTH";
+    public static final String ACTION_RESET_MONTH = "com.time.cat.TimeCatAppWidget.action.RESET_MONTH";
+    public static final String ACTION_REFRESH_TASK = "com.time.cat.TimeCatAppWidget.action.refresh";
+    public static final String ACTION_ADD = "com.time.cat.TimeCatAppWidget.action.add";
+    public static final String ACTION_ITEM_CLICK = "com.time.cat.TimeCatAppWidget.action.ITEM_CLICK";
 
     private static final String PREF_MONTH = "month";
     private static final String PREF_YEAR = "year";

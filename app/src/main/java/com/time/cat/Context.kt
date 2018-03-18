@@ -1,13 +1,14 @@
-package com.time.cat.helper
+package com.time.cat
 
 import android.content.Context
+import com.time.cat.data.Config
 import com.time.cat.data.model.DBmodel.Event
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 //
 //val Context.dbHelper: DBHelper get() = DBHelper.newInstance(applicationContext)
 
-fun Context.getNowSeconds() = (System.currentTimeMillis() / 1000).toInt()
+fun Context.getNowSeconds() = System.currentTimeMillis()
 //
 //fun Context.updateWidgets() {
 //    val widgetsCnt = AppWidgetManager.getInstance(applicationContext).getAppWidgetIds(ComponentName(applicationContext, MyWidgetMonthlyProvider::class.java))
