@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.time.cat.R
 import com.time.cat.config
-import com.time.cat.data.WEEK_MILLI_SECONDS
-import com.time.cat.data.WEEK_START_DATE_TIME
+import com.time.cat.data.Constants.WEEK_MILLI_SECONDS
+import com.time.cat.data.Constants.WEEK_START_DATE_TIME
 import com.time.cat.helper.Formatter
 import com.time.cat.helper.seconds
 import com.time.cat.ui.activity.main.MainActivity

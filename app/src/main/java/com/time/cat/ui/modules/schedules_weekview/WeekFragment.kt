@@ -17,7 +17,11 @@ import com.simplemobiletools.commons.extensions.getContrastColor
 import com.simplemobiletools.commons.extensions.onGlobalLayout
 import com.time.cat.R
 import com.time.cat.config
-import com.time.cat.data.*
+import com.time.cat.data.Constants.DAY_SECONDS
+import com.time.cat.data.Constants.NEW_EVENT_SET_HOUR_DURATION
+import com.time.cat.data.Constants.NEW_EVENT_START_TS
+import com.time.cat.data.Constants.WEEK_MILLI_SECONDS
+import com.time.cat.data.Constants.WEEK_START_TIMESTAMP
 import com.time.cat.data.database.ScheduleDao
 import com.time.cat.data.model.DBmodel.DBTask
 import com.time.cat.helper.Formatter

@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.util.SparseArray
-import com.time.cat.data.WEEK_START_TIMESTAMP
+import com.time.cat.data.Constants.WEEK_START_TIMESTAMP
 
 /**
  * @author dlink
