@@ -1,8 +1,9 @@
 package com.time.cat.ui.adapter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -21,26 +22,34 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/3/16
+ * @discription null
+ * @usage null
+ */
 public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> {
     private List<FileEntity> dataSet;
-    private AppCompatActivity context;
+    private Activity activity;
 
-    public FilesAdapter(List<FileEntity> entityList) {
+    public FilesAdapter(List<FileEntity> entityList, Activity activity) {
         dataSet = (entityList == null) ? new ArrayList<FileEntity>() : entityList;
+        this.activity = activity;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (context == null) {
-            context = (MainActivity) parent.getContext();
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (activity == null) {
+            activity = (MainActivity) parent.getContext();
         }
-        View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.item_file_list, parent, false);
+        View itemView = LayoutInflater.from(activity).inflate(R.layout.item_file_list, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final FileEntity entity = dataSet.get(position);
         String fileName = entity.getName();
         holder.fileName.setText(fileName);
@@ -67,8 +76,8 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
                         FileUtils.stripExtension(entity.getName()));
                 args.putString(Constants.BUNDLE_KEY_FILE_PATH, entity.getAbsolutePath());
                 intent2MainActivity.putExtras(args);
-                intent2MainActivity.setClass(context, EditorActivity.class);
-                context.startActivity(intent2MainActivity);
+                intent2MainActivity.setClass(activity, EditorActivity.class);
+                activity.startActivity(intent2MainActivity);
 
             }
         });
