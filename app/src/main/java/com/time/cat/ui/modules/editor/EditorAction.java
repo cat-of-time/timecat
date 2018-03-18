@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.time.cat.R;
 import com.time.cat.helper.UndoRedoHelper;
 import com.time.cat.ui.modules.about.EditorHelpFragment;
 import com.time.cat.util.FileUtils;
+import com.time.cat.util.override.ToastUtil;
 
 import java.io.File;
 
@@ -269,7 +269,7 @@ public class EditorAction {
      */
     public void clearAll() {
         if (editText.getText().toString().equals("")) {
-            Toast.makeText(context, R.string.toast_content_empty, Toast.LENGTH_SHORT).show();
+            ToastUtil.w(R.string.toast_content_empty);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage(R.string.dialog_message_clear_all);
@@ -283,7 +283,7 @@ public class EditorAction {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     editText.setText("");
-                    Toast.makeText(context, R.string.toast_message_cleared, Toast.LENGTH_SHORT).show();
+                    ToastUtil.i(R.string.toast_message_cleared);
                 }
             });
             builder.show();

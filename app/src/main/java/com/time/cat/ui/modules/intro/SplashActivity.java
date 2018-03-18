@@ -41,14 +41,14 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         try {
             Intent intent = getIntent();
-            if (intent.getAction().equals(Constants.INSTANCE.getNOTIFY_SCREEN_CAPTURE_OVER_BROADCAST())) {
+            if (intent.getAction().equals(Constants.NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST)) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_NOFITY_SCREEN);
-                sendBroadcast(new Intent(Constants.INSTANCE.getSCREEN_CAPTURE_OVER_BROADCAST()));
+                sendBroadcast(new Intent(Constants.SCREEN_CAPTURE_OVER_BROADCAST));
                 finish();
                 return;
-            } else if (intent.getAction().equals(Constants.INSTANCE.getNOTIFY_UNIVERSAL_COPY_BROADCAST())) {
+            } else if (intent.getAction().equals(Constants.NOTIFY_UNIVERSAL_COPY_BROADCAST)) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_NOFITY_COPY);
-                sendBroadcast(new Intent(Constants.INSTANCE.getUNIVERSAL_COPY_BROADCAST()));
+                sendBroadcast(new Intent(Constants.UNIVERSAL_COPY_BROADCAST));
                 finish();
                 return;
             }

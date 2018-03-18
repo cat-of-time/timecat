@@ -28,7 +28,7 @@ public class HowToUseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_use);
 
-        SPHelper.save(Constants.INSTANCE.getHAD_ENTER_INTRO(), true);
+        SPHelper.save(Constants.HAD_ENTER_INTRO, true);
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
 

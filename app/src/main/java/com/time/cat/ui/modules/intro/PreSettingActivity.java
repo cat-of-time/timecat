@@ -50,9 +50,9 @@ public class PreSettingActivity extends BaseActivity {
     }
 
     private void refresh() {
-        controlByFloat.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getSHOW_FLOAT_VIEW(), false));
-        controlByNotify.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getIS_SHOW_NOTIFY(), false));
-        triggerByFloat.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getUSE_FLOAT_VIEW_TRIGGER(), true));
+        controlByFloat.setChecked(SPHelper.getBoolean(Constants.SHOW_FLOAT_VIEW, false));
+        controlByNotify.setChecked(SPHelper.getBoolean(Constants.IS_SHOW_NOTIFY, false));
+        triggerByFloat.setChecked(SPHelper.getBoolean(Constants.USE_FLOAT_VIEW_TRIGGER, true));
         isClickFloat = true;
         isClickNotify = true;
     }
@@ -80,9 +80,9 @@ public class PreSettingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 UrlCountUtil.onEvent(UrlCountUtil.PRE__FLOATVIEW, isChecked);
-                SPHelper.save(Constants.INSTANCE.getSHOW_FLOAT_VIEW(), isChecked);
-                sendBroadcast(new Intent(INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
-                sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                SPHelper.save(Constants.SHOW_FLOAT_VIEW, isChecked);
+                sendBroadcast(new Intent(Constants.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
+                sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
                 if (isClickFloat && isChecked) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getApplicationContext())) {
                         SnackBarUtil.show(buttonView, getString(R.string.punish_float_problem), getString(R.string.punish_float_action), new View.OnClickListener() {
@@ -111,9 +111,9 @@ public class PreSettingActivity extends BaseActivity {
         controlByNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getIS_SHOW_NOTIFY(), isChecked);
+                SPHelper.save(Constants.IS_SHOW_NOTIFY, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.PRE__NOTIFY, isChecked);
-                sendBroadcast(new Intent(INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
+                sendBroadcast(new Intent(Constants.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 if (isClickNotify && isChecked) {
                     if (!NotificationCheckUtil.areNotificationsEnabled(getApplicationContext())) {
                         SnackBarUtil.show(buttonView, getString(R.string.notify_enable), getString(R.string.notify_disabled_title), new View.OnClickListener() {
@@ -140,7 +140,7 @@ public class PreSettingActivity extends BaseActivity {
         triggerByFloat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getUSE_FLOAT_VIEW_TRIGGER(), isChecked);
+                SPHelper.save(Constants.USE_FLOAT_VIEW_TRIGGER, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.PRE__TRIGGER, isChecked);
             }
         });

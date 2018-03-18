@@ -15,11 +15,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.time.cat.R;
-import com.time.cat.data.model.events.ContentChangedEvent;
 import com.time.cat.data.StorageHelper;
-import com.time.cat.ui.modules.editor.EditorAction;
 import com.time.cat.data.async.SaveFileTask;
+import com.time.cat.data.model.events.ContentChangedEvent;
+import com.time.cat.ui.modules.editor.EditorAction;
 import com.time.cat.util.FileUtils;
+import com.time.cat.util.override.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -97,8 +98,7 @@ public class EditFragment extends BaseEditorFragment implements View.OnClickList
                 break;
             case R.id.save:
                 if (!StorageHelper.isExternalStorageWritable()) {
-                    Toast.makeText(context, R.string.toast_message_sdcard_unavailable,
-                            Toast.LENGTH_SHORT).show();
+                    ToastUtil.e(R.string.toast_message_sdcard_unavailable);
                     break;
                 }
                 if (!saved) {
@@ -174,12 +174,10 @@ public class EditFragment extends BaseEditorFragment implements View.OnClickList
                 // delete file, close fragment if success
                 boolean result = FileUtils.deleteFile(new File(filePath));
                 if (result) {
-                    Toast.makeText(context, R.string.toast_message_deleted,
-                            Toast.LENGTH_SHORT).show();
+                    ToastUtil.ok(R.string.toast_message_deleted);
                     context.getSupportFragmentManager().popBackStack();
                 } else {
-                    Toast.makeText(context, R.string.toast_message_delete_error,
-                            Toast.LENGTH_SHORT).show();
+                    ToastUtil.e(R.string.toast_message_delete_error);
                 }
                 break;
             case R.id.clear_all:
