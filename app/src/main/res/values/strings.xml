@@ -768,13 +768,13 @@
     <string name="orange_theme_mode" translatable="false">Orange</string>
     <string name="deep_orange_theme_mode" translatable="false">Deep Orange</string>
 
-    <string name="monday_letter">M</string>
-    <string name="tuesday_letter">T</string>
-    <string name="wednesday_letter">W</string>
-    <string name="thursday_letter">T</string>
-    <string name="friday_letter">F</string>
-    <string name="saturday_letter">S</string>
-    <string name="sunday_letter">S</string>
+    <string name="monday_letter">Mon</string>
+    <string name="tuesday_letter">Tue</string>
+    <string name="wednesday_letter">Wed</string>
+    <string name="thursday_letter">Thu</string>
+    <string name="friday_letter">Fri</string>
+    <string name="saturday_letter">Sat</string>
+    <string name="sunday_letter">Sun</string>
 
 
     <!-- Weekly view -->
