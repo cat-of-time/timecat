@@ -36,7 +36,11 @@
             android:title="@string/main_menu_change_theme"
             android:visible="false"
             app:showAsAction="ifRoom"/>
-
+        <item
+            android:id="@+id/main_menu_refresh_routine"
+            android:icon="@drawable/ic_autorenew_white_24dp"
+            android:title="@string/main_menu_refresh_schedule"
+            app:showAsAction="always"/>
         <item
             android:id="@+id/main_menu_routines_help"
             android:icon="@drawable/ic_help_white_48dp"
