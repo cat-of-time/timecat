@@ -73,16 +73,12 @@ public class DB {
 
             db.getReadableDatabase().enableWriteAheadLogging();
 
-//            Medicines = new MedicineDao(db);
             Routines = new RoutineDao(db);
             Schedules = new ScheduleDao(db);
             ScheduleItems = new ScheduleItemDao(db);
-//            DailyScheduleItems = new DailyScheduleItemDao(db);
-//            Prescriptions = new PrescriptionDao(db);
-//            Groups = new HomogeneousGroupDao(db);
-//            Pickups = new PickupInfoDao(db);
             users = new UserDao(db);
             notes = new NoteDao(db);
+
             Log.v(TAG, "DB initialized " + DB.DB_NAME);
         }
 

@@ -37,16 +37,8 @@ import static com.time.cat.data.network.ConstantURL.SEGMENT_URL;
 import static com.time.cat.data.network.ConstantURL.YOUDAO_URL;
 
 public class RetrofitHelper {
-//    private static final String SEGMENT_URL = "http://api.bosonnlp.com/";
-//    private static final String YOUDAO_URL = "http://fanyi.youdao.com/";
-//    private static final String OCR_URL = "https://api.ocr.space/";
-//    private static final String MICSOFT_OCR_URL = "https://api.projectoxford.ai/";
-//    //     private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
-//    private static final String IMAGE_UPLOAD_URL = "https://sm.ms/";
-//    private static final String PIC_UPLOAD_URL = "https://yotuku.cn/";
-//    private static final String BASE_URL = "http://192.168.88.105:8000/";
 
-    static Gson gson = new GsonBuilder().setLenient().create();
+    private static Gson gson = new GsonBuilder().setLenient().create();
     private static OkHttpClient mOkHttpClient;
 
     static {
@@ -178,7 +170,7 @@ public class RetrofitHelper {
 //                    @Override
 //                    public void call(User user) {
 ////                        saveUser(user);//保存用户信息到本地
-//                        DB.users().saveAndFireEvent(ModelUtil.toDBUser(user));
+//                        DB.users().saveAndFireEvent(Converter.toDBUser(user));
 //                        Log.e(TAG, "保存用户信息到本地" + user.toString());
 //                    }
 //                })

@@ -1,4 +1,4 @@
-package com.time.cat.helper;
+package com.time.cat.data;
 
 import android.app.NotificationManager;
 import android.content.ClipData;
@@ -14,14 +14,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import com.time.cat.BuildConfig;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.data.ConstantsKt;
-import com.time.cat.data.PrefGetter;
+import com.time.cat.helper.DeviceNameGetter;
 import com.time.cat.util.string.StringUtil;
 
 import java.util.Locale;
@@ -34,19 +31,13 @@ import es.dmoral.toasty.Toasty;
 
 public class AppHelper {
 
-    public static void hideKeyboard(@NonNull View view) {
-        InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputManager != null) {
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    @Nullable public static Fragment getFragmentByTag(@NonNull FragmentManager fragmentManager, @NonNull String tag) {
+    @Nullable
+    public static Fragment getFragmentByTag(@NonNull FragmentManager fragmentManager, @NonNull String tag) {
         return fragmentManager.findFragmentByTag(tag);
     }
 
     public static void cancelNotification(@NonNull Context context) {
-        cancelNotification(context, ConstantsKt.REQUEST_CODE);
+        cancelNotification(context, Constants.REQUEST_CODE);
     }
 
     public static void cancelNotification(@NonNull Context context, int id) {
@@ -73,12 +64,12 @@ public class AppHelper {
     }
 
     public static boolean isNightMode(@NonNull Resources resources) {
-        @PrefGetter.ThemeType int themeType = PrefGetter.getThemeType(resources);
-        return themeType != PrefGetter.LIGHT;
+        @Config.ThemeType int themeType = new Config(TimeCatApp.getInstance()).getThemeType(resources);
+        return themeType != Config.LIGHT;
     }
 
     public static void updateAppLanguage(@NonNull Context context) {
-        String lang = PrefGetter.getAppLanguage();
+        String lang = new Config(context).getAppLanguage();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             updateResources(context, lang);
         }
@@ -103,7 +94,8 @@ public class AppHelper {
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
     }
 
-    @NonNull private static Locale getLocale(String language) {
+    @NonNull
+    private static Locale getLocale(String language) {
         Locale locale = null;
         if (language.equalsIgnoreCase("zh-rCN")) {
             locale = Locale.SIMPLIFIED_CHINESE;
@@ -128,14 +120,7 @@ public class AppHelper {
     }
 
     public static boolean isEmulator() {
-        return Build.FINGERPRINT.startsWith("generic")
-                || Build.FINGERPRINT.startsWith("unknown")
-                || Build.MODEL.contains("google_sdk")
-                || Build.MODEL.contains("Emulator")
-                || Build.MODEL.contains("Android SDK built for x86")
-                || Build.MANUFACTURER.contains("Genymotion")
-                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
-                || "google_sdk".equals(Build.PRODUCT);
+        return Build.FINGERPRINT.startsWith("generic") || Build.FINGERPRINT.startsWith("unknown") || Build.MODEL.contains("google_sdk") || Build.MODEL.contains("Emulator") || Build.MODEL.contains("Android SDK built for x86") || Build.MANUFACTURER.contains("Genymotion") || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) || "google_sdk".equals(Build.PRODUCT);
     }
 
     private static boolean isInstalledFromPlaySore(@NonNull Context context) {

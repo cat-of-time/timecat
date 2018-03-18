@@ -22,13 +22,13 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.j256.ormlite.dao.Dao;
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.TimeCatApp;
+import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.data.model.APImodel.User;
 import com.time.cat.data.model.DBmodel.DBRoutine;
 import com.time.cat.data.model.DBmodel.DBUser;
-import com.time.cat.util.model.ModelUtil;
 
 import java.sql.SQLException;
 
@@ -82,7 +82,7 @@ public class UserDao extends GenericDao<DBUser, Long> {
     public void updateActiveUserAndFireEvent(DBUser activeDBUser, User user) {
         Object event = new PersistenceEvents.UserUpdateEvent(activeDBUser);
         try {
-            update(ModelUtil.toActiveDBUser(activeDBUser, user));
+            update(Converter.toActiveDBUser(activeDBUser, user));
         } catch (SQLException e) {
             e.printStackTrace();
         }

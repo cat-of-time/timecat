@@ -1,14 +1,24 @@
 package com.time.cat.data.model.DBmodel
 
-import com.time.cat.data.*
+import com.time.cat.data.Constants.CALDAV
+import com.time.cat.data.Constants.DAY
+import com.time.cat.data.Constants.FLAG_ALL_DAY
+import com.time.cat.data.Constants.MONTH
+import com.time.cat.data.Constants.REMINDER_OFF
+import com.time.cat.data.Constants.REPEAT_MONTH_ORDER_WEEKDAY
+import com.time.cat.data.Constants.REPEAT_MONTH_ORDER_WEEKDAY_USE_LAST
+import com.time.cat.data.Constants.REPEAT_MONTH_SAME_DAY
+import com.time.cat.data.Constants.SOURCE_SIMPLE_CALENDAR
+import com.time.cat.data.Constants.WEEK
+import com.time.cat.data.Constants.YEAR
 import com.time.cat.helper.Formatter
 import com.time.cat.helper.seconds
 import org.joda.time.DateTime
 import java.io.Serializable
 
 data class Event(var id: Int = 0,
-                 var startTS: Int = 0,
-                 var endTS: Int = 0,
+                 var startTS: Long = 0,
+                 var endTS: Long = 0,
                  var title: String = "",
                  var description: String = "",
                  var reminder1Minutes: Int = -1,
@@ -109,7 +119,7 @@ data class Event(var id: Int = 0,
     fun getReminders() = setOf(reminder1Minutes, reminder2Minutes, reminder3Minutes).filter { it != REMINDER_OFF }
 
     // properly return the start time of all-day events as midnight
-    fun getEventStartTS(): Int {
+    fun getEventStartTS(): Long {
         return if (getIsAllDay()) {
             Formatter.getDateTimeFromTS(startTS).withTime(0, 0, 0, 0).seconds()
         } else {

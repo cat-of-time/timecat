@@ -23,10 +23,10 @@ import android.util.Log;
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
+import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.APImodel.Note;
-import com.time.cat.util.model.ModelUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class NoteDao extends GenericDao<DBNote, Long> {
     public void safeSaveNoteAndFireEvent(Note note) {
         Log.i(TAG, "返回的任务信息 --> " + note.toString());
         //保存用户信息到本地
-        DBNote dbNote = ModelUtil.toDBNote(note);
+        DBNote dbNote = Converter.toDBNote(note);
         List<DBNote> existing = null;
         try {
             existing = DB.notes().queryForEq(DBNote.COLUMN_URL, dbNote.getUrl());
@@ -112,7 +112,7 @@ public class NoteDao extends GenericDao<DBNote, Long> {
     public void safeSaveNote(Note note) {
         Log.i(TAG, "返回的任务信息 --> " + note.toString());
         //保存用户信息到本地
-        DBNote dbNote = ModelUtil.toDBNote(note);
+        DBNote dbNote = Converter.toDBNote(note);
         List<DBNote> existing = null;
         try {
             existing = DB.notes().queryForEq(DBNote.COLUMN_URL, dbNote.getUrl());
@@ -188,7 +188,7 @@ public class NoteDao extends GenericDao<DBNote, Long> {
     public void updateActiveUserAndFireEvent(DBNote activeDBNote, Note user) {
 //        Object event = new PersistenceEvents.UserUpdateEvent(activeDBNote);
 //        try {
-//            update(ModelUtil.toActiveDBNote(activeDBNote, user));
+//            update(Converter.toActiveDBNote(activeDBNote, user));
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }

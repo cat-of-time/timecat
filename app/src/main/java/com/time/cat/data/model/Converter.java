@@ -1,4 +1,4 @@
-package com.time.cat.util.model;
+package com.time.cat.data.model;
 
 import com.time.cat.data.network.ConstantURL;
 import com.time.cat.ui.widgets.theme.ThemeManager;
@@ -15,7 +15,7 @@ import com.time.cat.util.source.AvatarManager;
  * @date 2018/2/6
  * @discription 实现本地数据库model和网络请求model的转化
  */
-public class ModelUtil {
+public class Converter {
     public static DBUser toDBUser(User u) {
         DBUser dbUser = new DBUser();
         dbUser.setEmail(u.getEmail());

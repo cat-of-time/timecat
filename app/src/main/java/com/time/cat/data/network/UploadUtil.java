@@ -122,7 +122,7 @@ public class UploadUtil {
                 //  sb.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINE_END);
                 sb.append("Content-Type:  image/*" + LINE_END);
                 sb.append(LINE_END);
-                Log.e("shang", sb.toString());
+                Log.e("timecat", sb.toString());
                 dos.write(sb.toString().getBytes());
 //                InputStream is = new FileInputStream(file);
 //                byte[] bytes = new byte[1024];
