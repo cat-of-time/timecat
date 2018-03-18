@@ -18,14 +18,14 @@ import com.microsoft.projectoxford.vision.contract.Line;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.data.model.APImodel.ImageUpload;
 import com.time.cat.ui.widgets.dialog.DialogFragment;
 import com.time.cat.ui.widgets.dialog.SimpleDialog;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.OcrAnalyser;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.cropper.BitmapUtil;
@@ -38,7 +38,7 @@ import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.override.ToastUtil;
 
-import static com.time.cat.ui.activity.screen.CaptureResultActivity.HTTP_IMAGE_BAIDU_COM;
+import static com.time.cat.ui.modules.screen.CaptureResultActivity.HTTP_IMAGE_BAIDU_COM;
 
 public class OcrActivity extends BaseActivity implements View.OnClickListener, CropHandler {
     private static final String TAG = OcrActivity.class.getName();
@@ -113,7 +113,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show(R.string.upload_img);
+                ToastUtil.i(R.string.upload_img);
                 OcrAnalyser.getInstance().uploadImage(OcrActivity.this, img_path, new OcrAnalyser.ImageUploadCallBack() {
                     @Override
                     public void onSuccess(ImageUpload imageUpload) {
@@ -125,14 +125,14 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                             intent.setClass(OcrActivity.this, WebActivity.class);
                             startActivity(intent);
                         } else {
-                            ToastUtil.show(R.string.upload_img_fail);
+                            ToastUtil.e(R.string.upload_img_fail);
                         }
 
                     }
 
                     @Override
                     public void onFail(Throwable throwable) {
-                        ToastUtil.show(throwable.getMessage());
+                        ToastUtil.e(throwable.getMessage());
                     }
                 });
             }
@@ -249,9 +249,9 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     private void uploadImage4Ocr(Uri uri) {
         String img_path = ImageUriUtil.getImageAbsolutePath(this, uri);
         findViewById(R.id.hint).setVisibility(View.VISIBLE);
-        if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
-            int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
-            SPHelper.save(ConstantUtil.OCR_TIME, time);
+        if (SPHelper.getInt(Constants.OCR_TIME, 0) == Constants.OCR_TIME_TO_ALERT) {
+            int time = SPHelper.getInt(Constants.OCR_TIME, 0) + 1;
+            SPHelper.save(Constants.OCR_TIME, time);
             return;
         }
         editText.setText(R.string.recognize);
@@ -264,8 +264,8 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             @Override
             public void onFail(Throwable throwable) {
 
-                if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
-                    ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+                if (SPHelper.getString(Constants.DIY_OCR_KEY, "").equals("")) {
+                    ToastUtil.w_long(getResources().getString(R.string.ocr_useup_toast));
                 }
                 editText.setText(R.string.sorry_for_parse_fail);
                 mPicReOcr.setVisibility(View.VISIBLE);

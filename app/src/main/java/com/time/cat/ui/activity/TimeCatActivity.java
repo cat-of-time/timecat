@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.data.network.RetrofitHelper;
 import com.time.cat.R;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
@@ -29,7 +29,7 @@ import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
 import com.time.cat.ui.widgets.timecat.TimeCatLayout;
 import com.time.cat.ui.widgets.timecat.TimeCatLayoutWrapper;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.SharedIntentHelper;
 import com.time.cat.util.UrlCountUtil;
@@ -102,7 +102,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     @Override
     public void onBackPressed() {
         if (timeCatLayoutWrapper != null && timeCatLayoutWrapper.getVisibility() == View.GONE) {
-            boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
+            boolean stickSharebar = SPHelper.getBoolean(Constants.IS_STICK_SHAREBAR, false);
             if (mAppsRecyclerViewLL != null) {
                 mAppsRecyclerViewLL.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
             }
@@ -122,7 +122,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
     @Override
     public void initView() {//必须调用
-        boolean fullScreen = SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN, false);
+        boolean fullScreen = SPHelper.getBoolean(Constants.IS_FULL_SCREEN, false);
         initContentView(fullScreen);
         initTextString();
         initTimeCatView(fullScreen);
@@ -139,8 +139,8 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     }
 
     private void initContentView(boolean fullScreen) {
-        alpha = SPHelper.getInt(ConstantUtil.TIMECAT_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
+        alpha = SPHelper.getInt(Constants.TIMECAT_ALPHA, 100);
+        lastPickedColor = SPHelper.getInt(Constants.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
         int value = (int) ((alpha / 100.0f) * 255);
 
         RegexUtil.refreshSymbolSelection();
@@ -192,12 +192,12 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     }
 
     private void initTimeCatView(boolean fullScreen) {
-        remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL, true);
-        boolean stickHeader = SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER, false);
-        int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
-        int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
-        int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
-        int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
+        remainSymbol = SPHelper.getBoolean(Constants.REMAIN_SYMBOL, true);
+        boolean stickHeader = SPHelper.getBoolean(Constants.IS_STICK_HEADER, false);
+        int text = SPHelper.getInt(Constants.TEXT_SIZE, Constants.DEFAULT_TEXT_SIZE);
+        int line = SPHelper.getInt(Constants.LINE_MARGIN, Constants.DEFAULT_LINE_MARGIN);
+        int item = SPHelper.getInt(Constants.ITEM_MARGIN, Constants.DEFAULT_ITEM_MARGIN);
+        int padding = SPHelper.getInt(Constants.ITEM_PADDING, ViewUtil.dp2px(Constants.DEFAULT_ITEM_PADDING));
 
 
         timeCatLayout = findViewById(R.id.timecat);
@@ -219,15 +219,15 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         timeCatLayout.setTextPadding(padding);
 
         timeCatLayoutWrapper.setShowSymbol(remainSymbol);
-        timeCatLayoutWrapper.setShowSection(SPHelper.getBoolean(ConstantUtil.REMAIN_SECTION, false));
+        timeCatLayoutWrapper.setShowSection(SPHelper.getBoolean(Constants.REMAIN_SECTION, false));
         timeCatLayoutWrapper.setActionListener(this);
-        timeCatLayoutWrapper.onSwitchType(SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false));
+        timeCatLayoutWrapper.onSwitchType(SPHelper.getBoolean(Constants.DEFAULT_LOCAL, false));
     }
 
     private void showAppList4OneStep() {
         mAppsRecyclerView = findViewById(R.id.app_list);
         mAppsRecyclerViewLL = findViewById(R.id.app_list_ll);
-        if (SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, true)) {
+        if (SPHelper.getBoolean(Constants.IS_STICK_SHAREBAR, true)) {
             mAppsRecyclerViewLL.setVisibility(View.VISIBLE);
             mAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             List<ResolveInfoWrap> addedItems = SharedIntentHelper.listFilterIntents(this);
@@ -245,7 +245,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
                             e.printStackTrace();
                         }
                     } else {
-                        ToastUtil.show("请选择文字");
+                        ToastUtil.w("请选择文字");
                     }
 
                 }
@@ -324,16 +324,16 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
                     loading.hide();
                     timeCatLayoutWrapper.setVisibility(View.VISIBLE);
 
-                    if (!SPHelper.getBoolean(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, false)) {
-                        ToastUtil.show(R.string.bb_long_press_toast);
-                        SPHelper.save(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST, true);
+                    if (!SPHelper.getBoolean(Constants.HAD_SHOW_LONG_PRESS_TOAST, false)) {
+                        ToastUtil.i(R.string.bb_long_press_toast);
+                        SPHelper.save(Constants.HAD_SHOW_LONG_PRESS_TOAST, true);
                     }
                 }, throwable -> {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             LogUtil.d(throwable.toString());
-                            ToastUtil.show(R.string.no_internet_for_fenci);
+                            ToastUtil.w(R.string.no_internet_for_fenci);
 
                             timeCatLayoutWrapper.onSwitchType(true);
                         }
@@ -409,7 +409,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
             Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
             Matcher matcher = p.matcher(text);
             if (!matcher.matches()) {
-                uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url + URLEncoder.encode(text, "utf-8"));
+                uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(Constants.BROWSER_SELECTION, 0)).url + URLEncoder.encode(text, "utf-8"));
                 isUrl = false;
             } else {
                 uri = Uri.parse(text);
@@ -419,7 +419,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
                 isUrl = true;
             }
 
-            boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
+            boolean t = SPHelper.getBoolean(Constants.USE_LOCAL_WEBVIEW, true);
             Intent intent;
             if (t) {
                 intent = new Intent();
@@ -494,7 +494,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
                 @Override
                 public void onClick(View v) {
                     if (timeCatLayoutWrapper != null && timeCatLayoutWrapper.getVisibility() == View.GONE) {
-                        boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
+                        boolean stickSharebar = SPHelper.getBoolean(Constants.IS_STICK_SHAREBAR, false);
                         if (mAppsRecyclerViewLL != null) {
                             mAppsRecyclerViewLL.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
                         }
@@ -550,7 +550,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     @Override
     public void onAddTask(String text) {
         if (TextUtils.isEmpty(text)) {
-            ToastUtil.show("输入为空！");
+            ToastUtil.w("输入为空！");
             text = originString;
         }
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_ADDTASK);
@@ -569,15 +569,15 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         }
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_COPY);
 
-        Intent intent = new Intent(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
-        intent.putExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG, text);
+        Intent intent = new Intent(Constants.BROADCAST_SET_TO_CLIPBOARD);
+        intent.putExtra(Constants.BROADCAST_SET_TO_CLIPBOARD_MSG, text);
         sendBroadcast(intent);
         String finalText = text;
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 ClipboardUtils.setText(getApplicationContext(), finalText);
-                ToastUtil.show("已复制");
+                ToastUtil.ok("已复制");
                 finish();
             }
         }, 100);
@@ -595,13 +595,13 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
 
     @Override
     public void onSwitchSymbol(boolean isShow) {
-        SPHelper.save(ConstantUtil.REMAIN_SYMBOL, isShow);
+        SPHelper.save(Constants.REMAIN_SYMBOL, isShow);
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_REMAIN_SYMBOL);
     }
 
     @Override
     public void onSwitchSection(boolean isShow) {
-        SPHelper.save(ConstantUtil.REMAIN_SECTION, isShow);
+        SPHelper.save(Constants.REMAIN_SECTION, isShow);
         UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_REMAIN_SECTION);
     }
 

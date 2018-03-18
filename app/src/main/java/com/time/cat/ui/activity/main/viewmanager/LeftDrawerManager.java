@@ -36,11 +36,11 @@ import com.time.cat.data.network.RetrofitHelper;
 import com.time.cat.ui.modules.about.AboutActivity;
 import com.time.cat.ui.activity.main.MainActivity;
 import com.time.cat.ui.modules.setting.SettingActivity;
-import com.time.cat.ui.activity.user.LoginActivity;
-import com.time.cat.ui.activity.user.UserDetailActivity;
-import com.time.cat.ui.animation.ViewHelper;
+import com.time.cat.ui.modules.user.LoginActivity;
+import com.time.cat.ui.modules.user.UserDetailActivity;
+import com.time.cat.ui.widgets.animation.ViewHelper;
 import com.time.cat.ui.modules.theme.DialogThemeFragment;
-import com.time.cat.util.model.ModelUtil;
+import com.time.cat.data.model.Converter;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.source.AvatarManager;
@@ -94,7 +94,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         ArrayList<IProfile> profiles = new ArrayList<>();
         profiles.add(new ProfileSettingDrawerItem()
                 .withName("添加用户")
-                .withDescription("管理他人的指导方针")
+                .withDescription("用户列表")
                 .withIcon(new IconicsDrawable(mainActivity, GoogleMaterial.Icon.gmd_account_add).sizeDp(24).paddingDp(5).colorRes(R.color.dark_grey_home))
                 .withIdentifier(USER_ADD));
         for (DBUser p : DB.users().findAll()) {
@@ -138,15 +138,13 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                                 .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_calendar, R.color.black).alpha(110))
                                 .withIdentifier(SCHEDULES),
                         new PrimaryDrawerItem().withName(R.string.title_activity_routines)
-                                .withEnabled(false)
-                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(38))
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(110))
                                 .withIdentifier(ROUTINES),
                         new PrimaryDrawerItem().withName(R.string.title_activity_notes)
                                 .withIcon(noteIcon)
                                 .withIdentifier(NOTES),
                         new PrimaryDrawerItem().withName(R.string.title_activity_plans)
-                                .withEnabled(false)
-                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(38))
+                                .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(110))
                                 .withIdentifier(PLANS),
                         new PrimaryDrawerItem().withName(R.string.title_activity_medicines)
                                 .withEnabled(false)
@@ -234,7 +232,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
             case USERS:
                 Intent intent = new Intent(mainActivity, LoginActivity.class);
                 mainActivity.startActivityForResult(intent, REQUEST_LOGIN);
-                mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                mainActivity.overridePendingTransition(R.anim.push_left_to_right, R.anim.push_right_to_left);
                 drawer.setSelection(HOME, false);
                 break;
 
@@ -335,7 +333,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 launchActivity(intent);
             } else {
 //                LogUtil.e("login dbUser -->" + dbUser.toString());
-                RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
+                RetrofitHelper.getUserService().login(Converter.toAPIUser(dbUser)) //获取Observable对象
                         .compose(mainActivity.bindToLifecycle())
                         .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                         .observeOn(Schedulers.io())         //请求完成后在io线程中执行
@@ -358,14 +356,14 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                             public void onError(Throwable e) {
                                 //请求失败
                                 LogUtil.e(e.toString());
-                                ToastUtil.show("登录失败");
+                                ToastUtil.e("登录失败");
                             }
 
                             @Override
                             public void onNext(User user) {
                                 //请求成功
                                 Log.i(TAG, "登录成功" + user.toString());
-                                ToastUtil.show("登录成功");
+                                ToastUtil.ok("登录成功");
                             }
                         });
                 // 不管登录是否成功，都更新activeUser
@@ -452,14 +450,14 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
     private void launchActivity(Intent i) {
         mainActivity.startActivity(i);
-        mainActivity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        mainActivity.overridePendingTransition(R.anim.push_left_to_right, R.anim.push_right_to_left);
     }
 
     private boolean login(DBUser dbUser) {
         //本方法已起用
 //        LogUtil.e("login dbUser -->" + dbUser.toString());
         final boolean[] isSuccess = {false};
-        RetrofitHelper.getUserService().login(ModelUtil.toAPIUser(dbUser)) //获取Observable对象
+        RetrofitHelper.getUserService().login(Converter.toAPIUser(dbUser)) //获取Observable对象
                 .compose(mainActivity.bindToLifecycle())
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
@@ -482,7 +480,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                     public void onError(Throwable e) {
                         //请求失败
                         LogUtil.e(e.toString());
-                        ToastUtil.show("登录失败");
+                        ToastUtil.e("登录失败");
                     }
 
                     @Override
@@ -490,7 +488,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                         //请求成功
                         isSuccess[0] = true;
                         Log.i(TAG, "登录成功" + user.toString());
-                        ToastUtil.show("登录成功");
+                        ToastUtil.ok("登录成功");
                     }
                 });
         // 由于网络请求是异步，返回太快了，isSuccess[0] 一直为false，即使登录成功

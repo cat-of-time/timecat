@@ -21,11 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.activity.searchengine.listener.OnItemClickListener;
 import com.time.cat.data.model.APImodel.SearchEngine;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
 
 import java.util.List;
@@ -86,7 +86,7 @@ public class MenuAdapter extends SwipeMenuAdapter<MenuAdapter.DefaultViewHolder>
         public void setData(SearchEngine searchEngine, int position) {
             this.tvTitle.setText(searchEngine.title);
             this.tvUrl.setText(searchEngine.url);
-            if (SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0) == position) {
+            if (SPHelper.getInt(Constants.BROWSER_SELECTION, 0) == position) {
                 backGround.setBackgroundResource(R.drawable.borders);
             } else {
                 backGround.setBackgroundResource(R.drawable.transpate);

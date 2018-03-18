@@ -4,22 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
 import com.time.cat.ui.modules.notes.NotesFragment;
+import com.time.cat.ui.modules.plans.FileListFragment;
+import com.time.cat.ui.modules.routines.RoutinesFragment;
 import com.time.cat.ui.modules.schedules.SchedulesFragment;
-import com.time.cat.ui.modules.schedules_weekview.WeekFragmentsHolder;
-import com.time.cat.util.UrlCountUtil;
+import com.time.cat.ui.modules.schedules_weekview.RoutinesWeekFragment;
 import com.time.cat.util.view.ViewUtil;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ import java.util.List;
  * @discription null
  * @usage null
  */
-public class HistoryActivity extends BaseActivity implements ActivityPresenter{
+public class HistoryActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener{
     @SuppressWarnings("unused")
     private static final String TAG = "HistoryActivity";
 
@@ -66,8 +64,6 @@ public class HistoryActivity extends BaseActivity implements ActivityPresenter{
         cardView.addView(view);
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
         setContentView(cardView);
-//        setContentView(R.layout.activity_main);
-//        getWindow().setBackgroundDrawableResource(R.color.background_material_light_1);
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
         initView();
@@ -84,76 +80,42 @@ public class HistoryActivity extends BaseActivity implements ActivityPresenter{
 
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
     private List<Fragment> fragmentList;
-    private List<String> fragmentTitles;
 
+    private ImageView history_schedules;
+    private ImageView history_notes;
+    private ImageView history_routines;
+    private ImageView history_plans;
     @Override
     public void initView() {//必须调用
-        initFragments();
-        initViewPager();
-        initIndiator();
-        viewPager.setCurrentItem(1);
-    }
-
-    private void initViewPager() {
-        viewPager = findViewById(R.id.container);
-//        viewPager.setOffscreenPageLimit(3);
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public int getCount() {
-                return fragmentList.size();
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                return fragmentList.get(position);
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return fragmentTitles.get(position);
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-            }
-        });
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 3) {
-                    fragmentList.get(position).setUserVisibleHint(true);
-                }
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_FRAGMENT_SWITCHES);
-                super.onPageSelected(position);
-            }
-        });
-
-    }
-
-    private void initFragments() {
         fragmentList = new ArrayList<>();
-        fragmentTitles = new ArrayList<>();
-
         fragmentList.add(new SchedulesFragment());
-        fragmentList.add(new NotesFragment());
-        WeekFragmentsHolder weekFragmentsHolder = new WeekFragmentsHolder();
-        Bundle bundle = new Bundle();
-//        bundle.putString(WEEK_START_DATE_TIME, "0");
-        weekFragmentsHolder.setArguments(bundle);
-        fragmentList.add(weekFragmentsHolder);
-
-
-        fragmentTitles.add("任务");
-        fragmentTitles.add("笔记");
-        fragmentTitles.add("计划");
+        updateViewPager(0);
+        history_schedules = findViewById(R.id.history_schedules);
+        history_notes = findViewById(R.id.history_notes);
+        history_routines = findViewById(R.id.history_routines);
+        history_plans = findViewById(R.id.history_plans);
     }
 
-    private void initIndiator() {
-        tabLayout = findViewById(R.id.tablayout);
-        tabLayout.setupWithViewPager(viewPager);
+    private void updateViewPager(int id) {
+        Fragment fragment = getFragments(id);
+        for (Fragment fragment1:fragmentList) {
+            getSupportFragmentManager().beginTransaction().remove(fragment1).commitNow();
+        }
+        fragmentList.clear();
+        fragmentList.add(fragment);
+        getSupportFragmentManager().beginTransaction().add(R.id.fragments_container, fragment).commitNow();
+    }
+
+
+    private Fragment getFragments(int id) {
+        switch (id) {
+            case 0: return new SchedulesFragment();
+            case 1: return new RoutinesFragment();
+            case 2: return new NotesFragment();
+            case 3: return new FileListFragment();
+        }
+        return new RoutinesWeekFragment();
     }
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
 
@@ -169,10 +131,32 @@ public class HistoryActivity extends BaseActivity implements ActivityPresenter{
     //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
+        history_schedules.setOnClickListener(this);
+        history_routines.setOnClickListener(this);
+        history_notes.setOnClickListener(this);
+        history_plans.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.history_schedules:
+                updateViewPager(0);
+                break;
+            case R.id.history_routines:
+                updateViewPager(1);
+                break;
+            case R.id.history_notes:
+                updateViewPager(2);
+                break;
+            case R.id.history_plans:
+                updateViewPager(3);
+                break;
+        }
     }
 
     //-//<Listener>------------------------------------------------------------------------------
+
     //-//</Listener>-----------------------------------------------------------------------------
 
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------

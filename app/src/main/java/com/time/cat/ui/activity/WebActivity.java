@@ -25,12 +25,12 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.screen.CaptureResultActivity;
+import com.time.cat.ui.modules.screen.CaptureResultActivity;
 import com.time.cat.ui.activity.searchengine.SearchEngineActivity;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.override.ToastUtil;
@@ -73,7 +73,7 @@ public class WebActivity extends BaseActivity {
     private void initViews() {
         refreshSpinner();
 
-        browserSelection = SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0);
+        browserSelection = SPHelper.getInt(Constants.BROWSER_SELECTION, 0);
         this.mFrameLayout = findViewById(android.R.id.content);
         this.mContentLayout = findViewById(R.id.content_view);
         mContentLayout.removeAllViews();
@@ -172,7 +172,7 @@ public class WebActivity extends BaseActivity {
                     startActivity(intent);
                 } else {
                     UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_ENGINES, engines.get(position));
-//                SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
+//                SPHelper.save(Constants.BROWSER_SELECTION, position);
                     browserSelection = position;
                     if (isFistIn) {
                         isFistIn = false;
@@ -218,7 +218,7 @@ public class WebActivity extends BaseActivity {
             String url_ = getUrlStrBySelect(query);
             mWebView.loadUrl(url_);
         } else {
-            ToastUtil.show(R.string.no_query);
+            ToastUtil.w(R.string.no_query);
             mWebView.loadUrl("http://www.baidu.com");
         }
 

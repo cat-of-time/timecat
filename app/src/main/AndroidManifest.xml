@@ -65,7 +65,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".ui.activity.screen.CaptureResultActivity"
+            android:name=".ui.modules.screen.CaptureResultActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:process=":monitor"
@@ -88,7 +88,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.copy.CopyActivity"
+            android:name=".ui.modules.copy.CopyActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true"
@@ -201,7 +201,7 @@
             android:name=".ui.activity.floatviewwhitelist.FloatViewWhiteListActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
-            android:name=".ui.activity.screen.ScreenCaptureActivity"
+            android:name=".ui.modules.screen.ScreenCaptureActivity"
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleInstance"
@@ -250,7 +250,7 @@
             android:name=".ui.modules.intro.HowToUseActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
-            android:name=".ui.activity.share.ShareAppManagerActivity"
+            android:name=".ui.modules.share.ShareAppManagerActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".ui.modules.about.FeedbackActivity"
@@ -314,15 +314,15 @@
             android:process=":monitor"
             android:theme="@style/KeepAliveActivtyTheme" />
         <activity
-            android:name=".ui.activity.user.LoginActivity"
+            android:name=".ui.modules.user.LoginActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".ui.activity.user.SignupActivity"
+            android:name=".ui.modules.user.SignupActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".ui.modules.about.AboutActivity"
             android:theme="@style/BaseAppTheme" />
-        <activity android:name=".ui.activity.user.UserDetailActivity" />
+        <activity android:name=".ui.modules.user.UserDetailActivity" />
         <activity
             android:name=".ui.modules.about.SchedulesHelpActivity"
             android:theme="@style/Theme.Intro" />
@@ -346,6 +346,8 @@
         <activity android:name=".ui.modules.editor.EditorActivity"
                   android:screenOrientation="portrait"
                   android:launchMode="singleTop"/>
+        <activity android:name=".ui.modules.about.RoutinesHelpActivity"
+                  android:theme="@style/Theme.Intro" />
 
         <receiver android:name=".TimeCatAppWidget">
             <intent-filter>

@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.ui.activity.searchengine.listener.OnItemClickListener;
 import com.time.cat.ui.activity.searchengine.view.ListViewDecoration;
@@ -22,7 +22,7 @@ import com.time.cat.data.model.APImodel.SearchEngine;
 import com.time.cat.ui.widgets.dialog.Dialog;
 import com.time.cat.ui.widgets.dialog.DialogFragment;
 import com.time.cat.ui.widgets.dialog.SimpleDialog;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
@@ -94,7 +94,7 @@ public class SearchEngineActivity extends BaseActivity {
     private OnItemClickListener onItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
-            SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
+            SPHelper.save(Constants.BROWSER_SELECTION, position);
             SnackBarUtil.show(swipeMenuRecyclerView, getString(R.string.set_search_pre) + searchEngines.get(position).title + getString(R.string.set_search_end));
             mMenuAdapter.notifyDataSetChanged();
         }
@@ -115,8 +115,8 @@ public class SearchEngineActivity extends BaseActivity {
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_SEARCH_ENGINE_DEL);
                     mMenuAdapter.notifyItemRemoved(adapterPosition);
                     searchEngines.remove(adapterPosition);
-                    if (SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0) == adapterPosition) {
-                        SPHelper.save(ConstantUtil.BROWSER_SELECTION, 0);
+                    if (SPHelper.getInt(Constants.BROWSER_SELECTION, 0) == adapterPosition) {
+                        SPHelper.save(Constants.BROWSER_SELECTION, 0);
                     }
                     SearchEngineUtil.getInstance().save(searchEngines);
                     break;

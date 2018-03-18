@@ -9,9 +9,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -19,10 +16,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.haibin.calendarview.Calendar;
@@ -33,20 +30,23 @@ import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.activity.main.listener.OnPlanViewClickListener;
+import com.time.cat.ui.activity.main.listener.OnRoutineViewClickListener;
 import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
 import com.time.cat.ui.activity.main.viewmanager.FabMenuManager;
 import com.time.cat.ui.activity.main.viewmanager.LeftDrawerManager;
-import com.time.cat.ui.activity.user.LoginActivity;
+import com.time.cat.ui.adapter.CustomPagerViewAdapter;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.modules.about.RoutinesHelpActivity;
 import com.time.cat.ui.modules.about.SchedulesHelpActivity;
 import com.time.cat.ui.modules.notes.NotesFragment;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.modules.plans.FileListFragment;
-import com.time.cat.ui.modules.routines.RoutinesListFragment;
+import com.time.cat.ui.modules.routines.RoutinesFragment;
 import com.time.cat.ui.modules.schedules.SchedulesFragment;
 import com.time.cat.ui.modules.theme.DialogThemeFragment;
+import com.time.cat.ui.modules.user.LoginActivity;
+import com.time.cat.ui.widgets.navigation.OnlyIconItemView;
 import com.time.cat.ui.widgets.navigation.SpecialTab;
 import com.time.cat.ui.widgets.navigation.SpecialTabRound;
 import com.time.cat.ui.widgets.theme.ThemeManager;
@@ -55,17 +55,19 @@ import com.time.cat.ui.widgets.viewpaper.CustomPagerView;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.view.ScreenUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
+
+import static com.time.cat.data.Constants.ROUTINES_VIEW_TYPE;
+import static com.time.cat.data.Constants.SCHEDULES_VIEW_TYPE;
 
 /**
  * @author dlink
@@ -232,8 +234,8 @@ public class MainActivity extends BaseActivity implements
         schedulesFragment.setOnDateChangeListener(this);
         setOnViewClickListener(schedulesFragment);
 
-        RoutinesListFragment routinesListFragment = new RoutinesListFragment();
-//        SFragment routinesListFragment = new SFragment();
+        RoutinesFragment routinesFragment = new RoutinesFragment();
+        setOnViewClickListener(routinesFragment);
 
         NotesFragment notesFragment = new NotesFragment();
         setOnViewClickListener(notesFragment);
@@ -246,7 +248,7 @@ public class MainActivity extends BaseActivity implements
 
         customPagerViewAdapter = new CustomPagerViewAdapter(getSupportFragmentManager());
         customPagerViewAdapter.addFragment(schedulesFragment);
-        customPagerViewAdapter.addFragment(routinesListFragment);
+        customPagerViewAdapter.addFragment(routinesFragment);
         customPagerViewAdapter.addFragment(notesFragment);
         customPagerViewAdapter.addFragment(fileListFragment);
         assert customPagerView != null;
@@ -277,30 +279,74 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void setNavigationBar() {
+        BaseTabItem tab1 = newItem(
+                R.drawable.ic_schedules_grey_24dp,
+                R.drawable.ic_schedules_black_24dp,
+                getResources().getString(R.string.title_schedules)
+        );
+        tab1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new MaterialDialog.Builder(MainActivity.this)
+                        .content("改变 [日程页面] 视图")
+                        .positiveText("确定")
+                        .items(R.array.schedules_view_types)
+                        .itemsCallbackSingleChoice(
+                                SPHelper.getInt(SCHEDULES_VIEW_TYPE, 0),
+                                (dialog, view, which, text) -> {
+                                    SPHelper.save(SCHEDULES_VIEW_TYPE, which);
+                                    ToastUtil.ok("设置成功！");
+                                    customPagerViewAdapter.notifyDataChanged();
+                                    return true;
+                                }
+                        )
+                        .negativeText("取消")
+                        .onNegative((dialog, which) -> dialog.dismiss())
+                        .show();
+                return false;
+            }
+        });
+        BaseTabItem tab2 = newItem(
+                R.drawable.ic_routines_grey_24dp,
+                R.drawable.ic_routines_black_24dp,
+                getResources().getString(R.string.title_routines)
+        );
+        tab2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new MaterialDialog.Builder(MainActivity.this)
+                        .content("改变 [生物钟页面] 视图")
+                        .positiveText("确定")
+                        .items(R.array.routines_view_types)
+                        .itemsCallbackSingleChoice(
+                                SPHelper.getInt(ROUTINES_VIEW_TYPE, 0),
+                                (dialog, view, which, text) -> {
+                                    SPHelper.save(ROUTINES_VIEW_TYPE, which);
+                                    ToastUtil.ok("设置成功！");
+                                    customPagerViewAdapter.notifyDataChanged();
+                                    return true;
+                                }
+                        )
+                        .negativeText("取消")
+                        .onNegative((dialog, which) -> dialog.dismiss())
+                        .show();
+                return false;
+            }
+        });
         navigationController = navigation.custom()
-                .addItem(newItem(
-                        R.drawable.ic_schedules_black_24dp,
-                        R.drawable.ic_schedules_blue_24dp,
-                        getResources().getString(R.string.title_schedules)
+                .addItem(tab1)
+                .addItem(tab2)
+                .addItem(newIconItem(
+                        R.drawable.ic_add_circle_blue_24dp
                 ))
                 .addItem(newItem(
-                        R.drawable.ic_routines_black_24dp,
-                        R.drawable.ic_routines_blue_24dp,
-                        getResources().getString(R.string.title_routines)
-                ))
-                .addItem(newRoundItem(
-                        R.drawable.ic_add_black_24dp,
-                        R.drawable.ic_add_blue_24dp,
-                        getResources().getString(R.string.title_add)
-                ))
-                .addItem(newItem(
+                        R.drawable.ic_notes_grey_24dp,
                         R.drawable.ic_notes_black_24dp,
-                        R.drawable.ic_notes_blue_24dp,
                         getResources().getString(R.string.title_notes)
                 ))
                 .addItem(newItem(
+                        R.drawable.ic_plans_active_grey_24dp,
                         R.drawable.ic_plans_active_black_24dp,
-                        R.drawable.ic_plans_active_blue_24dp,
                         getResources().getString(R.string.title_plans)
                 ))
                 .build();
@@ -327,19 +373,12 @@ public class MainActivity extends BaseActivity implements
             @Override
             public void onRepeat(int index) {
                 //重复选中时触发
-//                if (index == 0) {
-//                    WeekFragmentsHolder weekFragmentsHolder = new WeekFragmentsHolder();
-//                    Bundle bundle = new Bundle();
-//                    weekFragmentsHolder.setArguments(bundle);
-//                    customPagerViewAdapter.replace(index, weekFragmentsHolder);
-////                    customPagerView.setAdapter(customPagerViewAdapter);
-//                    LogUtil.e("repeat to change");
-//                }
                 if (index == 2) {
                     launchActivity(new Intent(MainActivity.this, InfoOperationActivity.class));
                 }
             }
         });
+
     }
 
     /**
@@ -348,8 +387,8 @@ public class MainActivity extends BaseActivity implements
     private BaseTabItem newItem(int drawable, int checkedDrawable, String text) {
         SpecialTab mainTab = new SpecialTab(this);
         mainTab.initialize(drawable, checkedDrawable, text);
-        mainTab.setTextDefaultColor(0xFF888888);
-        mainTab.setTextCheckedColor(0xFF03A9F4);
+        mainTab.setTextDefaultColor(0x50000000);
+        mainTab.setTextCheckedColor(0xff000000);
         return mainTab;
     }
 
@@ -361,6 +400,13 @@ public class MainActivity extends BaseActivity implements
         mainTab.initialize(drawable, checkedDrawable, text);
         mainTab.setTextDefaultColor(0xFF888888);
         mainTab.setTextCheckedColor(0xff03A9F4);
+        return mainTab;
+    }
+
+    private BaseTabItem newIconItem(int drawable) {
+        OnlyIconItemView mainTab = new OnlyIconItemView(this);
+        mainTab.initialize(drawable);
+
         return mainTab;
     }
     //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
@@ -469,7 +515,7 @@ public class MainActivity extends BaseActivity implements
                 activeUser = DB.users().findOneBy(DBUser.COLUMN_EMAIL, email);
                 DB.users().setActive(activeUser);
                 // 设置用户登录后的界面
-                ToastUtil.show("登录成功！");
+                ToastUtil.ok("登录成功！");
             }
         }
     }
@@ -534,6 +580,15 @@ public class MainActivity extends BaseActivity implements
                 if (mScheduleViewClickListener != null) {
                     mScheduleViewClickListener.onViewTodayClick();
                 }
+                return true;
+            case R.id.main_menu_refresh_routine:
+                showRefreshAnimation(item);
+                if (mRoutineViewClickListener != null) {
+                    mRoutineViewClickListener.onViewRefreshClick();
+                }
+                return true;
+            case R.id.main_menu_routines_help:
+                launchActivity(new Intent(this, RoutinesHelpActivity.class));
                 return true;
 
             // 以下是note menu group
@@ -750,12 +805,11 @@ public class MainActivity extends BaseActivity implements
 
     }
     public void onUserUpdate(DBUser user) {
-//        DB.users().setActive(user, this);
         leftDrawer.onUserUpdated(user);
         leftDrawer.updateHeaderBackground(user);
 
 //        fabMgr.onUserUpdate(user);
-        refreshTheme(MainActivity.this, user.color());
+        refreshTheme(this, user.color());
     }
     //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
 
@@ -764,6 +818,11 @@ public class MainActivity extends BaseActivity implements
     private OnScheduleViewClickListener mScheduleViewClickListener;
     public void setOnViewClickListener(OnScheduleViewClickListener onViewClickListener) {
         mScheduleViewClickListener = onViewClickListener;
+    }
+
+    private OnRoutineViewClickListener mRoutineViewClickListener;
+    public void setOnViewClickListener(OnRoutineViewClickListener onViewClickListener) {
+        mRoutineViewClickListener = onViewClickListener;
     }
 
     private OnNoteViewClickListener mNoteViewClickListener;
@@ -776,47 +835,5 @@ public class MainActivity extends BaseActivity implements
         mPlanViewClickListener = onViewClickListener;
     }
     //</回调接口>-------------------------------------------------------------------------------------
-
-
-    //<内部类>---尽量少用----------------------------------------------------------------------------
-    static class CustomPagerViewAdapter extends FragmentPagerAdapter {
-        private final List<BaseFragment> mFragments = new ArrayList<>();
-
-        public CustomPagerViewAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        public void addFragment(BaseFragment fragment) {
-            mFragments.add(fragment);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            //super.destroyItem(container, position, object);
-            //截断， 使fragment持久化，提高性能
-        }
-
-        public void replace(int position, BaseFragment baseFragment) {
-            mFragments.set(position, baseFragment);
-            notifyDataSetChanged();
-        }
-
-        public void notifyDataChanged() {
-            for (int i = 0; i < getCount(); i++) {
-                mFragments.get(i).notifyDataChanged();
-            }
-        }
-    }
-    //</内部类>---尽量少用---------------------------------------------------------------------------
 
 }

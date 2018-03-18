@@ -5,12 +5,6 @@ package com.time.cat.ui.activity.main.listener;
  * @date 2018/1/25
  * @discription
  */
-public interface OnScheduleViewClickListener {
-    void onViewTodayClick();
-
+public interface OnRoutineViewClickListener {
     void onViewRefreshClick();
-
-    void onViewChangeMarkThemeClick();
-
-    void onViewExpand();
 }

@@ -21,11 +21,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.shang.utils.StatusBarCompat;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.baseCard.DividerItemDecoration;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
 
@@ -72,7 +72,7 @@ public class WhiteListActivity extends BaseActivity {
         mSelectionDbHelper = new SelectionDbHelper(this);
         initView();
 
-        ToastUtil.show(R.string.white_list_tip);
+        ToastUtil.i(R.string.white_list_tip);
     }
 
     @Override
@@ -336,7 +336,7 @@ public class WhiteListActivity extends BaseActivity {
     private void saveSelectedApp() {
         if (mCanOpenApplicationInfos != null) {
             mSelectionDbHelper.insertAll(mCanOpenApplicationInfos);
-            sendBroadcast(new Intent(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST));
+            sendBroadcast(new Intent(Constants.REFRESH_WHITE_LIST_BROADCAST));
         }
     }
 

@@ -19,12 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.utils.StatusBarCompat;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.baseCard.DividerItemDecoration;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 import com.time.cat.util.RunningTaskUtil;
 import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
@@ -76,7 +76,7 @@ public class FloatViewWhiteListActivity extends BaseActivity {
 
                 @Override
                 public void onNegative() {
-                    ToastUtil.show(R.string.float_white_list_nagetive);
+                    ToastUtil.w(R.string.float_white_list_nagetive);
                 }
             });
         }
@@ -238,10 +238,10 @@ public class FloatViewWhiteListActivity extends BaseActivity {
     }
 
     private void querySelectedApp() {
-        int numbers = SPHelper.getInt(ConstantUtil.FLOAT_WHITE_LIST_COUNT, 0);
+        int numbers = SPHelper.getInt(Constants.FLOAT_WHITE_LIST_COUNT, 0);
         List<String> selectedPackageNames = new ArrayList<>();
         for (int i = 0; i < numbers; i++) {
-            selectedPackageNames.add(SPHelper.getString(ConstantUtil.FLOAT_WHITE_LIST + i, ""));
+            selectedPackageNames.add(SPHelper.getString(Constants.FLOAT_WHITE_LIST + i, ""));
         }
         for (AppListAdapter.ApplicationInfoWrap app : mCanOpenApplicationInfos) {
             app.isSelected = selectedPackageNames.contains(app.applicationInfo.packageName);
@@ -308,13 +308,13 @@ public class FloatViewWhiteListActivity extends BaseActivity {
                 }
             }
             int numbers = selectedPackageNames.size();
-            SPHelper.save(ConstantUtil.FLOAT_WHITE_LIST_COUNT, numbers);
+            SPHelper.save(Constants.FLOAT_WHITE_LIST_COUNT, numbers);
 
             for (int i = 0; i < numbers; i++) {
-                SPHelper.save(ConstantUtil.FLOAT_WHITE_LIST + i, selectedPackageNames.get(i));
+                SPHelper.save(Constants.FLOAT_WHITE_LIST + i, selectedPackageNames.get(i));
             }
 
-            sendBroadcast(new Intent(ConstantUtil.FLOAT_REFRESH_WHITE_LIST_BROADCAST));
+            sendBroadcast(new Intent(Constants.FLOAT_REFRESH_WHITE_LIST_BROADCAST));
         }
     }
 

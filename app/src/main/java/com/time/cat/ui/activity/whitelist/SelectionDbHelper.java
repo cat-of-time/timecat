@@ -11,8 +11,8 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.time.cat.util.ConstantUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.time.cat.data.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +34,7 @@ public class SelectionDbHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PACKAGE = "package";
     public static final String COLUMN_TYPE = "type";
     public static final String CREATE_EXEC = "create table if not exists " + TABLE_NAME + " ( " + COLUMN_ID + " integer primary key, " + COLUMN_PACKAGE + " varchar, " + COLUMN_TYPE + " int " + ")";
-    String[] spinnerArray;
+    private String[] spinnerArray;
     private Context mContext;
     private List<AppListAdapter.ApplicationInfoWrap> mCanOpenApplicationInfos;
     private List<AppListAdapter.ApplicationInfoWrap> mSelectedApplicationInfos;
@@ -58,10 +58,10 @@ public class SelectionDbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_EXEC);
 
         spinnerArray = mContext.getResources().getStringArray(SPINNER_ARRAY);
-        String qqSelection = SPHelper.getString(ConstantUtil.QQ_SELECTION, "");
-        String weixinSelection = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION, "");
-        String otherSelection = SPHelper.getString(ConstantUtil.OTHER_SELECTION, "");
-        int size = SPHelper.getInt(ConstantUtil.WHITE_LIST_COUNT, 0);
+        String qqSelection = SPHelper.getString(Constants.QQ_SELECTION, "");
+        String weixinSelection = SPHelper.getString(Constants.WEIXIN_SELECTION, "");
+        String otherSelection = SPHelper.getString(Constants.OTHER_SELECTION, "");
+        int size = SPHelper.getInt(Constants.WHITE_LIST_COUNT, 0);
         if (!qqSelection.equals("")) {
             insert(db, "com.tencent.mobileqq", spinnerArrayIndex(qqSelection));
         }
@@ -205,9 +205,9 @@ public class SelectionDbHelper extends SQLiteOpenHelper {
     private void querySelectedApp() {
         mSelectedApplicationInfos = new ArrayList<>();
         Set<String> selectedPackageNames = new HashSet<>();
-        int size = SPHelper.getInt(ConstantUtil.WHITE_LIST_COUNT, 0);
+        int size = SPHelper.getInt(Constants.WHITE_LIST_COUNT, 0);
         for (int i = 0; i < size; i++) {
-            String packageName = SPHelper.getString(ConstantUtil.WHITE_LIST + "_" + i, "");
+            String packageName = SPHelper.getString(Constants.WHITE_LIST + "_" + i, "");
             selectedPackageNames.add(packageName);
         }
         for (AppListAdapter.ApplicationInfoWrap app : mCanOpenApplicationInfos) {
