@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.copy;
+package com.time.cat.ui.modules.copy;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,23 +18,22 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.timecat.commonjar.contentProvider.SPHelper;
-import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
-import com.time.cat.ui.widgets.arc_float_view.ArcTipViewController;
+import com.time.cat.data.Constants;
 import com.time.cat.ui.activity.TimeCatActivity;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.util.override.ToastUtil;
+import com.time.cat.ui.widgets.arc_float_view.ArcTipViewController;
 import com.time.cat.util.UrlCountUtil;
+import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.view.ViewUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
+import com.timecat.utils.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
-import static com.time.cat.data.ConstantUtil.IS_FULL_SCREEN_COPY;
 
 public class CopyActivity extends BaseActivity {
     private FrameLayout copyNodeViewContainer;
@@ -125,7 +124,7 @@ public class CopyActivity extends BaseActivity {
             exitFab.hide();
             exitFullScreenFab.hide();
         }
-        SPHelper.save(IS_FULL_SCREEN_COPY, fullScreen);
+        SPHelper.save(Constants.IS_FULL_SCREEN_COPY, fullScreen);
     }
 
     private void showSelectedText() {
@@ -315,7 +314,7 @@ public class CopyActivity extends BaseActivity {
         exitFab.postDelayed(new Runnable() {
             @Override
             public void run() {
-                fullScreenMode(SPHelper.getBoolean(IS_FULL_SCREEN_COPY, false));
+                fullScreenMode(SPHelper.getBoolean(Constants.IS_FULL_SCREEN_COPY, false));
             }
         }, 10);
     }

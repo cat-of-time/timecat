@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.copy;
+package com.time.cat.ui.modules.copy;
 
 import android.graphics.Rect;
 import android.os.Parcel;
