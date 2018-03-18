@@ -38,7 +38,7 @@ public class SharedIntentHelper {
     }
 
     private static void resort(List<ResolveInfoWrap> list, Context context) {
-        String appIndexs = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getString(Constants.INSTANCE.getSHARE_APP_INDEX(), "");
+        String appIndexs = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getString(Constants.SHARE_APP_INDEX, "");
         ArrayList<String> strings = null;
         if (!TextUtils.isEmpty(appIndexs)) {
             try {
@@ -84,12 +84,12 @@ public class SharedIntentHelper {
             if (!string.contains(name)) string.add(name);
         }
         context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).edit().
-                putString(Constants.INSTANCE.getSHARE_APP_INDEX(), new Gson().toJson(string)).apply();
+                putString(Constants.SHARE_APP_INDEX, new Gson().toJson(string)).apply();
     }
 
     private static List<ResolveInfoWrap> removeDisApps(List<ResolveInfoWrap> list, Context context) {
         Set<String> names = new HashSet<>();
-        names = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getStringSet(Constants.INSTANCE.getSHARE_APPS_DIS(), names);
+        names = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getStringSet(Constants.SHARE_APPS_DIS, names);
 
 
         List<ResolveInfoWrap> removedResolveInfoWraps = new ArrayList<>();
@@ -201,7 +201,7 @@ public class SharedIntentHelper {
             context.startActivity(openInChooser);
             return;
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "未能找到可以分享的应用", 0).show();
+            ToastUtil.w("未能找到可以分享的应用");
         }
     }
 

@@ -17,7 +17,7 @@ public class RegexUtil {
     public static String SYMBOL_REX = SYMBOL_REX_WITH_BLANK;
 
     public static void refreshSymbolSelection() {
-        boolean b = SPHelper.getBoolean(Constants.INSTANCE.getTREAT_BLANKS_AS_SYMBOL(), true);
+        boolean b = SPHelper.getBoolean(Constants.TREAT_BLANKS_AS_SYMBOL, true);
         if (b) {
             SYMBOL_REX = SYMBOL_REX_WITH_BLANK;
         } else {

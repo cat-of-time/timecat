@@ -3,10 +3,10 @@ package com.time.cat.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.time.cat.R;
 import com.time.cat.data.model.entity.FileEntity;
+import com.time.cat.util.override.ToastUtil;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -139,10 +139,10 @@ public class FileUtils {
             Log.i(className, "File not found.");
         } else {
             if (newFile.exists()) {
-                Toast.makeText(context, R.string.toast_file_name_exists, Toast.LENGTH_SHORT).show();
+                ToastUtil.w(R.string.toast_file_name_exists);
             } else {
                 oldFile.renameTo(newFile);
-                Toast.makeText(context, R.string.toast_saved, Toast.LENGTH_SHORT).show();
+                ToastUtil.ok(R.string.toast_saved);
             }
         }
     }

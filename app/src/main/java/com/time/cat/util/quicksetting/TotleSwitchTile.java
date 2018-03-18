@@ -25,7 +25,7 @@ public class TotleSwitchTile extends TileService {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean enable = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
+            boolean enable = SPHelper.getBoolean(Constants.TOTAL_SWITCH, true);
             toggleState = enable ? STATE_ON : STATE_OFF;
         }
     };
@@ -34,7 +34,7 @@ public class TotleSwitchTile extends TileService {
     public void onCreate() {
         super.onCreate();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Constants.INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED());
+        intentFilter.addAction(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED);
         try {
             registerReceiver(receiver, intentFilter);
         } catch (Exception e) {
