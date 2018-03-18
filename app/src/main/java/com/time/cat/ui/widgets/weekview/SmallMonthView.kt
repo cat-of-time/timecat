@@ -10,7 +10,7 @@ import com.simplemobiletools.commons.extensions.adjustAlpha
 import com.simplemobiletools.commons.extensions.getAdjustedPrimaryColor
 import com.time.cat.R
 import com.time.cat.config
-import com.time.cat.data.MEDIUM_ALPHA
+import com.time.cat.data.Constants.MEDIUM_ALPHA
 import java.util.*
 
 class SmallMonthView(context: Context, attrs: AttributeSet, defStyle: Int) : View(context, attrs, defStyle) {

@@ -1,7 +1,7 @@
 package com.time.cat.ui.widgets.weekview
 
 import android.content.Context
-import com.time.cat.data.WEEK_MILLI_SECONDS
+import com.time.cat.data.Constants.WEEK_MILLI_SECONDS
 import com.time.cat.data.database.DB
 import com.time.cat.data.model.DBmodel.DBTask
 import com.time.cat.ui.modules.schedules_weekview.WeeklyCalendar
