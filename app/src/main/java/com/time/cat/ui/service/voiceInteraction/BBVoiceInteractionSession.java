@@ -43,7 +43,7 @@ public class BBVoiceInteractionSession extends VoiceInteractionSession {
     @Override
     public void onShow(Bundle args, int showFlags) {
         super.onShow(args, showFlags);
-        if (2 == SPHelper.getInt(Constants.INSTANCE.getLONG_PRESS_KEY_INDEX(), 0)) {
+        if (2 == SPHelper.getInt(Constants.LONG_PRESS_KEY_INDEX, 0)) {
             KeyPressedTipViewController.getInstance().show(new KeyPressedTipViewController.CloseListener() {
                 @Override
                 public void onRemove() {

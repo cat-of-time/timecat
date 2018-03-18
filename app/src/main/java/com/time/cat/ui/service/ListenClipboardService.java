@@ -73,27 +73,27 @@ public final class ListenClipboardService extends Service {
     private BroadcastReceiver clipboardBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Constants.INSTANCE.getBROADCAST_SET_TO_CLIPBOARD())) {
-                sLastContent = intent.getStringExtra(Constants.INSTANCE.getBROADCAST_SET_TO_CLIPBOARD_MSG());
+            if (intent.getAction().equals(Constants.BROADCAST_SET_TO_CLIPBOARD)) {
+                sLastContent = intent.getStringExtra(Constants.BROADCAST_SET_TO_CLIPBOARD_MSG);
                 LogUtil.d(TAG, "onReceive:" + sLastContent);
-            } else if (intent.getAction().equals(Constants.INSTANCE.getMONITOR_CLIPBOARD_BROADCAST())) {
+            } else if (intent.getAction().equals(Constants.MONITOR_CLIPBOARD_BROADCAST)) {
                 if (!isRun) {
                     ToastUtil.w(R.string.open_total_switch_first);
                     return;
                 }
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_NOFITY_CLIPBOARD, !monitorClipborad);
-                SPHelper.save(Constants.INSTANCE.getMONITOR_CLIP_BOARD(), !monitorClipborad);
+                SPHelper.save(Constants.MONITOR_CLIP_BOARD, !monitorClipborad);
                 readSettingFromSp();
                 if (monitorClipborad) {
                     ToastUtil.ok(R.string.monitor_clipboard_open);
                 } else {
                     ToastUtil.ok(R.string.monitor_clipboard_close);
                 }
-            } else if (intent.getAction().equals(Constants.INSTANCE.getTOTAL_SWITCH_BROADCAST())) {
+            } else if (intent.getAction().equals(Constants.TOTAL_SWITCH_BROADCAST)) {
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_NOFITY_SWITCH, !isRun);
-                SPHelper.save(Constants.INSTANCE.getTOTAL_SWITCH(), !isRun);
+                SPHelper.save(Constants.TOTAL_SWITCH, !isRun);
                 ArcTipViewController.getInstance().syncStates();
-                sendBroadcast(new Intent(Constants.INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
                 readSettingFromSp();
                 if (isRun) {
                     ToastUtil.ok(R.string.timecat_open);
@@ -122,10 +122,10 @@ public final class ListenClipboardService extends Service {
         ArcTipViewController.getInstance().addActionListener(actionListener);
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Constants.INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED());
-        intentFilter.addAction(Constants.INSTANCE.getBROADCAST_SET_TO_CLIPBOARD());
-        intentFilter.addAction(Constants.INSTANCE.getMONITOR_CLIPBOARD_BROADCAST());
-        intentFilter.addAction(Constants.INSTANCE.getTOTAL_SWITCH_BROADCAST());
+        intentFilter.addAction(Constants.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED);
+        intentFilter.addAction(Constants.BROADCAST_SET_TO_CLIPBOARD);
+        intentFilter.addAction(Constants.MONITOR_CLIPBOARD_BROADCAST);
+        intentFilter.addAction(Constants.TOTAL_SWITCH_BROADCAST);
         registerReceiver(clipboardBroadcastReceiver, intentFilter);
         handler.post(new Runnable() {
             @Override
@@ -219,7 +219,7 @@ public final class ListenClipboardService extends Service {
     }
 
     private void adjustService() {
-        boolean isForground = SPHelper.getBoolean(Constants.INSTANCE.getIS_SHOW_NOTIFY(), false);
+        boolean isForground = SPHelper.getBoolean(Constants.IS_SHOW_NOTIFY, false);
         if (isForground) {
             if (!isForegroundShow) {
                 handler.removeCallbacksAndMessages(null);
@@ -266,8 +266,8 @@ public final class ListenClipboardService extends Service {
     }
 
     private void readSettingFromSp() {
-        isRun = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
-        showFloatView = SPHelper.getBoolean(Constants.INSTANCE.getSHOW_FLOAT_VIEW(), false);
+        isRun = SPHelper.getBoolean(Constants.TOTAL_SWITCH, true);
+        showFloatView = SPHelper.getBoolean(Constants.SHOW_FLOAT_VIEW, false);
         if (showFloatView) {
             ArcTipViewController.getInstance().show();
 
@@ -283,8 +283,8 @@ public final class ListenClipboardService extends Service {
             return;
         }
 
-        monitorClipborad = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLIP_BOARD(), true);
-        showFloatView = SPHelper.getBoolean(Constants.INSTANCE.getSHOW_FLOAT_VIEW(), false);
+        monitorClipborad = SPHelper.getBoolean(Constants.MONITOR_CLIP_BOARD, true);
+        showFloatView = SPHelper.getBoolean(Constants.SHOW_FLOAT_VIEW, false);
         if (showFloatView) {
             ArcTipViewController.getInstance().show();
 

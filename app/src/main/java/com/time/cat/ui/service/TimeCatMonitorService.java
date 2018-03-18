@@ -70,7 +70,7 @@ public class TimeCatMonitorService extends AccessibilityService {
     private static final int TYPE_VIEW_DOUBLD_CLICKED = 3;
     private static final int TYPE_VIEW_NONE = 0;
     private static Thread keepOpenThread;
-    public int double_click_interval = Constants.INSTANCE.getDEFAULT_DOUBLE_CLICK_INTERVAL();
+    public int double_click_interval = Constants.DEFAULT_DOUBLE_CLICK_INTERVAL;
     String back;
     String home;
     String recent;
@@ -114,17 +114,17 @@ public class TimeCatMonitorService extends AccessibilityService {
     private BroadcastReceiver timeCatBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Constants.INSTANCE.getREFRESH_WHITE_LIST_BROADCAST())) {
+            if (intent.getAction().equals(Constants.REFRESH_WHITE_LIST_BROADCAST)) {
                 readWhiteList();
-            } else if (intent.getAction().equals(Constants.INSTANCE.getFLOAT_REFRESH_WHITE_LIST_BROADCAST())) {
+            } else if (intent.getAction().equals(Constants.FLOAT_REFRESH_WHITE_LIST_BROADCAST)) {
                 readFloatWhiteList();
-            } else if (intent.getAction().equals(Constants.INSTANCE.getUNIVERSAL_COPY_BROADCAST())) {
+            } else if (intent.getAction().equals(Constants.UNIVERSAL_COPY_BROADCAST)) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     UniversalCopy();
                 }
 
-            } else if (intent.getAction().equals(Constants.INSTANCE.getUNIVERSAL_COPY_BROADCAST_DELAY())) {
+            } else if (intent.getAction().equals(Constants.UNIVERSAL_COPY_BROADCAST_DELAY)) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -136,17 +136,17 @@ public class TimeCatMonitorService extends AccessibilityService {
                     }
                 }, 500);
 
-            } else if (intent.getAction().equals(Constants.INSTANCE.getSCREEN_CAPTURE_OVER_BROADCAST())) {
+            } else if (intent.getAction().equals(Constants.SCREEN_CAPTURE_OVER_BROADCAST)) {
 
-            } else if (intent.getAction().equals(Constants.INSTANCE.getEFFECT_AFTER_REBOOT_BROADCAST())) {
+            } else if (intent.getAction().equals(Constants.EFFECT_AFTER_REBOOT_BROADCAST)) {
                 Process.killProcess(Process.myPid());
-            } else if (intent.getAction().equals(Constants.INSTANCE.getMONITOR_CLICK_BROADCAST())) {
+            } else if (intent.getAction().equals(Constants.MONITOR_CLICK_BROADCAST)) {
                 if (!isRun) {
                     ToastUtil.w(R.string.open_total_switch_first);
                     return;
                 }
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_NOFITY_CLICK, !monitorClick);
-                SPHelper.save(Constants.INSTANCE.getMONITOR_CLICK(), !monitorClick);
+                SPHelper.save(Constants.MONITOR_CLICK, !monitorClick);
                 readSettingFromSp();
                 if (monitorClick) {
                     if (isAccessibilitySettingsOn(context)) {
@@ -157,7 +157,7 @@ public class TimeCatMonitorService extends AccessibilityService {
                 } else {
                     ToastUtil.ok(R.string.monitor_click_close);
                 }
-                sendBroadcast(new Intent(Constants.INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
+                sendBroadcast(new Intent(Constants.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
             } else {
                 readSettingFromSp();
             }
@@ -225,7 +225,7 @@ public class TimeCatMonitorService extends AccessibilityService {
     }
 
     public static void keepAccessibilityOpen() {
-        boolean isopen = SPHelper.getBoolean(Constants.INSTANCE.getAUTO_OPEN_SETTING(), false);
+        boolean isopen = SPHelper.getBoolean(Constants.AUTO_OPEN_SETTING, false);
         if (!isopen) {
             return;
         }
@@ -235,7 +235,7 @@ public class TimeCatMonitorService extends AccessibilityService {
 
                 @Override
                 public void run() {
-                    boolean isopen = SPHelper.getBoolean(Constants.INSTANCE.getAUTO_OPEN_SETTING(), false);
+                    boolean isopen = SPHelper.getBoolean(Constants.AUTO_OPEN_SETTING, false);
                     if (!isopen) {
                         return;
                     }
@@ -253,7 +253,7 @@ public class TimeCatMonitorService extends AccessibilityService {
 
                         do {
                             --count;
-                            isopen = SPHelper.getBoolean(Constants.INSTANCE.getAUTO_OPEN_SETTING(), false);
+                            isopen = SPHelper.getBoolean(Constants.AUTO_OPEN_SETTING, false);
                             if (!isopen) {
                                 Thread.sleep(10000);
                                 continue;
@@ -324,14 +324,14 @@ public class TimeCatMonitorService extends AccessibilityService {
         mRunningTaskUtil = new RunningTaskUtil(this);
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Constants.INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED());
-        intentFilter.addAction(Constants.INSTANCE.getREFRESH_WHITE_LIST_BROADCAST());
-        intentFilter.addAction(Constants.INSTANCE.getFLOAT_REFRESH_WHITE_LIST_BROADCAST());
-        intentFilter.addAction(Constants.INSTANCE.getUNIVERSAL_COPY_BROADCAST());
-        intentFilter.addAction(Constants.INSTANCE.getUNIVERSAL_COPY_BROADCAST_DELAY());
-        intentFilter.addAction(Constants.INSTANCE.getSCREEN_CAPTURE_OVER_BROADCAST());
-        intentFilter.addAction(Constants.INSTANCE.getEFFECT_AFTER_REBOOT_BROADCAST());
-        intentFilter.addAction(Constants.INSTANCE.getMONITOR_CLICK_BROADCAST());
+        intentFilter.addAction(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED);
+        intentFilter.addAction(Constants.REFRESH_WHITE_LIST_BROADCAST);
+        intentFilter.addAction(Constants.FLOAT_REFRESH_WHITE_LIST_BROADCAST);
+        intentFilter.addAction(Constants.UNIVERSAL_COPY_BROADCAST);
+        intentFilter.addAction(Constants.UNIVERSAL_COPY_BROADCAST_DELAY);
+        intentFilter.addAction(Constants.SCREEN_CAPTURE_OVER_BROADCAST);
+        intentFilter.addAction(Constants.EFFECT_AFTER_REBOOT_BROADCAST);
+        intentFilter.addAction(Constants.MONITOR_CLICK_BROADCAST);
         registerReceiver(timeCatBroadcastReceiver, intentFilter);
 
 
@@ -710,7 +710,7 @@ public class TimeCatMonitorService extends AccessibilityService {
     }
 
     private synchronized void readSettingFromSp() {
-        isRun = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
+        isRun = SPHelper.getBoolean(Constants.TOTAL_SWITCH, true);
         KeyPressedTipViewController.getInstance().updateTriggerType();
         if (!isRun) {
             monitorClick = false;
@@ -720,15 +720,15 @@ public class TimeCatMonitorService extends AccessibilityService {
             return;
         }
 
-        monitorClick = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLICK(), true);
-        showFloatView = SPHelper.getBoolean(Constants.INSTANCE.getSHOW_FLOAT_VIEW(), false);
-        onlyText = SPHelper.getBoolean(Constants.INSTANCE.getTEXT_ONLY(), true);
-        double_click_interval = SPHelper.getInt(Constants.INSTANCE.getDOUBLE_CLICK_INTERVAL(), Constants.INSTANCE.getDEFAULT_DOUBLE_CLICK_INTERVAL());
+        monitorClick = SPHelper.getBoolean(Constants.MONITOR_CLICK, true);
+        showFloatView = SPHelper.getBoolean(Constants.SHOW_FLOAT_VIEW, false);
+        onlyText = SPHelper.getBoolean(Constants.TEXT_ONLY, true);
+        double_click_interval = SPHelper.getInt(Constants.DOUBLE_CLICK_INTERVAL, Constants.DEFAULT_DOUBLE_CLICK_INTERVAL);
 
         String[] spinnerArray = getResources().getStringArray(SPINNER_ARRAY);
-        String qq = SPHelper.getString(Constants.INSTANCE.getQQ_SELECTION(), spinnerArray[1]);
-        String weixin = SPHelper.getString(Constants.INSTANCE.getWEIXIN_SELECTION(), spinnerArray[1]);
-        String other = SPHelper.getString(Constants.INSTANCE.getOTHER_SELECTION(), spinnerArray[1]);
+        String qq = SPHelper.getString(Constants.QQ_SELECTION, spinnerArray[1]);
+        String weixin = SPHelper.getString(Constants.WEIXIN_SELECTION, spinnerArray[1]);
+        String other = SPHelper.getString(Constants.OTHER_SELECTION, spinnerArray[1]);
         if (showFloatView) {
             ArcTipViewController.getInstance().show();
         } else {
@@ -757,10 +757,10 @@ public class TimeCatMonitorService extends AccessibilityService {
     }
 
     public synchronized void readFloatWhiteList() {
-        int numbers = SPHelper.getInt(Constants.INSTANCE.getFLOAT_WHITE_LIST_COUNT(), 0);
+        int numbers = SPHelper.getInt(Constants.FLOAT_WHITE_LIST_COUNT, 0);
         List<String> selectedPackageNames = new ArrayList<>();
         for (int i = 0; i < numbers; i++) {
-            selectedPackageNames.add(SPHelper.getString(Constants.INSTANCE.getFLOAT_WHITE_LIST() + i, ""));
+            selectedPackageNames.add(SPHelper.getString(Constants.FLOAT_WHITE_LIST + i, ""));
         }
         floatWhiteList = selectedPackageNames;
     }
