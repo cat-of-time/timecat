@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.shang.utils.StatusBarCompat;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.CountLinkMovementMethod;
@@ -50,14 +50,14 @@ public class DonateActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_DONATE_ALIPAY_SAVE);
                 File file = new File(SAVE_REAL_PATH, "donate_alipay.jpg");
                 if (file.exists()) {
-                    ToastUtil.show(R.string.picture_saved);
+                    ToastUtil.ok(R.string.picture_saved);
                     sendBrodcast4Update(file);
                     return;
                 } else {
                     @SuppressLint("ResourceType") InputStream is = getResources().openRawResource(R.drawable.donate_alipay);
                     try {
                         IOUtil.saveToFile(is, file);
-                        ToastUtil.show(R.string.picture_saved);
+                        ToastUtil.ok(R.string.picture_saved);
                         sendBrodcast4Update(file);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -72,14 +72,14 @@ public class DonateActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_DONATE_WECHAT_SAVE);
                 File file = new File(SAVE_REAL_PATH, "donate_wechat.png");
                 if (file.exists()) {
-                    ToastUtil.show(R.string.picture_saved);
+                    ToastUtil.ok(R.string.picture_saved);
                     sendBrodcast4Update(file);
                     return;
                 } else {
                     @SuppressLint("ResourceType") InputStream is = getResources().openRawResource(R.drawable.donate_wechat);
                     try {
                         IOUtil.saveToFile(is, file);
-                        ToastUtil.show(R.string.picture_saved);
+                        ToastUtil.ok(R.string.picture_saved);
                         sendBrodcast4Update(file);
                     } catch (IOException e) {
                         e.printStackTrace();

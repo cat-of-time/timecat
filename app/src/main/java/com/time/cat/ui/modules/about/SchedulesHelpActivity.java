@@ -17,18 +17,18 @@ public class SchedulesHelpActivity extends IntroActivity {
         setFullscreen(true);
         super.onCreate(savedInstanceState);
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.schedules_help_1).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_schedules_1).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.schedules_help_2).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_schedules_2).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.schedules_help_3).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_schedules_3).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        prefs.edit().putBoolean("PREFERENCE_SCHEDULE_HELP_SHOWN", true).commit();
+        prefs.edit().putBoolean("PREFERENCE_SCHEDULES_HELP_SHOWN", true).apply();
     }
 
 }

@@ -8,11 +8,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
-import com.shang.utils.StatusBarCompat;
+import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.util.ConstantUtil;
+import com.time.cat.data.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class FeedbackActivity extends BaseActivity {
 
     private void startFeedback() {
         //2.0的反馈sdk调用方式
-        FeedbackAPI.init(TimeCatApp.getInstance(), ConstantUtil.ALI_APP_KEY, ConstantUtil.ALI_APP_SECRET);
+        FeedbackAPI.init(TimeCatApp.getInstance(), Constants.INSTANCE.getALI_APP_KEY(), Constants.INSTANCE.getALI_APP_SECRET());
 
         FragmentManager fm = getSupportFragmentManager();
         final FragmentTransaction transaction = fm.beginTransaction();
@@ -47,7 +47,7 @@ public class FeedbackActivity extends BaseActivity {
         }/*success callback*/, null/*fail callback*/);
 
 
-//        FeedbackAPI.initAnnoy(TimeCatApp.getInstance(), ConstantUtil.ALI_APP_KEY);
+//        FeedbackAPI.initAnnoy(TimeCatApp.getInstance(), Constants.ALI_APP_KEY);
 
 
         //可以设置UI自定义参数，如主题色等,map的key值具体为：
