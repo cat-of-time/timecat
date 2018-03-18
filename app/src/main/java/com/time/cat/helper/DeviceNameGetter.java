@@ -30,7 +30,7 @@ public class DeviceNameGetter {
                 });
     }
 
-    String getDeviceName() {
+    public String getDeviceName() {
         if (deviceName == null) {
             deviceName = blockingDeviceName();
         }

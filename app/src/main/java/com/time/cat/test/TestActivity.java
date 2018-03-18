@@ -85,10 +85,8 @@ public class TestActivity extends BaseActivity implements ActivityPresenter, Vie
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_LOGIN) {
             if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
                 // 设置用户登录后的界面
-                ToastUtil.show("登录成功！");
+                ToastUtil.ok("登录成功！");
             }
         }
     }

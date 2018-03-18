@@ -10,7 +10,7 @@ import com.time.cat.util.override.LogUtil;
 public class WakeUpBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        LogUtil.d("shang", "xposed wake");
+        LogUtil.d("timecat", "xposed wake");
         try {
             context.startService(new Intent(context, ListenClipboardService.class));
         } catch (Exception e) {
