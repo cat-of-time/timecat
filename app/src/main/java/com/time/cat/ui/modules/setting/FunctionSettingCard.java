@@ -128,13 +128,13 @@ public class FunctionSettingCard extends AbsCard {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 monitorClipBoard = isChecked;
-                SPHelper.save(Constants.INSTANCE.getMONITOR_CLIP_BOARD(), monitorClipBoard);
+                SPHelper.save(Constants.MONITOR_CLIP_BOARD, monitorClipBoard);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_CLIPBOARD, isChecked);
 
                 if (monitorClipBoard) {
                     mContext.startService(new Intent(context, ListenClipboardService.class));
                 }
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
             }
         });
 
@@ -147,7 +147,7 @@ public class FunctionSettingCard extends AbsCard {
 
                 monitorClick = isChecked;
                 sendTencentSettingsBroadcast(isChecked);
-                SPHelper.save(Constants.INSTANCE.getMONITOR_CLICK(), monitorClick);
+                SPHelper.save(Constants.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
                     mContext.startService(new Intent(context, TimeCatMonitorService.class));
                     if (!TimeCatMonitorService.isAccessibilitySettingsOn(mContext)) {
@@ -155,7 +155,7 @@ public class FunctionSettingCard extends AbsCard {
                         handler.postDelayed(showAccess, 2000);
                     }
                 }
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
 
                 monitorClickRl.setClickable(false);
                 handler.postDelayed(new Runnable() {
@@ -173,7 +173,7 @@ public class FunctionSettingCard extends AbsCard {
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_TOTAL_SWITCH, isChecked);
 
                 totalSwitch = isChecked;
-                SPHelper.save(Constants.INSTANCE.getTOTAL_SWITCH(), totalSwitch);
+                SPHelper.save(Constants.TOTAL_SWITCH, totalSwitch);
                 if (isClickTotalSwitch) {
                     if (totalSwitch) {
                         SnackBarUtil.show(buttonView, mContext.getString(R.string.timecat_open));
@@ -186,8 +186,8 @@ public class FunctionSettingCard extends AbsCard {
                         SnackBarUtil.show(buttonView, mContext.getString(R.string.timecat_close));
                     }
                 }
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
 //                if (totalSwitch){
 //                    requestFloatViewTv.setVisibility(GONE);
 //                }else {
@@ -259,15 +259,15 @@ public class FunctionSettingCard extends AbsCard {
 
     private void sendTencentSettingsBroadcast(boolean isChecked) {
         Intent intent = new Intent();
-        intent.setAction(Constants.INSTANCE.getSetting_content_Changes());
-        intent.putExtra(Constants.INSTANCE.getSHOW_TENCENT_SETTINGS(), isChecked);
+        intent.setAction(Constants.Setting_content_Changes);
+        intent.putExtra(Constants.SHOW_TENCENT_SETTINGS, isChecked);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
     private void refresh() {
-        totalSwitch = SPHelper.getBoolean(Constants.INSTANCE.getTOTAL_SWITCH(), true);
-        monitorClipBoard = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLIP_BOARD(), true);
-        monitorClick = SPHelper.getBoolean(Constants.INSTANCE.getMONITOR_CLICK(), true);
+        totalSwitch = SPHelper.getBoolean(Constants.TOTAL_SWITCH, true);
+        monitorClipBoard = SPHelper.getBoolean(Constants.MONITOR_CLIP_BOARD, true);
+        monitorClick = SPHelper.getBoolean(Constants.MONITOR_CLICK, true);
 
         monitorClipBoardSwitch.setChecked(monitorClipBoard);
         monitorClickSwitch.setChecked(monitorClick);

@@ -52,7 +52,7 @@ public class MonitorSettingCard extends AbsCard {
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING);
                     doubleClickIntervalRl.setVisibility(VISIBLE);
                     mDoubleClick.setVisibility(GONE);
-                    int t = SPHelper.getInt(Constants.INSTANCE.getDOUBLE_CLICK_INTERVAL(), Constants.INSTANCE.getDEFAULT_DOUBLE_CLICK_INTERVAL());
+                    int t = SPHelper.getInt(Constants.DOUBLE_CLICK_INTERVAL, Constants.DEFAULT_DOUBLE_CLICK_INTERVAL);
                     doubleClickEditText.setText(t + "");
                     doubleClickEditText.requestFocus();
                     break;
@@ -60,10 +60,10 @@ public class MonitorSettingCard extends AbsCard {
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING_CONFORM);
                     int time = 0;
                     if (doubleClickEditText.getText() == null || TextUtils.isEmpty(doubleClickEditText.getText())) {
-                        time = SPHelper.getInt(Constants.INSTANCE.getDOUBLE_CLICK_INTERVAL(), Constants.INSTANCE.getDEFAULT_DOUBLE_CLICK_INTERVAL());
+                        time = SPHelper.getInt(Constants.DOUBLE_CLICK_INTERVAL, Constants.DEFAULT_DOUBLE_CLICK_INTERVAL);
                     } else {
                         time = Integer.parseInt(doubleClickEditText.getText().toString());
-                        SPHelper.save(Constants.INSTANCE.getDOUBLE_CLICK_INTERVAL(), time);
+                        SPHelper.save(Constants.DOUBLE_CLICK_INTERVAL, time);
                     }
                     String text = mContext.getString(R.string.double_click_intercal);
                     text = text.replace("#", "<font color=\"#009688\">" + time + "</font>");
@@ -71,7 +71,7 @@ public class MonitorSettingCard extends AbsCard {
                     doubleClickIntervalRl.setVisibility(GONE);
                     mDoubleClick.setVisibility(VISIBLE);
                     ViewUtil.hideInputMethod(mDoubleClick);
-                    mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                    mContext.sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
                     break;
                 default:
                     break;
@@ -107,8 +107,8 @@ public class MonitorSettingCard extends AbsCard {
                 //这里由于文案从“只监控文本”改成了“增强型监控”,所以意思完全相反了，为了防止改动太多，就在这里做一个反置
                 onlyText = !isChecked;
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_ONLY_TEXT_MONITOR, !isChecked);
-                SPHelper.save(Constants.INSTANCE.getTEXT_ONLY(), onlyText);
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                SPHelper.save(Constants.TEXT_ONLY, onlyText);
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
             }
         });
 
@@ -121,11 +121,11 @@ public class MonitorSettingCard extends AbsCard {
     }
 
     private void refresh() {
-        onlyText = SPHelper.getBoolean(Constants.INSTANCE.getTEXT_ONLY(), true);
+        onlyText = SPHelper.getBoolean(Constants.TEXT_ONLY, true);
 
         onlyTextSwitch.setChecked(!onlyText);
 
-        int t = SPHelper.getInt(Constants.INSTANCE.getDOUBLE_CLICK_INTERVAL(), Constants.INSTANCE.getDEFAULT_DOUBLE_CLICK_INTERVAL());
+        int t = SPHelper.getInt(Constants.DOUBLE_CLICK_INTERVAL, Constants.DEFAULT_DOUBLE_CLICK_INTERVAL);
         String text = mContext.getString(R.string.double_click_intercal);
         text = text.replace("#", "<font color=\"#009688\">" + t + "</font>");
         mDoubleClick.setText(Html.fromHtml(text));

@@ -72,7 +72,7 @@ public class ShareCard extends FrameLayout {
                     } else if (state == 1) {
                         // TODO: 2016/2/27 分享
                         shareToWeChat(v, mContext);
-                        SPHelper.save(Constants.INSTANCE.getHAD_SHARED(), true);
+                        SPHelper.save(Constants.HAD_SHARED, true);
                         UrlCountUtil.onEvent(UrlCountUtil.CLICK_SHARE_CARD_SHARE);
                         hide();
                     } else {

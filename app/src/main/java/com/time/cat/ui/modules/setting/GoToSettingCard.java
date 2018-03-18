@@ -58,18 +58,18 @@ public class GoToSettingCard extends AbsCard {
         autoOpenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getAUTO_OPEN_SETTING(), isChecked);
+                SPHelper.save(Constants.AUTO_OPEN_SETTING, isChecked);
             }
         });
         findViewById(R.id.auto_open_rl).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 autoOpenSwitch.setChecked(!autoOpenSwitch.isChecked());
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
             }
         });
 
-        autoOpenSwitch.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getAUTO_OPEN_SETTING(), false));
+        autoOpenSwitch.setChecked(SPHelper.getBoolean(Constants.AUTO_OPEN_SETTING, false));
     }
 
 }

@@ -104,9 +104,9 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_FLOAT_WINDOW, isChecked);
 
                 showFloatView = isChecked;
-                SPHelper.save(Constants.INSTANCE.getSHOW_FLOAT_VIEW(), showFloatView);
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                SPHelper.save(Constants.SHOW_FLOAT_VIEW, showFloatView);
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
 //                if(!SPHelper.getBoolean(IS_LONG_PREESS_TIPS_SHOW,false) && isChecked){
 //                    if(!isInFirst){
 //                        showLongClickDialog();
@@ -148,8 +148,8 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_NOTIFY, isChecked);
 
                 showNotify = isChecked;
-                SPHelper.save(Constants.INSTANCE.getIS_SHOW_NOTIFY(), showNotify);
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED()));
+                SPHelper.save(Constants.IS_SHOW_NOTIFY, showNotify);
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 showNotifyTV.setShowHint(!showNotify);
                 if (isClickNotify && isChecked) {
                     if (!NotificationCheckUtil.areNotificationsEnabled(mContext.getApplicationContext())) {
@@ -217,7 +217,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
     private void showLongPressDialog(View view) {
         String[] longpress = mContext.getResources().getStringArray(R.array.long_press_key);
-        int index = SPHelper.getInt(Constants.INSTANCE.getLONG_PRESS_KEY_INDEX(), 0);
+        int index = SPHelper.getInt(Constants.LONG_PRESS_KEY_INDEX, 0);
 
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
@@ -226,8 +226,8 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 // 这里是保持开启
                 super.onPositiveActionClicked(fragment);
                 int index = getSelectedIndex();
-                SPHelper.save(Constants.INSTANCE.getLONG_PRESS_KEY_INDEX(), index);
-                mContext.sendBroadcast(new Intent(INSTANCE.getBROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED()));
+                SPHelper.save(Constants.LONG_PRESS_KEY_INDEX, index);
+                mContext.sendBroadcast(new Intent(Constants.BROADCAST_TIMECAT_MONITOR_SERVICE_MODIFIED));
                 if (index == 2) {
                     SnackBarUtil.show(view, "", R.string.long_press_toast, new OnClickListener() {
                         @Override
@@ -254,8 +254,8 @@ public class FloatAndNotifySettingCard extends AbsCard {
     }
 
     private void refresh() {
-        showFloatView = SPHelper.getBoolean(Constants.INSTANCE.getSHOW_FLOAT_VIEW(), false);
-        showNotify = SPHelper.getBoolean(Constants.INSTANCE.getIS_SHOW_NOTIFY(), false);
+        showFloatView = SPHelper.getBoolean(Constants.SHOW_FLOAT_VIEW, false);
+        showNotify = SPHelper.getBoolean(Constants.IS_SHOW_NOTIFY, false);
 
 
         showFloarViewSwitch.setChecked(showFloatView);

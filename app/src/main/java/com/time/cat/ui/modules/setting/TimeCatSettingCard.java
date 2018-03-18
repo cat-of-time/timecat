@@ -27,8 +27,8 @@ public class TimeCatSettingCard extends AbsCard {
     }
 
     private void refresh() {
-        browserSwitch.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getUSE_LOCAL_WEBVIEW(), true));
-        floatTriggerSwitch.setChecked(SPHelper.getBoolean(Constants.INSTANCE.getUSE_FLOAT_VIEW_TRIGGER(), true));
+        browserSwitch.setChecked(SPHelper.getBoolean(Constants.USE_LOCAL_WEBVIEW, true));
+        floatTriggerSwitch.setChecked(SPHelper.getBoolean(Constants.USE_FLOAT_VIEW_TRIGGER, true));
         floatTriggerHintTextView.setShowHint(!floatTriggerSwitch.isChecked());
         floatTriggerHintTextView.setShowAnimation(true);
     }
@@ -56,7 +56,7 @@ public class TimeCatSettingCard extends AbsCard {
         browserSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getUSE_LOCAL_WEBVIEW(), isChecked);
+                SPHelper.save(Constants.USE_LOCAL_WEBVIEW, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_USE_BUILTIN_BROWSER, isChecked);
             }
         });
@@ -72,7 +72,7 @@ public class TimeCatSettingCard extends AbsCard {
         floatTriggerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getUSE_FLOAT_VIEW_TRIGGER(), isChecked);
+                SPHelper.save(Constants.USE_FLOAT_VIEW_TRIGGER, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_FLOAT_VIEW_TRIGGER, isChecked);
                 floatTriggerHintTextView.setShowHint(!isChecked);
             }

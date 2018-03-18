@@ -106,13 +106,13 @@ public class SettingTimeCatActivity extends BaseActivity {
 
         @Override
         public void onSwitchSymbol(boolean isShow) {
-            SPHelper.save(Constants.INSTANCE.getREMAIN_SYMBOL(), isShow);
+            SPHelper.save(Constants.REMAIN_SYMBOL, isShow);
             UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_REMAIN_SYMBOL);
         }
 
         @Override
         public void onSwitchSection(boolean isShow) {
-            SPHelper.save(Constants.INSTANCE.getREMAIN_SECTION(), isShow);
+            SPHelper.save(Constants.REMAIN_SECTION, isShow);
             UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIMECAT_REMAIN_SECTION);
         }
 
@@ -170,7 +170,7 @@ public class SettingTimeCatActivity extends BaseActivity {
                         if (timecatBackgroungColors.length > position) {
                             applyColor(timecatBackgroungColors[position]);
                             lastPickedColor = timecatBackgroungColors[position];
-                            SPHelper.save(Constants.INSTANCE.getTIMECAT_DIY_BG_COLOR(), timecatBackgroungColors[position]);
+                            SPHelper.save(Constants.TIMECAT_DIY_BG_COLOR, timecatBackgroungColors[position]);
                             UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR, lastPickedColor + "");
                         }
                     }
@@ -252,7 +252,7 @@ public class SettingTimeCatActivity extends BaseActivity {
                 int value = MIN_TEXT_SIZE + progress;
                 mTimeCatLayout.setTextSize(value);
                 textSize.setText(getString(R.string.setting_text_size) + value);
-                SPHelper.save(Constants.INSTANCE.getTEXT_SIZE(), value);
+                SPHelper.save(Constants.TEXT_SIZE, value);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_TEXT_SIZE, value + "");
             }
 
@@ -273,7 +273,7 @@ public class SettingTimeCatActivity extends BaseActivity {
                 int value = MIN_LINE_MARGIN + progress;
                 mTimeCatLayout.setLineSpace(value);
                 lineMargin.setText(getString(R.string.setting_line_margin) + value);
-                SPHelper.save(Constants.INSTANCE.getLINE_MARGIN(), value);
+                SPHelper.save(Constants.LINE_MARGIN, value);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_LINE_MARGIN, value + "");
             }
 
@@ -293,7 +293,7 @@ public class SettingTimeCatActivity extends BaseActivity {
                 int value = MIN_ITEM_MARGIN + progress;
                 mTimeCatLayout.setItemSpace(value);
                 itemMargin.setText(getString(R.string.setting_item_margin) + value);
-                SPHelper.save(Constants.INSTANCE.getITEM_MARGIN(), value);
+                SPHelper.save(Constants.ITEM_MARGIN, value);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ITEM_MARGIN, value + "");
             }
 
@@ -315,7 +315,7 @@ public class SettingTimeCatActivity extends BaseActivity {
                 int value = MIN_ITEM_PADDING + progress;
                 mTimeCatLayout.setTextPadding(value);
                 itemPadding.setText(getString(R.string.setting_item_padding) + value);
-                SPHelper.save(Constants.INSTANCE.getITEM_PADDING(), value);
+                SPHelper.save(Constants.ITEM_PADDING, value);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ITEM_PADDING, value + "");
             }
 
@@ -335,7 +335,7 @@ public class SettingTimeCatActivity extends BaseActivity {
 //                mTimeCatLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,value);
                 cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
                 timecatAlpha.setText(getString(R.string.setting_alpha_percent) + value + "%");
-                SPHelper.save(Constants.INSTANCE.getTIMECAT_ALPHA(), value);
+                SPHelper.save(Constants.TIMECAT_ALPHA, value);
                 alpha = value;
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ALPHA, value + "");
             }
@@ -354,7 +354,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         isFullScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getIS_FULL_SCREEN(), isChecked);
+                SPHelper.save(Constants.IS_FULL_SCREEN, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_FULL_SCREEN, isChecked + "");
             }
         });
@@ -362,7 +362,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         isStickHeader.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getIS_STICK_HEADER(), isChecked);
+                SPHelper.save(Constants.IS_STICK_HEADER, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_STICK_HEAD, isChecked + "");
                 mTimeCatLayoutWrap.setStickHeader(isChecked);
             }
@@ -371,51 +371,51 @@ public class SettingTimeCatActivity extends BaseActivity {
         isDefaultLocal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getDEFAULT_LOCAL(), isChecked);
+                SPHelper.save(Constants.DEFAULT_LOCAL, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_DEFAULT_LOCAL, isChecked + "");
             }
         });
         autoAddBlanks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getAUTO_ADD_BLANKS(), isChecked);
+                SPHelper.save(Constants.AUTO_ADD_BLANKS, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ADD_BLANKS, isChecked + "");
             }
         });
         isBlankSymbol.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getTREAT_BLANKS_AS_SYMBOL(), isChecked);
+                SPHelper.save(Constants.TREAT_BLANKS_AS_SYMBOL, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BLANKS_IS_SYMBOL, isChecked + "");
             }
         });
         isStickSharebar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getIS_STICK_SHAREBAR(), isChecked);
+                SPHelper.save(Constants.IS_STICK_SHAREBAR, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_STICK_SHAREBAR, isChecked + "");
             }
         });
 
 
-        int text = SPHelper.getInt(Constants.INSTANCE.getTEXT_SIZE(), Constants.INSTANCE.getDEFAULT_TEXT_SIZE());
-        int line = SPHelper.getInt(Constants.INSTANCE.getLINE_MARGIN(), Constants.INSTANCE.getDEFAULT_LINE_MARGIN());
-        int item = SPHelper.getInt(Constants.INSTANCE.getITEM_MARGIN(), Constants.INSTANCE.getDEFAULT_ITEM_MARGIN());
-        int padding = SPHelper.getInt(Constants.INSTANCE.getITEM_PADDING(), ViewUtil.dp2px(Constants.INSTANCE.getDEFAULT_ITEM_PADDING()));
-        alpha = SPHelper.getInt(Constants.INSTANCE.getTIMECAT_ALPHA(), 100);
-        lastPickedColor = SPHelper.getInt(Constants.INSTANCE.getTIMECAT_DIY_BG_COLOR(), Color.parseColor("#01579B"));
-        boolean fullScreen = SPHelper.getBoolean(Constants.INSTANCE.getIS_FULL_SCREEN(), false);
+        int text = SPHelper.getInt(Constants.TEXT_SIZE, Constants.DEFAULT_TEXT_SIZE);
+        int line = SPHelper.getInt(Constants.LINE_MARGIN, Constants.DEFAULT_LINE_MARGIN);
+        int item = SPHelper.getInt(Constants.ITEM_MARGIN, Constants.DEFAULT_ITEM_MARGIN);
+        int padding = SPHelper.getInt(Constants.ITEM_PADDING, ViewUtil.dp2px(Constants.DEFAULT_ITEM_PADDING));
+        alpha = SPHelper.getInt(Constants.TIMECAT_ALPHA, 100);
+        lastPickedColor = SPHelper.getInt(Constants.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
+        boolean fullScreen = SPHelper.getBoolean(Constants.IS_FULL_SCREEN, false);
         isFullScreen.setChecked(fullScreen);
-        boolean stickHeader = SPHelper.getBoolean(Constants.INSTANCE.getIS_STICK_HEADER(), false);
+        boolean stickHeader = SPHelper.getBoolean(Constants.IS_STICK_HEADER, false);
         isStickHeader.setChecked(stickHeader);
-        boolean stickSharebar = SPHelper.getBoolean(Constants.INSTANCE.getIS_STICK_SHAREBAR(), true);
+        boolean stickSharebar = SPHelper.getBoolean(Constants.IS_STICK_SHAREBAR, true);
         isStickSharebar.setChecked(stickSharebar);
-        boolean remainSymbol = SPHelper.getBoolean(Constants.INSTANCE.getREMAIN_SYMBOL(), true);
+        boolean remainSymbol = SPHelper.getBoolean(Constants.REMAIN_SYMBOL, true);
 
 
-        boolean defaultLocal = SPHelper.getBoolean(Constants.INSTANCE.getDEFAULT_LOCAL(), false);
-        boolean addBlanks = SPHelper.getBoolean(Constants.INSTANCE.getAUTO_ADD_BLANKS(), false);
-        boolean blankIsSymbol = SPHelper.getBoolean(Constants.INSTANCE.getTREAT_BLANKS_AS_SYMBOL(), true);
+        boolean defaultLocal = SPHelper.getBoolean(Constants.DEFAULT_LOCAL, false);
+        boolean addBlanks = SPHelper.getBoolean(Constants.AUTO_ADD_BLANKS, false);
+        boolean blankIsSymbol = SPHelper.getBoolean(Constants.TREAT_BLANKS_AS_SYMBOL, true);
 
 
         mTextSizeSeekBar.setProgress((MIN_TEXT_SIZE));
@@ -441,7 +441,7 @@ public class SettingTimeCatActivity extends BaseActivity {
 
         mTimeCatLayoutWrap.setStickHeader(stickHeader);
         mTimeCatLayoutWrap.setShowSymbol(remainSymbol);
-        mTimeCatLayoutWrap.setShowSection(SPHelper.getBoolean(Constants.INSTANCE.getREMAIN_SECTION(), false));
+        mTimeCatLayoutWrap.setShowSection(SPHelper.getBoolean(Constants.REMAIN_SECTION, false));
         mTimeCatLayoutWrap.setActionListener(timeCatActionListener);
 
         String[] txts = new String[]{"TimeCat", "可以", "进行", "文本", "分词", "。", "\n", "也", "支持", "复制", "翻译", "和", "调整", "…"};
@@ -484,7 +484,7 @@ public class SettingTimeCatActivity extends BaseActivity {
                 lastPickedColor = Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor));
                 alpha = (int) (Color.alpha(selectedColor) * 100.0 / 255);
                 applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
-                SPHelper.save(Constants.INSTANCE.getTIMECAT_DIY_BG_COLOR(), lastPickedColor);
+                SPHelper.save(Constants.TIMECAT_DIY_BG_COLOR, lastPickedColor);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR, lastPickedColor + "");
                 mTimecatAlphaSeekBar.setProgress(alpha);
             }

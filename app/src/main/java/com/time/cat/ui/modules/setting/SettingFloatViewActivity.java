@@ -89,7 +89,7 @@ public class SettingFloatViewActivity extends BaseActivity {
                         if (timecatBackgroungColors.length > position) {
                             applyColor(timecatBackgroungColors[position]);
                             lastPickedColor = timecatBackgroungColors[position];
-                            SPHelper.save(Constants.INSTANCE.getFLOATVIEW_DIY_BG_COLOR(), timecatBackgroungColors[position]);
+                            SPHelper.save(Constants.FLOATVIEW_DIY_BG_COLOR, timecatBackgroungColors[position]);
                             UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_FLOATVIEW_BGCOLOR, lastPickedColor + "");
                             ArcTipViewController.getInstance().showForSettings();
                         }
@@ -145,7 +145,7 @@ public class SettingFloatViewActivity extends BaseActivity {
                 int value = MIN_ITEM_PADDING + progress;
                 //mBigBangLayout.setTextPadding(value);
                 itemPadding.setText(getString(R.string.setting_floatview_size) + value);
-                SPHelper.save(Constants.INSTANCE.getFLOATVIEW_SIZE(), (float) value);
+                SPHelper.save(Constants.FLOATVIEW_SIZE, (float) value);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_FLOATVIEW_SET_SIZE, value + "");
                 ArcTipViewController.getInstance().showForSettings();
             }
@@ -167,7 +167,7 @@ public class SettingFloatViewActivity extends BaseActivity {
 //                mBigBangLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,value);
 //                cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
                 timecatAlpha.setText(getString(R.string.setting_floatview_alpha_percent) + value + "%");
-                SPHelper.save(Constants.INSTANCE.getFLOATVIEW_ALPHA(), value);
+                SPHelper.save(Constants.FLOATVIEW_ALPHA, value);
                 alpha = value;
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_FLOATVIEW_SET_ALPHA, value + "");
                 ArcTipViewController.getInstance().showForSettings();
@@ -206,16 +206,16 @@ public class SettingFloatViewActivity extends BaseActivity {
         isStickView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPHelper.save(Constants.INSTANCE.getFLOATVIEW_IS_STICK(), isChecked);
+                SPHelper.save(Constants.FLOATVIEW_IS_STICK, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_FLOATVIEW_IS_STICK, isChecked + "");
                 ArcTipViewController.getInstance().showForSettings();
             }
         });
 
-        int padding = (int) SPHelper.getFloat(Constants.INSTANCE.getFLOATVIEW_SIZE(), 100.0f);
-        alpha = SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_ALPHA(), 70);
-        lastPickedColor = SPHelper.getInt(Constants.INSTANCE.getFLOATVIEW_DIY_BG_COLOR(), Color.parseColor("#ffffa5"));
-        boolean isStick = SPHelper.getBoolean(Constants.INSTANCE.getFLOATVIEW_IS_STICK(), false);
+        int padding = (int) SPHelper.getFloat(Constants.FLOATVIEW_SIZE, 100.0f);
+        alpha = SPHelper.getInt(Constants.FLOATVIEW_ALPHA, 70);
+        lastPickedColor = SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#ffffa5"));
+        boolean isStick = SPHelper.getBoolean(Constants.FLOATVIEW_IS_STICK, false);
 
         isStickView.setChecked(isStick);
         mItemPaddingSeekBar.setProgress((MIN_ITEM_PADDING));
@@ -258,7 +258,7 @@ public class SettingFloatViewActivity extends BaseActivity {
                 applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
 //                        SPHelper.save(Constants.BIGBANG_DIY_BG_COLOR, lastPickedColor);
 //                        UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR, lastPickedColor + "");
-                SPHelper.save(Constants.INSTANCE.getFLOATVIEW_DIY_BG_COLOR(), lastPickedColor);
+                SPHelper.save(Constants.FLOATVIEW_DIY_BG_COLOR, lastPickedColor);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_FLOATVIEW_BGCOLOR, lastPickedColor + "");
                 mTimecatAlphaSeekBar.setProgress(alpha);
                 ArcTipViewController.getInstance().showForSettings();

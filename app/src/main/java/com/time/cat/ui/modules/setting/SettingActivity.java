@@ -71,9 +71,9 @@ public class SettingActivity extends BaseActivity {
             }
         }).subscribe(s -> {
             if (s.equals("")) {
-                boolean hadEnterIntro = SPHelper.getBoolean(Constants.INSTANCE.getHAD_ENTER_INTRO(), false);
-                boolean hasShared = SPHelper.getBoolean(Constants.INSTANCE.getHAD_SHARED(), false);
-                int openTimes = SPHelper.getInt(Constants.INSTANCE.getSETTING_OPEN_TIMES(), 0);
+                boolean hadEnterIntro = SPHelper.getBoolean(Constants.HAD_ENTER_INTRO, false);
+                boolean hasShared = SPHelper.getBoolean(Constants.HAD_SHARED, false);
+                int openTimes = SPHelper.getInt(Constants.SETTING_OPEN_TIMES, 0);
 
                 if (!hadEnterIntro) {
                     ViewStub viewStub = findViewById(R.id.intro_card);
@@ -108,8 +108,8 @@ public class SettingActivity extends BaseActivity {
 
         checkPermission();
 
-        int openTimes = SPHelper.getInt(Constants.INSTANCE.getSETTING_OPEN_TIMES(), 0);
-        SPHelper.save(Constants.INSTANCE.getSETTING_OPEN_TIMES(), openTimes + 1);
+        int openTimes = SPHelper.getInt(Constants.SETTING_OPEN_TIMES, 0);
+        SPHelper.save(Constants.SETTING_OPEN_TIMES, openTimes + 1);
     }
 
     private void initViewPager() {
@@ -227,6 +227,6 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        sendBroadcast(new Intent(INSTANCE.getBROADCAST_RELOAD_SETTING()));
+        sendBroadcast(new Intent(Constants.BROADCAST_RELOAD_SETTING));
     }
 }
