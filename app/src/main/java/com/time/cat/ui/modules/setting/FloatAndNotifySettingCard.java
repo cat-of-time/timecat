@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.floatviewwhitelist.FloatViewWhiteListActivity;
+import com.time.cat.ui.modules.floatviewwhitelist.FloatViewWhiteListActivity;
 import com.time.cat.ui.modules.intro.HowToUseActivity;
 import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.ui.widgets.dialog.DialogFragment;
