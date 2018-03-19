@@ -98,7 +98,7 @@ public class SchedulesFragment extends BaseFragment implements
 
 
 
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码------------------------------------
+    //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">------------------------------------
     @Override
     protected View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
@@ -123,14 +123,14 @@ public class SchedulesFragment extends BaseFragment implements
     @Override
     public void initView() {//必须调用
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
+    //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">)>--------------------------------
 
 
 
 
 
 
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
+    //<editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">--------------------------------------------
     @Override
     public void initData() {//必须调用
         // 耗时操作 比如网络请求
@@ -304,7 +304,7 @@ public class SchedulesFragment extends BaseFragment implements
         return calendar;
     }
 
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+    //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">-------------------------------------------
 
 
 
@@ -312,7 +312,7 @@ public class SchedulesFragment extends BaseFragment implements
 
 
 
-    //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
+    //<editor-fold desc="Event事件区--只要存在事件监听代码就是">-----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
         mCalendarView.setOnDateSelectedListener(this);
@@ -462,7 +462,7 @@ public class SchedulesFragment extends BaseFragment implements
     }
     //-//</CalendarView>--------------------------------------------------------------------
 
-    //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
+    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">----------------------------------------------------------
 
 
 
