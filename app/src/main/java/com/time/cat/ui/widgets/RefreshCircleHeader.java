@@ -1,4 +1,4 @@
-package com.scwang.smartrefresh.header;
+package com.time.cat.ui.widgets;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -23,13 +24,14 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
+import com.time.cat.R;
 
 /**
  * CircleRefresh
  * Created by zhanglei on 15/7/18.
  * from https://github.com/tuesda/CircleRefreshLayout
  */
-public class BezierCircleHeader extends View implements RefreshHeader {
+public class RefreshCircleHeader extends View implements RefreshHeader {
 
     //<editor-fold desc="Field">
 
@@ -61,23 +63,23 @@ public class BezierCircleHeader extends View implements RefreshHeader {
 
     //<editor-fold desc="View">
 
-    public BezierCircleHeader(Context context) {
+    public RefreshCircleHeader(Context context) {
         super(context, null, 0);
         initView(context, null);
     }
 
-    public BezierCircleHeader(Context context, AttributeSet attrs) {
+    public RefreshCircleHeader(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
         initView(context, attrs);
     }
 
-    public BezierCircleHeader(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RefreshCircleHeader(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context, attrs);
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    public BezierCircleHeader(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public RefreshCircleHeader(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context, attrs);
     }
@@ -161,8 +163,14 @@ public class BezierCircleHeader extends View implements RefreshHeader {
 
     private void drawBoll(Canvas canvas, int viewWidth) {
         if (mShowBoll) {
-            canvas.drawCircle(viewWidth / 2, mBollY, mBollRadius, mFrontPaint);
-
+//            canvas.drawCircle(viewWidth / 2, mBollY, mBollRadius, mFrontPaint);
+            Drawable d = getResources().getDrawable(R.drawable.ic_monitor_on);
+            d.setBounds(
+                    (int)(viewWidth   / 2 - mBollRadius),
+                    (int)(mHeadHeight / 2 - mBollRadius),
+                    (int)(viewWidth   / 2 + mBollRadius),
+                    (int)(mHeadHeight / 2 + mBollRadius));
+            d.draw(canvas);
             drawBollTail(canvas, viewWidth, (mHeadHeight + mWaveHeight) / mHeadHeight);
         }
     }
@@ -212,7 +220,14 @@ public class BezierCircleHeader extends View implements RefreshHeader {
         if (mFinishRatio > 0) {
             int beforeColor = mOuterPaint.getColor();
             if (mFinishRatio < 0.3) {
-                canvas.drawCircle(viewWidth / 2, mBollY, mBollRadius, mFrontPaint);
+//                canvas.drawCircle(viewWidth / 2, mBollY, mBollRadius, mFrontPaint);
+                Drawable d = getResources().getDrawable(R.drawable.ic_check_circle_white_24dp);
+                d.setBounds(
+                        (int)(viewWidth   / 2 - mBollRadius),
+                        (int)(mHeadHeight / 2 - mBollRadius),
+                        (int)(viewWidth   / 2 + mBollRadius),
+                        (int)(mHeadHeight / 2 + mBollRadius));
+                d.draw(canvas);
                 int outerR = (int) (mBollRadius + mOuterPaint.getStrokeWidth() * 2 * (1+mFinishRatio / 0.3f));
                 int afterColor = Color.argb((int) (0xff * (1 - mFinishRatio / 0.3f)), Color.red(beforeColor),
                         Color.green(beforeColor), Color.blue(beforeColor));
@@ -323,7 +338,7 @@ public class BezierCircleHeader extends View implements RefreshHeader {
                     mRefreshStop = 90;
                 }
                 mWaveHeight = curValue;
-                BezierCircleHeader.this.invalidate();
+                RefreshCircleHeader.this.invalidate();
             }
         });
         waveAnimator.setInterpolator(interpolator);
@@ -356,7 +371,7 @@ public class BezierCircleHeader extends View implements RefreshHeader {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mFinishRatio = (float) animation.getAnimatedValue();
-                BezierCircleHeader.this.invalidate();
+                RefreshCircleHeader.this.invalidate();
             }
         });
         animator.setInterpolator(new AccelerateInterpolator());
@@ -369,7 +384,8 @@ public class BezierCircleHeader extends View implements RefreshHeader {
      * @param colors 对应Xml中配置的 srlPrimaryColor srlAccentColor
      * @deprecated 请使用 {@link RefreshLayout#setPrimaryColorsId(int...)}
      */
-    @Override@Deprecated
+    @Override
+    @Deprecated
     public void setPrimaryColors(@ColorInt int ... colors) {
         if (colors.length > 0) {
             mBackPaint.setColor(colors[0]);

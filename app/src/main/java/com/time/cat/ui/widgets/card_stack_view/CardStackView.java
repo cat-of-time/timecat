@@ -391,6 +391,7 @@ public class CardStackView extends ViewGroup implements ScrollDelegate {
         if (!mIsBeingDragged) {
             super.onTouchEvent(ev);
         }
+        performClick();
         if (!mScrollEnable) {
             return true;
         }
@@ -525,6 +526,11 @@ public class CardStackView extends ViewGroup implements ScrollDelegate {
                     mTotalLength - mShowHeight);
         }
         return scrollRange;
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 
     @Override
