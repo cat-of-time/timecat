@@ -142,7 +142,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     //</生命周期>------------------------------------------------------------------------------------
 
 
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
+    //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">--------------------------------
     private TEditText dialog_add_task_et_title;
     private TEditText dialog_add_task_et_content;
     private ImageView to_editor;
@@ -640,10 +640,10 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 .addKeyboard(dialog_add_task_tv_tag, dialog_add_task_select_ll_tag)
                 .create();
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>-----------------------------
+    //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">)>-----------------------------
 
 
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-----------------------------------------
+    //<editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">-----------------------------------------
     DBTask task;
     DBNote note;
     int important_urgent_label;
@@ -816,10 +816,10 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_type_clock.setTextSize(14);
         dialog_add_task_footer_bt_submit.setText("修改");
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码----------------------------------------
+    //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">----------------------------------------
 
 
-    //<Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
+    //<editor-fold desc="Event事件区--只要存在事件监听代码就是">----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
         to_editor.setOnClickListener(this);
@@ -1421,7 +1421,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     }
     //-//</Activity>-------------------------------------------------------------------------------
 
-    //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
+    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">----------------------------------------------------------
 
 
     //<内部类>---尽量少用-----------------------------------------------------------------------------
