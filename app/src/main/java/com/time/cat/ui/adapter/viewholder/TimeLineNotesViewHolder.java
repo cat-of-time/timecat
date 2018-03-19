@@ -1,5 +1,9 @@
 package com.time.cat.ui.adapter.viewholder;
 
+import android.view.View;
+
+import com.chad.library.adapter.base.BaseViewHolder;
+
 /**
  * @author dlink
  * @email linxy59@mail2.sysu.edu.cn
@@ -7,5 +11,8 @@ package com.time.cat.ui.adapter.viewholder;
  * @discription null
  * @usage null
  */
-public class TimeLineNotesViewHolder {
+public class TimeLineNotesViewHolder extends BaseViewHolder {
+    public TimeLineNotesViewHolder(View view) {
+        super(view);
+    }
 }
