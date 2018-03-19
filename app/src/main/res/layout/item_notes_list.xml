@@ -1,67 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                style="@style/selectableItemBackgrond"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/card_detail_line_height"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/white_list_margin"
-                android:paddingLeft="@dimen/white_list_margin"
-                android:paddingTop="@dimen/white_list_margin">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/app_check"
+
+    <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="30dp"
+            android:background="@color/colorPrimary"/>
+
+        <com.flyco.roundview.RoundFrameLayout
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:rv_backgroundColor="#fff"
+            app:rv_isRadiusHalfHeight="true"
+            app:rv_strokeColor="@color/colorPrimary"
+            app:rv_strokeWidth="0.5dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_feed_list_mail"/>
+        </com.flyco.roundview.RoundFrameLayout>
+
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:visibility="gone"
-        app:theme="@style/CheckBoxTheme"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/app_icon"
-        android:layout_width="@dimen/height_normal"
-        android:layout_height="@dimen/card_detail_line_height"
-        android:layout_marginLeft="@dimen/white_list_margin"
-        android:layout_toRightOf="@id/app_check"
-        android:background="@null"
-        android:scaleType="centerInside"
-        />
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:rv_cornerRadius="5dp"
+            app:rv_strokeColor="@color/colorPrimary"
+            app:rv_strokeWidth="0.5dp">
 
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/spinner"
-        style="@style/spinnerStyle"
-        app:theme="@style/MonthDropTheme"/>
+            <com.rey.material.widget.TextView
+                android:id="@+id/notes_tv_title"
+                style="@style/Material.Drawable.Ripple.Touch.MatchView.Light"
+                app:rd_enable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:text="Steffen Norgaard Andersen"
+                android:textColor="#000"/>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/app_name"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/white_list_name_height"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/spinner"
-        android:layout_toRightOf="@id/app_icon"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_normal"
-        android:singleLine="true"
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/text_size_title"/>
+            <com.rey.material.widget.TextView
+                android:id="@+id/notes_tv_content"
+                style="@style/Material.Drawable.Ripple.Touch.MatchView.Light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:text="content"
+                android:textColor="#40000000"
+                app:rd_enable="true"/>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/app_name_describe"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/white_list_describe_height"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/spinner"
-        android:layout_toRightOf="@id/app_icon"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_normal"
-        android:textColor="@color/secondary_text"
-        android:textSize="@dimen/text_size_small"/>
+        </com.flyco.roundview.RoundLinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/notes_tv_time"
+                style="@style/AppTheme.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="21:44"
+                android:textColor="#40000000"
+                android:textSize="10sp"/>
+
+            <com.rey.material.widget.ImageView
+                android:id="@+id/notes_iv_copy"
+                style="Material.Drawable.Ripple.Touch.Light"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/notes_iv_timecat"
+                android:padding="3dp"
+                android:src="@drawable/ic_copy_blue_24dp"
+                app:rd_enable="true"/>
+
+            <com.rey.material.widget.ImageView
+                android:id="@+id/notes_iv_timecat"
+                style="Material.Drawable.Ripple.Touch.Light"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/notes_iv_translate"
+                android:src="@drawable/ic_cat_blue_24dp"
+                app:rd_enable="true"/>
+
+            <com.rey.material.widget.ImageView
+                android:id="@+id/notes_iv_translate"
+                style="Material.Drawable.Ripple.Touch.Light"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/notes_iv_search"
+                android:src="@drawable/ic_translate_blue_24dp"
+                app:rd_enable="true"/>
+
+            <com.rey.material.widget.ImageView
+                android:id="@+id/notes_iv_search"
+                style="Material.Drawable.Ripple.Touch.Light"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_search_blue_24dp"
+                app:rd_enable="true"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
