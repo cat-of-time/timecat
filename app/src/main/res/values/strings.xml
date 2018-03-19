@@ -531,7 +531,7 @@
     </string>
 
     <string name="routine_type_routines_help">
-        长按[生物钟]图标可以改变视图，目前支持的视图有：\n\t1. 星期视图\n\t2.卡片视图
+        长按[生物钟]图标可以改变视图，目it 前支持的视图有：\n\t1. 星期视图\n\t2.卡片视图
     </string>
 
     <string name="routine_type_hourly_help">
