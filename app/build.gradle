@@ -67,6 +67,9 @@ android {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        renderscriptTargetApi 25
+        renderscriptSupportModeEnabled true    // Enable RS support
         // ButterKnife
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
@@ -210,6 +213,14 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:4.45'
     // event bus
     compile 'org.greenrobot:eventbus:3.1.1'
+    // refresh recycle view
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5-alpha-2'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5-alpha-2'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    compile 'com.github.mmin18:realtimeblurview:1.0.6'
+
     // intro
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
