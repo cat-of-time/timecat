@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/selectableItemBackgrond"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/card_detail_line_height"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/white_list_margin"
+                android:paddingLeft="@dimen/white_list_margin"
+                android:paddingTop="@dimen/white_list_margin">
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/app_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:visibility="gone"
+        app:theme="@style/CheckBoxTheme"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/app_icon"
+        android:layout_width="@dimen/height_normal"
+        android:layout_height="@dimen/card_detail_line_height"
+        android:layout_marginLeft="@dimen/white_list_margin"
+        android:layout_toRightOf="@id/app_check"
+        android:background="@null"
+        android:scaleType="centerInside"
+        />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/spinner"
+        style="@style/spinnerStyle"
+        app:theme="@style/MonthDropTheme"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/white_list_name_height"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/spinner"
+        android:layout_toRightOf="@id/app_icon"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/margin_normal"
+        android:singleLine="true"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_title"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_name_describe"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/white_list_describe_height"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/spinner"
+        android:layout_toRightOf="@id/app_icon"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/margin_normal"
+        android:textColor="@color/secondary_text"
+        android:textSize="@dimen/text_size_small"/>
+
+
+</RelativeLayout>
