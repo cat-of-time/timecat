@@ -1,37 +1,34 @@
 package com.time.cat.ui.modules.notes;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.time.cat.R;
+import com.time.cat.TimeCatApp;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.model.APImodel.Note;
 import com.time.cat.data.model.DBmodel.DBNote;
-import com.time.cat.data.network.RetrofitHelper;
+import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
-import com.time.cat.ui.adapter.CardStackViewAdapter;
-import com.time.cat.ui.adapter.viewholder.ColorItemViewHolder;
+import com.time.cat.ui.adapter.TimeLineNotesAdapter;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvpframework.factory.CreatePresenter;
-import com.time.cat.ui.modules.operate.InfoOperationActivity;
-import com.time.cat.ui.widgets.card_stack_view.CardStackView;
-import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.source.AvatarManager;
 
-import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * @author dlink
@@ -41,156 +38,103 @@ import rx.schedulers.Schedulers;
 @CreatePresenter(NotesPresenter.class)
 public class NotesFragment
         extends BaseFragment<NotesFragmentAction, NotesPresenter>
-        implements OnNoteViewClickListener, NotesFragmentAction,
-                   ColorItemViewHolder.ColorItemViewHolderAction,
-                   CardStackViewAdapter.CardStackViewAdapterAction,
-                   CardStackView.ItemExpendListener {
-    @SuppressWarnings("unused")
-    private static final String TAG = "NotesFragment";
+        implements OnNoteViewClickListener, NotesFragmentAction {
+    //<editor-fold desc="Field">
 
     Context context;
-    //<生命周期>-------------------------------------------------------------------------------------
+    Handler handler;
+    private TimeLineNotesAdapter mAdapter;
+    private Queue<Object> pendingEvents = new LinkedList<>();
+
+    //</editor-fold desc="Field">
+
+    //<editor-fold desc="生命周期">
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        while (!pendingEvents.isEmpty()) {
+            LogUtil.e("Processing pending event...");
+            onEvent(pendingEvents.poll());
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getContext();
-
+        handler = new Handler();
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
         ButterKnife.bind(this, view);
-        setupStackView();
+        avatar.setImageResource(AvatarManager.res(DB.users().getActive().avatar()));
+        mAdapter = new TimeLineNotesAdapter();
+        mAdapter.addFooterView(inflater.inflate(R.layout.item_notes_list_footer, container, false));
+        mAdapter.openLoadAnimation();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(mAdapter);
+        getMvpPresenter().onAttachMvpView(this);
+        getMvpPresenter().refresh();
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> refreshLayout.getLayout().postDelayed(() -> {
+            getMvpPresenter().refresh();
+            refreshLayout.finishRefresh();
+        }, 2000));
+        TimeCatApp.eventBus().register(this);
 
         return view;
     }
-    //</生命周期>------------------------------------------------------------------------------------
+    //</editor-fold desc="生命周期">
 
+    //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)">
+    @BindView(R.id.refreshLayout)
+    RefreshLayout mRefreshLayout;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.avatar)
+    ImageView avatar;
+    //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)">
 
+    //<editor-fold desc="Event事件区--只要存在事件监听代码就是">
 
-
-
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
-    @BindView(R.id.notes_csv)
-    CardStackView mStackView;
-
-    private CardStackViewAdapter cardStackViewAdapter;
-
-    private void setupStackView() {
-        cardStackViewAdapter = new CardStackViewAdapter(context);
-        cardStackViewAdapter.setCardStackViewAdapterAction(this);
-        getMvpPresenter().onAttachMvpView(this);
-        getMvpPresenter().refresh();
-        // 等adapter和数据准备完毕再setAdapter
-        mStackView.setAdapter(cardStackViewAdapter);
-        mStackView.setItemExpendListener(this);
-    }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>---------------------------------
-
-
-
-
-
-    //<Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
-
-
-    //-//<Activity自动刷新>---------------------------------------------------------------------------
+    //-//<Activity自动刷新>-
     @Override
     public void notifyDataChanged() {
         getMvpPresenter().refresh();
     }
-    //-//</Activity自动刷新>--------------------------------------------------------------------------
+    //-//</Activity自动刷新>
 
 
-    //-//<用户强制刷新>------------------------------------------------------------------------------
+    //-//<用户强制刷新>
     @Override
     public void onViewNoteRefreshClick() {
         getMvpPresenter().refresh();
     }
-    //-//</用户强制刷新>-----------------------------------------------------------------------------
+    //-//</用户强制刷新>
 
 
-    //-//<NotesFragmentAction>----------------------------------------------------------------------
+    //-//<NotesFragmentAction>
     @Override
     public void refreshView(List<DBNote> adapterDBNoteList) {
-        cardStackViewAdapter.updateData(adapterDBNoteList);
+        mAdapter.replaceData(adapterDBNoteList);
     }
-    //-//</NotesFragmentAction>---------------------------------------------------------------------
+    //-//</NotesFragmentAction>
 
 
-    //-//<CardStackView>----------------------------------------------------------------------------
-    @Override
-    public void onTitleLongClick(DBNote dbNote) {
-        new MaterialDialog.Builder(getActivity())
-                .content("确定删除这个任务吗？")
-                .positiveText("删除")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                        LogUtil.e("dbNote == " + dbNote.toString());
-                        try {
-                            DB.notes().delete(dbNote);
-                            ToastUtil.ok("已删除");
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            ToastUtil.e("删除失败");
-                        }
-                        RetrofitHelper.getNoteService().deleteNoteByUrl(dbNote.getUrl())
-                                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
-                                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-                                .subscribe(new Subscriber<Note>() {
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        //请求失败
-//                                        ToastUtil.show("删除操作同步失败");
-//                                        LogUtil.e("删除操作同步失败 --> " + e.toString());
-                                    }
-
-                                    @Override
-                                    public void onNext(Note note) {
-                                        //请求成功
-//                                        ToastUtil.show("删除成功");
-//                                        LogUtil.e("删除成功 --> " + note.toString());
-                                    }
-                                });
+    public void onEvent(final Object evt) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (evt instanceof PersistenceEvents.ModelCreateOrUpdateEvent) {
+                        notifyDataChanged();
+                    } else if (evt instanceof PersistenceEvents.NoteCreateEvent) {
+                        notifyDataChanged();
+                    } else if (evt instanceof PersistenceEvents.NoteUpdateEvent) {
+                        notifyDataChanged();
+                    } else if (evt instanceof PersistenceEvents.NoteDeleteEvent) {
                         notifyDataChanged();
                     }
-                })
-                .negativeText("取消")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                }
+            });
     }
-
-    @Override
-    public void onContentClick(DBNote dbNote) {
-        Intent intent2DialogActivity = new Intent(context, InfoOperationActivity.class);
-        intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, dbNote.getContent());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(InfoOperationActivity.TO_UPDATE_NOTE, dbNote);
-        intent2DialogActivity.putExtras(bundle);
-        startActivity(intent2DialogActivity);
-        ToastUtil.i("修改笔记");
-    }
-
-    @Override
-    public CardStackView.ViewHolder onCreateView(ViewGroup parent, int viewType) {
-        View view = getLayoutInflater().inflate(R.layout.item_list_card, parent, false);
-        ColorItemViewHolder colorItemViewHolder = new ColorItemViewHolder(view);
-        colorItemViewHolder.setColorItemViewHolderAction(this);
-        return colorItemViewHolder;
-    }
-
-    @Override
-    public void onItemExpend(boolean expend) {}
-    //-//</CardStackView>---------------------------------------------------------------------------
-
-
-    //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
+    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">
 
 }
