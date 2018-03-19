@@ -22,5 +22,5 @@
     <solid android:color="#00ffffff" />
     <stroke
         android:color="#aaffffff"
-        android:width="3dip"></stroke>
+        android:width="3dip"/>
 </shape>
