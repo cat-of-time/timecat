@@ -198,7 +198,7 @@
             android:name=".ui.activity.whitelist.WhiteListActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
-            android:name=".ui.activity.floatviewwhitelist.FloatViewWhiteListActivity"
+            android:name=".ui.modules.floatviewwhitelist.FloatViewWhiteListActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".ui.modules.screen.ScreenCaptureActivity"
