@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity implements
 
 
 
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">-----------------------------------
     @Override
     public void initView() {//必须调用
         switch (ThemeManager.getTheme(this)) {
@@ -409,18 +409,18 @@ public class MainActivity extends BaseActivity implements
 
         return mainTab;
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)>--------------------------------
+    //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">)>--------------------------------
 
 
 
 
 
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
+    //<editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">--------------------------------------------
     @Override
     public void initData() {//必须调用
 
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+    //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">-------------------------------------------
 
 
 
@@ -433,7 +433,7 @@ public class MainActivity extends BaseActivity implements
 
 
 
-    //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
+    //<editor-fold desc="Event事件区--只要存在事件监听代码就是">-----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
         customPagerView.addOnPageChangeListener(this);
@@ -811,7 +811,7 @@ public class MainActivity extends BaseActivity implements
 //        fabMgr.onUserUpdate(user);
         refreshTheme(this, user.color());
     }
-    //</Event事件区>---只要存在事件监听代码就是---------------------------------------------------------
+    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">---------------------------------------------------------
 
 
     //<回调接口>-------------------------------------------------------------------------------------

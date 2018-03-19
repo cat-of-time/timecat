@@ -119,7 +119,7 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
 
 
 
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">-----------------------------------
     @Override
     public void initView() {//必须调用
         boolean fullScreen = SPHelper.getBoolean(Constants.IS_FULL_SCREEN, false);
@@ -298,10 +298,10 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
             timeCatLayoutWrapper.setVisibility(View.VISIBLE);
         }
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码----------------------------------
+    //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">----------------------------------
 
 
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+    //<editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">-------------------------------------------
     @Override
     public void initData() {//必须调用
     }
@@ -382,10 +382,10 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
         }
         return txts;
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+    //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">-------------------------------------------
 
 
-    //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
+    //<editor-fold desc="Event事件区--只要存在事件监听代码就是">-----------------------------------------------------------
     @Override
     public void initEvent() {//必须调用
     }
@@ -612,5 +612,5 @@ public class TimeCatActivity extends BaseActivity implements ActivityPresenter, 
     }
     //-//</TimeCatLayoutWrapper.ActionListener>-----------------------------------------------------
 
-    //</Event事件区>---只要存在事件监听代码就是----------------------------------------------------------
+    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">----------------------------------------------------------
 }

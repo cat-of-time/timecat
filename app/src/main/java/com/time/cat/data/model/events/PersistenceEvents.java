@@ -75,6 +75,10 @@ public class PersistenceEvents {
         }
     }
 
+    public static class NoteDeleteEvent {
+        public NoteDeleteEvent() {}
+    }
+
     public static class TaskCreateEvent {
         public DBTask task;
 
@@ -89,5 +93,9 @@ public class PersistenceEvents {
         public TaskUpdateEvent(DBTask task) {
             this.task = task;
         }
+    }
+
+    public static class TaskDeleteEvent {
+        public TaskDeleteEvent(DBTask task) {}
     }
 }
