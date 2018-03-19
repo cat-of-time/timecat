@@ -513,11 +513,12 @@
     </string>
 
     <string name="schedule_type_routines_help">
-        This kind of task lets you bind intakes to your routines, such as: \"Every day at breakfast and dinner, excluding sundays\", or \"Every 3 days, with lunch.\"
+        长按[日程]图标可以改变视图，目前支持的视图有：\n\t1. 日程视图\n\t2.四象限视图\n
+        点击左上角的日期，可看见年月视图。
     </string>
 
     <string name="schedule_type_hourly_help">
-        Hourly schedules are intended to those intakes that repeat by a certain period, such as: \"Every 8 hours\".\n\nSet the time of the first intake and go on.
+        您可以在日程页面管理将要做的事情，比如做作业，写文章，追剧等。\n当天完成任务可获得丰厚的奖励，当天未完成的任务将自动顺延至下一天。
     </string>
 
     <string name="schedule_type_intervalrest_help">
@@ -530,11 +531,11 @@
     </string>
 
     <string name="routine_type_routines_help">
-        This kind of task lets you bind intakes to your routines, such as: \"Every day at breakfast and dinner, excluding sundays\", or \"Every 3 days, with lunch.\"
+        长按[生物钟]图标可以改变视图，目前支持的视图有：\n\t1. 星期视图\n\t2.卡片视图
     </string>
 
     <string name="routine_type_hourly_help">
-        Hourly schedules are intended to those intakes that repeat by a certain period, such as: \"Every 8 hours\".\n\nSet the time of the first intake and go on.
+        管理定期事情，比如课程表，产品上线，任务DDL，定时健身，定期体检，早睡早起等。\n在创建时请使用[全天]标签，取消全天并设置开始结束时间；使用[重复]标签来批量创建。
     </string>
 
     <string name="routine_type_intervalrest_help">
