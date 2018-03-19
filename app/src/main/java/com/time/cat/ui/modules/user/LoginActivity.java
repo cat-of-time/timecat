@@ -86,7 +86,7 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
 
 
 
-    //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">-----------------------------------
     EditText emailText;
     EditText passwordText;
     Button loginButton;
@@ -98,24 +98,24 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
         loginButton = findViewById(R.id.btn_login);
         signupLink = findViewById(R.id.link_signup);
     }
-    //</UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码-----------------------------------
+    //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">-----------------------------------
 
 
 
 
 
-    //<Data数据区>---存在数据获取或处理代码，但不存在事件监听代码--------------------------------------------
+    //<editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">--------------------------------------------
     @Override
     public void initData() {
         intent = new Intent(LoginActivity.this, MainActivity.class);
     }
-    //</Data数据区>---存在数据获取或处理代码，但不存在事件监听代码-------------------------------------------
+    //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">-------------------------------------------
 
 
 
 
 
-    //<Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
+    //<editor-fold desc="Event事件区--只要存在事件监听代码就是">-----------------------------------------------------------
     @Override
     public void initEvent() {
         loginButton.setOnClickListener(this);
@@ -258,6 +258,6 @@ public class LoginActivity extends BaseActivity implements ActivityPresenter, Vi
     //-//</View.OnClickListener>---------------------------------------------------------------------
 
 
-    //</Event事件区>---只要存在事件监听代码就是-----------------------------------------------------------
+    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">-----------------------------------------------------------
 
 }
