@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.floatviewwhitelist;
+package com.time.cat.ui.modules.floatviewwhitelist;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
