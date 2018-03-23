@@ -490,56 +490,54 @@
     <string name="home_menu_medicines">MEDICINES</string>
     <string name="home_menu_pharmacies">Pharmacies</string>
     <string name="drawer_theme_option">Theme</string>
+    <string name="drawer_achievement_option">Achievement</string>
+    <string name="drawer_statistics_option">Statistics</string>
     <string name="drawer_settings_option">Settings</string>
-    <string name="drawer_about_option">About</string><![CDATA[
-
-    DBRoutinetine-->
-    ]]>
-    <string name="routines_list_empty_text">There are no routines yet.\n\nRoutines are times when you need to take care, like breakfast or dinner. You can reuse it for creating schedules faster.</string>
+    <string name="drawer_about_option">About</string>
+    <string name="routines_list_empty_text">还没有[生物钟]喵！\n[生物钟]是定期任务，比如课程、健身、定期运动等。\n快去创建您的[生物钟]喵！</string>
     <string name="remove_routine_message_long">The Routine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
-    <string name="remove_routine_message_short">Remove %1$s Routine?</string>
-    <string name="remove_routine_dialog_title">Remove Routine</string>
+    <string name="remove_routine_message_short">删除 %1$s [生物钟]?</string>
+    <string name="remove_routine_dialog_title">删除[生物钟]</string>
     <string name="dialog_yes_option">Yes</string>
     <string name="dialog_no_option">No</string>
     <string name="reminder_cancelled_message">Reminder cancelled</string>
     <!--floating button-->
-    <string name="schedule_type_routines_title">Routine task</string>
-    <string name="schedule_type_hourly_title">Dosing interval</string>
-    <string name="schedule_type_period_title">Period + rest</string>
+    <string name="schedule_type_routines_title">视图切换</string>
+    <string name="schedule_type_hourly_title">使用实例</string>
+    <string name="schedule_type_period_title">注意！</string>
 
 
     <string name="schedule_type_help_title">
-        You are about to create a task, choose the one that best suits your needs!
+        您将创建一个[任务]，阅读下面的说明以更好地使用这个功能
     </string>
 
     <string name="schedule_type_routines_help">
-        长按[日程]图标可以改变视图，目前支持的视图有：\n\t1. 日程视图\n\t2.四象限视图\n
-        点击左上角的日期，可看见年月视图。
+        长按[日程]图标改变视图，目前支持的视图有：\n\t1. 日程视图\n\t2. 四象限视图\n点击左上角的日期文字，可看见年月视图。
     </string>
 
     <string name="schedule_type_hourly_help">
-        您可以在日程页面管理将要做的事情，比如做作业，写文章，追剧等。\n当天完成任务可获得丰厚的奖励，当天未完成的任务将自动顺延至下一天。
+        您可以在日程页面管理将要做的事情，比如做作业，写文章，追剧等。
     </string>
 
     <string name="schedule_type_intervalrest_help">
-        Birth control pills and other meds are taken for a while, and then there\'s a rest. This kind of task allows you to specify both periods and simplify those intakes.
+        当天完成任务可获得丰厚的奖励，当天未完成的任务将自动顺延至下一天。
     </string>
 
 
     <string name="routine_type_help_title">
-        You are about to create a routine, choose the one that best suits your needs!
+        您将创建一个[生物钟]，阅读下面的说明以更好地使用这个功能
     </string>
 
     <string name="routine_type_routines_help">
-        长按[生物钟]图标可以改变视图，目it 前支持的视图有：\n\t1. 星期视图\n\t2.卡片视图
+        长按[生物钟]图标可以改变视图，目it 前支持的视图有：\n\t1. 星期视图\n\t2. 卡片视图
     </string>
 
     <string name="routine_type_hourly_help">
-        管理定期事情，比如课程表，产品上线，任务DDL，定时健身，定期体检，早睡早起等。\n在创建时请使用[全天]标签，取消全天并设置开始结束时间；使用[重复]标签来批量创建。
+        \t\t管理定期事情，比如课程表，产品上线，任务DDL，定时健身，定期体检，早睡早起等。
     </string>
 
     <string name="routine_type_intervalrest_help">
-        Birth control pills and other meds are taken for a while, and then there\'s a rest. This kind of task allows you to specify both periods and simplify those intakes.
+        使用[全天]标签，取消全天并设置开始结束时间\n\n使用[重复]标签来批量创建。
     </string>
 
     <string name="appwidget_text">EXAMPLE</string>
@@ -779,11 +777,42 @@
 
 
     <!-- Weekly view -->
-    <string name="week">Week</string>
 
     <string name="schedules_task_view">日程视图</string>
     <string name="schedules_four_view">四象限视图</string>
 
     <string name="routines_card_view">卡片视图</string>
     <string name="routines_week_view">星期视图</string>
+    <string name="word_test">测试</string>
+    <!--achievement-->
+    <string name="my_achievement_text">我的成就</string>
+    <string name="zero">0</string>
+    <string name="fail_tomato">烂番茄</string>
+    <string name="history_data">历史数据</string>
+    <string name="history_finish_tomato">总番茄</string>
+
+    <string name="week">周</string>
+    <string name="work_count_down_over">工作时间结束</string>
+    <string name="work_end_warn">工作结束啦，休息一下吧！</string>
+    <string name="work_text">工作</string>
+    <string name="work_time_text">工作</string>
+    <string name="work_total_time">工作时间(小时)</string>
+    <string name="working_end_text">休息一下吧</string>
+    <string name="working_text">工作中</string>
+
+    <string name="day">日</string>
+    <string name="days">天</string>
+
+    <string name="seven_day_text">七天</string>
+    <string name="month">月</string>
+    <string name="month_text">月</string>
+
+    <string name="today_data">今日数据</string>
+    <string name="today_finish_tomato">番茄数</string>
+    <string name="today_text">今天</string>
+
+    <string name="tomato_distribute_title">番茄收获时间</string>
+    <string name="tomato_num_title">番茄收成</string>
+
+    <string name="statistical_text">统计</string>
 </resources>
