@@ -538,4 +538,32 @@
         <item name="android:singleLine">false</item>
     </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit_anim</item>
+    </style>
+    <style name="SheetDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/sheet_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/sheet_dialog_out</item>
+    </style>
+
+    <style name="def_progress_style">
+        <item name="outer_layer_slide_color">@color/white</item>
+        <item name="outer_layer_stroke_color">#90F76E6B</item>
+        <item name="outer_layer_stroke_width">2dp</item>
+        <item name="middle_layer_bg_color">#D1D1D1</item>
+        <item name="middle_layer_progress_color">@color/work_background_color</item>
+        <item name="middle_layer_progress_width">4dp</item>
+        <item name="middle_layer_small_circle_slide_color">@color/white</item>
+        <item name="middle_layer_small_circle_stroke_color">@color/work_background_color</item>
+        <item name="middle_layer_small_circle_size">10dp</item>
+        <item name="middle_layer_small_circle_stroke_width">5dp</item>
+        <item name="shadow_layer_color">@color/work_background_color</item>
+        <item name="shadow_layer_inner_color">@color/work_background_color</item>
+        <item name="inner_text_size">50sp</item>
+        <item name="inner_text_color">#fff</item>
+        <item name="inner_text_start">开始</item>
+        <item name="inner_text_end">时间到</item>
+        <item name="inner_text_time_style">mm:ss</item>
+    </style>
 </resources>
