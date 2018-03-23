@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:radius="5dp" />
+            <solid android:color="@color/seek_bar_background_color" />
+        </shape>
+    </item>
+    <item>
+        <clip>
+            <shape>
+                <solid android:color="@color/colorPrimary" />
+            </shape>
+        </clip>
+    </item>
+    <item>
+        <clip>
+            <shape>
+                <corners android:radius="5dp" />
+                <solid android:color="@color/colorPrimary" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>
