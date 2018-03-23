@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 
 import com.time.cat.R;
 import com.time.cat.ui.base.baseCard.DividerItemDecoration;
-import com.time.cat.ui.activity.whitelist.AppListAdapter;
+import com.time.cat.ui.modules.whitelist.AppListAdapter;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.util.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.time.cat.ui.modules.setting.MonitorSettingCard.SPINNER_ARRAY;
-import static com.time.cat.ui.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
+import static com.time.cat.ui.modules.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
 import static com.timecat.xposed.XposedConstant.SP_NAME;
 
 
