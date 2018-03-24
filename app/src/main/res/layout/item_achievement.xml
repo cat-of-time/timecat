@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/profile"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/achievement_horizontal_padding"
+              android:layout_marginRight="@dimen/achievement_horizontal_padding"
+              android:orientation="vertical"
+              android:paddingBottom="10dp"
+              android:paddingTop="@dimen/achievement_horizontal_padding">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/big_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:src="@mipmap/wan_fu_yong_inappropriate"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/avatar"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/avatar5"
-            app:civ_border_color="#aa3bb2ff"
-            app:civ_border_width="0.5dp"/>
-
-        <TextView
-            android:id="@+id/title"
-            style="AppTheme.Label.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/avatar"
-            android:layout_toRightOf="@id/avatar"
-            android:text="所有笔记都在这里喵~"
-            android:textColor="#aa3bb2ff"/>
-    </RelativeLayout>
-</RelativeLayout>
-
+    <TextView
+        android:id="@+id/achievement_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/achievement_title_color"
+        android:textSize="@dimen/achievement_title"/>
+</LinearLayout>
