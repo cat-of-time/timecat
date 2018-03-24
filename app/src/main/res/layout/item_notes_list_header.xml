@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#fff"
-    android:paddingLeft="20.5dp"
-    android:paddingRight="20.5dp">
+    android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/avatar5"
+            app:civ_border_color="#aa3bb2ff"
+            app:civ_border_width="0.5dp"/>
 
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="10dp"
-            android:background="@color/colorPrimary"/>
+        <TextView
+            android:id="@+id/title"
+            style="AppTheme.Label.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/avatar"
+            android:layout_toRightOf="@id/avatar"
+            android:text="所有笔记都在这里喵~"
+            android:textColor="#aa3bb2ff"/>
+    </RelativeLayout>
+</RelativeLayout>
 
-        <com.flyco.roundview.RoundFrameLayout
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:rv_backgroundColor="#fff"
-            app:rv_isRadiusHalfHeight="true"
-            app:rv_strokeColor="@color/colorPrimary"
-            app:rv_strokeWidth="0.5dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_check_circle_blue_24dp"/>
-        </com.flyco.roundview.RoundFrameLayout>
-
-    </LinearLayout>
-</LinearLayout>
