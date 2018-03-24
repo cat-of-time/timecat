@@ -10,5 +10,6 @@
     <string name="notify_srceen_cap">截屏OCR</string>
     <string name="label_not_important_not_urgent">不重要不紧急</string>
     <string name="label_not_important_urgent">紧急不重要</string>
+    <string name="word_test">测试</string>
 
 </resources>
