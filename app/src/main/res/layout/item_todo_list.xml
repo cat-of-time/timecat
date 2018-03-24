@@ -40,7 +40,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textSize="16sp"
-            android:textStyle="normal"
+            android:textStyle="bold"
             android:text="temp"
             android:textColor="@color/black"/>
     </RelativeLayout>
