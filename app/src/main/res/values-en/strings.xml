@@ -28,7 +28,7 @@
     <string name="stringValue5">re-ocr</string>
     <string name="stringValue4">take  a picture for Ocr</string>
     <string name="timecat_copyright">Copyright ©2018 TimeCat. All Rights  Reserved</string>
-    <string name="stringValue6">A touch can reach  your convenient life！</string>
+    <string name="stringValue6">Free your convenient time！Miau~</string>
     <string name="share_request_confirm_like">Of course！</string>
     <string name="stringValue9">Translation result</string>
     <string name="sorry_for_parse_fail">I\'m sorry,resolution fail</string>
@@ -602,5 +602,30 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
     <string name="menu_item_title_email">Email</string>
     <string name="menu_item_title_github">GitHub</string>
     <string name="menu_item_title_zhihu">知乎</string>
+    <string name="word_test">测试</string>
     <!-- preference -->
+
+    <string name="week">Week</string>
+    <string name="my_achievement_text">My Achievement</string>
+    <string name="zero">0</string>
+    <string name="fail_tomato">Unfinished</string>
+    <string name="history_data">History Data</string>
+    <string name="history_finish_tomato">Total Pomodoros</string>
+    <string name="today_data">Today Data</string>
+    <string name="today_finish_tomato">Pomodoros</string>
+    <string name="today_text">Today</string>
+    <string name="tomato_distribute_title">Review</string>
+    <string name="tomato_num_title">Pomodoros</string>
+    <string name="work_count_down_over">Your work is done</string>
+    <string name="work_end_warn">Time to take a break!</string>
+    <string name="work_text">Work</string>
+    <string name="work_time_text">Work Duration</string>
+    <string name="work_total_time">Work Time (hours)</string>
+    <string name="working_end_text">Time to take a break.</string>
+    <string name="working_text">Work Time</string>
+    <string name="seven_day_text">7 days</string>
+    <string name="month">Monthly</string>
+    <string name="month_text">Months</string>
+    <string name="day">Daily</string>
+    <string name="days">Days</string>
 </resources>
