@@ -111,4 +111,85 @@
         <item>@string/routines_week_view</item>
         <item>@string/routines_card_view</item>
     </string-array>
+
+    <string-array name="achievement_describe">
+        <item>完成第1个番茄</item>
+        <item>番茄数达到100个</item>
+        <item>番茄数达到1000个</item>
+        <item>番茄数达到10000个</item>
+        <item>工作时间累计到666个小时</item>
+        <item>工作时间累计到8888个小时</item>
+        <item>使用番茄天数超过100天</item>
+        <item>使用番茄天数超过365天</item>
+        <item>连续两年使用番茄</item>
+        <item>单个番茄工作时间超过50分钟</item>
+        <item>一天超过15个番茄</item>
+        <item>早上七点之前开始使用番茄并完成</item>
+        <item>晚上工作超过5个番茄</item>
+        <item>工作日连续一个月使用番茄</item>
+        <item>一天完成10个番茄且没有烂番茄</item>
+        <item>一周工作日内超过30个番茄且没有烂番茄</item>
+        <item>完成一半的成就</item>
+        <item>完成全部成就</item>
+    </string-array>
+    <string-array name="achievement_name">
+        <item>牛刀小试</item>
+        <item>百炼成钢</item>
+        <item>跬步千里</item>
+        <item>万夫不当</item>
+        <item>学富五车</item>
+        <item>淡泊明志</item>
+        <item>百忍成金</item>
+        <item>不忘初心</item>
+        <item>匪伊朝夕</item>
+        <item>遗形藏志</item>
+        <item>日旰忘食</item>
+        <item>闻鸡起舞</item>
+        <item>秉烛达旦</item>
+        <item>坚持不懈</item>
+        <item>忙中有序</item>
+        <item>砥志研思</item>
+        <item>铢积寸累</item>
+        <item>百尺竿头</item>
+    </string-array>
+    <array name="achievement_big_icon">
+        <item>small_scale_chopper</item>
+        <item>tempered_info_a_steel</item>
+        <item>a_small_victory</item>
+        <item>wan_fu_yong_inappropriate</item>
+        <item>fu_capella_university</item>
+        <item>not_seek_fame_and_wealth</item>
+        <item>one_hundred_patience_tp_golden</item>
+        <item>do_not_forget_initial_determination</item>
+        <item>more_then_one_morning_and_night</item>
+        <item>detache_head_and_abandon_of_mind</item>
+        <item>dnd_of_day_and_forget_to_eat</item>
+        <item>the_chicken_dance</item>
+        <item>lit_candles_until_the_morning</item>
+        <item>perseverance</item>
+        <item>orderly_fashion</item>
+        <item>concentration_and_careful_study</item>
+        <item>let_small_amounts_accumulate</item>
+        <item>make_still_further_progress</item>
+    </array>
+    <array name="achievement_serial">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+    </array>
 </resources>
