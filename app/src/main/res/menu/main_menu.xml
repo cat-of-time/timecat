@@ -31,7 +31,7 @@
         android:id="@+id/main_menu_routinesFragment"
         android:visible="false">
         <item
-            android:id="@+id/main_menu_1"
+            android:id="@+id/main_menu_new_clock"
             android:icon="@drawable/ic_alarm_white_48dp"
             android:title="@string/main_menu_change_theme"
             android:visible="false"
