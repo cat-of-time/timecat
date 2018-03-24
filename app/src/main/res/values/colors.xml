@@ -284,5 +284,25 @@
     <color name="color_24">#9E9E9E</color>
     <color name="color_25">#607D8B</color>
     <color name="color_26">#000000</color>
+    <!--achievement-->
+    <color name="achievement_title_color">#75000000</color>
+    <color name="rippelColor">#ffffff</color>
+    <color name="statistical_text_color">#90000000</color>
+    <color name="setting_background">#08000000</color>
+    <color name="setting_item_press_color">#e9edee</color>
+    <color name="setting_line_color">#12000000</color>
+    <color name="setting_text_color">#70000000</color>
+    <color name="seek_bar_background_color">#10000000</color>
+    <color name="colorPrimaryPress">#e02247</color>
+    <color name="dialog_bg">#f1f1f3</color>
+    <color name="color_translucent">#20000000</color>
+    <color name="color_transparent">#00000000</color>
 
+
+    <color name="relax_background_color">#41e29c</color>
+    <color name="relax_progress_color">#00b680</color>
+    <color name="work_background_color">#ff5555</color>
+    <color name="work_progress_color">#e10a28</color>
+    <color name="textHighLightColor">#FB7530</color>
+    <color name="statistical_child_title_color">#60000000</color>
 </resources>
