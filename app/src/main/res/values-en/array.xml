@@ -24,4 +24,85 @@
         <item>Long press the Volume Down key</item>
         <item>Volume Up + Volume Down</item>
     </string-array>
+
+    <array name="achievement_big_icon">
+        <item>small_scale_chopper</item>
+        <item>tempered_info_a_steel</item>
+        <item>a_small_victory</item>
+        <item>wan_fu_yong_inappropriate</item>
+        <item>fu_capella_university</item>
+        <item>not_seek_fame_and_wealth</item>
+        <item>one_hundred_patience_tp_golden</item>
+        <item>do_not_forget_initial_determination</item>
+        <item>more_then_one_morning_and_night</item>
+        <item>detache_head_and_abandon_of_mind</item>
+        <item>dnd_of_day_and_forget_to_eat</item>
+        <item>the_chicken_dance</item>
+        <item>lit_candles_until_the_morning</item>
+        <item>perseverance</item>
+        <item>orderly_fashion</item>
+        <item>concentration_and_careful_study</item>
+        <item>let_small_amounts_accumulate</item>
+        <item>make_still_further_progress</item>
+    </array>
+    <array name="achievement_describe">
+        <item>Reap your first pomodoro</item>
+        <item>Reap pomodoros up to 100</item>
+        <item>Reap pomodoros up to 1000</item>
+        <item>Reap pomodoros up to 10000</item>
+        <item>Working hours up to 666</item>
+        <item>Working hours up to 8888</item>
+        <item>Work with Pomodoro over 100 days</item>
+        <item>Work with Pomodoro over 365 days</item>
+        <item>Keep using Pomodoro for 2 years</item>
+        <item>Spend over 50 minutes on a pomodoro</item>
+        <item>Reap over 15 pomodoros one day</item>
+        <item>Reap a pomodoro starting before 7am</item>
+        <item>Reap over 5 pomodoros in the evening</item>
+        <item>Keep using Pomodoro in weekdays for a month</item>
+        <item>Reap over 30 pomodoros in weekdays for a week without unfinished ones</item>
+        <item>Reap 10 pomodoros without break</item>
+        <item>Gain half of achievements</item>
+        <item>Gain all achievements</item>
+    </array>
+    <array name="achievement_name">
+        <item>First Blood</item>
+        <item>Tomato Soldier</item>
+        <item>Tomato General</item>
+        <item>Tomato King</item>
+        <item>Steady Man</item>
+        <item>Tireless Man</item>
+        <item>Tenacity</item>
+        <item>Loyalty</item>
+        <item>Legend</item>
+        <item>Concentration</item>
+        <item>Unstoppable Force</item>
+        <item>Early Bird</item>
+        <item>Night Watch</item>
+        <item>In Order</item>
+        <item>Top Form</item>
+        <item>On A Roll</item>
+        <item>Over Achiever</item>
+        <item>Incredible Job</item>
+    </array>
+    <array name="achievement_serial">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+    </array>
 </resources>
