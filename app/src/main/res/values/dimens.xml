@@ -139,4 +139,19 @@
     <dimen name="month_text_size">22sp</dimen>
 
     <dimen name="year_view_day_text_size">8sp</dimen>
+    <!--achievement-->
+    <dimen name="achievement_dialog_title">24sp</dimen>
+    <dimen name="achievement_dialog_twenty_margin">20dp</dimen>
+    <dimen name="achievement_horizontal_padding">15dp</dimen>
+    <dimen name="achievement_title">13sp</dimen>
+    <dimen name="share_btn_margin">33dp</dimen>
+    <dimen name="text_normal_size">16sp</dimen>
+    <dimen name="text_small_size">12sp</dimen>
+    <dimen name="text_title_size">20sp</dimen>
+    <dimen name="today_statistical_margin">22sp</dimen>
+    <dimen name="notification_large_icon_height">64dp</dimen>
+    <dimen name="notification_large_icon_width">64dp</dimen>
+    <dimen name="notification_subtext_size">12dp</dimen>
+    <dimen name="notification_time_size">30sp</dimen>
+    <dimen name="statistical_margin">13dp</dimen>
 </resources>
