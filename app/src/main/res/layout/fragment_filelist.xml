@@ -5,13 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_alignParentTop="true"
-        android:alpha="0.3"
-        android:background="@drawable/shadow"
-        android:elevation="1dp"/>
+    <include layout="@layout/base_shadow_line"/>
 
     <include layout="@layout/list_empty"/>
 
