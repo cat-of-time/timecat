@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/week_view_main_holder"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fillViewport="true">
 
     <RelativeLayout
         android:id="@+id/week_view_holder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <ImageView
@@ -44,6 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/week_view_hours_scrollview"/>
+
+        <include layout="@layout/base_progress_bar"/>
 
     </RelativeLayout>
 </LinearLayout>
