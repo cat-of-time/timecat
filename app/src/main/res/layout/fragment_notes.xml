@@ -6,13 +6,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/white">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_alignParentTop="true"
-        android:alpha="0.3"
-        android:background="@drawable/shadow"
-        android:elevation="1dp"/>
+    <include layout="@layout/base_shadow_line"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
@@ -23,8 +17,8 @@
         app:srlEnableHeaderTranslationContent="true"
         app:srlEnableLoadMore="true"
         app:srlEnablePreviewInEditMode="false"
-        app:srlFixedHeaderViewId="@+id/profile"
         app:srlPrimaryColor="@color/colorPrimary">
+        <!--app:srlFixedHeaderViewId="@+id/profile"-->
 
         <com.time.cat.ui.widgets.RefreshCircleHeader
             android:layout_width="match_parent"
@@ -38,58 +32,6 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/profile"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-
-                <com.github.mmin18.widget.RealtimeBlurView
-                    android:id="@+id/blurview"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    app:realtimeBlurRadius="10dp"
-                    app:realtimeOverlayColor="#aa3bb2ff"/>
-                <!--((0xFF * fgC * fgA) + (bgC * bgA * (0xFF - fgA))) / (a * 0xFF);-->
-                <!--((0xFF * fgC * 0xaa) + (bgC * 0xff * (0xFF - 0xaa))) / (0xff * 0xFF) = YY -->
-                <!--(0xFF * fgC * 0xaa) = YY * (0xff * 0xFF) - (bgC * 0xff * (0xFF - 0xaa))  -->
-                <!--fgC = (YY * (0xff * 0xFF) - (bgC * 0xff * (0xFF - 0xaa)))/(0xFF * 0xaa)  -->
-                <!--fgC = (YY * (0xff * 0xFF) - (bgC * (0xFF - 0xaa))) / 0xaa  -->
-                <!--fgC = (YY * 0xFE01 - (bgC * (0xFF - 0xaa))) / 0xaa  -->
-                <!--fgR = (0x33 * 0xFF - (0x22 * (0xFF - 0xaa))) / 0xaa  -->
-                <!--fgG = (0xaa * 0xFF - (0x99 * (0xFF - 0xaa))) / 0xaa  -->
-                <!--fgG = (0xff * 0xFF - (0xee * (0xFF - 0xaa))) / 0xaa  -->
-                <!--33aaff-->
-                <!--2299ee-->
-                <!--3bb2ff-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/avatar"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/avatar5"
-                        app:civ_border_color="@android:color/white"
-                        app:civ_border_width="3dp"/>
-
-                    <TextView
-                        android:id="@+id/title"
-                        style="AppTheme.Label.Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/avatar"
-                        android:layout_toRightOf="@id/avatar"
-                        android:text="所有笔记都在这里哦~"
-                        android:textColor="#fff"/>
-
-                </RelativeLayout>
-            </FrameLayout>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
@@ -97,7 +39,6 @@
                 android:background="@android:color/white"
                 android:clipToPadding="false"
                 android:overScrollMode="never"
-                android:paddingTop="50dp"
                 tools:listitem="@layout/item_notes_list"/>
         </FrameLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
