@@ -1,19 +1,378 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/setting_background"
+              android:orientation="vertical">
+
+    <include
+        android:id="@+id/top_bar"
+        layout="@layout/base_top_bar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:id="@+id/pomodoro_container"
-                android:layout_height="match_parent"
-                android:background="@color/work_background_color"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
-    <com.time.cat.ui.widgets.RoundProgressBar
-        android:layout_width="wrap_content"
-        android:id="@+id/progressView"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        app:middle_layer_bg_color="@color/work_background_color"
-        app:middle_layer_small_circle_size="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:text="@string/today_data"
+                    android:textColor="@color/statistical_child_title_color"
+                    android:textSize="@dimen/text_small_size"/>
 
-</RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/setting_line_color"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/statistical_margin"
+                    android:layout_marginTop="@dimen/statistical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/today_statistical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/today_finish_tomato"
+                            android:textColor="@color/statistical_text_color"
+                            android:textSize="@dimen/text_small_size"/>
+
+                        <TextView
+                            android:id="@+id/today_finish_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/zero"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/notification_time_size"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/work_total_time"
+                            android:textColor="@color/statistical_text_color"
+                            android:textSize="@dimen/text_small_size"/>
+
+                        <TextView
+                            android:id="@+id/today_work_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/zero"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/notification_time_size"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/today_statistical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/fail_tomato"
+                            android:textColor="@color/statistical_text_color"
+                            android:textSize="@dimen/text_small_size"/>
+
+                        <TextView
+                            android:id="@+id/today_fail_tomato"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/zero"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/notification_time_size"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/statistical_margin"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/statistical_margin">
+
+                <TextView
+                    android:id="@+id/history_tomato_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:text="@string/history_data"
+                    android:textColor="@color/statistical_child_title_color"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <View
+                    android:id="@+id/history_date_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/history_tomato_title"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/setting_line_color"/>
+
+                <TextView
+                    android:id="@+id/history_finish_tomato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/history_date_line"
+                    android:layout_marginTop="@dimen/statistical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:text="@string/history_finish_tomato"
+                    android:textColor="@color/statistical_text_color"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <TextView
+                    android:id="@+id/history_finish_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/history_date_line"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/history_finish_tomato"
+                    android:text="@string/zero"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_normal_size"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:id="@+id/level_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/history_finish_tomato"
+                    android:layout_marginTop="@dimen/statistical_margin"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/history_work_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/level_img"
+                    android:layout_marginTop="@dimen/statistical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:text="@string/work_total_time"
+                    android:textColor="@color/statistical_text_color"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <TextView
+                    android:id="@+id/history_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/level_img"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/history_work_time_text"
+                    android:text="@string/zero"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_normal_size"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/level_img"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/history_fail_tomato_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|bottom|center_vertical|fill_vertical|center|fill"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="@string/fail_tomato"
+                        android:textColor="@color/statistical_text_color"
+                        android:textSize="@dimen/text_small_size"/>
+
+                    <TextView
+                        android:id="@+id/history_fail_tomato"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/zero"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_normal_size"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/statistical_margin"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/statistical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/tomato_distribute_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/statistical_margin"
+                    android:text="@string/tomato_distribute_title"
+                    android:textColor="@color/statistical_child_title_color"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <TextView
+                    android:id="@+id/seven_day_distribute_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/statistical_margin"
+                    android:text="@string/seven_day_text"
+                    android:textColor="@color/statistical_child_title_color"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <TextView
+                    android:id="@+id/today_distribute_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/seven_day_distribute_btn"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="@dimen/statistical_margin"
+                    android:text="@string/today_text"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <RelativeLayout
+                    android:id="@+id/bubble_chat_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tomato_distribute_title"
+                    android:layout_marginTop="@dimen/statistical_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <lecho.lib.hellocharts.view.BubbleChartView
+                        android:id="@+id/tomato_distribute_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/statistical_margin"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/statistical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/tomato_num_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/statistical_margin"
+                    android:text="@string/tomato_num_title"
+                    android:textColor="@color/statistical_child_title_color"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <TextView
+                    android:id="@+id/month_num_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/statistical_margin"
+                    android:text="@string/month"
+                    android:textColor="@color/statistical_child_title_color"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <TextView
+                    android:id="@+id/week_num_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/month_num_btn"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="@dimen/statistical_margin"
+                    android:text="@string/week"
+                    android:textColor="@color/statistical_child_title_color"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <TextView
+                    android:id="@+id/day_num_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/week_num_btn"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="@dimen/statistical_margin"
+                    android:text="@string/day"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_small_size"/>
+
+                <RelativeLayout
+                    android:id="@+id/line_chat_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tomato_num_title"
+                    android:layout_marginTop="@dimen/statistical_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <lecho.lib.hellocharts.view.LineChartView
+                        android:id="@+id/tomato_num_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
