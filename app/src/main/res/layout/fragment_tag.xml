@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#eee"
-              android:orientation="vertical">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.time.cat.ui.widgets.label_tag_view.TagCloudView
+        android:id="@+id/tag_cloud_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-
-        android:gravity="center">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_complate_emotion_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <com.time.cat.ui.widgets.emotion.EmojiIndicatorView
-        android:id="@+id/ll_point_group"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:orientation="horizontal"/>
-
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_tagcloudview_light_selector"
+        app:tcvBackground="@drawable/background_tag_selector"
+        app:tcvBorder="8dp"
+        app:tcvCanTagClick="false"
+        app:tcvItemBorderHorizontal="8dp"
+        app:tcvItemBorderVertical="6dp"
+        app:tcvSingleLine="false"
+        app:tcvTextColor="#42A5F5"/>
+</ScrollView>
