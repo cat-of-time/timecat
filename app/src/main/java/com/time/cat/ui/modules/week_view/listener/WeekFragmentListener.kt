@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.schedules_weekview
+package com.time.cat.ui.modules.week_view.listener
 
 /**
  * @author dlink
