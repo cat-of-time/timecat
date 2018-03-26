@@ -57,6 +57,7 @@ tagCloudView.setOnClickListener(new View.OnClickListener() {
     //-//</TagCloudView.OnTagClickListener>------------------------------------------------------
 
 
+
  */
 public class TagCloudView extends ViewGroup {
 
