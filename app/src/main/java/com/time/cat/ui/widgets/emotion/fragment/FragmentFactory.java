@@ -43,7 +43,7 @@ public class FragmentFactory {
 
         bundle.putInt(FragmentFactory.EMOTION_MAP_TYPE,emotionType);
 
-        EmotiomComplateFragment fragment= EmotiomComplateFragment.newInstance(EmotiomComplateFragment.class,bundle);
+        EmotionComplateFragment fragment= EmotionComplateFragment.newInstance(EmotionComplateFragment.class,bundle);
 
         return fragment;
     }
