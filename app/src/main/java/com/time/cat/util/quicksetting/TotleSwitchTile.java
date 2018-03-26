@@ -13,7 +13,7 @@ import android.util.Log;
 
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.TotalSwitchActivity;
+import com.time.cat.ui.modules.activity.TotalSwitchActivity;
 import com.time.cat.data.Constants;
 
 
