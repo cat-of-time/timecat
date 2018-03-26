@@ -28,11 +28,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.util.override.ToastUtil;
+import com.timecat.utils.StatusBarCompat;
 
 import java.io.File;
 import java.io.IOException;
@@ -200,7 +200,7 @@ public class CropImageActivity extends BaseActivity implements CropImageView.OnS
                 // required permissions granted, start crop image activity
                 mCropImageView.setImageUriAsync(mCropImageUri);
             } else {
-                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+                ToastUtil.w("Cancelling, required permissions are not granted");
                 setResultCancel();
             }
         }
