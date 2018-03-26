@@ -382,6 +382,7 @@ public class TEditText extends AppCompatEditText {
     }
 
 
+    //<editor-fold desc="super">----------------------------------------------------------
     /*************************************************************************************************************/
     public TEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -1640,4 +1641,6 @@ public class TEditText extends AppCompatEditText {
     public void onRtlPropertiesChanged(int layoutDirection) {
         super.onRtlPropertiesChanged(layoutDirection);
     }
+    //</editor-fold desc="super">----------------------------------------------------------
+
 }
