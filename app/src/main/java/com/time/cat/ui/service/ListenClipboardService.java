@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.data.Constants;
-import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.widgets.arc_float_view.ArcTipViewController;
 import com.time.cat.util.UrlCountUtil;
