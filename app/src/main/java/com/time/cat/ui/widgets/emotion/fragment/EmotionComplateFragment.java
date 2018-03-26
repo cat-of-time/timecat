@@ -27,7 +27,7 @@ import java.util.List;
  * @discription 可替换的模板表情，gridview实现
  * @usage null
  */
-public class EmotiomComplateFragment extends BaseFragment {
+public class EmotionComplateFragment extends BaseFragment {
     private EmotionPagerAdapter emotionPagerGvAdapter;
     private ViewPager vp_complate_emotion_layout;
     private EmojiIndicatorView ll_point_group;//表情面板对应的点列表
