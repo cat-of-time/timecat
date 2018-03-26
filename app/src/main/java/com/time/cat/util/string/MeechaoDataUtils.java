@@ -8,6 +8,8 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author dlink
@@ -74,5 +76,13 @@ public class MeechaoDataUtils {
         spannableString.setSpan(new AbsoluteSizeSpan(0, true), labelTopicValue.indexOf("["),
                 labelTopicValue.indexOf("]") + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
+    }
+
+    public static String regexTag(String s) {
+        String DEFAULT_REGEX = "\\s#([^#]*?)\\[.*?\\|话题]#\\s";
+        Pattern p = Pattern.compile(DEFAULT_REGEX);
+        Matcher m = p.matcher(s);
+//        String sub = m.
+        return m.find() ? m.group(1) : "";
     }
 }
