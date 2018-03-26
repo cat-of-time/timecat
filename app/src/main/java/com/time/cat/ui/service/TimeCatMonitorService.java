@@ -27,12 +27,12 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.activity.KeepAliveActivity;
-import com.time.cat.ui.activity.TimeCatActivity;
+import com.time.cat.ui.modules.activity.KeepAliveActivity;
+import com.time.cat.ui.modules.activity.TimeCatActivity;
 import com.time.cat.ui.modules.copy.CopyActivity;
 import com.time.cat.ui.modules.copy.CopyNode;
-import com.time.cat.ui.activity.main.MainActivity;
-import com.time.cat.ui.activity.whitelist.SelectionDbHelper;
+import com.time.cat.ui.modules.main.MainActivity;
+import com.time.cat.ui.modules.whitelist.SelectionDbHelper;
 import com.time.cat.ui.widgets.arc_float_view.ArcTipViewController;
 import com.time.cat.data.Constants;
 import com.time.cat.util.KeyPressedTipViewController;
@@ -55,7 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 import static android.accessibilityservice.AccessibilityServiceInfo.FEEDBACK_GENERIC;
-import static com.time.cat.ui.modules.setting.MonitorSettingCard.SPINNER_ARRAY;
+import static com.time.cat.ui.modules.setting.card.MonitorSettingCard.SPINNER_ARRAY;
 
 
 public class TimeCatMonitorService extends AccessibilityService {
