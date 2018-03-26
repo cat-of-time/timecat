@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.schedules_weekview
+package com.time.cat.ui.modules.week_view
 
 import android.content.Intent
 import android.content.res.Resources
@@ -12,6 +12,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
 import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.beGone
 import com.simplemobiletools.commons.extensions.getContrastColor
@@ -23,11 +24,16 @@ import com.time.cat.data.Constants.NEW_EVENT_SET_HOUR_DURATION
 import com.time.cat.data.Constants.NEW_EVENT_START_TS
 import com.time.cat.data.Constants.WEEK_MILLI_SECONDS
 import com.time.cat.data.Constants.WEEK_START_TIMESTAMP
-import com.time.cat.data.database.ScheduleDao
-import com.time.cat.data.model.DBmodel.DBTask
+import com.time.cat.data.database.DB
+import com.time.cat.data.database.RoutineDao
+import com.time.cat.data.model.APImodel.Routine
+import com.time.cat.data.model.DBmodel.DBRoutine
+import com.time.cat.data.network.RetrofitHelper
 import com.time.cat.helper.Formatter
 import com.time.cat.helper.seconds
 import com.time.cat.ui.modules.operate.InfoOperationActivity
+import com.time.cat.ui.modules.week_view.listener.WeekCalendarCallback
+import com.time.cat.ui.modules.week_view.listener.WeekFragmentListener
 import com.time.cat.ui.widgets.weekview.MyScrollView
 import com.time.cat.ui.widgets.weekview.WeeklyCalendarImpl
 import com.time.cat.util.view.ViewUtil.dp2px
@@ -35,6 +41,10 @@ import kotlinx.android.synthetic.main.fragment_schedules_weekview.*
 import kotlinx.android.synthetic.main.fragment_schedules_weekview.view.*
 import org.joda.time.DateTime
 import org.joda.time.Days
+import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
+import java.sql.SQLException
 
 
 /**
@@ -44,7 +54,8 @@ import org.joda.time.Days
  * @description null
  * @usage null
  */
-class WeekFragment : Fragment(), WeeklyCalendar {
+class WeekFragment : Fragment(), WeekCalendarCallback {
+
     private val CLICK_DURATION_THRESHOLD = 150
     private val PLUS_FADEOUT_DELAY = 5000L
 
@@ -62,7 +73,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
     private var clickStartTime = 0L
     private var selectedGrid: View? = null
     private var todayColumnIndex = -1
-    private var dbTasks = ArrayList<DBTask>()
+    private var dbRoutines = ArrayList<DBRoutine>()
     private var allDayHolders = ArrayList<RelativeLayout>()
     private var allDayRows = ArrayList<HashSet<Int>>()
     private var eventTypeColors = SparseIntArray()
@@ -81,6 +92,8 @@ class WeekFragment : Fragment(), WeeklyCalendar {
         eventTypeColors.put(0,  context!!.config.backgroundColor)
         mRowHeight = (context!!.resources.getDimension(R.dimen.weekly_view_row_height)).toInt()
         minScrollY = mRowHeight * context!!.config.startWeeklyAt
+        maxScrollY = mRowHeight * context!!.config.endWeeklyAt
+
         mWeekTimestamp = arguments!!.getLong(WEEK_START_TIMESTAMP)
 //        primaryColor = context!!.getAdjustedPrimaryColor()
         primaryColor = context!!.config.weekViewSuppressColor
@@ -162,6 +175,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
             val dayLetter = getDayLetter(curDay.dayOfWeek)
             mainView.findViewById<TextView>(mRes.getIdentifier("week_day_label_$i", "id", context!!.packageName)).apply {
                 text = "$dayLetter\n${curDay.dayOfMonth}"
+                textSize = 14F
                 setTextColor(if (todayCode == dayCode) primaryColor else textColor)
                 alpha = if (todayCode == dayCode) 1.0F else 0.3F
                 if (todayCode == dayCode) {
@@ -244,14 +258,14 @@ class WeekFragment : Fragment(), WeeklyCalendar {
         }
     }
 
-    override fun updateWeeklyCalendar(dbTasks: ArrayList<DBTask>) {
-        val newHash = dbTasks.hashCode()
+    override fun updateWeeklyCalendar(dbRoutines: ArrayList<DBRoutine>) {
+        val newHash = dbRoutines.hashCode()
         if (newHash == lastHash) {
             return
         }
 
         lastHash = newHash
-        this.dbTasks = dbTasks
+        this.dbRoutines = dbRoutines
         updateEvents()
     }
 
@@ -267,7 +281,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
     }
 
     private fun addEvents() {
-        val filtered = ScheduleDao.filter(dbTasks)
+        val filtered = RoutineDao.filter(dbRoutines)
 
         initGrid()
         allDayHolders.clear()
@@ -279,27 +293,27 @@ class WeekFragment : Fragment(), WeeklyCalendar {
 
         val fullHeight = mRes.getDimension(R.dimen.weekly_view_events_height)
         val minuteHeight = fullHeight / (24 * 60)
-        val minimalHeight = mRes.getDimension(R.dimen.weekly_view_minimal_event_height).toInt()
-
         var hadAllDayEvent = false
         val replaceDescription = context!!.config.replaceDescription
+//        addCurrentTimeIndicator(minuteHeight)
+        mainView.postDelayed( { addCurrentTimeIndicator(minuteHeight) }, 50)
+
+        if (filtered == null) return
         val sorted = filtered.sortedWith(compareBy({ it.beginTs }, { it.endTs }, { it.title }, { if (replaceDescription) it.content else it.content }))
-        for (dbTask in sorted) {
-            if (dbTask.getIs_all_day()) {
+        for (dbRoutine in sorted) {
+            if (dbRoutine.getIs_all_day()) {
                 hadAllDayEvent = true
-                mainView.postDelayed( { addAllDayTask(dbTask) }, 50)
-//                addAllDayTask(dbTask)
+                mainView.postDelayed( { addAllDayView(dbRoutine) }, 50)
+//                addAllDayView(dbTask)
             } else {
-//                mainView.postDelayed( { addOridinalTask(dbTask) }, 5000)
-                addOridinalTask(dbTask)
+//                mainView.postDelayed( { addNormalView(dbTask) }, 5000)
+                addNormalView(dbRoutine)
             }
         }
 
         if (!hadAllDayEvent) {
             checkTopHolderHeight()
         }
-//        mainView.postDelayed( { addCurrentTimeIndicator(minuteHeight) }, 5000)
-        addCurrentTimeIndicator(minuteHeight)
     }
 
     private fun addNewLine() {
@@ -338,26 +352,26 @@ class WeekFragment : Fragment(), WeeklyCalendar {
         })
     }
 
-    private fun addAllDayTask(dbTask: DBTask) {
+    private fun addAllDayView(dbRoutine: DBRoutine) {
         (inflater.inflate(R.layout.week_all_day_event_marker, null, false) as TextView).apply {
             if (activity == null)
                 return
 
-            val backgroundColor = primaryColor//eventTypeColors.get(dbTask.eventType, primaryColor)
-//            background = ColorDrawable(backgroundColor)
+            val backgroundColor = primaryColor//eventTypeColors.get(dbRoutine.eventType, primaryColor)
+            background = ColorDrawable(backgroundColor)
             /* 白色带圆角形状的背景 */
-            val adImageBackground = GradientDrawable()
-            adImageBackground.shape = GradientDrawable.RECTANGLE
-            adImageBackground.setColor(backgroundColor)
-            adImageBackground.alpha = 200
-            adImageBackground.cornerRadius = dp2px(3F).toFloat()
-            background = adImageBackground
+//            val adImageBackground = GradientDrawable()
+//            adImageBackground.shape = GradientDrawable.RECTANGLE
+//            adImageBackground.setColor(backgroundColor)
+//            adImageBackground.alpha = 200
+//            adImageBackground.cornerRadius = dp2px(3F).toFloat()
+//            background = adImageBackground
 
             setTextColor(backgroundColor.getContrastColor())
-            text = dbTask.title
+            text = dbRoutine.title
 
-            val startDateTime = Formatter.getDateTimeFromTS(dbTask.beginTs)
-            val endDateTime = Formatter.getDateTimeFromTS(dbTask.endTs)
+            val startDateTime = Formatter.getDateTimeFromTS(dbRoutine.beginTs)
+            val endDateTime = Formatter.getDateTimeFromTS(dbRoutine.endTs)
 
             val minTS = Math.max(startDateTime.seconds(), mWeekTimestamp)
             val maxTS = Math.min(endDateTime.seconds(), mWeekTimestamp + WEEK_MILLI_SECONDS)
@@ -413,20 +427,46 @@ class WeekFragment : Fragment(), WeeklyCalendar {
 
             setOnClickListener {
                 Intent(context, InfoOperationActivity::class.java).apply {
-                    putExtra(InfoOperationActivity.TO_UPDATE_TASK, dbTask)
+                    putExtra(InfoOperationActivity.TO_UPDATE_ROUTINE, dbRoutine)
                     startActivity(this)
                 }
+            }
+
+            setOnLongClickListener {
+                MaterialDialog.Builder(activity!!)
+                        .content("确定删除这个任务吗？")
+                        .positiveText("删除")
+                        .onPositive { _, _ ->
+                            try {
+                                DB.routines().delete(dbRoutine)
+                            } catch (e: SQLException) {
+                                e.printStackTrace()
+                            }
+
+                            RetrofitHelper.getRoutineService().deleteRoutineByUrl(dbRoutine.getUrl())
+                                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                                    .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                                    .subscribe(object : Subscriber<Routine>() {
+                                        override fun onCompleted() {}
+                                        override fun onError(e: Throwable) {}
+                                        override fun onNext(task: Routine) {}
+                                    })
+                        }
+                        .negativeText("取消")
+                        .onNegative { dialog, which -> dialog.dismiss() }
+                        .show()
+                false
             }
         }
     }
 
-    private fun addOridinalTask(dbTask: DBTask) {
+    private fun addNormalView(dbRoutine: DBRoutine) {
         val fullHeight = mRes.getDimension(R.dimen.weekly_view_events_height)
         val minuteHeight = fullHeight / (24 * 60)
         val minimalHeight = mRes.getDimension(R.dimen.weekly_view_minimal_event_height).toInt()
 
-        val startDateTime = Formatter.getDateTimeFromTS(dbTask.beginTs)
-        val endDateTime = Formatter.getDateTimeFromTS(dbTask.endTs)
+        val startDateTime = Formatter.getDateTimeFromTS(dbRoutine.beginTs)
+        val endDateTime = Formatter.getDateTimeFromTS(dbRoutine.endTs)
         val dayOfWeek = startDateTime.plusDays(if (context!!.config.isSundayFirst) 1 else 0).dayOfWeek - 1
         val layout = getColumnWithId(dayOfWeek)
 
@@ -448,18 +488,43 @@ class WeekFragment : Fragment(), WeeklyCalendar {
             adImageBackground.cornerRadius = dp2px(3F).toFloat()
             background = adImageBackground
             setTextColor(backgroundColor.getContrastColor())
-            text = dbTask.title
+            text = dbRoutine.title
             layout.addView(this)
             y = startMinutes * minuteHeight
             (layoutParams as RelativeLayout.LayoutParams).apply {
                 width = layout.width - 1
-                minHeight = if (dbTask.beginTs == dbTask.endTs) minimalHeight else (duration * minuteHeight).toInt() - 1
+                minHeight = if (dbRoutine.beginTs == dbRoutine.endTs) minimalHeight else (duration * minuteHeight).toInt() - 1
             }
             setOnClickListener {
                 Intent(context, InfoOperationActivity::class.java).apply {
-                    putExtra(InfoOperationActivity.TO_UPDATE_TASK, dbTask)
+                    putExtra(InfoOperationActivity.TO_UPDATE_ROUTINE, dbRoutine)
                     startActivity(this)
                 }
+            }
+            setOnLongClickListener {
+                MaterialDialog.Builder(activity!!)
+                        .content("确定删除这个任务吗？")
+                        .positiveText("删除")
+                        .onPositive { _, _ ->
+                            try {
+                                DB.routines().delete(dbRoutine)
+                            } catch (e: SQLException) {
+                                e.printStackTrace()
+                            }
+
+                            RetrofitHelper.getRoutineService().deleteRoutineByUrl(dbRoutine.getUrl())
+                                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                                    .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                                    .subscribe(object : Subscriber<Routine>() {
+                                        override fun onCompleted() {}
+                                        override fun onError(e: Throwable) {}
+                                        override fun onNext(task: Routine) {}
+                                    })
+                        }
+                        .negativeText("取消")
+                        .onNegative { dialog, which -> dialog.dismiss() }
+                        .show()
+                false
             }
         }
     }
