@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.whitelist;
+package com.time.cat.ui.modules.whitelist;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.time.cat.ui.modules.setting.card.MonitorSettingCard.SPINNER_ARRAY;
-import static com.time.cat.ui.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
+import static com.time.cat.ui.modules.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
 
 public class SelectionDbHelper extends SQLiteOpenHelper {
 

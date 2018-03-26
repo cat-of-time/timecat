@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.whitelist;
+package com.time.cat.ui.modules.whitelist;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
