@@ -31,7 +31,7 @@ import com.flask.colorpicker.CircleColorDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.data.Constants;
-import com.time.cat.ui.activity.viewtask.HistoryActivity;
+import com.time.cat.ui.modules.viewtask.HistoryActivity;
 import com.time.cat.ui.modules.editor.EditorActivity;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.modules.screen.ScreenCaptureActivity;
