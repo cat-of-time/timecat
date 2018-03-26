@@ -7,13 +7,12 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.time.cat.data.Constants;
-import com.time.cat.ui.activity.TimeCatActivity;
+import com.time.cat.ui.modules.activity.TimeCatActivity;
 import com.time.cat.ui.modules.share.ShareAppManagerActivity;
 import com.time.cat.util.onestep.ResolveInfoWrap;
 import com.time.cat.util.override.ToastUtil;
