@@ -1,9 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Toolbar
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/theme_color_primary"
-    app:titleTextColor="@android:color/black"/>
+    android:background="@color/colorPrimary"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    <com.time.cat.ui.widgets.RippleView
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:src="@mipmap/back_icon"/>
+
+        <TextView
+            android:id="@+id/top_bar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/back_icon"
+            android:text="@string/word_test"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title_size"/>
+    </com.time.cat.ui.widgets.RippleView>
+
+    <com.time.cat.ui.widgets.RippleView
+        android:id="@+id/top_bar_right_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/top_bar_right_btn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_normal_size"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/top_bar_right_img_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:padding="5dp"
+            android:src="@mipmap/share_btn"
+            android:visibility="gone"/>
+    </com.time.cat.ui.widgets.RippleView>
+</RelativeLayout>
