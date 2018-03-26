@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.schedules_weekview
+package com.time.cat.ui.modules.week_view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.util.SparseArray
 import com.time.cat.data.Constants.WEEK_START_TIMESTAMP
+import com.time.cat.ui.modules.week_view.listener.WeekFragmentListener
 
 /**
  * @author dlink
@@ -14,7 +15,7 @@ import com.time.cat.data.Constants.WEEK_START_TIMESTAMP
  * @description null
  * @usage null
  */
-class MyWeekPagerAdapter(fm: FragmentManager, val mWeekTimestamps: List<Long>, val mListener: WeekFragmentListener) : FragmentStatePagerAdapter(fm) {
+class WeekPagerAdapter(fm: FragmentManager, val mWeekTimestamps: List<Long>, val mListener: WeekFragmentListener) : FragmentStatePagerAdapter(fm) {
     private val mFragments = SparseArray<WeekFragment>()
 
     override fun getCount() = mWeekTimestamps.size

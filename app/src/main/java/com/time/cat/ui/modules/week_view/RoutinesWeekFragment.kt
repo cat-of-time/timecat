@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.schedules_weekview
+package com.time.cat.ui.modules.week_view
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,17 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.time.cat.R
+import com.time.cat.TimeCatApp
 import com.time.cat.config
 import com.time.cat.data.Constants.WEEK_MILLI_SECONDS
 import com.time.cat.data.Constants.WEEK_START_DATE_TIME
+import com.time.cat.data.model.events.PersistenceEvents
 import com.time.cat.helper.Formatter
 import com.time.cat.helper.seconds
-import com.time.cat.ui.activity.main.MainActivity
 import com.time.cat.ui.base.mvp.BaseLazyLoadFragment
+import com.time.cat.ui.modules.main.MainActivity
+import com.time.cat.ui.modules.routines.RoutinesFragment
+import com.time.cat.ui.modules.week_view.listener.WeekFragmentListener
 import com.time.cat.ui.widgets.weekview.MyScrollView
+import com.time.cat.util.override.LogUtil
 import kotlinx.android.synthetic.main.fragment_schedules_weekview_holder.*
 import kotlinx.android.synthetic.main.fragment_schedules_weekview_holder.view.*
 import org.joda.time.DateTime
+import java.util.*
 
 /**
  * @author dlink
@@ -28,7 +34,12 @@ import org.joda.time.DateTime
  * @description 生物钟页面的星期视图，用来管理课程、吃药时间、定期总结、定期运动、生物钟等
  * @usage null
  */
-class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, RoutinesWeekPresenter<RoutinesWeekMVP.View>>(), WeekFragmentListener {
+class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, RoutinesWeekPresenter<RoutinesWeekMVP.View>>(), WeekFragmentListener, RoutinesFragment.OnScrollBoundaryDecider {
+
+    override fun canRefresh(): Boolean = weekScrollY <= minScrollY
+
+    override fun canLoadMore(): Boolean = weekScrollY >= maxScrollY
+
     override fun providePresenter(): RoutinesWeekPresenter<RoutinesWeekMVP.View> {
         return RoutinesWeekPresenter()
     }
@@ -37,8 +48,8 @@ class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, Routines
         weekHolder = inflater.inflate(R.layout.fragment_schedules_weekview_holder, container, false) as ViewGroup
         weekHolder!!.background = ColorDrawable(context!!.config.weekViewBackground)
         setupFragment()
-//        if (progressBar != null) progressBar.visibility = View.GONE
-        Handler().postDelayed({ presenter.refreshData() }, 50)
+        Handler().postDelayed({ presenter.refreshData() }, 500)
+        TimeCatApp.eventBus().register(this)
         return weekHolder as ViewGroup
     }
 
@@ -47,25 +58,41 @@ class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, Routines
         if (progressBar != null) progressBar.visibility = View.GONE
     }
 
-    private val PREFILLED_WEEKS = 61
-
+    private val PREFILLED_WEEKS = 35
+    private var mRowHeight = 0
+    private var minScrollY = -1
+    private var maxScrollY = -1
     private var weekHolder: ViewGroup? = null
     private var defaultWeeklyPage = 0
     private var thisWeekTS = 0L
     private var currentWeekTS = 0L
     private var isGoToTodayVisible = false
     private var weekScrollY = 0
+    private val pendingEvents = LinkedList<Any>()
+    private lateinit var handler: Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val dateTimeString = arguments?.getString(WEEK_START_DATE_TIME) ?: getThisWeekDateTime()
         currentWeekTS = (DateTime.parse(dateTimeString) ?: DateTime()).seconds()
         thisWeekTS = currentWeekTS
+        handler = Handler()
+        mRowHeight = (context!!.resources.getDimension(R.dimen.weekly_view_row_height)).toInt()
+        minScrollY = mRowHeight * context!!.config.startWeeklyAt
+        maxScrollY = mRowHeight * context!!.config.endWeeklyAt
+    }
+
+    override fun onResume() {
+        super.onResume()
+        while (!pendingEvents.isEmpty()) {
+            LogUtil.e("Processing pending event...")
+            onEvent(pendingEvents.poll())
+        }
     }
 
     private fun setupFragment() {
         val weekTSs = getWeekTimestamps(currentWeekTS)
-        val weeklyAdapter = MyWeekPagerAdapter(activity!!.supportFragmentManager, weekTSs, this)
+        val weeklyAdapter = WeekPagerAdapter(activity!!.supportFragmentManager, weekTSs, this)
 
         val textColor = context!!.config.weekViewTextColor
         weekHolder!!.week_view_hours_holder.removeAllViews()
@@ -109,7 +136,7 @@ class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, Routines
                 weeklyAdapter.updateScrollY(week_view_view_pager.currentItem, y)
             }
         })
-        weekHolder!!.week_view_hours_scrollview.setOnTouchListener { _, motionEvent -> true }
+        weekHolder!!.week_view_hours_scrollview.setOnTouchListener { _, _ -> true }
         updateActionBarTitle()
     }
 
@@ -153,7 +180,7 @@ class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, Routines
 
     fun refreshEvents() {
         val viewPager = weekHolder?.week_view_view_pager
-        (viewPager?.adapter as? MyWeekPagerAdapter)?.updateCalendars(viewPager.currentItem)
+        (viewPager?.adapter as? WeekPagerAdapter)?.updateCalendars(viewPager.currentItem)
     }
 
     fun shouldGoToTodayBeVisible() = currentWeekTS != thisWeekTS
@@ -175,4 +202,23 @@ class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, Routines
     }
 
     override fun getCurrScrollY() = weekScrollY
+
+
+    fun onEvent(evt: Any) {
+        handler.post({
+            if (evt is PersistenceEvents.ModelCreateOrUpdateEvent) {
+                notifyDataChanged()
+                refreshEvents()
+            } else if (evt is PersistenceEvents.RoutineCreateEvent) {
+                notifyDataChanged()
+                refreshEvents()
+            } else if (evt is PersistenceEvents.RoutineUpdateEvent) {
+                notifyDataChanged()
+                refreshEvents()
+            } else if (evt is PersistenceEvents.RoutineDeleteEvent) {
+                notifyDataChanged()
+                refreshEvents()
+            }
+        })
+    }
 }
