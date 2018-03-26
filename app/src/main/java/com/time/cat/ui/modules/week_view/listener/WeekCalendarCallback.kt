@@ -1,6 +1,6 @@
-package com.time.cat.ui.modules.schedules_weekview
+package com.time.cat.ui.modules.week_view.listener
 
-import com.time.cat.data.model.DBmodel.DBTask
+import com.time.cat.data.model.DBmodel.DBRoutine
 
 /**
  * @author dlink
@@ -9,6 +9,6 @@ import com.time.cat.data.model.DBmodel.DBTask
  * @description null
  * @usage null
  */
-interface WeeklyCalendar {
-    fun updateWeeklyCalendar(dbTasks : ArrayList<DBTask>)
+interface WeekCalendarCallback {
+    fun updateWeeklyCalendar(dbRoutines : ArrayList<DBRoutine>)
 }
