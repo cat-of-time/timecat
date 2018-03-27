@@ -11,8 +11,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
  * @discription null
  * @usage null
  */
-public class TimeLineNotesViewHolder extends BaseViewHolder {
-    public TimeLineNotesViewHolder(View view) {
+public class AchievementViewHolder extends BaseViewHolder {
+    public AchievementViewHolder(View view) {
         super(view);
     }
 }

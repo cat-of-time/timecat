@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,15 +16,14 @@ import com.time.cat.data.model.APImodel.Note;
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.activity.TimeCatActivity;
-import com.time.cat.ui.activity.WebActivity;
 import com.time.cat.ui.adapter.viewholder.TimeLineNotesViewHolder;
+import com.time.cat.ui.modules.activity.TimeCatActivity;
+import com.time.cat.ui.modules.activity.WebActivity;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.util.SearchEngineUtil;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.clipboard.ClipboardUtils;
 import com.time.cat.util.override.ToastUtil;
-import com.time.cat.util.source.AvatarManager;
 import com.time.cat.util.string.TimeUtil;
 import com.timecat.commonjar.contentProvider.SPHelper;
 
@@ -58,51 +56,48 @@ public class TimeLineNotesAdapter extends BaseQuickAdapter<DBNote, TimeLineNotes
                 .setText(R.id.notes_tv_title, item.getTitle())
                 .setText(R.id.notes_tv_content, item.getContent());
 
-        viewHolder.setOnLongClickListener(R.id.notes_tv_title, new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                new MaterialDialog.Builder(mContext)
-                        .content("确定删除这个任务吗？")
-                        .positiveText("删除")
-                        .onPositive((dialog, which) -> {
+        viewHolder.setOnLongClickListener(R.id.notes_tv_title, v -> {
+            new MaterialDialog.Builder(mContext)
+                    .content("确定删除这个任务吗？")
+                    .positiveText("删除")
+                    .onPositive((dialog, which) -> {
 //                        LogUtil.e("dbNote == " + dbNote.toString());
-                            try {
-                                DB.notes().delete(item);
-                                ToastUtil.ok("已删除");
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                                ToastUtil.e("删除失败");
-                            }
-                            RetrofitHelper.getNoteService().deleteNoteByUrl(item.getUrl())
-                                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
-                                    .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-                                    .subscribe(new Subscriber<Note>() {
-                                        @Override
-                                        public void onCompleted() {
+                        try {
+                            DB.notes().delete(item);
+                            ToastUtil.ok("已删除");
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            ToastUtil.e("删除失败");
+                        }
+                        RetrofitHelper.getNoteService().deleteNoteByUrl(item.getUrl())
+                                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                                .subscribe(new Subscriber<Note>() {
+                                    @Override
+                                    public void onCompleted() {
 
-                                        }
+                                    }
 
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            //请求失败
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        //请求失败
 //                                        ToastUtil.show("删除操作同步失败");
 //                                        LogUtil.e("删除操作同步失败 --> " + e.toString());
-                                        }
+                                    }
 
-                                        @Override
-                                        public void onNext(Note note) {
-                                            //请求成功
+                                    @Override
+                                    public void onNext(Note note) {
+                                        //请求成功
 //                                        ToastUtil.show("删除成功");
 //                                        LogUtil.e("删除成功 --> " + note.toString());
-                                        }
-                                    });
-                            Object event = new PersistenceEvents.NoteDeleteEvent();
-                            TimeCatApp.eventBus().post(event);
-                        })
-                        .negativeText("取消")
-                        .onNegative((dialog, which) -> dialog.dismiss()).show();
-                return false;
-            }
+                                    }
+                                });
+                        Object event = new PersistenceEvents.NoteDeleteEvent();
+                        TimeCatApp.eventBus().post(event);
+                    })
+                    .negativeText("取消")
+                    .onNegative((dialog, which) -> dialog.dismiss()).show();
+            return false;
         });
         viewHolder.setOnClickListener(R.id.notes_tv_title, v -> {
             Intent intent2DialogActivity = new Intent(mContext, InfoOperationActivity.class);

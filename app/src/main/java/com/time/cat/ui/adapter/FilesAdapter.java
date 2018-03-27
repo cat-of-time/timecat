@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.time.cat.R;
 import com.time.cat.data.Constants;
 import com.time.cat.data.model.entity.FileEntity;
-import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.modules.editor.EditorActivity;
 import com.time.cat.util.FileUtils;
 
