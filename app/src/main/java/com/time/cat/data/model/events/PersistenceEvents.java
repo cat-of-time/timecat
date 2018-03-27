@@ -98,4 +98,24 @@ public class PersistenceEvents {
     public static class TaskDeleteEvent {
         public TaskDeleteEvent(DBTask task) {}
     }
+
+    public static class RoutineCreateEvent {
+        public DBRoutine routine;
+
+        public RoutineCreateEvent(DBRoutine routine) {
+            this.routine = routine;
+        }
+    }
+
+    public static class RoutineUpdateEvent {
+        public DBRoutine routine;
+
+        public RoutineUpdateEvent(DBRoutine routine) {
+            this.routine = routine;
+        }
+    }
+
+    public static class RoutineDeleteEvent {
+        public RoutineDeleteEvent(DBRoutine routine) {}
+    }
 }

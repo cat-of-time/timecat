@@ -1,13 +1,15 @@
 package com.time.cat.data.model;
 
-import com.time.cat.data.network.ConstantURL;
-import com.time.cat.ui.widgets.theme.ThemeManager;
+import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.data.model.APImodel.Routine;
+import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.APImodel.User;
 import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBRoutine;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
-import com.time.cat.data.model.APImodel.Note;
-import com.time.cat.data.model.APImodel.Task;
+import com.time.cat.data.network.ConstantURL;
+import com.time.cat.ui.widgets.theme.ThemeManager;
 import com.time.cat.util.source.AvatarManager;
 
 /**
@@ -101,6 +103,38 @@ public class Converter {
         note.setCreated_datetime(dbNote.getCreated_datetime());
         note.setUpdate_datetime(dbNote.getUpdate_datetime());
         return note;
+    }
+
+    public static DBRoutine toDBRoutine(Routine routine) {
+        DBRoutine dbRoutine = new DBRoutine();
+        dbRoutine.setContent(routine.getContent());
+        dbRoutine.setCreated_datetime(routine.getCreated_datetime());
+        dbRoutine.setFinished_datetime(routine.getFinished_datetime());
+        dbRoutine.setBegin_datetime(routine.getBegin_datetime());
+        dbRoutine.setEnd_datetime(routine.getEnd_datetime());
+        dbRoutine.setIs_all_day(routine.getIs_all_day());
+        dbRoutine.setIsFinish(routine.getIsFinish());
+        dbRoutine.setUrl(routine.getUrl());
+        dbRoutine.setTitle(routine.getTitle());
+        dbRoutine.setOwner(routine.getOwner());
+        dbRoutine.setLabel(routine.getLabel());
+        return dbRoutine;
+    }
+
+    public static Routine toRoutine(DBRoutine dbRoutine) {
+        Routine routine = new Routine();
+        routine.setContent(dbRoutine.getContent());
+        routine.setCreated_datetime(dbRoutine.getCreated_datetime());
+        routine.setFinished_datetime(dbRoutine.getFinished_datetime());
+        routine.setBegin_datetime(dbRoutine.getBegin_datetime());
+        routine.setEnd_datetime(dbRoutine.getEnd_datetime());
+        routine.setIs_all_day(dbRoutine.getIs_all_day());
+        routine.setIsFinish(dbRoutine.getIsFinish());
+        routine.setUrl(dbRoutine.getUrl());
+        routine.setTitle(dbRoutine.getTitle());
+        routine.setOwner(dbRoutine.getOwner());
+        routine.setLabel(dbRoutine.getLabel());
+        return routine;
     }
 
     public static String getOwnerUrl(User u) {

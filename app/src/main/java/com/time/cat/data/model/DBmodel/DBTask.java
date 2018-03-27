@@ -25,15 +25,10 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.database.typeSerializers.BooleanArrayPersister;
-import com.time.cat.data.database.typeSerializers.LocalDatePersister;
 import com.time.cat.util.string.TimeUtil;
-
-import org.joda.time.LocalDate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +39,7 @@ import java.util.List;
  */
 @DatabaseTable(tableName = "Schedules")
 public class DBTask implements Serializable {
+    //<editor-fold desc="Field">
     public static final int[] labelColor = new int[]{Color.parseColor("#f44336"), Color.parseColor("#ff8700"), Color.parseColor("#2196f3"), Color.parseColor("#4caf50")};
 
     public static final int SCHEDULE_TYPE_EVERYDAY = 0; // DEFAULT
@@ -83,18 +79,14 @@ public class DBTask implements Serializable {
     public static final String COLUMN_DAYS = "Days";
     public static final String COLUMN_START = "Start";
     public static final String COLUMN_TYPE = "Type";
+    //</editor-fold desc="Field">
 
 
+    //<editor-fold desc="Database Field">
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     public Long id;//ID唯一主键
     @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
     public DBUser user;
-    @DatabaseField(columnName = COLUMN_DAYS, persisterClass = BooleanArrayPersister.class)
-    public boolean[] days = noWeekDays();
-    @DatabaseField(columnName = COLUMN_START, persisterClass = LocalDatePersister.class)
-    public LocalDate start;
-    @DatabaseField(columnName = COLUMN_TYPE)
-    public int type = SCHEDULE_TYPE_EVERYDAY;
 
     //----------------------------------------------------------------------------------
     @DatabaseField(columnName = COLUMN_URL, unique = true)
@@ -127,9 +119,10 @@ public class DBTask implements Serializable {
     private String begin_datetime;//开始时间
     @DatabaseField(columnName = COLUMN_END_DATETIME)
     private String end_datetime;//结束时间
+    //</editor-fold desc="Database Field">
 
 
-    //<getter and setter>---------------------------------------------------------------------------
+    //<editor-fold desc="getter and setter">
     public String getTitle() {
         return this.title;
     }
@@ -225,34 +218,6 @@ public class DBTask implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-    //</getter and setter>---------------------------------------------------------------------------
-
-    public static List<DBTask> findAll() {
-        return DB.schedules().findAll();
-    }
-
-    public static DBTask findById(long id) {
-        return DB.schedules().findById(id);
-    }
-
-    public static final boolean[] noWeekDays() {
-        return new boolean[]{false, false, false, false, false, false, false};
-    }
-
-    public static final boolean[] allWeekDays() {
-        return new boolean[]{true, true, true, true, true, true, true};
-    }
-
-    public int type() {
-        return type;
-    }
-
-    public void setType(int type) {
-        if (type < 0 || type > 5) {
-            throw new RuntimeException("Invalid schedule type");
-        }
-        this.type = type;
-    }
 
     public Long getId() {
         return id;
@@ -262,20 +227,21 @@ public class DBTask implements Serializable {
         this.id = id;
     }
 
-    public LocalDate start() {
-        return start;
-    }
-
-    public void setStart(LocalDate start) {
-        this.start = start;
-    }
-
     public DBUser user() {
         return user;
     }
 
     public void setUser(DBUser user) {
         this.user = user;
+    }
+    //</editor-fold desc="getter and setter">
+
+    public static List<DBTask> findAll() {
+        return DB.schedules().findAll();
+    }
+
+    public static DBTask findById(long id) {
+        return DB.schedules().findById(id);
     }
 
     // *************************************
@@ -286,13 +252,9 @@ public class DBTask implements Serializable {
         return DB.scheduleItems().findBySchedule(this);
     }
 
-    public void save() {
-        DB.schedules().save(this);
-    }
-
     @Override
     public String toString() {
-        return "DBTask{" + "id=" + id + ", user=" + user + ", days=" + Arrays.toString(days) + ", start=" + start + ", type=" + type + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + '}';
+        return "DBTask{" + "id=" + id + ", user=" + user + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + '}';
     }
 
     public long getBeginTs() {

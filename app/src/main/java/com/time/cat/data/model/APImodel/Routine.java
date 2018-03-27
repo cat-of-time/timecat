@@ -16,23 +16,19 @@
  *    along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.time.cat.data.model.DBmodel;
+package com.time.cat.data.model.APImodel;
 
 import android.graphics.Color;
 
-import com.j256.ormlite.field.DataType;
-import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.time.cat.data.database.DB;
-import com.time.cat.data.database.typeSerializers.LocalTimePersister;
+import com.time.cat.data.model.DBmodel.DBUser;
 
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @DatabaseTable(tableName = "Routines")
-public class DBRoutine {
+public class Routine {
     //<editor-fold desc="Field">
     public static final int[] labelColor = new int[]{Color.parseColor("#f44336"), Color.parseColor("#ff8700"), Color.parseColor("#2196f3"), Color.parseColor("#4caf50")};
 
@@ -50,117 +46,60 @@ public class DBRoutine {
     public static final int LABEL_NOT_IMPORTANT_NOT_URGENT = 3;
 
     public static final long serialVersionUID = 1L;
-
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_TIME = "Time";
-    public static final String COLUMN_NAME = "Name";
-    public static final String COLUMN_USER = "User";
-    public static final String COLUMN_PLANS = "plans";
-
-    public static final String COLUMN_URL = "url";
-    public static final String COLUMN_OWNER = "owner";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_CONTENT = "content";
-    public static final String COLUMN_LABEL = "label";
-    public static final String COLUMN_TAGS = "tags";
-
-    public static final String COLUMN_IS_FINISHED = "is_finished";
-    public static final String COLUMN_CREATED_DATETIME = "created_datetime";
-    public static final String COLUMN_FINISHED_DATETIME = "finished_datetime";
-
-    public static final String COLUMN_IS_ALL_DAY = "is_all_day";
-    public static final String COLUMN_BEGIN_DATETIME = "begin_datetime";
-    public static final String COLUMN_END_DATETIME = "end_datetime";
-
-    public static final String COLUMN_REMINDER_1_Minutes = "reminder_1_Minutes";
-    public static final String COLUMN_REMINDER_2_Minutes = "reminder_2_Minutes";
-    public static final String COLUMN_REMINDER_3_Minutes = "reminder_3_Minutes";
-    public static final String COLUMN_REPEAT_INTERVAL = "repeatInterval";
-    public static final String COLUMN_REPEAT_LIMIT = "repeatLimit";
-    public static final String COLUMN_REPEAT_RULE = "repeatRule";
-    public static final String COLUMN_LAST_UPDATED = "lastUpdated";
-    public static final String COLUMN_LOCATION = "location";
     //</editor-fold desc="Field">
 
 
     //<editor-fold desc="Database Field">
-    @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private Long id;
 
-    @DatabaseField(columnName = COLUMN_TIME, persisterClass = LocalTimePersister.class)
     private LocalTime time;
 
-    @DatabaseField(columnName = COLUMN_NAME)
     private String name;
 
-    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
     private DBUser user;
 
-
-    @DatabaseField(columnName = COLUMN_URL, unique = true)
     private String url;// routine的url 访问该url可返回该routine
-    @DatabaseField(columnName = COLUMN_OWNER)
     private String owner;//用户ID
-    @DatabaseField(columnName = COLUMN_TITLE)
     private String title;//日程标题
-    @DatabaseField(columnName = COLUMN_CONTENT)
     private String content;//日程内容
-    @DatabaseField(columnName = COLUMN_LABEL)
     private int label;//重要紧急标签,重要紧急=0，重要不紧急=1，紧急不重要=2，不重要不紧急=3
 
-    @DatabaseField(columnName = COLUMN_TAGS, dataType = DataType.SERIALIZABLE)
     private ArrayList<String> tags;//一般标签，["/tags/1","/tags/2","/tags/3"]
 
-    @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
     private String created_datetime;//创建时间
-    @DatabaseField(columnName = COLUMN_FINISHED_DATETIME)
     private String finished_datetime;//完成时间
     //is_finish默认false，finished_datetime默认为null
-    @DatabaseField(columnName = COLUMN_IS_FINISHED)
     private boolean is_finished;//是否完成，1 - 是，0 - 不是
 
     //is_all_day默认true，begin_datetime,end_datetime默认为null
     //isAllDay == true ? 忽略开始及结束时间的Time部分 : 不忽略
-    @DatabaseField(columnName = COLUMN_IS_ALL_DAY)
     private boolean is_all_day;//是否全天，1 - 是，0 - 不是
-    @DatabaseField(columnName = COLUMN_BEGIN_DATETIME)
     private String begin_datetime;//开始时间
-    @DatabaseField(columnName = COLUMN_END_DATETIME)
     private String end_datetime;//结束时间
 
-
-
-    @DatabaseField(columnName = COLUMN_REMINDER_1_Minutes)
     private int reminder1Minutes;
-    @DatabaseField(columnName = COLUMN_REMINDER_2_Minutes)
     private int reminder2Minutes;
-    @DatabaseField(columnName = COLUMN_REMINDER_3_Minutes)
     private int reminder3Minutes;
 
-    @DatabaseField(columnName = COLUMN_REPEAT_INTERVAL)
     private int repeatInterval;
-    @DatabaseField(columnName = COLUMN_REPEAT_LIMIT)
     private int repeatLimit;
-    @DatabaseField(columnName = COLUMN_REPEAT_RULE)
     private int repeatRule;
 
-    @DatabaseField(columnName = COLUMN_LAST_UPDATED)
     private long lastUpdated;
 
-    @DatabaseField(columnName = COLUMN_LOCATION)
     private String location;
     //</editor-fold desc="Database Field">
 
 
-    public DBRoutine() {
+    public Routine() {
     }
 
-    public DBRoutine(LocalTime time, String name) {
+    public Routine(LocalTime time, String name) {
         this.time = time;
         this.name = name;
     }
 
-    public DBRoutine(DBUser p, LocalTime time, String name) {
+    public Routine(DBUser p, LocalTime time, String name) {
         this.user = p;
         this.time = time;
         this.name = name;
@@ -388,38 +327,6 @@ public class DBRoutine {
     @Override
     public String toString() {
         return "DBRoutine{" + "id=" + id + ", time=" + time + ", name='" + name + '\'' + ", user=" + user + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + ", reminder1Minutes=" + reminder1Minutes + ", reminder2Minutes=" + reminder2Minutes + ", reminder3Minutes=" + reminder3Minutes + ", repeatInterval=" + repeatInterval + ", repeatLimit=" + repeatLimit + ", repeatRule=" + repeatRule + ", lastUpdated=" + lastUpdated + ", location='" + location + '\'' + '}';
-    }
-
-    // *************************************
-    // DB queries
-    // *************************************
-
-    public static List<DBRoutine> findAll() {
-        return DB.routines().findAll();
-    }
-
-    public static DBRoutine findById(long id) {
-        return DB.routines().findById(id);
-    }
-
-    public static DBRoutine findByName(String name) {
-        return DB.routines().findOneBy(COLUMN_NAME, name);
-    }
-
-    public static List<DBRoutine> findInHour(int hour) {
-        return DB.routines().findInHour(hour);
-    }
-
-    public void save() {
-        DB.routines().save(this);
-    }
-
-    public void deleteCascade() {
-        DB.routines().deleteCascade(this, false);
-    }
-
-    public List<DBTaskItem> scheduleItems() {
-        return DB.scheduleItems().findByRoutine(this);
     }
 
 }

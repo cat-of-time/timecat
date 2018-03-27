@@ -10,16 +10,11 @@ import java.util.ArrayList;
  * @usage null
  */
 public class Tag {
-    String url;
-    String owner;
-    String created_datetime;
-    String name;
-    ArrayList<String> tasks;
-
-    public Tag(String owner, String name) {
-        this.owner = owner;
-        this.name = name;
-    }
+    private String url;
+    private String owner;
+    private String created_datetime;
+    private String name;
+    private ArrayList<String> tasks;
 
     public String getUrl() {
         return url;
