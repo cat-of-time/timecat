@@ -1,6 +1,6 @@
 package com.time.cat.data.network.api;
 
-import com.time.cat.data.model.APImodel.Task;
+import com.time.cat.data.model.APImodel.Routine;
 
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -20,7 +20,7 @@ import rx.Observable;
  * @discription null
  * @usage null
  */
-public interface TaskService {
+public interface RoutineService {
     /**
      * POST
        {
@@ -57,35 +57,35 @@ public interface TaskService {
             "end_datetime": "2018-02-20T04:27:46Z"
         }
      *
-     * @param task task
+     * @param routine routine
      *
-     * @return task
+     * @return routine
      */
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
-    @POST("/tasks/")
-    Observable<Task> createTask(@Body Task task);
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("/routines/")
+    Observable<Routine> createRoutine(@Body Routine routine);
 
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET("/")
-    Observable<Task> getTask();
+    Observable<Routine> getRoutine();
 
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET
-    Observable<Task> getTaskByUrl(@Url String task_url);
+    Observable<Routine> getRoutineByUrl(@Url String routine_url);
 
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
-    @GET("/tasks/{id}/")
-    Observable<Task> getTask(@Path("id") String id);
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("/routines/{id}/")
+    Observable<Routine> getRoutine(@Path("id") String id);
 
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
-    @GET("/tasks/")
-    Observable<Task> getTaskForUser(@Query("owner") String user_url);
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("/routines/")
+    Observable<Routine> getRoutineForUser(@Query("owner") String user_url);
 
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @PUT
-    Observable<Task> putTaskByUrl(@Url String task_url, @Body Task task);
+    Observable<Routine> putRoutineByUrl(@Url String routine_url, @Body Routine routine);
 
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @DELETE
-    Observable<Task> deleteTaskByUrl(@Url String task_url);
+    Observable<Routine> deleteRoutineByUrl(@Url String routine_url);
 }

@@ -2,16 +2,17 @@ package com.time.cat.data.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.time.cat.TimeCatApp;
 import com.time.cat.data.network.api.ImageUploadService;
 import com.time.cat.data.network.api.MicSoftOcrService;
 import com.time.cat.data.network.api.NoteService;
 import com.time.cat.data.network.api.OcrService;
 import com.time.cat.data.network.api.PicUploadService;
+import com.time.cat.data.network.api.RoutineService;
 import com.time.cat.data.network.api.TaskService;
 import com.time.cat.data.network.api.TranslationService;
 import com.time.cat.data.network.api.UserService;
 import com.time.cat.data.network.api.WordSegmentService;
-import com.time.cat.TimeCatApp;
 import com.time.cat.util.override.LogUtil;
 
 import java.io.File;
@@ -149,6 +150,16 @@ public class RetrofitHelper {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(TaskService.class);
+    }
+
+    public static RoutineService getRoutineService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(RoutineService.class);
     }
 
     public static NoteService getNoteService() {
