@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.viewtask;
+package com.time.cat.ui.modules.viewtask;
 
 import android.app.Activity;
 import android.content.Context;
