@@ -118,7 +118,7 @@ class Config(context: Context) : BaseConfig(context) {
         set(weekViewBackground) = save(WEEK_VIEW_BACKGROUND , weekViewBackground)
 
     var weekViewTextColor: Int
-        get() = prefs.getInt(WEEK_VIEW_TEXT_COLOR, context.resources.getColor(R.color.black))
+        get() = prefs.getInt(WEEK_VIEW_TEXT_COLOR, context.resources.getColor(R.color.gray))
         set(textColor) = prefs.edit().putInt(WEEK_VIEW_TEXT_COLOR, textColor).apply()
 
     var weekViewSuppressColor: Int

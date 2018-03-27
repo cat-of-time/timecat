@@ -4,10 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.time.cat.R;
 import com.time.cat.util.FileUtils;
+import com.time.cat.util.override.ToastUtil;
 
 public class SaveFileTask extends AsyncTask<Void, Void, Boolean> {
     private Context context;
@@ -28,15 +28,31 @@ public class SaveFileTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         boolean result;
+        Handler handler = new Handler(context.getMainLooper());
         if (TextUtils.isEmpty(fileName)) {
-            toastMessage(R.string.toast_file_name_can_not_empty);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtil.w(R.string.toast_file_name_can_not_empty);
+                }
+            });
             result = false;
         } else {
             result = FileUtils.saveFile(filePath, content);
             if (result) {
-                toastMessage(R.string.toast_saved);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.ok(R.string.toast_saved);
+                    }
+                });
             } else {
-                toastMessage(R.string.toast_file_name_exists);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.w(R.string.toast_file_name_exists);
+                    }
+                });
             }
         }
         return result;
@@ -45,16 +61,6 @@ public class SaveFileTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aBoolean) {
         response.taskFinish(aBoolean);
-    }
-
-    public void toastMessage(final int resId) {
-        Handler handler = new Handler(context.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, resId, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     public interface Response {
