@@ -2,7 +2,6 @@ package com.time.cat.ui.modules.plans;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,17 +22,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.time.cat.R;
 import com.time.cat.data.Constants;
-import com.time.cat.data.model.entity.FileEntity;
 import com.time.cat.data.StorageHelper;
-import com.time.cat.ui.activity.main.listener.OnPlanViewClickListener;
+import com.time.cat.data.async.QueryTask;
+import com.time.cat.data.model.entity.FileEntity;
+import com.time.cat.ui.modules.main.listener.OnPlanViewClickListener;
 import com.time.cat.ui.adapter.FilesAdapter;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.modules.editor.EditorActivity;
-import com.time.cat.data.async.QueryTask;
 import com.time.cat.ui.modules.editor.fragment.EditorFragment;
 import com.time.cat.util.FileUtils;
 import com.time.cat.util.override.ToastUtil;
@@ -116,49 +114,6 @@ public class FileListFragment extends BaseFragment implements OnPlanViewClickLis
         });
     }
 
-//    /**
-//     * Set item listener for navigation view.Open new fragment for each click action.
-//     */
-//    public void setNavigationViewItemListener() {
-//        navigationView.setNavigationItemSelectedListener(
-//                new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(MenuItem item) {
-//                Fragment selectedFragment = null;
-//                switch (item.getItemId()) {
-//                    case R.id.sync:
-////                        selectedFragment = new SyncFragment();
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                        builder.setMessage(R.string.dialog_message_alert_user);
-//                        builder.setPositiveButton(R.string.ok,
-//                                new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//                        builder.show();
-//                        break;
-//                    case R.id.theme:
-//                        break;
-//                    case R.id.help:
-//                        selectedFragment = new EditorHelpFragment();
-//                        break;
-//                    case R.id.settings:
-//                        selectedFragment = new SettingsFragment();
-//                        break;
-//                }
-//                navigationView.setCheckedItem(item.getItemId());
-//                if (selectedFragment != null) {
-//                    context.getSupportFragmentManager().beginTransaction()
-//                            .replace(R.id.fragment_container, selectedFragment)
-//                            .addToBackStack(null).commit();
-//                }
-//                return true;
-//            }
-//        });
-//    }
-
     public void setRecyclerView() {
         if (StorageHelper.isExternalStorageReadable()) {
             entityList = FileUtils.listFiles(rootPath);
@@ -174,24 +129,20 @@ public class FileListFragment extends BaseFragment implements OnPlanViewClickLis
                 fileListRecyclerView.setAdapter(adapter);
             }
         } else {
-            Toast.makeText(appCompatActivity, R.string.toast_message_sdcard_unavailable,
-                    Toast.LENGTH_SHORT).show();
+            ToastUtil.e(R.string.toast_message_sdcard_unavailable);
         }
     }
 
     public void setSwipeRefreshLayout() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                if (entityList != null && adapter != null) {
-                    Toast.makeText(appCompatActivity, entityList.size() + "", Toast.LENGTH_SHORT).show();
-                    entityList.clear();
-                    entityList.addAll(FileUtils.listFiles(rootPath));
-                    adapter.notifyDataSetChanged();
-                }
-                swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            if (entityList != null && adapter != null) {
+                ToastUtil.i(entityList.size() + "");
+                entityList.clear();
+                entityList.addAll(FileUtils.listFiles(rootPath));
+                adapter.notifyDataSetChanged();
             }
+            swipeRefreshLayout.setRefreshing(false);
         });
     }
 
@@ -200,19 +151,9 @@ public class FileListFragment extends BaseFragment implements OnPlanViewClickLis
         AlertDialog.Builder sortDialog = new AlertDialog.Builder(appCompatActivity);
         sortDialog.setTitle(R.string.menu_item_sort);
         int sortTypeIndex = sharedPreferences.getInt("SORT_TYPE_INDEX", 0);
-        sortDialog.setSingleChoiceItems(R.array.sort_options, sortTypeIndex,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        sortDialog.setNegativeButton(R.string.cancel,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+        sortDialog.setSingleChoiceItems(R.array.sort_options, sortTypeIndex, (dialog, which) -> {
+        });
+        sortDialog.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel());
         sortDialog.show();
     }
 

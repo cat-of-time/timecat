@@ -2,6 +2,8 @@ package com.time.cat.ui.modules.setting;
 
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.modules.setting.card.FloatAndNotifySettingCard;
+import com.time.cat.ui.modules.setting.card.TimeCatSettingCard;
 
 public class DisplayFragment extends BaseRecyclerFragment {
 

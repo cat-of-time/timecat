@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.time.cat.R;
 import com.time.cat.data.Constants;
-import com.time.cat.ui.activity.TimeCatActivity;
+import com.time.cat.ui.modules.activity.TimeCatActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.widgets.arc_float_view.ArcTipViewController;
 import com.time.cat.util.UrlCountUtil;

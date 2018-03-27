@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.searchengine;
+package com.time.cat.ui.modules.searchengine;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -15,8 +15,8 @@ import android.widget.EditText;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;
-import com.time.cat.ui.activity.searchengine.listener.OnItemClickListener;
-import com.time.cat.ui.activity.searchengine.view.ListViewDecoration;
+import com.time.cat.ui.modules.searchengine.listener.OnItemClickListener;
+import com.time.cat.ui.modules.searchengine.view.ListViewDecoration;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.data.model.APImodel.SearchEngine;
 import com.time.cat.ui.widgets.dialog.Dialog;

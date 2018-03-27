@@ -1,5 +1,7 @@
 package com.time.cat.ui.modules.pomodoro;
 
+import com.time.cat.ui.base.mvp.BasePresenter;
+
 /**
  * @author dlink
  * @email linxy59@mail2.sysu.edu.cn
@@ -7,5 +9,5 @@ package com.time.cat.ui.modules.pomodoro;
  * @discription null
  * @usage null
  */
-public class PomodoroActicity {
+public class PomodoroPresenter extends BasePresenter<PomodoroMVP.View> {
 }

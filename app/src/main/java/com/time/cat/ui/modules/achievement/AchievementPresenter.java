@@ -1,5 +1,7 @@
 package com.time.cat.ui.modules.achievement;
 
+import com.time.cat.ui.base.mvp.BasePresenter;
+
 /**
  * @author dlink
  * @email linxy59@mail2.sysu.edu.cn
@@ -7,5 +9,5 @@ package com.time.cat.ui.modules.achievement;
  * @discription null
  * @usage null
  */
-public class AchievementPresenter {
+public class AchievementPresenter extends BasePresenter<AchievementMVP.View>{
 }

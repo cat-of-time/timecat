@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.time.cat.R;
 import com.time.cat.data.StorageHelper;
@@ -343,7 +342,7 @@ public class EditFragment extends BaseEditorFragment implements View.OnClickList
                         });
                 inputDialog.show();
             } else {
-                Toast.makeText(context, R.string.toast_does_not_select, Toast.LENGTH_SHORT).show();
+                ToastUtil.w(R.string.toast_does_not_select);
             }
         }
     }

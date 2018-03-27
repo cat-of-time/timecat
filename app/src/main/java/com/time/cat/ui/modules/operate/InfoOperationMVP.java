@@ -1,5 +1,6 @@
 package com.time.cat.ui.modules.operate;
 
+import com.time.cat.ui.base.mvp.BaseActivityMVP;
 import com.time.cat.ui.base.mvp.BaseMVP;
 
 /**
@@ -10,7 +11,7 @@ import com.time.cat.ui.base.mvp.BaseMVP;
  * @usage null
  */
 public class InfoOperationMVP {
-    interface View extends BaseMVP.View {
+    interface View extends BaseMVP.View, BaseActivityMVP.View {
     }
 
     interface Presenter extends BaseMVP.Presenter {

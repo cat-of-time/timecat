@@ -16,7 +16,7 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.data.database.DB;
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.events.PersistenceEvents;
-import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
+import com.time.cat.ui.modules.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.adapter.TimeLineNotesAdapter;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvpframework.factory.CreatePresenter;
@@ -66,8 +66,11 @@ public class NotesFragment
         handler = new Handler();
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
         ButterKnife.bind(this, view);
-        avatar.setImageResource(AvatarManager.res(DB.users().getActive().avatar()));
         mAdapter = new TimeLineNotesAdapter();
+        View headerView = inflater.inflate(R.layout.item_notes_list_header, container, false);
+        ImageView avatar = headerView.findViewById(R.id.avatar);
+        avatar.setImageResource(AvatarManager.res(DB.users().getActive().avatar()));
+        mAdapter.addHeaderView(headerView);
         mAdapter.addFooterView(inflater.inflate(R.layout.item_notes_list_footer, container, false));
         mAdapter.openLoadAnimation();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -89,8 +92,6 @@ public class NotesFragment
     RefreshLayout mRefreshLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.avatar)
-    ImageView avatar;
     //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)">
 
     //<editor-fold desc="Event事件区--只要存在事件监听代码就是">

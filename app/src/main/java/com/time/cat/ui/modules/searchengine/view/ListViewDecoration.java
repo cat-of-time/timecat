@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.time.cat.ui.activity.searchengine.view;
+package com.time.cat.ui.modules.searchengine.view;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;

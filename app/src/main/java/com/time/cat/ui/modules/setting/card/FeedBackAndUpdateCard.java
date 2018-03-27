@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.setting;
+package com.time.cat.ui.modules.setting.card;
 
 import android.content.Context;
 import android.content.Intent;

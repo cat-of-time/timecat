@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.setting;
+package com.time.cat.ui.modules.setting.card;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,9 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.time.cat.ui.modules.setting.SettingFloatViewActivity;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.whitelist.SelectionDbHelper;
+import com.time.cat.ui.modules.whitelist.SelectionDbHelper;
 import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.ui.widgets.dialog.Dialog;
 import com.time.cat.ui.widgets.dialog.DialogFragment;

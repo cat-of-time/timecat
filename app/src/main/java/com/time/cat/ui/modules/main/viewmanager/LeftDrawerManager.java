@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.main.viewmanager;
+package com.time.cat.ui.modules.main.viewmanager;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,8 +34,10 @@ import com.time.cat.data.model.APImodel.User;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.network.RetrofitHelper;
 import com.time.cat.ui.modules.about.AboutActivity;
-import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.modules.achievement.AchievementActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.modules.setting.SettingActivity;
+import com.time.cat.ui.modules.statistic.StatisticalActivity;
 import com.time.cat.ui.modules.user.LoginActivity;
 import com.time.cat.ui.modules.user.UserDetailActivity;
 import com.time.cat.ui.widgets.animation.ViewHelper;
@@ -74,6 +76,9 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
     public static final int ABOUT = 8;
     public static final int PHARMACIES = 9;
     public static final int CALENDAR = 10;
+    public static final int ACHIEVEMENTS = 11;
+    public static final int STATISTICS = 12;
+
     private static final String TAG = "LeftDrawerManager";
     private static final int REQUEST_LOGIN = 0;
     private AccountHeader headerResult = null;
@@ -120,6 +125,10 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .build();
         Drawable noteIcon = mainActivity.getResources().getDrawable(R.drawable.ic_notes_black_24dp);
         noteIcon.setAlpha(110);
+        Drawable statisticsIcon = mainActivity.getResources().getDrawable(R.drawable.ic_statistics_black_24dp);
+        statisticsIcon.setAlpha(110);
+        Drawable achievementsIcon = mainActivity.getResources().getDrawable(R.drawable.ic_achievements_black_24dp);
+        achievementsIcon.setAlpha(110);
         //Create the getDrawer
         drawer = new DrawerBuilder()
                 .withActivity(mainActivity)
@@ -157,6 +166,12 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
                         new DividerDrawerItem(),
 
+                        new PrimaryDrawerItem().withName(R.string.drawer_statistics_option)
+                                .withIcon(statisticsIcon)
+                                .withIdentifier(STATISTICS),
+                        new PrimaryDrawerItem().withName(R.string.drawer_achievement_option)
+                                .withIcon(achievementsIcon)
+                                .withIdentifier(ACHIEVEMENTS),
                         new PrimaryDrawerItem().withName(R.string.drawer_theme_option)
                                 .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_pin_assistant, R.color.black).alpha(110))
                                 .withIdentifier(THEME),
@@ -256,6 +271,14 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 drawer.setSelection(HOME, false);
                 break;
 
+            case STATISTICS:
+                launchActivity(new Intent(mainActivity, StatisticalActivity.class));
+                drawer.setSelection(HOME, false);
+                break;
+            case ACHIEVEMENTS:
+                launchActivity(new Intent(mainActivity, AchievementActivity.class));
+                drawer.setSelection(HOME, false);
+                break;
             case THEME:
                 //mainActivity.showTutorial();
 //                launchActivity(new Intent(mainActivity, MaterialIntroActivity.class));

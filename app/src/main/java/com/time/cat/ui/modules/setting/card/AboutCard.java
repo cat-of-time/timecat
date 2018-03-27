@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.setting;
+package com.time.cat.ui.modules.setting.card;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.time.cat.R;
-import com.time.cat.ui.activity.DiyOcrKeyActivity;
+import com.time.cat.ui.modules.activity.DiyOcrKeyActivity;
 import com.time.cat.ui.modules.about.AboutActivity;
 import com.time.cat.ui.modules.about.DonateActivity;
 import com.time.cat.ui.base.baseCard.AbsCard;

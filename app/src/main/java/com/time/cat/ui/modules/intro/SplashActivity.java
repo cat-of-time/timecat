@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.data.Constants;
 import com.time.cat.util.UrlCountUtil;

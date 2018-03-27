@@ -23,6 +23,7 @@ import android.view.ViewStub;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.alibaba.sdk.android.feedback.util.IUnreadCountCallback;
+import com.time.cat.ui.modules.setting.card.ShareCard;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.timecat.utils.StatusBarCompat;
 import com.time.cat.R;

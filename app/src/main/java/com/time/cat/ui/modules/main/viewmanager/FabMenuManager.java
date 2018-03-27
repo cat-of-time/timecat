@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.main.viewmanager;
+package com.time.cat.ui.modules.main.viewmanager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +12,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.modules.about.SchedulesHelpActivity;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.util.view.ScreenUtil;

@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity;
+package com.time.cat.ui.modules.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;

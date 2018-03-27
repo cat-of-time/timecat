@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity;
+package com.time.cat.ui.modules.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

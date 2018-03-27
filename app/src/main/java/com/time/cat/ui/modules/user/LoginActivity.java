@@ -15,7 +15,7 @@ import com.time.cat.data.model.APImodel.User;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
 import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.data.model.Converter;
 import com.time.cat.util.override.LogUtil;

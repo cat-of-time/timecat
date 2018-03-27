@@ -13,6 +13,7 @@ import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.ui.base.baseCard.CardListAdapter;
 import com.time.cat.ui.base.baseCard.DividerItemDecoration;
+import com.time.cat.ui.modules.setting.card.FeedBackAndUpdateCard;
 
 import java.util.ArrayList;
 import java.util.List;

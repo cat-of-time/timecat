@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.time.cat.ui.activity.searchengine.listener;
+package com.time.cat.ui.modules.searchengine.listener;
 
 public interface OnItemClickListener {
 

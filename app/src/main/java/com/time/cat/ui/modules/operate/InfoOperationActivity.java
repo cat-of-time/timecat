@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,23 +36,27 @@ import com.time.cat.data.Constants;
 import com.time.cat.data.SharedPreferenceHelper;
 import com.time.cat.data.database.DB;
 import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.data.model.APImodel.Routine;
+import com.time.cat.data.model.APImodel.Tag;
 import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBRoutine;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.network.ConstantURL;
 import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.activity.TimeCatActivity;
-import com.time.cat.ui.activity.WebActivity;
-import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.base.mvp.BaseActivity;
 import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.modules.activity.TimeCatActivity;
+import com.time.cat.ui.modules.activity.WebActivity;
 import com.time.cat.ui.modules.editor.EditorActivity;
 import com.time.cat.ui.widgets.emotion.adapter.HorizontalRecyclerviewAdapter;
 import com.time.cat.ui.widgets.emotion.adapter.NoHorizontalScrollerVPAdapter;
-import com.time.cat.ui.widgets.emotion.fragment.EmotiomComplateFragment;
+import com.time.cat.ui.widgets.emotion.fragment.EmotionComplateFragment;
 import com.time.cat.ui.widgets.emotion.fragment.Fragment1;
 import com.time.cat.ui.widgets.emotion.fragment.FragmentFactory;
+import com.time.cat.ui.widgets.emotion.fragment.TagFragment;
 import com.time.cat.ui.widgets.emotion.model.ImageModel;
 import com.time.cat.ui.widgets.keyboardManager.SmartKeyboardManager;
 import com.time.cat.ui.widgets.richText.TEditText;
@@ -89,19 +94,19 @@ import rx.schedulers.Schedulers;
  * @date 2018/2/14
  * @discription 信息操作页面,包括创建、修改、转化,用activity实现dialog
  */
-//public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, InfoOperationPresenter>
-//        implements InfoOperationMVP.View,
-//                   ActivityPresenter,
-//                   View.OnClickListener{
-public class InfoOperationActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener{
+public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, InfoOperationPresenter>
+        implements InfoOperationMVP.View,
+                   ActivityPresenter,
+                   View.OnClickListener,
+                   TagFragment.OnTagAddListener {
+//public class InfoOperationActivity extends BaseActivity implements ActivityPresenter, View.OnClickListener{
 
     public static final String TO_SAVE_STR = "to_save_str";
     public static final String TO_UPDATE_TASK = "to_update_task";
     public static final String TO_UPDATE_NOTE = "to_update_note";
     public static final String TO_UPDATE_ROUTINE = "to_update_ROUTINE";
 
-
-    //<启动方法>-------------------------------------------------------------------------------------
+    //<editor-fold desc="启动方法">-------------------------------------------------------------------------------------
     /**
      * 启动这个Activity的Intent
      *
@@ -113,17 +118,26 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         return new Intent(context, InfoOperationActivity.class);
     }
 
+    @Override
+    protected int layout() {
+        return R.layout.activity_dialog;
+    }
+
+    @Override
+    protected boolean canBack() {
+        return false;
+    }
+
     public Activity getActivity() {
         return this;
     }
-    //</启动方法>------------------------------------------------------------------------------------
+    //</editor-fold desc="启动方法">------------------------------------------------------------------------------------
 
 
-    //<生命周期>-------------------------------------------------------------------------------------
+    //<editor-fold desc="生命周期">-------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dialog);
         getWindow().setBackgroundDrawableResource(R.color.background_material_light_1);
 
         //<功能归类分区方法，必须调用>-----------------------------------------------------------------
@@ -139,7 +153,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         super.onDestroy();
     }
 
-    //</生命周期>------------------------------------------------------------------------------------
+    //</editor-fold desc="生命周期">------------------------------------------------------------------------------------
 
 
     //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">--------------------------------
@@ -151,6 +165,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     private TextView dialog_add_task_tv_date;
     private TextView dialog_add_task_tv_time;
     private TextView dialog_add_task_tv_remind;
+    private TextView dialog_add_task_tv_repeat;
     private TextView dialog_add_task_tv_tag;
 
     private TextView dialog_add_task_type_note;
@@ -187,6 +202,9 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 
     // 提醒选择面板
     private GridView dialog_add_task_select_gv_remind;
+
+    // 重复选择面板
+    private GridView dialog_add_task_select_gv_repeat;
 
     // 标签选择面板
     private LinearLayout dialog_add_task_select_ll_tag;
@@ -228,6 +246,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_tv_date = findViewById(R.id.dialog_add_task_tv_date);
         dialog_add_task_tv_time = findViewById(R.id.dialog_add_task_tv_time);
         dialog_add_task_tv_remind = findViewById(R.id.dialog_add_task_tv_remind);
+        dialog_add_task_tv_repeat = findViewById(R.id.dialog_add_task_tv_repeat);
         dialog_add_task_tv_tag = findViewById(R.id.dialog_add_task_tv_tag);
 
         dialog_add_task_type_note = findViewById(R.id.dialog_add_task_type_note);
@@ -260,6 +279,8 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         time_picker_fragment = findViewById(R.id.time_picker_fragment);
         // 提醒选择面板
         dialog_add_task_select_gv_remind = findViewById(R.id.dialog_add_task_select_gv_remind);
+        // 重复选择面板
+        dialog_add_task_select_gv_repeat = findViewById(R.id.dialog_add_task_select_gv_repeat);
         // 标签选择面板
         dialog_add_task_select_ll_tag = findViewById(R.id.dialog_add_task_select_ll_tag);
         viewPager = findViewById(R.id.select_vp_layout);
@@ -269,6 +290,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         setSelectDatePanel();
         setSelectTimePanel();
         setSelectRemindPanel();
+        setSelectRepeatPanel();
         setSelectTagPanel();
         setKeyboardManager();
 
@@ -533,17 +555,57 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 new int[] { R.id.dialog_add_task_select_iv, R.id.dialog_add_task_select_tv });
         // 设置GridView的adapter。GridView继承于AbsListView。
         dialog_add_task_select_gv_remind.setAdapter(saImageItems);
-        dialog_add_task_select_gv_remind.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // 根据元素位置获取对应的值
-                HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
+        dialog_add_task_select_gv_remind.setOnItemClickListener((parent, view, position, id) -> {
+            // 根据元素位置获取对应的值
+            HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
 
-                String itemText=(String)item.get(TEXT_ITEM);
-                Object object=item.get(IMAGE_ITEM);
-                ToastUtil.i("You Select "+itemText);
-                dialog_add_task_tv_remind.setText(itemText);
-            }
+            String itemText=(String)item.get(TEXT_ITEM);
+            Object object=item.get(IMAGE_ITEM);
+            ToastUtil.i("You Select "+itemText);
+            dialog_add_task_tv_remind.setText(itemText);
+        });
+    }
+
+    /**
+     * 设置 提醒 选择面板
+     */
+    private void setSelectRepeatPanel() {
+        String IMAGE_ITEM = "image_item";
+        String TEXT_ITEM = "text_item";
+        String[] arrText = new String[]{
+                "不重复", "每周", "每月",
+                "开始前10分钟", "开始前15分钟", "开始前30分钟",
+                "开始前40分钟", "开始前60分钟", "其他"
+        };
+        int[] arrImages=new int[]{
+                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
+                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
+                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp
+        };
+        List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+
+        for (int i=0; i<9; i++) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put(IMAGE_ITEM, arrImages[i]);
+            map.put(TEXT_ITEM, arrText[i]);
+            list.add(map);
+        }
+
+        SimpleAdapter saImageItems = new SimpleAdapter(this,
+                list,
+                R.layout.view_keyboard_date_item,
+                new String[] { IMAGE_ITEM, TEXT_ITEM },
+                new int[] { R.id.dialog_add_task_select_iv, R.id.dialog_add_task_select_tv });
+        // 设置GridView的adapter。GridView继承于AbsListView。
+        dialog_add_task_select_gv_repeat.setAdapter(saImageItems);
+        dialog_add_task_select_gv_repeat.setOnItemClickListener((parent, view, position, id) -> {
+            // 根据元素位置获取对应的值
+            HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
+
+            String itemText=(String)item.get(TEXT_ITEM);
+            Object object=item.get(IMAGE_ITEM);
+            ToastUtil.i("You Select "+itemText);
+            dialog_add_task_tv_repeat.setText(itemText);
         });
     }
 
@@ -601,8 +663,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
             }
 
             @Override
-            public void onItemLongClick(View view, int position, List<ImageModel> datas) {
-            }
+            public void onItemLongClick(View view, int position, List<ImageModel> datas) {}
         });
     }
 
@@ -610,9 +671,12 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         //创建fragment的工厂类
         FragmentFactory factory = FragmentFactory.getSingleFactoryInstance();
         //创建修改实例
-        EmotiomComplateFragment f1 = (EmotiomComplateFragment) factory.getFragment(EmotionUtil.EMOTION_CLASSIC_TYPE);
+        EmotionComplateFragment f1 = (EmotionComplateFragment) factory.getFragment(EmotionUtil.EMOTION_CLASSIC_TYPE);
         fragments.add(f1);
-        Bundle b = null;
+        TagFragment f2 = new TagFragment();
+        f2.setOnTagAddListener(this);
+        fragments.add(f2);
+        Bundle b;
         for (int i = 0; i < 7; i++) {
             b = new Bundle();
             b.putString("Interge", "Fragment-" + i);
@@ -626,6 +690,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         viewPager.setAdapter(adapter);
     }
 
+
     /**
      * 设置软键盘和选择面板的平滑交互
      */
@@ -637,6 +702,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 .addKeyboard(dialog_add_task_tv_date, dialog_add_task_select_gv_date)
                 .addKeyboard(dialog_add_task_tv_time, dialog_add_task_select_ll_time)
                 .addKeyboard(dialog_add_task_tv_remind, dialog_add_task_select_gv_remind)
+                .addKeyboard(dialog_add_task_tv_repeat, dialog_add_task_select_gv_repeat)
                 .addKeyboard(dialog_add_task_tv_tag, dialog_add_task_select_ll_tag)
                 .create();
     }
@@ -644,8 +710,9 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 
 
     //<editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">-----------------------------------------
-    DBTask task;
-    DBNote note;
+    DBTask task_toUpdate;
+    DBNote note_toUpdate;
+    DBRoutine routine_toUpdate;
     int important_urgent_label;
     private String title;
     private String content;
@@ -675,8 +742,9 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     @SuppressLint("SetTextI18n")
     @Override
     public void initData() {//必须调用
-        task = (DBTask) getIntent().getSerializableExtra(TO_UPDATE_TASK);
-        note = (DBNote) getIntent().getSerializableExtra(TO_UPDATE_NOTE);
+        task_toUpdate = (DBTask) getIntent().getSerializableExtra(TO_UPDATE_TASK);
+        note_toUpdate = (DBNote) getIntent().getSerializableExtra(TO_UPDATE_NOTE);
+        routine_toUpdate = (DBRoutine) getIntent().getSerializableExtra(TO_UPDATE_ROUTINE);
 
         important_urgent_label = 0;
         title = null;
@@ -692,14 +760,14 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         is_setting_end_time = false;
         type = Type.NOTE;
         initTextString();
-//        LogUtil.e("initData --> ");
-        if (task != null) {
-//            LogUtil.e("initData --> task != null --> " + task);
-            refreshViewByTask(task);
+        if (task_toUpdate != null) {
+            refreshViewByTask(task_toUpdate);
         }
-        if (note != null) {
-//            LogUtil.e("initData --> note != null --> " + note);
-            refreshViewByNote(note);
+        if (note_toUpdate != null) {
+            refreshViewByNote(note_toUpdate);
+        }
+        if (routine_toUpdate != null) {
+            refreshViewByRoutine(routine_toUpdate);
         }
         select_tv_start_time.setText((start_hour<10?"0"+start_hour:start_hour) + ":" + (start_min<10?"0"+start_min:start_min));
         select_tv_end_time.setText((end_hour<10?"0"+end_hour:end_hour) + ":" + (end_min<10?"0"+end_min:end_min));
@@ -780,6 +848,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
         dialog_add_task_tv_date.setVisibility(View.VISIBLE);
         dialog_add_task_tv_time.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_repeat.setVisibility(View.GONE);
         dialog_add_task_tv_remind.setVisibility(View.GONE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
@@ -794,6 +863,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_footer_bt_submit.setText("修改");
     }
 
+    @SuppressLint("SetTextI18n")
     private void refreshViewByNote(DBNote note) {
         title = note.getTitle();
         content = note.getContent();
@@ -814,6 +884,60 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_type_note.setTextSize(14);
         dialog_add_task_type_task.setTextSize(18);
         dialog_add_task_type_clock.setTextSize(14);
+        dialog_add_task_footer_bt_submit.setText("修改");
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void refreshViewByRoutine(DBRoutine dbRoutine) {
+        important_urgent_label = dbRoutine.getLabel();
+        title = dbRoutine.getTitle();
+        content = dbRoutine.getContent();
+
+        is_all_day = dbRoutine.getIs_all_day();
+        if (!is_all_day) {
+            Date begin_datetime = TimeUtil.formatGMTDateStr(dbRoutine.getBegin_datetime());
+            Date end_datetime = TimeUtil.formatGMTDateStr(dbRoutine.getEnd_datetime());
+            if (begin_datetime!=null&&end_datetime!=null) {
+                start_month = begin_datetime.getMonth();
+                start_day = begin_datetime.getDate();
+                start_hour = begin_datetime.getHours();
+                start_min=begin_datetime.getMinutes();
+                end_month = end_datetime.getMonth();
+                end_day = end_datetime.getDate();
+                end_hour= end_datetime.getHours();
+                end_min = end_datetime.getMinutes();
+                dialog_add_task_tv_time.setText(
+                        (start_hour<10?"0"+start_hour:start_hour) + ":" + (start_min<10?"0"+start_min:start_min)
+                                + "-" + (end_hour<10?"0"+end_hour:end_hour) + ":" + (end_min<10?"0"+end_min:end_min)
+                );
+            }
+        } else {
+            dialog_add_task_tv_time.setText("全天");
+        }
+        type = Type.TASK;
+        dialog_add_task_type_task.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog_add_task_type_task.callOnClick();
+            }
+        }, 500);
+        dialog_add_task_et_title.setText(title);
+        dialog_add_task_et_content.setText(content);
+        dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_date.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_time.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_remind.setVisibility(View.GONE);
+        dialog_add_task_tv_repeat.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
+        dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
+        dialog_add_task_type_task.setTextColor(Color.parseColor("#ee03a9f4"));
+        dialog_add_task_type_clock.setTextColor(Color.parseColor("#3e000000"));
+        dialog_add_task_type_note.setTextSize(14);
+        dialog_add_task_type_task.setTextSize(18);
+        dialog_add_task_type_clock.setTextSize(14);
+        dialog_add_task_tv_important_urgent.setText(label_str_set[dbRoutine.getLabel()]);
+        dialog_add_task_tv_important_urgent.setTextColor(Color.parseColor(text_color_set[dbRoutine.getLabel()]));
+        dialog_add_task_tv_important_urgent.setBackgroundColor(Color.parseColor(background_color_set[dbRoutine.getLabel()]));
         dialog_add_task_footer_bt_submit.setText("修改");
     }
     //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">----------------------------------------
@@ -840,7 +964,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //同步content里的到title
-                if (!isSelfEdit) {
+                if (!isSelfEdit && note_toUpdate == null && task_toUpdate == null) {
                     dialog_add_task_et_title.setText(dialog_add_task_et_content.getText().toString());
                 }
                 content = dialog_add_task_et_content.getText().toString();
@@ -862,11 +986,18 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_footer_bt_submit.setOnClickListener(this);
     }
 
-//    @NonNull
-//    @Override
-//    public InfoOperationPresenter providePresenter() {
-//        return new InfoOperationPresenter();
-//    }
+    @NonNull
+    @Override
+    public InfoOperationPresenter providePresenter() {
+        return new InfoOperationPresenter();
+    }
+
+    //-//< TagFragment.OnTagAddListener>------------------------------------------------------------
+    @Override
+    public void addTag(Tag tag) {
+        dialog_add_task_et_content.insertTopic(tag.getName());
+    }
+    //-//</ TagFragment.OnTagAddListener>-----------------------------------------------------------
 
 
     //-//<View.OnClickListener>---------------------------------------------------------------------
@@ -921,21 +1052,25 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                 }
                 switch (type) {
                     case NOTE:
-                        if (note != null) {
+                        if (note_toUpdate != null) {
                             onUpdateNote();
                         } else {
                             onCreateNote();
                         }
                         break;
                     case TASK:
-                        if (task != null) {
+                        if (task_toUpdate != null) {
                             onUpdateTask();
                         } else {
                             onCreateTask();
                         }
                         break;
                     case CLOCK:
-                        ToastUtil.e("添加[ 闹钟 ]失败：功能未完善");
+                        if (routine_toUpdate != null) {
+                            onUpdateRoutine();
+                        } else {
+                            onCreateRoutine();
+                        }
                         break;
                 }
                 SPHelper.save(Constants.UNIVERSAL_SAVE_COTENT, "");
@@ -950,6 +1085,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_tv_date.setVisibility(View.GONE);
         dialog_add_task_tv_time.setVisibility(View.GONE);
         dialog_add_task_tv_remind.setVisibility(View.GONE);
+        dialog_add_task_tv_repeat.setVisibility(View.GONE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         type = Type.NOTE;
         dialog_add_task_type_note.setTextColor(Color.parseColor("#ee03a9f4"));
@@ -958,10 +1094,13 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_type_note.setTextSize(18);
         dialog_add_task_type_task.setTextSize(14);
         dialog_add_task_type_clock.setTextSize(14);
-        if (note != null) {
+        if (note_toUpdate != null) {
             dialog_add_task_footer_bt_submit.setText("修改");
         }
-        if (task != null) {
+        if (task_toUpdate != null) {
+            dialog_add_task_footer_bt_submit.setText("转化");
+        }
+        if (routine_toUpdate != null) {
             dialog_add_task_footer_bt_submit.setText("转化");
         }
     }
@@ -970,6 +1109,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
         dialog_add_task_tv_date.setVisibility(View.VISIBLE);
         dialog_add_task_tv_time.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_repeat.setVisibility(View.GONE);
         dialog_add_task_tv_remind.setVisibility(View.GONE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         type = Type.TASK;
@@ -979,10 +1119,13 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_type_note.setTextSize(14);
         dialog_add_task_type_task.setTextSize(18);
         dialog_add_task_type_clock.setTextSize(14);
-        if (task != null) {
+        if (task_toUpdate != null) {
             dialog_add_task_footer_bt_submit.setText("修改");
         }
-        if (note != null) {
+        if (note_toUpdate != null) {
+            dialog_add_task_footer_bt_submit.setText("转化");
+        }
+        if (routine_toUpdate != null) {
             dialog_add_task_footer_bt_submit.setText("转化");
         }
     }
@@ -991,6 +1134,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
         dialog_add_task_tv_date.setVisibility(View.VISIBLE);
         dialog_add_task_tv_time.setVisibility(View.VISIBLE);
+        dialog_add_task_tv_repeat.setVisibility(View.VISIBLE);
         dialog_add_task_tv_remind.setVisibility(View.VISIBLE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         type = Type.CLOCK;
@@ -1000,6 +1144,15 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         dialog_add_task_type_note.setTextSize(14);
         dialog_add_task_type_task.setTextSize(14);
         dialog_add_task_type_clock.setTextSize(18);
+        if (task_toUpdate != null) {
+            dialog_add_task_footer_bt_submit.setText("转化");
+        }
+        if (note_toUpdate != null) {
+            dialog_add_task_footer_bt_submit.setText("转化");
+        }
+        if (routine_toUpdate != null) {
+            dialog_add_task_footer_bt_submit.setText("修改");
+        }
     }
 
     private void onClickTimeCat() {
@@ -1084,46 +1237,46 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     }
 
     private void onUpdateTask() {
-        task.setTitle(title);
-        task.setContent(content);
-        task.setLabel(important_urgent_label);
+        task_toUpdate.setTitle(title);
+        task_toUpdate.setContent(content);
+        task_toUpdate.setLabel(important_urgent_label);
         ArrayList<String> tags = new ArrayList<>();
         tags.add("http://192.168.88.105:8000/tags/1/");
         tags.add("http://192.168.88.105:8000/tags/2/");
-        task.setTags(tags);
-        task.setIs_all_day(is_all_day);
+        task_toUpdate.setTags(tags);
+        task_toUpdate.setIs_all_day(is_all_day);
 
         Date d = new Date();
         d.setMonth(start_month);
         d.setDate(start_day);
-        task.setBegin_datetime(TimeUtil.formatGMTDate(d));
+        task_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(d));
         d.setMonth(end_month);
         d.setDate(end_day);
-        task.setEnd_datetime(TimeUtil.formatGMTDate(d));
+        task_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(d));
 
         if (!is_all_day) {
             d.setHours(start_hour);
             d.setMinutes(start_min);
-            task.setBegin_datetime(TimeUtil.formatGMTDate(d));
+            task_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(d));
             d.setHours(end_hour);
             d.setMinutes(end_min);
-            task.setEnd_datetime(TimeUtil.formatGMTDate(d));
+            task_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(d));
         }
-        DB.schedules().safeSaveDBTaskAndFireEvent(task);
+        DB.schedules().safeSaveDBTaskAndFireEvent(task_toUpdate);
 
-//        LogUtil.e("updateAndFireEvent --> " + task);
-        if (task.getUrl() == null) {
+//        LogUtil.e("updateAndFireEvent --> " + task_toUpdate);
+        if (task_toUpdate.getUrl() == null) {
             // 离线创建的task是没有url的，这里要在服务器端新建一个一摸一样的，然后把url传过来
-            RetrofitHelper.getTaskService().createTask(Converter.toTask(task)) //获取Observable对象
+            RetrofitHelper.getTaskService().createTask(Converter.toTask(task_toUpdate)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Task>() {
                         @Override
                         public void call(Task task1) {
                             // 将笔记的url保存下来
-                            task.setUrl(task1.getUrl());
-                            DB.schedules().safeSaveDBTaskAndFireEvent(task);
-                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + task.toString());
+                            task_toUpdate.setUrl(task1.getUrl());
+                            DB.schedules().safeSaveDBTaskAndFireEvent(task_toUpdate);
+                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + task_toUpdate.toString());
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1148,7 +1301,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                         }
                     });
         } else {
-            RetrofitHelper.getTaskService().putTaskByUrl(task.getUrl(), Converter.toTask(task)) //获取Observable对象
+            RetrofitHelper.getTaskService().putTaskByUrl(task_toUpdate.getUrl(), Converter.toTask(task_toUpdate)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Task>() {
@@ -1264,25 +1417,25 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
     }
 
     private void onUpdateNote() {
-        note.setTitle(title);
-        note.setContent(content);
+        note_toUpdate.setTitle(title);
+        note_toUpdate.setContent(content);
         ArrayList<String> tags = new ArrayList<>();
         tags.add("http://192.168.88.105:8000/tags/1/");
         tags.add("http://192.168.88.105:8000/tags/2/");
 //        note.setTags(tags);
-        note.setUpdate_datetime(TimeUtil.formatGMTDate(new Date()));
-        DB.notes().updateAndFireEvent(note);
+        note_toUpdate.setUpdate_datetime(TimeUtil.formatGMTDate(new Date()));
+        DB.notes().updateAndFireEvent(note_toUpdate);
 
-        if (note.getUrl() == null) {
-            RetrofitHelper.getNoteService().createNote(Converter.toNote(note)) //获取Observable对象
+        if (note_toUpdate.getUrl() == null) {
+            RetrofitHelper.getNoteService().createNote(Converter.toNote(note_toUpdate)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Note>() {
                         @Override
                         public void call(Note note1) {
                             // 将笔记的url保存下来
-                            note.setUrl(note1.getUrl());
-                            DB.notes().safeSaveDBNoteAndFireEvent(note);
+                            note_toUpdate.setUrl(note1.getUrl());
+                            DB.notes().safeSaveDBNoteAndFireEvent(note_toUpdate);
 //                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note1.toString());
                         }
                     })
@@ -1308,7 +1461,7 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
                         }
                     });
         } else {
-            RetrofitHelper.getNoteService().putNoteByUrl(note.getUrl(), Converter.toNote(note)) //获取Observable对象
+            RetrofitHelper.getNoteService().putNoteByUrl(note_toUpdate.getUrl(), Converter.toNote(note_toUpdate)) //获取Observable对象
                     .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
                     .observeOn(Schedulers.io())         //请求完成后在io线程中执行
                     .doOnNext(new Action1<Note>() {
@@ -1406,6 +1559,181 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
         ToastUtil.ok("成功添加[ 笔记 ]:" + content);
         finish();
     }
+
+    private void onUpdateRoutine() {
+        routine_toUpdate.setTitle(title);
+        routine_toUpdate.setContent(content);
+        routine_toUpdate.setLabel(important_urgent_label);
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("http://192.168.88.105:8000/tags/1/");
+        tags.add("http://192.168.88.105:8000/tags/2/");
+        routine_toUpdate.setTags(tags);
+        routine_toUpdate.setIs_all_day(is_all_day);
+
+        Date d = new Date();
+        d.setMonth(start_month);
+        d.setDate(start_day);
+        routine_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(d));
+        d.setMonth(end_month);
+        d.setDate(end_day);
+        routine_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(d));
+
+        if (!is_all_day) {
+            d.setHours(start_hour);
+            d.setMinutes(start_min);
+            routine_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(d));
+            d.setHours(end_hour);
+            d.setMinutes(end_min);
+            routine_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(d));
+        }
+        DB.schedules().safeSaveDBTaskAndFireEvent(task_toUpdate);
+
+//        LogUtil.e("updateAndFireEvent --> " + task_toUpdate);
+        if (routine_toUpdate.getUrl() == null) {
+            // 离线创建的task是没有url的，这里要在服务器端新建一个一摸一样的，然后把url传过来
+            RetrofitHelper.getRoutineService().createRoutine(Converter.toRoutine(routine_toUpdate)) //获取Observable对象
+                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                    .doOnNext(new Action1<Routine>() {
+                        @Override
+                        public void call(Routine task1) {
+                            // 将笔记的url保存下来
+                            routine_toUpdate.setUrl(task1.getUrl());
+                            DB.routines().safeSaveDBRoutineAndFireEvent(routine_toUpdate);
+                            LogUtil.e("保存任务信息到本地 safeSaveNote -->" + routine_toUpdate.toString());
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                    .subscribe(new Subscriber<Routine>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //请求失败
+//                            ToastUtil.show("云端没有该任务，补充添加[ 任务 ]同步失败");
+//                            LogUtil.e("云端没有该任务，补充添加[ 任务 ]同步失败" + e.toString());
+                        }
+
+                        @Override
+                        public void onNext(Routine note) {
+                            //请求成功
+//                            ToastUtil.show("云端没有该任务，成功补充添加[ 任务 ]:" + content);
+//                            LogUtil.e("云端没有该任务，成功补充添加[ 任务 ]:" + note.toString());
+                        }
+                    });
+        } else {
+            RetrofitHelper.getRoutineService().putRoutineByUrl(routine_toUpdate.getUrl(), Converter.toRoutine(routine_toUpdate)) //获取Observable对象
+                    .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                    .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                    .doOnNext(new Action1<Routine>() {
+                        @Override
+                        public void call(Routine task) {
+                            DB.routines().safeSaveRoutineAndFireEvent(task);
+//                            LogUtil.e("保存任务信息到本地" + task.toString());
+                        }
+                    }).observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                    .subscribe(new Subscriber<Routine>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //请求失败
+//                            ToastUtil.show("同步[ 任务 ]失败，保存到本地");
+//                            LogUtil.e(e.toString());
+                        }
+
+                        @Override
+                        public void onNext(Routine task) {
+                            //请求成功
+//                            ToastUtil.show("成功更新[ 任务 ]:" + content);
+//                            LogUtil.e("请求成功" + task.toString());
+                        }
+                    });
+        }
+        ToastUtil.ok("成功更新[ 任务 ]:" + content);
+        finish();
+    }
+
+    private void onCreateRoutine() {
+        DBRoutine dbRoutine = new DBRoutine();
+        DBUser activeUser = DB.users().getActive();
+        String owner = ConstantURL.BASE_URL_USERS + activeUser.getEmail() + "/";
+        dbRoutine.setOwner(owner);
+        dbRoutine.setTitle(title);
+        dbRoutine.setContent(content);
+        dbRoutine.setLabel(important_urgent_label);
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("http://192.168.88.105:8000/tags/1/");
+        tags.add("http://192.168.88.105:8000/tags/2/");
+        dbRoutine.setTags(tags);
+        dbRoutine.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
+
+        Date d = new Date();
+        d.setMonth(start_month);
+        d.setDate(start_day);
+        dbRoutine.setBegin_datetime(TimeUtil.formatGMTDate(d));
+        d.setMonth(end_month);
+        d.setDate(end_day);
+        dbRoutine.setEnd_datetime(TimeUtil.formatGMTDate(d));
+
+        dbRoutine.setIs_all_day(is_all_day);
+        if (!is_all_day) {
+            d.setHours(start_hour);
+            d.setMinutes(start_min);
+            dbRoutine.setBegin_datetime(TimeUtil.formatGMTDate(d));
+            d.setHours(end_hour);
+            d.setMinutes(end_min);
+            dbRoutine.setEnd_datetime(TimeUtil.formatGMTDate(d));
+        } else {
+            dbRoutine.setBegin_datetime(TimeUtil.formatGMTDate(new Date()));
+            dbRoutine.setEnd_datetime(TimeUtil.formatGMTDate(new Date()));
+        }
+        DB.routines().safeSaveDBRoutineAndFireEvent(dbRoutine);
+
+        RetrofitHelper.getRoutineService().createRoutine(Converter.toRoutine(dbRoutine)) //获取Observable对象
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .doOnNext(new Action1<Routine>() {
+                    @Override
+                    public void call(Routine task) {
+                        // 将task的url保存下来
+                        dbRoutine.setUrl(task.getUrl());
+                        DB.routines().safeSaveDBRoutineAndFireEvent(dbRoutine);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<Routine>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+//                        progressDialog.dismiss();
+//                        ToastUtil.show("添加[ 任务 ]失败");
+//                        LogUtil.e(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Routine task) {
+                        //请求成功
+//                        progressDialog.dismiss();
+//                        ToastUtil.show("成功添加[ 任务 ]:" + content);
+//                        LogUtil.e("成功添加[ 任务 ]: " + task.toString());
+                    }
+                });
+        ToastUtil.ok("成功添加[ 任务 ]:" + content);
+
+        finish();
+    }
     //-//</View.OnClickListener>--------------------------------------------------------------------
 
 
@@ -1423,16 +1751,4 @@ public class InfoOperationActivity extends BaseActivity implements ActivityPrese
 
     //</editor-fold desc="Event事件区--只要存在事件监听代码就是">----------------------------------------------------------
 
-
-    //<内部类>---尽量少用-----------------------------------------------------------------------------
-
-    //</内部类>---尽量少用----------------------------------------------------------------------------
-
-    //<外部调用>--------------------------------------------------------------------------------------
-
-    //</外部调用>-------------------------------------------------------------------------------------
-
-    //<内部封装方法>-----------------------------------------------------------------------------------
-
-    //</内部封装方法>----------------------------------------------------------------------------------
 }

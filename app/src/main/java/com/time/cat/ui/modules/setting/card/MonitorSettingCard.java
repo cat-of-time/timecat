@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.setting;
+package com.time.cat.ui.modules.setting.card;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.whitelist.WhiteListActivity;
+import com.time.cat.ui.modules.whitelist.WhiteListActivity;
 import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.data.Constants;
 import com.time.cat.util.UrlCountUtil;

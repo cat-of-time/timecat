@@ -33,8 +33,8 @@ import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
-import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
+import com.time.cat.ui.modules.main.listener.OnDateChangeListener;
+import com.time.cat.ui.modules.main.listener.OnScheduleViewClickListener;
 import com.time.cat.ui.adapter.viewholder.ScheduleItemHolder;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvp.presenter.FragmentPresenter;
@@ -576,6 +576,8 @@ public class SchedulesFragment extends BaseFragment implements
             calendar_item_checkBox.setOnCheckedChangeListener(this);
 
             calendar_item_title = v.findViewById(R.id.calendar_item_title);
+            //文字抗锯齿
+            calendar_item_title.getPaint().setAntiAlias(true);
             calendar_item_delay = v.findViewById(R.id.calendar_item_delay);
 
             calendar_item_progressBar = v.findViewById(R.id.calendar_item_progressBar);

@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity.main;
+package com.time.cat.ui.modules.main;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -27,13 +27,13 @@ import com.time.cat.R;
 import com.time.cat.data.database.DB;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.model.events.PersistenceEvents;
-import com.time.cat.ui.activity.main.listener.OnDateChangeListener;
-import com.time.cat.ui.activity.main.listener.OnNoteViewClickListener;
-import com.time.cat.ui.activity.main.listener.OnPlanViewClickListener;
-import com.time.cat.ui.activity.main.listener.OnRoutineViewClickListener;
-import com.time.cat.ui.activity.main.listener.OnScheduleViewClickListener;
-import com.time.cat.ui.activity.main.viewmanager.FabMenuManager;
-import com.time.cat.ui.activity.main.viewmanager.LeftDrawerManager;
+import com.time.cat.ui.modules.main.listener.OnDateChangeListener;
+import com.time.cat.ui.modules.main.listener.OnNoteViewClickListener;
+import com.time.cat.ui.modules.main.listener.OnPlanViewClickListener;
+import com.time.cat.ui.modules.main.listener.OnRoutineViewClickListener;
+import com.time.cat.ui.modules.main.listener.OnScheduleViewClickListener;
+import com.time.cat.ui.modules.main.viewmanager.FabMenuManager;
+import com.time.cat.ui.modules.main.viewmanager.LeftDrawerManager;
 import com.time.cat.ui.adapter.CustomPagerViewAdapter;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
@@ -42,6 +42,7 @@ import com.time.cat.ui.modules.about.SchedulesHelpActivity;
 import com.time.cat.ui.modules.notes.NotesFragment;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.modules.plans.FileListFragment;
+import com.time.cat.ui.modules.pomodoro.PomodoroActivity;
 import com.time.cat.ui.modules.routines.RoutinesFragment;
 import com.time.cat.ui.modules.schedules.SchedulesFragment;
 import com.time.cat.ui.modules.theme.DialogThemeFragment;
@@ -576,10 +577,8 @@ public class MainActivity extends BaseActivity implements
 
 
             // 以下是clock menu group
-            case R.id.main_menu_1:
-                if (mScheduleViewClickListener != null) {
-                    mScheduleViewClickListener.onViewTodayClick();
-                }
+            case R.id.main_menu_new_clock:
+                launchActivity(new Intent(this, PomodoroActivity.class));
                 return true;
             case R.id.main_menu_refresh_routine:
                 showRefreshAnimation(item);

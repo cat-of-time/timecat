@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.setting;
+package com.time.cat.ui.modules.setting.card;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,9 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.time.cat.ui.modules.setting.SettingTimeCatActivity;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.searchengine.SearchEngineActivity;
+import com.time.cat.ui.modules.searchengine.SearchEngineActivity;
 import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.ui.widgets.HintTextView;
 import com.time.cat.data.Constants;

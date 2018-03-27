@@ -31,7 +31,7 @@ import com.time.cat.ui.modules.schedules.AlarmScheduler;
 import java.util.List;
 
 
-public class RoutinesListFragment extends BaseFragment {
+public class RoutinesListFragment extends BaseFragment implements RoutinesFragment.OnScrollBoundaryDecider{
 
 
     List<DBRoutine> mDBRoutines;
@@ -174,6 +174,16 @@ public class RoutinesListFragment extends BaseFragment {
         if (evt instanceof PersistenceEvents.ActiveUserChangeEvent) {
             notifyDataChanged();
         }
+    }
+
+    @Override
+    public boolean canRefresh() {
+        return false;
+    }
+
+    @Override
+    public boolean canLoadMore() {
+        return false;
     }
 
 

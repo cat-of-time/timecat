@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.time.cat.ui.activity.searchengine;
+package com.time.cat.ui.modules.searchengine;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.searchengine.listener.OnItemClickListener;
+import com.time.cat.ui.modules.searchengine.listener.OnItemClickListener;
 import com.time.cat.data.model.APImodel.SearchEngine;
 import com.time.cat.data.Constants;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;

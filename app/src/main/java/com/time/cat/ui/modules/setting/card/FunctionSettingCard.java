@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.setting;
+package com.time.cat.ui.modules.setting.card;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.activity.OcrActivity;
+import com.time.cat.ui.modules.activity.OcrActivity;
 import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.ui.service.ListenClipboardService;
 import com.time.cat.ui.service.TimeCatMonitorService;

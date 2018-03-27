@@ -1,4 +1,4 @@
-package com.time.cat.ui.activity;
+package com.time.cat.ui.modules.activity;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.modules.screen.CaptureResultActivity;
-import com.time.cat.ui.activity.searchengine.SearchEngineActivity;
+import com.time.cat.ui.modules.searchengine.SearchEngineActivity;
 import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.data.Constants;
 import com.time.cat.util.override.LogUtil;

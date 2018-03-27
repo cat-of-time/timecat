@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.time.cat.ui.modules.setting.card.FunctionSettingCard;
+import com.time.cat.ui.modules.setting.card.GoToSettingCard;
+import com.time.cat.ui.modules.setting.card.MonitorSettingCard;
 import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
