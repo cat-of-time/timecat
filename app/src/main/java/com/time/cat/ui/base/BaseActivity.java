@@ -26,7 +26,7 @@ import android.widget.ImageView;
 
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.activity.main.MainActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.widgets.theme.ThemeManager;
 import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
 import com.time.cat.util.ThreadManager;

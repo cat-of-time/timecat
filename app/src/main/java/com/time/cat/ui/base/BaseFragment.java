@@ -4,6 +4,7 @@ package com.time.cat.ui.base;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -333,6 +334,7 @@ public class BaseFragment<V extends BaseMvpView, P extends BaseMvpPresenter<V>> 
         if (toolbar != null) {
             if (toolbarTitle != null) {
                 toolbar.setTitle(toolbarTitle);
+                toolbar.setTitleTextColor(Color.WHITE);
             }
             appCompatActivity.setSupportActionBar(toolbar);
             if (setDisplayHomeAsUpEnabled) {

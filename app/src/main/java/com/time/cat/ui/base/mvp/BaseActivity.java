@@ -60,8 +60,8 @@ import es.dmoral.toasty.Toasty;
  * @discription null
  * @usage null
  */
-public abstract class BaseActivity<V extends BaseMVP.View, P extends BasePresenter<V>> extends TiActivity<P, V>
-        implements BaseMVP.View,
+public abstract class BaseActivity<V extends BaseActivityMVP.View, P extends BasePresenter<V>> extends TiActivity<P, V>
+        implements BaseActivityMVP.View,
                    EasyPermissionsManager.PermissionCallbacks {
     private static final String TAG = "BaseActivity";
     static int statusHeight;
@@ -726,6 +726,7 @@ public abstract class BaseActivity<V extends BaseMVP.View, P extends BasePresent
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
 //        if (drawer != null && (drawer.isDrawerOpen(GravityCompat.START) || drawer.isDrawerOpen(GravityCompat.END))) {
 //            closeDrawer();
 //        } else {

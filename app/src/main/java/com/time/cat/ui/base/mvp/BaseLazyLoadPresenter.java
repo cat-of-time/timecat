@@ -11,13 +11,15 @@ public abstract class BaseLazyLoadPresenter<V extends BaseLazyLoadMVP.View>
         extends BasePresenter<V> implements BaseLazyLoadMVP.Presenter {
     @Override
     public void refreshData() {
-        getViewOrThrow().showProgress();
+        sendToView(v->{
+            v.showProgress();
 
-        if (getViewOrThrow().isFragmentVisible()) {
-            lazyLoadData();
-        } else {
-            getViewOrThrow().setForceLoad(true);
-        }
+            if (v.isFragmentVisible()) {
+                lazyLoadData();
+            } else {
+                v.setForceLoad(true);
+            }
+        });
     }
 
     public abstract void lazyLoadData();

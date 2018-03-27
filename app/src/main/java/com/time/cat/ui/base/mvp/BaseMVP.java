@@ -46,10 +46,6 @@ public interface BaseMVP {
         boolean isEnterprise();
 
         void onOpenUrlInBrowser();
-
-        boolean isAlive();
-
-        boolean isRunning();
     }
 
     interface Presenter {

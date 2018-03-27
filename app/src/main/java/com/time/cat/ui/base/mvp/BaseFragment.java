@@ -114,6 +114,11 @@ public abstract class BaseFragment<V extends BaseMVP.View, P extends BasePresent
     }
 
     @Override
+    public void showProgress(int resId, boolean cancelable) {
+        callback.showProgress(resId, cancelable);
+    }
+
+    @Override
     public void showBlockingProgress(int resId) {
         callback.showBlockingProgress(resId);
     }
