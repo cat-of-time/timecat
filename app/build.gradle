@@ -20,7 +20,7 @@ def keystorePSW = ''
 def keystoreAlias = ''
 def keystoreAliasPSW = ''
 // default keystore file, PLZ config file path in local.properties
-def keyfile = file('C:/Users/dlink/Application/key/dlinking.jks')
+def keyfile = file('C:/Users/dlink/Application/key/dlgiinking.jks')
 
 Properties properties = new Properties()
 // local.properties file in the root director
@@ -116,11 +116,6 @@ android {
         for_test{
             java.srcDirs += ['src/main/java']
         }
-        coolapk{
-            resources.srcDirs += ['src/coolapk/res']
-            res.srcDirs += ['src/coolapk/res']
-            java.srcDirs += ['src/Normal/java']
-        }
     }
     dataBinding {
         enabled = true
@@ -181,13 +176,13 @@ dependencies {
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
     //recyclerview
     compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
-    compile 'jp.wasabeef:recyclerview-animators:2.2.3'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.6'
     // ExpansionPanel
     compile 'com.github.florent37:expansionpanel:1.0.7'
     //floating action button
     compile 'com.getbase:floatingactionbutton:1.9.0'
     // round image view(for material getDrawer)
-    compile 'com.makeramen:roundedimageview:1.5.0'
+    compile 'com.makeramen:roundedimageview:2.3.0'
     // snackbar
     compile 'com.nispok:snackbar:2.9.0'
     // material
@@ -234,6 +229,11 @@ dependencies {
     compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
     compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
     compile 'com.aliyun.ams:alicloud-android-utils:1.0.3'
+    //anim
+    compile 'com.daimajia.easing:library:2.0@aar'
+    compile 'com.daimajia.androidanimations:library:2.3@aar'
+    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    implementation 'com.robertlevonyan.view:MaterialChipView:1.2.1'
     //project
     compile project(':lib')
     compile project(':commonjar')
