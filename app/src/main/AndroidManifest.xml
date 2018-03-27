@@ -71,7 +71,7 @@
             android:process=":monitor"
             android:theme="@style/TimeCatTheme" />
         <activity
-            android:name=".ui.activity.TimeCatActivity"
+            android:name=".ui.modules.activity.TimeCatActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@style/TimeCatTheme">
@@ -156,7 +156,7 @@
             android:noHistory="true"
             android:theme="@style/ColorTranslucentTheme" />
         <activity
-            android:name=".ui.activity.OcrActivity"
+            android:name=".ui.modules.activity.OcrActivity"
             android:theme="@style/BaseAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -170,7 +170,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.time.cat.ui.activity.main.MainActivity"
+            android:name=".ui.modules.main.MainActivity"
             android:launchMode="singleInstance"
             android:theme="@style/ColorTranslucentTheme">
             <!--<intent-filter>-->
@@ -187,15 +187,15 @@
             android:process=":monitor"
             android:theme="@style/ColorTranslucentTheme" />
         <activity
-            android:name=".ui.activity.searchengine.SearchEngineActivity"
+            android:name=".ui.modules.searchengine.SearchEngineActivity"
             android:theme="@style/SearchEngineAppTheme" />
         <activity
-            android:name=".ui.activity.WebActivity"
+            android:name=".ui.modules.activity.WebActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@style/WebActivityTheme" />
         <activity
-            android:name=".ui.activity.whitelist.WhiteListActivity"
+            android:name=".ui.modules.whitelist.WhiteListActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".ui.modules.floatviewwhitelist.FloatViewWhiteListActivity"
@@ -223,7 +223,7 @@
         </receiver>
 
         <activity
-            android:name=".ui.activity.DiyOcrKeyActivity"
+            android:name=".ui.modules.activity.DiyOcrKeyActivity"
             android:theme="@style/DiyOcrKeyAppTheme" />
         <activity
             android:name=".util.cropper.handler.CropImageActivity"
@@ -260,14 +260,14 @@
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
         <activity
-            android:name=".ui.activity.UniversalCopyActivity"
+            android:name=".ui.modules.activity.UniversalCopyActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:exported="true"
             android:noHistory="true"
             android:theme="@style/ScreenCaptureTheme" />
         <activity
-            android:name=".ui.activity.TotalSwitchActivity"
+            android:name=".ui.modules.activity.TotalSwitchActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -305,7 +305,7 @@
                  android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
         <activity
-            android:name=".ui.activity.KeepAliveActivity"
+            android:name=".ui.modules.activity.KeepAliveActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
@@ -322,7 +322,8 @@
         <activity
             android:name=".ui.modules.about.AboutActivity"
             android:theme="@style/BaseAppTheme" />
-        <activity android:name=".ui.modules.user.UserDetailActivity" />
+        <activity android:name=".ui.modules.user.UserDetailActivity"
+                  android:theme="@style/AppBaseTheme"/>
         <activity
             android:name=".ui.modules.about.SchedulesHelpActivity"
             android:theme="@style/Theme.Intro" />
@@ -339,7 +340,7 @@
                 <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".ui.activity.viewtask.HistoryActivity"
+        <activity android:name=".ui.modules.viewtask.HistoryActivity"
                   android:theme="@style/TimeCatTheme"
                   android:launchMode="singleInstance"
                   android:windowSoftInputMode="adjustNothing" />
@@ -348,6 +349,12 @@
                   android:launchMode="singleTop"/>
         <activity android:name=".ui.modules.about.RoutinesHelpActivity"
                   android:theme="@style/Theme.Intro" />
+        <activity android:name=".ui.modules.achievement.AchievementActivity"
+                  android:theme="@style/AppBaseTheme"/>
+        <activity android:name=".ui.modules.statistic.StatisticalActivity"
+                  android:theme="@style/AppBaseTheme"/>
+        <activity android:name=".ui.modules.pomodoro.PomodoroActivity"
+                  android:theme="@style/Theme.Design.NoActionBar" />
 
         <receiver android:name=".TimeCatAppWidget">
             <intent-filter>
