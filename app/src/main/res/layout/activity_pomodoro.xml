@@ -1,0 +1,103 @@
+<com.time.cat.ui.widgets.theme.widgets.TintConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_color_primary"
+    tools:context=".ui.modules.main.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.time.cat.ui.widgets.theme.widgets.TintToolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_color_primary"
+            android:minHeight="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_month_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="3月11日"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/tv_month_day"
+                    android:orientation="vertical"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="12dp"
+                    tools:ignore="RelativeOverlap">
+
+                    <TextView
+                        android:id="@+id/tv_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="2018"
+                        android:textColor="#8effffff"
+                        android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_lunar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="初一"
+                        android:textColor="#8effffff"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </com.time.cat.ui.widgets.theme.widgets.TintToolbar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_toolbar"
+            android:background="@android:color/white">
+
+            <com.time.cat.ui.widgets.viewpaper.CustomPagerView
+                android:id="@+id/main_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="48dp"/>
+            <!--<FrameLayout-->
+                <!--android:id="@+id/main_fragments"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginBottom="48dp"/>-->
+            <!--PageNavigationView的高度为48dp,那20dp是突出来的-->
+
+            <me.majiajie.pagerbottomtabstrip.PageNavigationView
+                android:id="@+id/main_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:background="@android:color/transparent"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</com.time.cat.ui.widgets.theme.widgets.TintConstraintLayout>
+

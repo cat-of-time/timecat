@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.time.cat.ui.modules.setting.MonitorSettingCard.SPINNER_ARRAY;
+import static com.time.cat.ui.modules.setting.card.MonitorSettingCard.SPINNER_ARRAY;
 import static com.time.cat.ui.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
 
 public class WhiteListActivity extends BaseActivity {

@@ -453,49 +453,6 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
         mainActivity.overridePendingTransition(R.anim.push_left_to_right, R.anim.push_right_to_left);
     }
 
-    private boolean login(DBUser dbUser) {
-        //本方法已起用
-//        LogUtil.e("login dbUser -->" + dbUser.toString());
-        final boolean[] isSuccess = {false};
-        RetrofitHelper.getUserService().login(Converter.toAPIUser(dbUser)) //获取Observable对象
-                .compose(mainActivity.bindToLifecycle())
-                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
-                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
-                .doOnNext(new Action1<User>() {
-                    @Override
-                    public void call(User user) {
-                        //保存用户信息到本地
-                        DB.users().updateActiveUserAndFireEvent(dbUser, user);
-                        Log.i(TAG, user.toString());
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
-                .subscribe(new Subscriber<User>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        //请求失败
-                        LogUtil.e(e.toString());
-                        ToastUtil.e("登录失败");
-                    }
-
-                    @Override
-                    public void onNext(User user) {
-                        //请求成功
-                        isSuccess[0] = true;
-                        Log.i(TAG, "登录成功" + user.toString());
-                        ToastUtil.ok("登录成功");
-                    }
-                });
-        // 由于网络请求是异步，返回太快了，isSuccess[0] 一直为false，即使登录成功
-//        LogUtil.e("isSuccess[0] == " + isSuccess[0]);
-        return isSuccess[0];
-    }
-
     private IProfile createProfile(DBUser u) {
         return new ProfileDrawerItem()
                 .withIdentifier(u.id().intValue())

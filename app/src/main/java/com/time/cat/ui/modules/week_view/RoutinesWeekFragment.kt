@@ -2,6 +2,7 @@ package com.time.cat.ui.modules.schedules_weekview
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,7 @@ import com.time.cat.data.Constants.WEEK_START_DATE_TIME
 import com.time.cat.helper.Formatter
 import com.time.cat.helper.seconds
 import com.time.cat.ui.activity.main.MainActivity
-import com.time.cat.ui.base.BaseFragment
-import com.time.cat.ui.base.mvpframework.presenter.BaseMvpPresenter
-import com.time.cat.ui.base.mvpframework.view.BaseMvpView
+import com.time.cat.ui.base.mvp.BaseLazyLoadFragment
 import com.time.cat.ui.widgets.weekview.MyScrollView
 import kotlinx.android.synthetic.main.fragment_schedules_weekview_holder.*
 import kotlinx.android.synthetic.main.fragment_schedules_weekview_holder.view.*
@@ -29,7 +28,25 @@ import org.joda.time.DateTime
  * @description 生物钟页面的星期视图，用来管理课程、吃药时间、定期总结、定期运动、生物钟等
  * @usage null
  */
-class RoutinesWeekFragment : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvpView>>(), WeekFragmentListener {
+class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, RoutinesWeekPresenter<RoutinesWeekMVP.View>>(), WeekFragmentListener {
+    override fun providePresenter(): RoutinesWeekPresenter<RoutinesWeekMVP.View> {
+        return RoutinesWeekPresenter()
+    }
+
+    override fun initViews(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        weekHolder = inflater.inflate(R.layout.fragment_schedules_weekview_holder, container, false) as ViewGroup
+        weekHolder!!.background = ColorDrawable(context!!.config.weekViewBackground)
+        setupFragment()
+//        if (progressBar != null) progressBar.visibility = View.GONE
+        Handler().postDelayed({ presenter.refreshData() }, 50)
+        return weekHolder as ViewGroup
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+        if (progressBar != null) progressBar.visibility = View.GONE
+    }
+
     private val PREFILLED_WEEKS = 61
 
     private var weekHolder: ViewGroup? = null
@@ -44,13 +61,6 @@ class RoutinesWeekFragment : BaseFragment<BaseMvpView, BaseMvpPresenter<BaseMvpV
         val dateTimeString = arguments?.getString(WEEK_START_DATE_TIME) ?: getThisWeekDateTime()
         currentWeekTS = (DateTime.parse(dateTimeString) ?: DateTime()).seconds()
         thisWeekTS = currentWeekTS
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        weekHolder = inflater.inflate(R.layout.fragment_schedules_weekview_holder, container, false) as ViewGroup
-        weekHolder!!.background = ColorDrawable(context!!.config.weekViewBackground)
-        setupFragment()
-        return weekHolder
     }
 
     private fun setupFragment() {

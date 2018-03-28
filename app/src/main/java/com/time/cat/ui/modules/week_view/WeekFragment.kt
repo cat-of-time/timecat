@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.SparseIntArray
@@ -29,10 +30,12 @@ import com.time.cat.helper.seconds
 import com.time.cat.ui.modules.operate.InfoOperationActivity
 import com.time.cat.ui.widgets.weekview.MyScrollView
 import com.time.cat.ui.widgets.weekview.WeeklyCalendarImpl
+import com.time.cat.util.view.ViewUtil.dp2px
 import kotlinx.android.synthetic.main.fragment_schedules_weekview.*
 import kotlinx.android.synthetic.main.fragment_schedules_weekview.view.*
 import org.joda.time.DateTime
 import org.joda.time.Days
+
 
 /**
  * @author dlink
@@ -160,6 +163,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
             mainView.findViewById<TextView>(mRes.getIdentifier("week_day_label_$i", "id", context!!.packageName)).apply {
                 text = "$dayLetter\n${curDay.dayOfMonth}"
                 setTextColor(if (todayCode == dayCode) primaryColor else textColor)
+                alpha = if (todayCode == dayCode) 1.0F else 0.3F
                 if (todayCode == dayCode) {
                     todayColumnIndex = i
                 }
@@ -340,7 +344,15 @@ class WeekFragment : Fragment(), WeeklyCalendar {
                 return
 
             val backgroundColor = primaryColor//eventTypeColors.get(dbTask.eventType, primaryColor)
-            background = ColorDrawable(backgroundColor)
+//            background = ColorDrawable(backgroundColor)
+            /* 白色带圆角形状的背景 */
+            val adImageBackground = GradientDrawable()
+            adImageBackground.shape = GradientDrawable.RECTANGLE
+            adImageBackground.setColor(backgroundColor)
+            adImageBackground.alpha = 200
+            adImageBackground.cornerRadius = dp2px(3F).toFloat()
+            background = adImageBackground
+
             setTextColor(backgroundColor.getContrastColor())
             text = dbTask.title
 
@@ -427,7 +439,14 @@ class WeekFragment : Fragment(), WeeklyCalendar {
 
         (inflater.inflate(R.layout.week_event_marker, null, false) as TextView).apply {
             val backgroundColor = primaryColor//eventTypeColors.get(0, primaryColor)
-            background = ColorDrawable(backgroundColor)
+//            background = ColorDrawable(backgroundColor)
+            /* 白色带圆角形状的背景 */
+            val adImageBackground = GradientDrawable()
+            adImageBackground.shape = GradientDrawable.RECTANGLE
+            adImageBackground.setColor(backgroundColor)
+            adImageBackground.alpha = 200
+            adImageBackground.cornerRadius = dp2px(3F).toFloat()
+            background = adImageBackground
             setTextColor(backgroundColor.getContrastColor())
             text = dbTask.title
             layout.addView(this)

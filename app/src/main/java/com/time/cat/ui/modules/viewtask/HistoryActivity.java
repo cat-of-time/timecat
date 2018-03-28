@@ -17,7 +17,7 @@ import com.time.cat.ui.modules.notes.NotesFragment;
 import com.time.cat.ui.modules.plans.FileListFragment;
 import com.time.cat.ui.modules.routines.RoutinesFragment;
 import com.time.cat.ui.modules.schedules.SchedulesFragment;
-import com.time.cat.ui.modules.schedules_weekview.RoutinesWeekFragment;
+import com.time.cat.ui.modules.week_view.RoutinesWeekFragment;
 import com.time.cat.util.view.ViewUtil;
 
 import java.util.ArrayList;
