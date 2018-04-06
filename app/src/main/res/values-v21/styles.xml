@@ -36,9 +36,10 @@
         <!--<item name="colorControlNormal">@color/colorControlNormal</item>-->
         <item name="colorControlNormal">@color/white</item>
         <!--Button按钮正常状态颜色-->
-        <item name="colorButtonNormal">@color/accent_material_light</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
         <!--EditText 输入框中字体的颜色-->
-        <item name="editTextColor">@android:color/white</item>
+        <item name="android:editTextColor">@android:color/black</item>
+        <item name="editTextColor">@android:color/black</item>
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <!--导航栏上的标题颜色-->
@@ -53,5 +54,11 @@
     </style>
 
     <!--主界面 设置Style-->
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 
 </resources>
