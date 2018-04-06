@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+
+    <color name="colorAccent">#03A9F4</color>
+    <color name="colorAccentPressed">#0288D1</color>
+
     <color name="text_color">@color/white</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
@@ -27,7 +33,7 @@
 
     <color name="intro_bg">#3d85c0</color>
 
-    //timecatBackgroundColor
+    <!--timecatBackgroundColor-->
     <color name="back_black">#000000</color>
     <color name="back_green">#dcedc8</color>
     <color name="back_cyan">#b2ebf2</color>
@@ -52,7 +58,7 @@
 
     <!-- theme color -->
     <color name="theme_color">#2196F3</color>
-    <color name="theme_color_primary">#1565C0</color>
+    <color name="theme_color_primary">#03A9F4</color>
     <color name="theme_color_primary_dark">#B41A78C3</color>
 
     <color name="theme_red">#ffce3d3a</color>
@@ -298,11 +304,27 @@
     <color name="color_translucent">#20000000</color>
     <color name="color_transparent">#00000000</color>
 
-
     <color name="relax_background_color">#41e29c</color>
     <color name="relax_progress_color">#00b680</color>
     <color name="work_background_color">#ff5555</color>
     <color name="work_progress_color">#e10a28</color>
     <color name="textHighLightColor">#FB7530</color>
     <color name="statistical_child_title_color">#60000000</color>
+
+    <color name="colorBackground">#f5f5f5</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGrey">#999999</color>
+
+    <color name="colorText">#ffffff</color>
+    <color name="colorTextDark">#333333</color>
+    <color name="colorTextLight">#88000000</color>
+
+    <!-- 倒计时钟 -->
+    <color name="colorStrokeCircle">#55ffffff</color>
+    <color name="colorStrokeArc">#ffffff</color>
+    <!-- 水纹 -->
+    <color name="colorRipple">#F4A5A0</color>
+    <!-- 分割线 -->
+    <color name="colorDivider">#E9E9E9</color>
 </resources>
