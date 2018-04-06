@@ -292,6 +292,7 @@
 
     <string name="fragment_other">其他</string>
     <string name="fragment_display">界面</string>
+    <string name="fragment_clock">时钟</string>
     <string name="fragment_segment">分词</string>
 
     <string name="open_access_setting">进入系统辅助服务设置</string>
@@ -344,6 +345,9 @@
     <string name="timecat_setting_card_title">分词界面相关设置</string>
     <string name="no_query">无搜索词</string>
     <string name="is_stick_sharebar">显示侧边分享栏(非全屏状态下不显示)</string>
+
+    <string name="pomodoro_setting_card_title">番茄界面相关设置</string>
+    <string name="routine_setting_card_title">生物钟界面相关设置</string>
 
 
     <string name="show_introduction">显示介绍页面</string>
@@ -451,6 +455,7 @@
     <string name="jump_introduction">跳过</string>
     <string name="jump_toast">如果遇到问题，你可以重新查看此页</string>
     <string name="search_">以图搜图</string>
+    <string name="add_">添加</string>
     <string name="upload_img">开始上传图片</string>
     <string name="upload_img_fail">抱歉，图片上传失败</string>
 
@@ -462,6 +467,8 @@
 
     <string name="main_menu_today">今天</string>
     <string name="main_menu_more">更多</string>
+    <string name="main_menu_help">帮助</string>
+    <string name="main_menu_new_clock">新建番茄钟</string>
     <string name="main_menu_change_theme">改变效果</string>
     <string name="label_not_important_not_urgent">不重要不紧急</string>
     <string name="label_not_important_urgent">紧急不重要</string>
@@ -479,23 +486,23 @@
     <string name="title_schedules">日程</string>
     <string name="title_routines">生物钟</string>
     <string name="title_plans">计划</string>
-    <string name="title_activity_home">Home</string>
-    <string name="title_activity_login">Login</string>
-    <string name="title_activity_schedules">Schedules</string>
-    <string name="title_activity_routines">Routines</string>
-    <string name="title_activity_plans">Plans</string>
-    <string name="title_activity_notes">Notes</string>
-    <string name="title_activity_medicines">Medicines</string>
 
-    <string name="home_menu_medicines">MEDICINES</string>
-    <string name="home_menu_pharmacies">Pharmacies</string>
-    <string name="drawer_theme_option">Theme</string>
-    <string name="drawer_achievement_option">Achievement</string>
-    <string name="drawer_statistics_option">Statistics</string>
-    <string name="drawer_settings_option">Settings</string>
-    <string name="drawer_about_option">About</string>
+    <string name="drawer_home_option">主页</string>
+    <string name="drawer_login_option">登录</string>
+    <string name="drawer_schedules_option">日程</string>
+    <string name="drawer_routines_option">生物钟</string>
+    <string name="drawer_notes_option">笔记</string>
+    <string name="drawer_plans_option">计划</string>
+    <string name="drawer_medicines_option">用药</string>
+    <string name="drawer_pharmacies_option">药店</string>
+    <string name="drawer_theme_option">主题</string>
+    <string name="drawer_achievement_option">成就</string>
+    <string name="drawer_statistics_option">统计</string>
+    <string name="drawer_pomodoros_option">番茄钟</string>
+    <string name="drawer_settings_option">设置</string>
+    <string name="drawer_about_option">关于</string>
+
     <string name="routines_list_empty_text">还没有[生物钟]喵！\n[生物钟]是定期任务，比如课程、健身、定期运动等。\n快去创建您的[生物钟]喵！</string>
-    <string name="remove_routine_message_long">The Routine %1$s has associated schedules that will be lost if you delete it. Do you want to remove it anyway?</string>
     <string name="remove_routine_message_short">删除 %1$s [生物钟]?</string>
     <string name="remove_routine_dialog_title">删除[生物钟]</string>
     <string name="dialog_yes_option">Yes</string>
@@ -507,37 +514,51 @@
     <string name="schedule_type_period_title">注意！</string>
 
 
-    <string name="schedule_type_help_title">
-        您将创建一个[任务]，阅读下面的说明以更好地使用这个功能
-    </string>
-
+    <string name="schedule_type_help_title">您将创建一个[任务]，阅读下面的说明以更好地使用这个功能</string>
     <string name="schedule_type_routines_help">
         长按[日程]图标改变视图，目前支持的视图有：\n\t1. 日程视图\n\t2. 四象限视图\n点击左上角的日期文字，可看见年月视图。
     </string>
-
     <string name="schedule_type_hourly_help">
-        您可以在日程页面管理将要做的事情，比如做作业，写文章，追剧等。
+        管理将要做的事情，比如做作业，写文章，追剧等。
     </string>
-
     <string name="schedule_type_intervalrest_help">
         当天完成任务可获得丰厚的奖励，当天未完成的任务将自动顺延至下一天。
     </string>
 
 
-    <string name="routine_type_help_title">
-        您将创建一个[生物钟]，阅读下面的说明以更好地使用这个功能
-    </string>
-
+    <string name="routine_type_help_title">您将创建一个[生物钟]，阅读下面的说明以更好地使用这个功能</string>
     <string name="routine_type_routines_help">
-        长按[生物钟]图标可以改变视图，目it 前支持的视图有：\n\t1. 星期视图\n\t2. 卡片视图
+        长按[生物钟]图标可以改变视图，目前支持的视图有：\n\t1. 星期视图\n\t2. 卡片视图
     </string>
-
     <string name="routine_type_hourly_help">
         \t\t管理定期事情，比如课程表，产品上线，任务DDL，定时健身，定期体检，早睡早起等。
     </string>
-
     <string name="routine_type_intervalrest_help">
         使用[全天]标签，取消全天并设置开始结束时间\n\n使用[重复]标签来批量创建。
+    </string>
+
+
+    <string name="note_type_help_title">您将创建一个[笔记]，阅读下面的说明以更好地使用这个功能</string>
+    <string name="note_type_routines_help">
+        长按[笔记]图标可以改变视图，目前支持的视图有：\n\t1. 列表视图\n\t2. 卡片视图\n\t3. Markdown视图
+    </string>
+    <string name="note_type_hourly_help">
+        \t\t管理碎片信息，比如神评，摘抄，日记，想法，女朋友的注意事项等
+    </string>
+    <string name="note_type_intervalrest_help">
+        最基础的功能，推荐卡片视图，更加方便
+    </string>
+
+
+    <string name="plan_type_help_title">您将创建一个[计划]，阅读下面的说明以更好地使用这个功能</string>
+    <string name="plan_type_routines_help">
+        长按[计划]图标可以改变视图，目前支持的视图有：\n\t1. 列表视图\n\t2. 卡片视图\n\t3. 堆视图
+    </string>
+    <string name="plan_type_hourly_help">
+        \t\t管理计划信息，比如长期计划，项目计划，健身计划，学习计划，考证计划等
+    </string>
+    <string name="plan_type_intervalrest_help">
+        内置[抗焦虑锦囊]，在夜晚失眠时把担心的事放到锦囊里，在失去动力成为咸鱼时打开锦囊，不忘初心，做真正的自己。
     </string>
 
     <string name="appwidget_text">EXAMPLE</string>
@@ -547,7 +568,7 @@
     <string name="title_notes">笔记</string>
     <string name="title_add">添加</string>
     <string name="main_menu_refresh_schedule">立即刷新</string>
-
+    <string name="main_menu_add">添加</string>
     <string name="previous_month">Previous month</string>
     <string name="next_month">Next month</string>
     <string name="add_button">Add Button</string>
@@ -668,69 +689,6 @@
     <string name="toast_file_name_exists">文件名已存在，请重新输入</string>
     <!-- edit fragment -->
 
-
-    <!-- preference -->
-    <!-- preference key -->
-    <string name="pref_key_language">language</string>
-    <string name="pref_key_custom_editor">custom_editor</string>
-    <string name="pref_key_sync">sync</string>
-    <string name="pref_key_network">network</string>
-    <string name="pref_key_feedback">feedback</string>
-    <string name="pref_key_bug_report">bug_report</string>
-    <string name="pref_key_rating">rating</string>
-    <string name="pref_key_check_update">check_update</string>
-    <string name="pref_key_about">about</string>
-
-    <!--preference title and summary-->
-    <string name="category_title_display">显示</string>
-    <string name="category_title_editor">编辑器</string>
-    <string name="category_title_storage_sync">同步</string>
-    <string name="category_title_feedback">使用反馈</string>
-    <string name="category_title_others">其它</string>
-
-    <string name="pref_summary_default">默认</string>
-    <string name="pref_title_language">语言</string>
-    <string name="pref_summary_language">跟随系统</string>
-    <string name="pref_title_custom_editor">自定义工具栏</string>
-    <string name="pref_title_sync">同步</string>
-    <string name="pref_summary_sync">自动同步</string>
-    <string name="pref_title_wifi_sync">仅在WIFI下同步</string>
-    <string name="pref_summary_wifi_sync">使用WIFI</string>
-    <string name="pref_summary_4g_sync">使用4G/3G/2G</string>
-    <string name="pref_title_feedback">意见反馈</string>
-    <string name="pref_title_bug_report">错误报告</string>
-    <string name="pref_title_rate">应用评分</string>
-    <string name="pref_title_check_update">检查更新</string>
-    <string name="pref_summary_current_version">当前版本 v1.0</string>
-    <string name="pref_title_about">关于</string>
-
-    <string name="issue_page">https://github.com/zeleven/mua/issues</string>
-
-    <!-- language list preference item text -->
-    <string name="pref_array_item_auto">跟随系统</string>
-    <string name="pref_array_item_english">英文</string>
-    <string name="pref_array_item_chinese_s">简体中文</string>
-    <string name="pref_array_item_chinese_t">繁体中文</string>
-
-    <!-- sync list preference item text -->
-    <string name="pref_array_item_sync_auto">自动同步</string>
-    <string name="pref_array_item_sync_remind">提醒同步</string>
-    <string name="pref_array_item_sync_manual">手动同步</string>
-
-    <!--about fragment-->
-    <string name="app_describe">开源的Markdown编辑器</string>
-    <string name="app_version_text">当前版本</string>
-    <string name="app_version_number">1.0</string>
-    <string name="project_link">项目源码</string>
-    <string name="contact_me">联系作者</string>
-    <string name="bottom_text">Under MIT license.</string>
-    <!-- about fragment bottom sheet menu -->
-    <string name="menu_item_title_email">Email</string>
-    <string name="menu_item_title_github">GitHub</string>
-    <string name="menu_item_title_zhihu">知乎</string>
-    <!-- preference -->
-
-
     <!--test content-->
     <string name="test_long_title">这是一个标题，一个非常长的标题，长到看不到尽头，真的特别长，后面的根本看不到，后面还有很多内容你根本就看不到的，不信再看</string>
     <string name="test_long_content">这是一段文章摘要，一段非常长的文章摘要，一样是长到没有尽头，到底是有多长呢，你继续往后看就知道有多长了，我不知道写什么了，就这样看看可不可以吧，要是不可以那就再长一点</string>
@@ -778,18 +736,37 @@
 
     <!-- Weekly view -->
 
+    <string name="schedules_list_view">列表视图</string>
     <string name="schedules_task_view">日程视图</string>
     <string name="schedules_four_view">四象限视图</string>
+    <string name="schedules_month_view">月视图</string>
 
-    <string name="routines_card_view">卡片视图</string>
+    <string name="routines_list_view">列表视图</string>
     <string name="routines_week_view">星期视图</string>
+    <string name="routines_card_view">卡片视图</string>
+
+    <string name="notes_list_view">列表视图</string>
+    <string name="notes_card_view">卡片视图</string>
+    <string name="notes_markdown_view">Markdown视图</string>
+
+    <string name="plans_list_view">列表视图</string>
+    <string name="plans_card_view">卡片视图</string>
+    <string name="plans_pile_view">堆视图</string>
+
     <string name="word_test">测试</string>
     <!--achievement-->
     <string name="my_achievement_text">我的成就</string>
     <string name="zero">0</string>
     <string name="fail_tomato">烂番茄</string>
+
     <string name="history_data">历史数据</string>
-    <string name="history_finish_tomato">总番茄</string>
+    <string name="history_finish_tomato">总番茄数</string>
+    <string name="history_finish_tasks">总任务数</string>
+    <string name="history_total_routines">总生物钟</string>
+    <string name="history_total_notes">总笔记数</string>
+    <string name="history_total_plans">总计划数</string>
+    <string name="history_total_subplans">总子计划数</string>
+    <string name="history_unfinished_tasks">未完成任务</string>
 
     <string name="week">周</string>
     <string name="work_count_down_over">工作时间结束</string>
@@ -811,8 +788,154 @@
     <string name="today_finish_tomato">番茄数</string>
     <string name="today_text">今天</string>
 
+    <string name="today_create_num">任务数</string>
+    <string name="today_finish_task">完成任务数</string>
+    <string name="today_remain_task">剩余任务数</string>
+
+    <string name="today_note_num">笔记数</string>
+    <string name="today_plan_num">计划数</string>
+    <string name="today_subplan_num">子计划数</string>
+
     <string name="tomato_distribute_title">番茄收获时间</string>
     <string name="tomato_num_title">番茄收成</string>
 
     <string name="statistical_text">统计</string>
+
+    <string name="empty_schedules_head">没有任务！\n点击下面蓝色按钮创建任务！</string>
+    <string name="empty_notes_head">没有笔记！\n点击下面蓝色按钮创建笔记！</string>
+    <string name="empty_routines_head">没有生物钟！\n点击下面蓝色按钮创建生物钟！</string>
+    <string name="empty_plans_head">没有计划！\n点击下面蓝色按钮制定计划！</string>
+
+    <string name="empty_schedules">注意：\n(1)长按[日程]图标改变视图，目前支持的视图有：\n\t\t1. 日程视图\n\t\t2. 四象限视图\n点击左上角的日期文字，可看见年月视图。\n\n(2)建议管理将要做的事情，比如做作业，写文章，追剧等。\n\n(3)当天完成任务可获得丰厚的奖励，当天未完成的任务将自动顺延至下一天。</string>
+    <string name="empty_notes">注意：\n(1)长按[笔记]图标可以改变视图，目前支持的视图有：\n\t\t1. 列表视图\n\t\t2. 卡片视图\n\t\t3. Markdown视图\n\n(2)建议管理碎片信息，比如神评，摘抄，日记，想法，女朋友的注意事项等</string>
+    <string name="empty_routines">注意：\n(1)长按[生物钟]图标可以改变视图，目前支持的视图有：\n\t\t1. 星期视图\n\t\t2. 卡片视图\n\n(2)建议管理定期事情，比如课程表，产品上线，任务DDL，定时健身，定期体检，早睡早起等。\n\n(3)使用[全天]标签，取消全天并设置开始结束时间，使用[重复]标签来批量创建。</string>
+    <string name="empty_plans">注意：\n(1)长按[计划]图标可以改变视图，目前支持的视图有：\n\t\t1. 列表视图\n\t\t2. 卡片视图\n\t\t3. 堆视图\n\n(2)建议管理计划信息，比如长期计划，项目计划，健身计划，学习计划，考证计划等.\n\n(3)内置[抗焦虑锦囊]，在夜晚失眠时把担心的事放到锦囊里，在失去动力成为咸鱼时打开锦囊，不忘初心，做真正的自己。</string>
+    <string name="empty_long_press_tip">长按\n改变视图</string>
+
+
+    <!-- menu -->
+    <string name="nav_setting">设置</string>
+    <string name="nav_schedule">记录</string>
+    <string name="nav_info">关于</string>
+    <string name="nav_exit">退出</string>
+    <!-- button -->
+    <string name="btn_start">开始</string>
+    <string name="btn_pause">暂停</string>
+    <string name="btn_resume">继续</string>
+    <string name="btn_stop">放弃</string>
+    <string name="btn_skip">略过</string>
+
+    <string name="scene_title_work">开始工作</string>
+    <string name="scene_title_break">开始休息</string>
+
+    <string name="scene_work">工作</string>
+    <string name="scene_short_break">短时休息</string>
+    <string name="scene_long_break">长时休息</string>
+
+    <string name="amount_durations">番茄总时间 %1$d 分钟</string>
+    <string name="stage_time_unit">%1$d 分钟</string>
+    <string name="time_unit">分钟</string>
+
+    <!-- 通知 -->
+    <string name="notification_focus">番茄工作中</string>
+    <string name="notification_focus_pause">番茄暂停中</string>
+    <string name="notification_break">正在休息</string>
+    <string name="notification_break_pause">休息暂停中</string>
+    <string name="notification_time_left">还剩</string>
+    <string name="notification_finish">放下工作，准备休息</string>
+    <string name="notification_finish_content">已经完成一个番茄钟，休息一下吧！</string>
+    <string name="notification_break_finish">休息结束</string>
+    <string name="notification_break_finish_content">休息结束，开启下一个番茄钟吧！</string>
+
+    <!-- 设置 -->
+    <string name="pref_title_tick_title">定时器设置</string>
+    <string name="pref_title_work_length">工作时长</string>
+    <string name="pref_title_short_break">休息时长</string>
+    <string name="pref_title_long_break">长休息时长</string>
+    <string name="pref_title_long_break_frequency">长休息间隔</string>
+    <string name="pref_title_frequency_value">%1$d 个番茄</string>
+    <string name="pref_title_time_value">%1$d 分钟</string>
+
+    <string name="pref_title_pomodoro_element">番茄元素</string>
+    <string name="pref_title_pomodoro_mode">番茄模式</string>
+    <string name="pref_title_pomodoro_mode_summary">在番茄模式下不能暂停定时器</string>
+    <string name="pref_title_infinity_mode">自动模式</string>
+    <string name="pref_title_infinity_mode_summary">自动开始下一个番茄钟</string>
+    <string name="pref_title_ticking_sound">滴答声</string>
+    <string name="pref_title_ticking_sound_summary">在番茄钟工作期间，持续的滴答声</string>
+
+    <string name="pref_title_notifications">提示</string>
+    <string name="pref_title_use_notification">完成后提示</string>
+    <string name="pref_title_notification_sound">提示音</string>
+    <string name="pref_title_notification_vibrate">震动</string>
+
+    <string name="pref_title_advanced">高级</string>
+    <string name="pref_title_screen_on">屏幕常亮</string>
+    <string name="pref_title_screen_on_summary">仅针对主界面，在番茄钟期间保持屏幕常亮</string>
+    <string name="pref_title_check_update">检查更新</string>
+    <string name="check_update_connected_failed">无法连接网络</string>
+    <string name="check_update_connected_error">网络连接异常，请稍后再试</string>
+    <string name="check_update_checking">正在检查更新</string>
+    <string name="check_update_new_version">发现新版本</string>
+    <string name="check_update_last_version">已经是最新版本</string>
+    <string name="check_update_message">版本号: %1$s\n\n版本说明:\n%2$s</string>
+    <string name="check_update_update_now">立即更新</string>
+    <string name="check_update_update_later">稍后更新</string>
+    <string name="check_update_mobile_network">
+        "当前处于移动网络环境下，"
+        "继续使用可能产生流量，请确认是否继续？"
+    </string>
+    <string name="check_update_get_info_failed">获取版本信息失败，请重试</string>
+
+    <string name="schedule_today_title">今日数据</string>
+    <string name="schedule_amount_title">累计数据</string>
+    <string name="schedule_durations">番茄时间</string>
+    <string name="schedule_times">番茄次数</string>
+    <string name="schedule_done">完成次数</string>
+    <string name="schedule_amount_summary">注意：卸载应用，累计数据将重新计算!</string>
+
+    <string name="info_version">%1$s v%2$s</string>
+    <string name="info_description">
+        "轻番茄, 简单易用的番茄时钟, 是一款基于「番茄工作法」的辅助应用。"
+        "如果遵循番茄工作法，使用纸笔来制作今日待办、活动清单和记录，"
+        "需要的仅仅是手机上的一款计时器App，相信轻番茄是您最好的选择。"
+        "开启一个番茄钟，给自己 25 分钟的专注时间，战胜拖延，进入心流，让学习和工作更有效率!"
+    </string>
+    <string name="info_about_title">关于</string>
+    <string name="info_contact_us">联系方式</string>
+    <string name="info_email_title">邮箱</string>
+    <string name="info_email">dengman2010@163.com</string>
+    <string name="info_github_title">Github</string>
+    <string name="info_github">https://github.com/icodechef/Tick</string>
+    <string name="info_website_title">网站</string>
+    <string name="info_site">http://tick.icodechef.com/</string>
+
+    <string name="toast_tick_sound_on">滴答声已开启</string>
+    <string name="toast_tick_sound_off">滴答声已关闭</string>
+    <string name="navigation_drawer_open">打开导航栏</string>
+    <string name="navigation_drawer_close">关闭导航栏</string>
+
+    <!-- Settings -->
+    <string name="manage_event_types">Manage event types</string>
+    <string name="use_24_hour_format">Use 24-hour format</string>
+    <string name="sunday_first">Sunday as first day</string>
+    <string name="start_day_at">Start day at</string>
+    <string name="end_day_at">End day at</string>
+    <string name="pre_filled_weeks">Pre-filled Weeks</string>
+    <string name="week_numbers">Show week numbers</string>
+    <string name="vibrate">Vibrate on reminder notification</string>
+    <string name="reminder_sound">Reminder sound</string>
+    <string name="no_ringtone_picker">No app capable of setting ringtone found</string>
+    <string name="no_ringtone_selected">None</string>
+    <string name="day_end_before_start">The day cannot end earlier than it starts</string>
+    <string name="caldav_sync">CalDAV sync</string>
+    <string name="event_lists">Event lists</string>
+    <string name="display_past_events">Display events from the past</string>
+    <string name="use_same_snooze">Always use same snooze interval</string>
+    <string name="snooze_delay">Postpone reminder with Snooze by</string>
+    <string name="widgets">Widgets</string>
+    <string name="replace_description_with_location">Replace event description with location</string>
+    <string name="delete_all_events">Delete all events</string>
+    <string name="delete_all_events_confirmation">Are you sure you want to delete all events? This will leave your event types and other settings intact.</string>
+
 </resources>
