@@ -103,13 +103,67 @@
     </string-array>
 
     <string-array name="schedules_view_types">
+        <item>@string/schedules_list_view</item>
         <item>@string/schedules_task_view</item>
         <item>@string/schedules_four_view</item>
     </string-array>
 
     <string-array name="routines_view_types">
+        <item>@string/routines_list_view</item>
         <item>@string/routines_week_view</item>
         <item>@string/routines_card_view</item>
+    </string-array>
+
+    <string-array name="notes_view_types">
+        <item>@string/notes_list_view</item>
+        <item>@string/notes_card_view</item>
+        <item>@string/notes_markdown_view</item>
+    </string-array>
+
+    <string-array name="plans_view_types">
+        <item>@string/plans_list_view</item>
+        <item>@string/plans_card_view</item>
+        <item>@string/plans_pile_view</item>
+    </string-array>
+
+    <string-array name="weekly_start_end">
+        <item>01:00</item>
+        <item>02:00</item>
+        <item>03:00</item>
+        <item>04:00</item>
+        <item>05:00</item>
+        <item>06:00</item>
+        <item>07:00</item>
+        <item>08:00</item>
+        <item>09:00</item>
+        <item>10:00</item>
+        <item>11:00</item>
+        <item>12:00</item>
+        <item>13:00</item>
+        <item>14:00</item>
+        <item>15:00</item>
+        <item>16:00</item>
+        <item>17:00</item>
+        <item>18:00</item>
+        <item>19:00</item>
+        <item>20:00</item>
+        <item>21:00</item>
+        <item>22:00</item>
+        <item>23:00</item>
+        <item>24:00</item>
+    </string-array>
+
+    <string-array name="pre_filled_weeks">
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>9</item>
+        <item>11</item>
+        <item>13</item>
+        <item>31</item>
+        <item>61</item>
+        <item>91</item>
     </string-array>
 
     <string-array name="achievement_describe">
