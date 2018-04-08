@@ -28,7 +28,7 @@
     <string name="stringValue5">re-ocr</string>
     <string name="stringValue4">take  a picture for Ocr</string>
     <string name="timecat_copyright">Copyright ©2018 TimeCat. All Rights  Reserved</string>
-    <string name="stringValue6">Free your convenient time！Miau~</string>
+    <string name="stringValue6">Catch your convenient time！Miau~</string>
     <string name="share_request_confirm_like">Of course！</string>
     <string name="stringValue9">Translation result</string>
     <string name="sorry_for_parse_fail">I\'m sorry,resolution fail</string>
@@ -266,6 +266,7 @@
 
     <string name="fragment_other">Other</string>
     <string name="fragment_display">Display</string>
+    <string name="fragment_clock">Clock</string>
     <string name="fragment_segment">Segment</string>
 
     <string name="open_access_setting">Open System Accessibility Setting</string>
@@ -322,6 +323,8 @@
     <string name="no_query">no query</string>
     <string name="is_stick_sharebar">Show sidebar(not visible in non-fullscreen mode)</string>
 
+    <string name="pomodoro_setting_card_title">Pomodoro Settings</string>
+    <string name="routine_setting_card_title">Routine Settings</string>
 
 
 
@@ -458,6 +461,20 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
     <string name="toggle_drawer_open">Open Drawer</string>
     <string name="toggle_drawer_close">Close Drawer</string>
 
+    <string name="drawer_home_option">Home</string>
+    <string name="drawer_login_option">Login</string>
+    <string name="drawer_schedules_option">Schedules</string>
+    <string name="drawer_routines_option">Routines</string>
+    <string name="drawer_plans_option">Plans</string>
+    <string name="drawer_notes_option">Notes</string>
+    <string name="drawer_medicines_option">Medicines</string>
+    <string name="drawer_pharmacies_option">Pharmacies</string>
+    <string name="drawer_theme_option">Theme</string>
+    <string name="drawer_achievement_option">Achievement</string>
+    <string name="drawer_statistics_option">Statistics</string>
+    <string name="drawer_pomodoros_option">Pomodoros</string>
+    <string name="drawer_settings_option">Settings</string>
+    <string name="drawer_about_option">About</string>
 
     <!-- file list fragment -->
     <string name="toast_message_sdcard_unavailable">SD card unavailable</string>
@@ -606,14 +623,31 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
     <!-- preference -->
 
     <string name="week">Week</string>
+    <string name="statistical_text">Statistics</string>
     <string name="my_achievement_text">My Achievement</string>
     <string name="zero">0</string>
     <string name="fail_tomato">Unfinished</string>
     <string name="history_data">History Data</string>
+    <string name="history_total_routines">Total Routines</string>
     <string name="history_finish_tomato">Total Pomodoros</string>
+    <string name="history_finish_tasks">Total Tasks</string>
+    <string name="history_total_notes">Total Notes</string>
+    <string name="history_total_plans">Total Plans</string>
+    <string name="history_total_subplans">Total SubPlans</string>
+    <string name="history_unfinished_tasks">Unfinished Tasks</string>
+
     <string name="today_data">Today Data</string>
     <string name="today_finish_tomato">Pomodoros</string>
     <string name="today_text">Today</string>
+
+    <string name="today_create_num">Tasks</string>
+    <string name="today_finish_task">Finished Tasks</string>
+    <string name="today_remain_task">Remain Tasks</string>
+
+    <string name="today_note_num">Notes</string>
+    <string name="today_plan_num">Plans</string>
+    <string name="today_subplan_num">SubPlans</string>
+
     <string name="tomato_distribute_title">Review</string>
     <string name="tomato_num_title">Pomodoros</string>
     <string name="work_count_down_over">Your work is done</string>
@@ -628,4 +662,5 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
     <string name="month_text">Months</string>
     <string name="day">Daily</string>
     <string name="days">Days</string>
+
 </resources>
