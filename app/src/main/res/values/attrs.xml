@@ -8,9 +8,9 @@
         <attr name="textBackground" format="reference"/>
         <attr name="sectionTextBackground" format="reference"/>
     </declare-styleable>
-    <attr name="fromDegrees" format="float|reference" />
-    <attr name="toDegrees" format="float|reference" />
-    <attr name="childSize" format="dimension|reference" />
+    <attr name="fromDegrees" format="float|reference"/>
+    <attr name="toDegrees" format="float|reference"/>
+    <attr name="childSize" format="dimension|reference"/>
     <!--ArcLayout-->
     <declare-styleable name="ArcLayout">
         <attr name="fromDegrees"/>
@@ -63,103 +63,103 @@
     </declare-styleable>
 
     <!-- main theme color -->
-    <attr name="themeColorSecondary" format="color" />
+    <attr name="themeColorSecondary" format="color"/>
 
     <declare-styleable name="TintDrawableHelper">
         <!-- support tint background color -->
-        <attr name="backgroundTint" />
-        <attr name="backgroundTintMode" />
-        <attr name="foregroundTint" format="color" />
+        <attr name="backgroundTint"/>
+        <attr name="backgroundTintMode"/>
+        <attr name="foregroundTint" format="color"/>
         <attr name="foregroundTintMode">
-            <enum name="src_over" value="3" />
-            <enum name="src_in" value="5" />
-            <enum name="src_atop" value="9" />
-            <enum name="multiply" value="14" />
-            <enum name="screen" value="15" />
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
         </attr>
-        <attr name="imageTint" format="color" />
+        <attr name="imageTint" format="color"/>
         <attr name="imageTintMode">
-            <enum name="src_over" value="3" />
-            <enum name="src_in" value="5" />
-            <enum name="src_atop" value="9" />
-            <enum name="multiply" value="14" />
-            <enum name="screen" value="15" />
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
         </attr>
-        <attr name="drawableLeftTint" format="color" />
+        <attr name="drawableLeftTint" format="color"/>
         <attr name="drawableLeftTintMode">
-            <enum name="src_over" value="3" />
-            <enum name="src_in" value="5" />
-            <enum name="src_atop" value="9" />
-            <enum name="multiply" value="14" />
-            <enum name="screen" value="15" />
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
         </attr>
-        <attr name="drawableTopTint" format="color" />
+        <attr name="drawableTopTint" format="color"/>
         <attr name="drawableTopTintMode">
-            <enum name="src_over" value="3" />
-            <enum name="src_in" value="5" />
-            <enum name="src_atop" value="9" />
-            <enum name="multiply" value="14" />
-            <enum name="screen" value="15" />
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
         </attr>
-        <attr name="drawableRightTint" format="color" />
+        <attr name="drawableRightTint" format="color"/>
         <attr name="drawableRightTintMode">
-            <enum name="src_over" value="3" />
-            <enum name="src_in" value="5" />
-            <enum name="src_atop" value="9" />
-            <enum name="multiply" value="14" />
-            <enum name="screen" value="15" />
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
         </attr>
-        <attr name="drawableBottomTint" format="color" />
+        <attr name="drawableBottomTint" format="color"/>
         <attr name="drawableBottomTintMode">
-            <enum name="src_over" value="3" />
-            <enum name="src_in" value="5" />
-            <enum name="src_atop" value="9" />
-            <enum name="multiply" value="14" />
-            <enum name="screen" value="15" />
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
         </attr>
-        <attr name="compoundButtonTint" format="color" />
+        <attr name="compoundButtonTint" format="color"/>
         <attr name="compoundButtonTintMode">
-            <enum name="src_over" value="3" />
-            <enum name="src_in" value="5" />
-            <enum name="src_atop" value="9" />
-            <enum name="multiply" value="14" />
-            <enum name="screen" value="15" />
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
         </attr>
-        <attr name="drawableTint" format="color" />
+        <attr name="drawableTint" format="color"/>
         <attr name="drawableTintMode">
-            <enum name="src_over" value="3" />
-            <enum name="src_in" value="5" />
-            <enum name="src_atop" value="9" />
-            <enum name="multiply" value="14" />
-            <enum name="screen" value="15" />
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
         </attr>
-        <attr name="progressTint" format="color" />
-        <attr name="progressIndeterminateTint" format="color" />
+        <attr name="progressTint" format="color"/>
+        <attr name="progressIndeterminateTint" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="TabLayout">
-        <attr name="tabIndicatorColor" format="color" />
-        <attr name="tabIndicatorHeight" format="dimension" />
-        <attr name="tabContentStart" format="dimension" />
-        <attr name="tabBackground" format="reference" />
+        <attr name="tabIndicatorColor" format="color"/>
+        <attr name="tabIndicatorHeight" format="dimension"/>
+        <attr name="tabContentStart" format="dimension"/>
+        <attr name="tabBackground" format="reference"/>
         <attr name="tabMode">
-            <enum name="scrollable" value="0" />
-            <enum name="fixed" value="1" />
+            <enum name="scrollable" value="0"/>
+            <enum name="fixed" value="1"/>
         </attr>
         <attr name="tabGravity">
-            <enum name="fill" value="0" />
-            <enum name="center" value="1" />
+            <enum name="fill" value="0"/>
+            <enum name="center" value="1"/>
         </attr>
-        <attr name="tabMinWidth" format="dimension" />
-        <attr name="tabMaxWidth" format="dimension" />
-        <attr name="tabTextAppearance" format="reference" />
-        <attr name="tabTextColor" format="color" />
-        <attr name="tabSelectedTextColor" format="color" />
-        <attr name="tabPaddingStart" format="dimension" />
-        <attr name="tabPaddingTop" format="dimension" />
-        <attr name="tabPaddingEnd" format="dimension" />
-        <attr name="tabPaddingBottom" format="dimension" />
-        <attr name="tabPadding" format="dimension" />
+        <attr name="tabMinWidth" format="dimension"/>
+        <attr name="tabMaxWidth" format="dimension"/>
+        <attr name="tabTextAppearance" format="reference"/>
+        <attr name="tabTextColor" format="color"/>
+        <attr name="tabSelectedTextColor" format="color"/>
+        <attr name="tabPaddingStart" format="dimension"/>
+        <attr name="tabPaddingTop" format="dimension"/>
+        <attr name="tabPaddingEnd" format="dimension"/>
+        <attr name="tabPaddingBottom" format="dimension"/>
+        <attr name="tabPadding" format="dimension"/>
     </declare-styleable>
 
     <!--TagCloudView-->
@@ -183,7 +183,7 @@
     </declare-styleable>
     <!--Tag View-->
     <declare-styleable name="CompoundButton">
-        <attr name="android:button" />
+        <attr name="android:button"/>
     </declare-styleable>
     <!--SmoothCheckBox-->
     <declare-styleable name="SmoothCheckBox">
@@ -216,7 +216,7 @@
         <attr name="cv_addressTextAppearance" format="reference"/>
         <attr name="cv_addressTextSize" format="reference|dimension"/>
         <attr name="cv_addressTextColor" format="reference|color"/>
-        <attr name="android:minHeight" />
+        <attr name="android:minHeight"/>
     </declare-styleable>
 
     <declare-styleable name="ContactEditText">
@@ -226,10 +226,10 @@
         <attr name="cet_spanPaddingRight" format="reference|dimension"/>
         <attr name="cet_spanFontFamily" format="reference|string"/>
         <attr name="cet_spanTextStyle" format="integer">
-            <enum name="normal" value="0" />
-            <enum name="bold" value="1" />
-            <enum name="italic" value="2" />
-            <enum name="bold_italic" value="3" />
+            <enum name="normal" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+            <enum name="bold_italic" value="3"/>
         </attr>
         <attr name="cet_spanTextSize" format="reference|dimension"/>
         <attr name="cet_spanTextColor" format="reference|color"/>
@@ -244,22 +244,22 @@
         <attr name="stackDuration" format="integer"/>
         <attr name="stackNumBottomShow" format="integer"/>
         <attr name="stackAnimationType">
-            <flag name="allDown" value="0" />
-            <flag name="upDown" value="1" />
-            <flag name="upDownStack" value="2" />
+            <flag name="allDown" value="0"/>
+            <flag name="upDown" value="1"/>
+            <flag name="upDownStack" value="2"/>
         </attr>
     </declare-styleable>
 
     <declare-styleable name="GroupRecyclerView">
-        <attr name="group_height" format="dimension" />
-        <attr name="group_child_offset" format="dimension" />
-        <attr name="group_background" format="color" />
-        <attr name="group_text_color" format="color" />
-        <attr name="group_text_size" format="dimension" />
-        <attr name="group_center" format="boolean" />
-        <attr name="group_padding_left" format="dimension" />
-        <attr name="group_padding_right" format="dimension" />
-        <attr name="group_has_header" format="boolean" />
+        <attr name="group_height" format="dimension"/>
+        <attr name="group_child_offset" format="dimension"/>
+        <attr name="group_background" format="color"/>
+        <attr name="group_text_color" format="color"/>
+        <attr name="group_text_size" format="dimension"/>
+        <attr name="group_center" format="boolean"/>
+        <attr name="group_padding_left" format="dimension"/>
+        <attr name="group_padding_right" format="dimension"/>
+        <attr name="group_has_header" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="SmallMonthView">
@@ -267,85 +267,117 @@
     </declare-styleable>
 
     <declare-styleable name="RippleView">
-        <attr name="rv_alpha" format="integer" />
+        <attr name="rv_alpha" format="integer"/>
         <attr name="rv_framerate" format="integer"/>
         <attr name="rv_rippleDuration" format="integer"/>
-        <attr name="rv_zoomDuration" format="integer" />
-        <attr name="rv_color" format="color" />
-        <attr name="rv_centered" format="boolean" />
+        <attr name="rv_zoomDuration" format="integer"/>
+        <attr name="rv_color" format="color"/>
+        <attr name="rv_centered" format="boolean"/>
         <attr name="rv_type" format="enum">
             <enum name="simpleRipple" value="0"/>
             <enum name="doubleRipple" value="1"/>
-            <enum name="rectangle" value="2" />
+            <enum name="rectangle" value="2"/>
         </attr>
-        <attr name="rv_ripplePadding" format="dimension" />
-        <attr name="rv_zoom" format="boolean" />
-        <attr name="rv_zoomScale" format="float" />
+        <attr name="rv_ripplePadding" format="dimension"/>
+        <attr name="rv_zoom" format="boolean"/>
+        <attr name="rv_zoomScale" format="float"/>
     </declare-styleable>
 
     <declare-styleable name="RoundProgres22sBar">
         <!--外弧的宽度-->
-        <attr name="rpb_sweepStrokeWidth" format="dimension|reference" />
+        <attr name="rpb_sweepStrokeWidth" format="dimension|reference"/>
         <!--外弧的颜色-->
-        <attr name="rpb_sweepStrokeColor" format="color|reference" />
+        <attr name="rpb_sweepStrokeColor" format="color|reference"/>
         <!--外弧的起始位置默认是-90-->
-        <attr name="rpb_sweepStartAngle" format="integer" />
+        <attr name="rpb_sweepStartAngle" format="integer"/>
         <!--中间的文本-->
-        <attr name="rpb_centerText" format="string|reference" />
+        <attr name="rpb_centerText" format="string|reference"/>
         <!--中间文本的大小-->
-        <attr name="rpb_centerTextSize" format="dimension|reference" />
+        <attr name="rpb_centerTextSize" format="dimension|reference"/>
         <!--中间文本的颜色-->
-        <attr name="rpb_centerTextColor" format="color|reference" />
+        <attr name="rpb_centerTextColor" format="color|reference"/>
         <!--中间的背景颜色-->
-        <attr name="rpb_centerBackgroundColor" format="color|reference" />
+        <attr name="rpb_centerBackgroundColor" format="color|reference"/>
         <!--倒计时的总时间(毫秒)-->
-        <attr name="rpb_countDownTimeInMillis" format="integer" />
+        <attr name="rpb_countDownTimeInMillis" format="integer"/>
         <!--是否自动开始计时-->
-        <attr name="rpb_autoStart" format="boolean" />
+        <attr name="rpb_autoStart" format="boolean"/>
         <attr name="rpb_progressDirection" format="enum">
-            <enum name="forward" value="0" /><!--正-->
-            <enum name="reverse" value="1" /><!--反-->
+            <enum name="forward" value="0"/><!--正-->
+            <enum name="reverse" value="1"/><!--反-->
         </attr>
     </declare-styleable>
 
     <declare-styleable name="RoundProgressBar">
         <!--外环的滑块颜色-->
-        <attr name="outer_layer_slide_color" format="color" />
+        <attr name="outer_layer_slide_color" format="color"/>
         <!--外环的hint颜色-->
-        <attr name="outer_layer_stroke_color" format="color" />
+        <attr name="outer_layer_stroke_color" format="color"/>
         <!--外环的宽度-->
-        <attr name="outer_layer_stroke_width" format="dimension" />
+        <attr name="outer_layer_stroke_width" format="dimension"/>
 
         <!--中间圆环轨道 背景色-->
-        <attr name="middle_layer_bg_color" format="color" />
+        <attr name="middle_layer_bg_color" format="color"/>
         <!--中间圆环轨道 进度条颜色-->
-        <attr name="middle_layer_progress_color" format="color" />
+        <attr name="middle_layer_progress_color" format="color"/>
         <!--中间圆环轨道 进度条宽度-->
-        <attr name="middle_layer_progress_width" format="dimension" />
+        <attr name="middle_layer_progress_width" format="dimension"/>
 
         <!--中间轨道上 小圆的滑块颜色-->
-        <attr name="middle_layer_small_circle_slide_color" format="color" />
+        <attr name="middle_layer_small_circle_slide_color" format="color"/>
         <!--中间轨道上 小圆的hint颜色-->
-        <attr name="middle_layer_small_circle_stroke_color" format="color" />
+        <attr name="middle_layer_small_circle_stroke_color" format="color"/>
         <!--中间轨道上 小圆的大小-->
-        <attr name="middle_layer_small_circle_size" format="dimension" />
+        <attr name="middle_layer_small_circle_size" format="dimension"/>
         <!--中间轨道上 小圆的边界圆环的宽度-->
-        <attr name="middle_layer_small_circle_stroke_width" format="dimension" />
+        <attr name="middle_layer_small_circle_stroke_width" format="dimension"/>
 
         <!--外圆阴影颜色-->
-        <attr name="shadow_layer_color" format="color" />
+        <attr name="shadow_layer_color" format="color"/>
         <!--内圆颜色-->
-        <attr name="shadow_layer_inner_color" format="color" />
+        <attr name="shadow_layer_inner_color" format="color"/>
 
         <!--中间的文本大小-->
-        <attr name="inner_text_size" format="dimension" />
+        <attr name="inner_text_size" format="dimension"/>
         <!--中间的文本颜色-->
-        <attr name="inner_text_color" format="color" />
+        <attr name="inner_text_color" format="color"/>
         <!--中间的文本 of 开始计时前-->
-        <attr name="inner_text_start" format="string" />
+        <attr name="inner_text_start" format="string"/>
         <!--中间的文本 of 计时完毕-->
-        <attr name="inner_text_end" format="string" />
+        <attr name="inner_text_end" format="string"/>
         <!--中间的文本 of 时间格式-->
-        <attr name="inner_text_time_style" format="string" />
+        <attr name="inner_text_time_style" format="string"/>
+    </declare-styleable>
+    <declare-styleable name="pile">
+        <attr name="interval" format="dimension"/>
+        <attr name="sizeRatio" format="float"/>
+        <attr name="scaleStep" format="float"/>
+        <attr name="displayCount" format="float"/>
+    </declare-styleable>
+    <declare-styleable name="scene">
+        <attr name="leftMargin" format="dimension"/>
+        <attr name="leftDistance" format="dimension"/>
+        <attr name="rightDistance" format="dimension"/>
+        <attr name="verticalDistance" format="dimension"/>
+        <attr name="sceneTextSize" format="float"/>
+        <attr name="sceneTextColor" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="dragLayout">
+        <attr name="bottomDragVisibleHeight" format="dimension"/>
+        <attr name="bottomExtraIndicatorHeight" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="BoardView">
+        <attr name="boardItemBackground" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="RecyclerViewPager">
+        <attr name="RecyclerViewPager_triggerOffset" format="float"/>
+        <attr name="RecyclerViewPager_flingFactor" format="float"/>
+        <attr name="RecyclerViewPager_singlePageFling" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="RippleWrapper">
+        <attr name="rippleColor" format="color"/>
+        <attr name="rippleDuration" format="integer"/>
+        <attr name="rippleDelay" format="integer"/>
+        <attr name="rippleAmount" format="integer"/>
     </declare-styleable>
 </resources>
