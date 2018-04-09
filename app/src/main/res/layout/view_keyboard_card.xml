@@ -1,101 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="@dimen/card_corner_radius">
-    <!--app:cardElevation="@dimen/card_elevation"-->
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/rg_selection_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_small"
-        android:orientation="vertical">
+        android:background="@color/colorPrimary"
+        android:checkedButton="@+id/rb_single"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10">
 
-        <TextView
-            android:id="@+id/schedule_task_tv_content"
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/rb_single"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            tools:text="content"/>
+            android:layout_weight="1"
+            android:text="单日"
+            android:textColor="@color/white"/>
+
+        <RadioButton
+            android:id="@+id/rb_multiple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="多日"
+            android:textColor="@color/white"/>
+
+        <RadioButton
+            android:id="@+id/rb_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="起止"
+            android:textColor="@color/white"/>
+
+        <RadioButton
+            android:id="@+id/rb_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="重复"
+            android:textColor="@color/white"/>
+
+    </RadioGroup>
+
+    <com.applikeysolutions.cosmocalendar.view.CalendarView
+        android:id="@+id/view_keyboard_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg_selection_type"/>
+
+    <LinearLayout
+        android:id="@+id/repeat_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg_selection_type"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/schedule_task_ll_footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/dialog_add_task_footer"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/schedule_task_tv_label"
-                style="Material.Drawable.Ripple.Touch.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginEnd="5dp"
-                android:background="#50f44336"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="重要且紧急"
-                android:textColor="@color/red"
-                android:textSize="10dp"
-                app:rd_enable="true"/>
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/schedule_task_tv_date"
-                style="Material.Drawable.Ripple.Touch.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="@dimen/margin_auto"
-                android:background="#502196f3"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="02.07"
-                android:textColor="@color/blue"
-                android:textSize="10dp"
-                app:rd_enable="true"/>
+            <RelativeLayout
+                android:id="@+id/how_to_repeat_holder"
+                style="@style/cardViewRelativeLayoutSelector"
+                android:duplicateParentState="false">
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/schedule_task_tv_time"
-                style="Material.Drawable.Ripple.Touch.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="@dimen/margin_auto"
-                android:background="#502196f3"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="全天"
-                android:textColor="@color/blue"
-                android:textSize="10dp"
-                app:rd_enable="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="重复方式"
+                    android:textColor="#3E3E3E"/>
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/schedule_task_tv_tag"
-                style="Material.Drawable.Ripple.Touch.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="@dimen/margin_auto"
-                android:background="#50ff9800"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="标签"
-                android:textColor="@color/orange"
-                android:textSize="10dp"
-                app:rd_enable="true"/>
+                <TextView
+                    android:id="@+id/how_to_repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/headerIndicator"
+                    android:text="每天"
+                    android:textColor="@color/colorPrimary"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/headerIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioGroup
+                    android:id="@+id/rg_selection_repeat_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_10"
+                    android:checkedButton="@+id/rb_repeat_day"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_repeat_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="每天"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_repeat_week"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="每周"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_repeat_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="每月"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_repeat_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="每年"/>
+
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/stop_at_holder"
+                style="@style/cardViewRelativeLayoutSelector"
+                android:duplicateParentState="false">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="截止"
+                    android:textColor="#3E3E3E"/>
+
+                <TextView
+                    android:id="@+id/stop_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/headerIndicator1"
+                    android:text="永不结束"
+                    android:textColor="@color/colorPrimary"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/headerIndicator1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:id="@+id/repeat_time_picker_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</RelativeLayout>
