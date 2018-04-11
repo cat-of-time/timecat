@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.icodechef.android.tick.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/activity_pomodoro">
 
     <LinearLayout
         android:orientation="vertical"
@@ -19,7 +18,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.618">
 
-            <com.icodechef.android.tick.widget.RippleWrapper
+            <com.time.cat.ui.widgets.pomodoro.RippleWrapper
                 android:id="@+id/ripple_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -29,12 +28,12 @@
                 app:rippleDuration="2000"
                 app:rippleDelay="1000"
                 app:rippleAmount="2">
-                <com.icodechef.android.tick.widget.TickProgressBar
+                <com.time.cat.ui.widgets.pomodoro.TickProgressBar
                     android:id="@+id/tick_progress_bar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"/>
-            </com.icodechef.android.tick.widget.RippleWrapper>
+            </com.time.cat.ui.widgets.pomodoro.RippleWrapper>
 
 
             <TextView
@@ -76,7 +75,7 @@
                     android:id="@+id/btn_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/work_background_color"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -91,7 +90,7 @@
                     android:id="@+id/btn_pause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/work_background_color"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -105,7 +104,7 @@
                     android:id="@+id/btn_resume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/work_background_color"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -121,7 +120,7 @@
                     android:id="@+id/btn_stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/work_background_color"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -135,7 +134,7 @@
                     android:id="@+id/btn_skip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/work_background_color"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"
                     android:textStyle="bold"

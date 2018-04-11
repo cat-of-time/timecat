@@ -7,13 +7,13 @@
     android:layout_height="wrap_content"
     android:theme="@style/AppTheme.AppBarOverlay"
     app:elevation="0dp"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/activity_pomodoro">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@color/work_background_color"
         android:minHeight="?attr/actionBarSize"
         android:fitsSystemWindows="true"
         app:popupTheme="@style/AppTheme.PopupOverlay"
