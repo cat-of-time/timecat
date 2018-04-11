@@ -1,15 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="100dp"
-    android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_1"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="20dp"
-        android:text="add" />
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_rectangle_with_radius"
+        android:orientation="vertical">
 
-</android.support.v7.widget.CardView>
+        <RelativeLayout
+            android:id="@+id/add_sub_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:padding="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_40"
+                android:src="@drawable/ic_action_add"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="添加列表"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/edit_sub_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:padding="@dimen/dp_10"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/add_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="列表名称"
+                android:inputType="text"
+                android:padding="@dimen/dp_10"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/add_cancel"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
+                android:layout_below="@+id/add_et"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_toStartOf="@+id/add_ok"
+                android:background="@color/transparent"
+                android:text="取消"/>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/add_ok"
+                style="@style/LightRaiseWaveColorButtonRippleStyle"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/add_et"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/shape_bg_button"
+                android:text="创建"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_tiny"
+                app:rd_enable="true"
+                app:rd_style="@style/LightRaiseWaveColorButtonRippleStyle"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>
