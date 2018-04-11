@@ -22,7 +22,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/dialog_add_task_et_content"
                 android:layout_marginLeft="@dimen/margin_auto"
                 android:orientation="horizontal">
 
@@ -139,22 +138,6 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="不提醒"
-                    android:textColor="@color/green"
-                    android:textSize="10dp"
-                    android:visibility="gone"
-                    app:rd_enable="true"/>
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/dialog_add_task_tv_repeat"
-                    style="Material.Drawable.Ripple.Touch.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginStart="@dimen/margin_auto"
-                    android:background="#504faf50"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="不重复"
                     android:textColor="@color/green"
                     android:textSize="10dp"
                     android:visibility="gone"

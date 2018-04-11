@@ -52,7 +52,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
-        android:src="@mipmap/add"
+        android:src="@drawable/ic_add_button"
         app:theme="@style/fabTheme"/>
 
 </RelativeLayout>

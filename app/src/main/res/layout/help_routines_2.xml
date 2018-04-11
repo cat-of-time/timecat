@@ -5,11 +5,10 @@
     android:clipToPadding="false"
     android:paddingBottom="20dp"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    >
+    android:paddingRight="20dp">
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView2"
         android:layout_width="55dp"
@@ -35,7 +34,7 @@
         android:src="@drawable/ic_autorenew_white_24dp"/>
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView3"
         android:layout_width="55dp"
@@ -60,7 +59,7 @@
         android:src="@drawable/ic_history_white_48dp"/>
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView4"
         android:layout_width="55dp"

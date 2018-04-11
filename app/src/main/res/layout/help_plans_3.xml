@@ -1,21 +1,3 @@
-<!--
-  ~    Calendula - An assistant for personal medication management.
-  ~    Copyright (C) 2016 CITIUS - USC
-  ~
-  ~    Calendula is free software; you can redistribute it and/or modify
-  ~    it under the terms of the GNU General Public License as published by
-  ~    the Free Software Foundation; either version 3 of the License, or
-  ~    (at your option) any later version.
-  ~
-  ~    This program is distributed in the hope that it will be useful,
-  ~    but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~    GNU General Public License for more details.
-  ~
-  ~    You should have received a copy of the GNU General Public License
-  ~    along with this software.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -23,11 +5,10 @@
     android:clipToPadding="false"
     android:paddingBottom="20dp"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    >
+    android:paddingRight="20dp">
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView2"
         android:layout_width="55dp"
@@ -52,7 +33,7 @@
         android:src="@drawable/ic_autorenew_white_24dp"/>
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView3"
         android:layout_width="55dp"
@@ -78,7 +59,7 @@
         android:src="@drawable/ic_history_white_48dp"/>
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView4"
         android:layout_width="55dp"
@@ -130,7 +111,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="30dp"
         android:paddingTop="20dp"
-        android:text="@string/schedule_type_intervalrest_help"
+        android:text="@string/plan_type_intervalrest_help"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#fff"
         android:textSize="17dp"/>
@@ -156,7 +137,7 @@
             android:alpha="0.9"
             android:gravity="center_horizontal"
             android:padding="20dp"
-            android:text="@string/schedule_type_help_title"
+            android:text="@string/plan_type_help_title"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFF"/>

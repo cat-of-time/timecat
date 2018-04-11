@@ -53,19 +53,6 @@
             app:msg="@string/setting_search_engine"/>
 
     </RelativeLayout>
-    <!---->
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/white_list"-->
-    <!--style="@style/cardViewRelativeLayoutSelector"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<android.support.v7.widget.AppCompatTextView-->
-    <!--style="@style/cardViewTextViewInLayoutLeft"-->
-    <!--android:text="@string/white_list_settings" />-->
-
-    <!--</RelativeLayout>-->
 
     <View
         android:id="@+id/divider1"

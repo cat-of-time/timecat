@@ -8,7 +8,7 @@
     android:paddingRight="16dp">
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView2"
         android:layout_width="55dp"
@@ -36,7 +36,7 @@
         android:src="@drawable/ic_autorenew_white_24dp"/>
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView3"
         android:layout_width="55dp"
@@ -64,7 +64,7 @@
         android:src="@drawable/ic_history_white_48dp"/>
 
 
-    <com.makeramen.RoundedImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView4"
         android:layout_width="55dp"
@@ -116,7 +116,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="30dp"
         android:paddingTop="20dp"
-        android:text="@string/schedule_type_routines_help"
+        android:text="@string/note_type_routines_help"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#fff"
         android:textSize="17dp"/>
@@ -142,7 +142,7 @@
             android:alpha="0.9"
             android:gravity="center_horizontal"
             android:padding="20dp"
-            android:text="@string/schedule_type_help_title"
+            android:text="@string/note_type_help_title"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#fff"/>

@@ -1,21 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:pile="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                xmlns:scene="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/plan_card_rl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#fff"
-                android:orientation="vertical">
+                android:background="@color/white">
 
     <include layout="@layout/base_progress_bar"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/plan_rv"
+    <FrameLayout
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true">
+
+        <com.time.cat.ui.widgets.FadeTransitionImageView
+            android:id="@+id/bottomImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_gradient"/>
+    </FrameLayout>
+    <!--1. 中间可滑动的viewPager-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/plan_card_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:layout_alignParentBottom="true"
         android:clipToPadding="false"
-        android:overScrollMode="never"
-        tools:listitem="@layout/base_list_item"/>
+        android:paddingEnd="48dp"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:paddingStart="48dp">
+
+    </android.support.v4.view.ViewPager>
+
+    <!--3. viewPager的指示器-->
+    <!--注意！！此处指示器的高度，需要跟DragLayout协商好(card_extra_height)-->
+    <TextView
+        android:id="@+id/indicator_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/card_extra_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:text="1/199"
+        android:textColor="#000"
+        android:textSize="16sp"/>
+
+
 </RelativeLayout>

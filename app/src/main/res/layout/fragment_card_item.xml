@@ -35,15 +35,15 @@
                     android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:maxLines="3"
                     android:minHeight="50dp"
                     android:paddingEnd="10dp"
                     android:paddingStart="10dp"
                     android:text="content"
                     android:textColor="#333"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
 
                 <View
@@ -126,6 +126,7 @@
                 android:transitionName="transitionImage"/>
 
             <TextView
+                android:id="@+id/plan_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -161,7 +162,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:layout_alignParentBottom="true"
                     android:text="2018.3.29"
                     android:textColor="#12edf0"
                     android:textSize="13sp"/>
@@ -178,18 +180,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/address3"
-                    android:layout_alignStart="@+id/address3"
+                    android:layout_above="@+id/update_at"
+                    android:layout_alignStart="@+id/update_at"
                     android:text="Update at"
                     android:textColor="#12edf0"
                     android:textSize="10sp"/>
 
                 <TextView
-                    android:id="@+id/address3"
+                    android:id="@+id/update_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:text="2018.3.29"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:layout_alignParentBottom="true"
                     android:textColor="#12edf0"
                     android:textSize="13sp"/>
 
