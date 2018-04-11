@@ -69,7 +69,7 @@
                 android:textSize="16sp"
                 android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
-                android:text="Steffen Norgaard Andersen"
+                android:text="title"
                 android:textColor="#000"/>
 
             <com.rey.material.widget.TextView
