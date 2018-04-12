@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.icodechef.android.tick.activity.SettingActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:padding="@dimen/preference_header_padding"
+                android:text="@string/pref_title_tick_title"
+                android:textColor="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/preference_item_padding_side"
+                android:paddingRight="@dimen/preference_item_padding_side"
+                android:orientation="vertical"
+                android:divider="@drawable/divider"
+                android:showDividers="middle">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearance"
+                        android:ellipsize="marquee"
+                        android:text="@string/pref_title_work_length"
+                        android:paddingBottom="@dimen/preference_header_spacing"
+                        android:fadingEdge="horizontal"
+                        android:singleLine="true"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+                        <SeekBar
+                            android:id="@+id/pref_key_work_length"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:background="@null"/>
+                        <TextView android:id="@+id/pref_key_work_length_value"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="match_parent"
+                                  android:gravity="end|center_vertical"
+                                  android:ellipsize="marquee"
+                                  android:fadingEdge="horizontal"
+                                  android:singleLine="true"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearance"
+                        android:ellipsize="marquee"
+                        android:text="@string/pref_title_short_break"
+                        android:paddingBottom="@dimen/preference_header_spacing"
+                        android:fadingEdge="horizontal"
+                        android:singleLine="true"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+                        <SeekBar
+                            android:id="@+id/pref_key_short_break"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:background="@null"/>
+                        <TextView android:id="@+id/pref_key_short_break_value"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="match_parent"
+                                  android:gravity="end|center_vertical"
+                                  android:ellipsize="marquee"
+                                  android:fadingEdge="horizontal"
+                                  android:singleLine="true"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearance"
+                        android:ellipsize="marquee"
+                        android:text="@string/pref_title_long_break"
+                        android:paddingBottom="@dimen/preference_header_spacing"
+                        android:fadingEdge="horizontal"
+                        android:singleLine="true"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+                        <SeekBar
+                            android:id="@+id/pref_key_long_break"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:background="@null"/>
+                        <TextView android:id="@+id/pref_key_long_break_value"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="match_parent"
+                                  android:gravity="end|center_vertical"
+                                  android:ellipsize="marquee"
+                                  android:fadingEdge="horizontal"
+                                  android:singleLine="true"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearance"
+                        android:ellipsize="marquee"
+                        android:text="@string/pref_title_long_break_frequency"
+                        android:paddingBottom="@dimen/preference_header_spacing"
+                        android:fadingEdge="horizontal"
+                        android:singleLine="true"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+                        <SeekBar
+                            android:id="@+id/pref_key_long_break_frequency"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:background="@null"/>
+                        <TextView android:id="@+id/pref_key_long_break_frequency_value"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="match_parent"
+                                  android:gravity="end|center_vertical"
+                                  android:ellipsize="marquee"
+                                  android:fadingEdge="horizontal"
+                                  android:singleLine="true"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:padding="@dimen/preference_header_padding"
+                android:text="@string/pref_title_pomodoro_element"
+                android:textColor="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/preference_item_padding_side"
+                android:paddingRight="@dimen/preference_item_padding_side"
+                android:orientation="vertical"
+                android:divider="@drawable/divider"
+                android:showDividers="middle">
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <TextView android:id="@+id/pref_title_pomodoro_mode"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/pref_title_pomodoro_mode"
+                                  android:textAppearance="?android:attr/textAppearance"
+                                  android:paddingBottom="@dimen/preference_header_spacing"
+                                  android:ellipsize="marquee"
+                                  android:fadingEdge="horizontal"
+                                  android:singleLine="true"/>
+                        <TextView android:id="@android:id/summary"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_below="@id/pref_title_pomodoro_mode"
+                                  android:text="@string/pref_title_pomodoro_mode_summary"
+                                  android:textAppearance="?android:attr/textAppearanceSmall"
+                                  android:textColor="?android:attr/textColorSecondary"
+                                  android:maxLines="4"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/pref_key_pomodoro_mode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <TextView android:id="@+id/pref_title_infinity_mode"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/pref_title_infinity_mode"
+                                  android:textAppearance="?android:attr/textAppearance"
+                                  android:paddingBottom="@dimen/preference_header_spacing"
+                                  android:ellipsize="marquee"
+                                  android:fadingEdge="horizontal"
+                                  android:singleLine="true"/>
+                        <TextView android:id="@android:id/summary"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_below="@id/pref_title_infinity_mode"
+                                  android:text="@string/pref_title_infinity_mode_summary"
+                                  android:textAppearance="?android:attr/textAppearanceSmall"
+                                  android:textColor="?android:attr/textColorSecondary"
+                                  android:maxLines="4"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/pref_key_infinity_mode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <TextView android:id="@+id/pref_title_ticking_sound"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/pref_title_ticking_sound"
+                                  android:textAppearance="?android:attr/textAppearance"
+                                  android:paddingBottom="@dimen/preference_header_spacing"
+                                  android:ellipsize="marquee"
+                                  android:fadingEdge="horizontal"
+                                  android:singleLine="true"/>
+                        <TextView android:id="@android:id/summary"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_below="@id/pref_title_ticking_sound"
+                                  android:text="@string/pref_title_ticking_sound_summary"
+                                  android:textAppearance="?android:attr/textAppearanceSmall"
+                                  android:textColor="?android:attr/textColorSecondary"
+                                  android:maxLines="4"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/pref_key_tick_sound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:padding="@dimen/preference_header_padding"
+                android:text="@string/pref_title_notifications"
+                android:textColor="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/preference_item_padding_side"
+                android:paddingRight="@dimen/preference_item_padding_side"
+                android:orientation="vertical"
+                android:divider="@drawable/divider"
+                android:showDividers="middle">
+
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <TextView android:id="@+id/pref_title_use_notification"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/pref_title_use_notification"
+                                  android:textAppearance="?android:attr/textAppearance"
+                                  android:ellipsize="marquee"
+                                  android:fadingEdge="horizontal"
+                                  android:singleLine="true"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/pref_key_use_notification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <TextView
+                            android:id="@+id/pref_title_notification_sound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_title_notification_sound"
+                            android:textAppearance="?android:attr/textAppearance"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal"
+                            android:singleLine="true"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/pref_key_notification_sound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <TextView
+                            android:id="@+id/pref_title_notification_vibrate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_title_notification_vibrate"
+                            android:textAppearance="?android:attr/textAppearance"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal"
+                            android:singleLine="true"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/pref_key_notification_vibrate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:padding="@dimen/preference_header_padding"
+                android:text="@string/pref_title_advanced"
+                android:textColor="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/preference_item_padding_side"
+                android:paddingRight="@dimen/preference_item_padding_side"
+                android:orientation="vertical"
+                android:divider="@drawable/divider"
+                android:showDividers="middle">
+
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <TextView
+                            android:id="@+id/pref_title_screen_on"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_title_screen_on"
+                            android:textAppearance="?android:attr/textAppearance"
+                            android:paddingBottom="@dimen/preference_header_spacing"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal"
+                            android:singleLine="true"/>
+                        <TextView android:id="@android:id/summary"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_below="@id/pref_title_screen_on"
+                                  android:text="@string/pref_title_screen_on_summary"
+                                  android:textAppearance="?android:attr/textAppearanceSmall"
+                                  android:textColor="?android:attr/textColorSecondary"
+                                  android:maxLines="4"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/pref_key_screen_on"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:gravity="center_vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <RelativeLayout
+                        android:id="@+id/check_update_app_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_title_check_update"
+                            android:textAppearance="?android:attr/textAppearance"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal"
+                            android:singleLine="true"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/version_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

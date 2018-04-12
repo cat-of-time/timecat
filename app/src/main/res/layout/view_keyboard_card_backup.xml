@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/rg_selection_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:checkedButton="@+id/rb_single"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_single"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="单日"/>
+
+        <RadioButton
+            android:id="@+id/rb_multiple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="多日"/>
+
+        <RadioButton
+            android:id="@+id/rb_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="起止"/>
+
+        <RadioButton
+            android:id="@+id/rb_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="重复"/>
+
+    </RadioGroup>
+
+    <com.applikeysolutions.cosmocalendar.view.CalendarView
+        android:id="@+id/view_keyboard_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg_selection_type"/>
+
+    <com.github.florent37.expansionpanel.viewgroup.ExpansionsViewGroupLinearLayout
+        android:id="@+id/repeat_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg_selection_type"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:expansion_openOnlyOne="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.florent37.expansionpanel.ExpansionHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:expansion_headerIndicator="@id/headerIndicator"
+                app:expansion_layout="@id/expansionLayout"
+                app:expansion_toggleOnClick="true">
+
+                <RelativeLayout
+                    android:id="@+id/how_to_repeat_holder"
+                    style="@style/cardViewRelativeLayoutSelector"
+                    android:duplicateParentState="false">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="重复方式"
+                        android:textColor="#3E3E3E"/>
+
+                    <TextView
+                        android:id="@+id/how_to_repeat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/headerIndicator"
+                        android:text="每天"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/headerIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:adjustViewBounds="true"
+                        app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp"/>
+
+                </RelativeLayout>
+
+            </com.github.florent37.expansionpanel.ExpansionHeader>
+
+            <com.github.florent37.expansionpanel.ExpansionLayout
+                android:id="@+id/expansionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:expansion_expanded="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioGroup
+                        android:id="@+id/rg_selection_repeat_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dp_10"
+                        android:checkedButton="@+id/rb_repeat_day"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_repeat_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="每天"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_repeat_week"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="每周"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_repeat_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="每月"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_repeat_year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="每年"/>
+
+                    </RadioGroup>
+                </LinearLayout>
+            </com.github.florent37.expansionpanel.ExpansionLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.florent37.expansionpanel.ExpansionHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:expansion_headerIndicator="@id/headerIndicator1"
+                app:expansion_layout="@id/expansionLayout1"
+                app:expansion_toggleOnClick="true">
+
+                <RelativeLayout
+                    android:id="@+id/stop_at_holder"
+                    style="@style/cardViewRelativeLayoutSelector"
+                    android:duplicateParentState="false">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="截止"
+                        android:textColor="#3E3E3E"/>
+
+                    <TextView
+                        android:id="@+id/stop_at"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/headerIndicator1"
+                        android:text="永不结束"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/headerIndicator1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:adjustViewBounds="true"
+                        app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp"/>
+
+                </RelativeLayout>
+
+            </com.github.florent37.expansionpanel.ExpansionHeader>
+
+            <com.github.florent37.expansionpanel.ExpansionLayout
+                android:id="@+id/expansionLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:expansion_expanded="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/repeat_time_picker_fragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"/>
+                </LinearLayout>
+            </com.github.florent37.expansionpanel.ExpansionLayout>
+        </LinearLayout>
+    </com.github.florent37.expansionpanel.viewgroup.ExpansionsViewGroupLinearLayout>
+</RelativeLayout>

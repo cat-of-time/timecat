@@ -1,8 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white">
+
+    <include layout="@layout/base_progress_bar"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
@@ -12,23 +16,33 @@
         app:srlAccentColor="@android:color/white"
         app:srlEnableHeaderTranslationContent="true"
         app:srlEnableLoadMore="true"
-        app:srlEnableAutoLoadMore="false"
         app:srlEnablePreviewInEditMode="false"
-        app:srlFixedHeaderViewId="@+id/week_top_holder"
         app:srlPrimaryColor="@color/colorPrimary">
+        <!--app:srlFixedHeaderViewId="@+id/profile"-->
 
         <com.time.cat.ui.widgets.RefreshCircleHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srlClassicsSpinnerStyle="FixedBehind"/>
 
-            <FrameLayout
-                android:id="@+id/fragment_container"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                tools:listitem="@layout/item_notes_list"/>
+        </FrameLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <include layout="@layout/base_progress_bar"/>
 
 </RelativeLayout>
+
