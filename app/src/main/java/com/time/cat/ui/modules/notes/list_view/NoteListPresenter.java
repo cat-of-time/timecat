@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.plans.list_view;
+package com.time.cat.ui.modules.notes.list_view;
 
 import com.time.cat.ui.base.mvp.BaseLazyLoadPresenter;
 
@@ -9,7 +9,7 @@ import com.time.cat.ui.base.mvp.BaseLazyLoadPresenter;
  * @discription null
  * @usage null
  */
-public class PlanListPresenter extends BaseLazyLoadPresenter<PlanListMVP.View>{
+public class NoteListPresenter extends BaseLazyLoadPresenter<NoteListMVP.View>{
     @Override
     public void lazyLoadData() {
 

@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.notes.list_view;
+package com.time.cat.ui.modules.schedules.list_view;
 
 import com.time.cat.ui.base.mvp.BaseLazyLoadMVP;
 
@@ -9,7 +9,7 @@ import com.time.cat.ui.base.mvp.BaseLazyLoadMVP;
  * @discription null
  * @usage null
  */
-public class NoteListMVP {
+public class ScheduleListMVP {
     interface View extends BaseLazyLoadMVP.View {
     }
 

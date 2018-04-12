@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.week_view.listener
+package com.time.cat.ui.modules.routines.week_view.listener
 
 import com.time.cat.data.model.DBmodel.DBRoutine
 

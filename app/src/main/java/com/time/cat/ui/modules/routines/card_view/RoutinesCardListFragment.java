@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.routines.list_view;
+package com.time.cat.ui.modules.routines.card_view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,16 +23,16 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.data.model.DBmodel.DBRoutine;
+import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.modules.routines.RoutinesFragment;
-import com.time.cat.ui.modules.schedules.AlarmScheduler;
 
+import java.util.Date;
 import java.util.List;
 
 
-public class RoutinesListFragment extends BaseFragment implements RoutinesFragment.OnScrollBoundaryDecider {
+public class RoutinesCardListFragment extends BaseFragment implements RoutinesFragment.OnScrollBoundaryDecider {
 
 
     List<DBRoutine> mDBRoutines;
@@ -44,7 +44,7 @@ public class RoutinesListFragment extends BaseFragment implements RoutinesFragme
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_routines_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_routines_card_list, container, false);
         listview = rootView.findViewById(R.id.routines_list);
 
         View empty = rootView.findViewById(android.R.id.empty);
@@ -71,10 +71,10 @@ public class RoutinesListFragment extends BaseFragment implements RoutinesFragme
         }
     }
 
-    private View createRoutineListItem(LayoutInflater inflater, final DBRoutine DBRoutine) {
+    private View createRoutineListItem(LayoutInflater inflater, final DBRoutine dbRoutine) {
 
-        int hour = DBRoutine.time().getHourOfDay();
-        int minute = DBRoutine.time().getMinuteOfHour();
+        int hour = new Date(dbRoutine.getBeginTs()).getHours();
+        int minute = new Date(dbRoutine.getBeginTs()).getMinutes();
 
         String strHour = String.valueOf(hour >= 10 ? hour : "0" + hour);
         String strMinute = ":" + String.valueOf(minute >= 10 ? minute : "0" + minute);
@@ -83,14 +83,11 @@ public class RoutinesListFragment extends BaseFragment implements RoutinesFragme
 
         ((TextView) item.findViewById(R.id.routines_list_item_hour)).setText(strHour);
         ((TextView) item.findViewById(R.id.routines_list_item_minute)).setText(strMinute);
-        ((TextView) item.findViewById(R.id.routines_list_item_name)).setText(DBRoutine.name());
+        ((TextView) item.findViewById(R.id.routines_list_item_name)).setText(dbRoutine.name());
         ((ImageButton) item.findViewById(R.id.imageButton2)).setImageDrawable(ic);
-
-        int items = DBRoutine.scheduleItems().size();
-
-        ((TextView) item.findViewById(R.id.routines_list_item_subtitle)).setText((items > 0 ? ("" + items) : "Sin ") + " pautas asociadas");
+        ((TextView) item.findViewById(R.id.routines_list_item_subtitle)).setText("pautas asociadas");
         View overlay = item.findViewById(R.id.routine_list_item_container);
-        overlay.setTag(DBRoutine);
+        overlay.setTag(dbRoutine);
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
@@ -119,16 +116,8 @@ public class RoutinesListFragment extends BaseFragment implements RoutinesFragme
     }
 
     void showDeleteConfirmationDialog(final DBRoutine  r) {
-        String message;
+        String message = String.format(getString(R.string.remove_routine_message_short), r.name());
 
-
-        if (r.scheduleItems().size() > 0) {
-            message = String.format(getString(R.string.remove_routine_message_long), r.name());
-            //message = "The routine " + r.name() + " has associated schedules that will be lost if you delete it. Do you want to remove it anyway?";
-        } else {
-            //message = "Remove " + r.name() + " routine?";
-            message = String.format(getString(R.string.remove_routine_message_short), r.name());
-        }
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.remove_routine_dialog_title))
                 .content(message)
@@ -136,10 +125,7 @@ public class RoutinesListFragment extends BaseFragment implements RoutinesFragme
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
-//                        LogUtil.e("dbNote == " + r.toString());
-                        // cancel routine alarm and delete it
-                        AlarmScheduler.instance().onDeleteRoutine(r, getActivity());
-                        DB.routines().deleteCascade(r, true);
+
                         notifyDataChanged();
                     }
                 })

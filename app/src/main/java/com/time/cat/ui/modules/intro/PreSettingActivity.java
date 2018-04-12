@@ -15,19 +15,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.modules.setting.SettingActivity;
+import com.time.cat.data.Constants;
 import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.widgets.ColorTextView;
 import com.time.cat.ui.widgets.dialog.Dialog;
 import com.time.cat.ui.widgets.dialog.DialogFragment;
 import com.time.cat.ui.widgets.dialog.SimpleDialog;
-import com.time.cat.util.clipboard.ClipboardUtils;
-import com.time.cat.data.Constants;
 import com.time.cat.util.NotificationCheckUtil;
-import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.UrlCountUtil;
+import com.time.cat.util.clipboard.ClipboardUtils;
+import com.time.cat.util.override.SnackBarUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
 public class PreSettingActivity extends BaseActivity {
     public static final String SHOW = "pre_is_show";
@@ -267,7 +267,7 @@ public class PreSettingActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.PRE__FLOATVIEW, false);
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_PRE_CONFIRM_IN_DIALOG);
                 SPHelper.save(SHOW, false);
-                Intent intent = new Intent(PreSettingActivity.this, SettingActivity.class);
+                Intent intent = new Intent(PreSettingActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
                 super.onPositiveActionClicked(fragment);

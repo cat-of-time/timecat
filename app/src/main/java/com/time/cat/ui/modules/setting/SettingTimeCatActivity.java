@@ -403,7 +403,7 @@ public class SettingTimeCatActivity extends BaseActivity {
         int item = SPHelper.getInt(Constants.ITEM_MARGIN, Constants.DEFAULT_ITEM_MARGIN);
         int padding = SPHelper.getInt(Constants.ITEM_PADDING, ViewUtil.dp2px(Constants.DEFAULT_ITEM_PADDING));
         alpha = SPHelper.getInt(Constants.TIMECAT_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(Constants.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
+        lastPickedColor = SPHelper.getInt(Constants.TIMECAT_DIY_BG_COLOR, Color.parseColor("#03A9F4"));
         boolean fullScreen = SPHelper.getBoolean(Constants.IS_FULL_SCREEN, false);
         isFullScreen.setChecked(fullScreen);
         boolean stickHeader = SPHelper.getBoolean(Constants.IS_STICK_HEADER, false);

@@ -1,5 +1,7 @@
 package com.time.cat.ui.modules.plans.pile_view;
 
+import com.time.cat.ui.base.mvp.BaseLazyLoadPresenter;
+
 /**
  * @author dlink
  * @email linxy59@mail2.sysu.edu.cn
@@ -7,5 +9,9 @@ package com.time.cat.ui.modules.plans.pile_view;
  * @discription null
  * @usage null
  */
-public class PilePressenter {
+public class PilePresenter extends BaseLazyLoadPresenter<PileMVP.View>{
+    @Override
+    public void lazyLoadData() {
+
+    }
 }

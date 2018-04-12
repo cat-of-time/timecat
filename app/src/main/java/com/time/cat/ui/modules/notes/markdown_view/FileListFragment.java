@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.notes.list_view;
+package com.time.cat.ui.modules.notes.markdown_view;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -9,11 +9,9 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -23,19 +21,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.time.cat.R;
 import com.time.cat.data.Constants;
 import com.time.cat.data.StorageHelper;
 import com.time.cat.data.async.QueryTask;
 import com.time.cat.data.model.entity.FileEntity;
-import com.time.cat.ui.modules.main.listener.OnPlanViewClickListener;
 import com.time.cat.ui.adapter.FilesAdapter;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.modules.editor.EditorActivity;
 import com.time.cat.ui.modules.editor.fragment.EditorFragment;
+import com.time.cat.ui.modules.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.modules.notes.NotesFragment;
 import com.time.cat.util.FileUtils;
 import com.time.cat.util.override.ToastUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 
-public class FileListFragment extends BaseFragment implements OnPlanViewClickListener, NotesFragment.OnScrollBoundaryDecider{
+public class FileListFragment extends BaseFragment implements OnNoteViewClickListener, NotesFragment.OnScrollBoundaryDecider{
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.file_list)
@@ -125,8 +125,6 @@ public class FileListFragment extends BaseFragment implements OnPlanViewClickLis
                 adapter = new FilesAdapter(entityList, appCompatActivity);
                 fileListRecyclerView.setLayoutManager(new LinearLayoutManager(appCompatActivity));
                 fileListRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                fileListRecyclerView.addItemDecoration(new DividerItemDecoration(appCompatActivity,
-                        DividerItemDecoration.VERTICAL));
                 fileListRecyclerView.setAdapter(adapter);
             }
         } else {
@@ -148,22 +146,38 @@ public class FileListFragment extends BaseFragment implements OnPlanViewClickLis
     }
 
     @Override
+    public void onViewNoteRefreshClick() {
+        if (adapter != null) adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onViewSortClick() {
-        AlertDialog.Builder sortDialog = new AlertDialog.Builder(appCompatActivity);
-        sortDialog.setTitle(R.string.menu_item_sort);
-        int sortTypeIndex = sharedPreferences.getInt("SORT_TYPE_INDEX", 0);
-        sortDialog.setSingleChoiceItems(R.array.sort_options, sortTypeIndex, (dialog, which) -> {
-        });
-        sortDialog.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel());
-        sortDialog.show();
+        new MaterialDialog.Builder(appCompatActivity)
+                .content(R.string.menu_item_sort)
+                .positiveText("确定")
+                .items(R.array.sort_options)
+                .itemsCallbackSingleChoice(
+                        SPHelper.getInt("SORT_TYPE_INDEX", 0),
+                        (dialog, view, which, text) -> {
+                            SPHelper.save("SORT_TYPE_INDEX", which);
+                            ToastUtil.ok("设置成功！");
+                            adapter.notifyDataSetChanged();
+                            return true;
+                        }
+                )
+                .negativeText("取消")
+                .onNegative((dialog, which) -> dialog.cancel())
+                .show();
     }
 
     @Override
     public void initSearchView(Menu menu, AppCompatActivity activity) {
-        MenuItem searchItem = menu.findItem(R.id.main_menu_plan_search);
+        MenuItem searchItem = menu.findItem(R.id.main_menu_note_search);
         SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+        if (searchManager != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

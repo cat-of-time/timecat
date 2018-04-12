@@ -147,13 +147,15 @@ public class SettingActivity extends BaseActivity {
 
     private void initFragments() {
         fragmentList = new ArrayList<>();
-        fragmentTitles = new ArrayList<>();
         fragmentList.add(new PickWordFragment());
         fragmentList.add(new DisplayFragment());
+        fragmentList.add(new ClockFragment());
         fragmentList.add(new OthersFragment());
 
+        fragmentTitles = new ArrayList<>();
         fragmentTitles.add(getString(R.string.fragment_segment));
         fragmentTitles.add(getString(R.string.fragment_display));
+        fragmentTitles.add(getString(R.string.fragment_clock));
         fragmentTitles.add(getString(R.string.fragment_other));
     }
 

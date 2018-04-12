@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.schedules.list_view;
+package com.time.cat.ui.modules.routines.list_view;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,13 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.time.cat.R;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.model.DBmodel.DBTask;
-import com.time.cat.ui.adapter.ScheduleListAdapter;
+import com.time.cat.data.model.DBmodel.DBRoutine;
+import com.time.cat.ui.adapter.RoutineListAdapter;
 import com.time.cat.ui.base.mvp.BaseLazyLoadFragment;
-import com.time.cat.ui.modules.notes.NotesFragment;
+import com.time.cat.ui.modules.routines.RoutinesFragment;
 
 import java.util.List;
 
@@ -30,21 +33,37 @@ import butterknife.BindView;
  * @discription 列表视图
  * @usage null
  */
-public class ScheduleListFragment extends BaseLazyLoadFragment<ScheduleListMVP.View, ScheduleListPresenter> implements NotesFragment.OnScrollBoundaryDecider{
-    private List<DBTask> dataList;
-    @BindView(R.id.task_rv)
+public class RoutinesListFragment extends BaseLazyLoadFragment<RoutinesListMVP.View, RoutinesListPresenter> implements RoutinesFragment.OnScrollBoundaryDecider{
+    private List<DBRoutine> dataList;
+    @BindView(R.id.routine_rv)
     RecyclerView recyclerView;
+
     @BindView(R.id.empty_view)
     FrameLayout empty_view;
+    @BindView(R.id.empty_icon)
+    ImageView empty_icon;
+    @BindView(R.id.empty_head)
+    TextView empty_head;
+    @BindView(R.id.empty_attention)
+    TextView empty_attention;
+    @BindView(R.id.empty_long_press_routine)
+    LinearLayout empty_long_press_routine;
+    @BindView(R.id.empty_long_press_note)
+    LinearLayout empty_long_press_note;
 
     @Override
     public int getLayout() {
-        return R.layout.fragment_schedules_list;
+        return R.layout.fragment_routines_list;
     }
 
     @Override
     public void initView() {
-        dataList = DB.schedules().findAll();
+        dataList = DB.routines().findAll();
+        empty_icon.setImageResource(R.drawable.ic_routines_grey_24dp);
+        empty_head.setText(R.string.empty_routines_head);
+        empty_attention.setText(R.string.empty_routines);
+        empty_long_press_routine.setVisibility(View.VISIBLE);
+        empty_long_press_note.setVisibility(View.INVISIBLE);
         if (dataList == null || dataList.isEmpty()) {
             empty_view.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -52,7 +71,7 @@ public class ScheduleListFragment extends BaseLazyLoadFragment<ScheduleListMVP.V
             empty_view.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-        ScheduleListAdapter adapter = new ScheduleListAdapter(dataList, (Activity) getContext());
+        RoutineListAdapter adapter = new RoutineListAdapter(dataList, (Activity) getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -83,8 +102,8 @@ public class ScheduleListFragment extends BaseLazyLoadFragment<ScheduleListMVP.V
 
     @NonNull
     @Override
-    public ScheduleListPresenter providePresenter() {
-        return new ScheduleListPresenter();
+    public RoutinesListPresenter providePresenter() {
+        return new RoutinesListPresenter();
     }
 
     @Override

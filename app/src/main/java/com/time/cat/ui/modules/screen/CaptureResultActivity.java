@@ -23,36 +23,38 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.microsoft.projectoxford.vision.contract.OCR;
-import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
+import com.time.cat.data.Constants;
+import com.time.cat.data.model.APImodel.ImageUpload;
+import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.ui.modules.activity.DiyOcrKeyActivity;
 import com.time.cat.ui.modules.activity.TimeCatActivity;
 import com.time.cat.ui.modules.activity.WebActivity;
-import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.data.model.APImodel.ImageUpload;
+import com.time.cat.ui.modules.editor.RichTextEditorActivity;
 import com.time.cat.ui.widgets.dialog.DialogFragment;
 import com.time.cat.ui.widgets.dialog.SimpleDialog;
-import com.time.cat.util.view.ColorUtil;
-import com.time.cat.data.Constants;
-import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.OcrAnalyser;
-import com.time.cat.util.override.ToastUtil;
 import com.time.cat.util.UrlCountUtil;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.view.ColorUtil;
 import com.time.cat.util.view.ViewUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class CaptureResultActivity extends BaseActivity {
     public static final String HTTP_IMAGE_BAIDU_COM = "http://image.baidu.com/wiseshitu?rn=30&appid=0&tag=1&isMobile=1&";
     int alpha = SPHelper.getInt(Constants.TIMECAT_ALPHA, 100);
-    int lastPickedColor = SPHelper.getInt(Constants.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
+    int lastPickedColor = SPHelper.getInt(Constants.TIMECAT_DIY_BG_COLOR, Color.parseColor("#03A9F4"));
     private ImageView capturedImage;
     private Bitmap bitmap;
-    private TextView share, save, ocr, timecat, search;
+    private TextView share, save, add, ocr, timecat, search;
     private TextView ocrResult;
     private RelativeLayout ocrResultRL;
 
@@ -83,7 +85,7 @@ public class CaptureResultActivity extends BaseActivity {
 
     private void init() {
         alpha = SPHelper.getInt(Constants.TIMECAT_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(Constants.TIMECAT_DIY_BG_COLOR, Color.parseColor("#01579B"));
+        lastPickedColor = SPHelper.getInt(Constants.TIMECAT_DIY_BG_COLOR, Color.parseColor("#03A9F4"));
 
         CardView cardView = new CardView(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_capture_result, null, false);
@@ -118,6 +120,7 @@ public class CaptureResultActivity extends BaseActivity {
         capturedImage = findViewById(R.id.captured_pic);
         share = findViewById(R.id.share);
         save = findViewById(R.id.save);
+        add = findViewById(R.id.add_task);
         ocr = findViewById(R.id.recognize);
         timecat = findViewById(R.id.timecat);
         search = findViewById(R.id.search);
@@ -152,73 +155,117 @@ public class CaptureResultActivity extends BaseActivity {
 
         capturedImage.setImageBitmap(bitmap);
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SAVE);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
-                    file.getParentFile().mkdirs();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
-                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    Uri uri = Uri.fromFile(file);
-                    intent.setData(uri);
-                    sendBroadcast(intent);
-                    ToastUtil.ok(getResources().getString(R.string.save_sd_card));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    ToastUtil.e(R.string.save_sd_card_fail);
-                }
-
+        save.setOnClickListener(v -> {
+            try {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SAVE);
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
+                file.getParentFile().mkdirs();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                Intent intent1 = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri uri = Uri.fromFile(file);
+                intent1.setData(uri);
+                sendBroadcast(intent1);
+                ToastUtil.ok(getResources().getString(R.string.save_sd_card));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                ToastUtil.e(R.string.save_sd_card_fail);
             }
+
         });
 
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SHARE);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
-                    file.getParentFile().mkdirs();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
-                    shareMsg("分享给", "截图", "来自timecat的截图", file.getAbsolutePath());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+        add.setOnClickListener(v -> {
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SAVE);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.CHINA);
+            String s = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/"
+                    + format.format(new Date()) + ".jpg";
+            //保存
+            try {
+                File file = new File(s);
+                file.getParentFile().mkdirs();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                Intent intent12 = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri uri = Uri.fromFile(file);
+                intent12.setData(uri);
+                sendBroadcast(intent12);
+                ToastUtil.ok(getResources().getString(R.string.save_sd_card));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                ToastUtil.e(R.string.save_sd_card_fail);
+            }
+            //把文件名发过去
+            Intent intent2RichTextEditorActivity = new Intent(CaptureResultActivity.this, RichTextEditorActivity.class);
+            intent2RichTextEditorActivity.putExtra(RichTextEditorActivity.TO_SAVE_IMG, s);
+            startActivity(intent2RichTextEditorActivity);
+        });
+
+        share.setOnClickListener(v -> {
+            try {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SHARE);
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
+                file.getParentFile().mkdirs();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                shareMsg("分享给", "截图", "来自timecat的截图", file.getAbsolutePath());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
         });
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.i(R.string.upload_img);
-                OcrAnalyser.getInstance().uploadImage(CaptureResultActivity.this, fileName, new OcrAnalyser.ImageUploadCallBack() {
-                    @Override
-                    public void onSuccess(ImageUpload imageUpload) {
-                        if (imageUpload != null && imageUpload.getData() != null && !TextUtils.isEmpty(imageUpload.getData().getUrl())) {
+        search.setOnClickListener(v -> {
+            ToastUtil.i(R.string.upload_img);
+            OcrAnalyser.getInstance().uploadImage(CaptureResultActivity.this, fileName, new OcrAnalyser.ImageUploadCallBack() {
+                @Override
+                public void onSuccess(ImageUpload imageUpload) {
+                    if (imageUpload != null && imageUpload.getData() != null && !TextUtils.isEmpty(imageUpload.getData().getUrl())) {
 
-                            String url = HTTP_IMAGE_BAIDU_COM + "queryImageUrl=" + imageUpload.getData().getUrl() + "&querySign=4074500770,3618317556&fromProduct= ";
-                            Intent intent = new Intent();
-                            intent.putExtra("url", url);
-                            intent.setClass(CaptureResultActivity.this, WebActivity.class);
-                            startActivity(intent);
-                        } else {
-                            ToastUtil.e(R.string.upload_img_fail);
-                        }
-
+                        String url = HTTP_IMAGE_BAIDU_COM + "queryImageUrl=" + imageUpload.getData().getUrl() + "&querySign=4074500770,3618317556&fromProduct= ";
+                        Intent intent13 = new Intent();
+                        intent13.putExtra("url", url);
+                        intent13.setClass(CaptureResultActivity.this, WebActivity.class);
+                        startActivity(intent13);
+                    } else {
+                        ToastUtil.e(R.string.upload_img_fail);
                     }
 
-                    @Override
-                    public void onFail(Throwable throwable) {
+                }
+
+                @Override
+                public void onFail(Throwable throwable) {
+                    ToastUtil.e(throwable.getMessage());
+                }
+            });
+        });
+        ocr.setOnClickListener(v -> {
+            if (SPHelper.getInt(Constants.OCR_TIME, 0) == Constants.OCR_TIME_TO_ALERT) {
+                showBeyondQuoteDialog();
+                int time = SPHelper.getInt(Constants.OCR_TIME, 0) + 1;
+                SPHelper.save(Constants.OCR_TIME, time);
+                return;
+            }
+            ToastUtil.i(R.string.ocr_recognize);
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCR);
+            OcrAnalyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalyser.CallBack() {
+                @Override
+                public void onSuccess(OCR ocr) {
+                    ocrResultRL.setVisibility(View.VISIBLE);
+                    ocrResult.setText(OcrAnalyser.getInstance().getPassedMiscSoftText(ocr));
+                    ocrResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+                }
+
+                @Override
+                public void onFail(Throwable throwable) {
+                    if (SPHelper.getString(Constants.DIY_OCR_KEY, "").equals("")) {
+                        ToastUtil.e(getResources().getString(R.string.ocr_useup_toast));
+                    } else {
                         ToastUtil.e(throwable.getMessage());
                     }
-                });
-            }
+                }
+            });
         });
-        ocr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        timecat.setOnClickListener(v -> {
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_TIMECAT);
+            if (TextUtils.isEmpty(ocrResult.getText())) {
                 if (SPHelper.getInt(Constants.OCR_TIME, 0) == Constants.OCR_TIME_TO_ALERT) {
                     showBeyondQuoteDialog();
                     int time = SPHelper.getInt(Constants.OCR_TIME, 0) + 1;
@@ -226,17 +273,27 @@ public class CaptureResultActivity extends BaseActivity {
                     return;
                 }
                 ToastUtil.i(R.string.ocr_recognize);
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCR);
                 OcrAnalyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalyser.CallBack() {
                     @Override
                     public void onSuccess(OCR ocr) {
-                        ocrResultRL.setVisibility(View.VISIBLE);
-                        ocrResult.setText(OcrAnalyser.getInstance().getPassedMiscSoftText(ocr));
-                        ocrResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+                        if (!TextUtils.isEmpty(ocrResult.getText())) {
+                            Intent intent14 = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
+                            intent14.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent14.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText());
+                            startActivity(intent14);
+                            finish();
+                        } else {
+                            Intent intent14 = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
+                            intent14.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent14.putExtra(TimeCatActivity.TO_SPLIT_STR, OcrAnalyser.getInstance().getPassedMiscSoftText(ocr));
+                            startActivity(intent14);
+                            finish();
+                        }
                     }
 
                     @Override
                     public void onFail(Throwable throwable) {
+
                         if (SPHelper.getString(Constants.DIY_OCR_KEY, "").equals("")) {
                             ToastUtil.e(getResources().getString(R.string.ocr_useup_toast));
                         } else {
@@ -244,84 +301,36 @@ public class CaptureResultActivity extends BaseActivity {
                         }
                     }
                 });
-            }
-        });
-
-        timecat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_TIMECAT);
-                if (TextUtils.isEmpty(ocrResult.getText())) {
-                    if (SPHelper.getInt(Constants.OCR_TIME, 0) == Constants.OCR_TIME_TO_ALERT) {
-                        showBeyondQuoteDialog();
-                        int time = SPHelper.getInt(Constants.OCR_TIME, 0) + 1;
-                        SPHelper.save(Constants.OCR_TIME, time);
-                        return;
-                    }
-                    ToastUtil.i(R.string.ocr_recognize);
-                    OcrAnalyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalyser.CallBack() {
-                        @Override
-                        public void onSuccess(OCR ocr) {
-                            if (!TextUtils.isEmpty(ocrResult.getText())) {
-                                Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText());
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra(TimeCatActivity.TO_SPLIT_STR, OcrAnalyser.getInstance().getPassedMiscSoftText(ocr));
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(Throwable throwable) {
-
-                            if (SPHelper.getString(Constants.DIY_OCR_KEY, "").equals("")) {
-                                ToastUtil.e(getResources().getString(R.string.ocr_useup_toast));
-                            } else {
-                                ToastUtil.e(throwable.getMessage());
-                            }
-                        }
-                    });
-                } else {
-                    if (!TextUtils.isEmpty(ocrResult.getText())) {
-                        Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText().toString());
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-
-            }
-
-        });
-
-        ocrResult.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCRRESULT);
+            } else {
                 if (!TextUtils.isEmpty(ocrResult.getText())) {
-                    Intent intent = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText().toString());
-                    startActivity(intent);
+                    Intent intent14 = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
+                    intent14.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent14.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText().toString());
+                    startActivity(intent14);
                     finish();
                 }
-                return true;
             }
 
         });
 
+        ocrResult.setOnLongClickListener(v -> {
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCRRESULT);
+            if (!TextUtils.isEmpty(ocrResult.getText())) {
+                Intent intent15 = new Intent(CaptureResultActivity.this, TimeCatActivity.class);
+                intent15.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent15.putExtra(TimeCatActivity.TO_SPLIT_STR, ocrResult.getText().toString());
+                startActivity(intent15);
+                finish();
+            }
+            return true;
+        });
+
+        timecat.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+        search.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
         share.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
         save.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
         ocr.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
-        timecat.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
-        search.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+        add.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
     }
 
     private void showBeyondQuoteDialog() {

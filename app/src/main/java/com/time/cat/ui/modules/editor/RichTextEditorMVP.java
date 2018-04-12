@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.achievement;
+package com.time.cat.ui.modules.editor;
 
 import com.time.cat.ui.base.mvp.BaseActivityMVP;
 
@@ -9,7 +9,7 @@ import com.time.cat.ui.base.mvp.BaseActivityMVP;
  * @discription null
  * @usage null
  */
-public class AchievementMVP {
+public class RichTextEditorMVP {
     interface View extends BaseActivityMVP.View {
     }
 

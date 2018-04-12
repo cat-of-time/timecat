@@ -1,6 +1,9 @@
 package com.time.cat.ui.modules.plans.card_view;
 
+import com.time.cat.data.model.DBmodel.DBPlan;
 import com.time.cat.ui.base.mvp.BaseLazyLoadMVP;
+
+import java.util.List;
 
 /**
  * @author dlink
@@ -9,10 +12,12 @@ import com.time.cat.ui.base.mvp.BaseLazyLoadMVP;
  * @discription null
  * @usage null
  */
-public class PileMVP {
+public class PlanCardMVP {
     interface View extends BaseLazyLoadMVP.View {
+        void refreshView(List<DBPlan> adapterDBNoteList);
     }
 
     interface Presenter extends BaseLazyLoadMVP.Presenter {
+        void refresh();
     }
 }

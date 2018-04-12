@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.week_view;
+package com.time.cat.ui.modules.routines.week_view;
 
 import com.time.cat.ui.base.mvp.BaseLazyLoadMVP;
 

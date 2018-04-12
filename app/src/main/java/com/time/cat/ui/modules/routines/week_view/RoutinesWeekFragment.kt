@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.week_view
+package com.time.cat.ui.modules.routines.week_view
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -19,11 +19,11 @@ import com.time.cat.helper.seconds
 import com.time.cat.ui.base.mvp.BaseLazyLoadFragment
 import com.time.cat.ui.modules.main.MainActivity
 import com.time.cat.ui.modules.routines.RoutinesFragment
-import com.time.cat.ui.modules.week_view.listener.WeekFragmentListener
+import com.time.cat.ui.modules.routines.week_view.listener.WeekFragmentListener
 import com.time.cat.ui.widgets.weekview.MyScrollView
 import com.time.cat.util.override.LogUtil
-import kotlinx.android.synthetic.main.fragment_schedules_weekview_holder.*
-import kotlinx.android.synthetic.main.fragment_schedules_weekview_holder.view.*
+import kotlinx.android.synthetic.main.fragment_weekview_holder.*
+import kotlinx.android.synthetic.main.fragment_weekview_holder.view.*
 import org.joda.time.DateTime
 import java.util.*
 
@@ -44,12 +44,17 @@ class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, Routines
         return RoutinesWeekPresenter()
     }
 
-    override fun initViews(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        weekHolder = inflater.inflate(R.layout.fragment_schedules_weekview_holder, container, false) as ViewGroup
-        weekHolder!!.background = ColorDrawable(context!!.config.weekViewBackground)
+    override fun getLayout(): Int {
+        return 0
+    }
+    override fun initView() {
         setupFragment()
         Handler().postDelayed({ presenter.refreshData() }, 500)
         TimeCatApp.eventBus().register(this)
+    }
+    override fun initViews(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        weekHolder = inflater.inflate(R.layout.fragment_weekview_holder, container, false) as ViewGroup
+        weekHolder!!.background = ColorDrawable(context!!.config.weekViewBackground)
         return weekHolder as ViewGroup
     }
 
@@ -58,7 +63,7 @@ class RoutinesWeekFragment : BaseLazyLoadFragment<RoutinesWeekMVP.View, Routines
         if (progressBar != null) progressBar.visibility = View.GONE
     }
 
-    private val PREFILLED_WEEKS = 35
+    private val PREFILLED_WEEKS = context!!.config.preFilledWeeks
     private var mRowHeight = 0
     private var minScrollY = -1
     private var maxScrollY = -1

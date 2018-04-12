@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,9 +25,19 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.haibin.calendarview.Calendar;
 import com.time.cat.R;
+import com.time.cat.TimeCatApp;
 import com.time.cat.data.database.DB;
+import com.time.cat.data.model.Converter;
+import com.time.cat.data.model.DBmodel.DBPlan;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.model.events.PersistenceEvents;
+import com.time.cat.ui.adapter.CustomPagerViewAdapter;
+import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
+import com.time.cat.ui.modules.about.NotesHelpActivity;
+import com.time.cat.ui.modules.about.PlansHelpActivity;
+import com.time.cat.ui.modules.about.RoutinesHelpActivity;
+import com.time.cat.ui.modules.about.SchedulesHelpActivity;
 import com.time.cat.ui.modules.main.listener.OnDateChangeListener;
 import com.time.cat.ui.modules.main.listener.OnNoteViewClickListener;
 import com.time.cat.ui.modules.main.listener.OnPlanViewClickListener;
@@ -34,14 +45,9 @@ import com.time.cat.ui.modules.main.listener.OnRoutineViewClickListener;
 import com.time.cat.ui.modules.main.listener.OnScheduleViewClickListener;
 import com.time.cat.ui.modules.main.viewmanager.FabMenuManager;
 import com.time.cat.ui.modules.main.viewmanager.LeftDrawerManager;
-import com.time.cat.ui.adapter.CustomPagerViewAdapter;
-import com.time.cat.ui.base.BaseActivity;
-import com.time.cat.ui.base.mvp.presenter.ActivityPresenter;
-import com.time.cat.ui.modules.about.RoutinesHelpActivity;
-import com.time.cat.ui.modules.about.SchedulesHelpActivity;
 import com.time.cat.ui.modules.notes.NotesFragment;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
-import com.time.cat.ui.modules.plans.FileListFragment;
+import com.time.cat.ui.modules.plans.PlansFragment;
 import com.time.cat.ui.modules.pomodoro.PomodoroActivity;
 import com.time.cat.ui.modules.routines.RoutinesFragment;
 import com.time.cat.ui.modules.schedules.SchedulesFragment;
@@ -55,6 +61,7 @@ import com.time.cat.ui.widgets.theme.utils.ThemeUtils;
 import com.time.cat.ui.widgets.viewpaper.CustomPagerView;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.string.TimeUtil;
 import com.time.cat.util.view.ScreenUtil;
 import com.timecat.commonjar.contentProvider.SPHelper;
 
@@ -67,6 +74,8 @@ import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 
+import static com.time.cat.data.Constants.NOTES_VIEW_TYPE;
+import static com.time.cat.data.Constants.PLANS_VIEW_TYPE;
 import static com.time.cat.data.Constants.ROUTINES_VIEW_TYPE;
 import static com.time.cat.data.Constants.SCHEDULES_VIEW_TYPE;
 
@@ -80,7 +89,8 @@ public class MainActivity extends BaseActivity implements
                                                OnDateChangeListener,
                                                DialogThemeFragment.ClickListener,
                                                ViewPager.OnPageChangeListener,
-                                               View.OnClickListener {
+                                               View.OnClickListener,
+                                               NotesFragment.OnFragmentChanged {
     private static final String TAG = "MainActivity";
     private static final int REQUEST_LOGIN = 0;
     /**
@@ -183,6 +193,8 @@ public class MainActivity extends BaseActivity implements
         mTextMonthDay = findViewById(R.id.tv_month_day);
         mTextYear = findViewById(R.id.tv_year);
         mTextLunar = findViewById(R.id.tv_lunar);
+        mTextMonthDay.setText((new Date().getMonth()+1) + "月" + (new Date().getDate()) + "日");
+        mTextYear.setText(String.valueOf(new Date().getYear()));
 //        mTextCurrentDay = findViewById(R.id.tv_current_day);
 
         customPagerView = findViewById(R.id.main_viewpager);
@@ -231,6 +243,7 @@ public class MainActivity extends BaseActivity implements
      * 多界面
      */
     private void setViewPager() {
+//        ScheduleCalendarFragment scheduleCalendarFragment = new ScheduleCalendarFragment();
         SchedulesFragment schedulesFragment = new SchedulesFragment();
         schedulesFragment.setOnDateChangeListener(this);
         setOnViewClickListener(schedulesFragment);
@@ -240,10 +253,10 @@ public class MainActivity extends BaseActivity implements
 
         NotesFragment notesFragment = new NotesFragment();
         setOnViewClickListener(notesFragment);
+        notesFragment.setOnFragmentChanged(this);
 
-//        PlansFragment plansFragment = new PlansFragment();
-        FileListFragment fileListFragment = new FileListFragment();
-        setOnViewClickListener(fileListFragment);
+        PlansFragment plansFragment = new PlansFragment();
+        setOnViewClickListener(plansFragment);
 
         fragmentNames = new String[]{"SchedulesFragment", "RoutinesFragment", "NotesFragment", "PlansFragment"};
 
@@ -251,7 +264,7 @@ public class MainActivity extends BaseActivity implements
         customPagerViewAdapter.addFragment(schedulesFragment);
         customPagerViewAdapter.addFragment(routinesFragment);
         customPagerViewAdapter.addFragment(notesFragment);
-        customPagerViewAdapter.addFragment(fileListFragment);
+        customPagerViewAdapter.addFragment(plansFragment);
         assert customPagerView != null;
         customPagerView.setAdapter(customPagerViewAdapter);
         customPagerView.setCurrentItem(0);
@@ -285,71 +298,120 @@ public class MainActivity extends BaseActivity implements
                 R.drawable.ic_schedules_black_24dp,
                 getResources().getString(R.string.title_schedules)
         );
-        tab1.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                new MaterialDialog.Builder(MainActivity.this)
-                        .content("改变 [日程页面] 视图")
-                        .positiveText("确定")
-                        .items(R.array.schedules_view_types)
-                        .itemsCallbackSingleChoice(
-                                SPHelper.getInt(SCHEDULES_VIEW_TYPE, 0),
-                                (dialog, view, which, text) -> {
-                                    SPHelper.save(SCHEDULES_VIEW_TYPE, which);
-                                    ToastUtil.ok("设置成功！");
-                                    customPagerViewAdapter.notifyDataChanged();
-                                    return true;
-                                }
-                        )
-                        .negativeText("取消")
-                        .onNegative((dialog, which) -> dialog.dismiss())
-                        .show();
-                return false;
-            }
+        tab1.setOnLongClickListener(v -> {
+            new MaterialDialog.Builder(MainActivity.this)
+                    .content("改变 [日程页面] 视图")
+                    .positiveText("确定")
+                    .items(R.array.schedules_view_types)
+                    .itemsCallbackSingleChoice(
+                            SPHelper.getInt(SCHEDULES_VIEW_TYPE, 0),
+                            (dialog, view, which, text) -> {
+                                SPHelper.save(SCHEDULES_VIEW_TYPE, which);
+                                ToastUtil.ok("设置成功！");
+                                customPagerViewAdapter.notifyDataChanged();
+                                return true;
+                            }
+                    )
+                    .negativeText("取消")
+                    .onNegative((dialog, which) -> dialog.dismiss())
+                    .show();
+            return false;
         });
         BaseTabItem tab2 = newItem(
                 R.drawable.ic_routines_grey_24dp,
                 R.drawable.ic_routines_black_24dp,
                 getResources().getString(R.string.title_routines)
         );
-        tab2.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                new MaterialDialog.Builder(MainActivity.this)
-                        .content("改变 [生物钟页面] 视图")
-                        .positiveText("确定")
-                        .items(R.array.routines_view_types)
-                        .itemsCallbackSingleChoice(
-                                SPHelper.getInt(ROUTINES_VIEW_TYPE, 0),
-                                (dialog, view, which, text) -> {
-                                    SPHelper.save(ROUTINES_VIEW_TYPE, which);
-                                    ToastUtil.ok("设置成功！");
-                                    customPagerViewAdapter.notifyDataChanged();
-                                    return true;
-                                }
-                        )
-                        .negativeText("取消")
-                        .onNegative((dialog, which) -> dialog.dismiss())
-                        .show();
-                return false;
-            }
+        tab2.setOnLongClickListener(v -> {
+            new MaterialDialog.Builder(MainActivity.this)
+                    .content("改变 [生物钟页面] 视图")
+                    .positiveText("确定")
+                    .items(R.array.routines_view_types)
+                    .itemsCallbackSingleChoice(
+                            SPHelper.getInt(ROUTINES_VIEW_TYPE, 0),
+                            (dialog, view, which, text) -> {
+                                SPHelper.save(ROUTINES_VIEW_TYPE, which);
+                                ToastUtil.ok("设置成功！");
+                                customPagerViewAdapter.notifyDataChanged();
+                                return true;
+                            }
+                    )
+                    .negativeText("取消")
+                    .onNegative((dialog, which) -> dialog.dismiss())
+                    .show();
+            return false;
+        });
+//        BaseTabItem tab3 = newIconItem(
+//                R.drawable.ic_add_circle_blue_24dp
+//        );
+//        tab3.setOnClickListener(v -> {
+//            Intent intent2DialogActivity = new Intent(MainActivity.this, InfoOperationActivity.class);
+//            intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, "");
+//            startActivity(intent2DialogActivity);
+//        });
+//        tab3.setOnLongClickListener(v -> {
+//            Intent intent2MainActivity = new Intent();
+//            Bundle args = new Bundle();
+//            args.putBoolean(Constants.BUNDLE_KEY_FROM_FILE, false);
+//            intent2MainActivity.putExtras(args);
+//            intent2MainActivity.setClass(this, EditorActivity.class);
+//            startActivity(intent2MainActivity);
+//            return false;
+//        });
+        BaseTabItem tab4 = newItem(
+                R.drawable.ic_notes_grey_24dp,
+                R.drawable.ic_notes_black_24dp,
+                getResources().getString(R.string.title_notes)
+        );
+        tab4.setOnLongClickListener(v -> {
+            new MaterialDialog.Builder(MainActivity.this)
+                    .content("改变 [笔记页面] 视图")
+                    .positiveText("确定")
+                    .items(R.array.notes_view_types)
+                    .itemsCallbackSingleChoice(
+                            SPHelper.getInt(NOTES_VIEW_TYPE, 0),
+                            (dialog, view, which, text) -> {
+                                SPHelper.save(NOTES_VIEW_TYPE, which);
+                                ToastUtil.ok("设置成功！");
+                                customPagerViewAdapter.notifyDataChanged();
+                                return true;
+                            }
+                    )
+                    .negativeText("取消")
+                    .onNegative((dialog, which) -> dialog.dismiss())
+                    .show();
+            return false;
+        });
+        BaseTabItem tab5 = newItem(
+                R.drawable.ic_plans_active_grey_24dp,
+                R.drawable.ic_plans_active_black_24dp,
+                getResources().getString(R.string.title_plans)
+        );
+        tab5.setOnLongClickListener(v -> {
+            new MaterialDialog.Builder(MainActivity.this)
+                    .content("改变 [计划页面] 视图")
+                    .positiveText("确定")
+                    .items(R.array.plans_view_types)
+                    .itemsCallbackSingleChoice(
+                            SPHelper.getInt(PLANS_VIEW_TYPE, 0),
+                            (dialog, view, which, text) -> {
+                                SPHelper.save(PLANS_VIEW_TYPE, which);
+                                ToastUtil.ok("设置成功！");
+                                customPagerViewAdapter.notifyDataChanged();
+                                return true;
+                            }
+                    )
+                    .negativeText("取消")
+                    .onNegative((dialog, which) -> dialog.dismiss())
+                    .show();
+            return false;
         });
         navigationController = navigation.custom()
                 .addItem(tab1)
                 .addItem(tab2)
-                .addItem(newIconItem(
-                        R.drawable.ic_add_circle_blue_24dp
-                ))
-                .addItem(newItem(
-                        R.drawable.ic_notes_grey_24dp,
-                        R.drawable.ic_notes_black_24dp,
-                        getResources().getString(R.string.title_notes)
-                ))
-                .addItem(newItem(
-                        R.drawable.ic_plans_active_grey_24dp,
-                        R.drawable.ic_plans_active_black_24dp,
-                        getResources().getString(R.string.title_plans)
-                ))
+                .addItem(newIconItem(R.drawable.ic_add_circle_blue_24dp))
+                .addItem(tab4)
+                .addItem(tab5)
                 .build();
 
         //自动适配ViewPager页面切换
@@ -369,6 +431,14 @@ public class MainActivity extends BaseActivity implements
                     customPagerView.setCurrentItem(index);
                     adjustActionBar(fragmentNames[index]);
                 }
+                if (index == 3) {
+                    adjustMenu(SPHelper.getInt("NOTE_TYPE_MENU", 0));
+                    handler.postDelayed(() -> {
+                        if (mNoteViewClickListener != null && menu != null) {
+                            mNoteViewClickListener.initSearchView(menu, MainActivity.this);
+                        }
+                    }, 1000);
+                }
             }
 
             @Override
@@ -377,14 +447,15 @@ public class MainActivity extends BaseActivity implements
                 if (index == 2) {
                     launchActivity(new Intent(MainActivity.this, InfoOperationActivity.class));
                 }
+                if (index == 3) {
+                    adjustMenu(SPHelper.getInt("NOTE_TYPE_MENU", 0));
+                }
+
             }
         });
 
     }
 
-    /**
-     * 正常tab
-     */
     private BaseTabItem newItem(int drawable, int checkedDrawable, String text) {
         SpecialTab mainTab = new SpecialTab(this);
         mainTab.initialize(drawable, checkedDrawable, text);
@@ -393,9 +464,6 @@ public class MainActivity extends BaseActivity implements
         return mainTab;
     }
 
-    /**
-     * 圆形tab
-     */
     private BaseTabItem newRoundItem(int drawable, int checkedDrawable, String text) {
         SpecialTabRound mainTab = new SpecialTabRound(this);
         mainTab.initialize(drawable, checkedDrawable, text);
@@ -525,12 +593,9 @@ public class MainActivity extends BaseActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         this.menu = menu;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mPlanViewClickListener != null) {
-                    mPlanViewClickListener.initSearchView(menu, MainActivity.this);
-                }
+        handler.postDelayed(() -> {
+            if (mNoteViewClickListener != null) {
+                mNoteViewClickListener.initSearchView(menu, MainActivity.this);
             }
         }, 1000);
 
@@ -597,18 +662,46 @@ public class MainActivity extends BaseActivity implements
                     mNoteViewClickListener.onViewNoteRefreshClick();
                 }
                 return true;
+            case R.id.main_menu_note_sort:
+                if (mNoteViewClickListener != null) {
+                    mNoteViewClickListener.onViewSortClick();
+                }
+                return true;
+            case R.id.main_menu_note_help:
+                launchActivity(new Intent(this, NotesHelpActivity.class));
+                return true;
 
             // 以下是schedule plan group
-            case R.id.main_menu_plan_sort:
+            case R.id.main_menu_plan_refresh:
                 if (mPlanViewClickListener != null) {
-                    mPlanViewClickListener.onViewSortClick();
+                    mPlanViewClickListener.onViewPlanRefreshClick();
                 }
+                return true;
+            case R.id.main_menu_plan_help:
+                launchActivity(new Intent(this, PlansHelpActivity.class));
+                return true;
+            case R.id.main_menu_plan_add:
+                new MaterialDialog.Builder(this)
+                        .title("制定一个计划")
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .input("计划名称", "", (dialog, input) -> {
+                            // Do something
+                            DBPlan dbPlan = new DBPlan();
+                            dbPlan.setTitle("" + input);
+                            dbPlan.setCoverImageUrl("http://img.hb.aicdn.com/3f04db36f22e2bf56d252a3bc1eacdd2a0416d75221a7c-rpihP1_fw658");
+                            dbPlan.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
+                            dbPlan.setUpdate_datetime(dbPlan.getCreated_datetime());
+                            dbPlan.setOwner(Converter.getOwnerUrl(DB.users().getActive()));
+                            DB.plans().safeSaveDBPlan(dbPlan);
+                            Object event = new PersistenceEvents.PlanCreateEvent(dbPlan);
+                            TimeCatApp.eventBus().post(event);
+                            ToastUtil.ok("制定计划：" + dbPlan.getTitle());
+                        }).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
     //-//</Activity>--------------------------------------------------------------------------------
 
 
@@ -678,6 +771,14 @@ public class MainActivity extends BaseActivity implements
             navigationController.setSelect(position);
         }
         adjustActionBar(fragmentNames[position]);
+        if (position == 2) {
+            adjustMenu(SPHelper.getInt("NOTE_TYPE_MENU", 0));
+            handler.postDelayed(() -> {
+                if (mNoteViewClickListener != null && menu != null) {
+                    mNoteViewClickListener.initSearchView(menu, MainActivity.this);
+                }
+            }, 1000);
+        }
         leftDrawer.onPagerPositionChange(position);
     }
 
@@ -710,25 +811,39 @@ public class MainActivity extends BaseActivity implements
 
 
 
-    //-//<SchedulesFragment.OnDateChangeListener>--------------------------------------------------------
+    //-//<SchedulesFragment.OnDateChangeListener>---------------------------------------------------
     @Override
     public void onDateChange(Calendar calendar) {
+        if (calendar == null) return;
         mTextLunar.setVisibility(View.VISIBLE);
         mTextYear.setVisibility(View.VISIBLE);
         mTextMonthDay.setText(calendar.getMonth() + "月" + calendar.getDay() + "日");
         mTextYear.setText(String.valueOf(calendar.getYear()));
         mTextLunar.setText(calendar.getLunar());
-        this.isToday = isToday;
-        if (menu != null) {
-            if (!isToday) {
-                menu.findItem(R.id.main_menu_today).setVisible(true);
-            } else {
-                menu.findItem(R.id.main_menu_today).setVisible(false);
-            }
+        this.isToday = calendar.isCurrentDay();
+        if (menu == null) return;
+        if (!isToday) {
+            menu.findItem(R.id.main_menu_today).setVisible(true);
+        } else {
+            menu.findItem(R.id.main_menu_today).setVisible(false);
         }
     }
     //-//</SchedulesFragment.OnDateChangeListener>--------------------------------------------------
 
+
+
+
+    //-//<NotesFragment.OnFragmentChanged>--------------------------------------------------
+    @Override
+    public void adjustMenu(int currentFragmentLabel) {
+        SPHelper.save("NOTE_TYPE_MENU", currentFragmentLabel);
+        if (menu != null) {
+            menu.findItem(R.id.main_menu_note_refresh).setVisible(currentFragmentLabel != 2);
+            menu.findItem(R.id.main_menu_note_search).setVisible(currentFragmentLabel == 2);
+            menu.findItem(R.id.main_menu_note_sort).setVisible(currentFragmentLabel == 2);
+        }
+    }
+    //-//</NotesFragment.OnFragmentChanged>--------------------------------------------------
 
 
 
@@ -803,6 +918,7 @@ public class MainActivity extends BaseActivity implements
         }, delay);
 
     }
+
     public void onUserUpdate(DBUser user) {
         leftDrawer.onUserUpdated(user);
         leftDrawer.updateHeaderBackground(user);
@@ -810,7 +926,7 @@ public class MainActivity extends BaseActivity implements
 //        fabMgr.onUserUpdate(user);
         refreshTheme(this, user.color());
     }
-    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">---------------------------------------------------------
+    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">
 
 
     //<回调接口>-------------------------------------------------------------------------------------

@@ -1,6 +1,9 @@
-package com.time.cat.test;
+package com.time.cat.ui.modules.notes.timeline_view;
 
+import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.ui.base.mvp.BaseLazyLoadMVP;
+
+import java.util.List;
 
 /**
  * @author dlink
@@ -9,10 +12,12 @@ import com.time.cat.ui.base.mvp.BaseLazyLoadMVP;
  * @discription null
  * @usage null
  */
-public class PileMVP {
+public class TimeLineMVP {
     interface View extends BaseLazyLoadMVP.View {
+        void refreshView(List<DBNote> adapterDBNoteList);
     }
 
     interface Presenter extends BaseLazyLoadMVP.Presenter {
+        void refresh();
     }
 }

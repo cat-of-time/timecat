@@ -36,6 +36,7 @@ import com.time.cat.data.network.RetrofitHelper;
 import com.time.cat.ui.modules.about.AboutActivity;
 import com.time.cat.ui.modules.achievement.AchievementActivity;
 import com.time.cat.ui.modules.main.MainActivity;
+import com.time.cat.ui.modules.pomodoro.PomodoroActivity;
 import com.time.cat.ui.modules.setting.SettingActivity;
 import com.time.cat.ui.modules.statistic.StatisticalActivity;
 import com.time.cat.ui.modules.user.LoginActivity;
@@ -78,6 +79,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
     public static final int CALENDAR = 10;
     public static final int ACHIEVEMENTS = 11;
     public static final int STATISTICS = 12;
+    public static final int POMODOROS = 13;
 
     private static final String TAG = "LeftDrawerManager";
     private static final int REQUEST_LOGIN = 0;
@@ -125,6 +127,8 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .build();
         Drawable noteIcon = mainActivity.getResources().getDrawable(R.drawable.ic_notes_black_24dp);
         noteIcon.setAlpha(110);
+        Drawable pomodoroIcon = mainActivity.getResources().getDrawable(R.drawable.ic_tomato_black_24dp);
+//        pomodoroIcon.setAlpha(110);
         Drawable statisticsIcon = mainActivity.getResources().getDrawable(R.drawable.ic_statistics_black_24dp);
         statisticsIcon.setAlpha(110);
         Drawable achievementsIcon = mainActivity.getResources().getDrawable(R.drawable.ic_achievements_black_24dp);
@@ -136,33 +140,28 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.title_activity_home)
+                        new PrimaryDrawerItem().withName(R.string.drawer_home_option)
                                 .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_home, R.color.black).alpha(110))
                                 .withIdentifier(HOME),
-                        new PrimaryDrawerItem().withName(R.string.title_activity_login)
+                        new PrimaryDrawerItem().withName(R.string.drawer_login_option)
                                 .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_account_multiple, R.color.black).alpha(110))
                                 .withIdentifier(USERS),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName(R.string.title_activity_schedules)
+                        new PrimaryDrawerItem().withName(R.string.drawer_schedules_option)
                                 .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_calendar, R.color.black).alpha(110))
                                 .withIdentifier(SCHEDULES),
-                        new PrimaryDrawerItem().withName(R.string.title_activity_routines)
+                        new PrimaryDrawerItem().withName(R.string.drawer_routines_option)
                                 .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_alarm, R.color.black).alpha(110))
                                 .withIdentifier(ROUTINES),
-                        new PrimaryDrawerItem().withName(R.string.title_activity_notes)
+                        new PrimaryDrawerItem().withName(R.string.drawer_notes_option)
                                 .withIcon(noteIcon)
                                 .withIdentifier(NOTES),
-                        new PrimaryDrawerItem().withName(R.string.title_activity_plans)
+                        new PrimaryDrawerItem().withName(R.string.drawer_plans_option)
                                 .withIcon(IconUtil.icon(mainActivity, GoogleMaterial.Icon.gmd_airplanemode_active, R.color.black).alpha(110))
                                 .withIdentifier(PLANS),
-                        new PrimaryDrawerItem().withName(R.string.title_activity_medicines)
-                                .withEnabled(false)
-                                .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_pill, R.color.black).alpha(38))
-                                .withIdentifier(MEDICINES),
-                        new PrimaryDrawerItem().withName(R.string.home_menu_pharmacies)
-                                .withIcon(IconUtil.icon(mainActivity, CommunityMaterial.Icon.cmd_map_marker_multiple, R.color.black).alpha(38))
-                                .withEnabled(false)
-                                .withIdentifier(PHARMACIES),
+                        new PrimaryDrawerItem().withName(R.string.drawer_pomodoros_option)
+                                .withIcon(pomodoroIcon)
+                                .withIdentifier(POMODOROS),
 
                         new DividerDrawerItem(),
 
@@ -219,7 +218,6 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
                 .build();
 
         DBUser u = DB.users().getActive();
-//        LogUtil.e(u.toString());
         headerResult.setActiveProfile(u.id().intValue(), false);
         updateHeaderBackground(u);
         drawer.setStatusBarColor(u.color());
@@ -263,12 +261,12 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
             case PLANS:
                 mainActivity.showPagerItem(3, false);
                 break;
-            case MEDICINES:
-//                mainActivity.showPagerItem(2, false);
-                break;
             case CALENDAR:
 //                launchActivity(new Intent(mainActivity, CalendarActivity.class));
                 drawer.setSelection(HOME, false);
+                break;
+            case POMODOROS:
+                launchActivity(new Intent(mainActivity, PomodoroActivity.class));
                 break;
 
             case STATISTICS:
@@ -306,7 +304,7 @@ public class LeftDrawerManager implements Drawer.OnDrawerItemClickListener, Acco
 
 
     public void onPharmacyModeChanged(boolean enabled) {
-        PrimaryDrawerItem item = (PrimaryDrawerItem) drawer.getDrawerItem(PHARMACIES);
+        PrimaryDrawerItem item = (PrimaryDrawerItem) drawer.getDrawerItem(SCHEDULES);
         BadgeStyle bs = new BadgeStyle();
         if (enabled) {
             addCalendarItem();

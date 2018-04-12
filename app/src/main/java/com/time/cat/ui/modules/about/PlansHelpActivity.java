@@ -9,7 +9,7 @@ import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.time.cat.R;
 
 
-public class NotesHelpActivity extends IntroActivity {
+public class PlansHelpActivity extends IntroActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,11 +17,11 @@ public class NotesHelpActivity extends IntroActivity {
         setFullscreen(true);
         super.onCreate(savedInstanceState);
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.help_routines_1).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_plans_1).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.help_routines_2).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_plans_2).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.help_routines_3).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_plans_3).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
     }
 
     @Override

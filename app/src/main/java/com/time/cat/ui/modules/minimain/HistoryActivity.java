@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.miniwindow;
+package com.time.cat.ui.modules.minimain;
 
 import android.app.Activity;
 import android.content.Context;

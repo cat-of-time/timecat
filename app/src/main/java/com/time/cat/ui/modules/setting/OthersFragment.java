@@ -2,6 +2,7 @@ package com.time.cat.ui.modules.setting;
 
 import com.time.cat.R;
 import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.base.BaseRecyclerFragment;
 import com.time.cat.ui.modules.setting.card.AboutCard;
 import com.time.cat.ui.modules.setting.card.FeedBackAndUpdateCard;
 import com.time.cat.ui.modules.setting.card.SLSettingCard;

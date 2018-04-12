@@ -10,27 +10,31 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
-import com.bigkoo.pickerview.lib.WheelView;
-import com.bigkoo.pickerview.listener.CustomListener;
-import com.bigkoo.pickerview.listener.OnItemSelectedListener;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.applikeysolutions.cosmocalendar.utils.SelectionType;
+import com.applikeysolutions.cosmocalendar.view.CalendarView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.view.TimePickerView;
+import com.contrarywind.view.WheelView;
 import com.time.cat.R;
 import com.time.cat.data.Constants;
 import com.time.cat.data.SharedPreferenceHelper;
@@ -42,6 +46,7 @@ import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.DBmodel.DBRoutine;
+import com.time.cat.data.model.DBmodel.DBSubPlan;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.network.ConstantURL;
@@ -72,18 +77,27 @@ import com.time.cat.util.view.EmotionUtil;
 import com.time.cat.util.view.ViewUtil;
 import com.timecat.commonjar.contentProvider.SPHelper;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -105,6 +119,9 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
     public static final String TO_UPDATE_TASK = "to_update_task";
     public static final String TO_UPDATE_NOTE = "to_update_note";
     public static final String TO_UPDATE_ROUTINE = "to_update_ROUTINE";
+    public static final String TO_ATTACH_NOTE = "to_attach_note";
+    public static final String TO_ATTACH_PLAN = "to_attach_plan";
+    public static final String TO_ATTACH_SUBPLAN = "to_attach_subplan";
 
     //<editor-fold desc="启动方法">-------------------------------------------------------------------------------------
     /**
@@ -165,7 +182,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
     private TextView dialog_add_task_tv_date;
     private TextView dialog_add_task_tv_time;
     private TextView dialog_add_task_tv_remind;
-    private TextView dialog_add_task_tv_repeat;
     private TextView dialog_add_task_tv_tag;
 
     private TextView dialog_add_task_type_note;
@@ -202,9 +218,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
 
     // 提醒选择面板
     private GridView dialog_add_task_select_gv_remind;
-
-    // 重复选择面板
-    private GridView dialog_add_task_select_gv_repeat;
 
     // 标签选择面板
     private LinearLayout dialog_add_task_select_ll_tag;
@@ -246,7 +259,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         dialog_add_task_tv_date = findViewById(R.id.dialog_add_task_tv_date);
         dialog_add_task_tv_time = findViewById(R.id.dialog_add_task_tv_time);
         dialog_add_task_tv_remind = findViewById(R.id.dialog_add_task_tv_remind);
-        dialog_add_task_tv_repeat = findViewById(R.id.dialog_add_task_tv_repeat);
         dialog_add_task_tv_tag = findViewById(R.id.dialog_add_task_tv_tag);
 
         dialog_add_task_type_note = findViewById(R.id.dialog_add_task_type_note);
@@ -279,8 +291,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         time_picker_fragment = findViewById(R.id.time_picker_fragment);
         // 提醒选择面板
         dialog_add_task_select_gv_remind = findViewById(R.id.dialog_add_task_select_gv_remind);
-        // 重复选择面板
-        dialog_add_task_select_gv_repeat = findViewById(R.id.dialog_add_task_select_gv_repeat);
         // 标签选择面板
         dialog_add_task_select_ll_tag = findViewById(R.id.dialog_add_task_select_ll_tag);
         viewPager = findViewById(R.id.select_vp_layout);
@@ -290,7 +300,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         setSelectDatePanel();
         setSelectTimePanel();
         setSelectRemindPanel();
-        setSelectRepeatPanel();
         setSelectTagPanel();
         setKeyboardManager();
 
@@ -345,6 +354,15 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
 
     }
 
+    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+    SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.CHINA);
+    TimePickerView pickerView;
+    CalendarView calendarView;
+    int selectDateMoreType = 0;
+    int selectDateRepeatType = 0;
+    Duration repeatDuration;
+    DateTime repeatBound;
+    List<Calendar> calendarList;
     /**
      * 设置 date 选择面板
      */
@@ -353,18 +371,16 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         String TEXT_ITEM = "text_item";
         String[] arrText = new String[]{
                 "今天", "明天", "后天",
-                "下一周", "下个月", "明年的今天",
-                "其他"
+                "下一周", "下个月", "其他"
         };
         int[] arrImages=new int[]{
                 R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
-                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
-                R.drawable.ic_alarm_black_48dp
+                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp
         };
-        List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+        List<HashMap<String, Object>> list = new ArrayList<>();
 
-        for (int i=0; i<7; i++) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
+        for (int i=0; i<6; i++) {
+            HashMap<String, Object> map = new HashMap<>();
             map.put(IMAGE_ITEM, arrImages[i]);
             map.put(TEXT_ITEM, arrText[i]);
             list.add(map);
@@ -375,52 +391,156 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                 R.layout.view_keyboard_date_item,
                 new String[] { IMAGE_ITEM, TEXT_ITEM },
                 new int[] { R.id.dialog_add_task_select_iv, R.id.dialog_add_task_select_tv });
-        Date d = new Date();
-        dialog_add_task_tv_date.setText(((d.getMonth()+1)<9?"0"+(d.getMonth()+1):(d.getMonth()+1))+":"+(d.getDate()<9?"0"+d.getDate():d.getDate()));
+
+        //<editor-fold desc="dialog view">
+        View dialog = LayoutInflater.from(getActivity()).inflate(R.layout.view_keyboard_card, null);
+        LinearLayout repeat_card = dialog.findViewById(R.id.repeat_card);
+        TextView stop_at = dialog.findViewById(R.id.stop_at);
+        TextView how_to_repeat = dialog.findViewById(R.id.how_to_repeat);
+        FrameLayout repeat_time_picker_fragment = dialog.findViewById(R.id.repeat_time_picker_fragment);
+        DateTime today = new DateTime();
+        repeatBound = new DateTime();
+        repeatDuration = new Duration(0L);
+        calendarList = new ArrayList<>();
+        pickerView = new TimePickerBuilder(this, null)
+                .setLayoutRes(R.layout.view_keyboard_date_pickerview, v -> {
+                    //do nothing
+                })
+                .setTimeSelectChangeListener(date -> {
+                    stop_at.setText(formatDate.format(date));
+                    repeatBound = repeatBound.withDate(new LocalDate(date));
+                })
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("", "", "", "", "", "") //设置空字符串以隐藏单位提示   hide label
+                .setDividerColor(Color.DKGRAY)
+                .setContentTextSize(18)
+                .setRangDate(today.toGregorianCalendar(), today.plusYears(50).toGregorianCalendar())
+                .setDecorView(repeat_time_picker_fragment)//非dialog模式下,设置ViewGroup, pickerView将会添加到这个ViewGroup中
+                .setLineSpacingMultiplier((float) 2)
+                .setOutSideCancelable(false)
+                .build();
+        pickerView.show(stop_at, false);
+        ((RadioGroup) dialog.findViewById(R.id.rg_selection_repeat_type)).setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.rb_repeat_day:
+                    how_to_repeat.setText("每天");
+                    selectDateRepeatType = 0;
+                    break;
+                case R.id.rb_repeat_week:
+                    selectDateRepeatType = 1;
+                    how_to_repeat.setText("每周");
+                    break;
+                case R.id.rb_repeat_month:
+                    selectDateRepeatType = 2;
+                    how_to_repeat.setText("每月");
+                    break;
+                case R.id.rb_repeat_year:
+                    how_to_repeat.setText("每年");
+                    selectDateRepeatType = 3;
+                    break;
+            }
+        });
+        calendarView = dialog.findViewById(R.id.view_keyboard_calendar);
+        calendarView.setCalendarOrientation(OrientationHelper.HORIZONTAL);
+        ((RadioGroup) dialog.findViewById(R.id.rg_selection_type)).setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.rb_single:
+                    repeat_card.setVisibility(View.GONE);
+                    calendarView.setVisibility(View.VISIBLE);
+                    calendarView.setSelectionType(SelectionType.SINGLE);
+                    selectDateMoreType = 0;
+                    break;
+                case R.id.rb_multiple:
+                    repeat_card.setVisibility(View.GONE);
+                    calendarView.setVisibility(View.VISIBLE);
+                    calendarView.setSelectionType(SelectionType.MULTIPLE);
+                    selectDateMoreType = 1;
+                    break;
+                case R.id.rb_range:
+                    repeat_card.setVisibility(View.GONE);
+                    calendarView.setVisibility(View.VISIBLE);
+                    calendarView.setSelectionType(SelectionType.RANGE);
+                    selectDateMoreType = 2;
+                    break;
+                case R.id.rb_repeat:
+                    repeat_card.setVisibility(View.VISIBLE);
+                    calendarView.setVisibility(View.GONE);
+                    selectDateMoreType = 3;
+                    break;
+            }
+        });
+        //</editor-fold desc="dialog view">
+
+        dialog_add_task_tv_date.postDelayed(()->dialog_add_task_tv_date.setText(startDateTime.toString("MM:dd")), 50);
         // 设置GridView的adapter。GridView继承于AbsListView。
         dialog_add_task_select_gv_date.setAdapter(saImageItems);
-        dialog_add_task_select_gv_date.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // 根据元素位置获取对应的值
-                HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
-
-                String itemText=(String)item.get(TEXT_ITEM);
-                Object object=item.get(IMAGE_ITEM);
-                ToastUtil.i("You Select "+itemText);
-                dialog_add_task_tv_date.setText(itemText);
-                Date date = new Date();
-                switch (position) {
-                    case 0:
-                        start_month = end_month = date.getMonth();
-                        start_day = end_day = date.getDate();
-                        break;
-                    case 1:
-                        date = new Date(date.getTime() + Constants.DAY_MILLI_SECONDS);
-                        start_month = end_month = date.getMonth();
-                        start_day = end_day = date.getDate();
-                        break;
-                    case 2:
-                        date = new Date(date.getTime() + 2 * Constants.DAY_MILLI_SECONDS);
-                        start_month = end_month = date.getMonth();
-                        start_day = end_day = date.getDate();
-                        break;
-                    case 3:
-                        date = new Date(date.getTime() + 7 * Constants.DAY_MILLI_SECONDS);
-                        start_month = end_month = date.getMonth();
-                        start_day = end_day = date.getDate();
-                        break;
-                    case 4:
-                        date = new Date(date.getTime() + Constants.DAY_MILLI_SECONDS);
-                        start_month = end_month = date.getMonth();
-                        start_day = end_day = date.getDate();
-                        break;
-                    case 5:
-                        start_month = end_month = date.getMonth();
-                        start_day = end_day = date.getDate();
-                        break;
-                }
+        dialog_add_task_select_gv_date.setOnItemClickListener((parent, view, position, id) -> {
+            // 根据元素位置获取对应的值
+            HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
+            String itemText=(String)item.get(TEXT_ITEM);
+            if (position < arrText.length - 1) dialog_add_task_tv_date.setText(itemText);
+            DateTime date = new DateTime();
+            switch (position) {
+                case 0:/*今天*/ break;
+                case 1:/*明天*/ date = date.plusDays(1); break;
+                case 2:/*后天*/ date = date.plusDays(2); break;
+                case 3:/*下一周*/ date = date.plusWeeks(1); break;
+                case 4:/*下个月*/ date = date.plusMonths(1); break;
+                case 5:/*其他*/
+                    MaterialDialog.OnDismissListener dismissListener = dialogToDismiss -> {
+                        switch (selectDateMoreType) {
+                            case 0://单日
+                            case 1://多日
+                            case 2://起止
+                                calendarList = calendarView.getSelectedDates();
+                                break;
+                            case 3://重复
+                                List<Calendar> calendarList1 = new ArrayList<>();
+                                switch (selectDateRepeatType) {
+                                    case 0:
+                                        //计算区间天数
+                                        Period pDays = new Period(today, repeatBound, PeriodType.days());
+                                        for (int i=0; i<pDays.getDays(); i++) {
+                                            calendarList1.add(today.plusDays(i).toCalendar(Locale.CHINA));
+                                        }
+                                        break;
+                                    case 1:
+                                        //每星期
+                                        Period pWeeks = new Period(today, repeatBound, PeriodType.weeks());
+                                        for (int i=0; i<pWeeks.getWeeks(); i++) {
+                                            calendarList1.add(today.plusWeeks(i).toCalendar(Locale.CHINA));
+                                        }
+                                        break;
+                                    case 2:
+                                        //每月
+                                        Period pMonths = new Period(today, repeatBound, PeriodType.months());
+                                        for (int i=0; i<pMonths.getMonths(); i++) {
+                                            calendarList1.add(today.plusMonths(i).toCalendar(Locale.CHINA));
+                                        }
+                                        break;
+                                    case 3:
+                                        //每年
+                                        Period pYears = new Period(today, repeatBound, PeriodType.years());
+                                        for (int i=0; i<pYears.getYears(); i++) {
+                                            calendarList1.add(today.plusYears(i).toCalendar(Locale.CHINA));
+                                        }
+                                        break;
+                                }
+                                calendarList = calendarList1;
+                                break;
+                        }
+                    };
+                    new MaterialDialog.Builder(InfoOperationActivity.this)
+                            .customView(dialog, false)
+                            .dismissListener(dismissListener).show();
+                    break;
             }
+            startDateTime = startDateTime.withYear(date.getYear())
+                    .withMonthOfYear(date.getMonthOfYear())
+                    .withDayOfMonth(date.getDayOfMonth());
+            endDateTime = endDateTime.withYear(date.getYear())
+                    .withMonthOfYear(date.getMonthOfYear())
+                    .withDayOfMonth(date.getDayOfMonth());
         });
     }
 
@@ -428,97 +548,87 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
      * 设置time选择面板
      */
     private void setSelectTimePanel() {
+        DateTime dateTime = new DateTime();
         //时间选择器
-        pvTime = new TimePickerView.Builder(getActivity(), new TimePickerView.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {
-                //选中事件回调
-                // 这里回调过来的v,就是show()方法里面所添加的 View 参数，如果show的时候没有添加参数，v则为null
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                TextView tv = (TextView) v;
-                tv.setText(format.format(date));
+        pvTime = new TimePickerBuilder(this, (date, v) -> {
+            //选中事件回调
+            // 这里回调过来的v,就是show()方法里面所添加的 View 参数，如果show的时候没有添加参数，v则为null
+            ((TextView) v).setText(format.format(date));
+            if (is_setting_start_time) {
+                startDateTime = startDateTime.withHourOfDay(date.getHours()).withMinuteOfHour(date.getMinutes());
+            } else if (is_setting_end_time) {
+                endDateTime = endDateTime.withHourOfDay(date.getHours()).withMinuteOfHour(date.getMinutes());
             }
         })
-                .setLayoutRes(R.layout.view_keyboard_time_pickerview, new CustomListener() {
-                    @Override
-                    public void customLayout(View v) {
-                        WheelView hour = v.findViewById(R.id.hour);
-                        WheelView min = v.findViewById(R.id.min);
-                        hour.setOnItemSelectedListener(new OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(int index) {
-                                is_all_day = false;
-                                pvTime.returnData();
-                                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
-                                if (is_setting_start_time) {
-                                    start_hour = index;
-                                } else if (is_setting_end_time) {
-                                    end_hour = index;
-                                }
-                            }
-                        });
-                        min.setOnItemSelectedListener(new OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(int index) {
-                                is_all_day = false;
-                                pvTime.returnData();
-                                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
-                                if (is_setting_start_time) {
-                                    start_min = index;
-                                } else if (is_setting_end_time) {
-                                    end_min = index;
-                                }
-                            }
-                        });
-                    }
+                .setLayoutRes(R.layout.view_keyboard_time_pickerview, v -> {
+                    WheelView hour = v.findViewById(R.id.hour);
+                    WheelView min = v.findViewById(R.id.min);
+                    hour.setOnItemSelectedListener(index -> {
+                        is_all_day = false;
+                        pvTime.returnData();
+                        dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+                        if (is_setting_start_time) {
+                            startDateTime = startDateTime.withHourOfDay(index);
+                        } else if (is_setting_end_time) {
+                            endDateTime = endDateTime.withHourOfDay(index);
+                        }
+                    });
+                    min.setOnItemSelectedListener(index -> {
+                        is_all_day = false;
+                        pvTime.returnData();
+                        dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+                        if (is_setting_start_time) {
+                            startDateTime = startDateTime.withMinuteOfHour(index);
+                        } else if (is_setting_end_time) {
+                            endDateTime = endDateTime.withMinuteOfHour(index);
+                        }
+                    });
                 })
                 .setType(new boolean[]{false, false, false, true, true, false})
+                .setTimeSelectChangeListener(date -> {
+                    pvTime.returnData();
+
+                    if (is_setting_start_time) {
+                        startDateTime = startDateTime.withHourOfDay(date.getHours()).withMinuteOfHour(date.getMinutes());
+                    } else if (is_setting_end_time) {
+                        endDateTime = endDateTime.withHourOfDay(date.getHours()).withMinuteOfHour(date.getMinutes());
+                    }
+                })
                 .setLabel("", "", "", "", "", "") //设置空字符串以隐藏单位提示   hide label
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(24)
+                .setContentTextSize(24)
                 .isDialog(false)
+                .setOutSideCancelable(false)
                 .setDecorView(time_picker_fragment)//非dialog模式下,设置ViewGroup, pickerView将会添加到这个ViewGroup中
-                .setBackgroundId(0x00000000)
                 .isCyclic(true)
                 .setLineSpacingMultiplier((float) 1.2)
-                .setTextXOffset(0, 0, 0, 0, 0, 0)
-                .setOutSideCancelable(false)
                 .build();
         pvTime.show(select_tv_start_time, false);
-        select_ll_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                is_all_day = false;
-                select_tv_start.setTextColor(getResources().getColor(R.color.blue));
-                select_tv_start_time.setTextColor(getResources().getColor(R.color.black));
-                select_tv_end.setTextColor(Color.parseColor("#3e000000"));
-                select_tv_end_time.setTextColor(Color.parseColor("#3e000000"));
-                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
-                pvTime.show(select_tv_start_time, false);
-                is_setting_start_time = true;
-                is_setting_end_time = false;
-            }
+        select_ll_start.setOnClickListener(v -> {
+            is_all_day = false;
+            select_tv_start.setTextColor(getResources().getColor(R.color.blue));
+            select_tv_start_time.setTextColor(getResources().getColor(R.color.black));
+            select_tv_end.setTextColor(Color.parseColor("#3e000000"));
+            select_tv_end_time.setTextColor(Color.parseColor("#3e000000"));
+            dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+            pvTime.show(select_tv_start_time, false);
+            is_setting_start_time = true;
+            is_setting_end_time = false;
         });
-        select_ll_end.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                is_all_day = false;
-                select_tv_start.setTextColor(Color.parseColor("#3e000000"));
-                select_tv_start_time.setTextColor(Color.parseColor("#3e000000"));
-                select_tv_end.setTextColor(getResources().getColor(R.color.blue));
-                select_tv_end_time.setTextColor(getResources().getColor(R.color.black));
-                dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
-                pvTime.show(select_tv_end_time, false);
-                is_setting_start_time = false;
-                is_setting_end_time = true;
-            }
+        select_ll_end.setOnClickListener(v -> {
+            is_all_day = false;
+            select_tv_start.setTextColor(Color.parseColor("#3e000000"));
+            select_tv_start_time.setTextColor(Color.parseColor("#3e000000"));
+            select_tv_end.setTextColor(getResources().getColor(R.color.blue));
+            select_tv_end_time.setTextColor(getResources().getColor(R.color.black));
+            dialog_add_task_tv_time.setText(select_tv_start_time.getText() + "-" + select_tv_end_time.getText());
+            pvTime.show(select_tv_end_time, false);
+            is_setting_start_time = false;
+            is_setting_end_time = true;
         });
-        select_tv_all_day.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                is_all_day = true;
-                dialog_add_task_tv_time.setText("全天");
-            }
+        select_tv_all_day.setOnClickListener(v -> {
+            is_all_day = true;
+            dialog_add_task_tv_time.setText("全天");
         });
 
     }
@@ -563,49 +673,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
             Object object=item.get(IMAGE_ITEM);
             ToastUtil.i("You Select "+itemText);
             dialog_add_task_tv_remind.setText(itemText);
-        });
-    }
-
-    /**
-     * 设置 提醒 选择面板
-     */
-    private void setSelectRepeatPanel() {
-        String IMAGE_ITEM = "image_item";
-        String TEXT_ITEM = "text_item";
-        String[] arrText = new String[]{
-                "不重复", "每周", "每月",
-                "开始前10分钟", "开始前15分钟", "开始前30分钟",
-                "开始前40分钟", "开始前60分钟", "其他"
-        };
-        int[] arrImages=new int[]{
-                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
-                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp,
-                R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp, R.drawable.ic_alarm_black_48dp
-        };
-        List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-
-        for (int i=0; i<9; i++) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put(IMAGE_ITEM, arrImages[i]);
-            map.put(TEXT_ITEM, arrText[i]);
-            list.add(map);
-        }
-
-        SimpleAdapter saImageItems = new SimpleAdapter(this,
-                list,
-                R.layout.view_keyboard_date_item,
-                new String[] { IMAGE_ITEM, TEXT_ITEM },
-                new int[] { R.id.dialog_add_task_select_iv, R.id.dialog_add_task_select_tv });
-        // 设置GridView的adapter。GridView继承于AbsListView。
-        dialog_add_task_select_gv_repeat.setAdapter(saImageItems);
-        dialog_add_task_select_gv_repeat.setOnItemClickListener((parent, view, position, id) -> {
-            // 根据元素位置获取对应的值
-            HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
-
-            String itemText=(String)item.get(TEXT_ITEM);
-            Object object=item.get(IMAGE_ITEM);
-            ToastUtil.i("You Select "+itemText);
-            dialog_add_task_tv_repeat.setText(itemText);
         });
     }
 
@@ -702,7 +769,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                 .addKeyboard(dialog_add_task_tv_date, dialog_add_task_select_gv_date)
                 .addKeyboard(dialog_add_task_tv_time, dialog_add_task_select_ll_time)
                 .addKeyboard(dialog_add_task_tv_remind, dialog_add_task_select_gv_remind)
-                .addKeyboard(dialog_add_task_tv_repeat, dialog_add_task_select_gv_repeat)
                 .addKeyboard(dialog_add_task_tv_tag, dialog_add_task_select_ll_tag)
                 .create();
     }
@@ -713,31 +779,21 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
     DBTask task_toUpdate;
     DBNote note_toUpdate;
     DBRoutine routine_toUpdate;
+    DBSubPlan subPlan_toAttach;
     int important_urgent_label;
     private String title;
     private String content;
     //用户是否编辑了title，编辑即视为有自定义的需求，取用户自定义的title，不再同步content里的到title
     boolean isSelfEdit = false;
     boolean is_all_day = true;
-    int start_month;
-    int start_day;
-    int end_month;
-    int end_day;
-    int start_hour;
-    int start_min;
-    int end_hour;
-    int end_min;
+    DateTime startDateTime;
+    DateTime endDateTime;
     boolean is_setting_start_time;
     boolean is_setting_end_time;
-    String[] text_color_set = new String[]{
-            "#f44336", "#ff9800", "#2196f3", "#4caf50"
-    };
-    String[] background_color_set = new String[]{
-            "#50f44336", "#50ff9800", "#502196f3", "#504caf50"
-    };
-    String[] label_str_set = new String[] {
-            "重要且紧急", "重要不紧急", "紧急不重要", "不重要不紧急",
-    };
+    int repeat;
+    String[] text_color_set = new String[]{"#f44336", "#ff9800", "#2196f3", "#4caf50"};
+    String[] background_color_set = new String[]{"#50f44336", "#50ff9800", "#502196f3", "#504caf50"};
+    String[] label_str_set = new String[] {"重要且紧急", "重要不紧急", "紧急不重要", "不重要不紧急",};
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -745,23 +801,22 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         task_toUpdate = (DBTask) getIntent().getSerializableExtra(TO_UPDATE_TASK);
         note_toUpdate = (DBNote) getIntent().getSerializableExtra(TO_UPDATE_NOTE);
         routine_toUpdate = (DBRoutine) getIntent().getSerializableExtra(TO_UPDATE_ROUTINE);
+        subPlan_toAttach = (DBSubPlan) getIntent().getSerializableExtra(TO_ATTACH_SUBPLAN);
 
         important_urgent_label = 0;
         title = null;
         content = null;
-        Date date = new Date();
-        start_hour = date.getHours();
-        start_min = date.getMinutes();
-        end_hour = start_hour;
-        end_min = start_min;
-        start_month = end_month = date.getMonth();
-        start_day = end_day = date.getDate();
-        is_setting_start_time = false;
+        startDateTime = new DateTime();
+        endDateTime = new DateTime();
+        is_setting_start_time = true;
         is_setting_end_time = false;
+        repeat = 0;
         type = Type.NOTE;
         initTextString();
         if (task_toUpdate != null) {
             refreshViewByTask(task_toUpdate);
+        } else if (subPlan_toAttach != null) {
+            refreshViewByAttach(subPlan_toAttach);
         }
         if (note_toUpdate != null) {
             refreshViewByNote(note_toUpdate);
@@ -769,8 +824,8 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         if (routine_toUpdate != null) {
             refreshViewByRoutine(routine_toUpdate);
         }
-        select_tv_start_time.setText((start_hour<10?"0"+start_hour:start_hour) + ":" + (start_min<10?"0"+start_min:start_min));
-        select_tv_end_time.setText((end_hour<10?"0"+end_hour:end_hour) + ":" + (end_min<10?"0"+end_min:end_min));
+        select_tv_start_time.setText(startDateTime.toString("HH:mm"));
+        select_tv_end_time.setText(endDateTime.toString("HH:mm"));
     }
 
     private void initTextString() {
@@ -820,35 +875,20 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
             Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
             Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
             if (begin_datetime!=null&&end_datetime!=null) {
-                start_month = begin_datetime.getMonth();
-                start_day = begin_datetime.getDate();
-                start_hour = begin_datetime.getHours();
-                start_min=begin_datetime.getMinutes();
-                end_month = end_datetime.getMonth();
-                end_day = end_datetime.getDate();
-                end_hour= end_datetime.getHours();
-                end_min = end_datetime.getMinutes();
-                dialog_add_task_tv_time.setText(
-                        (start_hour<10?"0"+start_hour:start_hour) + ":" + (start_min<10?"0"+start_min:start_min)
-                                + "-" + (end_hour<10?"0"+end_hour:end_hour) + ":" + (end_min<10?"0"+end_min:end_min)
-                );
+                startDateTime = new DateTime(begin_datetime);
+                endDateTime = new DateTime(end_datetime);
+                dialog_add_task_tv_time.setText(startDateTime.toString("HH:mm") +"-"+ endDateTime.toString("HH:mm"));
             }
         } else {
             dialog_add_task_tv_time.setText("全天");
         }
         type = Type.TASK;
-        dialog_add_task_type_task.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dialog_add_task_type_task.callOnClick();
-            }
-        }, 500);
+        dialog_add_task_type_task.postDelayed(() -> dialog_add_task_type_task.callOnClick(), 500);
         dialog_add_task_et_title.setText(title);
         dialog_add_task_et_content.setText(content);
         dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
         dialog_add_task_tv_date.setVisibility(View.VISIBLE);
         dialog_add_task_tv_time.setVisibility(View.VISIBLE);
-        dialog_add_task_tv_repeat.setVisibility(View.GONE);
         dialog_add_task_tv_remind.setVisibility(View.GONE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
@@ -869,12 +909,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         content = note.getContent();
 
         type = Type.NOTE;
-        dialog_add_task_type_note.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dialog_add_task_type_note.callOnClick();
-            }
-        }, 500);
+        dialog_add_task_type_note.postDelayed(() -> dialog_add_task_type_note.callOnClick(), 500);
         dialog_add_task_et_title.setText(title);
         dialog_add_task_et_content.setText(content);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
@@ -898,36 +933,22 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
             Date begin_datetime = TimeUtil.formatGMTDateStr(dbRoutine.getBegin_datetime());
             Date end_datetime = TimeUtil.formatGMTDateStr(dbRoutine.getEnd_datetime());
             if (begin_datetime!=null&&end_datetime!=null) {
-                start_month = begin_datetime.getMonth();
-                start_day = begin_datetime.getDate();
-                start_hour = begin_datetime.getHours();
-                start_min=begin_datetime.getMinutes();
-                end_month = end_datetime.getMonth();
-                end_day = end_datetime.getDate();
-                end_hour= end_datetime.getHours();
-                end_min = end_datetime.getMinutes();
-                dialog_add_task_tv_time.setText(
-                        (start_hour<10?"0"+start_hour:start_hour) + ":" + (start_min<10?"0"+start_min:start_min)
-                                + "-" + (end_hour<10?"0"+end_hour:end_hour) + ":" + (end_min<10?"0"+end_min:end_min)
-                );
+                startDateTime = new DateTime(begin_datetime);
+                endDateTime = new DateTime(end_datetime);
+                dialog_add_task_tv_time.setText(startDateTime.toString("HH:mm") +"-"+ endDateTime.toString("HH:mm"));
             }
         } else {
             dialog_add_task_tv_time.setText("全天");
         }
-        type = Type.TASK;
-        dialog_add_task_type_task.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dialog_add_task_type_task.callOnClick();
-            }
-        }, 500);
+        repeat = dbRoutine.getRepeatInterval();
+        type = Type.CLOCK;
+        dialog_add_task_type_clock.postDelayed(() -> dialog_add_task_type_clock.callOnClick(), 500);
         dialog_add_task_et_title.setText(title);
         dialog_add_task_et_content.setText(content);
         dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
         dialog_add_task_tv_date.setVisibility(View.VISIBLE);
         dialog_add_task_tv_time.setVisibility(View.VISIBLE);
         dialog_add_task_tv_remind.setVisibility(View.GONE);
-        dialog_add_task_tv_repeat.setVisibility(View.VISIBLE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         dialog_add_task_type_note.setTextColor(Color.parseColor("#3e000000"));
         dialog_add_task_type_task.setTextColor(Color.parseColor("#ee03a9f4"));
@@ -940,7 +961,20 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         dialog_add_task_tv_important_urgent.setBackgroundColor(Color.parseColor(background_color_set[dbRoutine.getLabel()]));
         dialog_add_task_footer_bt_submit.setText("修改");
     }
-    //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">----------------------------------------
+
+    private void refreshViewByAttach(DBSubPlan dbSubPlan) {
+        dialog_add_task_type_task.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog_add_task_type_task.callOnClick();
+            }
+        }, 500);
+        DateTime date = new DateTime();
+        date = date.plusYears(50);
+        startDateTime = startDateTime.withYear(date.getYear());
+        endDateTime = endDateTime.withYear(date.getYear());
+    }
+    //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">
 
 
     //<editor-fold desc="Event事件区--只要存在事件监听代码就是">----------------------------------------------------------
@@ -994,7 +1028,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
 
     //-//< TagFragment.OnTagAddListener>------------------------------------------------------------
     @Override
-    public void addTag(Tag tag) {
+    public void insertTag(Tag tag) {
         dialog_add_task_et_content.insertTopic(tag.getName());
     }
     //-//</ TagFragment.OnTagAddListener>-----------------------------------------------------------
@@ -1011,12 +1045,12 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.to_editor:
-                Intent intent2MainActivity = new Intent();
+                Intent intent2EditorActivity = new Intent();
                 Bundle args = new Bundle();
                 args.putBoolean(Constants.BUNDLE_KEY_FROM_FILE, false);
-                intent2MainActivity.putExtras(args);
-                intent2MainActivity.setClass(this, EditorActivity.class);
-                startActivity(intent2MainActivity);
+                intent2EditorActivity.putExtras(args);
+                intent2EditorActivity.setClass(this, EditorActivity.class);
+                startActivity(intent2EditorActivity);
                 break;
             case R.id.dialog_add_task_type_note:
                 onSelectTypeNote();
@@ -1085,7 +1119,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         dialog_add_task_tv_date.setVisibility(View.GONE);
         dialog_add_task_tv_time.setVisibility(View.GONE);
         dialog_add_task_tv_remind.setVisibility(View.GONE);
-        dialog_add_task_tv_repeat.setVisibility(View.GONE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         type = Type.NOTE;
         dialog_add_task_type_note.setTextColor(Color.parseColor("#ee03a9f4"));
@@ -1109,7 +1142,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
         dialog_add_task_tv_date.setVisibility(View.VISIBLE);
         dialog_add_task_tv_time.setVisibility(View.VISIBLE);
-        dialog_add_task_tv_repeat.setVisibility(View.GONE);
         dialog_add_task_tv_remind.setVisibility(View.GONE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         type = Type.TASK;
@@ -1134,7 +1166,6 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         dialog_add_task_tv_important_urgent.setVisibility(View.VISIBLE);
         dialog_add_task_tv_date.setVisibility(View.VISIBLE);
         dialog_add_task_tv_time.setVisibility(View.VISIBLE);
-        dialog_add_task_tv_repeat.setVisibility(View.VISIBLE);
         dialog_add_task_tv_remind.setVisibility(View.VISIBLE);
         dialog_add_task_tv_tag.setVisibility(View.VISIBLE);
         type = Type.CLOCK;
@@ -1237,6 +1268,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
     }
 
     private void onUpdateTask() {
+
         task_toUpdate.setTitle(title);
         task_toUpdate.setContent(content);
         task_toUpdate.setLabel(important_urgent_label);
@@ -1246,25 +1278,61 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         task_toUpdate.setTags(tags);
         task_toUpdate.setIs_all_day(is_all_day);
 
-        Date d = new Date();
-        d.setMonth(start_month);
-        d.setDate(start_day);
-        task_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(d));
-        d.setMonth(end_month);
-        d.setDate(end_day);
-        task_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(d));
+        task_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(startDateTime.toDate()));
+        task_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(endDateTime.toDate()));
 
-        if (!is_all_day) {
-            d.setHours(start_hour);
-            d.setMinutes(start_min);
-            task_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(d));
-            d.setHours(end_hour);
-            d.setMinutes(end_min);
-            task_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(d));
-        }
-        DB.schedules().safeSaveDBTaskAndFireEvent(task_toUpdate);
+        if (subPlan_toAttach != null) task_toUpdate.setSubplan(subPlan_toAttach);
+        task_toUpdate.setUser(DB.users().getActive());
 
-//        LogUtil.e("updateAndFireEvent --> " + task_toUpdate);
+
+        //使用Observable.create()创建被观察者
+        Observable<Calendar> observable1 = Observable.create(subscriber -> {
+            if (calendarList == null || calendarList.size() <= 0) {
+                DB.schedules().safeSaveDBTaskAndFireEvent(task_toUpdate);
+                return;
+            }
+
+            for (Calendar calendar : calendarList) {
+                subscriber.onNext(calendar);
+            }
+            subscriber.onCompleted();
+        });
+        //订阅
+        observable1.onBackpressureBuffer(1000)
+                .subscribeOn(Schedulers.newThread())//指定 subscribe() 发生在新的线程
+                .observeOn(Schedulers.io())// 指定 Subscriber 的回调发生在主线程
+                .subscribe(new Subscriber<Calendar>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Calendar s) {
+                        //请求成功
+                        task_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(
+                                startDateTime.withYear(s.get(Calendar.YEAR))
+                                        .withMonthOfYear(s.get(Calendar.MONTH)+1)
+                                        .withDayOfMonth(s.get(Calendar.DAY_OF_MONTH)).toDate()
+                        ));
+                        task_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(
+                                endDateTime.withYear(s.get(Calendar.YEAR))
+                                        .withMonthOfYear(s.get(Calendar.MONTH)+1)
+                                        .withDayOfMonth(s.get(Calendar.DAY_OF_MONTH)).toDate()
+                        ));
+                        DB.schedules().safeSaveDBTaskAndFireEvent(task_toUpdate);
+                        //避免更新而不创建
+                        task_toUpdate.setCreated_datetime(TimeUtil.formatGMTDate(new DateTime().toDate()));
+                        task_toUpdate.setId(-1L);
+
+                    }
+                });
+
+//        DB.schedules().safeSaveDBTaskAndFireEvent(task_toUpdate);
+
         if (task_toUpdate.getUrl() == null) {
             // 离线创建的task是没有url的，这里要在服务器端新建一个一摸一样的，然后把url传过来
             RetrofitHelper.getTaskService().createTask(Converter.toTask(task_toUpdate)) //获取Observable对象
@@ -1297,7 +1365,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                         public void onNext(Task note) {
                             //请求成功
 //                            ToastUtil.show("云端没有该任务，成功补充添加[ 任务 ]:" + content);
-//                            LogUtil.e("云端没有该任务，成功补充添加[ 任务 ]:" + note.toString());
+//                            LogUtil.e("云端没有该任务，成功补充添加[ 任务 ]:" + dbPlan.toString());
                         }
                     });
         } else {
@@ -1355,27 +1423,61 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         dbTask.setTags(tags);
         dbTask.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
 
-        Date d = new Date();
-        d.setMonth(start_month);
-        d.setDate(start_day);
-        dbTask.setBegin_datetime(TimeUtil.formatGMTDate(d));
-        d.setMonth(end_month);
-        d.setDate(end_day);
-        dbTask.setEnd_datetime(TimeUtil.formatGMTDate(d));
-
         dbTask.setIs_all_day(is_all_day);
-        if (!is_all_day) {
-            d.setHours(start_hour);
-            d.setMinutes(start_min);
-            dbTask.setBegin_datetime(TimeUtil.formatGMTDate(d));
-            d.setHours(end_hour);
-            d.setMinutes(end_min);
-            dbTask.setEnd_datetime(TimeUtil.formatGMTDate(d));
-        } else {
-            dbTask.setBegin_datetime(TimeUtil.formatGMTDate(new Date()));
-            dbTask.setEnd_datetime(TimeUtil.formatGMTDate(new Date()));
-        }
-        DB.schedules().safeSaveDBTaskAndFireEvent(dbTask);
+        dbTask.setBegin_datetime(TimeUtil.formatGMTDate(startDateTime.toDate()));
+        dbTask.setEnd_datetime(TimeUtil.formatGMTDate(endDateTime.toDate()));
+
+        dbTask.setUser(activeUser);
+        DBSubPlan dbSubPlan = (DBSubPlan) getIntent().getSerializableExtra(TO_ATTACH_SUBPLAN);
+        if (dbSubPlan != null) dbTask.setSubplan(dbSubPlan);
+
+
+        //使用Observable.create()创建被观察者
+        Observable<Calendar> observable1 = Observable.create(subscriber -> {
+            if (calendarList == null || calendarList.size() <= 0) {
+                DB.schedules().safeSaveDBTaskAndFireEvent(dbTask);
+                return;
+            }
+
+            for (Calendar calendar : calendarList) {
+                subscriber.onNext(calendar);
+            }
+            subscriber.onCompleted();
+        });
+        //订阅
+        observable1.onBackpressureBuffer(1000)
+                .subscribeOn(Schedulers.newThread())//指定 subscribe() 发生在新的线程
+                .observeOn(Schedulers.io())// 指定 Subscriber 的回调发生在主线程
+                .subscribe(new Subscriber<Calendar>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Calendar s) {
+                        //请求成功
+                        dbTask.setBegin_datetime(TimeUtil.formatGMTDate(
+                                startDateTime.withYear(s.get(Calendar.YEAR))
+                                        .withMonthOfYear(s.get(Calendar.MONTH)+1)
+                                        .withDayOfMonth(s.get(Calendar.DAY_OF_MONTH)).toDate()
+                        ));
+                        dbTask.setEnd_datetime(TimeUtil.formatGMTDate(
+                                endDateTime.withYear(s.get(Calendar.YEAR))
+                                        .withMonthOfYear(s.get(Calendar.MONTH)+1)
+                                        .withDayOfMonth(s.get(Calendar.DAY_OF_MONTH)).toDate()
+                        ));
+                        //避免更新而不创建
+                        dbTask.setCreated_datetime(TimeUtil.formatGMTDate(new DateTime().toDate()));
+                        dbTask.setId(-1L);
+                        DB.schedules().safeSaveDBTaskAndFireEvent(dbTask);
+
+                    }
+                });
+
 
         RetrofitHelper.getTaskService().createTask(Converter.toTask(dbTask)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -1422,9 +1524,10 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         ArrayList<String> tags = new ArrayList<>();
         tags.add("http://192.168.88.105:8000/tags/1/");
         tags.add("http://192.168.88.105:8000/tags/2/");
-//        note.setTags(tags);
+//        dbPlan.setTags(tags);
         note_toUpdate.setUpdate_datetime(TimeUtil.formatGMTDate(new Date()));
         DB.notes().updateAndFireEvent(note_toUpdate);
+        note_toUpdate.setUser(DB.users().getActive());
 
         if (note_toUpdate.getUrl() == null) {
             RetrofitHelper.getNoteService().createNote(Converter.toNote(note_toUpdate)) //获取Observable对象
@@ -1457,7 +1560,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                         public void onNext(Note note) {
                             //请求成功
 //                            ToastUtil.show("云端没有该笔记，成功补充添加[ 笔记 ]:" + content);
-//                            LogUtil.e("云端没有该笔记，成功补充添加[ 笔记 ]:" + note.toString());
+//                            LogUtil.e("云端没有该笔记，成功补充添加[ 笔记 ]:" + dbPlan.toString());
                         }
                     });
         } else {
@@ -1469,7 +1572,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                         public void call(Note note) {
                             // 将笔记的url保存下来
                             DB.notes().safeSaveNoteAndFireEvent(note);
-//                            LogUtil.e("保存任务信息到本地" + note.toString());
+//                            LogUtil.e("保存任务信息到本地" + dbPlan.toString());
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1490,7 +1593,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                         public void onNext(Note note) {
                             //请求成功
 //                            ToastUtil.show("成功更新[ 笔记 ]:" + content);
-//                            LogUtil.e("请求成功,成功更新[ 笔记 ]:" + note.toString());
+//                            LogUtil.e("请求成功,成功更新[ 笔记 ]:" + dbPlan.toString());
                         }
                     });
         }
@@ -1519,10 +1622,8 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         Random random = new Random();
         int randomColor = random.nextInt(CardStackViewDataList.size());
         dbNote.setColor(CardStackViewDataList.get(randomColor));
-//        note.setTags(tags);
+        dbNote.setUser(activeUser);
         DB.notes().saveAndFireEvent(dbNote);
-//        LogUtil.e("saveAndFireEvent() --> " + dbNote.toString());
-//        LogUtil.e("DB.notes() --> " + DB.notes().findAll().toString());
 
         RetrofitHelper.getNoteService().createNote(Converter.toNote(dbNote)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -1532,7 +1633,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                     public void call(Note note) {
                         dbNote.setUrl(note.getUrl());
                         DB.notes().safeSaveDBNoteAndFireEvent(dbNote);
-//                        LogUtil.e("保存任务信息到本地 safeSaveNote -->" + note.toString());
+//                        LogUtil.e("保存任务信息到本地 safeSaveNote -->" + dbPlan.toString());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
@@ -1553,7 +1654,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                     public void onNext(Note note) {
                         //请求成功
 //                        ToastUtil.show("成功添加[ 笔记 ]:" + content);
-//                        LogUtil.e("请求成功" + note.toString());
+//                        LogUtil.e("请求成功" + dbPlan.toString());
                     }
                 });
         ToastUtil.ok("成功添加[ 笔记 ]:" + content);
@@ -1568,27 +1669,60 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         tags.add("http://192.168.88.105:8000/tags/1/");
         tags.add("http://192.168.88.105:8000/tags/2/");
         routine_toUpdate.setTags(tags);
+
+        routine_toUpdate.setRepeatInterval(repeat);
         routine_toUpdate.setIs_all_day(is_all_day);
+        routine_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(startDateTime.toDate()));
+        routine_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(endDateTime.toDate()));
+        routine_toUpdate.setUser(DB.users().getActive());
 
-        Date d = new Date();
-        d.setMonth(start_month);
-        d.setDate(start_day);
-        routine_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(d));
-        d.setMonth(end_month);
-        d.setDate(end_day);
-        routine_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(d));
+        //使用Observable.create()创建被观察者
+        Observable<Calendar> observable1 = Observable.create(subscriber -> {
+            if (calendarList == null || calendarList.size() <= 0) {
+                DB.routines().safeSaveDBRoutineAndFireEvent(routine_toUpdate);
+                return;
+            }
 
-        if (!is_all_day) {
-            d.setHours(start_hour);
-            d.setMinutes(start_min);
-            routine_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(d));
-            d.setHours(end_hour);
-            d.setMinutes(end_min);
-            routine_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(d));
-        }
-        DB.schedules().safeSaveDBTaskAndFireEvent(task_toUpdate);
+            for (Calendar calendar : calendarList) {
+                subscriber.onNext(calendar);
+            }
+            subscriber.onCompleted();
+        });
+        //订阅
+        observable1.onBackpressureBuffer(1000)
+                .subscribeOn(Schedulers.newThread())//指定 subscribe() 发生在新的线程
+                .observeOn(Schedulers.io())// 指定 Subscriber 的回调发生在主线程
+                .subscribe(new Subscriber<Calendar>() {
+                    @Override
+                    public void onCompleted() {}
 
-//        LogUtil.e("updateAndFireEvent --> " + task_toUpdate);
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Calendar s) {
+                        //请求成功
+                        routine_toUpdate.setBegin_datetime(TimeUtil.formatGMTDate(
+                                startDateTime.withYear(s.get(Calendar.YEAR))
+                                        .withMonthOfYear(s.get(Calendar.MONTH)+1)
+                                        .withDayOfMonth(s.get(Calendar.DAY_OF_MONTH)).toDate()
+                        ));
+                        routine_toUpdate.setEnd_datetime(TimeUtil.formatGMTDate(
+                                endDateTime.withYear(s.get(Calendar.YEAR))
+                                        .withMonthOfYear(s.get(Calendar.MONTH)+1)
+                                        .withDayOfMonth(s.get(Calendar.DAY_OF_MONTH)).toDate()
+                        ));
+                        DB.routines().safeSaveDBRoutineAndFireEvent(routine_toUpdate);
+                        //避免更新而不创建
+                        routine_toUpdate.setCreated_datetime(TimeUtil.formatGMTDate(new DateTime().toDate()));
+                        routine_toUpdate.setId(-1L);
+
+                    }
+                });
+
+
         if (routine_toUpdate.getUrl() == null) {
             // 离线创建的task是没有url的，这里要在服务器端新建一个一摸一样的，然后把url传过来
             RetrofitHelper.getRoutineService().createRoutine(Converter.toRoutine(routine_toUpdate)) //获取Observable对象
@@ -1621,7 +1755,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                         public void onNext(Routine note) {
                             //请求成功
 //                            ToastUtil.show("云端没有该任务，成功补充添加[ 任务 ]:" + content);
-//                            LogUtil.e("云端没有该任务，成功补充添加[ 任务 ]:" + note.toString());
+//                            LogUtil.e("云端没有该任务，成功补充添加[ 任务 ]:" + dbPlan.toString());
                         }
                     });
         } else {
@@ -1656,7 +1790,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
                         }
                     });
         }
-        ToastUtil.ok("成功更新[ 任务 ]:" + content);
+        ToastUtil.ok("成功更新[ 生物钟 ]:" + content);
         finish();
     }
 
@@ -1674,27 +1808,58 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
         dbRoutine.setTags(tags);
         dbRoutine.setCreated_datetime(TimeUtil.formatGMTDate(new Date()));
 
-        Date d = new Date();
-        d.setMonth(start_month);
-        d.setDate(start_day);
-        dbRoutine.setBegin_datetime(TimeUtil.formatGMTDate(d));
-        d.setMonth(end_month);
-        d.setDate(end_day);
-        dbRoutine.setEnd_datetime(TimeUtil.formatGMTDate(d));
-
+        dbRoutine.setRepeatInterval(repeat);
         dbRoutine.setIs_all_day(is_all_day);
-        if (!is_all_day) {
-            d.setHours(start_hour);
-            d.setMinutes(start_min);
-            dbRoutine.setBegin_datetime(TimeUtil.formatGMTDate(d));
-            d.setHours(end_hour);
-            d.setMinutes(end_min);
-            dbRoutine.setEnd_datetime(TimeUtil.formatGMTDate(d));
-        } else {
-            dbRoutine.setBegin_datetime(TimeUtil.formatGMTDate(new Date()));
-            dbRoutine.setEnd_datetime(TimeUtil.formatGMTDate(new Date()));
-        }
-        DB.routines().safeSaveDBRoutineAndFireEvent(dbRoutine);
+        dbRoutine.setBegin_datetime(TimeUtil.formatGMTDate(startDateTime.toDate()));
+        dbRoutine.setEnd_datetime(TimeUtil.formatGMTDate(endDateTime.toDate()));
+
+        dbRoutine.setUser(activeUser);
+
+        //使用Observable.create()创建被观察者
+        Observable<Calendar> observable1 = Observable.create(subscriber -> {
+            if (calendarList == null || calendarList.size() <= 0) {
+                DB.routines().safeSaveDBRoutineAndFireEvent(dbRoutine);
+                return;
+            }
+
+            for (Calendar calendar : calendarList) {
+                subscriber.onNext(calendar);
+            }
+            subscriber.onCompleted();
+        });
+        //订阅
+        observable1.onBackpressureBuffer(1000)
+                .subscribeOn(Schedulers.newThread())//指定 subscribe() 发生在新的线程
+                .observeOn(Schedulers.io())// 指定 Subscriber 的回调发生在主线程
+                .subscribe(new Subscriber<Calendar>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Calendar s) {
+                        //请求成功
+                        dbRoutine.setBegin_datetime(TimeUtil.formatGMTDate(
+                                startDateTime.withYear(s.get(Calendar.YEAR))
+                                        .withMonthOfYear(s.get(Calendar.MONTH)+1)
+                                        .withDayOfMonth(s.get(Calendar.DAY_OF_MONTH)).toDate()
+                        ));
+                        dbRoutine.setEnd_datetime(TimeUtil.formatGMTDate(
+                                endDateTime.withYear(s.get(Calendar.YEAR))
+                                        .withMonthOfYear(s.get(Calendar.MONTH)+1)
+                                        .withDayOfMonth(s.get(Calendar.DAY_OF_MONTH)).toDate()
+                        ));
+                        DB.routines().safeSaveDBRoutineAndFireEvent(dbRoutine);
+                        //避免更新而不创建
+                        dbRoutine.setCreated_datetime(TimeUtil.formatGMTDate(new DateTime().toDate()));
+                        dbRoutine.setId(-1L);
+                    }
+                });
+
 
         RetrofitHelper.getRoutineService().createRoutine(Converter.toRoutine(dbRoutine)) //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行
@@ -1730,7 +1895,7 @@ public class InfoOperationActivity extends BaseActivity<InfoOperationMVP.View, I
 //                        LogUtil.e("成功添加[ 任务 ]: " + task.toString());
                     }
                 });
-        ToastUtil.ok("成功添加[ 任务 ]:" + content);
+        ToastUtil.ok("成功添加[ 生物钟 ]:" + content);
 
         finish();
     }

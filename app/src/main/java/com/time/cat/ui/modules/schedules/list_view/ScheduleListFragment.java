@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.notes.list_view;
+package com.time.cat.ui.modules.schedules.list_view;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,13 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.time.cat.R;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.model.DBmodel.DBNote;
-import com.time.cat.ui.adapter.NoteListAdapter;
+import com.time.cat.data.model.DBmodel.DBTask;
+import com.time.cat.ui.adapter.ScheduleListAdapter;
 import com.time.cat.ui.base.mvp.BaseLazyLoadFragment;
-import com.time.cat.ui.modules.notes.NotesFragment;
+import com.time.cat.ui.modules.schedules.SchedulesFragment;
 
 import java.util.List;
 
@@ -30,21 +33,39 @@ import butterknife.BindView;
  * @discription 列表视图
  * @usage null
  */
-public class NoteListFragment extends BaseLazyLoadFragment<NoteListMVP.View, NoteListPresenter> implements NotesFragment.OnScrollBoundaryDecider{
-    private List<DBNote> dataList;
-    @BindView(R.id.note_rv)
+public class ScheduleListFragment extends BaseLazyLoadFragment<ScheduleListMVP.View, ScheduleListPresenter>
+        implements SchedulesFragment.OnScrollBoundaryDecider{
+    private List<DBTask> dataList;
+    @BindView(R.id.task_rv)
     RecyclerView recyclerView;
+
     @BindView(R.id.empty_view)
     FrameLayout empty_view;
+    @BindView(R.id.empty_icon)
+    ImageView empty_icon;
+    @BindView(R.id.empty_head)
+    TextView empty_head;
+    @BindView(R.id.empty_attention)
+    TextView empty_attention;
+    @BindView(R.id.empty_long_press_schedule)
+    LinearLayout empty_long_press_schedule;
+    @BindView(R.id.empty_long_press_note)
+    LinearLayout empty_long_press_note;
+
 
     @Override
     public int getLayout() {
-        return R.layout.fragment_notes_list;
+        return R.layout.fragment_schedules_list;
     }
 
     @Override
     public void initView() {
-        dataList = DB.notes().findAll();
+        dataList = DB.schedules().findAll();
+        empty_icon.setImageResource(R.drawable.ic_schedules_grey_24dp);
+        empty_head.setText(R.string.empty_schedules_head);
+        empty_attention.setText(R.string.empty_schedules);
+        empty_long_press_schedule.setVisibility(View.VISIBLE);
+        empty_long_press_note.setVisibility(View.INVISIBLE);
         if (dataList == null || dataList.isEmpty()) {
             empty_view.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -52,7 +73,7 @@ public class NoteListFragment extends BaseLazyLoadFragment<NoteListMVP.View, Not
             empty_view.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-        NoteListAdapter adapter = new NoteListAdapter(dataList, (Activity) getContext());
+        ScheduleListAdapter adapter = new ScheduleListAdapter(dataList, (Activity) getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -83,8 +104,8 @@ public class NoteListFragment extends BaseLazyLoadFragment<NoteListMVP.View, Not
 
     @NonNull
     @Override
-    public NoteListPresenter providePresenter() {
-        return new NoteListPresenter();
+    public ScheduleListPresenter providePresenter() {
+        return new ScheduleListPresenter();
     }
 
     @Override

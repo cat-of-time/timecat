@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.week_view;
+package com.time.cat.ui.modules.routines.week_view;
 
 import android.content.Context;
 import android.util.AttributeSet;

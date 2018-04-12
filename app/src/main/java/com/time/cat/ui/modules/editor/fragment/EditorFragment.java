@@ -12,6 +12,7 @@ import com.time.cat.R;
 import com.time.cat.data.Constants;
 import com.time.cat.ui.modules.editor.EditorAction;
 import com.time.cat.util.FileUtils;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,6 +52,8 @@ public class EditorFragment extends BaseEditorFragment {
                 if (filePath != null) {
                     fileContent = FileUtils.readContentFromPath(filePath, true);
                 }
+            } else {
+                fileContent =  SPHelper.getString(Constants.UNIVERSAL_SAVE_COTENT, "");
             }
         }
     }

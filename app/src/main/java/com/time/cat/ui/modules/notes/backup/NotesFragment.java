@@ -1,11 +1,13 @@
-package com.time.cat.ui.modules.notes.list_view;
+package com.time.cat.ui.modules.notes.backup;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,8 +22,6 @@ import com.time.cat.ui.adapter.TimeLineNotesAdapter;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvpframework.factory.CreatePresenter;
 import com.time.cat.ui.modules.main.listener.OnNoteViewClickListener;
-import com.time.cat.ui.modules.notes.NotesFragmentAction;
-import com.time.cat.ui.modules.notes.NotesPresenter;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.source.AvatarManager;
 
@@ -111,6 +111,12 @@ public class NotesFragment
     public void onViewNoteRefreshClick() {
         getMvpPresenter().refresh();
     }
+
+    @Override
+    public void onViewSortClick() {}
+
+    @Override
+    public void initSearchView(Menu menu, AppCompatActivity activity) {}
     //-//</用户强制刷新>
 
 

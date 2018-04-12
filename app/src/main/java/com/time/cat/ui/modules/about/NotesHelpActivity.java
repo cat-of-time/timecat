@@ -9,7 +9,7 @@ import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.time.cat.R;
 
 
-public class RoutinesHelpActivity extends IntroActivity {
+public class NotesHelpActivity extends IntroActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,18 +17,18 @@ public class RoutinesHelpActivity extends IntroActivity {
         setFullscreen(true);
         super.onCreate(savedInstanceState);
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.help_routines_1).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_notes_1).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.help_routines_2).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_notes_2).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
 
-        addSlide(new SimpleSlide.Builder().layout(R.layout.help_routines_3).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
+        addSlide(new SimpleSlide.Builder().layout(R.layout.help_notes_3).background(R.color.schedule_help_background).backgroundDark(R.color.schedule_help_background_dark).build());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        prefs.edit().putBoolean("PREFERENCE_ROUTINES_HELP_SHOWN", true).apply();
+        prefs.edit().putBoolean("PREFERENCE_NOTES_HELP_SHOWN", true).apply();
     }
 
 }

@@ -15,7 +15,9 @@ import com.time.cat.R;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvp.presenter.FragmentPresenter;
 import com.time.cat.ui.modules.main.listener.OnRoutineViewClickListener;
-import com.time.cat.ui.modules.week_view.RoutinesWeekFragment;
+import com.time.cat.ui.modules.routines.card_view.RoutinesCardListFragment;
+import com.time.cat.ui.modules.routines.list_view.RoutinesListFragment;
+import com.time.cat.ui.modules.routines.week_view.RoutinesWeekFragment;
 import com.time.cat.util.override.LogUtil;
 import com.timecat.commonjar.contentProvider.SPHelper;
 
@@ -72,15 +74,13 @@ public class RoutinesFragment extends BaseFragment implements FragmentPresenter,
     private List<Fragment> fragmentList;
     RefreshLayout mRefreshLayout;
     RoutinesWeekFragment routinesWeekFragment;
+    RoutinesCardListFragment routinesCardListFragment;
     RoutinesListFragment routinesListFragment;
 
     @Override
     public void initView() {//必须调用
         super.initView();
         fragmentList = new ArrayList<>();
-//        routinesWeekFragment = new RoutinesWeekFragment();//week_top_holder
-//        setOnScrollBoundaryDecider(routinesWeekFragment);
-//        fragmentList.add(routinesWeekFragment);
 
         mRefreshLayout.setScrollBoundaryDecider(new ScrollBoundaryDecider() {
             @Override
@@ -101,18 +101,28 @@ public class RoutinesFragment extends BaseFragment implements FragmentPresenter,
             getChildFragmentManager().beginTransaction().remove(f).commitNow();
         }
         fragmentList.clear();
-        if (SPHelper.getInt(ROUTINES_VIEW_TYPE, 0) == 0) {
-            routinesWeekFragment = new RoutinesWeekFragment();//week_top_holder
-            fragmentList.add(routinesWeekFragment);
-            setOnScrollBoundaryDecider(routinesWeekFragment);
-            routinesWeekFragment.setUserVisibleHint(true);
-            getChildFragmentManager().beginTransaction().add(R.id.fragment_container, routinesWeekFragment).commitNow();
-        } else {
-            routinesListFragment = new RoutinesListFragment();
-            fragmentList.add(routinesListFragment);
-            setOnScrollBoundaryDecider(routinesListFragment);
-            routinesListFragment.setUserVisibleHint(true);
-            getChildFragmentManager().beginTransaction().add(R.id.fragment_container, routinesListFragment).commitNow();
+        switch (SPHelper.getInt(ROUTINES_VIEW_TYPE, 0)) {
+            case 0:
+                routinesListFragment = new RoutinesListFragment();//week_top_holder
+                fragmentList.add(routinesListFragment);
+                setOnScrollBoundaryDecider(routinesListFragment);
+                routinesListFragment.setUserVisibleHint(true);
+                getChildFragmentManager().beginTransaction().add(R.id.fragment_container, routinesListFragment).commitNow();
+                break;
+            case 1:
+                routinesWeekFragment = new RoutinesWeekFragment();//week_top_holder
+                fragmentList.add(routinesWeekFragment);
+                setOnScrollBoundaryDecider(routinesWeekFragment);
+                routinesWeekFragment.setUserVisibleHint(true);
+                getChildFragmentManager().beginTransaction().add(R.id.fragment_container, routinesWeekFragment).commitNow();
+                break;
+            case 2:
+                routinesCardListFragment = new RoutinesCardListFragment();
+                fragmentList.add(routinesCardListFragment);
+                setOnScrollBoundaryDecider(routinesCardListFragment);
+                routinesCardListFragment.setUserVisibleHint(true);
+                getChildFragmentManager().beginTransaction().add(R.id.fragment_container, routinesCardListFragment).commitNow();
+                break;
         }
     }
     //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">)>-----------------------------
@@ -121,17 +131,17 @@ public class RoutinesFragment extends BaseFragment implements FragmentPresenter,
     //<editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">-----------------------------------------
     @Override
     public void initData() {//必须调用
-
-        if (!isPrepared()) {
-            LogUtil.w("initData", "目标已被回收");
-            return;
-        }
-        updateViewPager();
-
-        frameLayout.setVisibility(View.VISIBLE);
         new Handler().postDelayed(() -> {
+            if (!isPrepared()) {
+                LogUtil.w("initData", "目标已被回收");
+                return;
+            }
+            updateViewPager();
+
+            frameLayout.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
-        }, 2000);
+        }, 500);
+
     }
 
     public void refreshData() {

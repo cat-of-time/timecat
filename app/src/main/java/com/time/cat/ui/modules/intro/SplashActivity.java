@@ -5,14 +5,16 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
-import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.ui.modules.main.MainActivity;
-import com.time.cat.ui.base.BaseActivity;
 import com.time.cat.data.Constants;
+import com.time.cat.test.DefaultDataGenerator;
+import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.util.UrlCountUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
 import java.util.concurrent.TimeUnit;
 
@@ -54,7 +56,12 @@ public class SplashActivity extends BaseActivity {
             }
         } catch (Throwable e) {
         }
-
+        if (!PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance())
+                .getBoolean("DEFAULT_DATA_INSERTED", false)) {
+            DefaultDataGenerator.fillDBWithDummyData(getApplicationContext());
+            PreferenceManager.getDefaultSharedPreferences(TimeCatApp.getInstance())
+                    .edit().putBoolean("DEFAULT_DATA_INSERTED", true).apply();
+        }
         setContentView(R.layout.activity_splash);
         setUpSplash();
     }

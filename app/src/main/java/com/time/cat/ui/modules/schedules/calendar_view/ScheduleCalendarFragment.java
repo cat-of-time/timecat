@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.schedules;
+package com.time.cat.ui.modules.schedules.calendar_view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -33,12 +33,13 @@ import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.modules.main.listener.OnDateChangeListener;
-import com.time.cat.ui.modules.main.listener.OnScheduleViewClickListener;
 import com.time.cat.ui.adapter.viewholder.ScheduleItemHolder;
 import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.mvp.presenter.FragmentPresenter;
+import com.time.cat.ui.modules.main.listener.OnDateChangeListener;
+import com.time.cat.ui.modules.main.listener.OnScheduleViewClickListener;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
+import com.time.cat.ui.modules.schedules.SchedulesFragment;
 import com.time.cat.ui.widgets.SmoothCheckBox;
 import com.time.cat.ui.widgets.asyncExpandableListView.AsyncExpandableListView;
 import com.time.cat.ui.widgets.asyncExpandableListView.AsyncExpandableListViewCallbacks;
@@ -66,12 +67,13 @@ import rx.schedulers.Schedulers;
  * @discription SchedulesFragment
  */
 @SuppressLint("SetTextI18n")
-public class SchedulesFragment extends BaseFragment implements
+public class ScheduleCalendarFragment extends BaseFragment implements
                                                     FragmentPresenter,
                                                     CalendarView.OnDateSelectedListener,
                                                     CalendarView.OnYearChangeListener,
                                                     OnScheduleViewClickListener,
-                                                    AsyncExpandableListViewCallbacks<DBTask, DBTask> {
+                                                    AsyncExpandableListViewCallbacks<DBTask, DBTask>,
+                                                    SchedulesFragment.OnScrollBoundaryDecider {
 
     private ProgressBar progressBar;
     private CalendarLayout mCalendarLayout;
@@ -101,7 +103,7 @@ public class SchedulesFragment extends BaseFragment implements
     //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">------------------------------------
     @Override
     protected View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_schedules, container, false);
+        View view = inflater.inflate(R.layout.fragment_schedules_calendar, container, false);
         context = getContext();
         progressBar = view.findViewById(R.id.progress_bar);
         mCalendarView = view.findViewById(R.id.calendarView);
@@ -143,7 +145,6 @@ public class SchedulesFragment extends BaseFragment implements
                 }
                 initCurrentDate();
                 dbUser = DB.users().getActive();
-//                LogUtil.e("active dbUser --> " + dbUser.toString());
                 initExpandableListViewData();
                 mCalendarLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
@@ -312,7 +313,7 @@ public class SchedulesFragment extends BaseFragment implements
 
 
 
-    //<editor-fold desc="Event事件区--只要存在事件监听代码就是">-----------------------------------------------------------
+    //<editor-fold desc="Event事件区--只要存在事件监听代码就是">
     @Override
     public void initEvent() {//必须调用
         mCalendarView.setOnDateSelectedListener(this);
@@ -423,7 +424,10 @@ public class SchedulesFragment extends BaseFragment implements
                 if (headerItem.getIsFinish()) {
                     today = TimeUtil.formatGMTDateStr(headerItem.getFinished_datetime());
                 }
-                long during = today.getTime() - date.getTime();
+                long during = 0;
+                if (today != null) {
+                    during = today.getTime() - date.getTime();
+                }
                 long day = during / (1000 * 60 * 60 * 24);
                 if (day >= 1) {
                     scheduleHeaderViewHolder.getCalendarItemDelay().setText(day >= 1 ? getString(R.string.calendar_delay) + day + getString(R.string.calendar_day) : "");
@@ -445,26 +449,25 @@ public class SchedulesFragment extends BaseFragment implements
         ScheduleItemHolder scheduleItemHolder = (ScheduleItemHolder) holder;
         scheduleItemHolder.getTextViewContent().setText(item.getContent());
         Date d;
-        if (item.getBegin_datetime() != "null" && item.getEnd_datetime() != "null"
-                && item.getBegin_datetime() != null && item.getEnd_datetime() != null) {
+        if (item.getBegin_datetime() != null) {
             d = TimeUtil.formatGMTDateStr(item.getBegin_datetime());
-            String begin_date = TimeUtil.formatMonthDay(d);//d.getMonth() + "月" + d.getDay() + "日";
-            d = TimeUtil.formatGMTDateStr(item.getEnd_datetime());
-            String end_date = TimeUtil.formatMonthDay(d);//d.getMonth() + "月" + d.getDay() + "日";
-            scheduleItemHolder.getScheduleTaskTv_date().setText(begin_date + "-" + end_date);
-        } else if (item.getCreated_datetime() != "null" && item.getCreated_datetime() != null) {
+            String begin_date = TimeUtil.formatMonthDay(d);
+//            d = TimeUtil.formatGMTDateStr(item.getEnd_datetime());
+//            String end_date = TimeUtil.formatMonthDay(d);
+            scheduleItemHolder.getScheduleTaskTv_date().setText(begin_date);// + "-" + end_date);
+        } else if (item.getCreated_datetime() != null) {
             d = TimeUtil.formatGMTDateStr(item.getCreated_datetime());
-            String created_date = TimeUtil.formatMonthDay(d);//d.getMonth() + "月" + d.getDay() + "日";
+            String created_date = TimeUtil.formatMonthDay(d);
             scheduleItemHolder.getScheduleTaskTv_date().setText(created_date);
         } else {
             d = new Date();
-            String today = TimeUtil.formatMonthDay(d);//d.getMonth() + "月" + d.getDay() + "日";
+            String today = TimeUtil.formatMonthDay(d);
             scheduleItemHolder.getScheduleTaskTv_date().setText(today);
         }
         scheduleItemHolder.setLabel(item.getLabel());
         if (item.getIs_all_day()) {
             scheduleItemHolder.getScheduleTaskTv_time().setText("全天");
-        } else if (item.getBegin_datetime() != "null" && item.getEnd_datetime() != "null") {
+        } else {
             d = TimeUtil.formatGMTDateStr(item.getBegin_datetime());
             String begin_datetime = d.getHours() + ":" + d.getMinutes();
             d = TimeUtil.formatGMTDateStr(item.getEnd_datetime());
@@ -527,7 +530,22 @@ public class SchedulesFragment extends BaseFragment implements
     }
     //-//</CalendarView>--------------------------------------------------------------------
 
-    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">----------------------------------------------------------
+
+
+
+    //-//<SchedulesFragment.OnScrollBoundaryDecider>
+    @Override
+    public boolean canRefresh() {
+        return false;
+    }
+
+    @Override
+    public boolean canLoadMore() {
+        return false;
+    }
+    //-//<SchedulesFragment.OnScrollBoundaryDecider>
+
+    //</editor-fold desc="Event事件区--只要存在事件监听代码就是">
 
 
 

@@ -15,15 +15,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.timecat.commonjar.contentProvider.SPHelper;
 import com.time.cat.R;
-import com.time.cat.ui.modules.setting.SettingActivity;
 import com.time.cat.ui.base.BaseActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.widgets.GuideView;
 import com.time.cat.ui.widgets.timecat.TimeCatLayoutWrapper;
 import com.time.cat.util.clipboard.ClipboardUtils;
 import com.time.cat.util.override.SnackBarUtil;
 import com.time.cat.util.override.ToastUtil;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -344,7 +344,7 @@ public class IntroActivity extends BaseActivity {
             public void onClick(View v) {
                 ToastUtil.i(R.string.jump_toast);
                 Intent intent = new Intent();
-                intent.setClass(IntroActivity.this, SettingActivity.class);
+                intent.setClass(IntroActivity.this, MainActivity.class);
                 startActivity(intent);
                 SPHelper.save(KEY, true);
                 SPHelper.save(INTRODUCED, true);

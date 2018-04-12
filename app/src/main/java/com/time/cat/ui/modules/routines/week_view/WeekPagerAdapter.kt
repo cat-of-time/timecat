@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.week_view
+package com.time.cat.ui.modules.routines.week_view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.util.SparseArray
 import com.time.cat.data.Constants.WEEK_START_TIMESTAMP
-import com.time.cat.ui.modules.week_view.listener.WeekFragmentListener
+import com.time.cat.ui.modules.routines.week_view.listener.WeekFragmentListener
 
 /**
  * @author dlink

@@ -1,141 +1,233 @@
 package com.time.cat.ui.modules.notes;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.api.ScrollBoundaryDecider;
 import com.time.cat.R;
-import com.time.cat.TimeCatApp;
-import com.time.cat.data.database.DB;
-import com.time.cat.data.model.DBmodel.DBNote;
-import com.time.cat.data.model.events.PersistenceEvents;
-import com.time.cat.ui.modules.main.listener.OnNoteViewClickListener;
-import com.time.cat.ui.adapter.TimeLineNotesAdapter;
 import com.time.cat.ui.base.BaseFragment;
-import com.time.cat.ui.base.mvpframework.factory.CreatePresenter;
+import com.time.cat.ui.base.mvp.presenter.FragmentPresenter;
+import com.time.cat.ui.modules.main.listener.OnNoteViewClickListener;
+import com.time.cat.ui.modules.notes.list_view.NoteListFragment;
+import com.time.cat.ui.modules.notes.markdown_view.FileListFragment;
+import com.time.cat.ui.modules.notes.timeline_view.TimeLineFragment;
 import com.time.cat.util.override.LogUtil;
-import com.time.cat.util.source.AvatarManager;
+import com.timecat.commonjar.contentProvider.SPHelper;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import static com.time.cat.data.Constants.NOTES_VIEW_TYPE;
 
 /**
  * @author dlink
  * @date 2018/1/25
  * @discription 笔记fragment，只与view有关，业务逻辑下放给presenter
  */
-@CreatePresenter(NotesPresenter.class)
-public class NotesFragment
-        extends BaseFragment<NotesFragmentAction, NotesPresenter>
-        implements OnNoteViewClickListener, NotesFragmentAction {
-    //<editor-fold desc="Field">
-
-    Context context;
-    Handler handler;
-    private TimeLineNotesAdapter mAdapter;
-    private Queue<Object> pendingEvents = new LinkedList<>();
-
-    //</editor-fold desc="Field">
+public class NotesFragment extends BaseFragment implements FragmentPresenter, OnNoteViewClickListener {
 
     //<editor-fold desc="生命周期">
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentConfig(false, true);
+    }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.base_refresh_layout;
+    }
+
+    @Override
+    protected View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_routines, container, false);
+        progressBar = view.findViewById(R.id.progress_bar);
+        frameLayout = view.findViewById(R.id.fragment_container);
+        mRefreshLayout = view.findViewById(R.id.refreshLayout);
+        initView();
+
+        return view;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        while (!pendingEvents.isEmpty()) {
-            LogUtil.e("Processing pending event...");
-            onEvent(pendingEvents.poll());
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        context = getContext();
-        handler = new Handler();
-        View view = inflater.inflate(R.layout.fragment_notes, container, false);
-        ButterKnife.bind(this, view);
-        mAdapter = new TimeLineNotesAdapter();
-        View headerView = inflater.inflate(R.layout.item_notes_list_header, container, false);
-        ImageView avatar = headerView.findViewById(R.id.avatar);
-        avatar.setImageResource(AvatarManager.res(DB.users().getActive().avatar()));
-        mAdapter.addHeaderView(headerView);
-        mAdapter.addFooterView(inflater.inflate(R.layout.item_notes_list_footer, container, false));
-        mAdapter.openLoadAnimation();
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(mAdapter);
-        getMvpPresenter().onAttachMvpView(this);
-        getMvpPresenter().refresh();
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> refreshLayout.getLayout().postDelayed(() -> {
-            getMvpPresenter().refresh();
-            refreshLayout.finishRefresh();
-        }, 2000));
-        TimeCatApp.eventBus().register(this);
-
-        return view;
+        refreshData();
     }
     //</editor-fold desc="生命周期">
 
-    //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)">
-    @BindView(R.id.refreshLayout)
+
+
+    //<editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">
+    private ProgressBar progressBar;
+    private FrameLayout frameLayout;
+    private List<Fragment> fragmentList;
     RefreshLayout mRefreshLayout;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码)">
+    NoteListFragment noteListFragment;
+    TimeLineFragment timeLineFragment;
+    FileListFragment fileListFragment;
+
+
+    @Override
+    public void initView() {//必须调用
+        super.initView();
+        fragmentList = new ArrayList<>();
+
+        mRefreshLayout.setScrollBoundaryDecider(new ScrollBoundaryDecider() {
+            @Override
+            public boolean canRefresh(View content) {
+                return onScrollBoundaryDecider != null && onScrollBoundaryDecider.canRefresh();
+            }
+
+            @Override
+            public boolean canLoadMore(View content) {
+                return onScrollBoundaryDecider != null && onScrollBoundaryDecider.canLoadMore();
+            }
+        });
+    }
+
+    private void updateViewPager() {
+        if (fragmentList == null) return;
+        for (Fragment f : fragmentList) {
+            getChildFragmentManager().beginTransaction().remove(f).commitNow();
+        }
+        fragmentList.clear();
+        switch(SPHelper.getInt(NOTES_VIEW_TYPE, 0)) {
+            case 0:
+                noteListFragment = new NoteListFragment();
+                fragmentList.add(noteListFragment);
+                setOnScrollBoundaryDecider(noteListFragment);
+                noteListFragment.setUserVisibleHint(true);
+                getChildFragmentManager().beginTransaction().add(R.id.fragment_container, noteListFragment).commitNow();
+                if (onFragmentChanged != null) {
+                    onFragmentChanged.adjustMenu(0);
+                }
+                break;
+            case 1:
+                timeLineFragment = new TimeLineFragment();
+                fragmentList.add(timeLineFragment);
+                setOnScrollBoundaryDecider(timeLineFragment);
+                timeLineFragment.setUserVisibleHint(true);
+                getChildFragmentManager().beginTransaction().add(R.id.fragment_container, timeLineFragment).commitNow();
+                if (onFragmentChanged != null) {
+                    onFragmentChanged.adjustMenu(1);
+                }
+                break;
+            case 2:
+                fileListFragment = new FileListFragment();
+                fragmentList.add(fileListFragment);
+                setOnScrollBoundaryDecider(fileListFragment);
+                fileListFragment.setUserVisibleHint(true);
+                getChildFragmentManager().beginTransaction().add(R.id.fragment_container, fileListFragment).commitNow();
+                if (onFragmentChanged != null) {
+                    onFragmentChanged.adjustMenu(2);
+                }
+                break;
+        }
+    }
+    //</editor-fold desc="UI显示区--操作UI，但不存在数据获取或处理代码，也不存在事件监听代码">)>
+
+    //<editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">
+    @Override
+    public void initData() {//必须调用
+        new Handler().postDelayed(() -> {
+            if (!isPrepared()) {
+                LogUtil.w("initData", "目标已被回收");
+                return;
+            }
+            updateViewPager();
+            frameLayout.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }, 500);
+    }
+
+    public void refreshData() {
+
+        if (frameLayout != null) {
+            frameLayout.setVisibility(View.GONE);
+        }
+
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        if (isFragmentVisible()) {
+            initData();
+        } else {
+            setForceLoad(true);
+        }
+    }
+    //</editor-fold desc="Data数据区--存在数据获取或处理代码，但不存在事件监听代码">
 
     //<editor-fold desc="Event事件区--只要存在事件监听代码就是">
+    @Override
+    public void initEvent() {//必须调用
 
-    //-//<Activity自动刷新>-
+    }
+
     @Override
     public void notifyDataChanged() {
-        getMvpPresenter().refresh();
+        refreshData();
     }
-    //-//</Activity自动刷新>
 
+    //-//<Listener>------------------------------------------------------------------------------
+    //-//</Listener>-----------------------------------------------------------------------------
 
     //-//<用户强制刷新>
     @Override
     public void onViewNoteRefreshClick() {
-        getMvpPresenter().refresh();
+        refreshData();
+    }
+
+    @Override
+    public void onViewSortClick() {
+        if (fileListFragment != null) fileListFragment.onViewSortClick();
+    }
+
+    @Override
+    public void initSearchView(Menu menu, AppCompatActivity activity) {
+        if (fileListFragment != null) fileListFragment.initSearchView(menu, activity);
     }
     //-//</用户强制刷新>
 
-
-    //-//<NotesFragmentAction>
-    @Override
-    public void refreshView(List<DBNote> adapterDBNoteList) {
-        mAdapter.replaceData(adapterDBNoteList);
-    }
-    //-//</NotesFragmentAction>
-
-
-    public void onEvent(final Object evt) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (evt instanceof PersistenceEvents.ModelCreateOrUpdateEvent) {
-                        notifyDataChanged();
-                    } else if (evt instanceof PersistenceEvents.NoteCreateEvent) {
-                        notifyDataChanged();
-                    } else if (evt instanceof PersistenceEvents.NoteUpdateEvent) {
-                        notifyDataChanged();
-                    } else if (evt instanceof PersistenceEvents.NoteDeleteEvent) {
-                        notifyDataChanged();
-                    }
-                }
-            });
-    }
     //</editor-fold desc="Event事件区--只要存在事件监听代码就是">
+
+
+
+    //<内部类>---尽量少用----------------------------------------------------------------------------
+    OnScrollBoundaryDecider onScrollBoundaryDecider;
+
+    public void setOnScrollBoundaryDecider(OnScrollBoundaryDecider onScrollBoundaryDecider) {
+        this.onScrollBoundaryDecider = onScrollBoundaryDecider;
+    }
+
+    public interface OnScrollBoundaryDecider {
+        boolean canRefresh();
+        boolean canLoadMore();
+    }
+
+    OnFragmentChanged onFragmentChanged;
+
+    public void setOnFragmentChanged(OnFragmentChanged onFragmentChanged) {
+        this.onFragmentChanged = onFragmentChanged;
+    }
+
+    public interface OnFragmentChanged {
+        /**
+         * 给MainActivity实现
+         * @param currentFragmentLabel 0->list view; 1->card view; 2->timeline view
+         */
+        void adjustMenu(int currentFragmentLabel);
+    }
+    //</内部类>---尽量少用---------------------------------------------------------------------------
 
 }

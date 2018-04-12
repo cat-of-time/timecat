@@ -1,7 +1,8 @@
-package com.time.cat.ui.modules.plans.list_view;
+package com.time.cat.ui.modules.notes.list_view;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,18 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.time.cat.R;
-import com.time.cat.data.model.DBmodel.DBPlan;
-import com.time.cat.ui.adapter.PlanListAdapter;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.ui.adapter.NoteListAdapter;
 import com.time.cat.ui.base.mvp.BaseLazyLoadFragment;
-import com.time.cat.ui.modules.plans.PlansFragment;
+import com.time.cat.ui.modules.notes.NotesFragment;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,23 +30,33 @@ import butterknife.BindView;
  * @discription 列表视图
  * @usage null
  */
-public class PlanListFragment extends BaseLazyLoadFragment<PlanListMVP.View, PlanListPresenter> implements PlansFragment.OnScrollBoundaryDecider{
-    private List<DBPlan> dataList;
-    @BindView(R.id.plan_rv)
+public class NoteListFragment extends BaseLazyLoadFragment<NoteListMVP.View, NoteListPresenter> implements NotesFragment.OnScrollBoundaryDecider{
+    private List<DBNote> dataList;
+    @BindView(R.id.note_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.empty_view)
+    FrameLayout empty_view;
 
     @Override
     public int getLayout() {
-        return R.layout.fragment_plan_list;
+        return R.layout.fragment_notes_list;
     }
 
     @Override
     public void initView() {
-        initDataList();
-        PlanListAdapter adapter = new PlanListAdapter(dataList, (Activity) getContext());
+        dataList = DB.notes().findAll();
+        if (dataList == null || dataList.isEmpty()) {
+            empty_view.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            empty_view.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        NoteListAdapter adapter = new NoteListAdapter(dataList, (Activity) getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        new Handler().postDelayed(()-> getPresenter().refreshData(), 500);
     }
 
     @Override
@@ -59,33 +67,7 @@ public class PlanListFragment extends BaseLazyLoadFragment<PlanListMVP.View, Pla
     //<生命周期>-------------------------------------------------------------------------------------
 
     //</生命周期>------------------------------------------------------------------------------------
-    /**
-     * 从asset读取文件json数据
-     */
-    private void initDataList() {
-        dataList = new ArrayList<>();
-        try {
-            InputStream in = getContext().getAssets().open("preset.config");
-            int size = in.available();
-            byte[] buffer = new byte[size];
-            in.read(buffer);
-            String jsonStr = new String(buffer, "UTF-8");
-            JSONObject jsonObject = new JSONObject(jsonStr);
-            JSONArray jsonArray = jsonObject.optJSONArray("result");
-            if (null != jsonArray) {
-                int len = jsonArray.length();
-                for (int j = 0; j < 3; j++) {
-                    for (int i = 0; i < len; i++) {
-                        JSONObject itemJsonObject = jsonArray.getJSONObject(i);
-                        DBPlan itemEntity = new DBPlan(itemJsonObject);
-                        dataList.add(itemEntity);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
     //<UI显示区>---操作UI，但不存在数据获取或处理代码，也不存在事件监听代码--------------------------------
 
@@ -101,8 +83,8 @@ public class PlanListFragment extends BaseLazyLoadFragment<PlanListMVP.View, Pla
 
     @NonNull
     @Override
-    public PlanListPresenter providePresenter() {
-        return new PlanListPresenter();
+    public NoteListPresenter providePresenter() {
+        return new NoteListPresenter();
     }
 
     @Override
