@@ -1,4 +1,4 @@
-package com.icodechef.android.tick;
+package com.time.cat.ui.service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -16,33 +16,36 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 
-import com.icodechef.android.tick.database.TickDBAdapter;
-import com.icodechef.android.tick.util.CountDownTimer;
-import com.icodechef.android.tick.util.Sound;
-import com.icodechef.android.tick.util.TimeFormatUtil;
-import com.icodechef.android.tick.util.WakeLockHelper;
+import com.time.cat.R;
+import com.time.cat.TimeCatApp;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBPomodoro;
+import com.time.cat.ui.modules.pomodoro.PomodoroActivity;
+import com.time.cat.ui.widgets.pomodoro.CountDownTimer;
+import com.time.cat.util.Sound;
+import com.time.cat.util.TimeFormatUtil;
+import com.time.cat.util.WakeLockHelper;
+import com.time.cat.util.string.TimeUtil;
 
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class TickService extends Service implements CountDownTimer.OnCountDownTickListener {
     public static final String ACTION_COUNTDOWN_TIMER =
-            "com.icodechef.android.tick.COUNTDOWN_TIMER";
-    public static final String ACTION_START = "com.icodechef.android.tick.ACTION_START";
-    public static final String ACTION_PAUSE = "com.icodechef.android.tick.ACTION_PAUSE";
-    public static final String ACTION_RESUME = "com.icodechef.android.tick.ACTION_RESUME";
-    public static final String ACTION_STOP = "com.icodechef.android.tick.ACTION_STOP";
-    public static final String ACTION_TICK = "com.icodechef.android.tick.ACTION_TICK";
-    public static final String ACTION_FINISH = "com.icodechef.android.tick.ACTION_FINISH";
-    public static final String ACTION_AUTO_START
-            = "com.icodechef.android.tick.ACTION_AUTO_START";
-    public static final String ACTION_TICK_SOUND_ON =
-            "com.icodechef.android.timer.ACTION_TICK_SOUND_ON";
-    public static final String ACTION_TICK_SOUND_OFF =
-            "com.icodechef.android.timer.ACTION_TICK_SOUND_OFF";
-    public static final String ACTION_POMODORO_MODE_ON =
-            "com.icodechef.android.timer.ACTION_POMODORO_MODE_OFF";
+            "com.time.cat.android.tick.COUNTDOWN_TIMER";
+    public static final String ACTION_START = "com.time.cat.android.tick.ACTION_START";
+    public static final String ACTION_PAUSE = "com.time.cat.android.tick.ACTION_PAUSE";
+    public static final String ACTION_RESUME = "com.time.cat.android.tick.ACTION_RESUME";
+    public static final String ACTION_STOP = "com.time.cat.android.tick.ACTION_STOP";
+    public static final String ACTION_TICK = "com.time.cat.android.tick.ACTION_TICK";
+    public static final String ACTION_FINISH = "com.time.cat.android.tick.ACTION_FINISH";
+    public static final String ACTION_AUTO_START = "com.time.cat.android.tick.ACTION_AUTO_START";
+    public static final String ACTION_TICK_SOUND_ON = "com.time.cat.android.timer.ACTION_TICK_SOUND_ON";
+    public static final String ACTION_TICK_SOUND_OFF = "com.time.cat.android.timer.ACTION_TICK_SOUND_OFF";
+    public static final String ACTION_POMODORO_MODE_ON = "com.time.cat.android.timer.ACTION_POMODORO_MODE_OFF";
 
     public static final String MILLIS_UNTIL_FINISHED = "MILLIS_UNTIL_FINISHED";
     public static final String REQUEST_ACTION = "REQUEST_ACTION";
@@ -50,9 +53,8 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
     public static final String WAKELOCK_ID = "tick_wakelock";
 
     private CountDownTimer mTimer;
-    private TickApplication mApplication;
+    private TimeCatApp mApplication;
     private WakeLockHelper mWakeLockHelper;
-    private TickDBAdapter mDBAdapter;
     private Sound mSound;
     private long mID;
 
@@ -71,15 +73,13 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
         return new Intent(context, TickService.class);
     }
 
-    public TickService() {
-    }
+    public TickService() {}
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mApplication = (TickApplication)getApplication();
+        mApplication = (TimeCatApp)getApplication();
         mWakeLockHelper = new WakeLockHelper(WAKELOCK_ID);
-        mDBAdapter = new TickDBAdapter(getApplicationContext());
         mSound = new Sound(getApplicationContext());
         mID = 0;
 
@@ -123,12 +123,11 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
                     startForeground(NOTIFICATION_ID, getNotification(
                             getNotificationTitle(), formatTime(millsInTotal)).build());
 
-                    if (mApplication.getScene() == TickApplication.SCENE_WORK) {
+                    if (mApplication.getScene() == TimeCatApp.SCENE_WORK) {
                         // 插入数据
-                        mDBAdapter.open();
-                        mID = mDBAdapter.insert(mTimer.getStartTime(),
-                                mTimer.getMinutesInFuture());
-                        mDBAdapter.close();
+                        DBPomodoro dbPomodoro = new DBPomodoro(mTimer.getStartTime(), mTimer.getMinutesInFuture());
+                        DB.pomodoros().safeSaveDBPomodoro(dbPomodoro);
+                        mID = DB.pomodoros().findId(dbPomodoro);
                     }
                     break;
                 case ACTION_PAUSE:
@@ -165,7 +164,7 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
                     break;
                 case ACTION_POMODORO_MODE_ON:
                     // 如果处于暂停状态，但番茄模式设置为 on ,停止番茄时钟
-                    if (mApplication.getState() == TickApplication.STATE_PAUSE) {
+                    if (mApplication.getState() == TimeCatApp.STATE_PAUSE) {
                         if (mTimer != null) {
                             mTimer.resume();
                             mSound.resume();
@@ -222,7 +221,7 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
 
         NotificationCompat.Builder builder;
 
-        if (mApplication.getScene() == TickApplication.SCENE_WORK) {
+        if (mApplication.getScene() == TimeCatApp.SCENE_WORK) {
             builder = getNotification(
                     getResources().getString(R.string.notification_finish),
                     getResources().getString(R.string.notification_finish_content)
@@ -230,9 +229,15 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
 
             if (mID > 0) {
                 // 更新数据
-                mDBAdapter.open();
-                boolean success = mDBAdapter.update(mID);
-                mDBAdapter.close();
+                DBPomodoro dbPomodoro = DB.pomodoros().findById(mID);
+                dbPomodoro.setEnd_datetime(TimeUtil.formatGMTDate(new Date()));
+                boolean success = false;//mDBAdapter.update(mID); TODO
+                try {
+                    DB.pomodoros().update(dbPomodoro);
+                    success = true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
                 if (success) {
                     long amountDurations =
@@ -264,7 +269,7 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
                 // 结束提示音
                 Uri uri = Uri.parse(
                         "android.resource://" + getPackageName() + "/" +
-                                (mApplication.getScene() == TickApplication.SCENE_WORK ?
+                                (mApplication.getScene() == TimeCatApp.SCENE_WORK ?
                                         R.raw.workend :
                                         R.raw.breakend));
 
@@ -313,14 +318,14 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
     }
 
     private boolean isNotificationOn() {
-        Intent intent = MainActivity.newIntent(getApplicationContext());
+        Intent intent = PomodoroActivity.newIntent(getApplicationContext());
         PendingIntent pi = PendingIntent
                 .getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_NO_CREATE);
         return pi != null;
     }
 
     private void cancelNotification() {
-        Intent intent = MainActivity.newIntent(getApplicationContext());
+        Intent intent = PomodoroActivity.newIntent(getApplicationContext());
         PendingIntent pi = PendingIntent
                 .getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_NO_CREATE);
         pi.cancel();
@@ -328,13 +333,12 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
     }
 
     private NotificationCompat.Builder getNotification(String title, String text) {
-        Intent intent = MainActivity.newIntent(getApplicationContext());
+        Intent intent = PomodoroActivity.newIntent(getApplicationContext());
 
         PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_stat_notify);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                R.mipmap.ic_logo));
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
         builder.setContentIntent(pi);
         builder.setContentTitle(title);
         builder.setContentText(text);
@@ -348,15 +352,15 @@ public class TickService extends Service implements CountDownTimer.OnCountDownTi
         String title;
 
         switch (scene) {
-            case TickApplication.SCENE_WORK:
-                if (state == TickApplication.STATE_PAUSE) {
+            case TimeCatApp.SCENE_WORK:
+                if (state == TimeCatApp.STATE_PAUSE) {
                     title = getResources().getString(R.string.notification_focus_pause);
                 } else {
                     title = getResources().getString(R.string.notification_focus);
                 }
                 break;
             default:
-                if (state == TickApplication.STATE_PAUSE) {
+                if (state == TimeCatApp.STATE_PAUSE) {
                     title = getResources().getString(R.string.notification_break_pause);
                 } else {
                     title = getResources().getString(R.string.notification_break);

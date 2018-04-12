@@ -1,10 +1,9 @@
-package com.time.cat.ui;
+package com.time.cat.ui.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.time.cat.ui.service.ListenClipboardService;
 import com.time.cat.util.override.LogUtil;
 
 public class WakeUpBroadcastReceiver extends BroadcastReceiver {
