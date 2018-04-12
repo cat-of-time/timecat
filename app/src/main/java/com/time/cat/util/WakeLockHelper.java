@@ -1,4 +1,4 @@
-package com.icodechef.android.tick.util;
+package com.time.cat.util;
 
 import android.content.Context;
 import android.os.PowerManager;

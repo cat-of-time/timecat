@@ -7,15 +7,20 @@ import android.util.SparseArray;
 import com.alibaba.fastjson.JSON;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
+import com.time.cat.data.model.DBmodel.DBPlan;
 import com.time.cat.data.model.entity.Achievement;
 import com.time.cat.data.model.entity.CollectionTopic;
 import com.time.cat.data.model.entity.EmojiBean;
 import com.time.cat.data.model.entity.TopicBean;
 import com.time.cat.util.override.LogUtil;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,7 +69,7 @@ public class AssetManager {
         return bean;
     }
 
-    public static String getAssetsData(String assetsFileName) {
+    private static String getAssetsData(String assetsFileName) {
         InputStream is = null;
         ByteArrayOutputStream bos = null;
         try {
@@ -92,6 +97,32 @@ public class AssetManager {
             }
         }
         return null;
+    }
+
+    public static ArrayList<DBPlan> initDataList() {
+        ArrayList<DBPlan> dataList = new ArrayList<>();
+        try {
+            InputStream in = TimeCatApp.getInstance().getAssets().open("preset.json");
+            int size = in.available();
+            byte[] buffer = new byte[size];
+            in.read(buffer);
+            String jsonStr = new String(buffer, "UTF-8");
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            JSONArray jsonArray = jsonObject.optJSONArray("result");
+            if (null != jsonArray) {
+                int len = jsonArray.length();
+                for (int j = 0; j < 3; j++) {
+                    for (int i = 0; i < len; i++) {
+                        JSONObject itemJsonObject = jsonArray.getJSONObject(i);
+                        DBPlan itemEntity = new DBPlan(itemJsonObject);
+                        dataList.add(itemEntity);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dataList;
     }
 //
 //    protected com.ticktick.tomato.f.d a = TomatoApplication.a().b();

@@ -1,11 +1,12 @@
-package com.icodechef.android.tick.util;
+package com.time.cat.util;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.preference.PreferenceManager;
 
-import com.icodechef.android.tick.R;
+import com.time.cat.R;
+
 
 /**
  * 4.4 出现 MediaPlayer: Should have subtitle controller already set 错误

@@ -2,13 +2,20 @@ package com.time.cat.util.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by hcc on 2016/10/2 00:05
@@ -17,7 +24,7 @@ import android.renderscript.ScriptIntrinsicBlur;
  * 图片模糊工具类
  */
 
-public class ImageBlurUtil {
+public class ImageUtil {
 
     /**
      * 图片缩放比例
@@ -57,6 +64,21 @@ public class ImageBlurUtil {
         return bitmap;
     }
 
+    public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        assert drawable != null;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            drawable = (DrawableCompat.wrap(drawable)).mutate();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
 
     /**
      * 图片高斯模糊具体实现方法
@@ -98,5 +120,38 @@ public class ImageBlurUtil {
         tmpOut.copyTo(outputBitmap);
 
         return outputBitmap;
+    }
+
+    /**
+     * 图片转成string
+     *
+     * @param bitmap bitmap
+     *
+     * @return base64 string
+     */
+    public static String bitmap2String(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] appicon = baos.toByteArray();// 转为byte数组
+        return Base64.encodeToString(appicon, Base64.DEFAULT);
+    }
+
+    /**
+     * string转成bitmap
+     *
+     * @param st base64
+     *
+     * @return bitmap
+     */
+    public static Bitmap stringToBitmap(String st) {
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray;
+            bitmapArray = Base64.decode(st, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+            return bitmap;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

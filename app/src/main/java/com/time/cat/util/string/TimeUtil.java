@@ -35,12 +35,7 @@ public class TimeUtil {
     }
 
     public static boolean isDateEarlier(Date dateEarly, Date date) {
-        if (dateEarly.getYear() <= date.getYear()
-                && dateEarly.getMonth() <= date.getMonth()
-                &&  dateEarly.getDate() <= date.getDate()) {
-            return true;
-        }
-        return false;
+        return dateEarly.getTime() <= date.getTime();
     }
     /**
      * @param begin 时间段的开始
@@ -55,7 +50,7 @@ public class TimeUtil {
     /**
      * GMT时间格式化,返回Date对象
      *
-     * @param gmt_datetime "2018-02-19T16:11:11Z"
+     * @param gmt_datetime "2018-02-19T16:11:11.456"
      * @return Date对象,Date的时区仍为GMT
      * Mon Feb 19 16:11:11 UTC 2018
      */
