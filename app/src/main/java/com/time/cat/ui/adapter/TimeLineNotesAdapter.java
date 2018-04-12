@@ -8,6 +8,7 @@ import android.os.Looper;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.data.Constants;
@@ -16,7 +17,6 @@ import com.time.cat.data.model.APImodel.Note;
 import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.data.network.RetrofitHelper;
-import com.time.cat.ui.adapter.viewholder.TimeLineNotesViewHolder;
 import com.time.cat.ui.modules.activity.TimeCatActivity;
 import com.time.cat.ui.modules.activity.WebActivity;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
@@ -44,15 +44,15 @@ import rx.schedulers.Schedulers;
  * @discription null
  * @usage null
  */
-public class TimeLineNotesAdapter extends BaseQuickAdapter<DBNote, TimeLineNotesViewHolder> {
+public class TimeLineNotesAdapter extends BaseQuickAdapter<DBNote, BaseViewHolder> {
     public TimeLineNotesAdapter() {
         super(R.layout.item_notes_list);
     }
 
     @Override
-    protected void convert(TimeLineNotesViewHolder viewHolder, DBNote item) {
+    protected void convert(BaseViewHolder viewHolder, DBNote item) {
         Date date = TimeUtil.formatGMTDateStr(item.getCreated_datetime());
-        viewHolder.setText(R.id.notes_tv_time, date.getMonth() + "月" + date.getDate() + "日")
+        viewHolder.setText(R.id.notes_tv_time, (date.getMonth()+1) + "月" + date.getDate() + "日")
                 .setText(R.id.notes_tv_title, item.getTitle())
                 .setText(R.id.notes_tv_content, item.getContent());
 
@@ -89,7 +89,7 @@ public class TimeLineNotesAdapter extends BaseQuickAdapter<DBNote, TimeLineNotes
                                     public void onNext(Note note) {
                                         //请求成功
 //                                        ToastUtil.show("删除成功");
-//                                        LogUtil.e("删除成功 --> " + note.toString());
+//                                        LogUtil.e("删除成功 --> " + dbPlan.toString());
                                     }
                                 });
                         Object event = new PersistenceEvents.NoteDeleteEvent();

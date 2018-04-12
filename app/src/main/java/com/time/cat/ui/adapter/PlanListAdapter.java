@@ -5,21 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.time.cat.R;
-import com.time.cat.data.Constants;
-import com.time.cat.data.model.entity.FileEntity;
+import com.time.cat.TimeCatApp;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBPlan;
+import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.ui.modules.main.MainActivity;
-import com.time.cat.ui.modules.editor.EditorActivity;
-import com.time.cat.util.FileUtils;
+import com.time.cat.ui.modules.plans.detail.PlanDetailActivity;
+import com.time.cat.ui.modules.routines.RoutinesFragment;
+import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.string.TimeUtil;
 
-import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,12 +34,13 @@ import java.util.List;
  * @discription null
  * @usage null
  */
-public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> {
-    private List<FileEntity> dataSet;
+public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.ViewHolder> implements RoutinesFragment.OnScrollBoundaryDecider{
+    private List<DBPlan> dataSet;
     private Activity activity;
+    private int position;
 
-    public FilesAdapter(List<FileEntity> entityList, Activity activity) {
-        dataSet = (entityList == null) ? new ArrayList<FileEntity>() : entityList;
+    public PlanListAdapter(List<DBPlan> dbPlanList, Activity activity) {
+        dataSet = (dbPlanList == null) ? new ArrayList<>() : dbPlanList;
         this.activity = activity;
     }
 
@@ -44,41 +50,51 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
         if (activity == null) {
             activity = (MainActivity) parent.getContext();
         }
-        View itemView = LayoutInflater.from(activity).inflate(R.layout.item_file_list, parent, false);
+        View itemView = LayoutInflater.from(activity).inflate(R.layout.base_list_item, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final FileEntity entity = dataSet.get(position);
-        String fileName = entity.getName();
-        holder.fileName.setText(fileName);
-
-        String content = FileUtils.readContentFromFile(new File(entity.getAbsolutePath()), false);
-        if (content.length() == 0) {
-            holder.fileContent.setVisibility(View.GONE);
-        } else {
-            content = content.length() > 500 ? content.substring(0, 500) : content;
-            holder.fileContent.setText(content);
+        final DBPlan dbPlan = dataSet.get(position);
+        holder.base_tv_title.setText(dbPlan.getTitle());
+        holder.base_tv_content.setText(dbPlan.getContent());
+        Date date = TimeUtil.formatGMTDateStr(dbPlan.getCreated_datetime());
+        if (date != null) {
+            holder.base_tv_time.setText(date.toLocaleString());
         }
-
-        holder.fileDate.setText(DateUtils.getRelativeTimeSpanString(entity.getLastModified(),
-                System.currentTimeMillis(), DateUtils.FORMAT_ABBREV_ALL));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2MainActivity = new Intent();
-                Bundle args = new Bundle();
-                args.putBoolean(Constants.BUNDLE_KEY_SAVED, true);
-                args.putBoolean(Constants.BUNDLE_KEY_FROM_FILE, true);
-                args.putString(Constants.BUNDLE_KEY_FILE_NAME,
-                        FileUtils.stripExtension(entity.getName()));
-                args.putString(Constants.BUNDLE_KEY_FILE_PATH, entity.getAbsolutePath());
-                intent2MainActivity.putExtras(args);
-                intent2MainActivity.setClass(activity, EditorActivity.class);
-                activity.startActivity(intent2MainActivity);
+                Intent intent = new Intent(activity, PlanDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("DBPlan", dbPlan);
+                intent.putExtras(bundle);
+                activity.startActivity(intent);
+            }
+        });
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new MaterialDialog.Builder(activity)
+                        .content("确定删除这个计划吗？")
+                        .positiveText("删除")
+                        .onPositive((dialog, which) -> {
+                            try {
+                                DB.plans().delete(dbPlan);
+                                ToastUtil.ok("已删除");
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                ToastUtil.e("删除失败");
+                            }
+                            Object event = new PersistenceEvents.NoteDeleteEvent();
+                            TimeCatApp.eventBus().post(event);
+                        })
+                        .negativeText("取消")
+                        .onNegative((dialog, which) -> dialog.dismiss()).show();
+                return false;
             }
         });
     }
@@ -88,14 +104,24 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
         return dataSet.size();
     }
 
+    @Override
+    public boolean canRefresh() {
+        return false;
+    }
+
+    @Override
+    public boolean canLoadMore() {
+        return false;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView fileName, fileContent, fileDate;
+        TextView base_tv_title, base_tv_content, base_tv_time;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            fileName = itemView.findViewById(R.id.file_name);
-            fileContent = itemView.findViewById(R.id.file_content);
-            fileDate = itemView.findViewById(R.id.file_date);
+            base_tv_title = itemView.findViewById(R.id.base_tv_title);
+            base_tv_content = itemView.findViewById(R.id.base_tv_content);
+            base_tv_time = itemView.findViewById(R.id.base_tv_time);
         }
     }
 }

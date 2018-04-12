@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.time.cat.R;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.modules.routines.RoutinesFragment;
@@ -31,13 +31,13 @@ import java.util.List;
  * @discription null
  * @usage null
  */
-public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder> implements RoutinesFragment.OnScrollBoundaryDecider{
-    private List<DBNote> dataSet;
+public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapter.ViewHolder> implements RoutinesFragment.OnScrollBoundaryDecider{
+    private List<DBTask> dataSet;
     private Activity activity;
     private int position;
 
-    public NoteListAdapter(List<DBNote> dbPlanList, Activity activity) {
-        dataSet = (dbPlanList == null) ? new ArrayList<>() : dbPlanList;
+    public ScheduleListAdapter(List<DBTask> dbTaskList, Activity activity) {
+        dataSet = (dbTaskList == null) ? new ArrayList<>() : dbTaskList;
         this.activity = activity;
     }
 
@@ -53,10 +53,10 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final DBNote dbNote = dataSet.get(getItemCount() - position - 1);
-        holder.base_tv_title.setText(dbNote.getTitle());
-        holder.base_tv_content.setText(dbNote.getContent());
-        Date date = TimeUtil.formatGMTDateStr(dbNote.getCreated_datetime());
+        final DBTask dbTask = dataSet.get(getItemCount() - position - 1);
+        holder.base_tv_title.setText(dbTask.getTitle());
+        holder.base_tv_content.setText(dbTask.getContent());
+        Date date = TimeUtil.formatGMTDateStr(dbTask.getCreated_datetime());
         if (date != null) {
             holder.base_tv_time.setText(date.toLocaleString());
         }
@@ -64,19 +64,19 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> {
             Intent intent2DialogActivity = new Intent(activity, InfoOperationActivity.class);
             intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, dbNote.getContent());
+            intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, dbTask.getContent());
             Bundle bundle = new Bundle();
-            bundle.putSerializable(InfoOperationActivity.TO_UPDATE_NOTE, dbNote);
+            bundle.putSerializable(InfoOperationActivity.TO_UPDATE_TASK, dbTask);
             intent2DialogActivity.putExtras(bundle);
             activity.startActivity(intent2DialogActivity);
             ToastUtil.i("修改笔记");
         });
         holder.itemView.setOnLongClickListener(v -> {
             new MaterialDialog.Builder(activity)
-                    .content("确定删除这个计划吗？")
+                    .content("确定删除这个任务吗？")
                     .positiveText("删除")
                     .onPositive((dialog, which) -> {
-                        DB.notes().deleteAndFireEvent(dbNote);
+                        DB.schedules().deleteAndFireEvent(dbTask);
                         notifyItemRemoved(position);
                     })
                     .negativeText("取消")

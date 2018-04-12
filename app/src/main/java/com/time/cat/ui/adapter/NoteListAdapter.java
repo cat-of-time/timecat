@@ -1,6 +1,8 @@
 package com.time.cat.ui.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,13 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.time.cat.R;
-import com.time.cat.data.model.DBmodel.DBPlan;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.ui.modules.main.MainActivity;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.modules.routines.RoutinesFragment;
 import com.time.cat.util.override.ToastUtil;
+import com.time.cat.util.string.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,13 +31,13 @@ import java.util.List;
  * @discription null
  * @usage null
  */
-public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.ViewHolder> implements RoutinesFragment.OnScrollBoundaryDecider{
-    private List<DBPlan> dataSet;
+public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder> implements RoutinesFragment.OnScrollBoundaryDecider{
+    private List<DBNote> dataSet;
     private Activity activity;
     private int position;
 
-    public PlanListAdapter(List<DBPlan> dbPlanList, Activity activity) {
-        dataSet = (dbPlanList == null) ? new ArrayList<>() : dbPlanList;
+    public NoteListAdapter(List<DBNote> dbNoteList, Activity activity) {
+        dataSet = (dbNoteList == null) ? new ArrayList<>() : dbNoteList;
         this.activity = activity;
     }
 
@@ -46,16 +53,35 @@ public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final DBPlan dbPlan = dataSet.get(position);
-        holder.base_tv_title.setText(dbPlan.getTitle());
-        holder.base_tv_content.setText(dbPlan.getContent());
-        holder.base_tv_time.setText(dbPlan.getCreated_datetime());
+        final DBNote dbNote = dataSet.get(getItemCount() - position - 1);
+        holder.base_tv_title.setText(dbNote.getTitle());
+        holder.base_tv_content.setText(dbNote.getContent());
+        Date date = TimeUtil.formatGMTDateStr(dbNote.getCreated_datetime());
+        if (date != null) {
+            holder.base_tv_time.setText(date.toLocaleString());
+        }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.e("需要转到plan详情页面");
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent2DialogActivity = new Intent(activity, InfoOperationActivity.class);
+            intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, dbNote.getContent());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(InfoOperationActivity.TO_UPDATE_NOTE, dbNote);
+            intent2DialogActivity.putExtras(bundle);
+            activity.startActivity(intent2DialogActivity);
+            ToastUtil.i("修改笔记");
+        });
+        holder.itemView.setOnLongClickListener(v -> {
+            new MaterialDialog.Builder(activity)
+                    .content("确定删除这个笔记吗？")
+                    .positiveText("删除")
+                    .onPositive((dialog, which) -> {
+                        DB.notes().deleteAndFireEvent(dbNote);
+                        notifyItemRemoved(position);
+                    })
+                    .negativeText("取消")
+                    .onNegative((dialog, which) -> dialog.dismiss()).show();
+            return true;
         });
     }
 

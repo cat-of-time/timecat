@@ -55,7 +55,7 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder implements
         dbNote = data;
         notes_tv_title.setText(dbNote.getTitle());
         // 排版，开头空两格。使用sSpannableStringBuilder,隐藏掉前面两个字符，达到缩进的错觉
-//            SpannableStringBuilder span = new SpannableStringBuilder("缩进"+note.getContent());
+//            SpannableStringBuilder span = new SpannableStringBuilder("缩进"+dbPlan.getContent());
 //            span.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
 //                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         notes_tv_content.setText(dbNote.getContent());
