@@ -175,15 +175,19 @@ public class RichTextEditorActivity extends BaseActivity<RichTextEditorMVP.View,
                         switch (position1) {
                             case 0:
                                 tv_type.setText("笔记");
+                                ToastUtil.w("TODO！我们会继续完善，请支持我们喵~~");
                                 break;
                             case 1:
                                 tv_type.setText("任务");
+                                ToastUtil.w("TODO！我们会继续完善，请支持我们喵~~");
                                 break;
                             case 2:
                                 tv_type.setText("闹钟");
+                                ToastUtil.w("TODO！我们会继续完善，请支持我们喵~~");
                                 break;
                             case 3:
                                 tv_type.setText("计划");
+                                ToastUtil.w("TODO！我们会继续完善，请支持我们喵~~");
                                 break;
                         }
                     }
