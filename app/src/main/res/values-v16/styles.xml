@@ -1,0 +1,575 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!--按钮选中或者点击获得焦点后的颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--控制searchView的icon颜色的设置-->
+        <!--<item name="colorControlNormal">@color/colorControlNormal</item>-->
+        <item name="colorControlNormal">@color/white</item>
+        <!--Button按钮正常状态颜色-->
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <!--EditText 输入框中字体的颜色-->
+        <item name="android:editTextColor">@android:color/black</item>
+        <item name="editTextColor">@android:color/black</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--导航栏上的标题颜色-->
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <item name="android:listDivider">@drawable/card_list_divider</item>
+        <item name="textAppearanceLargePopupMenu">@style/PopUpMenuStyle</item>
+        <item name="textAppearanceSmallPopupMenu">@style/PopUpMenuStyle</item>
+        <item name="android:spinnerItemStyle">@style/MonthDropTheme</item>
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+
+    <style name="PopUpMenuStyle" parent="@style/Base.TextAppearance.AppCompat.Menu">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme" parent="@style/AppBaseTheme" />
+
+
+    <style name="OverlayTheme" parent="@style/AppBaseTheme" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/colorPrimaryDark</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="SearchEngineAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+
+    <style name="DiyOcrKeyAppTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <!-- 启动页 引导页设置StatusBar为透明色 -->
+    <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme" />
+
+    <!--MainActivityTheme-->
+    <style name="MainActivityTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">
+        <!-- Set AppCompat’s actionBarStyle -->
+        <!--<item name="actionBarStyle">@style/MyActionBar</item>-->
+        <item name="windowActionBar">false</item>
+
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="colorPrimary">@color/android_blue_dark</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="windowActionModeOverlay">true</item>
+        <!-- The rest of your attributes -->
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="siv_insetForeground">#00ffffff</item>
+
+        <item name="android:actionModeBackground">@color/transparent</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <!--PreSettingTheme-->
+    <style name="PreSettingTheme" parent="@style/ColorTranslucentTheme">
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">false</item>
+    </style>
+
+    <style name="TimeCatTheme" parent="Theme.AppCompat.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@style/fade</item>
+
+        <item name="android:windowBackground">@drawable/timecat_activity_window_bg</item>
+        <item name="listPreferredItemPaddingLeft">0dp</item>
+        <item name="listPreferredItemPaddingRight">0dp</item>
+    </style>
+    <style name="ScreenCaptureTheme" parent="OverlayTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
+
+    <style name="WebActivityTheme" parent="TimeCatTheme">
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="KeepAliveActivtyTheme" parent="TimeCatTheme">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- 淡入淡出动画 -->
+    <!-- 第一个表示新的activity创建进入效果， 第2个表示activity还没有finish()下退出效果， 第3个表示上一个activity返回进入效果，
+    第4个表示的是activity finish()之后退出效果 比如有两个activity A和B, A上面有个按钮可以打开
+    B, 点击按钮后，此时A执行第二个动画（android:activityOpenExitAnimation） B执行第一个动画(android:activityOpenEnterAnimation) 如此此时按下返回键,
+    B退出，A显示，则此时A执行动画3（android:activityCloseEnterAnimation） B执行动画4（android:activityCloseExitAnimation） -->
+    <style name="fade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/zoomin</item>
+        <item name="android:activityCloseExitAnimation">@anim/zoomout</item>
+    </style>
+
+
+    <style name="selectableItemBackgrond">
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+
+    <style name="cardViewTextView" parent="selectableItemBackgrond">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/card_line_height</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:paddingLeft">@dimen/card_padding_width</item>
+        <item name="android:paddingRight">@dimen/card_padding_width_double</item>
+    </style>
+
+    <style name="cardViewTextViewInLayoutLeft">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/card_line_height</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <style name="cardViewRelativeLayoutSelector" parent="selectableItemBackgrond">
+        <item name="android:paddingLeft">@dimen/card_padding_width</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/card_line_height</item>
+    </style>
+
+    <style name="switchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/height_normal</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:layout_marginRight">@dimen/card_padding_width</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
+    <style name="spinnerStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/height_normal</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:entries">@array/click_or_long_click</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:dropDownWidth">@dimen/spinner_drop_down_width</item>
+    </style>
+
+    <style name="spinnerBrowserStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/height_normal</item>
+        <item name="android:entries">@array/browser_list</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:dropDownWidth">@dimen/spinner_drop_down_width</item>
+
+    </style>
+
+
+    <style name="MonthDropTheme" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/black</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="BrowserMonthDropTheme" >
+        <item name="android:textColor">@color/black</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="CheckBoxTheme" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+
+    </style>
+
+
+    <style name="hintTextViewRelativeLayoutSelector" parent="cardViewRelativeLayoutSelector">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+    </style>
+
+
+    <style name="hintTextViewInLayoutLeft" parent="cardViewTextViewInLayoutLeft">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+        <item name="android:layout_width">220dp</item>
+    </style>
+
+
+    <style name="hintTextViewswitchStyle" parent="switchStyle">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+    </style>
+
+    <style name="diyOcrKeyTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_double</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="fabTheme">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="tab_text_apparence" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/text_color_half_trans</item>
+        <item name="android:textSize">@dimen/text_size_title</item>
+    </style>
+    <style name="weekIndicatorStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#ff25adff</item>
+    </style>
+
+    <declare-styleable name="CircularProgressButton">
+        <attr name="cpb_selectorIdle" format="reference"/>
+        <attr name="cpb_selectorComplete" format="reference"/>
+        <attr name="cpb_selectorError" format="reference"/>
+        <attr name="cpb_textComplete" format="string"/>
+        <attr name="cpb_textIdle" format="string"/>
+        <attr name="cpb_textError" format="string"/>
+        <attr name="cpb_textProgress" format="string"/>
+        <attr name="cpb_colorProgress" format="color"/>
+        <attr name="cpb_colorIndicator" format="color"/>
+        <attr name="cpb_colorIndicatorBackground" format="color"/>
+        <attr name="cpb_iconError" format="reference"/>
+        <attr name="cpb_iconComplete" format="reference"/>
+        <attr name="cpb_cornerRadius" format="dimension"/>
+        <attr name="cpb_paddingProgress" format="dimension"/>
+    </declare-styleable>
+
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+
+        <item name="android:windowBackground">@color/primary</item>
+
+        <item name="colorControlNormal">@color/iron</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+        <item name="android:textColorHint">@color/iron</item>
+
+        <item name="colorButtonNormal">@color/primary_darker</item>
+    </style>
+
+    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">@color/iron</item>
+        <item name="android:background">@color/primary</item>
+    </style>
+    <style name="next_button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:height">50dp</item>
+        <item name="android:background">@color/android_blue_dark</item>
+    </style>
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <style name="MenuItemRippleStyle" parent="Material.Drawable.Ripple.Wave">
+        <item name="rd_rippleColor">#902DA0FF</item>
+        <item name="rd_rippleAnimDuration">300</item>
+        <item name="rd_maskType">rectangle</item>
+        <item name="rd_cornerRadius">0dp</item>
+    </style>
+
+    <!-- Navigator Drawable -->
+
+    <style name="NavigatorDrawableIcon" parent="Material.Drawable.NavigationDrawerIcon">
+        <item name="lmd_strokeSize">3dp</item>
+        <item name="lmd_padding">18dp</item>
+    </style>
+
+    <style name="NavigationDrawerDrawable">
+        <item name="nd_ripple">@style/ToolbarRippleStyle</item>
+        <item name="nd_icon">@style/NavigatorDrawableIcon</item>
+    </style>
+
+    <style name="ToolbarRippleStyle" parent="Material.Drawable.Ripple.Touch.MatchView.Light">
+        <item name="rd_backgroundColor">@android:color/transparent</item>
+        <item name="rd_rippleColor">#33FFFFFF</item>
+    </style>
+
+    <!-- SnackBar Style -->
+
+    <style name="SnackBarSingleLine" parent="Material.Widget.SnackBar.Mobile">
+        <item name="sb_text">This is single-line snackbar.</item>
+        <item name="sb_actionText">CLOSE</item>
+        <item name="sb_duration">0</item>
+    </style>
+
+    <style name="SnackBarMultiLine" parent="Material.Widget.SnackBar.Mobile.MultiLine">
+        <item name="sb_text">This is multi-line snackbar.\nIt will auto-close after 5s.</item>
+        <item name="sb_actionText"></item>
+        <item name="sb_duration">5000</item>
+    </style>
+
+    <style name="SimpleDialog" parent="Material.App.Dialog.Simple">
+        <item name="di_inAnimation">@anim/anim_scale_in</item>
+        <item name="di_outAnimation">@anim/anim_scale_out</item>
+    </style>
+
+    <!-- ContactView -->
+    <style name="ContactView">
+        <item name="android:minHeight">56dp</item>
+        <item name="cv_buttonSize">0dp</item>
+        <item name="cv_avatarSize">40dp</item>
+        <item name="cv_spacing">8dp</item>
+        <item name="cv_nameTextAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="cv_nameTextColor">@color/abc_primary_text_material_light</item>
+        <item name="cv_addressTextAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="cv_addressTextColor">@color/abc_primary_text_material_light</item>
+    </style>
+
+    <style name="ReplacementContactView" parent="Material.Drawable.Ripple.Wave.Light">
+        <item name="rd_cornerRadius">0dp</item>
+        <item name="rd_delayClick">none</item>
+
+        <item name="android:minHeight">56dp</item>
+        <item name="cv_buttonSize">0dp</item>
+        <item name="cv_avatarSize">40dp</item>
+        <item name="cv_spacing">8dp</item>
+        <item name="cv_nameTextAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="cv_nameTextColor">@color/abc_primary_text_material_light</item>
+        <item name="cv_addressTextAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="cv_addressTextColor">@color/abc_primary_text_material_light</item>
+    </style>
+
+    <style name="SelectedContactView" parent="Material.Drawable.Ripple.Wave.Light">
+        <item name="android:background">#FF00B8D4</item>
+        <item name="rd_cornerRadius">0dp</item>
+        <item name="rd_delayClick">none</item>
+
+        <item name="android:minHeight">72dp</item>
+        <item name="cv_buttonSrc">@drawable/ic_cancel_white_24dp</item>
+        <item name="cv_buttonSize">48dp</item>
+        <item name="cv_nameTextColor">#FFFFFFFF</item>
+        <item name="cv_addressTextColor">#FFFFFFFF</item>
+        <item name="cv_avatarSize">40dp</item>
+        <item name="cv_spacing">8dp</item>
+        <item name="cv_nameTextAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="cv_addressTextAppearance">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="ContactEditText" parent="Material.Widget.EditText.Light">
+        <item name="cet_spanHeight">32dp</item>
+        <item name="cet_spanMaxWidth">150dp</item>
+        <item name="cet_spanPaddingLeft">8dp</item>
+        <item name="cet_spanPaddingRight">12dp</item>
+        <item name="cet_spanTextSize">14sp</item>
+        <item name="cet_spanTextColor">@color/abc_primary_text_material_light</item>
+        <item name="cet_spanBackgroundColor">#FFE0E0E0</item>
+        <item name="cet_spanSpacing">4dp</item>
+    </style>
+    <!--可输入对话框的样式 -->
+    <style name="EditDialogStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        //设置背景
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateHidden</item>
+        //Dialog的windowFrame框为无
+        <item name="android:windowFrame">@null</item>
+        //是否显示标题，true则去掉默认的标题栏
+        <item name="android:windowNoTitle">true</item>
+        //是否浮现在activity之上，false的话会被软键盘覆盖
+        <item name="android:windowIsFloating">true</item>
+        //是否半透明，为false时背景为黑色不透明
+        <item name="android:windowIsTranslucent">true</item>
+        //是否有覆盖
+        <item name="android:windowContentOverlay">@null</item>
+        //Activity的动画效果
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        //背景是否模糊显示，为false时效果为全透明
+        <item name="android:backgroundDimEnabled">true</item>
+        //点击空白处时是否销毁Activity
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <!-- 带话题标签的输入框TEditText -->
+    <declare-styleable name="TEditText">
+        <!--话题标签文字颜色 未选中-->
+        <attr format="color" name="text_color_normal_topic"/>
+        <!--话题标签文字颜色 选中-->
+        <attr format="color" name="text_color_select_topic"/>
+        <!--话题标签的文字大小-->
+        <attr format="dimension" name="text_size_topic"/>
+        <!--标签匹配正则-->
+        <attr format="string" name="topic_regex"/>
+    </declare-styleable>
+
+    <!--自定义seek bar style-->
+    <style name="CustomSeekBarStyle" >
+        <item name="android:maxHeight">3dp</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@color/colorPrimary</item>
+        <item name="android:progressDrawable">@drawable/seekbar_progress_drawable</item>
+        <item name="android:minHeight">3dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_double</item>
+        <item name="android:layout_marginBottom">@dimen/margin_double</item>
+    </style>
+
+    <style name="CalendarCell">
+        <item name="android:id">@android:id/text1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@color/foreground_semi</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="EditorActionBarButton">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:contentDescription">@null</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+
+    <style name="AppTheme.Label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#444</item>
+    </style>
+
+    <style name="AppTheme.Label.Layout">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+    </style>
+
+    <style name="AppTheme.Label.Title">
+        <item name="android:textColor">#333</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="AppTheme.Label.Title.Large">
+        <item name="android:textSize">19sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.Label.Title.Small">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.Label.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.Label.Discription">
+        <item name="android:gravity">top</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:singleLine">false</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit_anim</item>
+    </style>
+    <style name="SheetDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/sheet_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/sheet_dialog_out</item>
+    </style>
+
+    <style name="def_progress_style">
+        <item name="outer_layer_slide_color">@color/white</item>
+        <item name="outer_layer_stroke_color">#90F76E6B</item>
+        <item name="outer_layer_stroke_width">2dp</item>
+        <item name="middle_layer_bg_color">#D1D1D1</item>
+        <item name="middle_layer_progress_color">@color/work_background_color</item>
+        <item name="middle_layer_progress_width">4dp</item>
+        <item name="middle_layer_small_circle_slide_color">@color/white</item>
+        <item name="middle_layer_small_circle_stroke_color">@color/work_background_color</item>
+        <item name="middle_layer_small_circle_size">10dp</item>
+        <item name="middle_layer_small_circle_stroke_width">5dp</item>
+        <item name="shadow_layer_color">@color/work_background_color</item>
+        <item name="shadow_layer_inner_color">@color/work_background_color</item>
+        <item name="inner_text_size">50sp</item>
+        <item name="inner_text_color">#fff</item>
+        <item name="inner_text_start">开始</item>
+        <item name="inner_text_end">时间到</item>
+        <item name="inner_text_time_style">mm:ss</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+</resources>
