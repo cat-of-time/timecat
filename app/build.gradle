@@ -154,14 +154,14 @@ dependencies {
     implementation "com.android.support:support-annotations:${supportVersion}"
     implementation "com.android.support.constraint:constraint-layout:1.0.2"
     // Time and date handling
-    compile 'joda-time:joda-time:2.9.9'
+    implementation 'joda-time:joda-time:2.9.9'
     // state
     implementation "com.evernote:android-state:${state_version}"
     // toast
     implementation 'com.github.GrenderG:Toasty:1.1.3'
     //Okhttp3
-    compile 'com.squareup.okhttp3:okhttp:3.10.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     //Retrofit2
     implementation "com.squareup.retrofit2:adapter-rxjava:${retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit}"
@@ -170,83 +170,83 @@ dependencies {
     implementation "net.grandcentrix.thirtyinch:thirtyinch:${thirtyinchVersion}"
     implementation "net.grandcentrix.thirtyinch:thirtyinch-rx2:${thirtyinchVersion}"
     //RxLifecycle
-    compile 'com.trello:rxlifecycle-components:0.6.1'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.trello:rxlifecycle-components:0.6.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.alibaba:fastjson:1.1.67.android'
+    implementation 'com.alibaba:fastjson:1.1.67.android'
     //tabLayout
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
     //recyclerview
-    compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
-    compile 'jp.wasabeef:recyclerview-animators:2.2.6'
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.0.2'
+    implementation 'jp.wasabeef:recyclerview-animators:2.2.6'
     // ExpansionPanel
-    compile 'com.github.florent37:expansionpanel:1.0.7'
+    implementation 'com.github.florent37:expansionpanel:1.0.7'
     //floating action button
-    compile 'com.getbase:floatingactionbutton:1.9.0'
+    implementation 'com.getbase:floatingactionbutton:1.9.0'
     // round image view(for material getDrawer)
-    compile 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
     // snackbar
-    compile 'com.nispok:snackbar:2.9.0'
+    implementation 'com.nispok:snackbar:2.9.0'
     // material
-    compile 'com.github.rey5137:material:1.2.4'
+    implementation 'com.github.rey5137:material:1.2.4'
     // material dialog
-    compile 'com.afollestad.material-dialogs:commons:0.9.6.0'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
     // time picker
-    compile 'com.doomonafireball.betterpickers:library:1.5.5'
-    compile 'com.contrarywind:Android-PickerView:4.1.2'
+    implementation 'com.doomonafireball.betterpickers:library:1.5.5'
+    implementation 'com.contrarywind:Android-PickerView:4.1.2'
     // navigationBar
-    compile 'me.majiajie:pager-bottom-tab-strip:2.2.5'
+    implementation 'me.majiajie:pager-bottom-tab-strip:2.2.5'
     // material getDrawer
-    compile('com.mikepenz:materialdrawer:4.4.1@aar') { transitive = true }
-    compile 'com.mikepenz:iconics-core:2.1.0@aar'
-    compile 'com.mikepenz:google-material-typeface:2.1.2.1@aar'
-    compile 'com.mikepenz:community-material-typeface:1.2.65.1@aar'
-    compile 'com.mikepenz:fontawesome-typeface:4.7.0.2@aar'
-    compile('com.mikepenz:materialize:0.2.7@aar') { transitive = true }
-    compile('com.mikepenz:aboutlibraries:5.2.5@aar') { transitive = true }
+    implementation('com.mikepenz:materialdrawer:4.4.1@aar') { transitive = true }
+    implementation 'com.mikepenz:iconics-core:2.1.0@aar'
+    implementation 'com.mikepenz:google-material-typeface:2.1.2.1@aar'
+    implementation 'com.mikepenz:community-material-typeface:1.2.65.1@aar'
+    implementation 'com.mikepenz:fontawesome-typeface:4.7.0.2@aar'
+    implementation('com.mikepenz:materialize:0.2.7@aar') { transitive = true }
+    implementation('com.mikepenz:aboutlibraries:5.2.5@aar') { transitive = true }
     // Event bus
-    compile 'de.greenrobot:eventbus:2.2.1'
+    implementation 'de.greenrobot:eventbus:2.2.1'
     // ormlite
-    compile 'com.j256.ormlite:ormlite-android:4.45'
+    implementation 'com.j256.ormlite:ormlite-android:4.45'
     // event bus
-    compile 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.1.1'
     // refresh recycle view
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5-alpha-2'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5-alpha-2'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
-    compile 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
-    compile 'com.github.mmin18:realtimeblurview:1.0.6'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5-alpha-2'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5-alpha-2'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    implementation 'com.github.mmin18:realtimeblurview:1.0.6'
 
     // intro
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.heinrichreimersoftware:material-intro:1.6.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
     // device
     implementation 'com.jaredrummler:android-device-names:1.1.5'
     //calendar
-    compile 'com.haibin:calendarview:3.2.7'
-    compile ('com.github.applikeysolutions:cosmocalendar:1.0.4')
+    implementation 'com.haibin:calendarview:3.2.7'
+    implementation ('com.github.applikeysolutions:cosmocalendar:1.0.4')
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
-    compile 'com.github.LinXueyuanStdio:Android-Rich-text-Editor:for_timecat-SNAPSHOT'
+    implementation 'com.github.LinXueyuanStdio:Android-Rich-text-Editor:for_timecat-SNAPSHOT'
     // 阿里百川用户反馈
-    compile 'com.aliyun.ams:alicloud-android-feedback:3.1.0@aar'
-    compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
-    compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
-    compile 'com.aliyun.ams:alicloud-android-utils:1.0.3'
+    implementation 'com.aliyun.ams:alicloud-android-feedback:3.1.0@aar'
+    implementation 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
+    implementation 'com.aliyun.ams:alicloud-android-ut:5.1.0'
+    implementation 'com.aliyun.ams:alicloud-android-utils:1.0.3'
     //anim
-    compile 'com.daimajia.easing:library:2.0@aar'
-    compile 'com.daimajia.androidanimations:library:2.3@aar'
-    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
     implementation 'com.robertlevonyan.view:MaterialChipView:1.2.1'
     //project
-    compile project(':lib')
-    compile project(':commonjar')
-    compile project(':colorpicker')
-    compile project(':calendar')
+    implementation project(':lib')
+    implementation project(':commonjar')
+    implementation project(':colorpicker')
+    implementation project(':calendar')
     //files in libs/*
-    compile files('libs/AndroidScreenCap.jar')
-    compile files('libs/securityguard-3.1.27.jar')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation files('libs/AndroidScreenCap.jar')
+    implementation files('libs/securityguard-3.1.27.jar')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.simplemobiletools:commons:3.14.1'
 }
