@@ -1,14 +1,28 @@
 package com.time.cat
 
+import android.annotation.TargetApi
+import android.app.AlarmManager
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import com.simplemobiletools.commons.extensions.isKitkatPlus
+import com.simplemobiletools.commons.extensions.isMarshmallowPlus
 import com.time.cat.data.Config
+import com.time.cat.data.Constants.EVENT_ID
+import com.time.cat.data.Constants.EVENT_OCCURRENCE_TS
+import com.time.cat.data.database.DB
+import com.time.cat.data.model.DBmodel.DBRoutine
 import com.time.cat.data.model.DBmodel.Event
+import com.time.cat.ui.service.NotificationReceiver
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 //
 //val Context.dbHelper: DBHelper get() = DBHelper.newInstance(applicationContext)
 
 fun Context.getNowSeconds() = System.currentTimeMillis()
+@TargetApi(Build.VERSION_CODES.M)
 //
 //fun Context.updateWidgets() {
 //    val widgetsCnt = AppWidgetManager.getInstance(applicationContext).getAppWidgetIds(ComponentName(applicationContext, MyWidgetMonthlyProvider::class.java))
@@ -36,21 +50,21 @@ fun Context.getNowSeconds() = System.currentTimeMillis()
 //    }
 //}
 //
-//fun Context.scheduleAllEvents() {
-//    val events = dbHelper.getEventsAtReboot()
-//    events.forEach {
-//        scheduleNextEventReminder(it, dbHelper)
-//    }
-//}
+fun Context.scheduleAllEvents() {
+    val events = DB.routines().getEventsAtReboot()
+    events.forEach {
+        scheduleNextEventReminder(it)
+    }
+}
 //
-//fun Context.scheduleNextEventReminder(event: Event?, dbHelper: DBHelper) {
-//    if (event == null || event.getReminders().isEmpty()) {
-//        return
-//    }
-//
-//    val now = getNowSeconds()
-//    val reminderSeconds = event.getReminders().reversed().map { it * 60 }
-//    dbHelper.getEvents(now, now + YEAR, event.id) {
+fun Context.scheduleNextEventReminder(event: DBRoutine?) {
+    if (event == null || event.getReminders().isEmpty()) {
+        return
+    }
+
+    val now = getNowSeconds()
+    val reminderSeconds = event.getReminders().reversed().map { it * 60 }
+//    DB.routines().getEvents(now, now + YEAR, event.id) {
 //        if (it.isNotEmpty()) {
 //            for (curEvent in it) {
 //                for (curReminder in reminderSeconds) {
@@ -61,35 +75,39 @@ fun Context.getNowSeconds() = System.currentTimeMillis()
 //                }
 //            }
 //        }
-//    }
-//}
+//    }TODO
+}
 //
-//fun Context.scheduleEventIn(notifTS: Long, event: Event) {
-//    if (notifTS < System.currentTimeMillis()) {
-//        return
-//    }
-//
-//    val pendingIntent = getNotificationIntent(applicationContext, event)
-//    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//
-//    when {
-//        isMarshmallowPlus() -> alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notifTS, pendingIntent)
-//        isKitkatPlus() -> alarmManager.setExact(AlarmManager.RTC_WAKEUP, notifTS, pendingIntent)
-//        else -> alarmManager.set(AlarmManager.RTC_WAKEUP, notifTS, pendingIntent)
-//    }
-//}
+fun Context.scheduleEventIn(notifTS: Long, event: DBRoutine) {
+    if (notifTS < System.currentTimeMillis()) {
+        return
+    }
+
+    val pendingIntent = getNotificationIntent(applicationContext, event)
+    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+    when {
+        isMarshmallowPlus() -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notifTS, pendingIntent)
+        }
+        isKitkatPlus() -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, notifTS, pendingIntent)
+        }
+        else -> alarmManager.set(AlarmManager.RTC_WAKEUP, notifTS, pendingIntent)
+    }
+}
 //
 //fun Context.cancelNotification(id: Int) {
 //    val intent = Intent(applicationContext, NotificationReceiver::class.java)
 //    PendingIntent.getBroadcast(applicationContext, id, intent, PendingIntent.FLAG_UPDATE_CURRENT).cancel()
 //}
 //
-//private fun getNotificationIntent(context: Context, event: Event): PendingIntent {
-//    val intent = Intent(context, NotificationReceiver::class.java)
-//    intent.putExtra(EVENT_ID, event.id)
-//    intent.putExtra(EVENT_OCCURRENCE_TS, event.startTS)
-//    return PendingIntent.getBroadcast(context, event.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//}
+private fun getNotificationIntent(context: Context, event: DBRoutine): PendingIntent {
+    val intent = Intent(context, NotificationReceiver::class.java)
+    intent.putExtra(EVENT_ID, event.id)
+    intent.putExtra(EVENT_OCCURRENCE_TS, event.beginTs)
+    return PendingIntent.getBroadcast(context, event.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+}
 //
 //fun Context.getFormattedMinutes(minutes: Int, showBefore: Boolean = true) = when (minutes) {
 //    -1 -> getString(R.string.no_reminder)
@@ -216,13 +234,13 @@ fun Context.getFilteredEvents(events: List<Event>): List<Event> {
 //    }
 //}
 //
-//fun Context.rescheduleReminder(event: Event?, minutes: Int) {
-//    if (event != null) {
-//        applicationContext.scheduleEventIn(System.currentTimeMillis() + minutes * 60000, event)
-//        val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        manager.cancel(event.id)
-//    }
-//}
+fun Context.rescheduleReminder(event: DBRoutine?, minutes: Int) {
+    if (event != null) {
+        applicationContext.scheduleEventIn(System.currentTimeMillis() + minutes * 60000, event)
+        val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.cancel(event.id.toInt())
+    }
+}
 //
 //fun Context.launchNewEventIntent(dayCode: String = Formatter.getTodayCode(this)) {
 //    Intent(applicationContext, EventActivity::class.java).apply {
