@@ -1,8 +1,9 @@
-package com.stone.pile.libs;
+package com.time.cat.ui.widgets;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -10,18 +11,23 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.ViewParent;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
+
+import com.time.cat.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by xmuSistone on 2017/5/12.
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/3/28
+ * @discription null
+ * @usage null
  */
-
 public class PileLayout extends ViewGroup {
 
     private final int mMaximumVelocity;
@@ -78,24 +84,18 @@ public class PileLayout extends ViewGroup {
         mTouchSlop = configuration.getScaledTouchSlop();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
 
-        onClickListener = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != adapter) {
-                    int position = Integer.parseInt(v.getTag().toString());
-                    if (position >= 0 && position < adapter.getItemCount()) {
-                        adapter.onItemClick(((FrameLayout) v).getChildAt(0), position);
-                    }
+        onClickListener = v -> {
+            if (null != adapter) {
+                int position = Integer.parseInt(v.getTag().toString());
+                if (position >= 0 && position < adapter.getItemCount()) {
+                    adapter.onItemClick(((FrameLayout) v).getChildAt(0), position);
                 }
             }
         };
 
-        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (getHeight() > 0 && null != adapter && !hasSetAdapter) {
-                    setAdapter(adapter);
-                }
+        getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            if (getHeight() > 0 && null != adapter && !hasSetAdapter) {
+                setAdapter(adapter);
             }
         });
     }
@@ -255,7 +255,7 @@ public class PileLayout extends ViewGroup {
             case MotionEvent.ACTION_CANCEL:
                 final VelocityTracker velocityTracker = mVelocityTracker;
                 velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-                int velocity = (int) velocityTracker.getXVelocity();
+                float velocity = velocityTracker.getXVelocity();
                 recycleVelocityTracker();
 
                 onRelease(event.getX(), velocity);
@@ -264,7 +264,7 @@ public class PileLayout extends ViewGroup {
         return true;
     }
 
-    private void onRelease(float eventX, int velocityX) {
+    private void onRelease(float eventX, float velocityX) {
         animatingView = (FrameLayout) getChildAt(3);
         animateValue = animatingView.getLeft();
         int tag = Integer.parseInt(animatingView.getTag().toString());
@@ -312,6 +312,7 @@ public class PileLayout extends ViewGroup {
 
         // 1. View循环复用
         FrameLayout firstView = (FrameLayout) getChildAt(0);
+
         if (dx > 0 && firstView.getLeft() >= originX.get(1)) {
             // 向右滑动，从左边把View补上
             FrameLayout lastView = (FrameLayout) getChildAt(getChildCount() - 1);
@@ -455,7 +456,7 @@ public class PileLayout extends ViewGroup {
                 frameLayout.setVisibility(View.INVISIBLE);
             }
 
-            if (i == 3 && tag == 0) {
+            if (i == 3 && tag >= 0) {
                 adapter.displaying(0);
             }
         }
@@ -482,6 +483,16 @@ public class PileLayout extends ViewGroup {
         super.requestDisallowInterceptTouchEvent(disallowIntercept);
     }
 
+    @Override
+    public boolean dispatchTouchEvent (MotionEvent ev) {
+
+        ViewParent parent =this;
+
+        while(!((parent = parent.getParent()) instanceof ViewPager));// 循环查找viewPager
+        parent.requestDisallowInterceptTouchEvent(true);
+        return super.dispatchTouchEvent(ev);
+
+    }
 
     /**
      * 属性动画，请勿删除
@@ -514,19 +525,16 @@ public class PileLayout extends ViewGroup {
         /**
          * View与数据绑定回调，可重载
          */
-        public void bindView(View view, int index) {
-        }
+        public void bindView(View view, int index) {}
 
         /**
          * 正在展示的回调，可重载
          */
-        public void displaying(int position) {
-        }
+        public void displaying(int position) {}
 
         /**
          * item点击，可重载
          */
-        public void onItemClick(View view, int position) {
-        }
+        public void onItemClick(View view, int position) {}
     }
 }

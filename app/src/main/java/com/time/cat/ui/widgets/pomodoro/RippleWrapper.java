@@ -1,4 +1,4 @@
-package com.time.cat.ui.widgets;
+package com.time.cat.ui.widgets.pomodoro;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;

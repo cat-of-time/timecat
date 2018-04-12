@@ -61,7 +61,7 @@ public class TagFragment extends BaseFragment {
             } else {
                 LogUtil.e("onClick tagCloudView at --> 点击 position" + position);
                 if (onTagAddListener != null) {
-                    onTagAddListener.addTag(tagList.get(position));
+                    onTagAddListener.insertTag(tagList.get(position));
                 }
             }
         });
@@ -75,7 +75,7 @@ public class TagFragment extends BaseFragment {
     }
 
     public interface OnTagAddListener {
-        void addTag(Tag tag);
+        void insertTag(Tag tag);
     }
 
 }

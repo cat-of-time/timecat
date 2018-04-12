@@ -1,52 +1,62 @@
-package com.zhangsiqi.dragboarddemo.adapter;
+package com.time.cat.ui.widgets.boardview;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zhangsiqi.dragboarddemo.MainActivity;
-import com.zhangsiqi.dragboarddemo.R;
-import com.zhangsiqi.dragboarddemo.data.Item;
+import com.time.cat.R;
+import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBSubPlan;
+import com.time.cat.data.model.DBmodel.DBTask;
+import com.time.cat.ui.modules.operate.InfoOperationActivity;
+import com.time.cat.ui.modules.plans.detail.PlanDetailActivity;
+import com.time.cat.ui.widgets.SmoothCheckBox;
+import com.time.cat.util.string.TimeUtil;
+import com.time.cat.util.view.ViewUtil;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
-/**
- * Created by zhangsiqi on 2016/9/11.
- */
 public class RecyclerViewVerticalDataAdapter extends RecyclerView.Adapter<RecyclerViewVerticalDataAdapter.ViewHolder> {
 
     private Activity mContext;
-    private List<Item> mData;
+    private DBSubPlan dbSubPlan;
+    private List<DBTask> mData;
     private LayoutInflater mInflater;
 
     private int mDragPosition;//正在拖动的 View 的 position
     private boolean mHideDragItem; // 是否隐藏正在拖动的 position
+    private boolean onBine = false;
 
-    public RecyclerViewVerticalDataAdapter(Activity context, List<Item> data) {
+    public RecyclerViewVerticalDataAdapter(Activity context, DBSubPlan dbSubPlan) {
         this.mContext = context;
-        this.mContext = context;
-        this.mData = data;
+        this.dbSubPlan = dbSubPlan;
+        this.mData = DB.schedules().findAll(dbSubPlan);
         this.mInflater = LayoutInflater.from(context);
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View convertView = mInflater.inflate(R.layout.recyclerview_item_item, parent, false);
         return new ViewHolder(convertView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Item item = mData.get(position);
-        holder.tv_name.setText(item.getItemName());
-        holder.tv_id.setText(item.getItemId());
-        holder.tv_info.setText(item.getInfo());
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        onBine = true;
+        final DBTask item = mData.get(holder.getAdapterPosition());
+        holder.item_title.setText(item.getTitle());
 
-        if (position == mDragPosition && mHideDragItem) {
+        if (holder.getAdapterPosition() == mDragPosition && mHideDragItem) {
             holder.itemView.setVisibility(View.INVISIBLE);
         } else {
             holder.itemView.setVisibility(View.VISIBLE);
@@ -56,10 +66,53 @@ public class RecyclerViewVerticalDataAdapter extends RecyclerView.Adapter<Recycl
             @Override
             public boolean onLongClick(View v) {
                 v.setTag(item);
-                ((MainActivity)mContext).getDragHelper().drag(v, position);
+                ((PlanDetailActivity)mContext).getDragHelper().drag(v, position);
                 return true;
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2DialogActivity = new Intent(mContext, InfoOperationActivity.class);
+                intent2DialogActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2DialogActivity.putExtra(InfoOperationActivity.TO_SAVE_STR, item.getContent());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(InfoOperationActivity.TO_UPDATE_TASK, item);
+                intent2DialogActivity.putExtras(bundle);
+                mContext.startActivity(intent2DialogActivity);
+            }
+        });
+
+//        holder.item_title.setTextColor(item.getIsFinish() ? Color.GRAY : Color.BLACK);
+        holder.item_checkBox.setChecked(item.getIsFinish());
+        if (item.getIsFinish()) {
+            holder.item_title.setTextColor(Color.GRAY);
+            ViewUtil.addClearCenterLine(holder.item_title);
+        } else {
+            holder.item_title.setTextColor(Color.BLACK);
+            ViewUtil.removeLine(holder.item_title);
+        }
+        holder.item_checkBox.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+                if (onBine) return;
+                if (isChecked) {
+                    ViewUtil.addClearCenterLine(holder.item_title);
+                    holder.item_title.setTextColor(Color.GRAY);
+                    item.setIsFinish(true);
+                    if (item.getFinished_datetime() == null) {
+                        item.setFinished_datetime(TimeUtil.formatGMTDate(new Date()));
+                    }
+                } else {
+                    ViewUtil.removeLine(holder.item_title);
+                    holder.item_title.setTextColor(Color.BLACK);
+                    item.setIsFinish(false);
+                    item.setFinished_datetime(null);
+                }
+                DB.schedules().safeSaveDBTask(item);
+            }
+        });
+        onBine = false;
     }
 
     @Override
@@ -76,6 +129,10 @@ public class RecyclerViewVerticalDataAdapter extends RecyclerView.Adapter<Recycl
 
     public void onDrop(int page, int position, Object tag) {
         mHideDragItem = false;
+        DBTask task = (DBTask) tag;
+        List<DBSubPlan> dbSubPlanList = DB.subPlans().findAll( dbSubPlan.getPlan());
+        task.setSubplan(dbSubPlanList.get(page));
+        DB.schedules().safeSaveDBTask(task);
         notifyItemChanged(position);
     }
 
@@ -88,7 +145,7 @@ public class RecyclerViewVerticalDataAdapter extends RecyclerView.Adapter<Recycl
     }
 
     public void onDragIn(int position, Object tag) {
-        Item task = (Item) tag;
+        DBTask task = (DBTask) tag;
         if (position > mData.size()) {// 如果拖进来时候的 position 比当前 列表的长度大，就添加到列表末端
             position = mData.size();
         }
@@ -127,13 +184,13 @@ public class RecyclerViewVerticalDataAdapter extends RecyclerView.Adapter<Recycl
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_name, tv_id, tv_info;
+        TextView item_title;
+        SmoothCheckBox item_checkBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-            tv_id = (TextView) itemView.findViewById(R.id.tv_id);
-            tv_info = (TextView) itemView.findViewById(R.id.tv_info);
+            item_title = itemView.findViewById(R.id.item_title);
+            item_checkBox = itemView.findViewById(R.id.item_checkBox);
         }
     }
 }

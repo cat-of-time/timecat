@@ -57,6 +57,16 @@ public class CustomPagerView extends ViewPager {
         return super.onTouchEvent(evt);
     }
 
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        return super.dispatchTouchEvent(ev);
+//    }
+//
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        return false;
+//    }
+
     public void onSingleTouch(View v) {
         if (onSingleTouchListener != null) {
             onSingleTouchListener.onSingleTouch(v);

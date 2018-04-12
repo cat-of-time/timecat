@@ -1,4 +1,4 @@
-package com.stone.transition;
+package com.time.cat.ui.widgets;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;

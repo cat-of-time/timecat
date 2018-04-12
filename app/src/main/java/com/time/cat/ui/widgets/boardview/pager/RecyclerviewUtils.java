@@ -1,4 +1,4 @@
-package com.zhangsiqi.dragboarddemo.pager;
+package com.time.cat.ui.widgets.boardview.pager;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

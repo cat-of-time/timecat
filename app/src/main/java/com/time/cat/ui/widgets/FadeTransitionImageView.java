@@ -1,18 +1,22 @@
-package com.stone.pile.widget;
+package com.time.cat.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.stone.pile.R;
+import com.time.cat.R;
 
 /**
- * Created by xmuSistone on 2017/5/12.
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/3/28
+ * @discription null
+ * @usage null
  */
-
 public class FadeTransitionImageView extends BaseTransitionLayout {
 
     private ImageView imageView1, imageView2;
@@ -37,12 +41,12 @@ public class FadeTransitionImageView extends BaseTransitionLayout {
     @Override
     public void addViewWhenFinishInflate() {
         imageView1 = new ImageView(getContext());
-        ViewGroup.LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        ViewGroup.LayoutParams lp1 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         imageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
         addView(imageView1, lp1);
 
         imageView2 = new ImageView(getContext());
-        LayoutParams lp2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams lp2 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         imageView2.setScaleType(ImageView.ScaleType.CENTER_CROP);
         addView(imageView2, lp2);
     }
@@ -56,6 +60,7 @@ public class FadeTransitionImageView extends BaseTransitionLayout {
 
     @Override
     public void onAnimationEnd() {
+        super.onAnimationEnd();
         currentPosition = nextPosition;
         ImageView tmp = imageView1;
         imageView1 = imageView2;

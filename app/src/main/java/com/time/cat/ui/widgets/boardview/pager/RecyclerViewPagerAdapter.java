@@ -1,10 +1,8 @@
-package com.zhangsiqi.dragboarddemo.pager;
+package com.time.cat.ui.widgets.boardview.pager;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.zhangsiqi.dragboarddemo.pager.PagerRecyclerView;
 
 public class RecyclerViewPagerAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     private final PagerRecyclerView mViewPager;

@@ -1,4 +1,4 @@
-package com.zhangsiqi.dragboarddemo.drag;
+package com.time.cat.ui.widgets.boardview.drag;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,12 +14,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-
-import com.zhangsiqi.dragboarddemo.utils.AttrAboutPhone;
-import com.zhangsiqi.dragboarddemo.utils.Logger;
-import com.zhangsiqi.dragboarddemo.adapter.RecyclerViewHorizontalDataAdapter;
-import com.zhangsiqi.dragboarddemo.adapter.RecyclerViewVerticalDataAdapter;
-import com.zhangsiqi.dragboarddemo.pager.PagerRecyclerView;
+import com.time.cat.ui.widgets.boardview.RecyclerViewHorizontalDataAdapter;
+import com.time.cat.ui.widgets.boardview.RecyclerViewVerticalDataAdapter;
+import com.time.cat.ui.widgets.boardview.pager.PagerRecyclerView;
+import com.time.cat.util.override.LogUtil;
+import com.time.cat.util.view.ScreenUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,6 +35,7 @@ public class DragHelper {
     private RecyclerView mCurrentVerticalView;
     private PagerRecyclerView mHorizontalRecyclerView;
 
+    private int screenWidth = 0;
     private boolean isDragging = false;
     private float mBornLocationX, mBornLocationY;//抓起时 view 的坐标
     private int offsetX, offsetY;//抓起时 view 坐标和点击点的距离
@@ -61,6 +61,8 @@ public class DragHelper {
 
 
     public DragHelper(Activity activity) {
+        screenWidth = ScreenUtil.getScreenWidth(activity);
+
         mWindowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         mWindowParams = new WindowManager.LayoutParams();
         mWindowParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
@@ -218,8 +220,8 @@ public class DragHelper {
      */
     private void getTargetHorizontalRecyclerViewScrollBoundaries() {
         leftScrollBounce = 200;
-        rightScrollBounce = AttrAboutPhone.screenWidth - 200;
-        Logger.info("MyTag", "leftScrollBounce " + leftScrollBounce + " rightScrollBounce " + rightScrollBounce);
+        rightScrollBounce = screenWidth - 200;
+        LogUtil.i("MyTag", "leftScrollBounce " + leftScrollBounce + " rightScrollBounce " + rightScrollBounce);
     }
 
     /**

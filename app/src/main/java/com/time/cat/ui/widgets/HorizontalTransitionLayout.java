@@ -1,4 +1,4 @@
-package com.stone.pile.widget;
+package com.time.cat.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,10 +8,15 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.stone.pile.R;
+import com.time.cat.R;
+
 
 /**
- * Created by xmuSistone on 2017/5/12.
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/3/28
+ * @discription null
+ * @usage null
  */
 public class HorizontalTransitionLayout extends BaseTransitionLayout {
 
@@ -39,8 +44,8 @@ public class HorizontalTransitionLayout extends BaseTransitionLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.scene);
         leftMargin = a.getDimensionPixelSize(R.styleable.scene_leftMargin, leftMargin);
-        textSize = a.getFloat(R.styleable.scene_textSize, textSize);
-        textColor = a.getColor(R.styleable.scene_textColor, textColor);
+        textSize = a.getFloat(R.styleable.scene_sceneTextSize, textSize);
+        textColor = a.getColor(R.styleable.scene_sceneTextColor, textColor);
         leftDistance = a.getDimensionPixelSize(R.styleable.scene_leftDistance, leftDistance);
         rightDistance = a.getDimensionPixelSize(R.styleable.scene_rightDistance, rightDistance);
         a.recycle();
@@ -52,7 +57,7 @@ public class HorizontalTransitionLayout extends BaseTransitionLayout {
         textView1.setGravity(Gravity.CENTER_VERTICAL);
         textView1.setTextSize(textSize);
         textView1.setTextColor(textColor);
-        FrameLayout.LayoutParams lp1 = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams lp1 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         lp1.setMargins(leftMargin, 0, 0, 0);
         addView(textView1, lp1);
 
@@ -60,7 +65,7 @@ public class HorizontalTransitionLayout extends BaseTransitionLayout {
         textView2.setGravity(Gravity.CENTER_VERTICAL);
         textView2.setTextSize(textSize);
         textView2.setTextColor(textColor);
-        FrameLayout.LayoutParams lp2 = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams lp2 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         lp2.setMargins(leftMargin, 0, 0, 0);
         addView(textView2, lp2);
     }
@@ -73,6 +78,7 @@ public class HorizontalTransitionLayout extends BaseTransitionLayout {
 
     @Override
     public void onAnimationEnd() {
+        super.onAnimationEnd();
         currentPosition = nextPosition;
         TextView tmp = textView1;
         textView1 = textView2;

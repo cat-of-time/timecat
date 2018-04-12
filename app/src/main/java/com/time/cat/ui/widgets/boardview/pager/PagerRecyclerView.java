@@ -1,4 +1,4 @@
-package com.zhangsiqi.dragboarddemo.pager;
+package com.time.cat.ui.widgets.boardview.pager;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import com.zhangsiqi.dragboarddemo.R;
+import com.time.cat.R;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

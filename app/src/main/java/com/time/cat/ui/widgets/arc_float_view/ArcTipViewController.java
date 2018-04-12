@@ -9,7 +9,6 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -31,11 +30,11 @@ import com.flask.colorpicker.CircleColorDrawable;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.data.Constants;
-import com.time.cat.ui.modules.viewtask.HistoryActivity;
-import com.time.cat.ui.modules.editor.EditorActivity;
+import com.time.cat.ui.modules.main.MainActivity;
 import com.time.cat.ui.modules.operate.InfoOperationActivity;
 import com.time.cat.ui.modules.screen.ScreenCaptureActivity;
 import com.time.cat.ui.modules.setting.SettingFloatViewActivity;
+import com.time.cat.ui.modules.minimain.HistoryActivity;
 import com.time.cat.util.UrlCountUtil;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.view.ViewUtil;
@@ -361,7 +360,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             contentDiscription = new String[]{mContext.getString(R.string.open_timecat), mContext.getString(R.string.notify_copy_title)};
         } else {
             icons = new int[]{
-                    R.drawable.ic_bookmark_white_24dp,
+                    R.drawable.ic_float_home,
                     R.drawable.ic_add_circle_blue_24dp,
                     R.mipmap.ic_float_copy,
                     R.mipmap.ic_float_screen,
@@ -379,11 +378,11 @@ public class ArcTipViewController implements View.OnTouchListener {
         if (archMenu != null) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
-                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")));
+                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#0288D1")));
                 archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
             } else {
                 CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
-                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")),
+                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#0288D1")),
                         (int) (ViewUtil.dp2px(47) * present));
                 archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
 
@@ -404,11 +403,11 @@ public class ArcTipViewController implements View.OnTouchListener {
             item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
-                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")));
+                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#0288D1")));
                 item.setBackgroundDrawable(circleColorDrawable);
             } else {
                 CircleColorDrawable circleColorDrawable = new CircleColorDrawable(
-                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#01579B")),
+                        SPHelper.getInt(Constants.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#0288D1")),
                         (int) (ViewUtil.dp2px(32) * present));
                 item.setBackgroundDrawable(circleColorDrawable);
             }
@@ -457,10 +456,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             case 0:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);
                 Intent intent2MainActivity = new Intent();
-                Bundle args = new Bundle();
-                args.putBoolean(Constants.BUNDLE_KEY_FROM_FILE, false);
-                intent2MainActivity.putExtras(args);
-                intent2MainActivity.setClass(mContext, EditorActivity.class);
+                intent2MainActivity.setClass(mContext, MainActivity.class);
                 intent2MainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent2MainActivity);
                 break;

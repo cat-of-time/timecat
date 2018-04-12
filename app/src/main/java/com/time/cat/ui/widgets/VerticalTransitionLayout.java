@@ -1,18 +1,20 @@
-package com.stone.pile.widget;
+package com.time.cat.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.stone.pile.R;
+import com.time.cat.R;
 
 /**
- * Created by xmuSistone on 2017/5/12.
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/3/28
+ * @discription null
+ * @usage null
  */
 public class VerticalTransitionLayout extends BaseTransitionLayout {
 
@@ -37,8 +39,8 @@ public class VerticalTransitionLayout extends BaseTransitionLayout {
         super(context, attrs, defStyleAttr);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.scene);
-        textSize = a.getFloat(R.styleable.scene_textSize, textSize);
-        textColor = a.getColor(R.styleable.scene_textColor, textColor);
+        textSize = a.getFloat(R.styleable.scene_sceneTextSize, textSize);
+        textColor = a.getColor(R.styleable.scene_sceneTextColor, textColor);
         verticalDistance = a.getDimensionPixelSize(R.styleable.scene_verticalDistance, verticalDistance);
         a.recycle();
     }
@@ -68,6 +70,7 @@ public class VerticalTransitionLayout extends BaseTransitionLayout {
 
     @Override
     public void onAnimationEnd() {
+        super.onAnimationEnd();
         currentPosition = nextPosition;
         TextView tmp = textView1;
         textView1 = textView2;

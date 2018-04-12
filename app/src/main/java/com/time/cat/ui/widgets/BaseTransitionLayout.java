@@ -1,13 +1,16 @@
-package com.stone.pile.widget;
+package com.time.cat.ui.widgets;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 /**
- * Created by xmuSistone on 2017/5/12.
+ * @author dlink
+ * @email linxy59@mail2.sysu.edu.cn
+ * @date 2018/3/28
+ * @discription null
+ * @usage null
  */
-
 public abstract class BaseTransitionLayout extends FrameLayout {
 
     public BaseTransitionLayout(Context context) {
@@ -32,8 +35,9 @@ public abstract class BaseTransitionLayout extends FrameLayout {
 
     public abstract void firstInit(String info);
 
-    @Override
-    public abstract void onAnimationEnd();
+    public void onAnimationEnd(){
+        super.onAnimationEnd();
+    }
 
     public abstract void duringAnimation(float rate);
 

@@ -1,4 +1,4 @@
-package com.stone.transition;
+package com.time.cat.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 
+import com.time.cat.R;
+
+import static com.time.cat.R.styleable.dragLayout;
+
 /**
  * 尽量考虑了所有操作系统版本的分辨率适配
  * Created by xmuSistone on 2016/9/18.
@@ -19,7 +23,7 @@ import android.widget.FrameLayout;
 public class DragLayout extends FrameLayout {
 
     private int bottomDragVisibleHeight; // 滑动可见的高度
-    private int bototmExtraIndicatorHeight; // 底部指示器的高度
+    private int bottomExtraIndicatorHeight; // 底部指示器的高度
     private int dragTopDest = 0; // 顶部View滑动的目标位置
     private static final int DECELERATE_THRESHOLD = 120;
     private static final int DRAG_SWITCH_DISTANCE_THRESHOLD = 100;
@@ -51,10 +55,10 @@ public class DragLayout extends FrameLayout {
     public DragLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.app, 0, 0);
-        bottomDragVisibleHeight = (int) a.getDimension(R.styleable.app_bottomDragVisibleHeight, 0);
-        bototmExtraIndicatorHeight = (int) a.getDimension(R.styleable.app_bototmExtraIndicatorHeight, 0);
-        a.recycle();
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, dragLayout, 0, 0);
+        bottomDragVisibleHeight = (int) typedArray.getDimension(R.styleable.dragLayout_bottomDragVisibleHeight, 0);
+        bottomExtraIndicatorHeight = (int) typedArray.getDimension(R.styleable.dragLayout_bottomExtraIndicatorHeight, 0);
+        typedArray.recycle();
 
         mDragHelper = ViewDragHelper
                 .create(this, 10f, new DragHelperCallback());
@@ -290,7 +294,7 @@ public class DragLayout extends FrameLayout {
 
         // bottomMarginTop高度的计算，还是需要有一个清晰的数学模型才可以。
         // 实现的效果，是topView.top和bottomView.bottom展开前、与展开后都整体居中
-        int bottomMarginTop = (bottomDragVisibleHeight + topView.getMeasuredHeight() / 2 - bottomView.getMeasuredHeight() / 2) / 2 - bototmExtraIndicatorHeight;
+        int bottomMarginTop = (bottomDragVisibleHeight + topView.getMeasuredHeight() / 2 - bottomView.getMeasuredHeight() / 2) / 2 - bottomExtraIndicatorHeight;
         FrameLayout.LayoutParams lp1 = (LayoutParams) bottomView.getLayoutParams();
         lp1.setMargins(0, bottomMarginTop, 0, 0);
         bottomView.setLayoutParams(lp1);

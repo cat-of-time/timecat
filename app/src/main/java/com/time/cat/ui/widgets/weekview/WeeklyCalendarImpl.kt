@@ -4,7 +4,7 @@ import android.content.Context
 import com.time.cat.data.Constants.WEEK_MILLI_SECONDS
 import com.time.cat.data.database.DB
 import com.time.cat.data.model.DBmodel.DBRoutine
-import com.time.cat.ui.modules.week_view.listener.WeekCalendarCallback
+import com.time.cat.ui.modules.routines.week_view.listener.WeekCalendarCallback
 
 class WeeklyCalendarImpl(val mCallback: WeekCalendarCallback, val mContext: Context) {
     var dbRoutines = DB.routines().findAll()

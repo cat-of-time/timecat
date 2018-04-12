@@ -28,7 +28,6 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.DragEvent;
@@ -69,10 +68,7 @@ import java.util.regex.Pattern;
  */
 public class TEditText extends AppCompatEditText {
 
-    private static final String TAG = TEditText.class.getSimpleName().trim();
-
     private ArrayList<String> mTopicList = new ArrayList<>();
-
     private ArrayList<ForegroundColorSpan> mColorSpans = new ArrayList<>();
     private ArrayList<AbsoluteSizeSpan> mSizeSpans = new ArrayList<>();
 
@@ -315,7 +311,7 @@ public class TEditText extends AppCompatEditText {
      */
     public ArrayList<String> findTopic(String s) {
         if (TextUtils.isEmpty(topicRegex)) {
-            Log.w(TAG, "you have not set the topicRegex.so we use the default regex. ");
+            LogUtil.w("you have not set the topicRegex.so we use the default regex. ");
             topicRegex = DEFAULT_REGEX;
             return new ArrayList<>();
         }
@@ -429,7 +425,7 @@ public class TEditText extends AppCompatEditText {
     @Nullable
     @Override
     public PorterDuff.Mode getSupportBackgroundTintMode() {
-        LogUtil.i(TAG, "getSupportBackgroundTintMode: ");
+        LogUtil.i("getSupportBackgroundTintMode: ");
         return super.getSupportBackgroundTintMode();
     }
 
