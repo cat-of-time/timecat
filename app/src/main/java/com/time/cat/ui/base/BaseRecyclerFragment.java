@@ -1,4 +1,4 @@
-package com.time.cat.ui.modules.setting;
+package com.time.cat.ui.base;
 
 
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.time.cat.R;
-import com.time.cat.ui.base.BaseFragment;
 import com.time.cat.ui.base.baseCard.AbsCard;
 import com.time.cat.ui.base.baseCard.CardListAdapter;
 import com.time.cat.ui.base.baseCard.DividerItemDecoration;

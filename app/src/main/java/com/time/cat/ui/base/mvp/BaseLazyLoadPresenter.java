@@ -19,6 +19,7 @@ public abstract class BaseLazyLoadPresenter<V extends BaseLazyLoadMVP.View>
             } else {
                 v.setForceLoad(true);
             }
+            sendToView(V::hideProgress);
         });
     }
 

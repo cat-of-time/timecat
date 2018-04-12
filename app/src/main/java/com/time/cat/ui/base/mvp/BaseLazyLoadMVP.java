@@ -28,7 +28,6 @@ public interface BaseLazyLoadMVP {
         //以下自己
         void notifyDataChanged();
         @CallOnMainThread void showProgress();
-        android.view.View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
     }
 
     interface Presenter extends BaseMVP.Presenter {

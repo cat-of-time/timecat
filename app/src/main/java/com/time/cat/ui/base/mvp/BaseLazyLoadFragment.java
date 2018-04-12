@@ -1,6 +1,7 @@
 package com.time.cat.ui.base.mvp;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,14 +58,10 @@ public abstract class BaseLazyLoadFragment<V extends BaseLazyLoadMVP.View, P ext
         return 0;
     }
 
-
-
-
-
+    @LayoutRes
+    public abstract int getLayout();
+    public abstract void initView();
     public abstract View initViews(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
-
-
-
 
 
 
@@ -81,9 +78,14 @@ public abstract class BaseLazyLoadFragment<V extends BaseLazyLoadMVP.View, P ext
         // onCreateView执行 证明被移出过FragmentManager initData确实要执行.
         // 如果这里有数据累加的Bug 请在initViews方法里初始化您的数据 比如 list.clear();
         isFirstLoad = true;
-        view = initViews(inflater, container, savedInstanceState);
+        if (getLayout() != 0) {
+            view = inflater.inflate(getLayout(), container, false);
+        } else {
+            view = initViews(inflater, container, savedInstanceState);
+        }
         assert view != null;
         ButterKnife.bind(this, view);
+        initView();
         isPrepared = true;
         lazyLoad();
 
@@ -140,6 +142,12 @@ public abstract class BaseLazyLoadFragment<V extends BaseLazyLoadMVP.View, P ext
         if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void hideProgress() {
+        super.hideProgress();
+        if (progressBar != null) progressBar.setVisibility(View.GONE);
     }
 
     @Override

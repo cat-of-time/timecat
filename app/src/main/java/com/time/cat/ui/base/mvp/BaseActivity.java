@@ -33,7 +33,6 @@ import com.evernote.android.state.State;
 import com.evernote.android.state.StateSaver;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.data.AppHelper;
 import com.time.cat.data.Constants;
 import com.time.cat.ui.modules.setting.SettingActivity;
 import com.time.cat.ui.widgets.theme.ThemeManager;
@@ -102,7 +101,7 @@ public abstract class BaseActivity<V extends BaseActivityMVP.View, P extends Bas
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AppHelper.updateAppLanguage(this);
+//        AppHelper.updateAppLanguage(this);TODO 判断是否跟随系统语言
         super.onCreate(savedInstanceState);
         context = (BaseActivity) getActivity();
         isAlive = true;
