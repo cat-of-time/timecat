@@ -20,14 +20,12 @@ package com.time.cat.data.model.APImodel;
 
 import android.graphics.Color;
 
-import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.data.model.DBmodel.DBUser;
 
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
 
-@DatabaseTable(tableName = "Routines")
 public class Routine {
     //<editor-fold desc="Field">
     public static final int[] labelColor = new int[]{Color.parseColor("#f44336"), Color.parseColor("#ff8700"), Color.parseColor("#2196f3"), Color.parseColor("#4caf50")};
@@ -50,7 +48,7 @@ public class Routine {
 
 
     //<editor-fold desc="Database Field">
-    private Long id;
+    private long id;
 
     private LocalTime time;
 
@@ -203,11 +201,11 @@ public class Routine {
         this.url = url;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -18,9 +18,6 @@
 
 package com.time.cat.data.database;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
@@ -28,20 +25,15 @@ import com.time.cat.TimeCatApp;
 import com.time.cat.data.model.APImodel.Routine;
 import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.DBmodel.DBRoutine;
-import com.time.cat.data.model.DBmodel.DBTaskItem;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.string.TimeUtil;
 
-import org.joda.time.LocalTime;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class RoutineDao extends GenericDao<DBRoutine, Long> {
 
@@ -68,13 +60,13 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
     @Override
     public List<DBRoutine> findAll() {
         try {
-            return dao.queryBuilder().orderBy(DBRoutine.COLUMN_TIME, true).query();
+            return dao.queryBuilder().query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
     }
 
-    public List<DBRoutine> findAllForActiveUser(Context ctx) {
+    public List<DBRoutine> findAllForActiveUser() {
         return findAll(DB.users().getActive());
     }
 
@@ -82,13 +74,24 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
         return findAll(p.id());
     }
 
-
     public List<DBRoutine> findAll(Long userId) {
         try {
-            return dao.queryBuilder().orderBy(DBRoutine.COLUMN_TIME, true).where().eq(DBRoutine.COLUMN_USER, userId).query();
+            return dao.queryBuilder().where().eq(DBRoutine.COLUMN_USER, userId).query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
+    }
+
+    public List<DBRoutine> findBetween(Date start_date, Date end_date) {
+        List<DBRoutine> dbRoutineList = findAllForActiveUser();
+        List<DBRoutine> result = new ArrayList<>();
+        for (DBRoutine dbRoutine : dbRoutineList) {
+            Date Created_datetime = TimeUtil.formatGMTDateStr(dbRoutine.getCreated_datetime());
+            if (TimeUtil.isDateEarlier(start_date, Created_datetime) && TimeUtil.isDateEarlier(Created_datetime, end_date)) {
+                result.add(dbRoutine);
+            }
+        }
+        return result;
     }
 
     public DBRoutine findByUserAndName(String name, DBUser p) {
@@ -103,40 +106,16 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
         }
     }
 
-    public List<DBRoutine> findInHour(int hour) {
+    public List<DBRoutine> getEventsAtReboot() {
+        List<DBRoutine> list = new ArrayList<>();
         try {
-            LocalTime time = new LocalTime(hour, 0);
-            // get one hour interval [h:00, h:59:]
-            String start = time.toString("kk:mm");
-            String end = time.plusMinutes(59).toString("kk:mm");
-
-
-            LocalTime endTime = time.plusMinutes(59);
-
-            return queryBuilder().where().between(DBRoutine.COLUMN_TIME, time, endTime).query();
-        } catch (Exception e) {
-            LogUtil.e("Error in findInHour", e);
-            throw new RuntimeException(e);
+            list = dao.queryBuilder().where()
+                    .not(dao.queryBuilder().where().eq(DBRoutine.COLUMN_REMINDER_1_Minutes, -1))
+                    .not(dao.queryBuilder().where().eq(DBRoutine.COLUMN_BEGIN_DATETIME, null)).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    }
-
-    public void deleteCascade(final DBRoutine r, boolean fireEvent) {
-
-        DB.transaction(new Callable<Object>() {
-            @Override
-            public Object call() throws Exception {
-                Collection<DBTaskItem> items = r.scheduleItems();
-                for (DBTaskItem i : items) {
-                    i.deleteCascade();
-                }
-                DB.routines().remove(r);
-                return null;
-            }
-        });
-
-        if (fireEvent) {
-            fireEvent();
-        }
+        return list;
     }
 
     public void updateAndFireEvent(DBRoutine dbRoutine) {
@@ -148,8 +127,17 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
         TimeCatApp.eventBus().post(new PersistenceEvents.RoutineUpdateEvent(dbRoutine));
     }
 
+    public void deleteAndFireEvent(DBRoutine routine) {
+        try {
+            delete(routine);
+            TimeCatApp.eventBus().post(new PersistenceEvents.RoutineDeleteEvent(routine));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void safeSaveRoutine(Routine routine) {
-        Log.i(TAG, "返回的任务信息 --> " + routine.toString());
+        LogUtil.i(TAG, "返回的任务信息 --> " + routine.toString());
         //保存用户信息到本地
         DBRoutine dbRoutine = Converter.toDBRoutine(routine);
         List<DBRoutine> existing = null;
@@ -166,15 +154,15 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbRoutine.toString());
+            LogUtil.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbRoutine.toString());
         } else {
             DB.routines().save(dbRoutine);
-            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbRoutine.toString());
+            LogUtil.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbRoutine.toString());
         }
     }
 
     public void safeSaveRoutineAndFireEvent(Routine routine) {
-        Log.i(TAG, "返回的任务信息 --> " + routine.toString());
+        LogUtil.i(TAG, "返回的任务信息 --> " + routine.toString());
         //保存用户信息到本地
         DBRoutine dbRoutine = Converter.toDBRoutine(routine);
         List<DBRoutine> existing = null;
@@ -187,10 +175,10 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
             long id = existing.get(0).getId();
             dbRoutine.setId(id);
             DB.routines().updateAndFireEvent(dbRoutine);
-            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbRoutine.toString());
+            LogUtil.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbRoutine.toString());
         } else {
             DB.routines().saveAndFireEvent(dbRoutine);
-            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbRoutine.toString());
+            LogUtil.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbRoutine.toString());
         }
     }
 
@@ -209,10 +197,10 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbRoutine.toString());
+            LogUtil.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbRoutine.toString());
         } else {
             DB.routines().save(dbRoutine);
-            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbRoutine.toString());
+            LogUtil.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbRoutine.toString());
         }
     }
 
@@ -227,10 +215,10 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
             long id = existing.get(0).getId();
             dbRoutine.setId(id);
             DB.routines().updateAndFireEvent(dbRoutine);
-            Log.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbRoutine.toString());
+            LogUtil.i(TAG, "更新任务信息 --> updateAndFireEvent -- > " + dbRoutine.toString());
         } else {
             DB.routines().saveAndFireEvent(dbRoutine);
-            Log.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbRoutine.toString());
+            LogUtil.i(TAG, "保存任务信息 --> saveAndFireEvent -- > " + dbRoutine.toString());
         }
     }
 
@@ -247,8 +235,9 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
         return dbTaskArrayList;
     }
 
-    public static ArrayList<DBRoutine> filter(ArrayList<DBRoutine> dbTasks) {
-        return dbTasks;
+    public static ArrayList<DBRoutine> filter(ArrayList<DBRoutine> dbRoutines) {
+        // TODO
+        return dbRoutines;
     }
 
     public static ArrayList<DBRoutine> DBRoutineFilter(List<DBRoutine> routineList, Date currentDate) {
@@ -276,9 +265,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
             if (dbRoutine.getIsFinish()) {
                 Date finished_datetime = TimeUtil.formatGMTDateStr(dbRoutine.getFinished_datetime());
                 if (finished_datetime != null) {
-                    if (finished_datetime.getDate() == today.getDate()
-                            && finished_datetime.getMonth() == today.getMonth()
-                            && finished_datetime.getYear() == today.getYear()) {
+                    if (finished_datetime.getDate() == today.getDate() && finished_datetime.getMonth() == today.getMonth() && finished_datetime.getYear() == today.getYear()) {
                         dbRoutines.add(dbRoutine);
 //                        LogUtil.i("add task, because task is finished today");
                     }
@@ -286,9 +273,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
                 hasAddedTask = true; // 只要是完成了的，之后都不再判断
             }
 //            LogUtil.e(task.getIs_all_day() + task.toString());
-            if (!dbRoutine.getIs_all_day() && !hasAddedTask
-                    && dbRoutine.getBegin_datetime() != null
-                    && dbRoutine.getEnd_datetime() != null) {
+            if (!dbRoutine.getIs_all_day() && !hasAddedTask && dbRoutine.getBegin_datetime() != null && dbRoutine.getEnd_datetime() != null) {
                 Date begin_datetime = TimeUtil.formatGMTDateStr(dbRoutine.getBegin_datetime());
                 Date end_datetime = TimeUtil.formatGMTDateStr(dbRoutine.getEnd_datetime());
                 if (begin_datetime != null && end_datetime != null) {
@@ -358,7 +343,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
     }
 
     private static void reverse(ArrayList<DBRoutine> arr, int i, int j) {
-        while(i < j) {
+        while (i < j) {
             DBRoutine temp = arr.get(i);
             arr.set(i++, arr.get(j));
             arr.set(j--, temp);
@@ -375,16 +360,16 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
     private static void inplaceMerge(ArrayList<DBRoutine> arr, int l, int mid, int r) {
         int i = l;     // 指示左侧有序串
         int j = mid + 1; // 指示右侧有序串
-        while(i < j && j <= r) { //原地归并结束的条件。
-            while(i < j && isValid(arr, i, j)) {
+        while (i < j && j <= r) { //原地归并结束的条件。
+            while (i < j && isValid(arr, i, j)) {
                 i++;
             }
             int index = j;
-            while(j <= r && isValid(arr, j, i)) {
+            while (j <= r && isValid(arr, j, i)) {
                 j++;
             }
-            swapAdjacentBlocks(arr, i, index-i, j-index);
-            i += (j-index);
+            swapAdjacentBlocks(arr, i, index - i, j - index);
+            i += (j - index);
         }
     }
 
@@ -395,7 +380,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
     }
 
     private static void mergeSort(ArrayList<DBRoutine> arr, int l, int r) {
-        if(l < r) {
+        if (l < r) {
             int mid = (l + r) / 2;
             mergeSort(arr, l, mid);
             mergeSort(arr, mid + 1, r);
@@ -407,7 +392,7 @@ public class RoutineDao extends GenericDao<DBRoutine, Long> {
         if (taskArrayList == null || taskArrayList.size() <= 0) {
             return;
         }
-        mergeSort(taskArrayList, 0, taskArrayList.size()-1);
+        mergeSort(taskArrayList, 0, taskArrayList.size() - 1);
         result.addAll(taskArrayList);
     }
 

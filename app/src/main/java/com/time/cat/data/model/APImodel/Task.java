@@ -72,11 +72,11 @@ public class Task implements Serializable{
     }
 
     public Task(String owner, String title) {
-        new Task(owner, title, "", "", "", "", "", new ArrayList<String>(), "");
+        this(owner, title, "", "", "", "", "", new ArrayList<String>(), "");
     }
 
     public Task(String owner, String title, String content) {
-        new Task(owner, title, content, "", "", "", "", new ArrayList<String>(), "");
+        this(owner, title, content, "", "", "", "", new ArrayList<String>(), "");
     }
 
     public Task(String owner, String title, String content, String url, String begin_datetime, String end_datetime,

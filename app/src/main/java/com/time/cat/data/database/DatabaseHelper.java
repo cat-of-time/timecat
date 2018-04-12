@@ -28,9 +28,11 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBPlan;
+import com.time.cat.data.model.DBmodel.DBPomodoro;
 import com.time.cat.data.model.DBmodel.DBRoutine;
+import com.time.cat.data.model.DBmodel.DBSubPlan;
 import com.time.cat.data.model.DBmodel.DBTask;
-import com.time.cat.data.model.DBmodel.DBTaskItem;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.util.override.LogUtil;
 
@@ -49,39 +51,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // any time you make changes to your database objects, you may have to increase the database version
     private static final int DATABASE_VERSION = 11;
     // List of persisted classes to simplify table creation
-    public Class<?>[] persistedClasses = new Class<?>[]{DBRoutine.class,
-//            Medicine.class,
-            DBTask.class, DBTaskItem.class, DBNote.class,
-//            DailyScheduleItem.class,
-//            Prescription.class,
-            // v8
-//            HomogeneousGroup.class,
-//            PickupInfo.class,
-            // v9
+    public Class<?>[] persistedClasses = new Class<?>[]{
             DBUser.class,
-            // v10
-//            HtmlCacheEntry.class
+            DBRoutine.class,
+            DBNote.class,
+            DBPlan.class,
+            DBSubPlan.class,
+            DBTask.class,
+            DBPomodoro.class,
     };
-    // the DAO object we use to access the Medicines table
-//    private Dao<Medicine, Long> medicinesDao = null;
-    // the DAO object we use to access the Routines table
-    private Dao<DBRoutine, Long> routinesDao = null;
-    // the DAO object we use to access the Schedules table
-    private Dao<DBTask, Long> schedulesDao = null;
-    // the DAO object we use to access the ScheduleItems table
-    private Dao<DBTaskItem, Long> scheduleItemsDao = null;
-    // the DAO object we use to access the DailyScheduleItems table
-//    private Dao<DailyScheduleItem, Long> dailyScheduleItemsDao = null;
-    // the DAO object we use to access the DailyScheduleItems table
-//    private Dao<Prescription, Long> prescriptionsDao = null;
-    // the DAO object we use to access the HomogeneousGroups table
-//    private Dao<HomogeneousGroup, Long> homogeneousGroupsDao = null;
-    // the DAO object we use to access the pcikupInfo table
-//    private Dao<PickupInfo, Long> pickupInfoDao = null;
-    // the DAO object we use to access the users table
-    private Dao<DBUser, Long> userDao = null;
-
-    private Dao<DBNote, Long> noteDao = null;
+    public Dao<DBRoutine, Long> routinesDao = null;
+    public Dao<DBTask, Long> schedulesDao = null;
+    public Dao<DBUser, Long> userDao = null;
+    public Dao<DBNote, Long> noteDao = null;
+    public Dao<DBPlan, Long> planDao = null;
+    public Dao<DBSubPlan, Long> subPlanDao = null;
+    public Dao<DBPomodoro, Long> pomodoroDao = null;
 
 
     public DatabaseHelper(Context context) {
@@ -98,7 +83,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.i(DatabaseHelper.class.getName(), "onCreate");
 
             for (Class<?> c : persistedClasses) {
-                Log.d(TAG, "Creating table for " + c.getSimpleName());
+                Log.i(TAG, "Creating table for " + c.getSimpleName());
                 TableUtils.createTable(connectionSource, c);
             }
 
@@ -307,17 +292,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * Returns the Database Access Object (DAO) for our DBTaskItem class. It will create it or just give the cached
-     * value.
-     */
-    public Dao<DBTaskItem, Long> getScheduleItemsDao() throws SQLException {
-        if (scheduleItemsDao == null) {
-            scheduleItemsDao = getDao(DBTaskItem.class);
-        }
-        return scheduleItemsDao;
-    }
-
-    /**
      * Returns the Database Access Object (DAO) for our DBUser class. It will create it or just give the cached
      * value.
      */
@@ -338,6 +312,40 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return noteDao;
     }
+
+    /**
+     * Returns the Database Access Object (DAO) for our DBUser class. It will create it or just give the cached
+     * value.
+     */
+    public Dao<DBPlan, Long> getPlanDao() throws SQLException {
+        if (planDao == null) {
+            planDao = getDao(DBPlan.class);
+        }
+        return planDao;
+    }
+
+    /**
+     * Returns the Database Access Object (DAO) for our DBUser class. It will create it or just give the cached
+     * value.
+     */
+    public Dao<DBSubPlan, Long> getSubPlanDao() throws SQLException {
+        if (subPlanDao == null) {
+            subPlanDao = getDao(DBSubPlan.class);
+        }
+        return subPlanDao;
+    }
+
+    /**
+     * Returns the Database Access Object (DAO) for our DBUser class. It will create it or just give the cached
+     * value.
+     */
+    public Dao<DBPomodoro, Long> getPomodoroDao() throws SQLException {
+        if (pomodoroDao == null) {
+            pomodoroDao = getDao(DBPomodoro.class);
+        }
+        return pomodoroDao;
+    }
+
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -23,13 +23,16 @@ import android.util.Log;
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
-import com.time.cat.data.model.Converter;
-import com.time.cat.data.model.events.PersistenceEvents;
-import com.time.cat.data.model.DBmodel.DBNote;
 import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.data.model.Converter;
+import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBUser;
+import com.time.cat.data.model.events.PersistenceEvents;
+import com.time.cat.util.string.TimeUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -48,6 +51,36 @@ public class NoteDao extends GenericDao<DBNote, Long> {
         } catch (SQLException e) {
             throw new RuntimeException("Error creating users dao", e);
         }
+    }
+
+    public List<DBNote> findAllForActiveUser() {
+        return findAll(DB.users().getActive());
+    }
+
+    public List<DBNote> findAll(DBUser p) {
+        return findAll(p.id());
+    }
+
+    public List<DBNote> findAll(Long userId) {
+        try {
+            return dao.queryBuilder()
+                    .orderBy(DBNote.COLUMN_CREATED_DATETIME, true)
+                    .where().eq(DBNote.COLUMN_USER, userId).query();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error finding models", e);
+        }
+    }
+
+    public List<DBNote> findBetween(Date start_date, Date end_date) {
+        List<DBNote> dbNoteList = findAllForActiveUser();
+        List<DBNote> result = new ArrayList<>();
+        for (DBNote dbNote : dbNoteList) {
+            Date Created_datetime = TimeUtil.formatGMTDateStr(dbNote.getCreated_datetime());
+            if (TimeUtil.isDateEarlier(start_date, Created_datetime) && TimeUtil.isDateEarlier(Created_datetime, end_date)) {
+                result.add(dbNote);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -108,6 +141,14 @@ public class NoteDao extends GenericDao<DBNote, Long> {
         }
     }
 
+    public void deleteAndFireEvent(DBNote dbNote) {
+        try {
+            delete(dbNote);
+            TimeCatApp.eventBus().post(new PersistenceEvents.NoteDeleteEvent());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void safeSaveNote(Note note) {
         Log.i(TAG, "返回的任务信息 --> " + note.toString());
@@ -200,7 +241,7 @@ public class NoteDao extends GenericDao<DBNote, Long> {
     public void removeCascade(DBNote u) {
         // remove all data
 //        removeAllStuff(u);
-        // remove note
+        // remove dbPlan
         DB.notes().remove(u);
 
     }

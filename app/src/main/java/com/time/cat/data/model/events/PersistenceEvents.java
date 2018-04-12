@@ -1,10 +1,12 @@
 package com.time.cat.data.model.events;
 
 import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBPlan;
+import com.time.cat.data.model.DBmodel.DBPomodoro;
 import com.time.cat.data.model.DBmodel.DBRoutine;
+import com.time.cat.data.model.DBmodel.DBSubPlan;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
-import com.time.cat.data.model.APImodel.Task;
 
 /**
  * @author dlink
@@ -14,7 +16,7 @@ import com.time.cat.data.model.APImodel.Task;
 public class PersistenceEvents {
 
     public static ModelCreateOrUpdateEvent ROUTINE_EVENT = new ModelCreateOrUpdateEvent(DBRoutine.class);
-    public static ModelCreateOrUpdateEvent SCHEDULE_EVENT = new ModelCreateOrUpdateEvent(Task.class);
+    public static ModelCreateOrUpdateEvent SCHEDULE_EVENT = new ModelCreateOrUpdateEvent(DBTask.class);
     public static ModelCreateOrUpdateEvent NOTE_EVENT = new ModelCreateOrUpdateEvent(DBNote.class);
 
 
@@ -117,5 +119,65 @@ public class PersistenceEvents {
 
     public static class RoutineDeleteEvent {
         public RoutineDeleteEvent(DBRoutine routine) {}
+    }
+
+    public static class PlanCreateEvent {
+        public DBPlan dbPlan;
+
+        public PlanCreateEvent(DBPlan dbPlan) {
+            this.dbPlan = dbPlan;
+        }
+    }
+
+    public static class PlanUpdateEvent {
+        public DBPlan dbPlan;
+
+        public PlanUpdateEvent(DBPlan dbPlan) {
+            this.dbPlan = dbPlan;
+        }
+    }
+
+    public static class PlanDeleteEvent {
+        public PlanDeleteEvent() {}
+    }
+
+    public static class SubPlanCreateEvent {
+        public DBSubPlan dbSubPlan;
+
+        public SubPlanCreateEvent(DBSubPlan dbSubPlan) {
+            this.dbSubPlan = dbSubPlan;
+        }
+    }
+
+    public static class SubPlanUpdateEvent {
+        public DBSubPlan dbSubPlan;
+
+        public SubPlanUpdateEvent(DBSubPlan dbSubPlan) {
+            this.dbSubPlan = dbSubPlan;
+        }
+    }
+
+    public static class SubPlanDeleteEvent {
+        public SubPlanDeleteEvent() {}
+    }
+
+    public static class PomodoroCreateEvent {
+        public DBPomodoro dbPomodoro;
+
+        public PomodoroCreateEvent(DBPomodoro dbPomodoro) {
+            this.dbPomodoro = dbPomodoro;
+        }
+    }
+
+    public static class PomodoroUpdateEvent {
+        public DBPomodoro dbPomodoro;
+
+        public PomodoroUpdateEvent(DBPomodoro dbPomodoro) {
+            this.dbPomodoro = dbPomodoro;
+        }
+    }
+
+    public static class PomodoroDeleteEvent {
+        public PomodoroDeleteEvent() {}
     }
 }

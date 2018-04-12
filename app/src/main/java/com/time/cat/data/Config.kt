@@ -87,6 +87,10 @@ class Config(context: Context) : BaseConfig(context) {
     //*****************************************************************
 
 
+    var preFilledWeeks: Int
+        get() = getInt(Constants.PREFILLED_WEEKS, 1)
+        set(value) = save(Constants.PREFILLED_WEEKS, value)
+
     var isSundayFirst: Boolean
         get() {
             val isSundayFirst = Calendar.getInstance(Locale.getDefault()).firstDayOfWeek == Calendar.SUNDAY
@@ -106,7 +110,7 @@ class Config(context: Context) : BaseConfig(context) {
         set(displayWeekNumbers) = save(WEEK_NUMBERS, displayWeekNumbers)
 
     var startWeeklyAt: Int
-        get() = getInt(START_WEEKLY_AT, 5)
+        get() = getInt(START_WEEKLY_AT, 6)
         set(startWeeklyAt) = save(START_WEEKLY_AT, startWeeklyAt)
 
     var endWeeklyAt: Int

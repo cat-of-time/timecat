@@ -25,6 +25,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.util.source.AvatarManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -34,8 +35,8 @@ import java.util.ArrayList;
  * @discription 用户类
  */
 @DatabaseTable(tableName = "Users")
-public class DBUser {
-
+public class DBUser implements Serializable {
+    //<editor-fold desc="Field">
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_DEFAULT = "Default";
@@ -46,9 +47,11 @@ public class DBUser {
     public static final String COLUMN_PLANS = "Plans";
     public static final String COLUMN_TAGS = "Tags";
     public static final String COLUMN_TASKS = "Tasks";
+    //</editor-fold desc="Field">
 
 //TODO setting={}
 
+    //<editor-fold desc="Database Field">
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private Long id;
 
@@ -62,7 +65,7 @@ public class DBUser {
     private String avatar = AvatarManager.DEFAULT_AVATAR;
 
     @DatabaseField(columnName = COLUMN_COLOR)
-    private int color = Color.parseColor("#3498db");
+    private int color = Color.parseColor("#03A9F4");
     // color是16进制数的int型表示，使用时可直接作color资源
 
     @DatabaseField(columnName = COLUMN_EMAIL, canBeNull = false, unique = true)
@@ -77,9 +80,9 @@ public class DBUser {
     private ArrayList<String> tags;
     @DatabaseField(columnName = COLUMN_TASKS, dataType = DataType.SERIALIZABLE)
     private ArrayList<String> tasks;
-//    @ForeignCollectionField
-//    private Collection<DBTask> DBTasks;
+    //</editor-fold desc="Database Field">
 
+    //<editor-fold desc="getter and setter">
     public Long id() {
         return id;
     }
@@ -159,6 +162,7 @@ public class DBUser {
     public void setTasks(ArrayList<String> tasks) {
         this.tasks = tasks;
     }
+    //</editor-fold desc="getter and setter">
 
     @Override
     public String toString() {

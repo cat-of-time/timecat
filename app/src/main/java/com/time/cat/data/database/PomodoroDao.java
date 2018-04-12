@@ -21,110 +21,157 @@ package com.time.cat.data.database;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
-import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.data.model.APImodel.Plan;
-import com.time.cat.data.model.APImodel.SubPlan;
+import com.time.cat.data.model.APImodel.Pomodoro;
 import com.time.cat.data.model.Converter;
-import com.time.cat.data.model.DBmodel.DBPlan;
-import com.time.cat.data.model.DBmodel.DBSubPlan;
+import com.time.cat.data.model.DBmodel.DBPomodoro;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.model.events.PersistenceEvents;
 import com.time.cat.util.string.TimeUtil;
+
+import org.joda.time.DateTime;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
-public class SubPlanDao extends GenericDao<DBSubPlan, Long> {
-    public static final String TAG = "PlanDao";
+public class PomodoroDao extends GenericDao<DBPomodoro, Long> {
+    public static final String TAG = "PomodoroDao";
 
-    public SubPlanDao(DatabaseHelper db) {
+    public PomodoroDao(DatabaseHelper db) {
         super(db);
     }
 
     @Override
-    public Dao<DBSubPlan, Long> getConcreteDao() {
+    public Dao<DBPomodoro, Long> getConcreteDao() {
         try {
-            return dbHelper.getSubPlanDao();
+            return dbHelper.getPomodoroDao();
         } catch (SQLException e) {
             throw new RuntimeException("Error creating users dao", e);
         }
     }
 
-    public List<DBSubPlan> findAllForActiveUser() {
+    public List<DBPomodoro> findAllForActiveUser() {
         return findAll(DB.users().getActive());
     }
 
-    public List<DBSubPlan> findAll(DBUser p) {
+    public List<DBPomodoro> findAll(DBUser p) {
         return findAllByUserId(p.id());
     }
 
-    public List<DBSubPlan> findAllByUserId(Long userId) {
+    public List<DBPomodoro> findAllByUserId(Long userId) {
         try {
-            return dao.queryBuilder().orderBy(DBSubPlan.COLUMN_CREATED_DATETIME, true)
-                    .where().eq(DBSubPlan.COLUMN_USER, userId).query();
+            return dao.queryBuilder().orderBy(DBPomodoro.COLUMN_CREATED_DATETIME, true)
+                    .where().eq(DBPomodoro.COLUMN_USER, userId).query();
         } catch (SQLException e) {
             throw new RuntimeException("Error finding models", e);
         }
     }
 
-    public List<DBSubPlan> findAll(DBPlan p) {
-        return findAllByPlanId(p.getId());
-    }
-
-    public List<DBSubPlan> findAllByPlanId(Long planId) {
-        try {
-            return dao.queryBuilder().orderBy(DBSubPlan.COLUMN_CREATED_DATETIME, true)
-                    .where().eq(DBSubPlan.COLUMN_PLAN, planId).query();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error finding models", e);
-        }
-    }
-
-    public List<DBSubPlan> findBetween(Date start_date, Date end_date) {
-        List<DBSubPlan> dbSubPlanList = findAllForActiveUser();
-        List<DBSubPlan> result = new ArrayList<>();
-        for (DBSubPlan dbSubPlan : dbSubPlanList) {
-            Date Created_datetime = TimeUtil.formatGMTDateStr(dbSubPlan.getCreated_datetime());
+    public List<DBPomodoro> findBetween(Date start_date, Date end_date) {
+        List<DBPomodoro> dbPomodoroList = findAllForActiveUser();
+        List<DBPomodoro> result = new ArrayList<>();
+        for (DBPomodoro dbPomodoro : dbPomodoroList) {
+            Date Created_datetime = TimeUtil.formatGMTDateStr(dbPomodoro.getCreated_datetime());
             if (TimeUtil.isDateEarlier(start_date, Created_datetime) && TimeUtil.isDateEarlier(Created_datetime, end_date)) {
-                result.add(dbSubPlan);
+                result.add(dbPomodoro);
             }
         }
         return result;
     }
 
-    @Override
-    public void saveAndFireEvent(DBSubPlan u) {
+    public List<DBPomodoro> findFinishedBetween(Date start_date, Date end_date) {
+        List<DBPomodoro> dbPomodoroList = findAllForActiveUser();
+        List<DBPomodoro> result = new ArrayList<>();
+        for (DBPomodoro dbPomodoro : dbPomodoroList) {
+            Date Created_datetime = TimeUtil.formatGMTDateStr(dbPomodoro.getCreated_datetime());
+            if (TimeUtil.isDateEarlier(start_date, Created_datetime) && TimeUtil.isDateEarlier(Created_datetime, end_date)) {
+                if (dbPomodoro.getEnd_datetime() != null) {
+                    result.add(dbPomodoro);
+                }
+            }
+        }
+        return result;
+    }
 
-        Object event = u.getId() <= 0 ? new PersistenceEvents.SubPlanCreateEvent(u) : new PersistenceEvents.SubPlanUpdateEvent(u);
+    public List<DBPomodoro> findUnfinishedBetween(Date start_date, Date end_date) {
+        List<DBPomodoro> dbPomodoroList = findAllForActiveUser();
+        List<DBPomodoro> result = new ArrayList<>();
+        for (DBPomodoro dbPomodoro : dbPomodoroList) {
+            Date Created_datetime = TimeUtil.formatGMTDateStr(dbPomodoro.getCreated_datetime());
+            if (TimeUtil.isDateEarlier(start_date, Created_datetime) && TimeUtil.isDateEarlier(Created_datetime, end_date)) {
+                if (dbPomodoro.getEnd_datetime() == null) {
+                    result.add(dbPomodoro);
+                }
+            }
+        }
+        return result;
+    }
+
+    public List<DBPomodoro> findTotalUnfinished() {
+        List<DBPomodoro> dbPomodoroList = findAllForActiveUser();
+        List<DBPomodoro> result = new ArrayList<>();
+        for (DBPomodoro dbPomodoro : dbPomodoroList) {
+            if (dbPomodoro.getEnd_datetime() == null) {
+                result.add(dbPomodoro);
+            }
+        }
+        return result;
+    }
+
+    public int getTodayWorkTime() {
+        DateTime today = new DateTime().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0);
+        DateTime tomorrow = today.plusDays(1);
+        List<DBPomodoro> pomodoroList = findFinishedBetween(today.toDate(), tomorrow.toDate());
+        int todayWorkTime = 0;
+        for (DBPomodoro dbPomodoro : pomodoroList) {
+            if (dbPomodoro.getDuration() > 0) todayWorkTime += dbPomodoro.getDuration();
+        }
+        return todayWorkTime;
+    }
+
+    public int getTotalWorkTime() {
+        List<DBPomodoro> pomodoroList = findAllForActiveUser();
+        int todayWorkTime = 0;
+        for (DBPomodoro dbPomodoro : pomodoroList) {
+            if (dbPomodoro.getEnd_datetime() != null && dbPomodoro.getDuration() > 0) {
+                todayWorkTime += dbPomodoro.getDuration();
+            }
+        }
+        return todayWorkTime;
+    }
+
+    @Override
+    public void saveAndFireEvent(DBPomodoro u) {
+
+        Object event = u.getId() <= 0 ? new PersistenceEvents.PomodoroCreateEvent(u) : new PersistenceEvents.PomodoroUpdateEvent(u);
         save(u);
         TimeCatApp.eventBus().post(event);
 
     }
 
-    public void deleteAndFireEvent(DBSubPlan routine) {
+    public void deleteAndFireEvent(DBPomodoro routine) {
         try {
             delete(routine);
-            TimeCatApp.eventBus().post(new PersistenceEvents.SubPlanDeleteEvent());
+            TimeCatApp.eventBus().post(new PersistenceEvents.PomodoroDeleteEvent());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
 
-    public void createOrUpdateAndFireEvent(DBSubPlan u) throws SQLException {
+    public void createOrUpdateAndFireEvent(DBPomodoro u) throws SQLException {
 
-        Object event = u.getId() <= 0 ? new PersistenceEvents.SubPlanCreateEvent(u) : new PersistenceEvents.SubPlanUpdateEvent(u);
+        Object event = u.getId() <= 0 ? new PersistenceEvents.PomodoroCreateEvent(u) : new PersistenceEvents.PomodoroUpdateEvent(u);
         createOrUpdate(u);
         TimeCatApp.eventBus().post(event);
 
     }
 
-    public void updateAndFireEvent(DBSubPlan u) {
-        Object event = new PersistenceEvents.SubPlanUpdateEvent(u);
+    public void updateAndFireEvent(DBPomodoro u) {
+        Object event = new PersistenceEvents.PomodoroUpdateEvent(u);
         try {
             update(u);
         } catch (SQLException e) {
@@ -133,128 +180,117 @@ public class SubPlanDao extends GenericDao<DBSubPlan, Long> {
         TimeCatApp.eventBus().post(event);
     }
 
-    public void safeSaveSubPlanAndFireEvent(SubPlan subPlan) {
-        Log.i(TAG, "返回的任务信息 --> " + subPlan.toString());
+    public void safeSavePomodoroAndFireEvent(Pomodoro pomodoro) {
+        Log.i(TAG, "返回的任务信息 --> " + pomodoro.toString());
         //保存用户信息到本地
-        DBSubPlan dbSubPlan = Converter.toDBSubPlan(subPlan);
-        List<DBSubPlan> existing = null;
+        DBPomodoro dbPomodoro = Converter.toDBPomodoro(pomodoro);
+        List<DBPomodoro> existing = null;
         try {
-            existing = DB.subPlans().queryForEq(DBSubPlan.COLUMN_URL, dbSubPlan.getUrl());
+            existing = DB.pomodoros().queryForEq(DBPomodoro.COLUMN_URL, dbPomodoro.getUrl());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
-            dbSubPlan.setId(id);
-            int color = existing.get(0).getColor();
-            dbSubPlan.setColor(color);
-            DB.subPlans().updateAndFireEvent(dbSubPlan);
-            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbSubPlan.toString());
+            dbPomodoro.setId(id);
+            DB.pomodoros().updateAndFireEvent(dbPomodoro);
+            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbPomodoro.toString());
         } else {
-            List<Integer> CardStackViewDataList = new ArrayList<>();
-            int[] CardStackViewData = TimeCatApp.getInstance().getResources().getIntArray(R.array.card_stack_view_data);
-            for (int aCardStackViewData : CardStackViewData) {
-                CardStackViewDataList.add(aCardStackViewData);
-            }
-            Random random = new Random();
-            int randomColor = random.nextInt(CardStackViewDataList.size());
-            dbSubPlan.setColor(CardStackViewDataList.get(randomColor));
-            DB.subPlans().saveAndFireEvent(dbSubPlan);
-            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbSubPlan.toString());
+            DB.pomodoros().saveAndFireEvent(dbPomodoro);
+            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbPomodoro.toString());
         }
     }
 
-
-    public void safeSaveSubPlan(SubPlan note) {
-        Log.i(TAG, "返回的任务信息 --> " + note.toString());
+    public void safeSavePomodoro(Pomodoro pomodoro) {
+        Log.i(TAG, "返回的任务信息 --> " + pomodoro.toString());
         //保存用户信息到本地
-        DBSubPlan dbSubPlan = Converter.toDBSubPlan(note);
-        List<DBSubPlan> existing = null;
+        DBPomodoro dbPomodoro = Converter.toDBPomodoro(pomodoro);
+        List<DBPomodoro> existing = null;
         try {
-            existing = DB.subPlans().queryForEq(DBSubPlan.COLUMN_URL, dbSubPlan.getUrl());
+            existing = DB.pomodoros().queryForEq(DBPomodoro.COLUMN_URL, dbPomodoro.getUrl());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
-            dbSubPlan.setId(id);
-            int color = existing.get(0).getColor();
-            dbSubPlan.setColor(color);
+            dbPomodoro.setId(id);
             try {
-                DB.subPlans().update(dbSubPlan);
+                DB.pomodoros().update(dbPomodoro);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Log.i(TAG, "更新子计划信息 --> update -- > " + dbSubPlan.toString());
+            Log.i(TAG, "更新子计划信息 --> update -- > " + dbPomodoro.toString());
         } else {
-            List<Integer> CardStackViewDataList = new ArrayList<>();
-            int[] CardStackViewData = TimeCatApp.getInstance().getResources().getIntArray(R.array.card_stack_view_data);
-            for (int aCardStackViewData : CardStackViewData) {
-                CardStackViewDataList.add(aCardStackViewData);
-            }
-            Random random = new Random();
-            int randomColor = random.nextInt(CardStackViewDataList.size());
-            dbSubPlan.setColor(CardStackViewDataList.get(randomColor));
-            DB.subPlans().save(dbSubPlan);
-            Log.i(TAG, "保存子计划信息 --> save -- > " + dbSubPlan.toString());
+            DB.pomodoros().save(dbPomodoro);
+            Log.i(TAG, "保存子计划信息 --> save -- > " + dbPomodoro.toString());
         }
     }
 
-    public void safeSaveDBSubPlan(DBSubPlan dbSubPlan) {
-        List<DBSubPlan> existing = null;
+    public void safeSaveDBPomodoro(DBPomodoro dbPomodoro) {
+        List<DBPomodoro> existing = null;
         try {
-            existing = DB.subPlans().queryForEq(DBSubPlan.COLUMN_CREATED_DATETIME, dbSubPlan.getCreated_datetime());
+            existing = DB.pomodoros().queryForEq(DBPomodoro.COLUMN_CREATED_DATETIME, dbPomodoro.getCreated_datetime());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
-            dbSubPlan.setId(id);
-            int color = existing.get(0).getColor();
-            dbSubPlan.setColor(color);
-            DB.subPlans().updateAndFireEvent(dbSubPlan);
-            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbSubPlan.toString());
+            dbPomodoro.setId(id);
+            DB.pomodoros().updateAndFireEvent(dbPomodoro);
+            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbPomodoro.toString());
         } else {
-            DB.subPlans().saveAndFireEvent(dbSubPlan);
-            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbSubPlan.toString());
+            DB.pomodoros().saveAndFireEvent(dbPomodoro);
+            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbPomodoro.toString());
         }
     }
 
-    public void safeSaveDBSubPlanAndFireEvent(DBSubPlan dbSubPlan) {
-        List<DBSubPlan> existing = null;
+    /**
+     * query by create_datetime, supposed dbPomodoro has create_datetime
+     * @param dbPomodoro create_datetime != null
+     * @return dbPomodoro's id
+     */
+    public long findId(DBPomodoro dbPomodoro) {
+        List<DBPomodoro> existing = null;
         try {
-            existing = DB.subPlans().queryForEq(DBSubPlan.COLUMN_CREATED_DATETIME, dbSubPlan.getCreated_datetime());
+            existing = DB.pomodoros().queryForEq(DBPomodoro.COLUMN_CREATED_DATETIME, dbPomodoro.getCreated_datetime());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
-            dbSubPlan.setId(id);
-            int color = existing.get(0).getColor();
-            dbSubPlan.setColor(color);
-            DB.subPlans().updateAndFireEvent(dbSubPlan);
-            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbSubPlan.toString());
+            dbPomodoro.setId(id);
+            return id;
+        }
+        return (long) 0.0;
+    }
+
+    public void safeSaveDBPomodoroAndFireEvent(DBPomodoro dbPomodoro) {
+        List<DBPomodoro> existing = null;
+        try {
+            existing = DB.pomodoros().queryForEq(DBPomodoro.COLUMN_CREATED_DATETIME, dbPomodoro.getCreated_datetime());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (existing != null && existing.size() > 0) {
+            long id = existing.get(0).getId();
+            dbPomodoro.setId(id);
+            DB.pomodoros().updateAndFireEvent(dbPomodoro);
+            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbPomodoro.toString());
         } else {
-            DB.subPlans().saveAndFireEvent(dbSubPlan);
-            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbSubPlan.toString());
+            DB.pomodoros().saveAndFireEvent(dbPomodoro);
+            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbPomodoro.toString());
         }
     }
 
 
-    public void updateActiveUserAndFireEvent(DBSubPlan activeDBSubPlan, Plan user) {
-//        Object event = new PersistenceEvents.UserUpdateEvent(activeDBSubPlan);
+    public void updateActiveUserAndFireEvent(DBPomodoro activeDBPomodoro, Plan user) {
+//        Object event = new PersistenceEvents.UserUpdateEvent(activeDBPomodoro);
 //        try {
-//            update(Converter.toActiveDBSubPlan(activeDBSubPlan, user));
+//            update(Converter.toActiveDBPomodoro(activeDBPomodoro, user));
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
 //        TimeCatApp.eventBus().post(event);
-    }
-
-    /// Mange active user through preferences
-
-    public void removeCascade(DBSubPlan dbSubPlan) {
-        DB.subPlans().remove(dbSubPlan);
     }
 
     /**
@@ -262,11 +298,11 @@ public class SubPlanDao extends GenericDao<DBSubPlan, Long> {
      *
      * @param userId user id
      *
-     * @return List<DBSubPlan>
+     * @return List<DBPomodoro>
      */
-    public List<DBSubPlan> listByUserId(int userId) {
+    public List<DBPomodoro> listByUserId(int userId) {
         try {
-            return DB.subPlans().queryBuilder().where().eq(DBSubPlan.COLUMN_USER, userId).query();
+            return DB.pomodoros().queryBuilder().where().eq(DBPomodoro.COLUMN_USER, userId).query();
         } catch (SQLException e) {
             e.printStackTrace();
         }

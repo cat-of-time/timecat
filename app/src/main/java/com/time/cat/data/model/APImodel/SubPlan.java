@@ -1,8 +1,6 @@
-package com.time.cat.data.model.DBmodel;
+package com.time.cat.data.model.APImodel;
 
-import com.j256.ormlite.field.DataType;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import com.time.cat.data.model.DBmodel.DBTask;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,49 +12,34 @@ import java.util.ArrayList;
  * @discription null
  * @usage null
  */
-@DatabaseTable(tableName = "SubPlans")
-public class DBSubPlan implements Serializable{
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_URL = "Url";
-    public static final String COLUMN_TITLE = "Title";
-    public static final String COLUMN_CONTENT = "Content"; //description
-    public static final String COLUMN_OWNER = "Owner";
-    public static final String COLUMN_CREATED_DATETIME = "created_datetime";
-    public static final String COLUMN_UPDATE_DATETIME = "update_datetime";
-    public static final String COLUMN_COLOR = "color";
-    public static final String COLUMN_TASKS = "tasks";
+public class SubPlan implements Serializable {
 
-    @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private long id;
-
-    @DatabaseField(columnName = COLUMN_URL)
     private String url;// note的url 访问该url可返回该note
-
-    @DatabaseField(columnName = COLUMN_TITLE)
     private String title;//笔记标题
-
-    @DatabaseField(columnName = COLUMN_CONTENT)
     private String content;//笔记内容
-
-    @DatabaseField(columnName = COLUMN_OWNER)
     private String owner;//用户ID
-
-    @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
     private String created_datetime;
-
-    @DatabaseField(columnName = COLUMN_UPDATE_DATETIME)
     private String update_datetime;
-
-    @DatabaseField(columnName = COLUMN_COLOR)
     private int color;
-
-    @DatabaseField(columnName = COLUMN_TASKS, dataType = DataType.SERIALIZABLE)
     private ArrayList<DBTask> tasks;
 
-    public DBSubPlan(String s1, String s2, String s3) {
+    public SubPlan(String s1, String s2, String s3) {
         this.url = s1;
         this.title = s2;
         this.content = s3;
+    }
+
+    public SubPlan() {
+        this.id = -1;
+        this.url = "";
+        this.title = "";
+        this.content = "";
+        this.owner = "";
+        this.created_datetime = "";
+        this.update_datetime = "";
+        this.color = 0;
+        this.tasks = new ArrayList<>();
     }
 
     public long getId() {

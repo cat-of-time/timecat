@@ -24,20 +24,19 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.data.database.DB;
-import com.time.cat.data.database.typeSerializers.LocalTimePersister;
 import com.time.cat.util.string.TimeUtil;
-
-import org.joda.time.LocalTime;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.time.cat.data.Constants.REMINDER_OFF;
+
 @DatabaseTable(tableName = "Routines")
 public class DBRoutine implements Serializable {
     //<editor-fold desc="Field">
-    public static final int[] labelColor = new int[]{Color.parseColor("#f44336"), Color.parseColor("#ff8700"), Color.parseColor("#2196f3"), Color.parseColor("#4caf50")};
+    public static final int[] labelColor = new int[]{Color.parseColor("#7ff44336"), Color.parseColor("#7fff8700"), Color.parseColor("#7f2196f3"), Color.parseColor("#7f4caf50")};
 
     public static final int SCHEDULE_TYPE_EVERYDAY = 0; // DEFAULT
     public static final int SCHEDULE_TYPE_EVERYWEEK = 1;
@@ -55,10 +54,8 @@ public class DBRoutine implements Serializable {
     public static final long serialVersionUID = 1L;
 
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_TIME = "Time";
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_USER = "User";
-    public static final String COLUMN_PLANS = "plans";
 
     public static final String COLUMN_URL = "url";
     public static final String COLUMN_OWNER = "owner";
@@ -88,17 +85,10 @@ public class DBRoutine implements Serializable {
 
     //<editor-fold desc="Database Field">
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
-    private Long id;
-
-    @DatabaseField(columnName = COLUMN_TIME, persisterClass = LocalTimePersister.class)
-    private LocalTime time;
+    private long id;
 
     @DatabaseField(columnName = COLUMN_NAME)
     private String name;
-
-    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
-    private DBUser user;
-
 
     @DatabaseField(columnName = COLUMN_URL, unique = true)
     private String url;// routine的url 访问该url可返回该routine
@@ -110,9 +100,6 @@ public class DBRoutine implements Serializable {
     private String content;//日程内容
     @DatabaseField(columnName = COLUMN_LABEL)
     private int label;//重要紧急标签,重要紧急=0，重要不紧急=1，紧急不重要=2，不重要不紧急=3
-
-    @DatabaseField(columnName = COLUMN_TAGS, dataType = DataType.SERIALIZABLE)
-    private ArrayList<String> tags;//一般标签，["/tags/1","/tags/2","/tags/3"]
 
     @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
     private String created_datetime;//创建时间
@@ -131,17 +118,15 @@ public class DBRoutine implements Serializable {
     @DatabaseField(columnName = COLUMN_END_DATETIME)
     private String end_datetime;//结束时间
 
-
-
     @DatabaseField(columnName = COLUMN_REMINDER_1_Minutes)
-    private int reminder1Minutes;
+    private int reminder1Minutes = -1;
     @DatabaseField(columnName = COLUMN_REMINDER_2_Minutes)
-    private int reminder2Minutes;
+    private int reminder2Minutes = -1;
     @DatabaseField(columnName = COLUMN_REMINDER_3_Minutes)
-    private int reminder3Minutes;
+    private int reminder3Minutes = -1;
 
     @DatabaseField(columnName = COLUMN_REPEAT_INTERVAL)
-    private int repeatInterval;
+    private int repeatInterval = 0;//每隔repeatInterval秒重复
     @DatabaseField(columnName = COLUMN_REPEAT_LIMIT)
     private int repeatLimit;
     @DatabaseField(columnName = COLUMN_REPEAT_RULE)
@@ -152,20 +137,23 @@ public class DBRoutine implements Serializable {
 
     @DatabaseField(columnName = COLUMN_LOCATION)
     private String location;
+
+    @DatabaseField(columnName = COLUMN_TAGS, dataType = DataType.SERIALIZABLE)
+    private ArrayList<String> tags;//一般标签，["/tags/1","/tags/2","/tags/3"]
+    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
+    private DBUser user = DB.users().getActive();
     //</editor-fold desc="Database Field">
 
 
     public DBRoutine() {
     }
 
-    public DBRoutine(LocalTime time, String name) {
-        this.time = time;
+    public DBRoutine(String name) {
         this.name = name;
     }
 
-    public DBRoutine(DBUser p, LocalTime time, String name) {
+    public DBRoutine(DBUser p, String name) {
         this.user = p;
-        this.time = time;
         this.name = name;
     }
 
@@ -267,32 +255,27 @@ public class DBRoutine implements Serializable {
         this.url = url;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
     public void setUser(DBUser user) {
         this.user = user;
     }
 
-    public String name() {
-        return name;
+    public void setActiveUser() {
+        this.user = DB.users().getActive();
     }
 
-    public LocalTime time() {
-        return time;
+    public String name() {
+        return name;
     }
 
     public DBUser user() {
@@ -301,10 +284,6 @@ public class DBRoutine implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public LocalTime getTime() {
-        return time;
     }
 
     public DBUser getUser() {
@@ -390,7 +369,7 @@ public class DBRoutine implements Serializable {
 
     @Override
     public String toString() {
-        return "DBRoutine{" + "id=" + id + ", time=" + time + ", name='" + name + '\'' + ", user=" + user + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + ", reminder1Minutes=" + reminder1Minutes + ", reminder2Minutes=" + reminder2Minutes + ", reminder3Minutes=" + reminder3Minutes + ", repeatInterval=" + repeatInterval + ", repeatLimit=" + repeatLimit + ", repeatRule=" + repeatRule + ", lastUpdated=" + lastUpdated + ", location='" + location + '\'' + '}';
+        return "DBRoutine{" + "id=" + id + ", name='" + name + '\'' + ", user=" + user + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + ", reminder1Minutes=" + reminder1Minutes + ", reminder2Minutes=" + reminder2Minutes + ", reminder3Minutes=" + reminder3Minutes + ", repeatInterval=" + repeatInterval + ", repeatLimit=" + repeatLimit + ", repeatRule=" + repeatRule + ", lastUpdated=" + lastUpdated + ", location='" + location + '\'' + '}';
     }
 
     public long getBeginTs() {
@@ -444,21 +423,11 @@ public class DBRoutine implements Serializable {
         return DB.routines().findOneBy(COLUMN_NAME, name);
     }
 
-    public static List<DBRoutine> findInHour(int hour) {
-        return DB.routines().findInHour(hour);
+    public List<Integer> getReminders() {
+        List<Integer> list = new ArrayList<>();
+        if (reminder1Minutes != REMINDER_OFF) list.add(reminder1Minutes);
+        if (reminder2Minutes != REMINDER_OFF) list.add(reminder2Minutes);
+        if (reminder3Minutes != REMINDER_OFF) list.add(reminder3Minutes);
+        return list;
     }
-
-    public void save() {
-        DB.routines().save(this);
-    }
-
-    public void deleteCascade() {
-        DB.routines().deleteCascade(this, false);
-    }
-
-    public List<DBTaskItem> scheduleItems() {
-        return DB.scheduleItems().findByRoutine(this);
-    }
-
-
 }

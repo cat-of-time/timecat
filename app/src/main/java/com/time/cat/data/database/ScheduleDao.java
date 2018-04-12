@@ -22,19 +22,20 @@ import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.time.cat.TimeCatApp;
+import com.time.cat.data.Constants;
 import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.Converter;
+import com.time.cat.data.model.DBmodel.DBSubPlan;
 import com.time.cat.data.model.DBmodel.DBTask;
-import com.time.cat.data.model.DBmodel.DBTaskItem;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.model.events.PersistenceEvents;
+import com.time.cat.util.override.LogUtil;
 import com.time.cat.util.string.TimeUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class ScheduleDao extends GenericDao<DBTask, Long> {
     private static final String TAG = "ScheduleDao";
@@ -47,10 +48,9 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
         return findAll(DB.users().getActive());
     }
 
-    public List<DBTask> findAll(DBUser p) {
-        return findAll(p.id());
+    public List<DBTask> findAll(DBUser user) {
+        return findAll(user.id());
     }
-
 
     public List<DBTask> findAll(Long userId) {
         try {
@@ -60,16 +60,53 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
         }
     }
 
+    public List<DBTask> findAll(DBSubPlan dbSubPlan) {
+        return findAllBySubPlan(dbSubPlan.getId());
+    }
+
+    public List<DBTask> findAllBySubPlan(Long subPlanId) {
+        try {
+            return dao.queryBuilder().where().eq(DBTask.COLUMN_SUBPLAN, subPlanId).query();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error finding models", e);
+        }
+    }
 
     public List<DBTask> findBetween(String start, String end) {
         Date start_date = TimeUtil.formatGMTDateStr(start);
-        Date end_date = TimeUtil.formatGMTDateStr(start);
+        Date end_date = TimeUtil.formatGMTDateStr(end);
         List<DBTask> dbTaskList = findAllForActiveUser();
         List<DBTask> result = new ArrayList<>();
         for (DBTask dbTask : dbTaskList) {
             Date begin_datetime = TimeUtil.formatGMTDateStr(dbTask.getBegin_datetime());
             Date end_datetime= TimeUtil.formatGMTDateStr(dbTask.getEnd_datetime());
             if (TimeUtil.isDateEarlier(start_date, begin_datetime) && TimeUtil.isDateEarlier(end_datetime, end_date)) {
+                result.add(dbTask);
+            }
+        }
+        return result;
+    }
+
+    public List<DBTask> findFinishedBetween(Date start_date, Date end_date) {
+        List<DBTask> dbTaskList = findAllForActiveUser();
+        List<DBTask> result = new ArrayList<>();
+        for (DBTask dbTask : dbTaskList) {
+            if (dbTask.getIsFinish() && dbTask.getFinished_datetime() != null) {
+                Date Finished_datetime = TimeUtil.formatGMTDateStr(dbTask.getFinished_datetime());
+                if (TimeUtil.isDateEarlier(start_date, Finished_datetime) && TimeUtil.isDateEarlier(Finished_datetime, end_date)) {
+                    result.add(dbTask);
+                }
+            }
+        }
+        return result;
+    }
+
+    public List<DBTask> findBetween(Date start_date, Date end_date) {
+        List<DBTask> dbTaskList = findAllForActiveUser();
+        List<DBTask> result = new ArrayList<>();
+        for (DBTask dbTask : dbTaskList) {
+            Date Created_datetime = TimeUtil.formatGMTDateStr(dbTask.getCreated_datetime());
+            if (TimeUtil.isDateEarlier(start_date, Created_datetime) && TimeUtil.isDateEarlier(Created_datetime, end_date)) {
                 result.add(dbTask);
             }
         }
@@ -92,6 +129,20 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
             e.printStackTrace();
         }
         TimeCatApp.eventBus().post(new PersistenceEvents.TaskUpdateEvent(task));
+    }
+
+    public void saveAndFireEvent(DBTask task) {
+        save(task);
+        TimeCatApp.eventBus().post(new PersistenceEvents.TaskCreateEvent(task));
+    }
+
+    public void deleteAndFireEvent(DBTask dbTask) {
+        try {
+            delete(dbTask);
+            TimeCatApp.eventBus().post(new PersistenceEvents.TaskDeleteEvent(dbTask));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void safeSaveTask(Task task) {
@@ -180,27 +231,9 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
         }
     }
 
-
     @Override
     public void fireEvent() {
         TimeCatApp.eventBus().post(PersistenceEvents.SCHEDULE_EVENT);
-    }
-
-    public void deleteCascade(final DBTask s, boolean fireEvent) {
-        DB.transaction(new Callable<Object>() {
-            @Override
-            public Object call() throws Exception {
-                for (DBTaskItem i : s.items()) {
-                    DB.scheduleItems().deleteCascade(i);
-                }
-                DB.schedules().remove(s);
-                return null;
-            }
-        });
-
-        if (fireEvent) {
-            fireEvent();
-        }
     }
 
     public List<DBTask> findHourly() {
@@ -240,10 +273,10 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
             today = currentDate;
         }
         for (DBTask task : taskArrayList) {
-            if (!task.getOwner().equals((Converter.getOwnerUrl(dbUser)))) {
+            if (!task.getOwner().equals((Converter.getOwnerUrl(dbUser)))
+                    || task.getCreated_datetime() == null) {
                 continue;
             }
-            boolean hasAddedTask = false;
             // 把今天刚刚完成的任务(getIsFinish()==true)添加到显示List并标记
             if (task.getIsFinish()) {
                 Date finished_datetime = TimeUtil.formatGMTDateStr(task.getFinished_datetime());
@@ -252,38 +285,40 @@ public class ScheduleDao extends GenericDao<DBTask, Long> {
                             && finished_datetime.getMonth() == today.getMonth()
                             && finished_datetime.getYear() == today.getYear()) {
                         tasks.add(task);
-//                        LogUtil.i("add task, because task is finished today");
+                        LogUtil.i("add task, because task is finished today");
                     }
                 }
-                hasAddedTask = true; // 只要是完成了的，之后都不再判断
+                continue; // 只要是完成了的，之后都不再判断
             }
-//            LogUtil.e(task.getIs_all_day() + task.toString());
-            if (!task.getIs_all_day() && !hasAddedTask
-                    && task.getBegin_datetime() != null
-                    && task.getEnd_datetime() != null) {
+            //begin_datetime < today <= end_datetime
+            //end_datetime   < today 顺延
+            if (task.getBegin_datetime() != null && task.getEnd_datetime() != null) {
                 Date begin_datetime = TimeUtil.formatGMTDateStr(task.getBegin_datetime());
                 Date end_datetime = TimeUtil.formatGMTDateStr(task.getEnd_datetime());
                 if (begin_datetime != null && end_datetime != null) {
-                    if (TimeUtil.isDateEarlier(begin_datetime, today) && TimeUtil.isDateEarlier(today, end_datetime)) {
+                    if ((TimeUtil.isDateEarlier(begin_datetime, new Date(today.getTime() + Constants.DAY_MILLI_SECONDS))
+                            && TimeUtil.isDateEarlier(today, end_datetime))) {
                         tasks.add(task);
-                        hasAddedTask = true;
-//                        LogUtil.i("add task, because begin <= today <= end");
+                        LogUtil.i("add task, because begin <= today <= end");
+                    } else if (TimeUtil.isDateEarlier(begin_datetime, new Date(today.getTime() + Constants.DAY_MILLI_SECONDS))
+                            && task.getIs_all_day()) {
+                        tasks.add(task);
+                        LogUtil.i("add task, because of delay");
                     }
                 }
+                continue;
             }
             // 把顺延的添加到显示List并标记
-            if (task.getCreated_datetime() != null || task.getCreated_datetime() != "null") {
-                Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
-                if (!hasAddedTask && created_datetime != null) {
-                    long during = today.getTime() - created_datetime.getTime();
-                    if (TimeUtil.isDateEarlier(created_datetime, today)) {
-                        if (task.getIs_all_day()) {
-                            tasks.add(task);
-//                            LogUtil.i("add task, because of delay");
-                        }
+            Date created_datetime = TimeUtil.formatGMTDateStr(task.getCreated_datetime());
+            if (created_datetime != null) {
+                if (TimeUtil.isDateEarlier(created_datetime, new Date(today.getTime() + Constants.DAY_MILLI_SECONDS))) {
+                    if (task.getIs_all_day()) {
+                        tasks.add(task);
+                        LogUtil.i("add task, because of delay");
                     }
                 }
             }
+
         }
 
         return tasks;

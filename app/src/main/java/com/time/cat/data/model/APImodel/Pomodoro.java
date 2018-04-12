@@ -1,8 +1,7 @@
-package com.time.cat.data.model.DBmodel;
+package com.time.cat.data.model.APImodel;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.data.database.DB;
+import com.time.cat.data.model.DBmodel.DBUser;
 
 import java.io.Serializable;
 
@@ -13,42 +12,27 @@ import java.io.Serializable;
  * @discription null
  * @usage null
  */
-@DatabaseTable(tableName = "Pomodoro")
-public class DBPomodoro implements Serializable {
-    //<editor-fold desc="Field">
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_CREATED_DATETIME = "created_datetime";
-    public static final String COLUMN_BEGIN_DATETIME = "begin_datetime";// 开始时间
-    public static final String COLUMN_END_DATETIME = "end_datetime";// 结束时间
-    public static final String COLUMN_DURATION = "duration"; // 任务时长
-    public static final String COLUMN_DATE_ADD = "date_add"; // 添加时间
-    public static final String COLUMN_USER = "User";
-    //</editor-fold desc="Field">
+public class Pomodoro implements Serializable {
 
     //<editor-fold desc="Database Field">
-    @DatabaseField(columnName = COLUMN_ID, generatedId = true)
-    private Long id;
-    @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
+    private long id;
     private String created_datetime;//创建时间
-    @DatabaseField(columnName = COLUMN_BEGIN_DATETIME)
     private String begin_datetime;//开始时间
-    @DatabaseField(columnName = COLUMN_END_DATETIME)
     private String end_datetime;//结束时间
-    @DatabaseField(columnName = COLUMN_DURATION)
-    private String duration;//任务时长
-    @DatabaseField(columnName = COLUMN_DATE_ADD)
+    private long duration;//任务时长
     private String date_add;//添加时间
-    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
     private DBUser user = DB.users().getActive();
+    private String url;// routine的url 访问该url可返回该routine
+    private String owner;//用户ID
     //</editor-fold desc="Database Field">
 
     //<editor-fold desc="getter and setter">
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -68,11 +52,11 @@ public class DBPomodoro implements Serializable {
         this.end_datetime = end_datetime;
     }
 
-    public String getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 
@@ -92,18 +76,34 @@ public class DBPomodoro implements Serializable {
         this.user = user;
     }
 
-    //</editor-fold desc="getter and setter">
-
-    @Override
-    public String toString() {
-        return "DBPomodoro{" + "id=" + id + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + ", duration='" + duration + '\'' + ", date_add='" + date_add + '\'' + ", user=" + user + '}';
-    }
-
     public String getCreated_datetime() {
         return created_datetime;
     }
 
     public void setCreated_datetime(String created_datetime) {
         this.created_datetime = created_datetime;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+    //</editor-fold desc="getter and setter">
+
+
+    @Override
+    public String toString() {
+        return "Pomodoro{" + "id=" + id + ", created_datetime='" + created_datetime + '\'' + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + ", duration='" + duration + '\'' + ", date_add='" + date_add + '\'' + ", user=" + user + ", url='" + url + '\'' + ", owner='" + owner + '\'' + '}';
     }
 }

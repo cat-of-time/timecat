@@ -1,8 +1,7 @@
-package com.time.cat.data.model.DBmodel;
+package com.time.cat.data.model.APImodel;
 
-import com.j256.ormlite.field.DataType;
-import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.time.cat.data.model.DBmodel.DBSubPlan;
 
 import org.json.JSONObject;
 
@@ -17,63 +16,28 @@ import java.util.ArrayList;
  * @usage null
  */
 @DatabaseTable(tableName = "Plans")
-public class DBPlan implements Serializable {
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_URL = "Url";
-    public static final String COLUMN_TITLE = "Title";
-    public static final String COLUMN_CONTENT = "Content"; //description
-    public static final String COLUMN_OWNER = "Owner";
-    public static final String COLUMN_CREATED_DATETIME = "created_datetime";
-    public static final String COLUMN_UPDATE_DATETIME = "update_datetime";
-    public static final String COLUMN_COLOR = "color";
-    public static final String COLUMN_FORECOVER = "fore_cover";
-    public static final String COLUMN_IMAGE = "image";
-    public static final String COLUMN_SUB_PLAN = "sub_plans";
-    public static final String COLUMN_IS_STAR = "is_star";
+public class Plan implements Serializable {
 
-    @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private long id;
-
-    @DatabaseField(columnName = COLUMN_URL)
     private String url;// note的url 访问该url可返回该note
-
-    @DatabaseField(columnName = COLUMN_TITLE)
     private String title;//笔记标题
-
-    @DatabaseField(columnName = COLUMN_CONTENT)
     private String content;//笔记内容
-
-    @DatabaseField(columnName = COLUMN_OWNER)
     private String owner;//用户ID
-
-    @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
     private String created_datetime;
-
-    @DatabaseField(columnName = COLUMN_UPDATE_DATETIME)
     private String update_datetime;
-
-    @DatabaseField(columnName = COLUMN_COLOR)
     private int color;
-
-    @DatabaseField(columnName = COLUMN_IMAGE)
     private String image;
-
-    @DatabaseField(columnName = COLUMN_FORECOVER)
     private String coverImageUrl;
-
-    @DatabaseField(columnName = COLUMN_SUB_PLAN, dataType = DataType.SERIALIZABLE)
     private ArrayList<DBSubPlan> sub_plans;
-
-    @DatabaseField(columnName = COLUMN_IS_STAR)
     private int is_star = 0;
 
-    public DBPlan(String s1, String s2, ArrayList<DBSubPlan> s3) {
+    public Plan(String s1, String s2, ArrayList<DBSubPlan> s3) {
         this.url = s1;
         this.title = s2;
         this.sub_plans = s3;
     }
 
-    public DBPlan(JSONObject jsonObject) {
+    public Plan(JSONObject jsonObject) {
         this.title = jsonObject.optString("title");
         this.content = jsonObject.optString("content");
         this.created_datetime = jsonObject.optString("created_datetime");
@@ -81,6 +45,10 @@ public class DBPlan implements Serializable {
         this.owner = jsonObject.optString("coverImageUrl");
         this.coverImageUrl = jsonObject.optString("coverImageUrl");
         this.url = jsonObject.optString("mapImageUrl");
+    }
+
+    public Plan() {
+
     }
 
     public long getId() {

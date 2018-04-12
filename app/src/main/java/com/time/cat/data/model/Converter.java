@@ -1,11 +1,17 @@
 package com.time.cat.data.model;
 
 import com.time.cat.data.model.APImodel.Note;
+import com.time.cat.data.model.APImodel.Plan;
+import com.time.cat.data.model.APImodel.Pomodoro;
 import com.time.cat.data.model.APImodel.Routine;
+import com.time.cat.data.model.APImodel.SubPlan;
 import com.time.cat.data.model.APImodel.Task;
 import com.time.cat.data.model.APImodel.User;
 import com.time.cat.data.model.DBmodel.DBNote;
+import com.time.cat.data.model.DBmodel.DBPlan;
+import com.time.cat.data.model.DBmodel.DBPomodoro;
 import com.time.cat.data.model.DBmodel.DBRoutine;
+import com.time.cat.data.model.DBmodel.DBSubPlan;
 import com.time.cat.data.model.DBmodel.DBTask;
 import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.network.ConstantURL;
@@ -136,6 +142,87 @@ public class Converter {
         routine.setLabel(dbRoutine.getLabel());
         return routine;
     }
+
+    public static DBPlan toDBPlan(Plan plan) {
+        DBPlan dbPlan = new DBPlan();
+        dbPlan.setUrl(plan.getUrl());
+        dbPlan.setOwner(plan.getOwner());
+        dbPlan.setTitle(plan.getTitle());
+        dbPlan.setContent(plan.getContent());
+        dbPlan.setCreated_datetime(plan.getCreated_datetime());
+        dbPlan.setUpdate_datetime(plan.getUpdate_datetime());
+        dbPlan.setColor(plan.getColor());
+        dbPlan.setCoverImageUrl(plan.getCoverImageUrl());
+        dbPlan.setIs_star(plan.getIs_star());
+        return dbPlan;
+    }
+
+    public static Plan toPlan(DBPlan dbPlan) {
+        Plan plan = new Plan();
+        plan.setUrl(dbPlan.getUrl());
+        plan.setOwner(dbPlan.getOwner());
+        plan.setTitle(dbPlan.getTitle());
+        plan.setContent(dbPlan.getContent());
+        plan.setCreated_datetime(dbPlan.getCreated_datetime());
+        plan.setUpdate_datetime(dbPlan.getUpdate_datetime());
+        plan.setColor(dbPlan.getColor());
+        plan.setCoverImageUrl(dbPlan.getCoverImageUrl());
+        plan.setIs_star(dbPlan.getIs_star());
+        return plan;
+    }
+
+    public static DBSubPlan toDBSubPlan(SubPlan subPlan) {
+        DBSubPlan dbSubPlan = new DBSubPlan();
+        dbSubPlan.setUrl(subPlan.getUrl());
+        dbSubPlan.setOwner(subPlan.getOwner());
+        dbSubPlan.setTitle(subPlan.getTitle());
+        dbSubPlan.setContent(subPlan.getContent());
+        dbSubPlan.setCreated_datetime(subPlan.getCreated_datetime());
+        dbSubPlan.setUpdate_datetime(subPlan.getUpdate_datetime());
+        dbSubPlan.setColor(subPlan.getColor());
+        return dbSubPlan;
+    }
+
+    public static SubPlan toSubPlan(DBSubPlan dbSubPlan) {
+        SubPlan subPlan = new SubPlan();
+        subPlan.setUrl(dbSubPlan.getUrl());
+        subPlan.setOwner(dbSubPlan.getOwner());
+        subPlan.setTitle(dbSubPlan.getTitle());
+        subPlan.setContent(dbSubPlan.getContent());
+        subPlan.setCreated_datetime(dbSubPlan.getCreated_datetime());
+        subPlan.setUpdate_datetime(dbSubPlan.getUpdate_datetime());
+        subPlan.setColor(dbSubPlan.getColor());
+        subPlan.setId(dbSubPlan.getId());
+        return subPlan;
+    }
+
+    public static DBPomodoro toDBPomodoro(Pomodoro pomodoro) {
+        DBPomodoro dbPomodoro = new DBPomodoro(0L);
+        dbPomodoro.setUrl(pomodoro.getUrl());
+        dbPomodoro.setOwner(pomodoro.getOwner());
+        dbPomodoro.setCreated_datetime(pomodoro.getCreated_datetime());
+        dbPomodoro.setBegin_datetime(pomodoro.getBegin_datetime());
+        dbPomodoro.setEnd_datetime(pomodoro.getEnd_datetime());
+        dbPomodoro.setDate_add(pomodoro.getDate_add());
+        dbPomodoro.setUser(pomodoro.getUser());
+        dbPomodoro.setDuration(pomodoro.getDuration());
+        return dbPomodoro;
+    }
+
+    public static Pomodoro toPomodoro(DBPomodoro dbPomodoro) {
+        Pomodoro pomodoro = new Pomodoro();
+        pomodoro.setId(dbPomodoro.getId());
+        pomodoro.setUrl(dbPomodoro.getUrl());
+        pomodoro.setOwner(dbPomodoro.getOwner());
+        pomodoro.setCreated_datetime(dbPomodoro.getCreated_datetime());
+        pomodoro.setBegin_datetime(dbPomodoro.getBegin_datetime());
+        pomodoro.setEnd_datetime(dbPomodoro.getEnd_datetime());
+        pomodoro.setDate_add(dbPomodoro.getDate_add());
+        pomodoro.setUser(dbPomodoro.getUser());
+        pomodoro.setDuration(dbPomodoro.getDuration());
+        return pomodoro;
+    }
+
 
     public static String getOwnerUrl(User u) {
         return ConstantURL.BASE_URL_USERS + u.getEmail() + "/";

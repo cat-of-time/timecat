@@ -25,6 +25,7 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.time.cat.data.database.DB;
+import com.time.cat.data.model.Converter;
 import com.time.cat.util.string.TimeUtil;
 
 import java.io.Serializable;
@@ -59,7 +60,7 @@ public class DBTask implements Serializable {
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_USER = "user_id";
-    public static final String COLUMN_PLANS = "plans";
+    public static final String COLUMN_SUBPLAN = "subplan";
 
     public static final String COLUMN_URL = "url";
     public static final String COLUMN_OWNER = "owner";
@@ -85,8 +86,6 @@ public class DBTask implements Serializable {
     //<editor-fold desc="Database Field">
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     public Long id;//ID唯一主键
-    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
-    public DBUser user;
 
     //----------------------------------------------------------------------------------
     @DatabaseField(columnName = COLUMN_URL, unique = true)
@@ -99,9 +98,6 @@ public class DBTask implements Serializable {
     private String content;//日程内容
     @DatabaseField(columnName = COLUMN_LABEL)
     private int label;//重要紧急标签,重要紧急=0，重要不紧急=1，紧急不重要=2，不重要不紧急=3
-
-    @DatabaseField(columnName = COLUMN_TAGS, dataType = DataType.SERIALIZABLE)
-    private ArrayList<String> tags;//一般标签，["/tags/1","/tags/2","/tags/3"]
 
     @DatabaseField(columnName = COLUMN_CREATED_DATETIME)
     private String created_datetime;//创建时间
@@ -119,8 +115,59 @@ public class DBTask implements Serializable {
     private String begin_datetime;//开始时间
     @DatabaseField(columnName = COLUMN_END_DATETIME)
     private String end_datetime;//结束时间
+
+    //外键---->
+    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
+    public DBUser user = DB.users().getActive();
+    @DatabaseField(columnName = COLUMN_SUBPLAN, foreign = true, foreignAutoRefresh = true)
+    public DBSubPlan subplan;
+    @DatabaseField(columnName = COLUMN_TAGS, dataType = DataType.SERIALIZABLE)
+    private ArrayList<String> tags;//一般标签，["/tags/1","/tags/2","/tags/3"]
     //</editor-fold desc="Database Field">
 
+    public DBTask() {
+        this("");
+    }
+
+    public DBTask(String content) {
+        this(content, content);
+    }
+
+    public DBTask(String title, String content) {
+        this(title, content, LABEL_IMPORTANT_URGENT);
+    }
+
+    public DBTask(String title, String content, int label) {
+        this(null, title, content, label);
+    }
+
+
+
+    public DBTask(String url, String title, String content, int label) {
+        this(-1L, url, Converter.getOwnerUrl(DB.users().getActive()), title, content, label,
+                TimeUtil.formatGMTDate(new Date()), null, false, true,
+                TimeUtil.formatGMTDate(new Date()), TimeUtil.formatGMTDate(new Date()),
+                DB.users().getActive(), null, null);
+    }
+
+
+    public DBTask(Long id, String url, String owner, String title, String content, int label, String created_datetime, String finished_datetime, boolean is_finished, boolean is_all_day, String begin_datetime, String end_datetime, DBUser user, DBSubPlan subplan, ArrayList<String> tags) {
+        this.id = id;
+        this.url = url;
+        this.owner = owner;
+        this.title = title;
+        this.content = content;
+        this.label = label;
+        this.created_datetime = created_datetime;
+        this.finished_datetime = finished_datetime;
+        this.is_finished = is_finished;
+        this.is_all_day = is_all_day;
+        this.begin_datetime = begin_datetime;
+        this.end_datetime = end_datetime;
+        this.user = user;
+        this.subplan = subplan;
+        this.tags = tags;
+    }
 
     //<editor-fold desc="getter and setter">
     public String getTitle() {
@@ -234,27 +281,33 @@ public class DBTask implements Serializable {
     public void setUser(DBUser user) {
         this.user = user;
     }
-    //</editor-fold desc="getter and setter">
 
-    public static List<DBTask> findAll() {
-        return DB.schedules().findAll();
+    public void setActiveUser() {
+        this.user = DB.users().getActive();
     }
 
-    public static DBTask findById(long id) {
-        return DB.schedules().findById(id);
+    public boolean isIs_finished() {
+        return is_finished;
     }
 
-    // *************************************
-    // DB queries
-    // *************************************
-
-    public List<DBTaskItem> items() {
-        return DB.scheduleItems().findBySchedule(this);
+    public void setIs_finished(boolean is_finished) {
+        this.is_finished = is_finished;
     }
 
-    @Override
-    public String toString() {
-        return "DBTask{" + "id=" + id + ", user=" + user + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + '}';
+    public boolean isIs_all_day() {
+        return is_all_day;
+    }
+
+    public DBUser getUser() {
+        return user;
+    }
+
+    public DBSubPlan getSubplan() {
+        return subplan;
+    }
+
+    public void setSubplan(DBSubPlan subplan) {
+        this.subplan = subplan;
     }
 
     public long getBeginTs() {
@@ -292,5 +345,16 @@ public class DBTask implements Serializable {
             return -1;
         }
     }
+    //</editor-fold desc="getter and setter">
+
+    public static List<DBTask> findAll() {
+        return DB.schedules().findAll();
+    }
+
+    @Override
+    public String toString() {
+        return "DBTask{" + "id=" + id + ", user=" + user + ", url='" + url + '\'' + ", owner='" + owner + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", label=" + label + ", tags=" + tags + ", created_datetime='" + created_datetime + '\'' + ", finished_datetime='" + finished_datetime + '\'' + ", is_finished=" + is_finished + ", is_all_day=" + is_all_day + ", begin_datetime='" + begin_datetime + '\'' + ", end_datetime='" + end_datetime + '\'' + '}';
+    }
+
 }
 

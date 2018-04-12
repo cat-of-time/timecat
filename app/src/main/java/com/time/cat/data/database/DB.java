@@ -41,26 +41,20 @@ public class DB {
     // SQLite DB Helper
     private static DatabaseHelper db;
 
-    //    // Medicines DAO
-//    private static MedicineDao Medicines;
-//    // Routines DAO
+    // Routines DAO
     private static RoutineDao Routines;
-    //    // Schedules DAO
+    // Schedules DAO
     private static ScheduleDao Schedules;
-    //    // ScheduleItems DAO
-    private static ScheduleItemDao ScheduleItems;
-    //    // DailyScheduleItem DAO
-//    private static DailyScheduleItemDao DailyScheduleItems;
-//    // Prescriptions DAO
-//    private static PrescriptionDao Prescriptions;
-//    // HomogeneousGroups DAO
-//    private static HomogeneousGroupDao Groups;
-//    // Pickups DAO
-//    private static PickupInfoDao Pickups;
     // users DAO
     private static UserDao users;
     // notes DAO
     private static NoteDao notes;
+    // plans DAO
+    private static PlanDao plans;
+    // subPlans DAO
+    private static SubPlanDao subPlans;
+    // pomodoro DAO
+    private static PomodoroDao pomodoros;
     /**
      * Initialize database and DAOs
      */
@@ -73,13 +67,15 @@ public class DB {
 
             db.getReadableDatabase().enableWriteAheadLogging();
 
+            users = new UserDao(db);
             Routines = new RoutineDao(db);
             Schedules = new ScheduleDao(db);
-            ScheduleItems = new ScheduleItemDao(db);
-            users = new UserDao(db);
             notes = new NoteDao(db);
+            plans = new PlanDao(db);
+            subPlans = new SubPlanDao(db);
+            pomodoros = new PomodoroDao(db);
 
-            Log.v(TAG, "DB initialized " + DB.DB_NAME);
+            Log.i(TAG, "DB initialized " + DB.DB_NAME);
         }
 
     }
@@ -97,7 +93,6 @@ public class DB {
     public static DatabaseHelper helper() {
         return db;
     }
-
     public static Object transaction(Callable<?> callable) {
         try {
             return TransactionManager.callInTransaction(db.getConnectionSource(), callable);
@@ -106,44 +101,26 @@ public class DB {
         }
     }
 
-
-    //    public static MedicineDao medicines() {
-//        return Medicines;
-//    }
-//
     public static RoutineDao routines() {
         return Routines;
     }
-
     public static ScheduleDao schedules() {
         return Schedules;
     }
-
-    public static ScheduleItemDao scheduleItems() {
-        return ScheduleItems;
-    }
-//
-//    public static DailyScheduleItemDao dailyScheduleItems() {
-//        return DailyScheduleItems;
-//    }
-//
-//    public static PrescriptionDao prescriptions() {
-//        return Prescriptions;
-//    }
-//
-//    public static HomogeneousGroupDao groups() {
-//        return Groups;
-//    }
-//
-//    public static PickupInfoDao pickups() {
-//        return Pickups;
-//    }
-
     public static UserDao users() {
         return users;
     }
     public static NoteDao notes() {
         return notes;
+    }
+    public static PlanDao plans() {
+        return plans;
+    }
+    public static SubPlanDao subPlans() {
+        return subPlans;
+    }
+    public static PomodoroDao pomodoros() {
+        return pomodoros;
     }
 
     public static void dropAndCreateDatabase() {

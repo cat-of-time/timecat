@@ -181,11 +181,14 @@ object Constants {
     const val MONTH = 2592001    // exact value not taken into account, Joda is used for adding months and years
     const val YEAR = 31536000
 
+    const val MINUTE_SECONDS = 60
     const val DAY_MINUTES = 24 * 60
     const val DAY_SECONDS = 24 * 60 * 60
     const val WEEK_SECONDS = 7 * DAY_SECONDS
     const val WEEK_MILLI_SECONDS = WEEK_SECONDS * 1000
+
     // Shared Preferences
+    const val PREFILLED_WEEKS = "pre-filled_weeks"
     const val USE_24_HOUR_FORMAT = "use_24_hour_format"
     const val SUNDAY_FIRST = "sunday_first"
     const val WEEK_NUMBERS = "week_numbers"
@@ -272,8 +275,10 @@ object Constants {
     const val REFRESH_CODE = 64
     const val REQUEST_CODE = 2016
 
-    const val ROUTINES_VIEW_TYPE = "routines_view_type"
     const val SCHEDULES_VIEW_TYPE = "schedules_view_type"
+    const val ROUTINES_VIEW_TYPE = "routines_view_type"
+    const val NOTES_VIEW_TYPE = "notes_view_type"
+    const val PLANS_VIEW_TYPE = "plans_view_type"
     const val WEEK_VIEW_BACKGROUND = "week_view_background"
     const val WEEK_VIEW_TEXT_COLOR = "week_view_text_color"
     const val WEEK_VIEW_SUPPRESS_COLOR = "week_view_suppress_color"

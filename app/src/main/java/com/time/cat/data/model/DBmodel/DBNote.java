@@ -2,6 +2,7 @@ package com.time.cat.data.model.DBmodel;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.time.cat.data.database.DB;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  */
 @DatabaseTable(tableName = "Notes")
 public class DBNote implements Serializable {
+    //<editor-fold desc="Field">
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_URL = "Url";
     public static final String COLUMN_TITLE = "Title";
@@ -22,7 +24,10 @@ public class DBNote implements Serializable {
     public static final String COLUMN_CREATED_DATETIME = "created_datetime";
     public static final String COLUMN_UPDATE_DATETIME = "update_datetime";
     public static final String COLUMN_COLOR = "color";
+    public static final String COLUMN_USER = "user_id";
+    //</editor-fold desc="Field">
 
+    //<editor-fold desc="Database Field">
     @DatabaseField(columnName = COLUMN_ID, generatedId = true)
     private long id;
 
@@ -47,6 +52,11 @@ public class DBNote implements Serializable {
     @DatabaseField(columnName = COLUMN_COLOR)
     private int color;
 
+    @DatabaseField(columnName = COLUMN_USER, foreign = true, foreignAutoRefresh = true)
+    private DBUser user = DB.users().getActive();
+    //</editor-fold desc="Database Field">
+
+    //<editor-fold desc="getter and setter">
     public long getId() {
         return id;
     }
@@ -111,8 +121,22 @@ public class DBNote implements Serializable {
         this.color = color;
     }
 
+    public DBUser getUser() {
+        return user;
+    }
+
+    public void setActiveUser() {
+        this.user = DB.users().getActive();
+    }
+
+    public void setUser(DBUser user) {
+        this.user = user;
+    }
+
+    //</editor-fold desc="getter and setter">
+
     @Override
     public String toString() {
-        return "DBNote{" + "id=" + id + ", url='" + url + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", owner='" + owner + '\'' + ", created_datetime='" + created_datetime + '\'' + ", update_datetime='" + update_datetime + '\'' + ", color=" + color + '}';
+        return "DBNote{" + "id=" + id + ", url='" + url + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", owner='" + owner + '\'' + ", created_datetime='" + created_datetime + '\'' + ", update_datetime='" + update_datetime + '\'' + ", color=" + color + ", user=" + user + '}';
     }
 }

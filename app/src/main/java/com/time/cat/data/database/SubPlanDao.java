@@ -24,51 +24,107 @@ import com.j256.ormlite.dao.Dao;
 import com.time.cat.R;
 import com.time.cat.TimeCatApp;
 import com.time.cat.data.model.APImodel.Plan;
+import com.time.cat.data.model.APImodel.SubPlan;
 import com.time.cat.data.model.Converter;
 import com.time.cat.data.model.DBmodel.DBPlan;
+import com.time.cat.data.model.DBmodel.DBSubPlan;
+import com.time.cat.data.model.DBmodel.DBUser;
 import com.time.cat.data.model.events.PersistenceEvents;
+import com.time.cat.util.string.TimeUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+public class SubPlanDao extends GenericDao<DBSubPlan, Long> {
+    public static final String TAG = "SubPlanDao";
 
-public class PlanDao extends GenericDao<DBPlan, Long> {
-    public static final String TAG = "PlanDao";
-
-    public PlanDao(DatabaseHelper db) {
+    public SubPlanDao(DatabaseHelper db) {
         super(db);
     }
 
     @Override
-    public Dao<DBPlan, Long> getConcreteDao() {
+    public Dao<DBSubPlan, Long> getConcreteDao() {
         try {
-            return dbHelper.getPlanDao();
+            return dbHelper.getSubPlanDao();
         } catch (SQLException e) {
             throw new RuntimeException("Error creating users dao", e);
         }
     }
 
-    @Override
-    public void saveAndFireEvent(DBPlan u) {
+    public List<DBSubPlan> findAllForActiveUser() {
+        return findAll(DB.users().getActive());
+    }
 
-        Object event = u.getId() <= 0 ? new PersistenceEvents.PlanCreateEvent(u) : new PersistenceEvents.PlanUpdateEvent(u);
+    public List<DBSubPlan> findAll(DBUser p) {
+        return findAllByUserId(p.id());
+    }
+
+    public List<DBSubPlan> findAllByUserId(Long userId) {
+        try {
+            return dao.queryBuilder().orderBy(DBSubPlan.COLUMN_CREATED_DATETIME, true)
+                    .where().eq(DBSubPlan.COLUMN_USER, userId).query();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error finding models", e);
+        }
+    }
+
+    public List<DBSubPlan> findAll(DBPlan p) {
+        return findAllByPlanId(p.getId());
+    }
+
+    public List<DBSubPlan> findAllByPlanId(Long planId) {
+        try {
+            return dao.queryBuilder().orderBy(DBSubPlan.COLUMN_CREATED_DATETIME, true)
+                    .where().eq(DBSubPlan.COLUMN_PLAN, planId).query();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error finding models", e);
+        }
+    }
+
+    public List<DBSubPlan> findBetween(Date start_date, Date end_date) {
+        List<DBSubPlan> dbSubPlanList = findAllForActiveUser();
+        List<DBSubPlan> result = new ArrayList<>();
+        for (DBSubPlan dbSubPlan : dbSubPlanList) {
+            Date Created_datetime = TimeUtil.formatGMTDateStr(dbSubPlan.getCreated_datetime());
+            if (TimeUtil.isDateEarlier(start_date, Created_datetime) && TimeUtil.isDateEarlier(Created_datetime, end_date)) {
+                result.add(dbSubPlan);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public void saveAndFireEvent(DBSubPlan u) {
+
+        Object event = u.getId() <= 0 ? new PersistenceEvents.SubPlanCreateEvent(u) : new PersistenceEvents.SubPlanUpdateEvent(u);
         save(u);
         TimeCatApp.eventBus().post(event);
 
     }
 
-    public void createOrUpdateAndFireEvent(DBPlan u) throws SQLException {
+    public void deleteAndFireEvent(DBSubPlan routine) {
+        try {
+            delete(routine);
+            TimeCatApp.eventBus().post(new PersistenceEvents.SubPlanDeleteEvent());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-        Object event = u.getId() <= 0 ? new PersistenceEvents.PlanCreateEvent(u) : new PersistenceEvents.PlanUpdateEvent(u);
+
+    public void createOrUpdateAndFireEvent(DBSubPlan u) throws SQLException {
+
+        Object event = u.getId() <= 0 ? new PersistenceEvents.SubPlanCreateEvent(u) : new PersistenceEvents.SubPlanUpdateEvent(u);
         createOrUpdate(u);
         TimeCatApp.eventBus().post(event);
 
     }
 
-    public void updateAndFireEvent(DBPlan u) {
-        Object event = new PersistenceEvents.PlanUpdateEvent(u);
+    public void updateAndFireEvent(DBSubPlan u) {
+        Object event = new PersistenceEvents.SubPlanUpdateEvent(u);
         try {
             update(u);
         } catch (SQLException e) {
@@ -77,23 +133,23 @@ public class PlanDao extends GenericDao<DBPlan, Long> {
         TimeCatApp.eventBus().post(event);
     }
 
-    public void safeSavePlanAndFireEvent(Plan note) {
-        Log.i(TAG, "返回的任务信息 --> " + note.toString());
+    public void safeSaveSubPlanAndFireEvent(SubPlan subPlan) {
+        Log.i(TAG, "返回的任务信息 --> " + subPlan.toString());
         //保存用户信息到本地
-        DBPlan dbPlan = Converter.toDBPlan(note);
-        List<DBPlan> existing = null;
+        DBSubPlan dbSubPlan = Converter.toDBSubPlan(subPlan);
+        List<DBSubPlan> existing = null;
         try {
-            existing = DB.notes().queryForEq(DBPlan.COLUMN_URL, dbPlan.getUrl());
+            existing = DB.subPlans().queryForEq(DBSubPlan.COLUMN_URL, dbSubPlan.getUrl());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
-            dbPlan.setId(id);
+            dbSubPlan.setId(id);
             int color = existing.get(0).getColor();
-            dbPlan.setColor(color);
-            DB.notes().updateAndFireEvent(dbPlan);
-            Log.i(TAG, "更新笔记信息 --> updateAndFireEvent -- > " + dbPlan.toString());
+            dbSubPlan.setColor(color);
+            DB.subPlans().updateAndFireEvent(dbSubPlan);
+            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbSubPlan.toString());
         } else {
             List<Integer> CardStackViewDataList = new ArrayList<>();
             int[] CardStackViewData = TimeCatApp.getInstance().getResources().getIntArray(R.array.card_stack_view_data);
@@ -102,34 +158,34 @@ public class PlanDao extends GenericDao<DBPlan, Long> {
             }
             Random random = new Random();
             int randomColor = random.nextInt(CardStackViewDataList.size());
-            dbPlan.setColor(CardStackViewDataList.get(randomColor));
-            DB.notes().saveAndFireEvent(dbPlan);
-            Log.i(TAG, "保存笔记信息 --> saveAndFireEvent -- > " + dbPlan.toString());
+            dbSubPlan.setColor(CardStackViewDataList.get(randomColor));
+            DB.subPlans().saveAndFireEvent(dbSubPlan);
+            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbSubPlan.toString());
         }
     }
 
 
-    public void safeSavePlan(Plan note) {
+    public void safeSaveSubPlan(SubPlan note) {
         Log.i(TAG, "返回的任务信息 --> " + note.toString());
         //保存用户信息到本地
-        DBPlan dbPlan = Converter.toDBPlan(note);
-        List<DBPlan> existing = null;
+        DBSubPlan dbSubPlan = Converter.toDBSubPlan(note);
+        List<DBSubPlan> existing = null;
         try {
-            existing = DB.notes().queryForEq(DBPlan.COLUMN_URL, dbPlan.getUrl());
+            existing = DB.subPlans().queryForEq(DBSubPlan.COLUMN_URL, dbSubPlan.getUrl());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
-            dbPlan.setId(id);
+            dbSubPlan.setId(id);
             int color = existing.get(0).getColor();
-            dbPlan.setColor(color);
+            dbSubPlan.setColor(color);
             try {
-                DB.notes().update(dbPlan);
+                DB.subPlans().update(dbSubPlan);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Log.i(TAG, "更新笔记信息 --> update -- > " + dbPlan.toString());
+            Log.i(TAG, "更新子计划信息 --> update -- > " + dbSubPlan.toString());
         } else {
             List<Integer> CardStackViewDataList = new ArrayList<>();
             int[] CardStackViewData = TimeCatApp.getInstance().getResources().getIntArray(R.array.card_stack_view_data);
@@ -138,57 +194,57 @@ public class PlanDao extends GenericDao<DBPlan, Long> {
             }
             Random random = new Random();
             int randomColor = random.nextInt(CardStackViewDataList.size());
-            dbPlan.setColor(CardStackViewDataList.get(randomColor));
-            DB.notes().save(dbPlan);
-            Log.i(TAG, "保存笔记信息 --> save -- > " + dbPlan.toString());
+            dbSubPlan.setColor(CardStackViewDataList.get(randomColor));
+            DB.subPlans().save(dbSubPlan);
+            Log.i(TAG, "保存子计划信息 --> save -- > " + dbSubPlan.toString());
         }
     }
 
-    public void safeSaveDBPlan(DBPlan dbPlan) {
-        List<DBPlan> existing = null;
+    public void safeSaveDBSubPlan(DBSubPlan dbSubPlan) {
+        List<DBSubPlan> existing = null;
         try {
-            existing = DB.notes().queryForEq(DBPlan.COLUMN_CREATED_DATETIME, dbPlan.getCreated_datetime());
+            existing = DB.subPlans().queryForEq(DBSubPlan.COLUMN_CREATED_DATETIME, dbSubPlan.getCreated_datetime());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
-            dbPlan.setId(id);
+            dbSubPlan.setId(id);
             int color = existing.get(0).getColor();
-            dbPlan.setColor(color);
-            DB.notes().updateAndFireEvent(dbPlan);
-            Log.i(TAG, "更新笔记信息 --> updateAndFireEvent -- > " + dbPlan.toString());
+            dbSubPlan.setColor(color);
+            DB.subPlans().updateAndFireEvent(dbSubPlan);
+            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbSubPlan.toString());
         } else {
-            DB.notes().saveAndFireEvent(dbPlan);
-            Log.i(TAG, "保存笔记信息 --> saveAndFireEvent -- > " + dbPlan.toString());
+            DB.subPlans().saveAndFireEvent(dbSubPlan);
+            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbSubPlan.toString());
         }
     }
 
-    public void safeSaveDBPlanAndFireEvent(DBPlan dbPlan) {
-        List<DBPlan> existing = null;
+    public void safeSaveDBSubPlanAndFireEvent(DBSubPlan dbSubPlan) {
+        List<DBSubPlan> existing = null;
         try {
-            existing = DB.notes().queryForEq(DBPlan.COLUMN_CREATED_DATETIME, dbPlan.getCreated_datetime());
+            existing = DB.subPlans().queryForEq(DBSubPlan.COLUMN_CREATED_DATETIME, dbSubPlan.getCreated_datetime());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (existing != null && existing.size() > 0) {
             long id = existing.get(0).getId();
-            dbPlan.setId(id);
+            dbSubPlan.setId(id);
             int color = existing.get(0).getColor();
-            dbPlan.setColor(color);
-            DB.notes().updateAndFireEvent(dbPlan);
-            Log.i(TAG, "更新笔记信息 --> updateAndFireEvent -- > " + dbPlan.toString());
+            dbSubPlan.setColor(color);
+            DB.subPlans().updateAndFireEvent(dbSubPlan);
+            Log.i(TAG, "更新子计划信息 --> updateAndFireEvent -- > " + dbSubPlan.toString());
         } else {
-            DB.notes().saveAndFireEvent(dbPlan);
-            Log.i(TAG, "保存笔记信息 --> saveAndFireEvent -- > " + dbPlan.toString());
+            DB.subPlans().saveAndFireEvent(dbSubPlan);
+            Log.i(TAG, "保存子计划信息 --> saveAndFireEvent -- > " + dbSubPlan.toString());
         }
     }
 
 
-    public void updateActiveUserAndFireEvent(DBPlan activeDBPlan, Plan user) {
-//        Object event = new PersistenceEvents.UserUpdateEvent(activeDBPlan);
+    public void updateActiveUserAndFireEvent(DBSubPlan activeDBSubPlan, Plan user) {
+//        Object event = new PersistenceEvents.UserUpdateEvent(activeDBSubPlan);
 //        try {
-//            update(Converter.toActiveDBPlan(activeDBPlan, user));
+//            update(Converter.toActiveDBSubPlan(activeDBSubPlan, user));
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
@@ -197,12 +253,23 @@ public class PlanDao extends GenericDao<DBPlan, Long> {
 
     /// Mange active user through preferences
 
-    public void removeCascade(DBPlan u) {
-        // remove all data
-//        removeAllStuff(u);
-        // remove note
-        DB.notes().remove(u);
-
+    public void removeCascade(DBSubPlan dbSubPlan) {
+        DB.subPlans().remove(dbSubPlan);
     }
 
+    /**
+     * 通过UserId获取所有的task
+     *
+     * @param userId user id
+     *
+     * @return List<DBSubPlan>
+     */
+    public List<DBSubPlan> listByUserId(int userId) {
+        try {
+            return DB.subPlans().queryBuilder().where().eq(DBSubPlan.COLUMN_USER, userId).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
