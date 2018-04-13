@@ -160,15 +160,17 @@ public static final int *;
 -keep class timecat.** { *; }
 
 -keep class com.time.cat.mvp.view.timecat.TimeCatHeader$BoundWrapper{*;}
--keep class com.time.cat.ui.widgets.** { *; }
--keep class com.time.cat.ui.modules.** { *; }
--keep class com.time.cat.data.network.RxHelper { *; }
--keep class com.time.cat.ui.adapter.** { *; }
--keep class com.time.cat.helper.DeviceNameGetter { *; }
--keep class com.simplemobiletools.commons.** { *; }
--keep class com.rey.material.** { *; }
--keep class com.qihoo.** { *; }
+-dontwarn com.time.cat.ui.widgets.**
+-dontwarn com.time.cat.ui.modules.**
+-dontwarn com.time.cat.data.network.RxHelper
+-dontwarn com.time.cat.ui.adapter.**
+-dontwarn com.time.cat.helper.DeviceNameGetter
+-dontwarn com.simplemobiletools.commons.**
+-dontwarn com.rey.material.**
+-dontwarn com.qihoo.**
+-dontwarn rx.Completable$CompletableTransformer
 
+-dontwarn java.lang.invoke.**
 
 # aboutlibraries
 -dontwarn com.mikepenz.aboutlibraries.**
