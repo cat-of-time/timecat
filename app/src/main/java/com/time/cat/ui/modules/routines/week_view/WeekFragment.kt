@@ -452,7 +452,7 @@ class WeekFragment : Fragment(), WeekCalendarCallback {
                                     })
                         }
                         .negativeText("取消")
-                        .onNegative { dialog, which -> dialog.dismiss() }
+                        .onNegative { dialog, _ -> dialog.dismiss() }
                         .show()
                 false
             }
@@ -521,7 +521,7 @@ class WeekFragment : Fragment(), WeekCalendarCallback {
                                     })
                         }
                         .negativeText("取消")
-                        .onNegative { dialog, which -> dialog.dismiss() }
+                        .onNegative { dialog, _ -> dialog.dismiss() }
                         .show()
                 false
             }
