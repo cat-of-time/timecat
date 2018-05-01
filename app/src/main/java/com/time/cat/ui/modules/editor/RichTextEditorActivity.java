@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chinalwb.are.AREditor;
+import com.rey.material.widget.Button;
 import com.time.cat.R;
 import com.time.cat.ui.base.mvp.BaseActivity;
 import com.time.cat.ui.widgets.FlipView.FlipMenuItem;
@@ -46,6 +47,7 @@ public class RichTextEditorActivity extends BaseActivity<RichTextEditorMVP.View,
 
     private AREditor arEditor;
     TextView tv_type;
+    Button bt_submit;
 
     @Override
     protected int layout() {
@@ -72,12 +74,14 @@ public class RichTextEditorActivity extends BaseActivity<RichTextEditorMVP.View,
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_type = findViewById(R.id.tv_type);
+        bt_submit = findViewById(R.id.bt_submit);
         arEditor = findViewById(R.id.areditor);
         arEditor.getARE().setTextColor(Color.BLACK);
 //        new AREditor.Builder(this).setLayoutRes(R.id.areditor).build();
 
         findViewById(R.id.back).setOnClickListener(this);
         findViewById(R.id.type).setOnClickListener(this);
+        findViewById(R.id.bt_submit).setOnClickListener(this);
 
         String filename = getIntent().getStringExtra(TO_SAVE_IMG);
         Uri uri = null;
@@ -161,6 +165,7 @@ public class RichTextEditorActivity extends BaseActivity<RichTextEditorMVP.View,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:finish();break;
+            case R.id.bt_submit: finish();break;
             case R.id.type:
                 FlipMenuView share = new FlipMenuView.Builder(getActivity(), findViewById(R.id.more))
                         .addItem(new FlipMenuItem("笔记", Color.parseColor("#03A9F4"), 0xffeeeeee, ImageUtil.getBitmapFromVectorDrawable(getActivity(), R.drawable.ic_notes_blue_24dp)))

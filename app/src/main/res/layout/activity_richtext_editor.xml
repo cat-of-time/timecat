@@ -101,12 +101,12 @@
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
-                        android:layout_toStartOf="@+id/dialog_add_task_footer_bt_submit"
+                        android:layout_toStartOf="@+id/bt_submit"
                         android:src="@drawable/ic_search_white_24dp"
                         app:rd_enable="true"/>
 
                     <com.rey.material.widget.Button
-                        android:id="@+id/dialog_add_task_footer_bt_submit"
+                        android:id="@+id/bt_submit"
                         style="@style/LightRaiseWaveColorButtonRippleStyle"
                         android:layout_width="72dp"
                         android:layout_height="32dp"
