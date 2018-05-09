@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="28dp"
+    android:background="@drawable/shape_gradient_bg"
+    android:gravity="center_vertical">
+
+    <TextView
+        style="@style/weekName"
+        android:text="@string/rsq_sunday" />
+
+    <TextView
+        style="@style/weekName"
+        android:text="@string/rsq_one" />
+
+    <TextView
+        style="@style/weekName"
+        android:text="@string/rsq_two" />
+
+    <TextView
+        style="@style/weekName"
+        android:text="@string/rsq_three" />
+
+    <TextView
+        style="@style/weekName"
+        android:text="@string/rsq_four" />
+
+    <TextView
+        style="@style/weekName"
+        android:text="@string/rsq_five" />
+
+    <TextView
+        style="@style/weekName"
+        android:text="@string/rsq_six" />
+</LinearLayout>

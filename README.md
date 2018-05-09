@@ -1,4 +1,6 @@
-## Time Cat 时光猫
+# Time Cat 时光猫
+
+## 本项目已获得 2017届 “发现杯” 大赛全国一等奖，感谢开源社区和每一位代码贡献者
 
 ![](https://github.com/triline3/timecat/blob/master/app/src/main/res/mipmap-xhdpi/bannar.png?raw=true)
 
@@ -12,21 +14,153 @@
 
 本仓库无法编译成功，因为没有`data/`目录，需要体验APP请下载[参赛版APP](https://github.com/triline3/timecat/blob/master/app/for_test/release/com.time.cat.apk?raw=true)
 
-| 图标 | 设计者及说明 |
-|:---:|:---:|
-| <img width="100px" src="https://github.com/triline3/timecat/blob/master/app/src/main/res/mipmap-hdpi/ic_launcher.png?raw=true" /> | 本项目的图标设计者为[林学渊](https://github.com/LinXueyuanStdio)，设计者保留所有权利，禁止用于商业。|
+# 本项目用到的开源项目:
+- 代码
+    - 响应式编程框架，采用观察者设计模式
+      - io.reactivex:rxandroid:1.2.1'
+      - io.reactivex.rxjava2:rxandroid:2.0.1'
+      - io.reactivex:rxjava:1.3.2'
+      - io.reactivex.rxjava2:rxjava:2.1.6'
+    - android support
+      - com.android.support:appcompat-v7:${supportVersion}"
+      - com.android.support:cardview-v7:${supportVersion}"
+      - com.android.support:customtabs:${supportVersion}"
+      - com.android.support:design:${supportVersion}"
+      - com.android.support:recyclerview-v7:${supportVersion}"
+      - com.android.support:palette-v7:${supportVersion}"
+      - com.android.support:preference-v14:${supportVersion}"
+      - com.android.support:support-annotations:${supportVersion}"
+      - com.android.support.constraint:constraint-layout:1.0.2"
+    - mvp 框架
+      - net.grandcentrix.thirtyinch:thirtyinch:${thirtyinchVersion}"
+      - net.grandcentrix.thirtyinch:thirtyinch-rx2:${thirtyinchVersion}"
+    - Rxlifecycle，解决RxJava内存泄露问题
+      - com.trello:rxlifecycle-components:0.6.1
+    - Event bus事件发布/订阅框架
+      - org.greenrobot:eventbus:3.1.1
+      - de.greenrobot:eventbus:2.2.1
+    - kotlin
+      - org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+- 数据
+    - Time and date handling
+      - joda-time:joda-time:2.9.9'
+    - 在Bundle保存对象
+      - com.evernote:android-state:${state_version}
+    - 网络请求框架Okhttp3
+      - com.squareup.okhttp3:okhttp:3.10.0
+      - com.squareup.okhttp3:logging-interceptor:3.10.0
+    - 网络请求处理框架Retrofit2，简化Okhttp3的请求
+      - com.squareup.retrofit2:adapter-rxjava:${retrofit}"
+      - com.squareup.retrofit2:converter-gson:${retrofit}"
+      - com.squareup.retrofit2:retrofit:${retrofit}"
+    - json解析
+      - com.alibaba:fastjson:1.1.67.android
+    - ormlite数据库
+      - com.j256.ormlite:ormlite-android:4.45
 
-| 应用截图 | 应用截图 | 应用截图 |
-|:---:|:---:|:---:|
-| ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片1.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片2.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片3.png?raw=true) |
-| ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片4.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片5.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片6.png?raw=true) |
-| ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片7.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片11.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片9.png?raw=true) |
+- ui
+    - view注解框架
+      - com.jakewharton:butterknife:8.8.1'
+      - annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    - tabLayout
+      - com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar
+    - recyclerview
+      - com.yanzhenjie:recyclerview-swipe:1.0.2
+      - jp.wasabeef:recyclerview-animators:2.2.6
+    - ExpansionPanel
+      - com.github.florent37:expansionpanel:1.0.7
+    - floating action button
+      - com.getbase:floatingactionbutton:1.9.0
+    - round image view(for material getDrawer)
+      - com.makeramen:roundedimageview:2.3.0
+    - material库
+      - com.github.rey5137:material:1.2.4
+    - material dialog
+      - com.afollestad.material-dialogs:commons:0.9.6.0
+    - time picker
+      - com.doomonafireball.betterpickers:library:1.5.5
+      - com.contrarywind:Android-PickerView:4.1.2
+    - navigationBar
+      - me.majiajie:pager-bottom-tab-strip:2.2.5
+    - material getDrawer强大的侧滑栏
+      - com.mikepenz:materialdrawer:4.4.1@aar
+      - com.mikepenz:iconics-core:2.1.0@aar
+      - com.mikepenz:google-material-typeface:2.1.2.1@aar
+      - com.mikepenz:community-material-typeface:1.2.65.1@aar
+      - com.mikepenz:fontawesome-typeface:4.7.0.2@aar
+      - com.mikepenz:materialize:0.2.7@aar
+    - 强大的recycle view，自带下拉刷新等
+      - com.scwang.smartrefresh:SmartRefreshLayout:1.0.5-alpha-2
+      - com.scwang.smartrefresh:SmartRefreshHeader:1.0.5-alpha-2
+      - com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31
+    - 圆形imageview
+      - de.hdodenhof:circleimageview:2.2.0
+      - com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar
+    - 图片模糊效果
+      - com.github.mmin18:realtimeblurview:1.0.6
+    - 图表
+      - com.github.lecho:hellocharts-library:1.5.8@aar
+    - MaterialChipView
+      - com.robertlevonyan.view:MaterialChipView:1.2.1
+    - calendar日历库
+      - com.haibin:calendarview:3.2.7
+      - com.github.applikeysolutions:cosmocalendar:1.0.4
+    - 动画库
+      - com.daimajia.easing:library:2.0@aar
+      - com.daimajia.androidanimations:library:2.3@aar
+    - 图片框架
+      - com.squareup.picasso:picasso:2.5.2
+      - com.github.bumptech.glide:glide:4.6.1
+      - annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+    - 富文本编辑
+      - [富文本编辑](https://github.com/chinalwb/Android-Rich-text-Editor),项目中com.github.LinXueyuanStdio:Android-Rich-text-Editor:for_timecat-SNAPSHOT是来自这个
+      
+- 通知库
+    - snackbar
+      - com.nispok:snackbar:2.9.0
+    - 封装好的toast
+      - com.github.GrenderG:Toasty:1.1.3
 
+- 页面库
+    - 自定义介绍页面
+      - com.heinrichreimersoftware:material-intro:1.6.2'
+    - 自定义关于页面
+      - com.mikepenz:aboutlibraries:5.2.5@aar
 
-本项目用到的开源项目的许可证将稍后进行整理。
+- 其他
+    - device获取设备信息
+      - com.jaredrummler:android-device-names:1.1.5
+    
+    - 阿里百川用户反馈
+      - com.aliyun.ams:alicloud-android-feedback:3.1.0@aar
+      - com.aliyun.ams:alicloud-android-utdid:1.1.5.3
+      - com.aliyun.ams:alicloud-android-ut:5.1.0
+      - com.aliyun.ams:alicloud-android-utils:1.0.3
+    - 工具库
+      - com.simplemobiletools:commons:3.14.1
 
-开发进度：
+# 特别感谢（没有作为dependencies但使用了该仓库的代码或参考了其UI设计）
+
+- [bigbang](https://github.com/penglu20/Bigbang) 是最初启发我开发timecat的项目，并且timecat原来是基于bigbang做的，对timecat有重要意义
+  - bigbang是一款分词软件，目的在于让更多人体验到老罗设计的高效的文字处理方式
+  - bigbang目前在商店可以直接下载[http://www.coolapk.com/apk/com.forfan.bigbang](http://www.coolapk.com/apk/com.forfan.bigbang)
+- 滴答番茄：参考了其成就页面
+  - 滴答番茄是一款轻量级番茄钟应用
+- [轻番茄](https://github.com/icodechef/Tick)：参考了其番茄钟页面
+  - 轻番茄是一款基于「番茄工作法」的辅助应用。 [http://tick.icodechef.com/](http://tick.icodechef.com/)
+- 日事清：参考了其日程页面、[月视图页面](https://github.com/senlinxuefeng/RSQMonthCalendar)（正在开发）
+  - 日事清是专业的团队协作和项目管理软件，包含工作计划、工作日志等功能，以PDCA产品理念提升团队工作效率，并针对电商推出电商erp管理系统，针对外贸推出外贸管理系统。
+- 日事清、trello：参考了其看板视图，已封装成一个库[DragBoardView](https://github.com/LinXueyuanStdio/DragBoardView)
+- [Simple-Calendar](https://github.com/SimpleMobileTools/Simple-Calendar)：参考了课程表视图
+  - Simple-Calendar是一款用kotlin写的轻量级日历应用
+
+# 致谢
+
+- [十个雨点(penglu20)](https://github.com/penglu20)：bigbang项目所有者，特别允许我使用bigbang的代码以及发布到商店
+- [chinalwb](https://github.com/chinalwb)：开源项目Android-Rich-text-Editor的所有者和开发者，在文本编辑器的设计方面交流很多
+
+# 开发进度：
 
 - [x] 通过辅助模式，实现单击、长按、双击来进行选词；
 - [x] 通过系统复制进行选词；
@@ -60,7 +194,6 @@
 - [x] 捐赠二维码，实现捐赠捐款
 - [x] 内测QQ群跳转
 - [x] 整体架构迁移到MVP架构
-
 
 <details>
   <summary>开发过程积累的相关文章</summary>

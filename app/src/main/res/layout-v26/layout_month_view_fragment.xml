@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/titleHeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_gradient_bg" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.yumingchuan.rsqmonthcalendar.view.ChildViewPager
+            android:id="@+id/vp_weekSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="-500dp"
+            android:background="#F7FBFF"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_monthCalendarArea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/ll_1"
+                layout="@layout/layout_month_week" />
+
+            <include
+                android:id="@+id/ll_2"
+                layout="@layout/layout_month_week" />
+
+            <include
+                android:id="@+id/ll_3"
+                layout="@layout/layout_month_week" />
+
+            <include
+                android:id="@+id/ll_4"
+                layout="@layout/layout_month_week" />
+
+            <include
+                android:id="@+id/ll_5"
+                layout="@layout/layout_month_week" />
+
+            <include
+                android:id="@+id/ll_6"
+                layout="@layout/layout_month_week" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
