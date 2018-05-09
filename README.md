@@ -12,11 +12,27 @@
   - 邮箱：`linxy59@mail2.sysu.edu.cn`
   - QQ：`761516186`
 
-本仓库无法编译成功，因为没有`data/`目录，需要体验APP请下载[参赛版APP](https://github.com/triline3/timecat/blob/master/app/for_test/release/com.time.cat.apk?raw=true)
+本仓库无法编译成功，因为没有`data/`目录，需要体验APP请下载[参赛版APP](https://github.com/triline3/timecat/blob/master/app/for_test/release/com.time.cat.apk?raw=true)或者扫描上图的二维码下载apk安装包。
+
+| 图标 | 设计者及说明 |
+|:---:|:---:|
+| <img width="100px" src="https://github.com/triline3/timecat/blob/master/app/src/main/res/mipmap-hdpi/ic_launcher.png?raw=true" /> | 本项目的图标设计者为[林学渊](https://github.com/LinXueyuanStdio)，设计者保留所有权利，禁止用于商业。|
+
+| 交互设计 | 交互设计 | 交互设计 |
+|:---:|:---:|:---:|
+| ![](https://github.com/triline3/timecat/blob/master/psFiles/交互设计1.gif?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/交互设计2.gif?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/交互设计3.gif?raw=true) |
+
+| 应用截图 | 应用截图 | 应用截图 |
+|:---:|:---:|:---:|
+| ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片1.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片2.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片3.png?raw=true) |
+| ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片4.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片5.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片6.png?raw=true) |
+| ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片7.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片11.png?raw=true) | ![](https://github.com/triline3/timecat/blob/master/psFiles/作品照片9.png?raw=true) |
 
 # 本项目用到的开源项目:
+
 <details>
   <summary>本项目用到的开源项目</summary>
+  
 - 代码
     - 响应式编程框架，采用观察者设计模式
       - io.reactivex:rxandroid:1.2.1
@@ -199,8 +215,11 @@
 - [x] 内测QQ群跳转
 - [x] 整体架构迁移到MVP架构
 
+
+# 开发过程积累的相关文章
+
 <details>
-  <summary>开发过程积累的相关文章</summary>
+  <summary>开发过程积累的相关文章(包括原bigbang的开发记录)</summary>
 
 [【Android TimeCat】 解决Gradle :Resolve dependencies :classpath的办法](http://xichen.pub/2018/03/06/2018-03-06-Android-TimeCat-%E8%A7%A3%E5%86%B3Gradle-Resolvedependencies-classpath%E7%9A%84%E5%8A%9E%E6%B3%95/)
 
@@ -295,3 +314,4 @@
 
 [如何实现android炫酷悬浮球菜单](http://www.jianshu.com/p/56abca9fb592)
 </details>
+
