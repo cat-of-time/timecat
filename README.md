@@ -15,12 +15,14 @@
 本仓库无法编译成功，因为没有`data/`目录，需要体验APP请下载[参赛版APP](https://github.com/triline3/timecat/blob/master/app/for_test/release/com.time.cat.apk?raw=true)
 
 # 本项目用到的开源项目:
+<details>
+  <summary>本项目用到的开源项目</summary>
 - 代码
     - 响应式编程框架，采用观察者设计模式
-      - io.reactivex:rxandroid:1.2.1'
-      - io.reactivex.rxjava2:rxandroid:2.0.1'
-      - io.reactivex:rxjava:1.3.2'
-      - io.reactivex.rxjava2:rxjava:2.1.6'
+      - io.reactivex:rxandroid:1.2.1
+      - io.reactivex.rxjava2:rxandroid:2.0.1
+      - io.reactivex:rxjava:1.3.2
+      - io.reactivex.rxjava2:rxjava:2.1.6
     - android support
       - com.android.support:appcompat-v7:${supportVersion}"
       - com.android.support:cardview-v7:${supportVersion}"
@@ -44,7 +46,7 @@
 
 - 数据
     - Time and date handling
-      - joda-time:joda-time:2.9.9'
+      - joda-time:joda-time:2.9.9
     - 在Bundle保存对象
       - com.evernote:android-state:${state_version}
     - 网络请求框架Okhttp3
@@ -124,7 +126,7 @@
 
 - 页面库
     - 自定义介绍页面
-      - com.heinrichreimersoftware:material-intro:1.6.2'
+      - com.heinrichreimersoftware:material-intro:1.6.2
     - 自定义关于页面
       - com.mikepenz:aboutlibraries:5.2.5@aar
 
@@ -139,8 +141,9 @@
       - com.aliyun.ams:alicloud-android-utils:1.0.3
     - 工具库
       - com.simplemobiletools:commons:3.14.1
+</details>
 
-# 特别感谢（没有作为dependencies但使用了该仓库的代码或参考了其UI设计）
+## 特别感谢（没有作为dependencies但使用了该仓库的代码或参考了其设计）
 
 - [bigbang](https://github.com/penglu20/Bigbang) 是最初启发我开发timecat的项目，并且timecat原来是基于bigbang做的，对timecat有重要意义
   - bigbang是一款分词软件，目的在于让更多人体验到老罗设计的高效的文字处理方式
@@ -154,13 +157,14 @@
 - 日事清、trello：参考了其看板视图，已封装成一个库[DragBoardView](https://github.com/LinXueyuanStdio/DragBoardView)
 - [Simple-Calendar](https://github.com/SimpleMobileTools/Simple-Calendar)：参考了课程表视图
   - Simple-Calendar是一款用kotlin写的轻量级日历应用
+- [FastHub](https://github.com/k0shk0sh/FastHub)：自由开发者开源的GitHub的移动端，参考了其项目结构
 
-# 致谢
+## 致谢
 
 - [十个雨点(penglu20)](https://github.com/penglu20)：bigbang项目所有者，特别允许我使用bigbang的代码以及发布到商店
-- [chinalwb](https://github.com/chinalwb)：开源项目Android-Rich-text-Editor的所有者和开发者，在文本编辑器的设计方面交流很多
+- [chinalwb](https://github.com/chinalwb)：开源项目[Android-Rich-text-Editor](https://github.com/chinalwb/Android-Rich-text-Editor)的所有者和开发者，在文本编辑器的设计方面交流很多
 
-# 开发进度：
+## 开发进度：
 
 - [x] 通过辅助模式，实现单击、长按、双击来进行选词；
 - [x] 通过系统复制进行选词；
